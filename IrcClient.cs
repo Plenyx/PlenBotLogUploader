@@ -86,6 +86,7 @@ namespace IRCClient
 
         public async Task<bool> sendChatMessage(string message)
         {
+            // keep in mind that this function only supports the latest connected channel
             await this.outputStream.WriteLineAsync(":" + this.userName + "!" + this.userName + "@" + this.userName + ".tmi.twitch.tv PRIVMSG #" + this.channelName + " :" + message);
             await this.outputStream.FlushAsync();
             return true;

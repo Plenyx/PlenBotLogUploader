@@ -1,49 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using IRCClient;
 using System.Net;
 using System.IO;
 using System.IO.Compression;
 using System.Collections.Specialized;
 using Microsoft.Win32;
 using System.Diagnostics;
+using IRCClient;
 
 namespace PlenBotLogUploader
 {
     public partial class FormMain : Form
     {
-        IrcClient chatconnect;
-        RegistryKey rk;
-        List<string> logs;
-        string logslocation = "";
+        private IrcClient chatconnect;
+        private RegistryKey rk;
+        private List<string> logs;
+        private string logslocation = "";
 
         public FormMain()
         {
-            InitializeComponent();
             logs = new List<string>();
             rk = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
+            InitializeComponent();
         }
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            if(rk.GetValue("logsLocation") == null)
-                rk.SetValue("logsLocation", "");
-            if(rk.GetValue("channel") == null)
-                rk.SetValue("channel", "");
-            if(rk.GetValue("uploadAll") == null)
-                rk.SetValue("uploadAll", 1);
-            if(rk.GetValue("wepSkill1") == null)
-                rk.SetValue("wepSkill1", 1);
             try
             {
+                if(rk.GetValue("logsLocation") == null)
+                    rk.SetValue("logsLocation", "");
+                if(rk.GetValue("channel") == null)
+                    rk.SetValue("channel", "");
+                if(rk.GetValue("uploadAll") == null)
+                    rk.SetValue("uploadAll", 1);
+                if(rk.GetValue("wepSkill1") == null)
+                    rk.SetValue("wepSkill1", 1);
                 logslocation = (string)rk.GetValue("logsLocation", "");
                 if(logslocation == "")
-                    labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
+                    labelLocationInfo.Text = "!!! Select a directory with the arc logs !!!";
                 else
                 {
                     TreeScanStart(logslocation);
-                    labelLocationInfo.Text = "Logs in directory: " + logs.Count;
+                    UpdateLogCount();
                     buttonStartChecker.Enabled = false;
                     buttonStopChecker.Enabled = true;
                     timerLogsCheck.Start();
@@ -72,16 +72,21 @@ namespace PlenBotLogUploader
             }
         }
 
-        public string GetLocalDir()
+        private string GetLocalDir()
         {
             return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8)) + "\\";
         }
 
         private void AddToText(string s)
         {
-            textBox1.AppendText(s + System.Environment.NewLine);
-            textBox1.SelectionStart = textBox1.TextLength;
-            textBox1.ScrollToCaret();
+            textBoxUploadInfo.AppendText(s + System.Environment.NewLine);
+            textBoxUploadInfo.SelectionStart = textBoxUploadInfo.TextLength;
+            textBoxUploadInfo.ScrollToCaret();
+        }
+
+        private void UpdateLogCount()
+        {
+            labelLocationInfo.Text = "Logs in the directory: " + logs.Count;
         }
 
         public async void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc)
@@ -239,14 +244,14 @@ namespace PlenBotLogUploader
                     logslocation = dialog.SelectedPath;
                     rk.SetValue("logsLocation", logslocation);
                     TreeScanStart(logslocation);
-                    labelLocationInfo.Text = "Logs in directory: " + logs.Count;
+                    UpdateLogCount();
                     timerLogsCheck.Stop();
                     timerLogsCheck.Start();
                     buttonStartChecker.Enabled = false;
                     buttonStopChecker.Enabled = true;
                 }
                 else
-                    MessageBox.Show("The specified location does not appear to be an arcdps folder.\nCheck your location and try again.", "An error has occurred");
+                    MessageBox.Show("The specified location does not appear to be an arcdps folder.\nCheck your directory and try again.", "An error has occurred");
             }
             dialog = null;
         }
@@ -254,7 +259,7 @@ namespace PlenBotLogUploader
         private void timerLogsCheck_Tick(object sender, EventArgs e)
         {
             TreeScan(@logslocation);
-            labelLocationInfo.Text = "Logs in directory: " + logs.Count;
+            UpdateLogCount();
         }
 
         private void buttonRestart_Click(object sender, EventArgs e)
