@@ -17,6 +17,7 @@ namespace IRCClient
         private StreamReader inputStream;
         private StreamWriter outputStream;
         private Timer KeepAliveTimer;
+        public bool connected = false;
 
         public IrcClient(string userName, string password)
         {
@@ -39,12 +40,10 @@ namespace IRCClient
             this.tcpClient = new TcpClient(this.serverIp, this.serverPort);
             this.inputStream = new StreamReader(tcpClient.GetStream());
             this.outputStream = new StreamWriter(tcpClient.GetStream());
-
             this.KeepAliveTimer = new Timer();
             this.KeepAliveTimer.Enabled = false;
             this.KeepAliveTimer.Interval = 4 * 60 * 1000;
             this.KeepAliveTimer.Elapsed += keepAliveTimerTick;
-
             login();
         }
 
@@ -54,10 +53,13 @@ namespace IRCClient
             await this.outputStream.WriteLineAsync("NICK " + userName);
             await this.outputStream.FlushAsync();
             this.KeepAliveTimer.Enabled = true;
+            this.connected = true;
         }
 
         public async Task<bool> joinRoom(string channelName)
         {
+            if(this.channelName != "")
+                await leaveRoom(this.channelName);
             this.channelName = channelName;
             await this.outputStream.WriteLineAsync("JOIN #" + channelName);
             await this.outputStream.FlushAsync();
@@ -86,7 +88,6 @@ namespace IRCClient
 
         public async Task<bool> sendChatMessage(string message)
         {
-            // keep in mind that this function only supports the latest connected channel
             await this.outputStream.WriteLineAsync(":" + this.userName + "!" + this.userName + "@" + this.userName + ".tmi.twitch.tv PRIVMSG #" + this.channelName + " :" + message);
             await this.outputStream.FlushAsync();
             return true;

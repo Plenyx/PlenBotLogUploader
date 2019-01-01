@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Diagnostics;
+using System.Windows.Forms;
 using System.IO.Compression;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using Microsoft.Win32;
-using System.Diagnostics;
 using IRCClient;
 
 namespace PlenBotLogUploader
@@ -39,7 +39,7 @@ namespace PlenBotLogUploader
                     rk.SetValue("wepSkill1", 1);
                 logslocation = (string)rk.GetValue("logsLocation", "");
                 if(logslocation == "")
-                    labelLocationInfo.Text = "!!! Select a directory with the arc logs !!!";
+                    labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
                 else
                 {
                     TreeScanStart(logslocation);
@@ -62,19 +62,24 @@ namespace PlenBotLogUploader
             {
                 Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
                 MessageBox.Show("An error in the Windows' registry has occurred.\nAll settings are reset.\nThe application will now restart.", "An error has occurred");
-                ProcessStartInfo Info = new ProcessStartInfo();
-                Info.Arguments = "/C ping 127.0.0.1 -n 2 && \"" + Application.ExecutablePath + "\"";
-                Info.WindowStyle = ProcessWindowStyle.Hidden;
-                Info.CreateNoWindow = true;
-                Info.FileName = "cmd.exe";
-                Process.Start(Info);
-                Application.Exit();
+                RestartApp();
             }
         }
 
         private string GetLocalDir()
         {
             return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8)) + "\\";
+        }
+
+        private void RestartApp()
+        {
+            ProcessStartInfo Info = new ProcessStartInfo();
+            Info.Arguments = "/C ping 127.0.0.1 -n 2 && \"" + Application.ExecutablePath + "\"";
+            Info.WindowStyle = ProcessWindowStyle.Hidden;
+            Info.CreateNoWindow = true;
+            Info.FileName = "cmd.exe";
+            Process.Start(Info);
+            Application.Exit();
         }
 
         private void AddToText(string s)
@@ -162,10 +167,7 @@ namespace PlenBotLogUploader
                             if(!Path.GetFileName(f).Contains(".zip") && !Path.GetFileName(f).Contains(".zevtc"))
                             {
                                 zipfilelocation = GetLocalDir() + Path.GetFileName(f) + ".zip";
-                                using(ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create))
-                                {
-                                    zipfile.CreateEntryFromFile(@f, Path.GetFileName(f));
-                                }
+                                using(ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@f, Path.GetFileName(f)); }
                             }
                             try
                             {
@@ -219,6 +221,7 @@ namespace PlenBotLogUploader
 
         private async void buttonReconnectBot_Click(object sender, EventArgs e)
         {
+            chatconnect.connected = false;
             chatconnect = null;
             chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
             await chatconnect.joinRoom(textBoxChannel.Text);
