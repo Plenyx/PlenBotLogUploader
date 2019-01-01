@@ -37,6 +37,12 @@ namespace PlenBotLogUploader
                     rk.SetValue("uploadAll", 1);
                 if(rk.GetValue("wepSkill1") == null)
                     rk.SetValue("wepSkill1", 1);
+                if(rk.GetValue("trayEnabled") == null)
+                    rk.SetValue("trayEnabled", 1);
+                if(rk.GetValue("trayMinimise") == null)
+                    rk.SetValue("trayMinimise", 1);
+                if(rk.GetValue("trayInfo") == null)
+                    rk.SetValue("trayInfo", 1);
                 logslocation = (string)rk.GetValue("logsLocation", "");
                 if(logslocation == "")
                     labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
@@ -51,13 +57,29 @@ namespace PlenBotLogUploader
                 textBoxChannel.Text = (string)rk.GetValue("channel", "");
                 if((int)rk.GetValue("uploadAll", 0) == 1)
                     checkBoxUploadLogs.Checked = true;
-                if((int)rk.GetValue("uploadAll", 0) == 1)
+                if((int)rk.GetValue("wepSkill1", 0) == 1)
                     checkBoxWepSkill1.Checked = true;
+                if((int)rk.GetValue("trayEnabled", 0) == 1)
+                    checkBoxTrayEnable.Checked = true;
+                if((int)rk.GetValue("trayMinimise", 0) == 1)
+                    checkBoxTrayMinimiseToIcon.Checked = true;
+                if((int)rk.GetValue("trayInfo", 0) == 1)
+                    checkBoxTrayNotification.Checked = true;
+                if(checkBoxTrayEnable.Checked)
+                {
+                    notifyIconTray.Visible = true;
+                }
                 string channel = (string)rk.GetValue("channel", "");
                 if(channel != "")
+                {
                     chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", channel);
+                    AddToText("> BOT CONNECTED TO THE CHANNEL " + channel);
+                }
                 else
+                {
                     chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                    AddToText("> BOT CONNECTED BUT TO NO CHANNEL");
+                }
             }
             catch
             {
@@ -219,6 +241,7 @@ namespace PlenBotLogUploader
             chatconnect.connected = false;
             chatconnect = null;
             chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text);
+            AddToText("> BOT RECONNECTED");
         }
 
         private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e)
@@ -289,6 +312,64 @@ namespace PlenBotLogUploader
             buttonStartChecker.Enabled = true;
             buttonStopChecker.Enabled = false;
             timerLogsCheck.Stop();
+        }
+
+        private void checkBoxTrayEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBoxTrayEnable.Checked)
+            {
+                checkBoxTrayMinimiseToIcon.Enabled = true;
+                checkBoxTrayNotification.Enabled = true;
+                rk.SetValue("trayEnabled", 1);
+                notifyIconTray.Visible = true;
+            }
+            else
+            {
+                checkBoxTrayMinimiseToIcon.Enabled = false;
+                checkBoxTrayNotification.Enabled = false;
+                checkBoxTrayMinimiseToIcon.Checked = false;
+                checkBoxTrayNotification.Checked = false;
+                rk.SetValue("trayEnabled", 0);
+                rk.SetValue("trayMinimise", 0);
+                rk.SetValue("trayInfo", 0);
+                notifyIconTray.Visible = false;
+            }
+        }
+
+        private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBoxTrayMinimiseToIcon.Checked)
+            {
+                rk.SetValue("trayMinimise", 1);
+            }
+            else
+            {
+                rk.SetValue("trayMinimise", 0);
+            }
+        }
+
+        private void checkBoxTrayNotification_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBoxTrayNotification.Checked)
+            {
+                rk.SetValue("trayInfo", 1);
+            }
+            else
+            {
+                rk.SetValue("trayInfo", 0);
+            }
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            if((this.WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
+                this.ShowInTaskbar = false;
+        }
+
+        private void notifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.ShowInTaskbar = true;
+            this.WindowState = FormWindowState.Normal;
         }
     }
 }

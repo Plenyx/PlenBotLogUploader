@@ -43,8 +43,14 @@
             this.buttonStartChecker = new System.Windows.Forms.Button();
             this.buttonLogsLocation = new System.Windows.Forms.Button();
             this.timerLogsCheck = new System.Windows.Forms.Timer(this.components);
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBoxTrayEnable = new System.Windows.Forms.CheckBox();
+            this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
+            this.checkBoxTrayNotification = new System.Windows.Forms.CheckBox();
+            this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxUploadInfo
@@ -53,7 +59,7 @@
             this.textBoxUploadInfo.MaxLength = 9999999;
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 235);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 330);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // textBoxChannel
@@ -177,11 +183,65 @@
             this.timerLogsCheck.Interval = 60000;
             this.timerLogsCheck.Tick += new System.EventHandler(this.timerLogsCheck_Tick);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.checkBoxTrayNotification);
+            this.groupBox3.Controls.Add(this.checkBoxTrayMinimiseToIcon);
+            this.groupBox3.Controls.Add(this.checkBoxTrayEnable);
+            this.groupBox3.Location = new System.Drawing.Point(426, 253);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(200, 89);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Tray Icon settings";
+            // 
+            // checkBoxTrayEnable
+            // 
+            this.checkBoxTrayEnable.AutoSize = true;
+            this.checkBoxTrayEnable.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxTrayEnable.Name = "checkBoxTrayEnable";
+            this.checkBoxTrayEnable.Size = new System.Drawing.Size(148, 17);
+            this.checkBoxTrayEnable.TabIndex = 0;
+            this.checkBoxTrayEnable.Text = "enable icon in the taskbar";
+            this.checkBoxTrayEnable.UseVisualStyleBackColor = true;
+            this.checkBoxTrayEnable.CheckedChanged += new System.EventHandler(this.checkBoxTrayEnable_CheckedChanged);
+            // 
+            // checkBoxTrayMinimiseToIcon
+            // 
+            this.checkBoxTrayMinimiseToIcon.AutoSize = true;
+            this.checkBoxTrayMinimiseToIcon.Enabled = false;
+            this.checkBoxTrayMinimiseToIcon.Location = new System.Drawing.Point(6, 42);
+            this.checkBoxTrayMinimiseToIcon.Name = "checkBoxTrayMinimiseToIcon";
+            this.checkBoxTrayMinimiseToIcon.Size = new System.Drawing.Size(100, 17);
+            this.checkBoxTrayMinimiseToIcon.TabIndex = 1;
+            this.checkBoxTrayMinimiseToIcon.Text = "minimise to icon";
+            this.checkBoxTrayMinimiseToIcon.UseVisualStyleBackColor = true;
+            this.checkBoxTrayMinimiseToIcon.CheckedChanged += new System.EventHandler(this.checkBoxTrayMinimiseToIcon_CheckedChanged);
+            // 
+            // checkBoxTrayNotification
+            // 
+            this.checkBoxTrayNotification.AutoSize = true;
+            this.checkBoxTrayNotification.Enabled = false;
+            this.checkBoxTrayNotification.Location = new System.Drawing.Point(6, 65);
+            this.checkBoxTrayNotification.Name = "checkBoxTrayNotification";
+            this.checkBoxTrayNotification.Size = new System.Drawing.Size(110, 17);
+            this.checkBoxTrayNotification.TabIndex = 2;
+            this.checkBoxTrayNotification.Text = "show notifications";
+            this.checkBoxTrayNotification.UseVisualStyleBackColor = true;
+            this.checkBoxTrayNotification.CheckedChanged += new System.EventHandler(this.checkBoxTrayNotification_CheckedChanged);
+            // 
+            // notifyIconTray
+            // 
+            this.notifyIconTray.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconTray.Icon")));
+            this.notifyIconTray.Text = "PlenBot Log Uploader";
+            this.notifyIconTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconTray_MouseDoubleClick);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 253);
+            this.ClientSize = new System.Drawing.Size(633, 349);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.textBoxUploadInfo);
@@ -193,9 +253,12 @@
             this.Text = "PlenBot Log Uploader";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -215,6 +278,11 @@
         private System.Windows.Forms.Timer timerLogsCheck;
         private System.Windows.Forms.Button buttonStopChecker;
         private System.Windows.Forms.Button buttonStartChecker;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox checkBoxTrayNotification;
+        private System.Windows.Forms.CheckBox checkBoxTrayMinimiseToIcon;
+        private System.Windows.Forms.CheckBox checkBoxTrayEnable;
+        private System.Windows.Forms.NotifyIcon notifyIconTray;
     }
 }
 
