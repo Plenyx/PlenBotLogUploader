@@ -25,7 +25,7 @@ namespace PlenBotLogUploader
             InitializeComponent();
         }
 
-        private async void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             try
             {
@@ -53,10 +53,11 @@ namespace PlenBotLogUploader
                     checkBoxUploadLogs.Checked = true;
                 if((int)rk.GetValue("uploadAll", 0) == 1)
                     checkBoxWepSkill1.Checked = true;
-                chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
                 string channel = (string)rk.GetValue("channel", "");
                 if(channel != "")
-                    await chatconnect.joinRoom(channel);
+                    chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", channel);
+                else
+                    chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
             }
             catch
             {
@@ -66,10 +67,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private string GetLocalDir()
-        {
-            return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8)) + "\\";
-        }
+        private string GetLocalDir() { return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8)) + "\\"; }
 
         private void RestartApp()
         {
@@ -89,10 +87,7 @@ namespace PlenBotLogUploader
             textBoxUploadInfo.ScrollToCaret();
         }
 
-        private void UpdateLogCount()
-        {
-            labelLocationInfo.Text = "Logs in the directory: " + logs.Count;
-        }
+        private void UpdateLogCount() { labelLocationInfo.Text = "Logs in the directory: " + logs.Count; }
 
         public async void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc)
         {
@@ -105,7 +100,7 @@ namespace PlenBotLogUploader
             wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
             Stream rs = wr.GetRequestStream();
             string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
-            foreach (string key in nvc.Keys)
+            foreach(string key in nvc.Keys)
             {
                 rs.Write(boundarybytes, 0, boundarybytes.Length);
                 string formitem = string.Format(formdataTemplate, key, nvc[key]);
@@ -219,12 +214,11 @@ namespace PlenBotLogUploader
             rk.SetValue("channel", textBoxChannel.Text);
         }
 
-        private async void buttonReconnectBot_Click(object sender, EventArgs e)
+        private void buttonReconnectBot_Click(object sender, EventArgs e)
         {
             chatconnect.connected = false;
             chatconnect = null;
-            chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
-            await chatconnect.joinRoom(textBoxChannel.Text);
+            chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text);
         }
 
         private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e)

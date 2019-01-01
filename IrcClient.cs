@@ -28,6 +28,16 @@ namespace IRCClient
             createAndLogin();
         }
 
+        public IrcClient(string userName, string password, string channelName) : this(userName, password)
+        {
+            this.userName = userName;
+            this.password = password;
+            this.serverIp = "irc.chat.twitch.tv";
+            this.serverPort = 6667;
+            this.channelName = channelName;
+            createAndLogin();
+        }
+
         public IrcClient(string userName, string password, string ip, int port) : this(userName, password)
         {
             this.serverIp = ip;
@@ -51,6 +61,10 @@ namespace IRCClient
         {
             await this.outputStream.WriteLineAsync("PASS " + password);
             await this.outputStream.WriteLineAsync("NICK " + userName);
+            if (this.channelName != "")
+            {
+                await this.outputStream.WriteLineAsync("JOIN #" + channelName);
+            }
             await this.outputStream.FlushAsync();
             this.KeepAliveTimer.Enabled = true;
             this.connected = true;
