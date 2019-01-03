@@ -352,9 +352,8 @@ namespace PlenBotLogUploader
             UpdateLogCount();
         }
 
-        private async void buttonRestart_Click(object sender, EventArgs e)
+        private void buttonRestart_Click(object sender, EventArgs e)
         {
-            await DownloadFileAsync("https://github.com/Plenyx/PlenBotLogUploader/raw/master/plenbot-releases/0.2/PlenBotLogUploader.exe", GetLocalDir() + "/PlenBotLogUploaderUpdate.exe");
             if (logslocation.Contains("arcdps.cbtlogs"))
             {
                 timerLogsCheck.Stop();
