@@ -35,6 +35,8 @@ namespace PlenBotLogUploader
                     rk.SetValue("channel", "");
                 if(rk.GetValue("uploadAll") == null)
                     rk.SetValue("uploadAll", 1);
+                if(rk.GetValue("uploadToTwitch") == null)
+                    rk.SetValue("uploadToTwitch", 1);
                 if(rk.GetValue("wepSkill1") == null)
                     rk.SetValue("wepSkill1", 1);
                 if(rk.GetValue("trayEnabled") == null)
@@ -42,7 +44,7 @@ namespace PlenBotLogUploader
                 if(rk.GetValue("trayMinimise") == null)
                     rk.SetValue("trayMinimise", 1);
                 if(rk.GetValue("trayInfo") == null)
-                    rk.SetValue("trayInfo", 1);
+                    rk.SetValue("trayInfo", 0);
                 logslocation = (string)rk.GetValue("logsLocation", "");
                 if(logslocation == "")
                     labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
@@ -57,18 +59,20 @@ namespace PlenBotLogUploader
                 textBoxChannel.Text = (string)rk.GetValue("channel", "");
                 if((int)rk.GetValue("uploadAll", 0) == 1)
                     checkBoxUploadLogs.Checked = true;
+                if((int)rk.GetValue("uploadToTwitch", 0) == 1)
+                    checkBoxPostToTwitch.Checked = true;
                 if((int)rk.GetValue("wepSkill1", 0) == 1)
                     checkBoxWepSkill1.Checked = true;
-                if((int)rk.GetValue("trayEnabled", 0) == 1)
+                if ((int)rk.GetValue("trayEnabled", 0) == 1)
                     checkBoxTrayEnable.Checked = true;
                 if((int)rk.GetValue("trayMinimise", 0) == 1)
                     checkBoxTrayMinimiseToIcon.Checked = true;
                 if((int)rk.GetValue("trayInfo", 0) == 1)
                     checkBoxTrayNotification.Checked = true;
+                if(checkBoxUploadLogs.Checked)
+                    checkBoxPostToTwitch.Enabled = true;
                 if(checkBoxTrayEnable.Checked)
-                {
                     notifyIconTray.Visible = true;
-                }
                 string channel = (string)rk.GetValue("channel", "");
                 if(channel != "")
                 {
@@ -153,8 +157,13 @@ namespace PlenBotLogUploader
                 string link = split1.Split(new string[] { "\"" }, StringSplitOptions.None)[0];
                 link = link.Replace("\\", "");
                 File.AppendAllText(GetLocalDir() + "logs.txt", link+"\n");
-                AddToText("File uploaded, link received: " + link);
-                await chatconnect.sendChatMessage("Link to the log: " + link);
+                if(checkBoxPostToTwitch.Checked)
+                {
+                    AddToText("File uploaded, link received and posted to chat: " + link);
+                    await chatconnect.sendChatMessage("Link to the log: " + link);
+                }
+                else
+                    AddToText("File uploaded, link received: " + link);
             }
             catch
             {
@@ -225,10 +234,17 @@ namespace PlenBotLogUploader
 
         private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxUploadLogs.Checked)
+            if (checkBoxUploadLogs.Checked)
+            {
                 rk.SetValue("uploadAll", 1);
+                checkBoxPostToTwitch.Enabled = true;
+            }
             else
+            {
                 rk.SetValue("uploadAll", 0);
+                checkBoxPostToTwitch.Enabled = false;
+                checkBoxPostToTwitch.Checked = false;
+            }
         }
 
         private void textBoxChannel_TextChanged(object sender, EventArgs e)
@@ -368,8 +384,29 @@ namespace PlenBotLogUploader
 
         private void notifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            this.ShowInTaskbar = true;
-            this.WindowState = FormWindowState.Normal;
+            if(ShowInTaskbar)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                this.ShowInTaskbar = false;
+            }
+            else
+            {
+                this.ShowInTaskbar = true;
+                this.WindowState = FormWindowState.Normal;
+            }
+        }
+
+        private void checkBoxPostToTwitch_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBoxPostToTwitch.Checked)
+                rk.SetValue("uploadToTwitch", 1);
+            else
+                rk.SetValue("uploadToTwitch", 0);
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            notifyIconTray.Visible = false;
         }
     }
 }

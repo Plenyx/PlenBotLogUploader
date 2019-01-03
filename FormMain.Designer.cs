@@ -33,6 +33,7 @@
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.textBoxChannel = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxPostToTwitch = new System.Windows.Forms.CheckBox();
             this.checkBoxWepSkill1 = new System.Windows.Forms.CheckBox();
             this.buttonReconnectBot = new System.Windows.Forms.Button();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
@@ -44,9 +45,9 @@
             this.buttonLogsLocation = new System.Windows.Forms.Button();
             this.timerLogsCheck = new System.Windows.Forms.Timer(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.checkBoxTrayEnable = new System.Windows.Forms.CheckBox();
-            this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
             this.checkBoxTrayNotification = new System.Windows.Forms.CheckBox();
+            this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
+            this.checkBoxTrayEnable = new System.Windows.Forms.CheckBox();
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -59,7 +60,7 @@
             this.textBoxUploadInfo.MaxLength = 9999999;
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 330);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 351);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // textBoxChannel
@@ -72,21 +73,34 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBoxPostToTwitch);
             this.groupBox1.Controls.Add(this.checkBoxWepSkill1);
             this.groupBox1.Controls.Add(this.buttonReconnectBot);
             this.groupBox1.Controls.Add(this.checkBoxUploadLogs);
             this.groupBox1.Controls.Add(this.textBoxChannel);
             this.groupBox1.Location = new System.Drawing.Point(426, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 126);
+            this.groupBox1.Size = new System.Drawing.Size(200, 147);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Twitch channel";
             // 
+            // checkBoxPostToTwitch
+            // 
+            this.checkBoxPostToTwitch.AutoSize = true;
+            this.checkBoxPostToTwitch.Enabled = false;
+            this.checkBoxPostToTwitch.Location = new System.Drawing.Point(6, 68);
+            this.checkBoxPostToTwitch.Name = "checkBoxPostToTwitch";
+            this.checkBoxPostToTwitch.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxPostToTwitch.TabIndex = 6;
+            this.checkBoxPostToTwitch.Text = "post links to the Twitch chat";
+            this.checkBoxPostToTwitch.UseVisualStyleBackColor = true;
+            this.checkBoxPostToTwitch.CheckedChanged += new System.EventHandler(this.checkBoxPostToTwitch_CheckedChanged);
+            // 
             // checkBoxWepSkill1
             // 
             this.checkBoxWepSkill1.AutoSize = true;
-            this.checkBoxWepSkill1.Location = new System.Drawing.Point(6, 69);
+            this.checkBoxWepSkill1.Location = new System.Drawing.Point(6, 91);
             this.checkBoxWepSkill1.Name = "checkBoxWepSkill1";
             this.checkBoxWepSkill1.Size = new System.Drawing.Size(126, 17);
             this.checkBoxWepSkill1.TabIndex = 5;
@@ -96,7 +110,7 @@
             // 
             // buttonReconnectBot
             // 
-            this.buttonReconnectBot.Location = new System.Drawing.Point(6, 92);
+            this.buttonReconnectBot.Location = new System.Drawing.Point(6, 114);
             this.buttonReconnectBot.Name = "buttonReconnectBot";
             this.buttonReconnectBot.Size = new System.Drawing.Size(188, 23);
             this.buttonReconnectBot.TabIndex = 4;
@@ -122,7 +136,7 @@
             this.groupBox2.Controls.Add(this.labelLocationInfo);
             this.groupBox2.Controls.Add(this.buttonStartChecker);
             this.groupBox2.Controls.Add(this.buttonLogsLocation);
-            this.groupBox2.Location = new System.Drawing.Point(426, 144);
+            this.groupBox2.Location = new System.Drawing.Point(426, 165);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 103);
             this.groupBox2.TabIndex = 5;
@@ -188,23 +202,24 @@
             this.groupBox3.Controls.Add(this.checkBoxTrayNotification);
             this.groupBox3.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBox3.Controls.Add(this.checkBoxTrayEnable);
-            this.groupBox3.Location = new System.Drawing.Point(426, 253);
+            this.groupBox3.Location = new System.Drawing.Point(426, 274);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(200, 89);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Tray Icon settings";
             // 
-            // checkBoxTrayEnable
+            // checkBoxTrayNotification
             // 
-            this.checkBoxTrayEnable.AutoSize = true;
-            this.checkBoxTrayEnable.Location = new System.Drawing.Point(6, 19);
-            this.checkBoxTrayEnable.Name = "checkBoxTrayEnable";
-            this.checkBoxTrayEnable.Size = new System.Drawing.Size(148, 17);
-            this.checkBoxTrayEnable.TabIndex = 0;
-            this.checkBoxTrayEnable.Text = "enable icon in the taskbar";
-            this.checkBoxTrayEnable.UseVisualStyleBackColor = true;
-            this.checkBoxTrayEnable.CheckedChanged += new System.EventHandler(this.checkBoxTrayEnable_CheckedChanged);
+            this.checkBoxTrayNotification.AutoSize = true;
+            this.checkBoxTrayNotification.Enabled = false;
+            this.checkBoxTrayNotification.Location = new System.Drawing.Point(6, 65);
+            this.checkBoxTrayNotification.Name = "checkBoxTrayNotification";
+            this.checkBoxTrayNotification.Size = new System.Drawing.Size(180, 17);
+            this.checkBoxTrayNotification.TabIndex = 2;
+            this.checkBoxTrayNotification.Text = "show notifications (does nothing)";
+            this.checkBoxTrayNotification.UseVisualStyleBackColor = true;
+            this.checkBoxTrayNotification.CheckedChanged += new System.EventHandler(this.checkBoxTrayNotification_CheckedChanged);
             // 
             // checkBoxTrayMinimiseToIcon
             // 
@@ -218,17 +233,16 @@
             this.checkBoxTrayMinimiseToIcon.UseVisualStyleBackColor = true;
             this.checkBoxTrayMinimiseToIcon.CheckedChanged += new System.EventHandler(this.checkBoxTrayMinimiseToIcon_CheckedChanged);
             // 
-            // checkBoxTrayNotification
+            // checkBoxTrayEnable
             // 
-            this.checkBoxTrayNotification.AutoSize = true;
-            this.checkBoxTrayNotification.Enabled = false;
-            this.checkBoxTrayNotification.Location = new System.Drawing.Point(6, 65);
-            this.checkBoxTrayNotification.Name = "checkBoxTrayNotification";
-            this.checkBoxTrayNotification.Size = new System.Drawing.Size(110, 17);
-            this.checkBoxTrayNotification.TabIndex = 2;
-            this.checkBoxTrayNotification.Text = "show notifications";
-            this.checkBoxTrayNotification.UseVisualStyleBackColor = true;
-            this.checkBoxTrayNotification.CheckedChanged += new System.EventHandler(this.checkBoxTrayNotification_CheckedChanged);
+            this.checkBoxTrayEnable.AutoSize = true;
+            this.checkBoxTrayEnable.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxTrayEnable.Name = "checkBoxTrayEnable";
+            this.checkBoxTrayEnable.Size = new System.Drawing.Size(148, 17);
+            this.checkBoxTrayEnable.TabIndex = 0;
+            this.checkBoxTrayEnable.Text = "enable icon in the taskbar";
+            this.checkBoxTrayEnable.UseVisualStyleBackColor = true;
+            this.checkBoxTrayEnable.CheckedChanged += new System.EventHandler(this.checkBoxTrayEnable_CheckedChanged);
             // 
             // notifyIconTray
             // 
@@ -240,7 +254,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 349);
+            this.ClientSize = new System.Drawing.Size(633, 369);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -251,6 +265,7 @@
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PlenBot Log Uploader";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
@@ -283,6 +298,7 @@
         private System.Windows.Forms.CheckBox checkBoxTrayMinimiseToIcon;
         private System.Windows.Forms.CheckBox checkBoxTrayEnable;
         private System.Windows.Forms.NotifyIcon notifyIconTray;
+        private System.Windows.Forms.CheckBox checkBoxPostToTwitch;
     }
 }
 

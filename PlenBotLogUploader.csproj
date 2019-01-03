@@ -112,7 +112,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="newfaceClose.ico" />
     <Content Include="plenfaceClose.ico" />
   </ItemGroup>
   <ItemGroup>
