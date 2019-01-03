@@ -63,7 +63,7 @@ namespace PlenBotLogUploader
                     checkBoxPostToTwitch.Checked = true;
                 if((int)rk.GetValue("wepSkill1", 0) == 1)
                     checkBoxWepSkill1.Checked = true;
-                if ((int)rk.GetValue("trayEnabled", 0) == 1)
+                if((int)rk.GetValue("trayEnabled", 0) == 1)
                     checkBoxTrayEnable.Checked = true;
                 if((int)rk.GetValue("trayMinimise", 0) == 1)
                     checkBoxTrayMinimiseToIcon.Checked = true;
@@ -234,7 +234,7 @@ namespace PlenBotLogUploader
 
         private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxUploadLogs.Checked)
+            if(checkBoxUploadLogs.Checked)
             {
                 rk.SetValue("uploadAll", 1);
                 checkBoxPostToTwitch.Enabled = true;
@@ -355,25 +355,17 @@ namespace PlenBotLogUploader
         private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e)
         {
             if(checkBoxTrayMinimiseToIcon.Checked)
-            {
                 rk.SetValue("trayMinimise", 1);
-            }
             else
-            {
                 rk.SetValue("trayMinimise", 0);
-            }
         }
 
         private void checkBoxTrayNotification_CheckedChanged(object sender, EventArgs e)
         {
             if(checkBoxTrayNotification.Checked)
-            {
                 rk.SetValue("trayInfo", 1);
-            }
             else
-            {
                 rk.SetValue("trayInfo", 0);
-            }
         }
 
         private void FormMain_Resize(object sender, EventArgs e)
@@ -384,7 +376,7 @@ namespace PlenBotLogUploader
 
         private void notifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if(ShowInTaskbar)
+            if(this.ShowInTaskbar)
             {
                 this.WindowState = FormWindowState.Minimized;
                 this.ShowInTaskbar = false;
