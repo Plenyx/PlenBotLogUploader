@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Linq;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows.Forms;
 using System.IO.Compression;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Microsoft.Win32;
@@ -17,16 +20,46 @@ namespace PlenBotLogUploader
         private RegistryKey rk;
         private List<string> logs;
         private string logslocation = "";
+        private double version = 0.3;
 
         public FormMain()
         {
             logs = new List<string>();
             rk = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
             InitializeComponent();
+            this.Text += " v"+version.ToString().Replace(',', '.')+" - Powered by ";
+            string[] memes = { "dank memes", "qT DDOS mechanics", "raids being broken after patch", "so toxic wow much elitist", "Flaming during raid sells", "Never fucking lucky BabyRage" };
+            Random mt_rand = new Random();
+            memes = memes.OrderBy(x => mt_rand.Next()).ToArray();
+            this.Text += memes[mt_rand.Next(0, memes.Count() - 1)];
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
+            try
+            {
+                string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/plenbot-releases/VERSION");
+                if(Double.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out double currentversion))
+                {
+                    if(currentversion > version)
+                    {
+                        DialogResult result = MessageBox.Show("Do you want to download the newest version?", "New version available (v" + currentversion.ToString().Replace(',', '.') + ")", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                        if (result == DialogResult.Yes)
+                        {
+                            await DownloadFileAsync("https://github.com/Plenyx/PlenBotLogUploader/raw/master/plenbot-releases/" + currentversion.ToString().Replace(',', '.') + "/PlenBotLogUploader.exe", GetLocalDir() + "/PlenBotLogUploaderUpdate.exe");
+                            ProcessStartInfo Info = new ProcessStartInfo();
+                            Info.Arguments = "/C ping 127.0.0.1 -n 2 && move /Y \"" + GetLocalDir() + "PlenBotLogUploaderUpdate.exe\" \"" + Application.ExecutablePath + "\"";
+                            Info.WindowStyle = ProcessWindowStyle.Hidden;
+                            Info.CreateNoWindow = true;
+                            Info.FileName = "cmd.exe";
+                            Process.Start(Info);
+                            notifyIconTray.Visible = false;
+                            Application.Exit();
+                        }
+                    }
+                }
+            }
+            catch { /* do nothing */ }
             try
             {
                 if(rk.GetValue("logsLocation") == null)
@@ -103,6 +136,7 @@ namespace PlenBotLogUploader
             Info.CreateNoWindow = true;
             Info.FileName = "cmd.exe";
             Process.Start(Info);
+            notifyIconTray.Visible = false;
             Application.Exit();
         }
 
@@ -114,6 +148,26 @@ namespace PlenBotLogUploader
         }
 
         private void UpdateLogCount() { labelLocationInfo.Text = "Logs in the directory: " + logs.Count; }
+
+        public async Task DownloadFileAsync(string url, string destination)
+        {
+            try
+            {
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                WebClient downloader = new WebClient();
+                await downloader.DownloadFileTaskAsync(new Uri(url), @destination);
+            }
+            catch { /* do nothing */ }
+        }
+
+        public async Task<string> DownloadFileAsyncToString(string url)
+        {
+            WebClient downloader = new WebClient();
+            string response = await downloader.DownloadStringTaskAsync(new Uri(url));
+            return response;
+        }
 
         public async void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc)
         {
@@ -298,9 +352,10 @@ namespace PlenBotLogUploader
             UpdateLogCount();
         }
 
-        private void buttonRestart_Click(object sender, EventArgs e)
+        private async void buttonRestart_Click(object sender, EventArgs e)
         {
-            if(logslocation.Contains("arcdps.cbtlogs"))
+            await DownloadFileAsync("https://github.com/Plenyx/PlenBotLogUploader/raw/master/plenbot-releases/0.2/PlenBotLogUploader.exe", GetLocalDir() + "/PlenBotLogUploaderUpdate.exe");
+            if (logslocation.Contains("arcdps.cbtlogs"))
             {
                 timerLogsCheck.Stop();
                 timerLogsCheck.Start();
