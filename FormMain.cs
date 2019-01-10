@@ -20,7 +20,7 @@ namespace PlenBotLogUploader
         private RegistryKey rk;
         private List<string> logs;
         private string logslocation = "";
-        private double version = 0.3;
+        private double version = 0.4;
 
         public FormMain()
         {
@@ -354,7 +354,7 @@ namespace PlenBotLogUploader
 
         private void buttonRestart_Click(object sender, EventArgs e)
         {
-            if (logslocation.Contains("arcdps.cbtlogs"))
+            if(logslocation.Contains("arcdps.cbtlogs"))
             {
                 timerLogsCheck.Stop();
                 timerLogsCheck.Start();

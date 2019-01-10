@@ -61,10 +61,8 @@ namespace IRCClient
         {
             await this.outputStream.WriteLineAsync("PASS " + password);
             await this.outputStream.WriteLineAsync("NICK " + userName);
-            if (this.channelName != "")
-            {
+            if(this.channelName != "")
                 await this.outputStream.WriteLineAsync("JOIN #" + channelName);
-            }
             await this.outputStream.FlushAsync();
             this.KeepAliveTimer.Enabled = true;
             this.connected = true;
