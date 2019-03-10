@@ -8,116 +8,106 @@ namespace IRCClient
 {
     class IrcClient
     {
-        private string userName;
-        private string channelName;
-        private string password;
-        private string serverIp;
-        private int serverPort;
-        private TcpClient tcpClient;
-        private StreamReader inputStream;
-        private StreamWriter outputStream;
-        private Timer KeepAliveTimer;
-        public bool connected = false;
+        private string UserName { get; set; }
+        private string Password { get; set; }
+        private string ServerIp { get; set; }
+        private int ServerPort { get; set; }
+        private TcpClient TcpClient { get; set; }
+        private StreamReader InputStream { get; set; }
+        private StreamWriter OutputStream { get; set; }
+        private Timer KeepAliveTimer { get; set; }
+        public string ChannelName { get; set; }
+        public bool Connected { get; set; } = false;
 
         public IrcClient(string userName, string password)
         {
-            this.userName = userName;
-            this.password = password;
-            this.serverIp = "irc.chat.twitch.tv";
-            this.serverPort = 6667;
-            createAndLogin();
+            UserName = userName;
+            Password = password;
+            ServerIp = "irc.chat.twitch.tv";
+            ServerPort = 6667;
+            CreateAndLogin();
         }
 
-        public IrcClient(string userName, string password, string channelName) : this(userName, password)
+        public IrcClient(string userName, string password, string channelName)
         {
-            this.userName = userName;
-            this.password = password;
-            this.serverIp = "irc.chat.twitch.tv";
-            this.serverPort = 6667;
-            this.channelName = channelName;
-            createAndLogin();
+            UserName = userName;
+            Password = password;
+            ServerIp = "irc.chat.twitch.tv";
+            ServerPort = 6667;
+            ChannelName = channelName;
+            CreateAndLogin();
         }
 
-        public IrcClient(string userName, string password, string ip, int port) : this(userName, password)
+        public IrcClient(string userName, string password, string ip, int port)
         {
-            this.serverIp = ip;
-            this.serverPort = port;
-            createAndLogin();
+            UserName = userName;
+            Password = password;
+            ServerIp = ip;
+            ServerPort = port;
+            CreateAndLogin();
         }
 
-        private void createAndLogin()
+        private void CreateAndLogin()
         {
-            this.tcpClient = new TcpClient(this.serverIp, this.serverPort);
-            this.inputStream = new StreamReader(tcpClient.GetStream());
-            this.outputStream = new StreamWriter(tcpClient.GetStream());
-            this.KeepAliveTimer = new Timer();
-            this.KeepAliveTimer.Enabled = false;
-            this.KeepAliveTimer.Interval = 4 * 60 * 1000;
-            this.KeepAliveTimer.Elapsed += keepAliveTimerTick;
-            login();
+            TcpClient = new TcpClient(ServerIp, ServerPort);
+            InputStream = new StreamReader(TcpClient.GetStream());
+            OutputStream = new StreamWriter(TcpClient.GetStream());
+            KeepAliveTimer = new Timer
+            {
+                Enabled = false,
+                Interval = 4 * 60 * 1000 // 4 minutes
+            };
+            KeepAliveTimer.Elapsed += KeepAliveTimerTick;
+            Login();
         }
 
-        public async void login()
+        public async void Login()
         {
-            await this.outputStream.WriteLineAsync("PASS " + password);
-            await this.outputStream.WriteLineAsync("NICK " + userName);
-            if(this.channelName != "")
-                await this.outputStream.WriteLineAsync("JOIN #" + channelName);
-            await this.outputStream.FlushAsync();
-            this.KeepAliveTimer.Enabled = true;
-            this.connected = true;
+            await OutputStream.WriteLineAsync("PASS " + Password);
+            await OutputStream.WriteLineAsync("NICK " + UserName);
+            if (ChannelName != "")
+                await OutputStream.WriteLineAsync("JOIN #" + ChannelName);
+            await OutputStream.FlushAsync();
+            KeepAliveTimer.Enabled = true;
+            this.Connected = true;
         }
 
-        public async Task<bool> joinRoom(string channelName)
+        public async Task<bool> JoinRoom(string channelName)
         {
-            if(this.channelName != "")
-                await leaveRoom(this.channelName);
-            this.channelName = channelName;
-            await this.outputStream.WriteLineAsync("JOIN #" + channelName);
-            await this.outputStream.FlushAsync();
+            if (ChannelName != "")
+                await LeaveRoom(ChannelName);
+            ChannelName = channelName;
+            await OutputStream.WriteLineAsync("JOIN #" + channelName);
+            await OutputStream.FlushAsync();
             return true;
         }
 
-        public async Task<bool> leaveRoom(string channelName)
+        public async Task<bool> LeaveRoom(string channelName)
         {
-            this.channelName = "";
-            await this.outputStream.WriteLineAsync("LEAVE #" + channelName);
-            await this.outputStream.FlushAsync();
+            ChannelName = "";
+            await OutputStream.WriteLineAsync("LEAVE #" + channelName);
+            await OutputStream.FlushAsync();
             return true;
         }
 
-        public string getUserName()
+        public async Task<bool> SendIrcMessage(string message)
         {
-            return this.userName;
-        }
-
-        public async Task<bool> sendIrcMessage(string message)
-        {
-            await this.outputStream.WriteLineAsync(message);
-            await this.outputStream.FlushAsync();
+            await OutputStream.WriteLineAsync(message);
+            await OutputStream.FlushAsync();
             return true;
         }
 
-        public async Task<bool> sendChatMessage(string message)
+        public async Task<bool> SendChatMessage(string message)
         {
-            await this.outputStream.WriteLineAsync(":" + this.userName + "!" + this.userName + "@" + this.userName + ".tmi.twitch.tv PRIVMSG #" + this.channelName + " :" + message);
-            await this.outputStream.FlushAsync();
+            await OutputStream.WriteLineAsync(":" + UserName + "!" + UserName + "@" + UserName + ".tmi.twitch.tv PRIVMSG #" + ChannelName + " :" + message);
+            await OutputStream.FlushAsync();
             return true;
         }
 
-        public async void sendWhisperMessage(string userName, string message)
-        {
-            await this.sendIrcMessage("PRIVMSG #jtv :/w " + userName + " " + message);
-        }
+        public async void SendWhisperMessage(string userName, string message) => await SendIrcMessage("PRIVMSG #jtv :/w " + userName + " " + message);
 
-        public async Task<string> readMessage()
-        {
-            return await this.inputStream.ReadLineAsync();
-        }
+        public async Task<string> ReadMessage() => await InputStream.ReadLineAsync();
 
-        private async void keepAliveTimerTick(object sender, EventArgs e)
-        {
-            await this.sendIrcMessage("PING "+ this.serverIp);
-        }
+        private async void KeepAliveTimerTick(object sender, EventArgs e) => await SendIrcMessage("PING " + ServerIp);
     }
 }

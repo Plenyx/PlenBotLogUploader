@@ -28,7 +28,7 @@ namespace PlenBotLogUploader
             rk = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
             InitializeComponent();
             this.Text += " v"+version.ToString().Replace(',', '.')+" - Powered by ";
-            string[] memes = { "dank memes", "qT DDOS mechanics", "raids being broken after patch", "so toxic wow much elitist", "Flaming during raid sells", "Never fucking lucky BabyRage" };
+            string[] memes = { "dank memes", "raids being broken after patch", "so toxic wow much elitist", "Flaming during raid sells", "Never lucky BabyRage" };
             Random mt_rand = new Random();
             memes = memes.OrderBy(x => mt_rand.Next()).ToArray();
             this.Text += memes[mt_rand.Next(0, memes.Count() - 1)];
@@ -165,8 +165,7 @@ namespace PlenBotLogUploader
         public async Task<string> DownloadFileAsyncToString(string url)
         {
             WebClient downloader = new WebClient();
-            string response = await downloader.DownloadStringTaskAsync(new Uri(url));
-            return response;
+            return await downloader.DownloadStringTaskAsync(new Uri(url));
         }
 
         public async void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc)
@@ -214,7 +213,7 @@ namespace PlenBotLogUploader
                 if(checkBoxPostToTwitch.Checked)
                 {
                     AddToText("File uploaded, link received and posted to chat: " + link);
-                    await chatconnect.sendChatMessage("Link to the log: " + link);
+                    await chatconnect.SendChatMessage("Link to the log: " + link);
                 }
                 else
                     AddToText("File uploaded, link received: " + link);
@@ -308,7 +307,6 @@ namespace PlenBotLogUploader
 
         private void buttonReconnectBot_Click(object sender, EventArgs e)
         {
-            chatconnect.connected = false;
             chatconnect = null;
             chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text);
             AddToText("> BOT RECONNECTED");
