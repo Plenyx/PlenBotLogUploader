@@ -10,24 +10,23 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Microsoft.Win32;
-using IRCClient;
+using TwitchIRCClient;
 
 namespace PlenBotLogUploader
 {
     public partial class FormMain : Form
     {
-        private IrcClient chatconnect;
-        private RegistryKey rk;
-        private List<string> logs;
-        private string logslocation = "";
-        private double version = 0.4;
+        private TwitchIrcClient chatConnect;
+        private RegistryKey rk { get; set; } = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
+        private List<string> Logs { get; set; } = new List<string>();
+        private string LogsLocation { get; set; } = "";
+        private string LastLog { get; set; } = "";
+        private double Version { get; } = 0.4;
 
         public FormMain()
         {
-            logs = new List<string>();
-            rk = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
             InitializeComponent();
-            this.Text += " v"+version.ToString().Replace(',', '.')+" - Powered by ";
+            this.Text += " v"+Version.ToString().Replace(',', '.')+" - Powered by ";
             string[] memes = { "dank memes", "raids being broken after patch", "so toxic wow much elitist", "Flaming during raid sells", "Never lucky BabyRage" };
             Random mt_rand = new Random();
             memes = memes.OrderBy(x => mt_rand.Next()).ToArray();
@@ -41,7 +40,7 @@ namespace PlenBotLogUploader
                 string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/plenbot-releases/VERSION");
                 if(Double.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out double currentversion))
                 {
-                    if(currentversion > version)
+                    if(currentversion > Version)
                     {
                         DialogResult result = MessageBox.Show("Do you want to download the newest version?", "New version available (v" + currentversion.ToString().Replace(',', '.') + ")", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (result == DialogResult.Yes)
@@ -78,12 +77,12 @@ namespace PlenBotLogUploader
                     rk.SetValue("trayMinimise", 1);
                 if(rk.GetValue("trayInfo") == null)
                     rk.SetValue("trayInfo", 0);
-                logslocation = (string)rk.GetValue("logsLocation", "");
-                if(logslocation == "")
+                LogsLocation = (string)rk.GetValue("logsLocation", "");
+                if(LogsLocation == "")
                     labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
                 else
                 {
-                    TreeScanStart(logslocation);
+                    TreeScanStart(LogsLocation);
                     UpdateLogCount();
                     buttonStartChecker.Enabled = false;
                     buttonStopChecker.Enabled = true;
@@ -109,12 +108,12 @@ namespace PlenBotLogUploader
                 string channel = (string)rk.GetValue("channel", "");
                 if(channel != "")
                 {
-                    chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", channel);
+                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", channel);
                     AddToText("> BOT CONNECTED TO THE CHANNEL " + channel);
                 }
                 else
                 {
-                    chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
                     AddToText("> BOT CONNECTED BUT TO NO CHANNEL");
                 }
             }
@@ -147,7 +146,7 @@ namespace PlenBotLogUploader
             textBoxUploadInfo.ScrollToCaret();
         }
 
-        private void UpdateLogCount() { labelLocationInfo.Text = "Logs in the directory: " + logs.Count; }
+        private void UpdateLogCount() { labelLocationInfo.Text = "Logs in the directory: " + Logs.Count; }
 
         public async Task DownloadFileAsync(string url, string destination)
         {
@@ -213,7 +212,8 @@ namespace PlenBotLogUploader
                 if(checkBoxPostToTwitch.Checked)
                 {
                     AddToText("File uploaded, link received and posted to chat: " + link);
-                    await chatconnect.SendChatMessage("Link to the log: " + link);
+                    LastLog = link;
+                    await chatConnect.SendChatMessage(textBoxChannel.Text, "Link to the log: " + link);
                 }
                 else
                     AddToText("File uploaded, link received: " + link);
@@ -233,9 +233,9 @@ namespace PlenBotLogUploader
         {
             foreach(string f in Directory.GetFiles(sDir))
             {
-                if(!logs.Contains(f))
+                if(!Logs.Contains(f))
                 {
-                    logs.Add(f);
+                    Logs.Add(f);
                     if(!checkBoxUploadLogs.Checked)
                         continue;
                     try
@@ -258,14 +258,14 @@ namespace PlenBotLogUploader
                             }
                             catch
                             {
-                                logs.Remove(f);
+                                Logs.Remove(f);
                                 AddToText("Unable to upload the file: " + f);
                             }
                         }
                     }
                     catch
                     {
-                        logs.Remove(f);
+                        Logs.Remove(f);
                         AddToText("Unable to upload the file: " + f);
                     }
                 }
@@ -275,7 +275,7 @@ namespace PlenBotLogUploader
 
         private void TreeScanStart(string sDir)
         {
-            foreach(string f in Directory.GetFiles(sDir)) { logs.Add(f); }
+            foreach(string f in Directory.GetFiles(sDir)) { Logs.Add(f); }
             foreach(string d in Directory.GetDirectories(sDir)) { TreeScanStart(d); }
         }
 
@@ -307,8 +307,8 @@ namespace PlenBotLogUploader
 
         private void buttonReconnectBot_Click(object sender, EventArgs e)
         {
-            chatconnect = null;
-            chatconnect = new IrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text);
+            chatConnect = null;
+            chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text);
             AddToText("> BOT RECONNECTED");
         }
 
@@ -329,9 +329,9 @@ namespace PlenBotLogUploader
             {
                 if(dialog.SelectedPath.Contains("arcdps.cbtlogs"))
                 {
-                    logslocation = dialog.SelectedPath;
-                    rk.SetValue("logsLocation", logslocation);
-                    TreeScanStart(logslocation);
+                    LogsLocation = dialog.SelectedPath;
+                    rk.SetValue("logsLocation", LogsLocation);
+                    TreeScanStart(LogsLocation);
                     UpdateLogCount();
                     timerLogsCheck.Stop();
                     timerLogsCheck.Start();
@@ -346,13 +346,13 @@ namespace PlenBotLogUploader
 
         private void timerLogsCheck_Tick(object sender, EventArgs e)
         {
-            TreeScan(@logslocation);
+            TreeScan(LogsLocation);
             UpdateLogCount();
         }
 
         private void buttonRestart_Click(object sender, EventArgs e)
         {
-            if(logslocation.Contains("arcdps.cbtlogs"))
+            if(LogsLocation.Contains("arcdps.cbtlogs"))
             {
                 timerLogsCheck.Stop();
                 timerLogsCheck.Start();
@@ -365,7 +365,7 @@ namespace PlenBotLogUploader
 
         private void buttonStartChecker_Click(object sender, EventArgs e)
         {
-            if(logslocation.Contains("arcdps.cbtlogs"))
+            if(LogsLocation.Contains("arcdps.cbtlogs"))
             {
                 buttonStartChecker.Enabled = false;
                 buttonStopChecker.Enabled = true;
@@ -451,6 +451,28 @@ namespace PlenBotLogUploader
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             notifyIconTray.Visible = false;
+        }
+
+        protected async void ReadMessages(object sender, EventArgs e)
+        {
+            if(e == null)
+            {
+                return;
+            }
+            IrcMessageEventArgs ea = (IrcMessageEventArgs)e;
+            if(ea == null)
+            {
+                return;
+            }
+            string command = ea.Message.Split(' ')[0];
+            if(command.Contains("!lastlog") || command.Contains("!log"))
+            {
+                if(LastLog != "")
+                {
+                    AddToText("> LAST LOG COMMAND USED");
+                    await chatConnect.SendChatMessage(textBoxChannel.Text, $"Link to the last log: {LastLog}");
+                }
+            }
         }
     }
 }
