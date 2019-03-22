@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Linq;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
@@ -21,19 +20,14 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private double Version { get; } = 0.4;
+        private double Version { get; } = 0.5;
 
         public FormMain()
         {
             InitializeComponent();
-            this.Text += $" v{Version.ToString().Replace(',', '.')} - Powered by ";
-            string[] memes = { "dank memes", "raids being broken after patch", "so toxic wow much elitist", "Flaming during raid sells", "Never lucky BabyRage" };
-            Random mt_rand = new Random();
-            memes = memes.OrderBy(x => mt_rand.Next()).ToArray();
-            this.Text += memes[mt_rand.Next(0, memes.Count() - 1)];
         }
 
-        private async void Form1_Load(object sender, EventArgs e)
+        private async void FormMain_Load(object sender, EventArgs e)
         {
             try
             {
@@ -62,21 +56,37 @@ namespace PlenBotLogUploader
             try
             {
                 if(RegistryAccess.GetValue("logsLocation") == null)
+                {
                     RegistryAccess.SetValue("logsLocation", "");
+                }
                 if(RegistryAccess.GetValue("channel") == null)
+                {
                     RegistryAccess.SetValue("channel", "");
+                }
                 if(RegistryAccess.GetValue("uploadAll") == null)
+                {
                     RegistryAccess.SetValue("uploadAll", 1);
+                }
                 if(RegistryAccess.GetValue("uploadToTwitch") == null)
+                {
                     RegistryAccess.SetValue("uploadToTwitch", 1);
+                }
                 if(RegistryAccess.GetValue("wepSkill1") == null)
+                {
                     RegistryAccess.SetValue("wepSkill1", 1);
+                }
                 if(RegistryAccess.GetValue("trayEnabled") == null)
+                {
                     RegistryAccess.SetValue("trayEnabled", 1);
+                }
                 if(RegistryAccess.GetValue("trayMinimise") == null)
+                {
                     RegistryAccess.SetValue("trayMinimise", 1);
+                }
                 if(RegistryAccess.GetValue("trayInfo") == null)
+                {
                     RegistryAccess.SetValue("trayInfo", 0);
+                }
                 LogsLocation = (string)RegistryAccess.GetValue("logsLocation", "");
                 if(LogsLocation == "")
                     labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
@@ -90,21 +100,37 @@ namespace PlenBotLogUploader
                 }
                 textBoxChannel.Text = (string)RegistryAccess.GetValue("channel", "");
                 if((int)RegistryAccess.GetValue("uploadAll", 0) == 1)
+                {
                     checkBoxUploadLogs.Checked = true;
+                }
                 if((int)RegistryAccess.GetValue("uploadToTwitch", 0) == 1)
+                {
                     checkBoxPostToTwitch.Checked = true;
+                }
                 if((int)RegistryAccess.GetValue("wepSkill1", 0) == 1)
+                {
                     checkBoxWepSkill1.Checked = true;
+                }
                 if((int)RegistryAccess.GetValue("trayEnabled", 0) == 1)
+                {
                     checkBoxTrayEnable.Checked = true;
+                }
                 if((int)RegistryAccess.GetValue("trayMinimise", 0) == 1)
+                {
                     checkBoxTrayMinimiseToIcon.Checked = true;
+                }
                 if((int)RegistryAccess.GetValue("trayInfo", 0) == 1)
+                {
                     checkBoxTrayNotification.Checked = true;
+                }
                 if(checkBoxUploadLogs.Checked)
+                {
                     checkBoxPostToTwitch.Enabled = true;
+                }
                 if(checkBoxTrayEnable.Checked)
+                {
                     notifyIconTray.Visible = true;
+                }
                 string channel = (string)RegistryAccess.GetValue("channel", "");
                 if(channel != "")
                 {
@@ -116,7 +142,7 @@ namespace PlenBotLogUploader
                 {
                     chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
                     chatConnect.ReceiveMessage += ReadMessages;
-                    AddToText("> BOT CONNECTED BUT TO NO CHANNEL");
+                    AddToText("> BOT CONNECTED TO TWITCH");
                 }
             }
             catch
@@ -127,7 +153,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private string GetLocalDir() { return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8)) + "\\"; }
+        private string GetLocalDir() => $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
 
         private void RestartApp()
         {
@@ -163,11 +189,7 @@ namespace PlenBotLogUploader
             catch { /* do nothing */ }
         }
 
-        public async Task<string> DownloadFileAsyncToString(string url)
-        {
-            WebClient downloader = new WebClient();
-            return await downloader.DownloadStringTaskAsync(new Uri(url));
-        }
+        public async Task<string> DownloadFileAsyncToString(string url) => await new WebClient().DownloadStringTaskAsync(new Uri(url));
 
         public async void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc)
         {
@@ -281,7 +303,7 @@ namespace PlenBotLogUploader
             foreach(string d in Directory.GetDirectories(sDir)) { TreeScanStart(d); }
         }
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             RegistryAccess.Flush();
             RegistryAccess.Close();
@@ -302,11 +324,6 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void textBoxChannel_TextChanged(object sender, EventArgs e)
-        {
-            RegistryAccess.SetValue("channel", textBoxChannel.Text);
-        }
-
         private void buttonReconnectBot_Click(object sender, EventArgs e)
         {
             chatConnect.ReceiveMessage -= ReadMessages;
@@ -314,14 +331,6 @@ namespace PlenBotLogUploader
             chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text);
             chatConnect.ReceiveMessage += ReadMessages;
             AddToText("> BOT RECONNECTED");
-        }
-
-        private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e)
-        {
-            if(checkBoxUploadLogs.Checked)
-                RegistryAccess.SetValue("wepSkill1", 1);
-            else
-                RegistryAccess.SetValue("wepSkill1", 0);
         }
 
         private void buttonLogsLocation_Click(object sender, EventArgs e)
@@ -343,7 +352,9 @@ namespace PlenBotLogUploader
                     buttonStopChecker.Enabled = true;
                 }
                 else
+                {
                     MessageBox.Show("The specified location does not appear to be an arcdps folder.\nCheck your directory and try again.", "An error has occurred");
+                }
             }
             dialog = null;
         }
@@ -364,7 +375,9 @@ namespace PlenBotLogUploader
                 buttonStopChecker.Enabled = true;
             }
             else
+            {
                 MessageBox.Show("You are unable to reset the checker without having set the location for the logs.", "An error has occurred");
+            }
         }
 
         private void buttonStartChecker_Click(object sender, EventArgs e)
@@ -376,7 +389,9 @@ namespace PlenBotLogUploader
                 timerLogsCheck.Start();
             }
             else
+            {
                 MessageBox.Show("You are unable to start the checker without having set the location for the logs.", "An error has occurred");
+            }
         }
 
         private void buttonStopChecker_Click(object sender, EventArgs e)
@@ -408,26 +423,22 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e)
-        {
-            if(checkBoxTrayMinimiseToIcon.Checked)
-                RegistryAccess.SetValue("trayMinimise", 1);
-            else
-                RegistryAccess.SetValue("trayMinimise", 0);
-        }
+        private void textBoxChannel_TextChanged(object sender, EventArgs e) => RegistryAccess.SetValue("channel", textBoxChannel.Text);
 
-        private void checkBoxTrayNotification_CheckedChanged(object sender, EventArgs e)
-        {
-            if(checkBoxTrayNotification.Checked)
-                RegistryAccess.SetValue("trayInfo", 1);
-            else
-                RegistryAccess.SetValue("trayInfo", 0);
-        }
+        private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("wepSkill1", checkBoxUploadLogs.Checked ? 1 : 0);
+
+        private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("trayMinimise", checkBoxTrayMinimiseToIcon.Checked ? 1 : 0);
+
+        private void checkBoxTrayNotification_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("trayInfo", checkBoxTrayNotification.Checked ? 1 : 0);
+
+        private void checkBoxPostToTwitch_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("uploadToTwitch", checkBoxPostToTwitch.Checked ? 1 : 0);
 
         private void FormMain_Resize(object sender, EventArgs e)
         {
             if((this.WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
+            {
                 this.ShowInTaskbar = false;
+            }
         }
 
         private void notifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -444,18 +455,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void checkBoxPostToTwitch_CheckedChanged(object sender, EventArgs e)
-        {
-            if(checkBoxPostToTwitch.Checked)
-                RegistryAccess.SetValue("uploadToTwitch", 1);
-            else
-                RegistryAccess.SetValue("uploadToTwitch", 0);
-        }
-
-        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            notifyIconTray.Visible = false;
-        }
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e) => notifyIconTray.Visible = false;
 
         protected async void ReadMessages(object sender, EventArgs e)
         {
