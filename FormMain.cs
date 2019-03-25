@@ -457,14 +457,13 @@ namespace PlenBotLogUploader
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e) => notifyIconTray.Visible = false;
 
-        protected async void ReadMessages(object sender, EventArgs e)
+        protected async void ReadMessages(object sender, IrcMessageEventArgs e)
         {
             if(e == null)
             {
                 return;
             }
-            IrcMessageEventArgs ea = (IrcMessageEventArgs)e;
-            string[] messageSplit = ea.Message.Split(new string[] { $"#{textBoxChannel.Text} :" }, StringSplitOptions.None);
+            string[] messageSplit = e.Message.Split(new string[] { $"#{textBoxChannel.Text} :" }, StringSplitOptions.None);
             if(messageSplit.Length > 1)
             {
                 string command = messageSplit[1].Split(' ')[0];

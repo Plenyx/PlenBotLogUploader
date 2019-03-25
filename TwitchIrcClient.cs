@@ -20,7 +20,7 @@ namespace TwitchIRCClient
         public string LastChannelName { get; private set; }
         public List<string> ChannelNames { get; private set; } = new List<string>();
         public bool Connected { get; set; } = false;
-        public EventHandler ReceiveMessage { get; set; }
+        public EventHandler<IrcMessageEventArgs> ReceiveMessage { get; set; }
 
 
         public TwitchIrcClient(string userName, string password)
@@ -147,17 +147,16 @@ namespace TwitchIRCClient
         }
 
         protected void OnMessageReceived(IrcMessageEventArgs e) => ReceiveMessage?.Invoke(this, e);
-        
-        
+
+
         /* * Example of an Event Listener to catch chat messages
-        protected void MessageListener(object sender, EventArgs e)
+        protected void MessageListener(object sender, IrcMessageEventArgs e)
         {
             if(e == null)
             {
                 return;
             }
-            IrcMessageEventArgs ea = (IrcMessageEventArgs)e;
-            Console.WriteLine(ea.Message);
+            Console.WriteLine(e.Message);
         }*/
     }
 }
