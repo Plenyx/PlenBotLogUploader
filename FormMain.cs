@@ -21,6 +21,7 @@ namespace PlenBotLogUploader
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
         private double Version { get; } = 0.5;
+        private const int maxFileSize = 122880;
 
         public FormMain()
         {
@@ -32,22 +33,31 @@ namespace PlenBotLogUploader
             try
             {
                 string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/plenbot-releases/VERSION");
-                if(Double.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out double currentversion))
+                if (Double.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out double currentversion))
                 {
-                    if(currentversion > Version)
+                    if (currentversion > Version)
                     {
                         DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New version available (v{currentversion.ToString().Replace(',', '.')})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (result == DialogResult.Yes)
                         {
                             await DownloadFileAsync($"https://github.com/Plenyx/PlenBotLogUploader/raw/master/plenbot-releases/{currentversion.ToString().Replace(',', '.')}/PlenBotLogUploader.exe", $"{GetLocalDir()}/PlenBotLogUploaderUpdate.exe");
-                            ProcessStartInfo Info = new ProcessStartInfo();
-                            Info.Arguments = "/C ping 127.0.0.1 -n 2 && move /Y \"" + GetLocalDir() + "PlenBotLogUploaderUpdate.exe\" \"" + Application.ExecutablePath + "\"";
-                            Info.WindowStyle = ProcessWindowStyle.Hidden;
-                            Info.CreateNoWindow = true;
-                            Info.FileName = "cmd.exe";
-                            Process.Start(Info);
-                            notifyIconTray.Visible = false;
-                            Application.Exit();
+                            if (File.Exists($"{GetLocalDir()}/PlenBotLogUploaderUpdate.exe"))
+                            {
+                                ProcessStartInfo Info = new ProcessStartInfo
+                                {
+                                    Arguments = "/C ping 127.0.0.1 -n 2 && move /Y \"" + GetLocalDir() + "PlenBotLogUploaderUpdate.exe\" \"" + Application.ExecutablePath + "\"",
+                                    WindowStyle = ProcessWindowStyle.Hidden,
+                                    CreateNoWindow = true,
+                                    FileName = "cmd.exe"
+                                };
+                                Process.Start(Info);
+                                notifyIconTray.Visible = false;
+                                Application.Exit();
+                            }
+                            else
+                            {
+                                MessageBox.Show("There has been an error downloading the new version of the Uploader.\nPlease retry again or update it manually.", "An error has occurred");
+                            }
                         }
                     }
                 }
@@ -55,41 +65,43 @@ namespace PlenBotLogUploader
             catch { /* do nothing */ }
             try
             {
-                if(RegistryAccess.GetValue("logsLocation") == null)
+                if (RegistryAccess.GetValue("logsLocation") == null)
                 {
                     RegistryAccess.SetValue("logsLocation", "");
                 }
-                if(RegistryAccess.GetValue("channel") == null)
+                if (RegistryAccess.GetValue("channel") == null)
                 {
                     RegistryAccess.SetValue("channel", "");
                 }
-                if(RegistryAccess.GetValue("uploadAll") == null)
+                if (RegistryAccess.GetValue("uploadAll") == null)
                 {
                     RegistryAccess.SetValue("uploadAll", 1);
                 }
-                if(RegistryAccess.GetValue("uploadToTwitch") == null)
+                if (RegistryAccess.GetValue("uploadToTwitch") == null)
                 {
                     RegistryAccess.SetValue("uploadToTwitch", 1);
                 }
-                if(RegistryAccess.GetValue("wepSkill1") == null)
+                if (RegistryAccess.GetValue("wepSkill1") == null)
                 {
                     RegistryAccess.SetValue("wepSkill1", 1);
                 }
-                if(RegistryAccess.GetValue("trayEnabled") == null)
+                if (RegistryAccess.GetValue("trayEnabled") == null)
                 {
                     RegistryAccess.SetValue("trayEnabled", 1);
                 }
-                if(RegistryAccess.GetValue("trayMinimise") == null)
+                if (RegistryAccess.GetValue("trayMinimise") == null)
                 {
                     RegistryAccess.SetValue("trayMinimise", 1);
                 }
-                if(RegistryAccess.GetValue("trayInfo") == null)
+                if (RegistryAccess.GetValue("trayInfo") == null)
                 {
                     RegistryAccess.SetValue("trayInfo", 0);
                 }
                 LogsLocation = (string)RegistryAccess.GetValue("logsLocation", "");
-                if(LogsLocation == "")
+                if (LogsLocation == "")
+                {
                     labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
+                }
                 else
                 {
                     TreeScanStart(LogsLocation);
@@ -99,40 +111,40 @@ namespace PlenBotLogUploader
                     timerLogsCheck.Start();
                 }
                 textBoxChannel.Text = (string)RegistryAccess.GetValue("channel", "");
-                if((int)RegistryAccess.GetValue("uploadAll", 0) == 1)
+                if ((int)RegistryAccess.GetValue("uploadAll", 0) == 1)
                 {
                     checkBoxUploadLogs.Checked = true;
                 }
-                if((int)RegistryAccess.GetValue("uploadToTwitch", 0) == 1)
+                if ((int)RegistryAccess.GetValue("uploadToTwitch", 0) == 1)
                 {
                     checkBoxPostToTwitch.Checked = true;
                 }
-                if((int)RegistryAccess.GetValue("wepSkill1", 0) == 1)
+                if ((int)RegistryAccess.GetValue("wepSkill1", 0) == 1)
                 {
                     checkBoxWepSkill1.Checked = true;
                 }
-                if((int)RegistryAccess.GetValue("trayEnabled", 0) == 1)
+                if ((int)RegistryAccess.GetValue("trayEnabled", 0) == 1)
                 {
                     checkBoxTrayEnable.Checked = true;
                 }
-                if((int)RegistryAccess.GetValue("trayMinimise", 0) == 1)
+                if ((int)RegistryAccess.GetValue("trayMinimise", 0) == 1)
                 {
                     checkBoxTrayMinimiseToIcon.Checked = true;
                 }
-                if((int)RegistryAccess.GetValue("trayInfo", 0) == 1)
+                if ((int)RegistryAccess.GetValue("trayInfo", 0) == 1)
                 {
                     checkBoxTrayNotification.Checked = true;
                 }
-                if(checkBoxUploadLogs.Checked)
+                if (checkBoxUploadLogs.Checked)
                 {
                     checkBoxPostToTwitch.Enabled = true;
                 }
-                if(checkBoxTrayEnable.Checked)
+                if (checkBoxTrayEnable.Checked)
                 {
                     notifyIconTray.Visible = true;
                 }
                 string channel = (string)RegistryAccess.GetValue("channel", "");
-                if(channel != "")
+                if (channel != "")
                 {
                     chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", channel);
                     chatConnect.ReceiveMessage += ReadMessages;
@@ -157,11 +169,13 @@ namespace PlenBotLogUploader
 
         private void RestartApp()
         {
-            ProcessStartInfo Info = new ProcessStartInfo();
-            Info.Arguments = "/C ping 127.0.0.1 -n 2 && \"" + Application.ExecutablePath + "\"";
-            Info.WindowStyle = ProcessWindowStyle.Hidden;
-            Info.CreateNoWindow = true;
-            Info.FileName = "cmd.exe";
+            ProcessStartInfo Info = new ProcessStartInfo
+            {
+                Arguments = "/C ping 127.0.0.1 -n 2 && \"" + Application.ExecutablePath + "\"",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true,
+                FileName = "cmd.exe"
+            };
             Process.Start(Info);
             notifyIconTray.Visible = false;
             Application.Exit();
@@ -200,90 +214,95 @@ namespace PlenBotLogUploader
             wr.Method = "POST";
             wr.KeepAlive = true;
             wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            Stream rs = wr.GetRequestStream();
-            string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
-            foreach(string key in nvc.Keys)
+            using (Stream rs = wr.GetRequestStream())
             {
+                foreach (string key in nvc.Keys)
+                {
+                    rs.Write(boundarybytes, 0, boundarybytes.Length);
+                    byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes($"Content-Disposition: form-data; name=\"{key}\"\r\n\r\n{nvc[key]}");
+                    rs.Write(formitembytes, 0, formitembytes.Length);
+                }
                 rs.Write(boundarybytes, 0, boundarybytes.Length);
-                string formitem = string.Format(formdataTemplate, key, nvc[key]);
-                byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes(formitem);
-                rs.Write(formitembytes, 0, formitembytes.Length);
+                byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes($"Content-Disposition: form-data; name=\"{paramName}\"; filename=\"{file}\"\r\nContent-Type: {contentType}\r\n\r\n");
+                rs.Write(headerbytes, 0, headerbytes.Length);
+                using (FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = 0;
+                    while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0) { rs.Write(buffer, 0, bytesRead); }
+                }
+                byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+                rs.Write(trailer, 0, trailer.Length);
             }
-            rs.Write(boundarybytes, 0, boundarybytes.Length);
-            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-            string header = string.Format(headerTemplate, paramName, file, contentType);
-            byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
-            rs.Write(headerbytes, 0, headerbytes.Length);
-            FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read);
-            byte[] buffer = new byte[4096];
-            int bytesRead = 0;
-            while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0) { rs.Write(buffer, 0, bytesRead); }
-            fileStream.Close();
-            byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
-            rs.Write(trailer, 0, trailer.Length);
-            rs.Close();
-            WebResponse wresp = null;
             try
             {
-                wresp = await wr.GetResponseAsync();
-                Stream stream2 = wresp.GetResponseStream();
-                StreamReader reader2 = new StreamReader(stream2);
-                string response = reader2.ReadToEnd();
-                string split1 = response.Split(new string[] { "\"permalink\":\"" }, StringSplitOptions.None)[1];
-                string link = split1.Split(new string[] { "\"" }, StringSplitOptions.None)[0];
-                link = link.Replace("\\", "");
-                File.AppendAllText(GetLocalDir() + "logs.txt", link+"\n");
-                if(checkBoxPostToTwitch.Checked)
+                using (WebResponse wresp = await wr.GetResponseAsync())
                 {
-                    AddToText("File uploaded, link received and posted to chat: " + link);
-                    LastLog = link;
-                    await chatConnect.SendChatMessage(textBoxChannel.Text, "Link to the log: " + link);
+                    using (Stream stream2 = wresp.GetResponseStream())
+                    {
+                        using (StreamReader reader2 = new StreamReader(stream2))
+                        {
+                            string response = reader2.ReadToEnd();
+                            string split1 = response.Split(new string[] { "\"permalink\":\"" }, StringSplitOptions.None)[1];
+                            string link = split1.Split(new string[] { "\"" }, StringSplitOptions.None)[0];
+                            link = link.Replace("\\", "");
+                            File.AppendAllText(GetLocalDir() + "logs.txt", link + "\n");
+                            if (checkBoxPostToTwitch.Checked)
+                            {
+                                AddToText("File uploaded, link received and posted to chat: " + link);
+                                LastLog = link;
+                                await chatConnect.SendChatMessage(textBoxChannel.Text, "Link to the log: " + link);
+                            }
+                            else
+                            {
+                                AddToText("File uploaded, link received: " + link);
+                            }
+                        }
+                    }
                 }
-                else
-                    AddToText("File uploaded, link received: " + link);
             }
             catch
             {
-                if(wresp != null)
-                {
-                    wresp.Close();
-                    wresp = null;
-                }
+                throw;
             }
-            finally { wr = null; }
         }
 
         private void TreeScan(string sDir)
         {
-            foreach(string f in Directory.GetFiles(sDir))
+            foreach (string f in Directory.GetFiles(sDir))
             {
-                if(!Logs.Contains(f))
+                if (!Logs.Contains(f))
                 {
                     Logs.Add(f);
-                    if(!checkBoxUploadLogs.Checked)
+                    if (!checkBoxUploadLogs.Checked)
+                    {
                         continue;
+                    }
                     try
                     {
-                        if(new FileInfo(f).Length >= 122880)
+                        if (new FileInfo(f).Length >= maxFileSize)
                         {
                             string zipfilelocation = f;
-                            if(!Path.GetFileName(f).Contains(".zip") && !Path.GetFileName(f).Contains(".zevtc"))
+                            if (!Path.GetFileName(f).Contains(".zip") && !Path.GetFileName(f).Contains(".zevtc"))
                             {
-                                zipfilelocation = GetLocalDir() + Path.GetFileName(f) + ".zip";
+                                zipfilelocation = GetLocalDir() + Path.GetFileName(f) + ".zevtc";
                                 using(ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@f, Path.GetFileName(f)); }
                             }
                             try
                             {
-                                NameValueCollection nvc = new NameValueCollection();
-                                nvc.Add("generator", "ei");
-                                if(checkBoxWepSkill1.Checked)
+                                NameValueCollection nvc = new NameValueCollection
+                                {
+                                    { "generator", "ei" }
+                                };
+                                if (checkBoxWepSkill1.Checked)
+                                {
                                     nvc.Add("rotation_weap1", "1");
+                                }
                                 HttpUploadFile("https://dps.report/uploadContent", zipfilelocation, "file", "text/plain", nvc);
                             }
                             catch
                             {
-                                Logs.Remove(f);
-                                AddToText("Unable to upload the file: " + f);
+                                throw;
                             }
                         }
                     }
@@ -294,24 +313,25 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            foreach(string d in Directory.GetDirectories(sDir)) { TreeScan(d); }
+            foreach (string d in Directory.GetDirectories(sDir)) { TreeScan(d); }
         }
 
         private void TreeScanStart(string sDir)
         {
-            foreach(string f in Directory.GetFiles(sDir)) { Logs.Add(f); }
-            foreach(string d in Directory.GetDirectories(sDir)) { TreeScanStart(d); }
+            foreach (string f in Directory.GetFiles(sDir)) { Logs.Add(f); }
+            foreach (string d in Directory.GetDirectories(sDir)) { TreeScanStart(d); }
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             RegistryAccess.Flush();
-            RegistryAccess.Close();
+            RegistryAccess.Dispose();
+            chatConnect.Dispose();
         }
 
         private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxUploadLogs.Checked)
+            if (checkBoxUploadLogs.Checked)
             {
                 RegistryAccess.SetValue("uploadAll", 1);
                 checkBoxPostToTwitch.Enabled = true;
@@ -338,9 +358,9 @@ namespace PlenBotLogUploader
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "Select the arcdps folder containing the combat logs.\nThe folder you are looking for name is arcdps.cbtlogs";
             DialogResult result = dialog.ShowDialog();
-            if(result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
             {
-                if(dialog.SelectedPath.Contains("arcdps.cbtlogs"))
+                if (dialog.SelectedPath.Contains("arcdps.cbtlogs"))
                 {
                     LogsLocation = dialog.SelectedPath;
                     RegistryAccess.SetValue("logsLocation", LogsLocation);
@@ -367,7 +387,7 @@ namespace PlenBotLogUploader
 
         private void buttonRestart_Click(object sender, EventArgs e)
         {
-            if(LogsLocation.Contains("arcdps.cbtlogs"))
+            if (LogsLocation.Contains("arcdps.cbtlogs"))
             {
                 timerLogsCheck.Stop();
                 timerLogsCheck.Start();
@@ -382,7 +402,7 @@ namespace PlenBotLogUploader
 
         private void buttonStartChecker_Click(object sender, EventArgs e)
         {
-            if(LogsLocation.Contains("arcdps.cbtlogs"))
+            if (LogsLocation.Contains("arcdps.cbtlogs"))
             {
                 buttonStartChecker.Enabled = false;
                 buttonStopChecker.Enabled = true;
@@ -403,7 +423,7 @@ namespace PlenBotLogUploader
 
         private void checkBoxTrayEnable_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxTrayEnable.Checked)
+            if (checkBoxTrayEnable.Checked)
             {
                 checkBoxTrayMinimiseToIcon.Enabled = true;
                 checkBoxTrayNotification.Enabled = true;
@@ -435,23 +455,23 @@ namespace PlenBotLogUploader
 
         private void FormMain_Resize(object sender, EventArgs e)
         {
-            if((this.WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
+            if ((WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
             {
-                this.ShowInTaskbar = false;
+                ShowInTaskbar = false;
             }
         }
 
         private void notifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if(this.ShowInTaskbar)
+            if(ShowInTaskbar)
             {
-                this.WindowState = FormWindowState.Minimized;
-                this.ShowInTaskbar = false;
+                WindowState = FormWindowState.Minimized;
+                ShowInTaskbar = false;
             }
             else
             {
-                this.ShowInTaskbar = true;
-                this.WindowState = FormWindowState.Normal;
+                ShowInTaskbar = true;
+                WindowState = FormWindowState.Normal;
             }
         }
 

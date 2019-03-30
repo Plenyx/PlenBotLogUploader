@@ -1,14 +1,19 @@
 ﻿using System;
 using System.IO;
-using System.Timers;
+using System.Threading;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace TwitchIRCClient
 {
-    class TwitchIrcClient
+    class TwitchIrcClient : IDisposable
     {
+        public string LastChannelName { get; private set; }
+        public List<string> ChannelNames { get; private set; } = new List<string>();
+        public bool Connected { get; set; } = false;
+        public EventHandler<IrcMessageEventArgs> ReceiveMessage { get; set; }
+
         private string UserName { get; set; }
         private string Password { get; set; }
         private string ServerIp { get; set; }
@@ -16,12 +21,7 @@ namespace TwitchIRCClient
         private TcpClient TcpClient { get; set; }
         private StreamReader InputStream { get; set; }
         private StreamWriter OutputStream { get; set; }
-        private Timer KeepAliveTimer { get; set; }
-        public string LastChannelName { get; private set; }
-        public List<string> ChannelNames { get; private set; } = new List<string>();
-        public bool Connected { get; set; } = false;
-        public EventHandler<IrcMessageEventArgs> ReceiveMessage { get; set; }
-
+        private const int PingTimerMS = 240000;
 
         public TwitchIrcClient(string userName, string password)
         {
@@ -58,12 +58,6 @@ namespace TwitchIRCClient
             TcpClient = new TcpClient(ServerIp, ServerPort);
             InputStream = new StreamReader(TcpClient.GetStream());
             OutputStream = new StreamWriter(TcpClient.GetStream());
-            KeepAliveTimer = new Timer
-            {
-                Enabled = false,
-                Interval = 4 * 60 * 1000 // 4 minutes
-            };
-            KeepAliveTimer.Elapsed += KeepAliveTimerTick;
             Login();
         }
 
@@ -76,10 +70,10 @@ namespace TwitchIRCClient
                 await OutputStream.WriteLineAsync($"JOIN #{LastChannelName}");
             }
             await OutputStream.FlushAsync();
-            KeepAliveTimer.Enabled = true;
             Connected = true;
             // ReceiveMessage += MessageListener; // add event listener to received message, see example at the end
-            await ReadMessages();
+            new Thread(ReadMessages).Start();
+            new Thread(KeepConnectionAlive).Start();
         }
 
         public async Task<bool> JoinRoom(string channelName, bool partChannel = false)
@@ -133,11 +127,25 @@ namespace TwitchIRCClient
 
         public async void SendWhisperMessage(string userName, string message) => await SendIrcMessage($"PRIVMSG #jtv :/w {userName} {message}");
 
-        public async Task<string> ReadMessage() => await InputStream.ReadLineAsync();
+        public void Dispose()
+        {
+            TcpClient.Close();
+            InputStream.Dispose();
+            OutputStream.Dispose();
+        }
 
-        private async void KeepAliveTimerTick(object sender, EventArgs e) => await SendIrcMessage($"PING {ServerIp}");
+        private async Task<string> ReadMessage() => await InputStream.ReadLineAsync();
 
-        private async Task ReadMessages()
+        private async void KeepConnectionAlive()
+        {
+            while(Connected)
+            {
+                Thread.Sleep(PingTimerMS);
+                await SendIrcMessage($"PING {ServerIp}");
+            }
+        }
+
+        private async void ReadMessages()
         {
             while(Connected)
             {
