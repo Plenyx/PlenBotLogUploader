@@ -21,7 +21,7 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private string Version { get; } = "0.65";
+        private string Version { get; } = "v{BUILDVERSION}";
         private const int maxFileSize = 122880;
 
         public FormMain()
@@ -29,27 +29,9 @@ namespace PlenBotLogUploader
             InitializeComponent();
         }
 
-        private async void FormMain_Load(object sender, EventArgs e)
+        private void FormMain_Load(object sender, EventArgs e)
         {
-            try
-            {
-                string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
-                /*float currentversion = 0;
-                float installedversion = 0;*/
-                if (float.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out float currentversion))
-                {
-                    float.TryParse(Version, NumberStyles.Float, CultureInfo.InvariantCulture, out float installedversion);
-                    if (currentversion > installedversion)
-                    {
-                        DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New version available (v{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                        if (result == DialogResult.Yes)
-                        {
-                            Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
-                        }
-                    }
-                }
-            }
-            catch { /* do nothing */ }
+            new Thread(NewVersionCheck).Start();
             try
             {
                 if (RegistryAccess.GetValue("logsLocation") == null)
@@ -152,6 +134,31 @@ namespace PlenBotLogUploader
                 RestartApp();
             }
         }
+
+        #pragma warning disable 1998
+        protected async void NewVersionCheck()
+        {
+            #if !DEBUG
+            try
+            {
+                string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
+                if (float.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out float currentversion))
+                {
+                    float.TryParse(Version, NumberStyles.Float, CultureInfo.InvariantCulture, out float installedversion);
+                    if (currentversion > installedversion)
+                    {
+                        DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New version available (v{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                        if (result == DialogResult.Yes)
+                        {
+                            Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
+                        }
+                    }
+                }
+            }
+            catch { /* do nothing */ }
+            #endif
+        }
+        #pragma warning restore 1998
 
         protected void DoCommandArgs()
         {
