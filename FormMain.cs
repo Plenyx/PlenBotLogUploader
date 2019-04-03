@@ -21,7 +21,7 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private string Version { get; } = "0.70";
+        private string Version { get; } = "1.1";
         private const int maxFileSize = 122880;
 
         public FormMain()
@@ -87,6 +87,7 @@ namespace PlenBotLogUploader
                 if ((int)RegistryAccess.GetValue("uploadToTwitch", 0) == 1)
                 {
                     checkBoxPostToTwitch.Checked = true;
+                    checkBoxPostToTwitch.Enabled = true;
                 }
                 if ((int)RegistryAccess.GetValue("wepSkill1", 0) == 1)
                 {
@@ -95,6 +96,7 @@ namespace PlenBotLogUploader
                 if ((int)RegistryAccess.GetValue("trayEnabled", 0) == 1)
                 {
                     checkBoxTrayEnable.Checked = true;
+                    notifyIconTray.Visible = true;
                 }
                 if ((int)RegistryAccess.GetValue("trayMinimise", 0) == 1)
                 {
@@ -103,14 +105,7 @@ namespace PlenBotLogUploader
                 if ((int)RegistryAccess.GetValue("trayInfo", 0) == 1)
                 {
                     checkBoxTrayNotification.Checked = true;
-                }
-                if (checkBoxUploadLogs.Checked)
-                {
-                    checkBoxPostToTwitch.Enabled = true;
-                }
-                if (checkBoxTrayEnable.Checked)
-                {
-                    notifyIconTray.Visible = true;
+                    ShowBalloon("Tray information", "Tray information enabled.", 4500);
                 }
                 string channel = (string)RegistryAccess.GetValue("channel", "");
                 if (channel != "")
@@ -130,10 +125,12 @@ namespace PlenBotLogUploader
             catch
             {
                 Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
-                MessageBox.Show("An error in the Windows' registry has occurred.\nAll settings are reset.\nThe application will now restart.", "An error has occurred");
-                RestartApp();
+                MessageBox.Show("An error in the Windows' registry has occurred.\nAll settings are reset.\nTry running the application again.", "An error has occurred");
+                Application.Exit();
             }
         }
+
+        private void ShowBalloon(string title, string description, int ms) => notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.Info);
 
         #pragma warning disable 1998
         protected async void NewVersionCheck()
@@ -187,20 +184,6 @@ namespace PlenBotLogUploader
         }
 
         private string GetLocalDir() => $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
-
-        private void RestartApp()
-        {
-            ProcessStartInfo Info = new ProcessStartInfo
-            {
-                Arguments = "/C ping 127.0.0.1 -n 2 && \"" + Application.ExecutablePath + "\"",
-                WindowStyle = ProcessWindowStyle.Hidden,
-                CreateNoWindow = true,
-                FileName = "cmd.exe"
-            };
-            Process.Start(Info);
-            notifyIconTray.Visible = false;
-            Application.Exit();
-        }
 
         private void AddToText(string s)
         {
@@ -263,6 +246,10 @@ namespace PlenBotLogUploader
                             string link = split.Split(new string[] { "\"" }, StringSplitOptions.None)[0];
                             link = link.Replace("\\", "");
                             File.AppendAllText(GetLocalDir() + "logs.txt", link + "\n");
+                            if (checkBoxTrayNotification.Checked)
+                            {
+                                ShowBalloon("New log uploaded", link, 4500);
+                            }
                             if (checkBoxPostToTwitch.Checked && !bypassMessage)
                             {
                                 AddToText("File uploaded, link received and posted to chat: " + link);
@@ -468,7 +455,14 @@ namespace PlenBotLogUploader
 
         private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("trayMinimise", checkBoxTrayMinimiseToIcon.Checked ? 1 : 0);
 
-        private void checkBoxTrayNotification_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("trayInfo", checkBoxTrayNotification.Checked ? 1 : 0);
+        private void checkBoxTrayNotification_CheckedChanged(object sender, EventArgs e)
+        {
+            RegistryAccess.SetValue("trayInfo", checkBoxTrayNotification.Checked ? 1 : 0);
+            if (checkBoxTrayNotification.Checked)
+            {
+                ShowBalloon("Tray information", "Tray information enabled.", 4500);
+            }
+        }
 
         private void checkBoxPostToTwitch_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("uploadToTwitch", checkBoxPostToTwitch.Checked ? 1 : 0);
 
@@ -482,7 +476,7 @@ namespace PlenBotLogUploader
 
         private void notifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if(ShowInTaskbar)
+            if (ShowInTaskbar)
             {
                 WindowState = FormWindowState.Minimized;
                 ShowInTaskbar = false;
@@ -498,17 +492,17 @@ namespace PlenBotLogUploader
 
         protected async void ReadMessages(object sender, IrcMessageEventArgs e)
         {
-            if(e == null)
+            if (e == null)
             {
                 return;
             }
             string[] messageSplit = e.Message.Split(new string[] { $"#{textBoxChannel.Text.ToLower()} :" }, StringSplitOptions.None);
-            if(messageSplit.Length > 1)
+            if (messageSplit.Length > 1)
             {
                 string command = messageSplit[1].Split(' ')[0];
-                if(command.Contains("!lastlog") || command.Contains("!log"))
+                if (command.Contains("!lastlog") || command.Contains("!log"))
                 {
-                    if(LastLog != "")
+                    if (LastLog != "")
                     {
                         AddToText("> LAST LOG COMMAND USED");
                         await chatConnect.SendChatMessage(textBoxChannel.Text.ToLower(), $"Link to the last log: {LastLog}");

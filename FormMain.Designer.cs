@@ -213,9 +213,9 @@
             this.checkBoxTrayNotification.Enabled = false;
             this.checkBoxTrayNotification.Location = new System.Drawing.Point(6, 65);
             this.checkBoxTrayNotification.Name = "checkBoxTrayNotification";
-            this.checkBoxTrayNotification.Size = new System.Drawing.Size(180, 17);
+            this.checkBoxTrayNotification.Size = new System.Drawing.Size(110, 17);
             this.checkBoxTrayNotification.TabIndex = 2;
-            this.checkBoxTrayNotification.Text = "show notifications (does nothing)";
+            this.checkBoxTrayNotification.Text = "show notifications";
             this.checkBoxTrayNotification.UseVisualStyleBackColor = true;
             this.checkBoxTrayNotification.CheckedChanged += new System.EventHandler(this.checkBoxTrayNotification_CheckedChanged);
             // 
