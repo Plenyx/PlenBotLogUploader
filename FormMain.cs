@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
@@ -20,7 +21,7 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private double Version { get; } = 0.6;
+        private double Version { get; } = 0.7;
         private const int maxFileSize = 122880;
 
         public FormMain()
@@ -156,31 +157,36 @@ namespace PlenBotLogUploader
                     chatConnect.ReceiveMessage += ReadMessages;
                     AddToText("> BOT CONNECTED TO TWITCH");
                 }
-                string[] args = Environment.GetCommandLineArgs();
-                NameValueCollection nvc = new NameValueCollection
-                {
-                    { "generator", "ei" }
-                };
-                if (checkBoxWepSkill1.Checked)
-                {
-                    nvc.Add("rotation_weap1", "1");
-                }
-                foreach (string arg in args)
-                {
-                    if (File.Exists(arg))
-                    {
-                        if (arg.Contains(".zevtc"))
-                        {
-                            HttpUploadFile("https://dps.report/uploadContent", arg, "file", "text/plain", nvc, true);
-                        }
-                    }
-                }
+                new Thread(DoCommandArgs).Start();
             }
             catch
             {
                 Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
                 MessageBox.Show("An error in the Windows' registry has occurred.\nAll settings are reset.\nThe application will now restart.", "An error has occurred");
                 RestartApp();
+            }
+        }
+
+        protected void DoCommandArgs()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            NameValueCollection nvc = new NameValueCollection
+            {
+                { "generator", "ei" }
+            };
+            if (checkBoxWepSkill1.Checked)
+            {
+                nvc.Add("rotation_weap1", "1");
+            }
+            foreach (string arg in args)
+            {
+                if (File.Exists(arg))
+                {
+                    if (arg.Contains(".zevtc"))
+                    {
+                        HttpUploadFile("https://dps.report/uploadContent", arg, "file", "text/plain", nvc, true);
+                    }
+                }
             }
         }
 
