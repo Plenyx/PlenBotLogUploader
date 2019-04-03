@@ -20,7 +20,7 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private double Version { get; } = 0.5;
+        private double Version { get; } = 0.6;
         private const int maxFileSize = 122880;
 
         public FormMain()
@@ -156,6 +156,25 @@ namespace PlenBotLogUploader
                     chatConnect.ReceiveMessage += ReadMessages;
                     AddToText("> BOT CONNECTED TO TWITCH");
                 }
+                string[] args = Environment.GetCommandLineArgs();
+                NameValueCollection nvc = new NameValueCollection
+                {
+                    { "generator", "ei" }
+                };
+                if (checkBoxWepSkill1.Checked)
+                {
+                    nvc.Add("rotation_weap1", "1");
+                }
+                foreach (string arg in args)
+                {
+                    if (File.Exists(arg))
+                    {
+                        if (arg.Contains(".zevtc"))
+                        {
+                            HttpUploadFile("https://dps.report/uploadContent", arg, "file", "text/plain", nvc, true);
+                        }
+                    }
+                }
             }
             catch
             {
@@ -183,7 +202,7 @@ namespace PlenBotLogUploader
 
         private void AddToText(string s)
         {
-            textBoxUploadInfo.AppendText(s + System.Environment.NewLine);
+            textBoxUploadInfo.AppendText(s + Environment.NewLine);
             textBoxUploadInfo.SelectionStart = textBoxUploadInfo.TextLength;
             textBoxUploadInfo.ScrollToCaret();
         }
@@ -197,15 +216,25 @@ namespace PlenBotLogUploader
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-                WebClient downloader = new WebClient();
-                await downloader.DownloadFileTaskAsync(new Uri(url), @destination);
+                using (WebClient downloader = new WebClient())
+                {
+                    await downloader.DownloadFileTaskAsync(new Uri(url), @destination);
+                }
             }
             catch { /* do nothing */ }
         }
 
-        public async Task<string> DownloadFileAsyncToString(string url) => await new WebClient().DownloadStringTaskAsync(new Uri(url));
+        public async Task<string> DownloadFileAsyncToString(string url)
+        {
+            string response = "";
+            using (WebClient client = new WebClient())
+            {
+                response = await client.DownloadStringTaskAsync(new Uri(url));
+            }
+            return response;
+        }
 
-        public async void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc)
+        public async void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc, bool bypassMessage = false)
         {
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
@@ -213,7 +242,7 @@ namespace PlenBotLogUploader
             wr.ContentType = "multipart/form-data; boundary=" + boundary;
             wr.Method = "POST";
             wr.KeepAlive = true;
-            wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            wr.Credentials = CredentialCache.DefaultCredentials;
             using (Stream rs = wr.GetRequestStream())
             {
                 foreach (string key in nvc.Keys)
@@ -238,16 +267,16 @@ namespace PlenBotLogUploader
             {
                 using (WebResponse wresp = await wr.GetResponseAsync())
                 {
-                    using (Stream stream2 = wresp.GetResponseStream())
+                    using (Stream stream = wresp.GetResponseStream())
                     {
-                        using (StreamReader reader2 = new StreamReader(stream2))
+                        using (StreamReader reader = new StreamReader(stream))
                         {
-                            string response = reader2.ReadToEnd();
-                            string split1 = response.Split(new string[] { "\"permalink\":\"" }, StringSplitOptions.None)[1];
-                            string link = split1.Split(new string[] { "\"" }, StringSplitOptions.None)[0];
+                            string response = reader.ReadToEnd();
+                            string split = response.Split(new string[] { "\"permalink\":\"" }, StringSplitOptions.None)[1];
+                            string link = split.Split(new string[] { "\"" }, StringSplitOptions.None)[0];
                             link = link.Replace("\\", "");
                             File.AppendAllText(GetLocalDir() + "logs.txt", link + "\n");
-                            if (checkBoxPostToTwitch.Checked)
+                            if (checkBoxPostToTwitch.Checked && !bypassMessage)
                             {
                                 AddToText("File uploaded, link received and posted to chat: " + link);
                                 LastLog = link;
@@ -283,7 +312,7 @@ namespace PlenBotLogUploader
                         if (new FileInfo(f).Length >= maxFileSize)
                         {
                             string zipfilelocation = f;
-                            if (!Path.GetFileName(f).Contains(".zip") && !Path.GetFileName(f).Contains(".zevtc"))
+                            if (!Path.GetFileName(f).Contains(".zevtc"))
                             {
                                 zipfilelocation = GetLocalDir() + Path.GetFileName(f) + ".zevtc";
                                 using(ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@f, Path.GetFileName(f)); }
@@ -347,6 +376,7 @@ namespace PlenBotLogUploader
         private void buttonReconnectBot_Click(object sender, EventArgs e)
         {
             chatConnect.ReceiveMessage -= ReadMessages;
+            chatConnect.Dispose();
             chatConnect = null;
             chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text);
             chatConnect.ReceiveMessage += ReadMessages;
@@ -355,8 +385,10 @@ namespace PlenBotLogUploader
 
         private void buttonLogsLocation_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select the arcdps folder containing the combat logs.\nThe folder you are looking for name is arcdps.cbtlogs";
+            FolderBrowserDialog dialog = new FolderBrowserDialog
+            {
+                Description = "Select the arcdps folder containing the combat logs.\nThe folder's you are looking for name is arcdps.cbtlogs"
+            };
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
             {
@@ -376,7 +408,7 @@ namespace PlenBotLogUploader
                     MessageBox.Show("The specified location does not appear to be an arcdps folder.\nCheck your directory and try again.", "An error has occurred");
                 }
             }
-            dialog = null;
+            dialog.Dispose();
         }
 
         private void timerLogsCheck_Tick(object sender, EventArgs e)
@@ -483,7 +515,7 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            string[] messageSplit = e.Message.Split(new string[] { $"#{textBoxChannel.Text} :" }, StringSplitOptions.None);
+            string[] messageSplit = e.Message.Split(new string[] { $"#{textBoxChannel.Text.ToLower()} :" }, StringSplitOptions.None);
             if(messageSplit.Length > 1)
             {
                 string command = messageSplit[1].Split(' ')[0];
@@ -492,7 +524,7 @@ namespace PlenBotLogUploader
                     if(LastLog != "")
                     {
                         AddToText("> LAST LOG COMMAND USED");
-                        await chatConnect.SendChatMessage(textBoxChannel.Text, $"Link to the last log: {LastLog}");
+                        await chatConnect.SendChatMessage(textBoxChannel.Text.ToLower(), $"Link to the last log: {LastLog}");
                     }
                 }
             }

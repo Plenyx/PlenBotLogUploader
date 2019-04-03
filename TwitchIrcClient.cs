@@ -13,6 +13,8 @@ namespace TwitchIRCClient
         public List<string> ChannelNames { get; private set; } = new List<string>();
         public bool Connected { get; set; } = false;
         public EventHandler<IrcMessageEventArgs> ReceiveMessage { get; set; }
+        public Thread ReadMessagesThread { get; private set; }
+        public Thread PingThread { get; private set; }
 
         private string UserName { get; set; }
         private string Password { get; set; }
@@ -65,21 +67,23 @@ namespace TwitchIRCClient
         {
             await OutputStream.WriteLineAsync($"PASS {Password}");
             await OutputStream.WriteLineAsync($"NICK {UserName}");
-            if(LastChannelName != "")
+            if (LastChannelName != "")
             {
                 await OutputStream.WriteLineAsync($"JOIN #{LastChannelName}");
             }
             await OutputStream.FlushAsync();
             Connected = true;
             // ReceiveMessage += MessageListener; // add event listener to received message, see example at the end
-            new Thread(ReadMessages).Start();
-            new Thread(KeepConnectionAlive).Start();
+            ReadMessagesThread = new Thread(ReadMessages);
+            ReadMessagesThread.Start();
+            PingThread = new Thread(KeepConnectionAlive);
+            PingThread.Start();
         }
 
         public async Task<bool> JoinRoom(string channelName, bool partChannel = false)
         {
             channelName = channelName.ToLower();
-            if(ChannelNames.Contains(channelName))
+            if (ChannelNames.Contains(channelName))
             {
                 return false;
             }
@@ -96,7 +100,7 @@ namespace TwitchIRCClient
         public async Task<bool> LeaveRoom(string channelName)
         {
             channelName = channelName.ToLower();
-            if(!ChannelNames.Contains(channelName))
+            if (!ChannelNames.Contains(channelName))
             {
                 return false;
             }
@@ -116,7 +120,7 @@ namespace TwitchIRCClient
         public async Task<bool> SendChatMessage(string channelName, string message)
         {
             channelName = channelName.ToLower();
-            if(!ChannelNames.Contains(channelName))
+            if (!ChannelNames.Contains(channelName))
             {
                 return false;
             }
@@ -129,16 +133,19 @@ namespace TwitchIRCClient
 
         public void Dispose()
         {
-            TcpClient.Close();
+            ReadMessagesThread.Abort();
+            PingThread.Abort();
+            Connected = false;
             InputStream.Dispose();
             OutputStream.Dispose();
+            TcpClient.Close();
         }
 
         private async Task<string> ReadMessage() => await InputStream.ReadLineAsync();
 
         private async void KeepConnectionAlive()
         {
-            while(Connected)
+            while (Connected)
             {
                 Thread.Sleep(PingTimerMS);
                 await SendIrcMessage($"PING {ServerIp}");
@@ -147,10 +154,14 @@ namespace TwitchIRCClient
 
         private async void ReadMessages()
         {
-            while(Connected)
+            while (Connected)
             {
-                string message = await ReadMessage();
-                OnMessageReceived(new IrcMessageEventArgs(message));
+                try
+                {
+                    string message = await ReadMessage();
+                    OnMessageReceived(new IrcMessageEventArgs(message));
+                }
+                catch { /* do nothing */ }
             }
         }
 
@@ -160,7 +171,7 @@ namespace TwitchIRCClient
         /* * Example of an Event Listener to catch chat messages
         protected void MessageListener(object sender, IrcMessageEventArgs e)
         {
-            if(e == null)
+            if (e == null)
             {
                 return;
             }
