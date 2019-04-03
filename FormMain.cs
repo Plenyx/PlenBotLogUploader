@@ -34,9 +34,11 @@ namespace PlenBotLogUploader
             try
             {
                 string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
-                if (float.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out float currentversion))
+                float currentversion = 0;
+                float installedversion = 0;
+                if (float.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out currentversion))
                 {
-                    float.TryParse(Version, NumberStyles.Float, CultureInfo.InvariantCulture, out float installedversion);
+                    float.TryParse(Version, NumberStyles.Float, CultureInfo.InvariantCulture, out installedversion);
                     if (currentversion > installedversion)
                     {
                         DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New version available (v{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
