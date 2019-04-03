@@ -21,7 +21,7 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private double Version { get; } = 0.7;
+        private double Version { get; } = 0.65;
         private const int maxFileSize = 122880;
 
         public FormMain()
@@ -33,32 +33,15 @@ namespace PlenBotLogUploader
         {
             try
             {
-                string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/plenbot-releases/VERSION");
-                if (Double.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out double currentversion))
+                string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
+                if (double.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out double currentversion))
                 {
                     if (currentversion > Version)
                     {
                         DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New version available (v{currentversion.ToString().Replace(',', '.')})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (result == DialogResult.Yes)
                         {
-                            await DownloadFileAsync($"https://github.com/Plenyx/PlenBotLogUploader/raw/master/plenbot-releases/{currentversion.ToString().Replace(',', '.')}/PlenBotLogUploader.exe", $"{GetLocalDir()}/PlenBotLogUploaderUpdate.exe");
-                            if (File.Exists($"{GetLocalDir()}/PlenBotLogUploaderUpdate.exe"))
-                            {
-                                ProcessStartInfo Info = new ProcessStartInfo
-                                {
-                                    Arguments = "/C ping 127.0.0.1 -n 2 && move /Y \"" + GetLocalDir() + "PlenBotLogUploaderUpdate.exe\" \"" + Application.ExecutablePath + "\"",
-                                    WindowStyle = ProcessWindowStyle.Hidden,
-                                    CreateNoWindow = true,
-                                    FileName = "cmd.exe"
-                                };
-                                Process.Start(Info);
-                                notifyIconTray.Visible = false;
-                                Application.Exit();
-                            }
-                            else
-                            {
-                                MessageBox.Show("There has been an error downloading the new version of the Uploader.\nPlease retry again or update it manually.", "An error has occurred");
-                            }
+                            Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
                         }
                     }
                 }
@@ -170,21 +153,24 @@ namespace PlenBotLogUploader
         protected void DoCommandArgs()
         {
             string[] args = Environment.GetCommandLineArgs();
-            NameValueCollection nvc = new NameValueCollection
+            if (args.Length > 0)
             {
-                { "generator", "ei" }
-            };
-            if (checkBoxWepSkill1.Checked)
-            {
-                nvc.Add("rotation_weap1", "1");
-            }
-            foreach (string arg in args)
-            {
-                if (File.Exists(arg))
+                NameValueCollection nvc = new NameValueCollection
                 {
-                    if (arg.Contains(".zevtc"))
+                    { "generator", "ei" }
+                };
+                if (checkBoxWepSkill1.Checked)
+                {
+                    nvc.Add("rotation_weap1", "1");
+                }
+                foreach (string arg in args)
+                {
+                    if (File.Exists(arg))
                     {
-                        HttpUploadFile("https://dps.report/uploadContent", arg, "file", "text/plain", nvc, true);
+                        if (arg.Contains(".zevtc"))
+                        {
+                            HttpUploadFile("https://dps.report/uploadContent", arg, "file", "text/plain", nvc, true);
+                        }
                     }
                 }
             }
@@ -214,21 +200,6 @@ namespace PlenBotLogUploader
         }
 
         private void UpdateLogCount() { labelLocationInfo.Text = "Logs in the directory: " + Logs.Count; }
-
-        public async Task DownloadFileAsync(string url, string destination)
-        {
-            try
-            {
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-                using (WebClient downloader = new WebClient())
-                {
-                    await downloader.DownloadFileTaskAsync(new Uri(url), @destination);
-                }
-            }
-            catch { /* do nothing */ }
-        }
 
         public async Task<string> DownloadFileAsyncToString(string url)
         {

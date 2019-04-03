@@ -1,5 +1,5 @@
 # PlenBotLogUploader
-An open source uploader to dps.report which post the links in Twitch chat or not, depending on the setting.
+An open source uploader to dps.report which post the links to Twitch chat or not, depending on the setting.
 
 *Maintained by Plenyx.*
 
@@ -8,7 +8,7 @@ An open source uploader to dps.report which post the links in Twitch chat or not
 ## TwitchIrcClient
 A client I developed for Irc which Twitch uses.
 
-Initially built on .NET Framework 4.7, but I made it compatible with 4.5 and .NET Core.
+Initially built on .NET Framework 4.7, but I made it compatible with 4.5 and .NET Core 2.1.
 
 *Maintained by Plenyx.*
 
