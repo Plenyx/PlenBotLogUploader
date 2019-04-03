@@ -21,7 +21,7 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private double Version { get; } = 0.65;
+        private string Version { get; } = "0.65";
         private const int maxFileSize = 122880;
 
         public FormMain()
@@ -34,11 +34,12 @@ namespace PlenBotLogUploader
             try
             {
                 string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
-                if (double.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out double currentversion))
+                if (float.TryParse(response, NumberStyles.Float, CultureInfo.InvariantCulture, out float currentversion))
                 {
-                    if (currentversion > Version)
+                    float.TryParse(Version, NumberStyles.Float, CultureInfo.InvariantCulture, out float installedversion);
+                    if (currentversion > installedversion)
                     {
-                        DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New version available (v{currentversion.ToString().Replace(',', '.')})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                        DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New version available (v{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (result == DialogResult.Yes)
                         {
                             Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
