@@ -1,4 +1,4 @@
-# PlenBotLogUploader
+# PlenBotLogUploader [![Build status](https://ci.appveyor.com/api/projects/status/qdx2bmsj54yg0c0y?svg=true)](https://ci.appveyor.com/project/Plenyx/plenbotloguploader)
 An open source uploader to dps.report which post the links to Twitch chat or not, depending on the setting.
 
 *Maintained by Plenyx.*
