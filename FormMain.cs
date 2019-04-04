@@ -21,7 +21,7 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private string Version { get; } = "1.1";
+        private string Version { get; } = "1.2";
         private const int maxFileSize = 122880;
 
         public FormMain()
