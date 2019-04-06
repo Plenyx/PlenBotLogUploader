@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Web.Script.Serialization;
 using Microsoft.Win32;
 using TwitchIRCClient;
 
@@ -242,9 +243,8 @@ namespace PlenBotLogUploader
                         using (StreamReader reader = new StreamReader(stream))
                         {
                             string response = reader.ReadToEnd();
-                            string split = response.Split(new string[] { "\"permalink\":\"" }, StringSplitOptions.None)[1];
-                            string link = split.Split(new string[] { "\"" }, StringSplitOptions.None)[0];
-                            link = link.Replace("\\", "");
+                            DPSReportJSON reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSON>(response);
+                            string link = reportJSON.permalink;
                             File.AppendAllText(GetLocalDir() + "logs.txt", link + "\n");
                             if (checkBoxTrayNotification.Checked)
                             {
@@ -295,7 +295,8 @@ namespace PlenBotLogUploader
                             {
                                 NameValueCollection nvc = new NameValueCollection
                                 {
-                                    { "generator", "ei" }
+                                    { "generator", "ei" },
+                                    { "json", "1" }
                                 };
                                 if (checkBoxWepSkill1.Checked)
                                 {
