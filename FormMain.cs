@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Web.Script.Serialization;
 using Microsoft.Win32;
 using TwitchIRCClient;
+using PlenBotLogUploader.DPSReport;
 
 namespace PlenBotLogUploader
 {

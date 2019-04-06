@@ -78,7 +78,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DPSReportJSON.cs" />
+    <Compile Include="DPSReport\DPSReportJSON.cs" />
+    <Compile Include="DPSReport\DPSReportJSONEncounter.cs" />
+    <Compile Include="DPSReport\DPSReportJSONevtc.cs" />
+    <Compile Include="DPSReport\DPSReportJSONPlayers.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
