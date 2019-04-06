@@ -244,21 +244,20 @@ namespace PlenBotLogUploader
                         {
                             string response = reader.ReadToEnd();
                             DPSReportJSON reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSON>(response);
-                            string link = reportJSON.permalink;
-                            File.AppendAllText(GetLocalDir() + "logs.txt", link + "\n");
+                            File.AppendAllText(GetLocalDir() + "logs.txt", reportJSON.permalink + "\n");
                             if (checkBoxTrayNotification.Checked)
                             {
-                                ShowBalloon("New log uploaded", link, 4500);
+                                ShowBalloon("New log uploaded", reportJSON.permalink, 4500);
                             }
                             if (checkBoxPostToTwitch.Checked && !bypassMessage)
                             {
-                                AddToText("File uploaded, link received and posted to chat: " + link);
-                                LastLog = link;
-                                await chatConnect.SendChatMessage(textBoxChannel.Text, "Link to the log: " + link);
+                                AddToText("File uploaded, link received and posted to chat: " + reportJSON.permalink);
+                                LastLog = reportJSON.permalink;
+                                await chatConnect.SendChatMessage(textBoxChannel.Text, "Link to the log: " + reportJSON.permalink);
                             }
                             else
                             {
-                                AddToText("File uploaded, link received: " + link);
+                                AddToText("File uploaded, link received: " + reportJSON.permalink);
                             }
                         }
                     }
