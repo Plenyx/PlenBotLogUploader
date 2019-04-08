@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Web.Script.Serialization;
 using Microsoft.Win32;
 using TwitchIRCClient;
@@ -23,7 +22,7 @@ namespace PlenBotLogUploader
         private List<string> Logs { get; set; } = new List<string>();
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
-        private string Version { get; } = "1.2";
+        private string Version { get; } = "1.3";
         private const int maxFileSize = 122880;
 
         public FormMain()
@@ -164,21 +163,29 @@ namespace PlenBotLogUploader
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 0)
             {
-                NameValueCollection nvc = new NameValueCollection
+                Dictionary<string, string> postData = new Dictionary<string, string>
                 {
                     { "generator", "ei" }
                 };
                 if (checkBoxWepSkill1.Checked)
                 {
-                    nvc.Add("rotation_weap1", "1");
+                    postData.Add("rotation_weap1", "1");
                 }
                 foreach (string arg in args)
                 {
+                    if (arg == Application.ExecutablePath)
+                    {
+                        continue;
+                    }
                     if (File.Exists(arg))
                     {
                         if (arg.Contains(".zevtc"))
                         {
-                            HttpUploadFile("https://dps.report/uploadContent", arg, "file", "text/plain", nvc, true);
+                            HttpUploadFileToDPSReport(arg, postData, true);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Ignoring file {Path.GetFileName(arg)}, file format not supported.\nUse .zevtc format.", "File not supported");
                         }
                     }
                 }
@@ -199,32 +206,29 @@ namespace PlenBotLogUploader
         public async Task<string> DownloadFileAsyncToString(string url)
         {
             string response = "";
-            using (WebClient client = new WebClient())
-            {
-                response = await client.DownloadStringTaskAsync(new Uri(url));
-            }
+            using (WebClient client = new WebClient()) { response = await client.DownloadStringTaskAsync(new Uri(url)); }
             return response;
         }
 
-        public async void HttpUploadFile(string url, string file, string paramName, string contentType, NameValueCollection nvc, bool bypassMessage = false)
+        public async void HttpUploadFileToDPSReport(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("https://dps.report/uploadContent");
             wr.ContentType = "multipart/form-data; boundary=" + boundary;
             wr.Method = "POST";
             wr.KeepAlive = true;
             wr.Credentials = CredentialCache.DefaultCredentials;
             using (Stream rs = wr.GetRequestStream())
             {
-                foreach (string key in nvc.Keys)
+                foreach (string key in postData.Keys)
                 {
                     rs.Write(boundarybytes, 0, boundarybytes.Length);
-                    byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes($"Content-Disposition: form-data; name=\"{key}\"\r\n\r\n{nvc[key]}");
+                    byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes($"Content-Disposition: form-data; name=\"{key}\"\r\n\r\n{postData[key]}");
                     rs.Write(formitembytes, 0, formitembytes.Length);
                 }
                 rs.Write(boundarybytes, 0, boundarybytes.Length);
-                byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes($"Content-Disposition: form-data; name=\"{paramName}\"; filename=\"{file}\"\r\nContent-Type: {contentType}\r\n\r\n");
+                byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes($"Content-Disposition: form-data; name=\"file\"; filename=\"{file}\"\r\nContent-Type: text/plain\r\n\r\n");
                 rs.Write(headerbytes, 0, headerbytes.Length);
                 using (FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
                 {
@@ -244,21 +248,28 @@ namespace PlenBotLogUploader
                         using (StreamReader reader = new StreamReader(stream))
                         {
                             string response = reader.ReadToEnd();
-                            DPSReportJSON reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSON>(response);
-                            File.AppendAllText(GetLocalDir() + "logs.txt", reportJSON.permalink + "\n");
-                            if (checkBoxTrayNotification.Checked)
+                            try
                             {
-                                ShowBalloon("New log uploaded", reportJSON.permalink, 4500);
+                                DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
+                                File.AppendAllText(GetLocalDir() + "logs.txt", reportJSON.permalink + "\n");
+                                if (checkBoxTrayNotification.Checked)
+                                {
+                                    ShowBalloon("New log uploaded", reportJSON.permalink, 4500);
+                                }
+                                if (checkBoxPostToTwitch.Checked && !bypassMessage)
+                                {
+                                    AddToText("File uploaded, link received and posted to chat: " + reportJSON.permalink);
+                                    LastLog = reportJSON.permalink;
+                                    await chatConnect.SendChatMessage(textBoxChannel.Text, "Link to the log: " + reportJSON.permalink);
+                                }
+                                else
+                                {
+                                    AddToText("File uploaded, link received: " + reportJSON.permalink);
+                                }
                             }
-                            if (checkBoxPostToTwitch.Checked && !bypassMessage)
+                            catch
                             {
-                                AddToText("File uploaded, link received and posted to chat: " + reportJSON.permalink);
-                                LastLog = reportJSON.permalink;
-                                await chatConnect.SendChatMessage(textBoxChannel.Text, "Link to the log: " + reportJSON.permalink);
-                            }
-                            else
-                            {
-                                AddToText("File uploaded, link received: " + reportJSON.permalink);
+                                AddToText($"Unable to upload file {file}, dps.report responded with invalid permanent link");
                             }
                         }
                     }
@@ -293,16 +304,16 @@ namespace PlenBotLogUploader
                             }
                             try
                             {
-                                NameValueCollection nvc = new NameValueCollection
+                                Dictionary<string, string> postData = new Dictionary<string, string>
                                 {
                                     { "generator", "ei" },
                                     { "json", "1" }
                                 };
                                 if (checkBoxWepSkill1.Checked)
                                 {
-                                    nvc.Add("rotation_weap1", "1");
+                                    postData.Add("rotation_weap1", "1");
                                 }
-                                HttpUploadFile("https://dps.report/uploadContent", zipfilelocation, "file", "text/plain", nvc);
+                                HttpUploadFileToDPSReport(zipfilelocation, postData);
                             }
                             catch
                             {
