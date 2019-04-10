@@ -58,6 +58,7 @@
             this.textBoxUploadInfo.MaxLength = 9999999;
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
+            this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 351);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
@@ -67,7 +68,6 @@
             this.textBoxChannel.Name = "textBoxChannel";
             this.textBoxChannel.Size = new System.Drawing.Size(188, 20);
             this.textBoxChannel.TabIndex = 2;
-            this.textBoxChannel.TextChanged += new System.EventHandler(this.textBoxChannel_TextChanged);
             // 
             // groupBox1
             // 
@@ -93,7 +93,6 @@
             this.checkBoxPostToTwitch.TabIndex = 6;
             this.checkBoxPostToTwitch.Text = "post links to the Twitch chat";
             this.checkBoxPostToTwitch.UseVisualStyleBackColor = true;
-            this.checkBoxPostToTwitch.CheckedChanged += new System.EventHandler(this.checkBoxPostToTwitch_CheckedChanged);
             // 
             // checkBoxWepSkill1
             // 
@@ -104,7 +103,6 @@
             this.checkBoxWepSkill1.TabIndex = 5;
             this.checkBoxWepSkill1.Text = "render weapon skill 1";
             this.checkBoxWepSkill1.UseVisualStyleBackColor = true;
-            this.checkBoxWepSkill1.CheckedChanged += new System.EventHandler(this.checkBoxWepSkill1_CheckedChanged);
             // 
             // buttonReconnectBot
             // 
@@ -125,7 +123,6 @@
             this.checkBoxUploadLogs.TabIndex = 3;
             this.checkBoxUploadLogs.Text = "upload logs";
             this.checkBoxUploadLogs.UseVisualStyleBackColor = true;
-            this.checkBoxUploadLogs.CheckedChanged += new System.EventHandler(this.checkBoxUploadAll_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -217,7 +214,6 @@
             this.checkBoxTrayNotification.TabIndex = 2;
             this.checkBoxTrayNotification.Text = "show notifications";
             this.checkBoxTrayNotification.UseVisualStyleBackColor = true;
-            this.checkBoxTrayNotification.CheckedChanged += new System.EventHandler(this.checkBoxTrayNotification_CheckedChanged);
             // 
             // checkBoxTrayMinimiseToIcon
             // 
@@ -229,7 +225,6 @@
             this.checkBoxTrayMinimiseToIcon.TabIndex = 1;
             this.checkBoxTrayMinimiseToIcon.Text = "minimise to icon";
             this.checkBoxTrayMinimiseToIcon.UseVisualStyleBackColor = true;
-            this.checkBoxTrayMinimiseToIcon.CheckedChanged += new System.EventHandler(this.checkBoxTrayMinimiseToIcon_CheckedChanged);
             // 
             // checkBoxTrayEnable
             // 
@@ -240,7 +235,6 @@
             this.checkBoxTrayEnable.TabIndex = 0;
             this.checkBoxTrayEnable.Text = "enable icon in the taskbar";
             this.checkBoxTrayEnable.UseVisualStyleBackColor = true;
-            this.checkBoxTrayEnable.CheckedChanged += new System.EventHandler(this.checkBoxTrayEnable_CheckedChanged);
             // 
             // notifyIconTray
             // 
@@ -265,7 +259,6 @@
             this.Text = "PlenBot Log Uploader";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
-            this.Load += new System.EventHandler(this.FormMain_Load);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

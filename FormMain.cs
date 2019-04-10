@@ -23,15 +23,12 @@ namespace PlenBotLogUploader
         private string LogsLocation { get; set; } = "";
         private string LastLog { get; set; } = "";
         private string Version { get; } = "1.3";
-        private const int maxFileSize = 122880;
+
+        private const int minFileSize = 122880;
 
         public FormMain()
         {
             InitializeComponent();
-        }
-
-        private void FormMain_Load(object sender, EventArgs e)
-        {
             new Thread(NewVersionCheck).Start();
             try
             {
@@ -65,7 +62,7 @@ namespace PlenBotLogUploader
                 }
                 if (RegistryAccess.GetValue("trayInfo") == null)
                 {
-                    RegistryAccess.SetValue("trayInfo", 0);
+                    RegistryAccess.SetValue("trayInfo", 1);
                 }
                 LogsLocation = (string)RegistryAccess.GetValue("logsLocation", "");
                 if (LogsLocation == "")
@@ -80,7 +77,7 @@ namespace PlenBotLogUploader
                     buttonStopChecker.Enabled = true;
                     timerLogsCheck.Start();
                 }
-                textBoxChannel.Text = (string)RegistryAccess.GetValue("channel", "");
+                textBoxChannel.Text = ((string)RegistryAccess.GetValue("channel", "")).ToLower();
                 if ((int)RegistryAccess.GetValue("uploadAll", 0) == 1)
                 {
                     checkBoxUploadLogs.Checked = true;
@@ -97,31 +94,40 @@ namespace PlenBotLogUploader
                 if ((int)RegistryAccess.GetValue("trayEnabled", 0) == 1)
                 {
                     checkBoxTrayEnable.Checked = true;
+                    checkBoxTrayMinimiseToIcon.Enabled = true;
+                    checkBoxTrayNotification.Enabled = true;
                     notifyIconTray.Visible = true;
                 }
-                if ((int)RegistryAccess.GetValue("trayMinimise", 0) == 1)
+                if ((int)RegistryAccess.GetValue("trayMinimise", 0) == 1 && checkBoxTrayEnable.Checked)
                 {
                     checkBoxTrayMinimiseToIcon.Checked = true;
                 }
-                if ((int)RegistryAccess.GetValue("trayInfo", 0) == 1)
+                if ((int)RegistryAccess.GetValue("trayInfo", 0) == 1 && checkBoxTrayEnable.Checked)
                 {
                     checkBoxTrayNotification.Checked = true;
                     ShowBalloon("Tray information", "Tray information enabled.", 4500);
                 }
-                string channel = (string)RegistryAccess.GetValue("channel", "");
-                if (channel != "")
+                if (textBoxChannel.Text != "")
                 {
-                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", channel);
+                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text.ToLower());
                     chatConnect.ReceiveMessage += ReadMessages;
-                    AddToText("> BOT CONNECTED TO THE CHANNEL " + channel.ToUpper());
+                    AddToText("> BOT CONNECTING TO THE CHANNEL " + textBoxChannel.Text.ToUpper());
                 }
                 else
                 {
                     chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
                     chatConnect.ReceiveMessage += ReadMessages;
-                    AddToText("> BOT CONNECTED TO TWITCH");
+                    AddToText("> BOT CONNECTING TO TWITCH");
                 }
                 new Thread(DoCommandArgs).Start();
+                /* Subscribe to field changes events */
+                textBoxChannel.TextChanged += new EventHandler(textBoxChannel_TextChanged);
+                checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
+                checkBoxWepSkill1.CheckedChanged += new EventHandler(checkBoxWepSkill1_CheckedChanged);
+                checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
+                checkBoxTrayNotification.CheckedChanged += new EventHandler(checkBoxTrayNotification_CheckedChanged);
+                checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
+                checkBoxTrayEnable.CheckedChanged += new EventHandler(checkBoxTrayEnable_CheckedChanged);
             }
             catch
             {
@@ -165,7 +171,8 @@ namespace PlenBotLogUploader
             {
                 Dictionary<string, string> postData = new Dictionary<string, string>
                 {
-                    { "generator", "ei" }
+                    { "generator", "ei" },
+                    { "json", "1" }
                 };
                 if (checkBoxWepSkill1.Checked)
                 {
@@ -260,7 +267,7 @@ namespace PlenBotLogUploader
                                 {
                                     AddToText("File uploaded, link received and posted to chat: " + reportJSON.permalink);
                                     LastLog = reportJSON.permalink;
-                                    await chatConnect.SendChatMessage(textBoxChannel.Text, "Link to the log: " + reportJSON.permalink);
+                                    await chatConnect.SendChatMessage(textBoxChannel.Text.ToLower(), "Link to the log: " + reportJSON.permalink);
                                 }
                                 else
                                 {
@@ -294,7 +301,7 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        if (new FileInfo(f).Length >= maxFileSize)
+                        if (new FileInfo(f).Length >= minFileSize)
                         {
                             string zipfilelocation = f;
                             if (!Path.GetFileName(f).Contains(".zevtc"))
@@ -364,9 +371,9 @@ namespace PlenBotLogUploader
             chatConnect.ReceiveMessage -= ReadMessages;
             chatConnect.Dispose();
             chatConnect = null;
-            chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text);
+            chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text.ToLower());
             chatConnect.ReceiveMessage += ReadMessages;
-            AddToText("> BOT RECONNECTED");
+            AddToText("> BOT RECONNECTING...");
         }
 
         private void buttonLogsLocation_Click(object sender, EventArgs e)
@@ -461,7 +468,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void textBoxChannel_TextChanged(object sender, EventArgs e) => RegistryAccess.SetValue("channel", textBoxChannel.Text);
+        private void textBoxChannel_TextChanged(object sender, EventArgs e) => RegistryAccess.SetValue("channel", textBoxChannel.Text.ToLower());
 
         private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("wepSkill1", checkBoxUploadLogs.Checked ? 1 : 0);
 
@@ -507,6 +514,10 @@ namespace PlenBotLogUploader
             if (e == null)
             {
                 return;
+            }
+            if (e.Message.Equals(":tmi.twitch.tv 001 gw2loguploader :Welcome, GLHF!"))
+            {
+                AddToText("> CONNECTION ESTABILISHED");
             }
             string[] messageSplit = e.Message.Split(new string[] { $"#{textBoxChannel.Text.ToLower()} :" }, StringSplitOptions.None);
             if (messageSplit.Length > 1)
