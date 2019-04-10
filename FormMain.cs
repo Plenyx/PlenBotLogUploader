@@ -296,10 +296,14 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void TreeScan(string sDir)
+        private void TreeScan(string directory)
         {
-            foreach (string f in Directory.GetFiles(sDir))
+            foreach (string f in Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories))
             {
+                if (!f.EndsWith(".evtc") && !f.EndsWith(".zevtc"))
+                {
+                    continue;
+                }
                 if (!Logs.Contains(f))
                 {
                     Logs.Add(f);
@@ -312,10 +316,12 @@ namespace PlenBotLogUploader
                         if (new FileInfo(f).Length >= minFileSize)
                         {
                             string zipfilelocation = f;
-                            if (!Path.GetFileName(f).Contains(".zevtc"))
+                            bool archived = false;
+                            if (!Path.GetFileName(f).EndsWith(".zevtc"))
                             {
                                 zipfilelocation = GetLocalDir() + Path.GetFileName(f) + ".zevtc";
                                 using(ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@f, Path.GetFileName(f)); }
+                                archived = true;
                             }
                             try
                             {
@@ -334,6 +340,13 @@ namespace PlenBotLogUploader
                             {
                                 throw;
                             }
+                            finally
+                            {
+                                if (archived)
+                                {
+                                    File.Delete(GetLocalDir() + Path.GetFileName(f) + ".zevtc");
+                                }
+                            }
                         }
                     }
                     catch
@@ -343,13 +356,17 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            foreach (string d in Directory.GetDirectories(sDir)) { TreeScan(d); }
         }
 
-        private void TreeScanStart(string sDir)
+        private void TreeScanStart(string directory)
         {
-            foreach (string f in Directory.GetFiles(sDir)) { Logs.Add(f); }
-            foreach (string d in Directory.GetDirectories(sDir)) { TreeScanStart(d); }
+            foreach (string f in Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories))
+            {
+                if (f.EndsWith(".evtc") || f.EndsWith(".zevtc"))
+                {
+                    Logs.Add(f);
+                }
+            }
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
