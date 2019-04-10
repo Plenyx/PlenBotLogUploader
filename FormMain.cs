@@ -25,9 +25,12 @@ namespace PlenBotLogUploader
         private string Version { get; } = "1.3";
 
         private const int minFileSize = 122880;
+        private delegate void AddToTextDelegate(string s);
+        private AddToTextDelegate AddToTextCall;
 
         public FormMain()
         {
+            AddToTextCall = AddToText;
             InitializeComponent();
             new Thread(NewVersionCheck).Start();
             try
@@ -203,9 +206,18 @@ namespace PlenBotLogUploader
 
         private void AddToText(string s)
         {
-            textBoxUploadInfo.AppendText(s + Environment.NewLine);
-            textBoxUploadInfo.SelectionStart = textBoxUploadInfo.TextLength;
-            textBoxUploadInfo.ScrollToCaret();
+            if (textBoxUploadInfo.InvokeRequired)
+            {
+                // invokes the same function on the main thread
+                textBoxUploadInfo.Invoke(AddToTextCall, s);
+            }
+            else
+            {
+                textBoxUploadInfo.AppendText(s + Environment.NewLine);
+                textBoxUploadInfo.SelectionStart = textBoxUploadInfo.TextLength;
+                textBoxUploadInfo.ScrollToCaret();
+            }
+            
         }
 
         private void UpdateLogCount() { labelLocationInfo.Text = "Logs in the directory: " + Logs.Count; }
@@ -259,10 +271,6 @@ namespace PlenBotLogUploader
                             {
                                 DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
                                 File.AppendAllText(GetLocalDir() + "logs.txt", reportJSON.permalink + "\n");
-                                if (checkBoxTrayNotification.Checked)
-                                {
-                                    ShowBalloon("New log uploaded", reportJSON.permalink, 4500);
-                                }
                                 if (checkBoxPostToTwitch.Checked && !bypassMessage)
                                 {
                                     AddToText("File uploaded, link received and posted to chat: " + reportJSON.permalink);
