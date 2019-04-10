@@ -13,7 +13,7 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if(disposing && (components != null))
+            if (disposing && (components != null))
                 components.Dispose();
             base.Dispose(disposing);
         }
@@ -36,12 +36,8 @@
             this.buttonReconnectBot = new System.Windows.Forms.Button();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.buttonStopChecker = new System.Windows.Forms.Button();
-            this.buttonRestart = new System.Windows.Forms.Button();
             this.labelLocationInfo = new System.Windows.Forms.Label();
-            this.buttonStartChecker = new System.Windows.Forms.Button();
             this.buttonLogsLocation = new System.Windows.Forms.Button();
-            this.timerLogsCheck = new System.Windows.Forms.Timer(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBoxTrayNotification = new System.Windows.Forms.CheckBox();
             this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
@@ -126,38 +122,14 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.buttonStopChecker);
-            this.groupBox2.Controls.Add(this.buttonRestart);
             this.groupBox2.Controls.Add(this.labelLocationInfo);
-            this.groupBox2.Controls.Add(this.buttonStartChecker);
             this.groupBox2.Controls.Add(this.buttonLogsLocation);
             this.groupBox2.Location = new System.Drawing.Point(426, 165);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 103);
+            this.groupBox2.Size = new System.Drawing.Size(200, 75);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Logs directory and checker";
-            // 
-            // buttonStopChecker
-            // 
-            this.buttonStopChecker.Enabled = false;
-            this.buttonStopChecker.Location = new System.Drawing.Point(72, 74);
-            this.buttonStopChecker.Name = "buttonStopChecker";
-            this.buttonStopChecker.Size = new System.Drawing.Size(57, 23);
-            this.buttonStopChecker.TabIndex = 4;
-            this.buttonStopChecker.Text = "Stop";
-            this.buttonStopChecker.UseVisualStyleBackColor = true;
-            this.buttonStopChecker.Click += new System.EventHandler(this.buttonStopChecker_Click);
-            // 
-            // buttonRestart
-            // 
-            this.buttonRestart.Location = new System.Drawing.Point(138, 74);
-            this.buttonRestart.Name = "buttonRestart";
-            this.buttonRestart.Size = new System.Drawing.Size(57, 23);
-            this.buttonRestart.TabIndex = 2;
-            this.buttonRestart.Text = "Restart";
-            this.buttonRestart.UseVisualStyleBackColor = true;
-            this.buttonRestart.Click += new System.EventHandler(this.buttonRestart_Click);
             // 
             // labelLocationInfo
             // 
@@ -166,16 +138,6 @@
             this.labelLocationInfo.Size = new System.Drawing.Size(188, 23);
             this.labelLocationInfo.TabIndex = 1;
             this.labelLocationInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // buttonStartChecker
-            // 
-            this.buttonStartChecker.Location = new System.Drawing.Point(6, 74);
-            this.buttonStartChecker.Name = "buttonStartChecker";
-            this.buttonStartChecker.Size = new System.Drawing.Size(57, 23);
-            this.buttonStartChecker.TabIndex = 3;
-            this.buttonStartChecker.Text = "Start";
-            this.buttonStartChecker.UseVisualStyleBackColor = true;
-            this.buttonStartChecker.Click += new System.EventHandler(this.buttonStartChecker_Click);
             // 
             // buttonLogsLocation
             // 
@@ -187,17 +149,12 @@
             this.buttonLogsLocation.UseVisualStyleBackColor = true;
             this.buttonLogsLocation.Click += new System.EventHandler(this.buttonLogsLocation_Click);
             // 
-            // timerLogsCheck
-            // 
-            this.timerLogsCheck.Interval = 60000;
-            this.timerLogsCheck.Tick += new System.EventHandler(this.timerLogsCheck_Tick);
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.checkBoxTrayNotification);
             this.groupBox3.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBox3.Controls.Add(this.checkBoxTrayEnable);
-            this.groupBox3.Location = new System.Drawing.Point(426, 274);
+            this.groupBox3.Location = new System.Drawing.Point(432, 246);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(200, 89);
             this.groupBox3.TabIndex = 6;
@@ -279,11 +236,7 @@
         private System.Windows.Forms.CheckBox checkBoxWepSkill1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button buttonLogsLocation;
-        private System.Windows.Forms.Button buttonRestart;
         private System.Windows.Forms.Label labelLocationInfo;
-        private System.Windows.Forms.Timer timerLogsCheck;
-        private System.Windows.Forms.Button buttonStopChecker;
-        private System.Windows.Forms.Button buttonStartChecker;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox checkBoxTrayNotification;
         private System.Windows.Forms.CheckBox checkBoxTrayMinimiseToIcon;
