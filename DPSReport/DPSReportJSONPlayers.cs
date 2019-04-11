@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader.DPSReport
 {
-    class DPSReportJSONPlayers
+    public class DPSReportJSONPlayers
     {
         public string display_name { get; set; }
         public string character_name { get; set; }

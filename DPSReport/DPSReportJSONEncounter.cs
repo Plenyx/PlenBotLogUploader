@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader.DPSReport
 {
-    class DPSReportJSONEncounter
+    public class DPSReportJSONEncounter
     {
         public bool? success { get; set; }
         public int? duration { get; set; }

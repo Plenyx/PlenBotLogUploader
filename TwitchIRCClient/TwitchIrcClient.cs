@@ -9,13 +9,15 @@ namespace TwitchIRCClient
 {
     class TwitchIrcClient : IDisposable
     {
+        // public
         public string LastChannelName { get; private set; }
         public List<string> ChannelNames { get; private set; } = new List<string>();
+        public bool Connecting { get; set; } = false;
         public bool Connected { get; set; } = false;
-        public EventHandler<IrcMessageEventArgs> ReceiveMessage { get; set; }
         public Thread ReadMessagesThread { get; private set; }
-        public Thread PingThread { get; private set; }
-
+        public event EventHandler<IrcMessageEventArgs> ReceiveMessage;
+        public event EventHandler<IrcConnectionChangedEventArgs> ConnectionChange;
+        // private
         private string UserName { get; set; }
         private string Password { get; set; }
         private string ServerIp { get; set; }
@@ -23,7 +25,6 @@ namespace TwitchIRCClient
         private TcpClient TcpClient { get; set; }
         private StreamReader InputStream { get; set; }
         private StreamWriter OutputStream { get; set; }
-        private const int PingTimerMS = 240000;
 
         public TwitchIrcClient(string userName, string password)
         {
@@ -72,12 +73,10 @@ namespace TwitchIRCClient
                 await OutputStream.WriteLineAsync($"JOIN #{LastChannelName}");
             }
             await OutputStream.FlushAsync();
-            Connected = true;
-            // ReceiveMessage += MessageListener; // add event listener to received message, see example at the end
+            Connecting = true;
+            ReceiveMessage += MessageListener;
             ReadMessagesThread = new Thread(ReadMessages);
             ReadMessagesThread.Start();
-            PingThread = new Thread(KeepConnectionAlive);
-            PingThread.Start();
         }
 
         public async Task<bool> JoinRoom(string channelName, bool partChannel = false)
@@ -134,7 +133,7 @@ namespace TwitchIRCClient
         public void Dispose()
         {
             ReadMessagesThread.Abort();
-            PingThread.Abort();
+            Connecting = false;
             Connected = false;
             InputStream.Dispose();
             OutputStream.Dispose();
@@ -143,18 +142,9 @@ namespace TwitchIRCClient
 
         private async Task<string> ReadMessage() => await InputStream.ReadLineAsync();
 
-        private async void KeepConnectionAlive()
-        {
-            while (Connected)
-            {
-                Thread.Sleep(PingTimerMS);
-                await SendIrcMessage($"PING {ServerIp}");
-            }
-        }
-
         private async void ReadMessages()
         {
-            while (Connected)
+            while (Connecting || Connected)
             {
                 try
                 {
@@ -167,15 +157,21 @@ namespace TwitchIRCClient
 
         protected void OnMessageReceived(IrcMessageEventArgs e) => ReceiveMessage?.Invoke(this, e);
 
-
-        /* * Example of an Event Listener to catch chat messages
-        protected void MessageListener(object sender, IrcMessageEventArgs e)
+        protected async void MessageListener(object sender, IrcMessageEventArgs e)
         {
             if (e == null)
             {
                 return;
             }
-            Console.WriteLine(e.Message);
-        }*/
+            if (!Connected && e.Message.Equals($":tmi.twitch.tv 001 {UserName} :Welcome, GLHF!"))
+            {
+                Connected = true;
+                ConnectionChange?.Invoke(this, new IrcConnectionChangedEventArgs(true));
+            }
+            else if (Connected && e.Message.Equals("PING :tmi.twitch.tv"))
+            {
+                await SendIrcMessage("PONG :tmi.twitch.tv");
+            }
+        }
     }
 }

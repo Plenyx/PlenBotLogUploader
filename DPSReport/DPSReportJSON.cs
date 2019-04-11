@@ -2,7 +2,7 @@
 
 namespace PlenBotLogUploader.DPSReport
 {
-    class DPSReportJSON
+    public class DPSReportJSON
     {
         public string id { get; set; }
         public string permalink { get; set; }

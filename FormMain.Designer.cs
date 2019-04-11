@@ -43,9 +43,12 @@
             this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
             this.checkBoxTrayEnable = new System.Windows.Forms.CheckBox();
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.buttonPingSettings = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxUploadInfo
@@ -55,7 +58,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 351);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 400);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // textBoxChannel
@@ -154,7 +157,7 @@
             this.groupBox3.Controls.Add(this.checkBoxTrayNotification);
             this.groupBox3.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBox3.Controls.Add(this.checkBoxTrayEnable);
-            this.groupBox3.Location = new System.Drawing.Point(432, 246);
+            this.groupBox3.Location = new System.Drawing.Point(426, 246);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(200, 89);
             this.groupBox3.TabIndex = 6;
@@ -199,11 +202,32 @@
             this.notifyIconTray.Text = "PlenBot Log Uploader";
             this.notifyIconTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconTray_MouseDoubleClick);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.buttonPingSettings);
+            this.groupBox4.Location = new System.Drawing.Point(426, 342);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(200, 70);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Other settings";
+            // 
+            // buttonPingSettings
+            // 
+            this.buttonPingSettings.Location = new System.Drawing.Point(11, 19);
+            this.buttonPingSettings.Name = "buttonPingSettings";
+            this.buttonPingSettings.Size = new System.Drawing.Size(121, 23);
+            this.buttonPingSettings.TabIndex = 0;
+            this.buttonPingSettings.Text = "Remote server ping";
+            this.buttonPingSettings.UseVisualStyleBackColor = true;
+            this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 369);
+            this.ClientSize = new System.Drawing.Size(633, 418);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -222,6 +246,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -243,6 +268,8 @@
         private System.Windows.Forms.CheckBox checkBoxTrayEnable;
         private System.Windows.Forms.NotifyIcon notifyIconTray;
         private System.Windows.Forms.CheckBox checkBoxPostToTwitch;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button buttonPingSettings;
     }
 }
 
