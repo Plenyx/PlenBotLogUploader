@@ -45,6 +45,7 @@
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.buttonPingSettings = new System.Windows.Forms.Button();
+            this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -70,6 +71,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBoxFileSizeIgnore);
             this.groupBox1.Controls.Add(this.checkBoxPostToTwitch);
             this.groupBox1.Controls.Add(this.checkBoxWepSkill1);
             this.groupBox1.Controls.Add(this.buttonReconnectBot);
@@ -77,7 +79,7 @@
             this.groupBox1.Controls.Add(this.textBoxChannel);
             this.groupBox1.Location = new System.Drawing.Point(426, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 147);
+            this.groupBox1.Size = new System.Drawing.Size(200, 169);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Twitch channel";
@@ -105,7 +107,7 @@
             // 
             // buttonReconnectBot
             // 
-            this.buttonReconnectBot.Location = new System.Drawing.Point(6, 114);
+            this.buttonReconnectBot.Location = new System.Drawing.Point(6, 137);
             this.buttonReconnectBot.Name = "buttonReconnectBot";
             this.buttonReconnectBot.Size = new System.Drawing.Size(188, 23);
             this.buttonReconnectBot.TabIndex = 4;
@@ -127,7 +129,7 @@
             // 
             this.groupBox2.Controls.Add(this.labelLocationInfo);
             this.groupBox2.Controls.Add(this.buttonLogsLocation);
-            this.groupBox2.Location = new System.Drawing.Point(426, 165);
+            this.groupBox2.Location = new System.Drawing.Point(426, 187);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 75);
             this.groupBox2.TabIndex = 5;
@@ -157,7 +159,7 @@
             this.groupBox3.Controls.Add(this.checkBoxTrayNotification);
             this.groupBox3.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBox3.Controls.Add(this.checkBoxTrayEnable);
-            this.groupBox3.Location = new System.Drawing.Point(426, 246);
+            this.groupBox3.Location = new System.Drawing.Point(426, 268);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(200, 89);
             this.groupBox3.TabIndex = 6;
@@ -205,22 +207,32 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.buttonPingSettings);
-            this.groupBox4.Location = new System.Drawing.Point(426, 342);
+            this.groupBox4.Location = new System.Drawing.Point(426, 363);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(200, 70);
+            this.groupBox4.Size = new System.Drawing.Size(200, 49);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Other settings";
             // 
             // buttonPingSettings
             // 
-            this.buttonPingSettings.Location = new System.Drawing.Point(11, 19);
+            this.buttonPingSettings.Location = new System.Drawing.Point(9, 19);
             this.buttonPingSettings.Name = "buttonPingSettings";
-            this.buttonPingSettings.Size = new System.Drawing.Size(121, 23);
+            this.buttonPingSettings.Size = new System.Drawing.Size(107, 23);
             this.buttonPingSettings.TabIndex = 0;
             this.buttonPingSettings.Text = "Remote server ping";
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
+            // 
+            // checkBoxFileSizeIgnore
+            // 
+            this.checkBoxFileSizeIgnore.AutoSize = true;
+            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(6, 114);
+            this.checkBoxFileSizeIgnore.Name = "checkBoxFileSizeIgnore";
+            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(147, 17);
+            this.checkBoxFileSizeIgnore.TabIndex = 7;
+            this.checkBoxFileSizeIgnore.Text = "ignore file size for uploads";
+            this.checkBoxFileSizeIgnore.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -270,6 +282,7 @@
         private System.Windows.Forms.CheckBox checkBoxPostToTwitch;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button buttonPingSettings;
+        private System.Windows.Forms.CheckBox checkBoxFileSizeIgnore;
     }
 }
 

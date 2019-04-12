@@ -95,6 +95,9 @@
     <Compile Include="FormPing.Designer.cs">
       <DependentUpon>FormPing.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlenyxAPI\PlenyxAPIError.cs" />
+    <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
+    <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
     <Compile Include="TwitchIRCClient\IrcConnectionChangedEventArgs.cs" />
     <Compile Include="TwitchIRCClient\IrcMessageEventArgs.cs" />
     <Compile Include="Program.cs" />
@@ -142,5 +145,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

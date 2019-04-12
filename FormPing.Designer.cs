@@ -39,6 +39,7 @@
             this.groupBoxMethod = new System.Windows.Forms.GroupBox();
             this.radioButtonMethodGet = new System.Windows.Forms.RadioButton();
             this.radioButtonMethodPost = new System.Windows.Forms.RadioButton();
+            this.buttonTestPing = new System.Windows.Forms.Button();
             this.groupBoxRemoteSettings.SuspendLayout();
             this.groupBoxSign.SuspendLayout();
             this.groupBoxUrl.SuspendLayout();
@@ -58,6 +59,7 @@
             // 
             // groupBoxRemoteSettings
             // 
+            this.groupBoxRemoteSettings.Controls.Add(this.buttonTestPing);
             this.groupBoxRemoteSettings.Controls.Add(this.buttonPlenyxWay);
             this.groupBoxRemoteSettings.Controls.Add(this.groupBoxSign);
             this.groupBoxRemoteSettings.Controls.Add(this.groupBoxUrl);
@@ -74,9 +76,9 @@
             // 
             this.buttonPlenyxWay.Location = new System.Drawing.Point(6, 126);
             this.buttonPlenyxWay.Name = "buttonPlenyxWay";
-            this.buttonPlenyxWay.Size = new System.Drawing.Size(122, 54);
+            this.buttonPlenyxWay.Size = new System.Drawing.Size(122, 24);
             this.buttonPlenyxWay.TabIndex = 6;
-            this.buttonPlenyxWay.Text = "Use Plenyx\'s ping server";
+            this.buttonPlenyxWay.Text = "Use Plenyx\'s server";
             this.buttonPlenyxWay.UseVisualStyleBackColor = true;
             this.buttonPlenyxWay.Click += new System.EventHandler(this.buttonPlenyxWay_Click);
             // 
@@ -151,6 +153,16 @@
             this.radioButtonMethodPost.Text = "POST";
             this.radioButtonMethodPost.UseVisualStyleBackColor = true;
             // 
+            // buttonTestPing
+            // 
+            this.buttonTestPing.Location = new System.Drawing.Point(6, 156);
+            this.buttonTestPing.Name = "buttonTestPing";
+            this.buttonTestPing.Size = new System.Drawing.Size(122, 24);
+            this.buttonTestPing.TabIndex = 7;
+            this.buttonTestPing.Text = "Test Ping";
+            this.buttonTestPing.UseVisualStyleBackColor = true;
+            this.buttonTestPing.Click += new System.EventHandler(this.buttonTestPing_Click);
+            // 
             // FormPing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -192,5 +204,6 @@
         private System.Windows.Forms.GroupBox groupBoxSign;
         public System.Windows.Forms.TextBox textBoxSign;
         private System.Windows.Forms.Button buttonPlenyxWay;
+        private System.Windows.Forms.Button buttonTestPing;
     }
 }

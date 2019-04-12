@@ -79,18 +79,23 @@ namespace TwitchIRCClient
             ReadMessagesThread.Start();
         }
 
-        public async Task<bool> JoinRoom(string channelName, bool partChannel = false)
+        public async Task<bool> JoinRoom(string channelName, bool partPreviousChannels = false)
         {
             channelName = channelName.ToLower();
             if (ChannelNames.Contains(channelName))
             {
                 return false;
             }
-            if (partChannel)
+            if (partPreviousChannels)
             {
-                await LeaveRoom(channelName);
+                foreach (string name in ChannelNames)
+                {
+                    await LeaveRoom(name);
+                }
+                ChannelNames.Clear();
             }
             LastChannelName = channelName;
+            ChannelNames.Add(channelName);
             await OutputStream.WriteLineAsync($"JOIN #{channelName}");
             await OutputStream.FlushAsync();
             return true;

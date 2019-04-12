@@ -23,7 +23,7 @@ namespace PlenBotLogUploader
         public List<string> Logs { get; set; } = new List<string>();
         public string LogsLocation { get; set; } = "";
         public DPSReportJSONMinimal LastLog { get; set; }
-        public string Version { get; } = "1.5";
+        public string Version { get; } = "1.6";
 
         // fields
         private TwitchIrcClient chatConnect;
@@ -55,6 +55,10 @@ namespace PlenBotLogUploader
                 if (RegistryAccess.GetValue("uploadToTwitch") == null)
                 {
                     RegistryAccess.SetValue("uploadToTwitch", 1);
+                }
+                if (RegistryAccess.GetValue("uploadIgnoreSize") == null)
+                {
+                    RegistryAccess.SetValue("uploadIgnoreSize", 0);
                 }
                 if (RegistryAccess.GetValue("wepSkill1") == null)
                 {
@@ -101,6 +105,10 @@ namespace PlenBotLogUploader
                 {
                     checkBoxPostToTwitch.Checked = true;
                     checkBoxPostToTwitch.Enabled = true;
+                }
+                if ((int)RegistryAccess.GetValue("uploadIgnoreSize", 0) == 1)
+                {
+                    checkBoxFileSizeIgnore.Checked = true;
                 }
                 if ((int)RegistryAccess.GetValue("wepSkill1", 0) == 1)
                 {
@@ -156,6 +164,7 @@ namespace PlenBotLogUploader
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
                 checkBoxWepSkill1.CheckedChanged += new EventHandler(checkBoxWepSkill1_CheckedChanged);
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
+                checkBoxFileSizeIgnore.CheckedChanged += new EventHandler(checkBoxFileSizeIgnore_CheckedChanged);
                 checkBoxTrayNotification.CheckedChanged += new EventHandler(checkBoxTrayNotification_CheckedChanged);
                 checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
                 checkBoxTrayEnable.CheckedChanged += new EventHandler(checkBoxTrayEnable_CheckedChanged);
@@ -178,7 +187,7 @@ namespace PlenBotLogUploader
                 {
                     try
                     {
-                        if (new FileInfo(e.FullPath).Length >= minFileSize)
+                        if (checkBoxFileSizeIgnore.Checked || new FileInfo(e.FullPath).Length >= minFileSize)
                         {
                             string zipfilelocation = e.FullPath;
                             bool archived = false;
@@ -573,6 +582,8 @@ namespace PlenBotLogUploader
 
         private void checkBoxPostToTwitch_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("uploadToTwitch", checkBoxPostToTwitch.Checked ? 1 : 0);
 
+        private void checkBoxFileSizeIgnore_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("uploadIgnoreSize", checkBoxFileSizeIgnore.Checked ? 1 : 0);
+
         private void FormMain_Resize(object sender, EventArgs e)
         {
             if ((WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
@@ -618,14 +629,18 @@ namespace PlenBotLogUploader
             string[] messageSplit = e.Message.Split(new string[] { $"#{textBoxChannel.Text.ToLower()} :" }, StringSplitOptions.None);
             if (messageSplit.Length > 1)
             {
-                string command = messageSplit[1].Split(' ')[0];
-                if (command.Contains("!lastlog") || command.Contains("!log"))
+                string command = messageSplit[1].Split(' ')[0].ToLower();
+                if (command.Equals("!lastlog") || command.Equals("!log"))
                 {
-                    if (LastLog.permalink != "")
+                    if (LastLog != null)
                     {
                         AddToText("> LAST LOG COMMAND USED");
                         await chatConnect.SendChatMessage(textBoxChannel.Text.ToLower(), $"Link to the last log: {LastLog.permalink}");
                     }
+                }
+                else if (command.Equals("!logs"))
+                {
+                    AddToText("> WIP");
                 }
             }
         }
