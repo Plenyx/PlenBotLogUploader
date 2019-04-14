@@ -10,7 +10,7 @@ namespace PlenBotLogUploader
     public partial class FormPing : Form
     {
         // fields
-        FormMain mainLink;
+        private FormMain mainLink;
 
         public FormPing(FormMain mainLink)
         {
@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
             Process.Start("https://plenbot.net/uploader/#setup-sign");
         }
 
-        private async void buttonTestPing_Click(object sender, EventArgs e)
+        public async void PingTest()
         {
             try
             {
@@ -75,5 +75,7 @@ namespace PlenBotLogUploader
                 MessageBox.Show("There has been an error pinging the server.\nCheck your settings.");
             }
         }
+
+        private void buttonTestPing_Click(object sender, EventArgs e) => PingTest();
     }
 }

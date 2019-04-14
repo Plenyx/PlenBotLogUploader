@@ -29,27 +29,27 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
-            this.textBoxChannel = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
             this.checkBoxPostToTwitch = new System.Windows.Forms.CheckBox();
             this.checkBoxWepSkill1 = new System.Windows.Forms.CheckBox();
             this.buttonReconnectBot = new System.Windows.Forms.Button();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBoxLogsDirectory = new System.Windows.Forms.GroupBox();
             this.labelLocationInfo = new System.Windows.Forms.Label();
             this.buttonLogsLocation = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBoxTrayIconSettings = new System.Windows.Forms.GroupBox();
             this.checkBoxTrayNotification = new System.Windows.Forms.CheckBox();
             this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
             this.checkBoxTrayEnable = new System.Windows.Forms.CheckBox();
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.buttonChangeTwitchChannel = new System.Windows.Forms.Button();
+            this.groupBoxTwitchSettings.SuspendLayout();
+            this.groupBoxLogsDirectory.SuspendLayout();
+            this.groupBoxTrayIconSettings.SuspendLayout();
+            this.groupBoxOtherSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxUploadInfo
@@ -62,27 +62,30 @@
             this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 400);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
-            // textBoxChannel
+            // groupBoxTwitchSettings
             // 
-            this.textBoxChannel.Location = new System.Drawing.Point(6, 19);
-            this.textBoxChannel.Name = "textBoxChannel";
-            this.textBoxChannel.Size = new System.Drawing.Size(188, 20);
-            this.textBoxChannel.TabIndex = 2;
+            this.groupBoxTwitchSettings.Controls.Add(this.buttonChangeTwitchChannel);
+            this.groupBoxTwitchSettings.Controls.Add(this.checkBoxFileSizeIgnore);
+            this.groupBoxTwitchSettings.Controls.Add(this.checkBoxPostToTwitch);
+            this.groupBoxTwitchSettings.Controls.Add(this.checkBoxWepSkill1);
+            this.groupBoxTwitchSettings.Controls.Add(this.buttonReconnectBot);
+            this.groupBoxTwitchSettings.Controls.Add(this.checkBoxUploadLogs);
+            this.groupBoxTwitchSettings.Location = new System.Drawing.Point(426, 12);
+            this.groupBoxTwitchSettings.Name = "groupBoxTwitchSettings";
+            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 169);
+            this.groupBoxTwitchSettings.TabIndex = 4;
+            this.groupBoxTwitchSettings.TabStop = false;
+            this.groupBoxTwitchSettings.Text = "Twitch settings";
             // 
-            // groupBox1
+            // checkBoxFileSizeIgnore
             // 
-            this.groupBox1.Controls.Add(this.checkBoxFileSizeIgnore);
-            this.groupBox1.Controls.Add(this.checkBoxPostToTwitch);
-            this.groupBox1.Controls.Add(this.checkBoxWepSkill1);
-            this.groupBox1.Controls.Add(this.buttonReconnectBot);
-            this.groupBox1.Controls.Add(this.checkBoxUploadLogs);
-            this.groupBox1.Controls.Add(this.textBoxChannel);
-            this.groupBox1.Location = new System.Drawing.Point(426, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 169);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Twitch channel";
+            this.checkBoxFileSizeIgnore.AutoSize = true;
+            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(6, 114);
+            this.checkBoxFileSizeIgnore.Name = "checkBoxFileSizeIgnore";
+            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(147, 17);
+            this.checkBoxFileSizeIgnore.TabIndex = 7;
+            this.checkBoxFileSizeIgnore.Text = "ignore file size for uploads";
+            this.checkBoxFileSizeIgnore.UseVisualStyleBackColor = true;
             // 
             // checkBoxPostToTwitch
             // 
@@ -125,16 +128,16 @@
             this.checkBoxUploadLogs.Text = "upload logs";
             this.checkBoxUploadLogs.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // groupBoxLogsDirectory
             // 
-            this.groupBox2.Controls.Add(this.labelLocationInfo);
-            this.groupBox2.Controls.Add(this.buttonLogsLocation);
-            this.groupBox2.Location = new System.Drawing.Point(426, 187);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 75);
-            this.groupBox2.TabIndex = 5;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Logs directory and checker";
+            this.groupBoxLogsDirectory.Controls.Add(this.labelLocationInfo);
+            this.groupBoxLogsDirectory.Controls.Add(this.buttonLogsLocation);
+            this.groupBoxLogsDirectory.Location = new System.Drawing.Point(426, 187);
+            this.groupBoxLogsDirectory.Name = "groupBoxLogsDirectory";
+            this.groupBoxLogsDirectory.Size = new System.Drawing.Size(200, 75);
+            this.groupBoxLogsDirectory.TabIndex = 5;
+            this.groupBoxLogsDirectory.TabStop = false;
+            this.groupBoxLogsDirectory.Text = "Logs directory";
             // 
             // labelLocationInfo
             // 
@@ -154,17 +157,17 @@
             this.buttonLogsLocation.UseVisualStyleBackColor = true;
             this.buttonLogsLocation.Click += new System.EventHandler(this.buttonLogsLocation_Click);
             // 
-            // groupBox3
+            // groupBoxTrayIconSettings
             // 
-            this.groupBox3.Controls.Add(this.checkBoxTrayNotification);
-            this.groupBox3.Controls.Add(this.checkBoxTrayMinimiseToIcon);
-            this.groupBox3.Controls.Add(this.checkBoxTrayEnable);
-            this.groupBox3.Location = new System.Drawing.Point(426, 268);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 89);
-            this.groupBox3.TabIndex = 6;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Tray Icon settings";
+            this.groupBoxTrayIconSettings.Controls.Add(this.checkBoxTrayNotification);
+            this.groupBoxTrayIconSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
+            this.groupBoxTrayIconSettings.Controls.Add(this.checkBoxTrayEnable);
+            this.groupBoxTrayIconSettings.Location = new System.Drawing.Point(426, 268);
+            this.groupBoxTrayIconSettings.Name = "groupBoxTrayIconSettings";
+            this.groupBoxTrayIconSettings.Size = new System.Drawing.Size(200, 89);
+            this.groupBoxTrayIconSettings.TabIndex = 6;
+            this.groupBoxTrayIconSettings.TabStop = false;
+            this.groupBoxTrayIconSettings.Text = "Tray Icon settings";
             // 
             // checkBoxTrayNotification
             // 
@@ -204,15 +207,15 @@
             this.notifyIconTray.Text = "PlenBot Log Uploader";
             this.notifyIconTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconTray_MouseDoubleClick);
             // 
-            // groupBox4
+            // groupBoxOtherSettings
             // 
-            this.groupBox4.Controls.Add(this.buttonPingSettings);
-            this.groupBox4.Location = new System.Drawing.Point(426, 363);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(200, 49);
-            this.groupBox4.TabIndex = 7;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Other settings";
+            this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 363);
+            this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 49);
+            this.groupBoxOtherSettings.TabIndex = 7;
+            this.groupBoxOtherSettings.TabStop = false;
+            this.groupBoxOtherSettings.Text = "Other settings";
             // 
             // buttonPingSettings
             // 
@@ -224,25 +227,25 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
-            // checkBoxFileSizeIgnore
+            // buttonChangeTwitchChannel
             // 
-            this.checkBoxFileSizeIgnore.AutoSize = true;
-            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(6, 114);
-            this.checkBoxFileSizeIgnore.Name = "checkBoxFileSizeIgnore";
-            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(147, 17);
-            this.checkBoxFileSizeIgnore.TabIndex = 7;
-            this.checkBoxFileSizeIgnore.Text = "ignore file size for uploads";
-            this.checkBoxFileSizeIgnore.UseVisualStyleBackColor = true;
+            this.buttonChangeTwitchChannel.Location = new System.Drawing.Point(6, 16);
+            this.buttonChangeTwitchChannel.Name = "buttonChangeTwitchChannel";
+            this.buttonChangeTwitchChannel.Size = new System.Drawing.Size(188, 23);
+            this.buttonChangeTwitchChannel.TabIndex = 8;
+            this.buttonChangeTwitchChannel.Text = "Change Twitch channel";
+            this.buttonChangeTwitchChannel.UseVisualStyleBackColor = true;
+            this.buttonChangeTwitchChannel.Click += new System.EventHandler(this.buttonChangeTwitchChannel_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(633, 418);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBoxOtherSettings);
+            this.Controls.Add(this.groupBoxTrayIconSettings);
+            this.Controls.Add(this.groupBoxLogsDirectory);
+            this.Controls.Add(this.groupBoxTwitchSettings);
             this.Controls.Add(this.textBoxUploadInfo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -253,12 +256,12 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
+            this.groupBoxTwitchSettings.ResumeLayout(false);
+            this.groupBoxTwitchSettings.PerformLayout();
+            this.groupBoxLogsDirectory.ResumeLayout(false);
+            this.groupBoxTrayIconSettings.ResumeLayout(false);
+            this.groupBoxTrayIconSettings.PerformLayout();
+            this.groupBoxOtherSettings.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,23 +269,23 @@
 
         #endregion
         private System.Windows.Forms.TextBox textBoxUploadInfo;
-        private System.Windows.Forms.TextBox textBoxChannel;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBoxTwitchSettings;
         private System.Windows.Forms.CheckBox checkBoxUploadLogs;
         private System.Windows.Forms.Button buttonReconnectBot;
         private System.Windows.Forms.CheckBox checkBoxWepSkill1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBoxLogsDirectory;
         private System.Windows.Forms.Button buttonLogsLocation;
         private System.Windows.Forms.Label labelLocationInfo;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBoxTrayIconSettings;
         private System.Windows.Forms.CheckBox checkBoxTrayNotification;
         private System.Windows.Forms.CheckBox checkBoxTrayMinimiseToIcon;
         private System.Windows.Forms.CheckBox checkBoxTrayEnable;
         private System.Windows.Forms.NotifyIcon notifyIconTray;
         private System.Windows.Forms.CheckBox checkBoxPostToTwitch;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBoxOtherSettings;
         private System.Windows.Forms.Button buttonPingSettings;
         private System.Windows.Forms.CheckBox checkBoxFileSizeIgnore;
+        private System.Windows.Forms.Button buttonChangeTwitchChannel;
     }
 }
 

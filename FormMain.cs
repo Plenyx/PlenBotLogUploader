@@ -23,19 +23,22 @@ namespace PlenBotLogUploader
         public List<string> Logs { get; set; } = new List<string>();
         public string LogsLocation { get; set; } = "";
         public DPSReportJSONMinimal LastLog { get; set; }
-        public string Version { get; } = "1.6";
+        public string ChannelName { get; set; } = "";
+        public string Version { get; } = "1.7";
 
         // fields
         private TwitchIrcClient chatConnect;
         private const int minFileSize = 20480;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private FormPing pingLink;
-        private HttpClient webclient = new HttpClient();
+        private FormTwitchNameSetup twitchNameLink;
+        private HttpClient webClient = new HttpClient();
 
         public FormMain()
         {
             InitializeComponent();
             pingLink = new FormPing(this);
+            twitchNameLink = new FormTwitchNameSetup(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             new Thread(NewVersionCheck).Start();
             try
@@ -95,7 +98,7 @@ namespace PlenBotLogUploader
                     watcher.Renamed += OnLogCreated;
                     watcher.EnableRaisingEvents = true;
                 }
-                textBoxChannel.Text = ((string)RegistryAccess.GetValue("channel", "")).ToLower();
+                ChannelName = ((string)RegistryAccess.GetValue("channel", "")).ToLower();
                 if ((int)RegistryAccess.GetValue("uploadAll", 0) == 1)
                 {
                     checkBoxUploadLogs.Checked = true;
@@ -144,12 +147,18 @@ namespace PlenBotLogUploader
                     pingLink.textBoxURL.Text = (string)RegistryAccess.GetValue("remotePingURL", "");
                     pingLink.textBoxSign.Text = (string)RegistryAccess.GetValue("remotePingSign", "");
                 }
-                if (textBoxChannel.Text != "")
+                if (RegistryAccess.GetValue("firstSetup") == null)
                 {
-                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text.ToLower());
+                    MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    twitchNameLink.Show();
+                    RegistryAccess.SetValue("firstSetup", 1);
+                }
+                if (ChannelName != "")
+                {
+                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", ChannelName);
                     chatConnect.ReceiveMessage += ReadMessages;
                     chatConnect.ConnectionChange += OnIrcConnectionChanged;
-                    AddToText("> BOT CONNECTING TO THE CHANNEL " + textBoxChannel.Text.ToUpper());
+                    AddToText("> BOT CONNECTING TO THE CHANNEL " + ChannelName.ToUpper());
                 }
                 else
                 {
@@ -160,7 +169,6 @@ namespace PlenBotLogUploader
                 }
                 new Thread(DoCommandArgs).Start();
                 /* Subscribe to field changes events, otherwise they would trigger with the previous load */
-                textBoxChannel.TextChanged += new EventHandler(textBoxChannel_TextChanged);
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
                 checkBoxWepSkill1.CheckedChanged += new EventHandler(checkBoxWepSkill1_CheckedChanged);
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
@@ -193,7 +201,7 @@ namespace PlenBotLogUploader
                             bool archived = false;
                             if (!e.FullPath.EndsWith(".zevtc"))
                             {
-                                zipfilelocation = GetLocalDir() + Path.GetFileName(e.FullPath) + ".zevtc";
+                                zipfilelocation = $"{GetLocalDir()}{Path.GetFileName(e.FullPath)}.zevtc";
                                 using (ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@e.FullPath, Path.GetFileName(e.FullPath)); }
                                 archived = true;
                             }
@@ -218,7 +226,7 @@ namespace PlenBotLogUploader
                             {
                                 if (archived)
                                 {
-                                    File.Delete(GetLocalDir() + Path.GetFileName(e.FullPath) + ".zevtc");
+                                    File.Delete($"{GetLocalDir()}{Path.GetFileName(e.FullPath)}.zevtc");
                                 }
                             }
                         }
@@ -286,7 +294,7 @@ namespace PlenBotLogUploader
                         string zipfilelocation = arg;
                         if (!arg.EndsWith(".zevtc"))
                         {
-                            zipfilelocation = GetLocalDir() + Path.GetFileName(arg) + ".zevtc";
+                            zipfilelocation = $"{GetLocalDir()}{Path.GetFileName(arg)}.zevtc";
                             using (ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@arg, Path.GetFileName(arg)); }
                             archived = true;
                         }
@@ -310,7 +318,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private string GetLocalDir() => $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
+        public string GetLocalDir() => $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
 
         private void AddToText(string s)
         {
@@ -337,7 +345,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                labelLocationInfo.Text = "Logs in the directory: " + Logs.Count;
+                labelLocationInfo.Text = $"Logs in the directory: {Logs.Count}";
             }
         }
 
@@ -350,10 +358,10 @@ namespace PlenBotLogUploader
 
         public async void HttpUploadFileToDPSReport(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
-            string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-            byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            string boundary = $"---------------------------{DateTime.Now.Ticks.ToString("x")}";
+            byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes($"\r\n--{boundary}\r\n");
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("https://dps.report/uploadContent");
-            wr.ContentType = "multipart/form-data; boundary=" + boundary;
+            wr.ContentType = $"multipart/form-data; boundary={boundary}";
             wr.Method = "POST";
             wr.KeepAlive = true;
             wr.Credentials = CredentialCache.DefaultCredentials;
@@ -374,7 +382,7 @@ namespace PlenBotLogUploader
                     int bytesRead = 0;
                     while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0) { await rs.WriteAsync(buffer, 0, bytesRead); }
                 }
-                byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+                byte[] trailer = System.Text.Encoding.ASCII.GetBytes($"\r\n--{boundary}--\r\n");
                 await rs.WriteAsync(trailer, 0, trailer.Length);
             }
             try
@@ -389,10 +397,10 @@ namespace PlenBotLogUploader
                             try
                             {
                                 DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
-                                File.AppendAllText(GetLocalDir() + "logs.txt", reportJSON.permalink + "\n");
+                                File.AppendAllText($"{GetLocalDir()}logs.txt", $"{reportJSON.permalink}\n");
                                 if (checkBoxPostToTwitch.Checked && !bypassMessage)
                                 {
-                                    AddToText("New log: " + reportJSON.permalink);
+                                    AddToText($"New log: {reportJSON.permalink}");
                                     LastLog = reportJSON;
                                     if (reportJSON.encounter.boss != "")
                                     {
@@ -405,16 +413,16 @@ namespace PlenBotLogUploader
                                         {
                                             format += "pull";
                                         }
-                                        await chatConnect.SendChatMessage(textBoxChannel.Text.ToLower(), $"{format}: {reportJSON.permalink}");
+                                        await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.permalink}");
                                     }
                                     else
                                     {
-                                        await chatConnect.SendChatMessage(textBoxChannel.Text.ToLower(), $"Link to the log: {reportJSON.permalink}");
+                                        await chatConnect.SendChatMessage(ChannelName, $"Link to the log: {reportJSON.permalink}");
                                     }
                                 }
                                 else
                                 {
-                                    AddToText("File uploaded, link received: " + reportJSON.permalink);
+                                    AddToText($"File uploaded, link received: {reportJSON.permalink}");
                                 }
                                 await PingServer(reportJSON);
                             }
@@ -448,7 +456,7 @@ namespace PlenBotLogUploader
                     FormUrlEncodedContent content = new FormUrlEncodedContent(fields);
                     try
                     {
-                        var response = await webclient.PostAsync(pingLink.textBoxURL.Text.ToString(), content);
+                        var response = await webClient.PostAsync(pingLink.textBoxURL.Text.ToString(), content);
                         AddToText("Log pinged.");
                     }
                     catch
@@ -477,7 +485,7 @@ namespace PlenBotLogUploader
             RegistryAccess.Dispose();
             chatConnect.Dispose();
             watcher.Dispose();
-            webclient.Dispose();
+            webClient.Dispose();
         }
 
         private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
@@ -495,17 +503,26 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void buttonReconnectBot_Click(object sender, EventArgs e)
+        public void ReconnectBot()
         {
             chatConnect.ReceiveMessage -= ReadMessages;
             chatConnect.ConnectionChange -= OnIrcConnectionChanged;
             chatConnect.Dispose();
             chatConnect = null;
-            chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", textBoxChannel.Text.ToLower());
+            if (ChannelName != "")
+            {
+                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", ChannelName);
+            }
+            else
+            {
+                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+            }
             chatConnect.ReceiveMessage += ReadMessages;
             chatConnect.ConnectionChange += OnIrcConnectionChanged;
             AddToText("> BOT RECONNECTING...");
         }
+
+        private void buttonReconnectBot_Click(object sender, EventArgs e) => ReconnectBot();
 
         private void buttonLogsLocation_Click(object sender, EventArgs e)
         {
@@ -564,8 +581,6 @@ namespace PlenBotLogUploader
                 notifyIconTray.Visible = false;
             }
         }
-
-        private void textBoxChannel_TextChanged(object sender, EventArgs e) => RegistryAccess.SetValue("channel", textBoxChannel.Text.ToLower());
 
         private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("wepSkill1", checkBoxUploadLogs.Checked ? 1 : 0);
 
@@ -626,7 +641,7 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            string[] messageSplit = e.Message.Split(new string[] { $"#{textBoxChannel.Text.ToLower()} :" }, StringSplitOptions.None);
+            string[] messageSplit = e.Message.Split(new string[] { $"#{ChannelName} :" }, StringSplitOptions.None);
             if (messageSplit.Length > 1)
             {
                 string command = messageSplit[1].Split(' ')[0].ToLower();
@@ -635,7 +650,7 @@ namespace PlenBotLogUploader
                     if (LastLog != null)
                     {
                         AddToText("> LAST LOG COMMAND USED");
-                        await chatConnect.SendChatMessage(textBoxChannel.Text.ToLower(), $"Link to the last log: {LastLog.permalink}");
+                        await chatConnect.SendChatMessage(ChannelName, $"Link to the last log: {LastLog.permalink}");
                     }
                 }
                 else if (command.Equals("!logs"))
@@ -649,6 +664,11 @@ namespace PlenBotLogUploader
         {
             pingLink.Show();
             pingLink.BringToFront();
+        }
+
+        private void buttonChangeTwitchChannel_Click(object sender, EventArgs e)
+        {
+            twitchNameLink.Show();
         }
     }
 }
