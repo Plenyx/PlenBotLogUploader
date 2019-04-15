@@ -58,21 +58,21 @@ namespace PlenBotLogUploader
                     PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
                     if (pingtest.IsValid())
                     {
-                        MessageBox.Show("Ping settings are valid.");
+                        MessageBox.Show("Ping settings are valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Sign is not valid.");
+                        MessageBox.Show("Sign is not valid.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     }
                 }
                 catch
                 {
-                    MessageBox.Show("There has been an error checking the server settings.\nIs the server correctly set?");
+                    MessageBox.Show("There has been an error checking the server settings.\nIs the server correctly set?", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
             catch
             {
-                MessageBox.Show("There has been an error pinging the server.\nCheck your settings.");
+                MessageBox.Show("There has been an error pinging the server.\nCheck your settings.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 

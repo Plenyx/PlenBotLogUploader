@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPing));
             this.checkBoxEnablePing = new System.Windows.Forms.CheckBox();
             this.groupBoxRemoteSettings = new System.Windows.Forms.GroupBox();
+            this.buttonTestPing = new System.Windows.Forms.Button();
             this.buttonPlenyxWay = new System.Windows.Forms.Button();
             this.groupBoxSign = new System.Windows.Forms.GroupBox();
             this.textBoxSign = new System.Windows.Forms.TextBox();
@@ -39,7 +40,6 @@
             this.groupBoxMethod = new System.Windows.Forms.GroupBox();
             this.radioButtonMethodGet = new System.Windows.Forms.RadioButton();
             this.radioButtonMethodPost = new System.Windows.Forms.RadioButton();
-            this.buttonTestPing = new System.Windows.Forms.Button();
             this.groupBoxRemoteSettings.SuspendLayout();
             this.groupBoxSign.SuspendLayout();
             this.groupBoxUrl.SuspendLayout();
@@ -71,6 +71,16 @@
             this.groupBoxRemoteSettings.TabIndex = 1;
             this.groupBoxRemoteSettings.TabStop = false;
             this.groupBoxRemoteSettings.Text = "Remote server settings";
+            // 
+            // buttonTestPing
+            // 
+            this.buttonTestPing.Location = new System.Drawing.Point(6, 156);
+            this.buttonTestPing.Name = "buttonTestPing";
+            this.buttonTestPing.Size = new System.Drawing.Size(122, 24);
+            this.buttonTestPing.TabIndex = 7;
+            this.buttonTestPing.Text = "Test Ping";
+            this.buttonTestPing.UseVisualStyleBackColor = true;
+            this.buttonTestPing.Click += new System.EventHandler(this.buttonTestPing_Click);
             // 
             // buttonPlenyxWay
             // 
@@ -133,7 +143,6 @@
             // radioButtonMethodGet
             // 
             this.radioButtonMethodGet.AutoSize = true;
-            this.radioButtonMethodGet.Enabled = false;
             this.radioButtonMethodGet.Location = new System.Drawing.Point(6, 19);
             this.radioButtonMethodGet.Name = "radioButtonMethodGet";
             this.radioButtonMethodGet.Size = new System.Drawing.Size(47, 17);
@@ -152,16 +161,6 @@
             this.radioButtonMethodPost.TabStop = true;
             this.radioButtonMethodPost.Text = "POST";
             this.radioButtonMethodPost.UseVisualStyleBackColor = true;
-            // 
-            // buttonTestPing
-            // 
-            this.buttonTestPing.Location = new System.Drawing.Point(6, 156);
-            this.buttonTestPing.Name = "buttonTestPing";
-            this.buttonTestPing.Size = new System.Drawing.Size(122, 24);
-            this.buttonTestPing.TabIndex = 7;
-            this.buttonTestPing.Text = "Test Ping";
-            this.buttonTestPing.UseVisualStyleBackColor = true;
-            this.buttonTestPing.Click += new System.EventHandler(this.buttonTestPing_Click);
             // 
             // FormPing
             // 

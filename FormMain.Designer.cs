@@ -30,6 +30,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
+            this.buttonChangeTwitchChannel = new System.Windows.Forms.Button();
             this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
             this.checkBoxPostToTwitch = new System.Windows.Forms.CheckBox();
             this.checkBoxWepSkill1 = new System.Windows.Forms.CheckBox();
@@ -43,12 +44,20 @@
             this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
             this.checkBoxTrayEnable = new System.Windows.Forms.CheckBox();
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStripIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemUploadLogs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPostToTwitch = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparatorFirst = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.buttonChangeTwitchChannel = new System.Windows.Forms.Button();
+            this.buttonOpenLogs = new System.Windows.Forms.Button();
+            this.buttonOpenCommands = new System.Windows.Forms.Button();
+            this.buttonDPSReportServer = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxLogsDirectory.SuspendLayout();
             this.groupBoxTrayIconSettings.SuspendLayout();
+            this.contextMenuStripIcon.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,11 +68,12 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 400);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 429);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
             // 
+            this.groupBoxTwitchSettings.Controls.Add(this.buttonOpenCommands);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonChangeTwitchChannel);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxFileSizeIgnore);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxPostToTwitch);
@@ -76,6 +86,16 @@
             this.groupBoxTwitchSettings.TabIndex = 4;
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
+            // 
+            // buttonChangeTwitchChannel
+            // 
+            this.buttonChangeTwitchChannel.Location = new System.Drawing.Point(6, 16);
+            this.buttonChangeTwitchChannel.Name = "buttonChangeTwitchChannel";
+            this.buttonChangeTwitchChannel.Size = new System.Drawing.Size(188, 23);
+            this.buttonChangeTwitchChannel.TabIndex = 8;
+            this.buttonChangeTwitchChannel.Text = "Change Twitch channel";
+            this.buttonChangeTwitchChannel.UseVisualStyleBackColor = true;
+            this.buttonChangeTwitchChannel.Click += new System.EventHandler(this.buttonChangeTwitchChannel_Click);
             // 
             // checkBoxFileSizeIgnore
             // 
@@ -110,9 +130,9 @@
             // 
             // buttonReconnectBot
             // 
-            this.buttonReconnectBot.Location = new System.Drawing.Point(6, 137);
+            this.buttonReconnectBot.Location = new System.Drawing.Point(103, 137);
             this.buttonReconnectBot.Name = "buttonReconnectBot";
-            this.buttonReconnectBot.Size = new System.Drawing.Size(188, 23);
+            this.buttonReconnectBot.Size = new System.Drawing.Size(91, 23);
             this.buttonReconnectBot.TabIndex = 4;
             this.buttonReconnectBot.Text = "Reconnect bot";
             this.buttonReconnectBot.UseVisualStyleBackColor = true;
@@ -130,6 +150,7 @@
             // 
             // groupBoxLogsDirectory
             // 
+            this.groupBoxLogsDirectory.Controls.Add(this.buttonOpenLogs);
             this.groupBoxLogsDirectory.Controls.Add(this.labelLocationInfo);
             this.groupBoxLogsDirectory.Controls.Add(this.buttonLogsLocation);
             this.groupBoxLogsDirectory.Location = new System.Drawing.Point(426, 187);
@@ -151,7 +172,7 @@
             // 
             this.buttonLogsLocation.Location = new System.Drawing.Point(6, 19);
             this.buttonLogsLocation.Name = "buttonLogsLocation";
-            this.buttonLogsLocation.Size = new System.Drawing.Size(188, 23);
+            this.buttonLogsLocation.Size = new System.Drawing.Size(126, 23);
             this.buttonLogsLocation.TabIndex = 0;
             this.buttonLogsLocation.Text = "Change logs directory";
             this.buttonLogsLocation.UseVisualStyleBackColor = true;
@@ -203,45 +224,106 @@
             // 
             // notifyIconTray
             // 
+            this.notifyIconTray.ContextMenuStrip = this.contextMenuStripIcon;
             this.notifyIconTray.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconTray.Icon")));
             this.notifyIconTray.Text = "PlenBot Log Uploader";
             this.notifyIconTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconTray_MouseDoubleClick);
             // 
+            // contextMenuStripIcon
+            // 
+            this.contextMenuStripIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemUploadLogs,
+            this.toolStripMenuItemPostToTwitch,
+            this.toolStripSeparatorFirst,
+            this.toolStripMenuItemExit});
+            this.contextMenuStripIcon.Name = "contextMenuStripIcon";
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(203, 76);
+            // 
+            // toolStripMenuItemUploadLogs
+            // 
+            this.toolStripMenuItemUploadLogs.CheckOnClick = true;
+            this.toolStripMenuItemUploadLogs.Name = "toolStripMenuItemUploadLogs";
+            this.toolStripMenuItemUploadLogs.Size = new System.Drawing.Size(202, 22);
+            this.toolStripMenuItemUploadLogs.Text = "upload logs";
+            this.toolStripMenuItemUploadLogs.CheckedChanged += new System.EventHandler(this.toolStripMenuItemUploadLogs_CheckedChanged);
+            // 
+            // toolStripMenuItemPostToTwitch
+            // 
+            this.toolStripMenuItemPostToTwitch.CheckOnClick = true;
+            this.toolStripMenuItemPostToTwitch.Name = "toolStripMenuItemPostToTwitch";
+            this.toolStripMenuItemPostToTwitch.Size = new System.Drawing.Size(202, 22);
+            this.toolStripMenuItemPostToTwitch.Text = "post links to Twitch chat";
+            this.toolStripMenuItemPostToTwitch.CheckedChanged += new System.EventHandler(this.toolStripMenuItemPostToTwitch_CheckedChanged);
+            // 
+            // toolStripSeparatorFirst
+            // 
+            this.toolStripSeparatorFirst.Name = "toolStripSeparatorFirst";
+            this.toolStripSeparatorFirst.Size = new System.Drawing.Size(199, 6);
+            // 
+            // toolStripMenuItemExit
+            // 
+            this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(202, 22);
+            this.toolStripMenuItemExit.Text = "Shutdown";
+            this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
+            // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonDPSReportServer);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 363);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 49);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 78);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
             // buttonPingSettings
             // 
-            this.buttonPingSettings.Location = new System.Drawing.Point(9, 19);
+            this.buttonPingSettings.Location = new System.Drawing.Point(6, 19);
             this.buttonPingSettings.Name = "buttonPingSettings";
-            this.buttonPingSettings.Size = new System.Drawing.Size(107, 23);
+            this.buttonPingSettings.Size = new System.Drawing.Size(188, 23);
             this.buttonPingSettings.TabIndex = 0;
             this.buttonPingSettings.Text = "Remote server ping";
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
-            // buttonChangeTwitchChannel
+            // buttonOpenLogs
             // 
-            this.buttonChangeTwitchChannel.Location = new System.Drawing.Point(6, 16);
-            this.buttonChangeTwitchChannel.Name = "buttonChangeTwitchChannel";
-            this.buttonChangeTwitchChannel.Size = new System.Drawing.Size(188, 23);
-            this.buttonChangeTwitchChannel.TabIndex = 8;
-            this.buttonChangeTwitchChannel.Text = "Change Twitch channel";
-            this.buttonChangeTwitchChannel.UseVisualStyleBackColor = true;
-            this.buttonChangeTwitchChannel.Click += new System.EventHandler(this.buttonChangeTwitchChannel_Click);
+            this.buttonOpenLogs.Enabled = false;
+            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 19);
+            this.buttonOpenLogs.Name = "buttonOpenLogs";
+            this.buttonOpenLogs.Size = new System.Drawing.Size(56, 23);
+            this.buttonOpenLogs.TabIndex = 2;
+            this.buttonOpenLogs.Text = "Open";
+            this.buttonOpenLogs.UseVisualStyleBackColor = true;
+            this.buttonOpenLogs.Click += new System.EventHandler(this.buttonOpenLogs_Click);
+            // 
+            // buttonOpenCommands
+            // 
+            this.buttonOpenCommands.Enabled = false;
+            this.buttonOpenCommands.Location = new System.Drawing.Point(6, 137);
+            this.buttonOpenCommands.Name = "buttonOpenCommands";
+            this.buttonOpenCommands.Size = new System.Drawing.Size(91, 23);
+            this.buttonOpenCommands.TabIndex = 9;
+            this.buttonOpenCommands.Text = "Chat commands";
+            this.buttonOpenCommands.UseVisualStyleBackColor = true;
+            // 
+            // buttonDPSReportServer
+            // 
+            this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 48);
+            this.buttonDPSReportServer.Name = "buttonDPSReportServer";
+            this.buttonDPSReportServer.Size = new System.Drawing.Size(188, 23);
+            this.buttonDPSReportServer.TabIndex = 1;
+            this.buttonDPSReportServer.Text = "DPS.report server";
+            this.buttonDPSReportServer.UseVisualStyleBackColor = true;
+            this.buttonDPSReportServer.Click += new System.EventHandler(this.buttonDPSReportServer_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 418);
+            this.ClientSize = new System.Drawing.Size(633, 445);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxTrayIconSettings);
             this.Controls.Add(this.groupBoxLogsDirectory);
@@ -261,6 +343,7 @@
             this.groupBoxLogsDirectory.ResumeLayout(false);
             this.groupBoxTrayIconSettings.ResumeLayout(false);
             this.groupBoxTrayIconSettings.PerformLayout();
+            this.contextMenuStripIcon.ResumeLayout(false);
             this.groupBoxOtherSettings.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -286,6 +369,14 @@
         private System.Windows.Forms.Button buttonPingSettings;
         private System.Windows.Forms.CheckBox checkBoxFileSizeIgnore;
         private System.Windows.Forms.Button buttonChangeTwitchChannel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripIcon;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemUploadLogs;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorFirst;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPostToTwitch;
+        private System.Windows.Forms.Button buttonOpenLogs;
+        private System.Windows.Forms.Button buttonOpenCommands;
+        private System.Windows.Forms.Button buttonDPSReportServer;
     }
 }
 
