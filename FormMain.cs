@@ -24,7 +24,7 @@ namespace PlenBotLogUploader
         public DPSReportJSONMinimal LastLog { get; set; }
         public string ChannelName { get; set; } = "";
         public string DPSReportServer { get; set; } = "";
-        public int Build { get; } = 9;
+        public int Build { get; } = 10;
 
         // fields
         private TwitchIrcClient chatConnect;
@@ -329,7 +329,7 @@ namespace PlenBotLogUploader
                         {
                             if (archived)
                             {
-                                File.Delete(GetLocalDir() + Path.GetFileName(zipfilelocation) + ".zevtc");
+                                File.Delete($"{GetLocalDir()}{Path.GetFileName(zipfilelocation)}.zevtc");
                             }
                         }
                     }
@@ -768,7 +768,32 @@ namespace PlenBotLogUploader
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
-                HttpUploadFileToDPSReport(file, postData, true);
+                if (File.Exists(file) && (file.EndsWith(".evtc") || file.EndsWith(".zevtc")))
+                {
+                    bool archived = false;
+                    string zipfilelocation = file;
+                    if (!file.EndsWith(".zevtc"))
+                    {
+                        zipfilelocation = $"{GetLocalDir()}{Path.GetFileName(file)}.zevtc";
+                        using (ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@file, Path.GetFileName(file)); }
+                        archived = true;
+                    }
+                    try
+                    {
+                        HttpUploadFileToDPSReport(zipfilelocation, postData);
+                    }
+                    catch
+                    {
+                        AddToText($">>> Unknown error uploading a log: {zipfilelocation}");
+                    }
+                    finally
+                    {
+                        if (archived)
+                        {
+                            File.Delete($"{GetLocalDir()}{Path.GetFileName(zipfilelocation)}.zevtc");
+                        }
+                    }
+                }
             }
         }
     }
