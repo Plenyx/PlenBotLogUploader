@@ -24,7 +24,7 @@ namespace PlenBotLogUploader
         public DPSReportJSONMinimal LastLog { get; set; }
         public string ChannelName { get; set; } = "";
         public string DPSReportServer { get; set; } = "";
-        public int Build { get; } = 8;
+        public int Build { get; } = 9;
 
         // fields
         private TwitchIrcClient chatConnect;
@@ -115,6 +115,10 @@ namespace PlenBotLogUploader
                     }
                 }
                 ChannelName = ((string)RegistryAccess.GetValue("channel", "")).ToLower();
+                if (!string.IsNullOrEmpty(ChannelName))
+                {
+                    twitchNameLink.textBoxChannelUrl.Text = $"https://twitch.tv/{ChannelName}/";
+                }
                 if ((int)RegistryAccess.GetValue("dpsReportServer", 0) == 0)
                 {
                     DPSReportServer = "dps.report";
@@ -182,20 +186,10 @@ namespace PlenBotLogUploader
                     twitchNameLink.Show();
                     RegistryAccess.SetValue("firstSetup", 1);
                 }
-                if (ChannelName != "")
-                {
-                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", ChannelName);
-                    chatConnect.ReceiveMessage += ReadMessages;
-                    chatConnect.ConnectionChange += OnIrcConnectionChanged;
-                    AddToText("> BOT CONNECTING TO THE CHANNEL " + ChannelName.ToUpper());
-                }
-                else
-                {
-                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
-                    chatConnect.ReceiveMessage += ReadMessages;
-                    chatConnect.ConnectionChange += OnIrcConnectionChanged;
-                    AddToText("> BOT CONNECTING TO TWITCH");
-                }
+                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                chatConnect.ReceiveMessage += ReadMessages;
+                chatConnect.StateChange += OnIrcStateChanged;
+                chatConnect.BeginConnection();
                 new Thread(DoCommandArgs).Start();
                 /* Subscribe to field changes events, otherwise they would trigger with the previous load */
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
@@ -557,20 +551,13 @@ namespace PlenBotLogUploader
         public void ReconnectBot()
         {
             chatConnect.ReceiveMessage -= ReadMessages;
-            chatConnect.ConnectionChange -= OnIrcConnectionChanged;
+            chatConnect.StateChange -= OnIrcStateChanged;
             chatConnect.Dispose();
             chatConnect = null;
-            if (ChannelName != "")
-            {
-                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6", ChannelName);
-            }
-            else
-            {
-                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
-            }
+            chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
             chatConnect.ReceiveMessage += ReadMessages;
-            chatConnect.ConnectionChange += OnIrcConnectionChanged;
-            AddToText("> BOT RECONNECTING...");
+            chatConnect.StateChange += OnIrcStateChanged;
+            chatConnect.BeginConnection();
         }
 
         private void buttonReconnectBot_Click(object sender, EventArgs e) => ReconnectBot();
@@ -679,15 +666,35 @@ namespace PlenBotLogUploader
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e) => notifyIconTray.Visible = false;
 
-        protected void OnIrcConnectionChanged(object sender, IrcConnectionChangedEventArgs e)
+        protected async void OnIrcStateChanged(object sender, IrcChangedEventArgs e)
         {
-            if (e.NewState)
+            switch (e.NewState)
             {
-                AddToText("> CONNECTION ESTABILISHED");
-            }
-            else
-            {
-                AddToText("> DISCONNECTED FROM TWITCH");
+                case IrcStates.Disconnected:
+                    AddToText("> DISCONNECTED FROM TWITCH");
+                    break;
+                case IrcStates.Connecting:
+                    AddToText("> BOT CONNECTING TO TWITCH");
+                    break;
+                case IrcStates.Connected:
+                    AddToText("> CONNECTION ESTABILISHED");
+                    if (ChannelName != "")
+                    {
+                        await chatConnect.JoinRoom(ChannelName);
+                    }
+                    break;
+                case IrcStates.ChannelJoining:
+                    AddToText($"> JOINING CHANNEL {e.Channel.ToUpper()}");
+                    break;
+                case IrcStates.ChannelJoined:
+                    AddToText("> CHANNEL JOINED");
+                    break;
+                case IrcStates.ChannelLeaving:
+                    AddToText($"> LEAVING CHANNEL {e.Channel.ToUpper()}");
+                    break;
+                default:
+                    AddToText("> Unrecognised state received");
+                    break;
             }
         }
 
@@ -701,17 +708,18 @@ namespace PlenBotLogUploader
             if (messageSplit.Length > 1)
             {
                 string command = messageSplit[1].Split(' ')[0].ToLower();
-                if (command.Equals("!lastlog") || command.Equals("!log"))
+                if (command.Equals("!uploader"))
+                {
+                    AddToText("> UPLOADER COMMAND USED");
+                    await chatConnect.SendChatMessage(ChannelName, $"PlenBot Log Uploader v1 build n.{Build} | https://github.com/Plenyx/PlenBotLogUploader/releases");
+                }
+                else if (command.Equals("!lastlog") || command.Equals("!log"))
                 {
                     if (LastLog != null)
                     {
                         AddToText("> LAST LOG COMMAND USED");
-                        await chatConnect.SendChatMessage(ChannelName, $"Link to the last log: {LastLog.permalink}");
+                        await chatConnect.SendChatMessage(ChannelName, $"Link to the last {LastLog.encounter.boss} log: {LastLog.permalink}");
                     }
-                }
-                else if (command.Equals("!logs"))
-                {
-                    AddToText("> WIP");
                 }
             }
         }
@@ -736,6 +744,32 @@ namespace PlenBotLogUploader
         {
             dpsReportServerLink.Show();
             dpsReportServerLink.BringToFront();
+        }
+
+        private void FormMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void FormMain_DragDrop(object sender, DragEventArgs e)
+        {
+            Dictionary<string, string> postData = new Dictionary<string, string>
+            {
+                { "generator", "ei" },
+                { "json", "1" }
+            };
+            if (checkBoxWepSkill1.Checked)
+            {
+                postData.Add("rotation_weap1", "1");
+            }
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
+            {
+                HttpUploadFileToDPSReport(file, postData, true);
+            }
         }
     }
 }

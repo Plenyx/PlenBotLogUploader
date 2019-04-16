@@ -30,6 +30,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
+            this.buttonChatSettings = new System.Windows.Forms.Button();
             this.buttonChangeTwitchChannel = new System.Windows.Forms.Button();
             this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
             this.checkBoxPostToTwitch = new System.Windows.Forms.CheckBox();
@@ -37,6 +38,7 @@
             this.buttonReconnectBot = new System.Windows.Forms.Button();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
             this.groupBoxLogsDirectory = new System.Windows.Forms.GroupBox();
+            this.buttonOpenLogs = new System.Windows.Forms.Button();
             this.labelLocationInfo = new System.Windows.Forms.Label();
             this.buttonLogsLocation = new System.Windows.Forms.Button();
             this.groupBoxTrayIconSettings = new System.Windows.Forms.GroupBox();
@@ -50,10 +52,8 @@
             this.toolStripSeparatorFirst = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
-            this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.buttonOpenLogs = new System.Windows.Forms.Button();
-            this.buttonOpenCommands = new System.Windows.Forms.Button();
             this.buttonDPSReportServer = new System.Windows.Forms.Button();
+            this.buttonPingSettings = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxLogsDirectory.SuspendLayout();
             this.groupBoxTrayIconSettings.SuspendLayout();
@@ -73,7 +73,7 @@
             // 
             // groupBoxTwitchSettings
             // 
-            this.groupBoxTwitchSettings.Controls.Add(this.buttonOpenCommands);
+            this.groupBoxTwitchSettings.Controls.Add(this.buttonChatSettings);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonChangeTwitchChannel);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxFileSizeIgnore);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxPostToTwitch);
@@ -86,6 +86,16 @@
             this.groupBoxTwitchSettings.TabIndex = 4;
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
+            // 
+            // buttonChatSettings
+            // 
+            this.buttonChatSettings.Enabled = false;
+            this.buttonChatSettings.Location = new System.Drawing.Point(6, 137);
+            this.buttonChatSettings.Name = "buttonChatSettings";
+            this.buttonChatSettings.Size = new System.Drawing.Size(91, 23);
+            this.buttonChatSettings.TabIndex = 9;
+            this.buttonChatSettings.Text = "Chat settings";
+            this.buttonChatSettings.UseVisualStyleBackColor = true;
             // 
             // buttonChangeTwitchChannel
             // 
@@ -159,6 +169,17 @@
             this.groupBoxLogsDirectory.TabIndex = 5;
             this.groupBoxLogsDirectory.TabStop = false;
             this.groupBoxLogsDirectory.Text = "Logs directory";
+            // 
+            // buttonOpenLogs
+            // 
+            this.buttonOpenLogs.Enabled = false;
+            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 19);
+            this.buttonOpenLogs.Name = "buttonOpenLogs";
+            this.buttonOpenLogs.Size = new System.Drawing.Size(56, 23);
+            this.buttonOpenLogs.TabIndex = 2;
+            this.buttonOpenLogs.Text = "Open";
+            this.buttonOpenLogs.UseVisualStyleBackColor = true;
+            this.buttonOpenLogs.Click += new System.EventHandler(this.buttonOpenLogs_Click);
             // 
             // labelLocationInfo
             // 
@@ -278,37 +299,6 @@
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
-            // buttonPingSettings
-            // 
-            this.buttonPingSettings.Location = new System.Drawing.Point(6, 19);
-            this.buttonPingSettings.Name = "buttonPingSettings";
-            this.buttonPingSettings.Size = new System.Drawing.Size(188, 23);
-            this.buttonPingSettings.TabIndex = 0;
-            this.buttonPingSettings.Text = "Remote server ping";
-            this.buttonPingSettings.UseVisualStyleBackColor = true;
-            this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
-            // 
-            // buttonOpenLogs
-            // 
-            this.buttonOpenLogs.Enabled = false;
-            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 19);
-            this.buttonOpenLogs.Name = "buttonOpenLogs";
-            this.buttonOpenLogs.Size = new System.Drawing.Size(56, 23);
-            this.buttonOpenLogs.TabIndex = 2;
-            this.buttonOpenLogs.Text = "Open";
-            this.buttonOpenLogs.UseVisualStyleBackColor = true;
-            this.buttonOpenLogs.Click += new System.EventHandler(this.buttonOpenLogs_Click);
-            // 
-            // buttonOpenCommands
-            // 
-            this.buttonOpenCommands.Enabled = false;
-            this.buttonOpenCommands.Location = new System.Drawing.Point(6, 137);
-            this.buttonOpenCommands.Name = "buttonOpenCommands";
-            this.buttonOpenCommands.Size = new System.Drawing.Size(91, 23);
-            this.buttonOpenCommands.TabIndex = 9;
-            this.buttonOpenCommands.Text = "Chat commands";
-            this.buttonOpenCommands.UseVisualStyleBackColor = true;
-            // 
             // buttonDPSReportServer
             // 
             this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 48);
@@ -319,8 +309,19 @@
             this.buttonDPSReportServer.UseVisualStyleBackColor = true;
             this.buttonDPSReportServer.Click += new System.EventHandler(this.buttonDPSReportServer_Click);
             // 
+            // buttonPingSettings
+            // 
+            this.buttonPingSettings.Location = new System.Drawing.Point(6, 19);
+            this.buttonPingSettings.Name = "buttonPingSettings";
+            this.buttonPingSettings.Size = new System.Drawing.Size(188, 23);
+            this.buttonPingSettings.TabIndex = 0;
+            this.buttonPingSettings.Text = "Remote server ping";
+            this.buttonPingSettings.UseVisualStyleBackColor = true;
+            this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
+            // 
             // FormMain
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(633, 445);
@@ -337,6 +338,8 @@
             this.Text = "PlenBot Log Uploader";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.groupBoxTwitchSettings.ResumeLayout(false);
             this.groupBoxTwitchSettings.PerformLayout();
@@ -375,7 +378,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPostToTwitch;
         private System.Windows.Forms.Button buttonOpenLogs;
-        private System.Windows.Forms.Button buttonOpenCommands;
+        private System.Windows.Forms.Button buttonChatSettings;
         private System.Windows.Forms.Button buttonDPSReportServer;
     }
 }

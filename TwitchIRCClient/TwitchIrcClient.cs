@@ -10,69 +10,69 @@ namespace TwitchIRCClient
     class TwitchIrcClient : IDisposable
     {
         // public
-        public string LastChannelName { get; private set; }
+        public string LastChannelName { get; private set; } = "";
         public List<string> ChannelNames { get; private set; } = new List<string>();
         public bool Connecting { get; set; } = false;
         public bool Connected { get; set; } = false;
         public Thread ReadMessagesThread { get; private set; }
         public event EventHandler<IrcMessageEventArgs> ReceiveMessage;
-        public event EventHandler<IrcConnectionChangedEventArgs> ConnectionChange;
+        public event EventHandler<IrcChangedEventArgs> StateChange;
+
         // private
-        private string UserName { get; set; }
-        private string Password { get; set; }
-        private string ServerIp { get; set; }
-        private int ServerPort { get; set; }
-        private TcpClient TcpClient { get; set; }
-        private StreamReader InputStream { get; set; }
-        private StreamWriter OutputStream { get; set; }
+        private string userName;
+        private string password;
+        private string serverIp;
+        private int serverPort;
+        private TcpClient tcpClient;
+        private StreamReader inputStream;
+        private StreamWriter outputStream;
 
         public TwitchIrcClient(string userName, string password)
         {
-            UserName = userName;
-            Password = password;
-            ServerIp = "irc.chat.twitch.tv";
-            ServerPort = 6667;
-            CreateAndLogin();
+            this.userName = userName;
+            this.password = password;
+            serverIp = "irc.chat.twitch.tv";
+            serverPort = 6667;
         }
 
         public TwitchIrcClient(string userName, string password, string channelName)
         {
-            UserName = userName;
-            Password = password;
-            ServerIp = "irc.chat.twitch.tv";
-            ServerPort = 6667;
+            this.userName = userName;
+            this.password = password;
+            serverIp = "irc.chat.twitch.tv";
+            serverPort = 6667;
             channelName = channelName.ToLower();
             LastChannelName = channelName;
             ChannelNames.Add(channelName);
-            CreateAndLogin();
         }
 
         public TwitchIrcClient(string userName, string password, string ip, int port)
         {
-            UserName = userName;
-            Password = password;
-            ServerIp = ip;
-            ServerPort = port;
-            CreateAndLogin();
+            this.userName = userName;
+            this.password = password;
+            serverIp = ip;
+            serverPort = port;
         }
 
-        private void CreateAndLogin()
+        public void BeginConnection()
         {
-            TcpClient = new TcpClient(ServerIp, ServerPort);
-            InputStream = new StreamReader(TcpClient.GetStream());
-            OutputStream = new StreamWriter(TcpClient.GetStream());
+            tcpClient = new TcpClient(serverIp, serverPort);
+            inputStream = new StreamReader(tcpClient.GetStream());
+            outputStream = new StreamWriter(tcpClient.GetStream());
             Login();
+            StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.Connecting));
         }
 
         public async void Login()
         {
-            await OutputStream.WriteLineAsync($"PASS {Password}");
-            await OutputStream.WriteLineAsync($"NICK {UserName}");
+            await outputStream.WriteLineAsync($"PASS {password}");
+            await outputStream.WriteLineAsync($"NICK {userName}");
             if (LastChannelName != "")
             {
-                await OutputStream.WriteLineAsync($"JOIN #{LastChannelName}");
+                await outputStream.WriteLineAsync($"JOIN #{LastChannelName}");
+                StateChange?.Invoke(this, new IrcChangedEventArgs(LastChannelName));
             }
-            await OutputStream.FlushAsync();
+            await outputStream.FlushAsync();
             Connecting = true;
             ReceiveMessage += MessageListener;
             ReadMessagesThread = new Thread(ReadMessages);
@@ -91,13 +91,15 @@ namespace TwitchIRCClient
                 foreach (string name in ChannelNames)
                 {
                     await LeaveRoom(name);
+                    StateChange?.Invoke(this, new IrcChangedEventArgs(name, true));
                 }
                 ChannelNames.Clear();
             }
+            StateChange?.Invoke(this, new IrcChangedEventArgs(channelName));
             LastChannelName = channelName;
             ChannelNames.Add(channelName);
-            await OutputStream.WriteLineAsync($"JOIN #{channelName}");
-            await OutputStream.FlushAsync();
+            await outputStream.WriteLineAsync($"JOIN #{channelName}");
+            await outputStream.FlushAsync();
             return true;
         }
 
@@ -108,16 +110,17 @@ namespace TwitchIRCClient
             {
                 return false;
             }
+            StateChange?.Invoke(this, new IrcChangedEventArgs(channelName, true));
             ChannelNames.Remove(channelName);
-            await OutputStream.WriteLineAsync($"PART #{channelName}");
-            await OutputStream.FlushAsync();
+            await outputStream.WriteLineAsync($"PART #{channelName}");
+            await outputStream.FlushAsync();
             return true;
         }
 
         public async Task<bool> SendIrcMessage(string message)
         {
-            await OutputStream.WriteLineAsync(message);
-            await OutputStream.FlushAsync();
+            await outputStream.WriteLineAsync(message);
+            await outputStream.FlushAsync();
             return true;
         }
 
@@ -128,8 +131,8 @@ namespace TwitchIRCClient
             {
                 return false;
             }
-            await OutputStream.WriteLineAsync($":{UserName}!{UserName}@{UserName}.tmi.twitch.tv PRIVMSG #{channelName} :{message}");
-            await OutputStream.FlushAsync();
+            await outputStream.WriteLineAsync($":{userName}!{userName}@{userName}.tmi.twitch.tv PRIVMSG #{channelName} :{message}");
+            await outputStream.FlushAsync();
             return true;
         }
 
@@ -137,15 +140,15 @@ namespace TwitchIRCClient
 
         public void Dispose()
         {
-            ReadMessagesThread.Abort();
+            ReadMessagesThread?.Abort();
             Connecting = false;
             Connected = false;
-            InputStream.Dispose();
-            OutputStream.Dispose();
-            TcpClient.Close();
+            inputStream?.Dispose();
+            outputStream?.Dispose();
+            tcpClient?.Close();
         }
 
-        private async Task<string> ReadMessage() => await InputStream.ReadLineAsync();
+        private async Task<string> ReadMessage() => await inputStream.ReadLineAsync();
 
         private async void ReadMessages()
         {
@@ -168,14 +171,18 @@ namespace TwitchIRCClient
             {
                 return;
             }
-            if (!Connected && e.Message.Equals($":tmi.twitch.tv 001 {UserName} :Welcome, GLHF!"))
+            if (!Connected && e.Message.Equals($":tmi.twitch.tv 001 {userName} :Welcome, GLHF!"))
             {
                 Connected = true;
-                ConnectionChange?.Invoke(this, new IrcConnectionChangedEventArgs(true));
+                StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.Connected));
             }
             else if (Connected && e.Message.Equals("PING :tmi.twitch.tv"))
             {
                 await SendIrcMessage("PONG :tmi.twitch.tv");
+            }
+            else if (Connecting && e.Message.Equals($":{userName}.tmi.twitch.tv 353 {userName} = #{LastChannelName} :{userName}"))
+            {
+                StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.ChannelJoined));
             }
         }
     }

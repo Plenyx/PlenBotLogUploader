@@ -111,10 +111,11 @@
     <Compile Include="PlenyxAPI\PlenyxAPIError.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
-    <Compile Include="TwitchIRCClient\IrcConnectionChangedEventArgs.cs" />
+    <Compile Include="TwitchIRCClient\IrcChangedEventArgs.cs" />
     <Compile Include="TwitchIRCClient\IrcMessageEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TwitchIRCClient\IrcStates.cs" />
     <Compile Include="TwitchIRCClient\TwitchIrcClient.cs" />
     <EmbeddedResource Include="FormDPSReportServer.resx">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
