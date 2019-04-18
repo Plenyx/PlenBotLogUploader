@@ -79,6 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DPSReport\BossData.cs" />
+    <Compile Include="DPSReport\Bosses.cs" />
+    <Compile Include="DPSReport\BossIds.cs" />
     <Compile Include="DPSReport\DPSReportJSON.cs" />
     <Compile Include="DPSReport\DPSReportJSONEncounter.cs" />
     <Compile Include="DPSReport\DPSReportJSONevtc.cs" />

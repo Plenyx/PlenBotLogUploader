@@ -30,7 +30,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
-            this.buttonChatSettings = new System.Windows.Forms.Button();
+            this.buttonCustomName = new System.Windows.Forms.Button();
             this.buttonChangeTwitchChannel = new System.Windows.Forms.Button();
             this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
             this.checkBoxPostToTwitch = new System.Windows.Forms.CheckBox();
@@ -73,7 +73,7 @@
             // 
             // groupBoxTwitchSettings
             // 
-            this.groupBoxTwitchSettings.Controls.Add(this.buttonChatSettings);
+            this.groupBoxTwitchSettings.Controls.Add(this.buttonCustomName);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonChangeTwitchChannel);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxFileSizeIgnore);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxPostToTwitch);
@@ -87,15 +87,15 @@
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
             // 
-            // buttonChatSettings
+            // buttonCustomName
             // 
-            this.buttonChatSettings.Enabled = false;
-            this.buttonChatSettings.Location = new System.Drawing.Point(6, 137);
-            this.buttonChatSettings.Name = "buttonChatSettings";
-            this.buttonChatSettings.Size = new System.Drawing.Size(91, 23);
-            this.buttonChatSettings.TabIndex = 9;
-            this.buttonChatSettings.Text = "Chat settings";
-            this.buttonChatSettings.UseVisualStyleBackColor = true;
+            this.buttonCustomName.Enabled = false;
+            this.buttonCustomName.Location = new System.Drawing.Point(6, 137);
+            this.buttonCustomName.Name = "buttonCustomName";
+            this.buttonCustomName.Size = new System.Drawing.Size(91, 23);
+            this.buttonCustomName.TabIndex = 9;
+            this.buttonCustomName.Text = "Custom name";
+            this.buttonCustomName.UseVisualStyleBackColor = true;
             // 
             // buttonChangeTwitchChannel
             // 
@@ -378,7 +378,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPostToTwitch;
         private System.Windows.Forms.Button buttonOpenLogs;
-        private System.Windows.Forms.Button buttonChatSettings;
+        private System.Windows.Forms.Button buttonCustomName;
         private System.Windows.Forms.Button buttonDPSReportServer;
     }
 }

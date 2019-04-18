@@ -24,7 +24,8 @@ namespace PlenBotLogUploader
         public DPSReportJSONMinimal LastLog { get; set; }
         public string ChannelName { get; set; } = "";
         public string DPSReportServer { get; set; } = "";
-        public int Build { get; } = 10;
+        public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
+        public int Build { get; } = 11;
 
         // fields
         private TwitchIrcClient chatConnect;
@@ -191,7 +192,7 @@ namespace PlenBotLogUploader
                 chatConnect.StateChange += OnIrcStateChanged;
                 chatConnect.BeginConnection();
                 new Thread(DoCommandArgs).Start();
-                /* Subscribe to field changes events, otherwise they would trigger with the previous load */
+                /* Subscribe to field changes events, otherwise they would trigger with load */
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
                 checkBoxWepSkill1.CheckedChanged += new EventHandler(checkBoxWepSkill1_CheckedChanged);
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
@@ -275,7 +276,10 @@ namespace PlenBotLogUploader
                 {
                     if (currentversion > Build)
                     {
-                        AddToText($"New build available (build n.{response})");
+                        AddToText($">>");
+                        AddToText($">>> New build available (build n.{response})");
+                        AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
+                        AddToText($">>");
                         DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New build available (build n.{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (result == DialogResult.Yes)
                         {
@@ -370,49 +374,34 @@ namespace PlenBotLogUploader
 
         public async Task<string> DownloadFileAsyncToString(string url)
         {
-            string response = "";
-            using (WebClient client = new WebClient()) { response = await client.DownloadStringTaskAsync(new Uri(url)); }
-            return response;
+            var responseCode = await webClient.GetAsync(new Uri(url));
+            try
+            {
+                return await responseCode.Content.ReadAsStringAsync();
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         public async void HttpUploadFileToDPSReport(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
-            string boundary = $"---------------------------{DateTime.Now.Ticks.ToString("x")}";
-            byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes($"\r\n--{boundary}\r\n");
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create($"https://{DPSReportServer}/uploadContent");
-            wr.ContentType = $"multipart/form-data; boundary={boundary}";
-            wr.Method = "POST";
-            wr.KeepAlive = true;
-            wr.Credentials = CredentialCache.DefaultCredentials;
-            using (Stream rs = wr.GetRequestStream())
+            var content = new MultipartFormDataContent();
+            foreach (string key in postData.Keys)
             {
-                foreach (string key in postData.Keys)
-                {
-                    await rs.WriteAsync(boundarybytes, 0, boundarybytes.Length);
-                    byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes($"Content-Disposition: form-data; name=\"{key}\"\r\n\r\n{postData[key]}");
-                    await rs.WriteAsync(formitembytes, 0, formitembytes.Length);
-                }
-                await rs.WriteAsync(boundarybytes, 0, boundarybytes.Length);
-                byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes($"Content-Disposition: form-data; name=\"file\"; filename=\"{file}\"\r\nContent-Type: text/plain\r\n\r\n");
-                await rs.WriteAsync(headerbytes, 0, headerbytes.Length);
-                using (FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
-                {
-                    byte[] buffer = new byte[4096];
-                    int bytesRead = 0;
-                    while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0) { await rs.WriteAsync(buffer, 0, bytesRead); }
-                }
-                byte[] trailer = System.Text.Encoding.ASCII.GetBytes($"\r\n--{boundary}--\r\n");
-                await rs.WriteAsync(trailer, 0, trailer.Length);
+                content.Add(new StringContent(postData[key]), key);
             }
-            try
+            using (FileStream inputStream = File.OpenRead(file))
             {
-                using (WebResponse wresp = await wr.GetResponseAsync())
+                using (StreamContent contentStream = new StreamContent(inputStream))
                 {
-                    using (Stream stream = wresp.GetResponseStream())
+                    content.Add(contentStream, "file", Path.GetFileName(file));
+                    try
                     {
-                        using (StreamReader reader = new StreamReader(stream))
+                        using (var responseMessage = await webClient.PostAsync(new Uri($"https://{DPSReportServer}/uploadContent"), content))
                         {
-                            string response = reader.ReadToEnd();
+                            string response = await responseMessage.Content.ReadAsStringAsync();
                             try
                             {
                                 DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
@@ -421,18 +410,25 @@ namespace PlenBotLogUploader
                                 {
                                     AddToText($"New log: {reportJSON.permalink}");
                                     LastLog = reportJSON;
-                                    if (reportJSON.encounter.boss != "")
+                                    if (allBosses.ContainsKey(reportJSON.encounter.bossId))
                                     {
-                                        string format = $"Link to the {reportJSON.encounter.boss} ";
-                                        if (reportJSON.encounter.success ?? false)
+                                        if (!Bosses.IsGolem(reportJSON.encounter.bossId))
                                         {
-                                            format += "kill";
+                                            string format = $"Link to the {allBosses[reportJSON.encounter.bossId].Name}";
+                                            if (reportJSON.encounter.success ?? false)
+                                            {
+                                                format = $"{format} {allBosses[reportJSON.encounter.bossId].SuccessMsg}";
+                                            }
+                                            else
+                                            {
+                                                format = $"{format} {allBosses[reportJSON.encounter.bossId].FailMsg}";
+                                            }
+                                            await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.permalink}");
                                         }
                                         else
                                         {
-                                            format += "pull";
+                                            await chatConnect.SendChatMessage(ChannelName, $"Golem log: {reportJSON.permalink}");
                                         }
-                                        await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.permalink}");
                                     }
                                     else
                                     {
@@ -451,11 +447,11 @@ namespace PlenBotLogUploader
                             }
                         }
                     }
+                    catch
+                    {
+                        AddToText($"Unable to upload file {file}, dps.report not responding");
+                    }
                 }
-            }
-            catch
-            {
-                AddToText($"Unable to upload file {file}, error reading from input stream");
             }
         }
 
@@ -780,7 +776,7 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        HttpUploadFileToDPSReport(zipfilelocation, postData);
+                        HttpUploadFileToDPSReport(zipfilelocation, postData, false);
                     }
                     catch
                     {
@@ -795,6 +791,11 @@ namespace PlenBotLogUploader
                     }
                 }
             }
+        }
+
+        private void buttonChatSettings_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
