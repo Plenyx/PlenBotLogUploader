@@ -24,8 +24,10 @@ namespace PlenBotLogUploader
         public DPSReportJSONMinimal LastLog { get; set; }
         public string ChannelName { get; set; } = "";
         public string DPSReportServer { get; set; } = "";
+        public string CustomTwitchName { get; set; } = "";
+        public string CustomOAuthPassword { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 13;
+        public int Build { get; } = 14;
 
         // fields
         private TwitchIrcClient chatConnect;
@@ -34,6 +36,7 @@ namespace PlenBotLogUploader
         private FormPing pingLink;
         private FormTwitchNameSetup twitchNameLink;
         private FormDPSReportServer dpsReportServerLink;
+        private FormCustomName customNameLink;
         private HttpClient webClient = new HttpClient();
 
         public FormMain()
@@ -43,6 +46,7 @@ namespace PlenBotLogUploader
             pingLink = new FormPing(this);
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
+            customNameLink = new FormCustomName(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             new Thread(NewBuildCheck).Start();
             try
@@ -89,6 +93,12 @@ namespace PlenBotLogUploader
                     RegistryAccess.SetValue("remotePingMethod", 0);
                     RegistryAccess.SetValue("remotePingURL", "");
                     RegistryAccess.SetValue("remotePingSign", "");
+                }
+                if (RegistryAccess.GetValue("twitchCustomNameEnabled") == null)
+                {
+                    RegistryAccess.SetValue("twitchCustomNameEnabled", 0);
+                    RegistryAccess.SetValue("twitchCustomName", "");
+                    RegistryAccess.SetValue("twitchCustomOAuth", "");
                 }
                 LogsLocation = (string)RegistryAccess.GetValue("logsLocation", "");
                 if (LogsLocation == "")
@@ -172,13 +182,28 @@ namespace PlenBotLogUploader
                     pingLink.textBoxURL.Text = (string)RegistryAccess.GetValue("remotePingURL", "");
                     pingLink.textBoxSign.Text = (string)RegistryAccess.GetValue("remotePingSign", "");
                 }
+                if ((int)RegistryAccess.GetValue("twitchCustomNameEnabled", 0) == 1)
+                {
+                    customNameLink.checkBoxCustomNameEnable.Checked = true;
+                    CustomTwitchName = ((string)RegistryAccess.GetValue("twitchCustomName", "")).ToLower();
+                    CustomOAuthPassword = ((string)RegistryAccess.GetValue("twitchCustomOAuth", ""));
+                    customNameLink.textBoxCustomName.Text = CustomTwitchName;
+                    customNameLink.textBoxCustomOAuth.Text = CustomOAuthPassword;
+                }
                 if (RegistryAccess.GetValue("firstSetup") == null)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     twitchNameLink.Show();
                     RegistryAccess.SetValue("firstSetup", 1);
                 }
-                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                if (CustomTwitchName != "")
+                {
+                    chatConnect = new TwitchIrcClient(CustomTwitchName, CustomOAuthPassword);
+                }
+                else
+                {
+                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                }
                 chatConnect.ReceiveMessage += ReadMessages;
                 chatConnect.StateChange += OnIrcStateChanged;
                 chatConnect.BeginConnection();
@@ -561,7 +586,14 @@ namespace PlenBotLogUploader
             chatConnect.StateChange -= OnIrcStateChanged;
             chatConnect.Dispose();
             chatConnect = null;
-            chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+            if (CustomTwitchName != "")
+            {
+                chatConnect = new TwitchIrcClient(CustomTwitchName, CustomOAuthPassword);
+            }
+            else
+            {
+                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+            }
             chatConnect.ReceiveMessage += ReadMessages;
             chatConnect.StateChange += OnIrcStateChanged;
             chatConnect.BeginConnection();
@@ -791,9 +823,10 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void buttonChatSettings_Click(object sender, EventArgs e)
+        private void buttonCustomName_Click(object sender, EventArgs e)
         {
-            // TODO
+            customNameLink.Show();
+            customNameLink.BringToFront();
         }
 
         private void buttonRaidarSettings_Click(object sender, EventArgs e)

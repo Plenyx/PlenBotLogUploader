@@ -51,9 +51,9 @@
             this.toolStripSeparatorFirst = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonDPSReportServer = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxLogsDirectory.SuspendLayout();
             this.groupBoxTrayIconSettings.SuspendLayout();
@@ -89,13 +89,13 @@
             // 
             // buttonCustomName
             // 
-            this.buttonCustomName.Enabled = false;
             this.buttonCustomName.Location = new System.Drawing.Point(6, 137);
             this.buttonCustomName.Name = "buttonCustomName";
             this.buttonCustomName.Size = new System.Drawing.Size(91, 23);
             this.buttonCustomName.TabIndex = 9;
             this.buttonCustomName.Text = "Custom name";
             this.buttonCustomName.UseVisualStyleBackColor = true;
+            this.buttonCustomName.Click += new System.EventHandler(this.buttonCustomName_Click);
             // 
             // buttonChangeTwitchChannel
             // 
@@ -288,6 +288,17 @@
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
+            // buttonRaidarSettings
+            // 
+            this.buttonRaidarSettings.Enabled = false;
+            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 77);
+            this.buttonRaidarSettings.Name = "buttonRaidarSettings";
+            this.buttonRaidarSettings.Size = new System.Drawing.Size(188, 23);
+            this.buttonRaidarSettings.TabIndex = 2;
+            this.buttonRaidarSettings.Text = "GW2Raidar settings";
+            this.buttonRaidarSettings.UseVisualStyleBackColor = true;
+            this.buttonRaidarSettings.Click += new System.EventHandler(this.buttonRaidarSettings_Click);
+            // 
             // buttonDPSReportServer
             // 
             this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 48);
@@ -307,17 +318,6 @@
             this.buttonPingSettings.Text = "Remote server ping";
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
-            // 
-            // buttonRaidarSettings
-            // 
-            this.buttonRaidarSettings.Enabled = false;
-            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 77);
-            this.buttonRaidarSettings.Name = "buttonRaidarSettings";
-            this.buttonRaidarSettings.Size = new System.Drawing.Size(188, 23);
-            this.buttonRaidarSettings.TabIndex = 2;
-            this.buttonRaidarSettings.Text = "GW2Raidar settings";
-            this.buttonRaidarSettings.UseVisualStyleBackColor = true;
-            this.buttonRaidarSettings.Click += new System.EventHandler(this.buttonRaidarSettings_Click);
             // 
             // FormMain
             // 
