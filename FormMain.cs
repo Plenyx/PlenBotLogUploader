@@ -25,7 +25,7 @@ namespace PlenBotLogUploader
         public string ChannelName { get; set; } = "";
         public string DPSReportServer { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 11;
+        public int Build { get; } = 12;
 
         // fields
         private TwitchIrcClient chatConnect;
@@ -392,6 +392,7 @@ namespace PlenBotLogUploader
             {
                 content.Add(new StringContent(postData[key]), key);
             }
+            Thread.Sleep(600);
             using (FileStream inputStream = File.OpenRead(file))
             {
                 using (StreamContent contentStream = new StreamContent(inputStream))
@@ -424,6 +425,10 @@ namespace PlenBotLogUploader
                                                 format = $"{format} {allBosses[reportJSON.encounter.bossId].FailMsg}";
                                             }
                                             await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.permalink}");
+                                        }
+                                        else if (Bosses.IsEvent(reportJSON.encounter.bossId))
+                                        {
+                                            await chatConnect.SendChatMessage(ChannelName, $"Link to the {allBosses[reportJSON.encounter.bossId].Name} log: { reportJSON.permalink}");
                                         }
                                         else
                                         {
