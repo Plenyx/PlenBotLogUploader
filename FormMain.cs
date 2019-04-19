@@ -25,7 +25,7 @@ namespace PlenBotLogUploader
         public string ChannelName { get; set; } = "";
         public string DPSReportServer { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 12;
+        public int Build { get; } = 13;
 
         // fields
         private TwitchIrcClient chatConnect;
@@ -78,10 +78,6 @@ namespace PlenBotLogUploader
                 if (RegistryAccess.GetValue("trayEnabled") == null)
                 {
                     RegistryAccess.SetValue("trayEnabled", 1);
-                }
-                if (RegistryAccess.GetValue("trayMinimise") == null)
-                {
-                    RegistryAccess.SetValue("trayMinimise", 0);
                 }
                 if (RegistryAccess.GetValue("trayInfo") == null)
                 {
@@ -154,13 +150,8 @@ namespace PlenBotLogUploader
                 if ((int)RegistryAccess.GetValue("trayEnabled", 0) == 1)
                 {
                     checkBoxTrayEnable.Checked = true;
-                    checkBoxTrayMinimiseToIcon.Enabled = true;
                     checkBoxTrayNotification.Enabled = true;
                     notifyIconTray.Visible = true;
-                }
-                if ((int)RegistryAccess.GetValue("trayMinimise", 0) == 1 && checkBoxTrayEnable.Checked)
-                {
-                    checkBoxTrayMinimiseToIcon.Checked = true;
                 }
                 if ((int)RegistryAccess.GetValue("trayInfo", 0) == 1 && checkBoxTrayEnable.Checked)
                 {
@@ -198,7 +189,6 @@ namespace PlenBotLogUploader
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
                 checkBoxFileSizeIgnore.CheckedChanged += new EventHandler(checkBoxFileSizeIgnore_CheckedChanged);
                 checkBoxTrayNotification.CheckedChanged += new EventHandler(checkBoxTrayNotification_CheckedChanged);
-                checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
                 checkBoxTrayEnable.CheckedChanged += new EventHandler(checkBoxTrayEnable_CheckedChanged);
             }
             catch
@@ -240,6 +230,8 @@ namespace PlenBotLogUploader
                                 {
                                     postData.Add("rotation_weap1", "1");
                                 }
+                                // a workaround so arc can release the file for read access
+                                Thread.Sleep(600);
                                 HttpUploadFileToDPSReport(zipfilelocation, postData);
                             }
                             catch
@@ -276,19 +268,26 @@ namespace PlenBotLogUploader
                 {
                     if (currentversion > Build)
                     {
+                        AddToText($">");
                         AddToText($">>");
                         AddToText($">>> New build available (build n.{response})");
                         AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
                         AddToText($">>");
+                        AddToText($">");
                         DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New build available (build n.{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (result == DialogResult.Yes)
                         {
+                            MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nDo not forgot to close this application.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
+                            Process.Start($"{GetLocalDir()}");
                         }
                     }
                 }
             }
-            catch { /* do nothing */ }
+            catch
+            {
+                AddToText("> Unable to check new build version.");
+            }
         }
 
         protected void DoCommandArgs()
@@ -392,71 +391,78 @@ namespace PlenBotLogUploader
             {
                 content.Add(new StringContent(postData[key]), key);
             }
-            Thread.Sleep(600);
-            using (FileStream inputStream = File.OpenRead(file))
+            try
             {
-                using (StreamContent contentStream = new StreamContent(inputStream))
+                using (FileStream inputStream = File.OpenRead(file))
                 {
-                    content.Add(contentStream, "file", Path.GetFileName(file));
-                    try
+                    using (StreamContent contentStream = new StreamContent(inputStream))
                     {
-                        using (var responseMessage = await webClient.PostAsync(new Uri($"https://{DPSReportServer}/uploadContent"), content))
+                        content.Add(contentStream, "file", Path.GetFileName(file));
+                        try
                         {
-                            string response = await responseMessage.Content.ReadAsStringAsync();
-                            try
+                            using (var responseMessage = await webClient.PostAsync(new Uri($"https://{DPSReportServer}/uploadContent"), content))
                             {
-                                DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
-                                File.AppendAllText($"{GetLocalDir()}logs.txt", $"{reportJSON.permalink}\n");
-                                if (checkBoxPostToTwitch.Checked && !bypassMessage)
+                                string response = await responseMessage.Content.ReadAsStringAsync();
+                                try
                                 {
-                                    AddToText($"New log: {reportJSON.permalink}");
-                                    LastLog = reportJSON;
-                                    if (allBosses.ContainsKey(reportJSON.encounter.bossId))
+                                    DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
+                                    File.AppendAllText($"{GetLocalDir()}logs.txt", $"{reportJSON.permalink}\n");
+                                    if (checkBoxPostToTwitch.Checked && !bypassMessage)
                                     {
-                                        if (!Bosses.IsGolem(reportJSON.encounter.bossId))
+                                        AddToText($"New log: {reportJSON.permalink}");
+                                        LastLog = reportJSON;
+                                        if (allBosses.ContainsKey(reportJSON.encounter.bossId))
                                         {
-                                            string format = $"Link to the {allBosses[reportJSON.encounter.bossId].Name}";
-                                            if (reportJSON.encounter.success ?? false)
+                                            if (!Bosses.IsGolem(reportJSON.encounter.bossId) && !Bosses.IsEvent(reportJSON.encounter.bossId))
                                             {
-                                                format = $"{format} {allBosses[reportJSON.encounter.bossId].SuccessMsg}";
+                                                string format = $"Link to the {allBosses[reportJSON.encounter.bossId].Name}";
+                                                if (reportJSON.encounter.success ?? false)
+                                                {
+                                                    format = $"{format} {allBosses[reportJSON.encounter.bossId].SuccessMsg}";
+                                                }
+                                                else
+                                                {
+                                                    format = $"{format} {allBosses[reportJSON.encounter.bossId].FailMsg}";
+                                                }
+                                                await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.permalink}");
+                                            }
+                                            else if (Bosses.IsEvent(reportJSON.encounter.bossId))
+                                            {
+                                                await chatConnect.SendChatMessage(ChannelName, $"Link to the {allBosses[reportJSON.encounter.bossId].Name} log: { reportJSON.permalink}");
                                             }
                                             else
                                             {
-                                                format = $"{format} {allBosses[reportJSON.encounter.bossId].FailMsg}";
+                                                await chatConnect.SendChatMessage(ChannelName, $"Golem log: {reportJSON.permalink}");
                                             }
-                                            await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.permalink}");
-                                        }
-                                        else if (Bosses.IsEvent(reportJSON.encounter.bossId))
-                                        {
-                                            await chatConnect.SendChatMessage(ChannelName, $"Link to the {allBosses[reportJSON.encounter.bossId].Name} log: { reportJSON.permalink}");
                                         }
                                         else
                                         {
-                                            await chatConnect.SendChatMessage(ChannelName, $"Golem log: {reportJSON.permalink}");
+                                            await chatConnect.SendChatMessage(ChannelName, $"Link to the log: {reportJSON.permalink}");
                                         }
                                     }
                                     else
                                     {
-                                        await chatConnect.SendChatMessage(ChannelName, $"Link to the log: {reportJSON.permalink}");
+                                        AddToText(reportJSON.permalink);
                                     }
+                                    await PingServer(reportJSON);
                                 }
-                                else
+                                catch
                                 {
-                                    AddToText(reportJSON.permalink);
+                                    AddToText($"Unable to upload file {file}, dps.report responded with invalid permanent link");
                                 }
-                                await PingServer(reportJSON);
-                            }
-                            catch
-                            {
-                                AddToText($"Unable to upload file {file}, dps.report responded with invalid permanent link");
                             }
                         }
-                    }
-                    catch
-                    {
-                        AddToText($"Unable to upload file {file}, dps.report not responding");
+                        catch
+                        {
+                            AddToText($"Unable to upload file {file}, dps.report not responding");
+                        }
                     }
                 }
+            }
+            catch
+            {
+                Thread.Sleep(650);
+                HttpUploadFileToDPSReport(file, postData, bypassMessage);
             }
         }
 
@@ -604,16 +610,13 @@ namespace PlenBotLogUploader
         {
             if (checkBoxTrayEnable.Checked)
             {
-                checkBoxTrayMinimiseToIcon.Enabled = true;
                 checkBoxTrayNotification.Enabled = true;
                 RegistryAccess.SetValue("trayEnabled", 1);
                 notifyIconTray.Visible = true;
             }
             else
             {
-                checkBoxTrayMinimiseToIcon.Enabled = false;
                 checkBoxTrayNotification.Enabled = false;
-                checkBoxTrayMinimiseToIcon.Checked = false;
                 checkBoxTrayNotification.Checked = false;
                 RegistryAccess.SetValue("trayEnabled", 0);
                 RegistryAccess.SetValue("trayMinimise", 0);
@@ -623,8 +626,6 @@ namespace PlenBotLogUploader
         }
 
         private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("wepSkill1", checkBoxUploadLogs.Checked ? 1 : 0);
-
-        private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("trayMinimise", checkBoxTrayMinimiseToIcon.Checked ? 1 : 0);
 
         private void checkBoxTrayNotification_CheckedChanged(object sender, EventArgs e)
         {
@@ -642,14 +643,6 @@ namespace PlenBotLogUploader
         }
 
         private void checkBoxFileSizeIgnore_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("uploadIgnoreSize", checkBoxFileSizeIgnore.Checked ? 1 : 0);
-
-        private void FormMain_Resize(object sender, EventArgs e)
-        {
-            if ((WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
-            {
-                ShowInTaskbar = false;
-            }
-        }
 
         private void notifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -800,7 +793,12 @@ namespace PlenBotLogUploader
 
         private void buttonChatSettings_Click(object sender, EventArgs e)
         {
+            // TODO
+        }
 
+        private void buttonRaidarSettings_Click(object sender, EventArgs e)
+        {
+            // TODO
         }
     }
 }

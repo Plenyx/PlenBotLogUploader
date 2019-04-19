@@ -43,7 +43,6 @@
             this.buttonLogsLocation = new System.Windows.Forms.Button();
             this.groupBoxTrayIconSettings = new System.Windows.Forms.GroupBox();
             this.checkBoxTrayNotification = new System.Windows.Forms.CheckBox();
-            this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
             this.checkBoxTrayEnable = new System.Windows.Forms.CheckBox();
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStripIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -54,6 +53,7 @@
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.buttonDPSReportServer = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
+            this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxLogsDirectory.SuspendLayout();
             this.groupBoxTrayIconSettings.SuspendLayout();
@@ -68,7 +68,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 429);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 435);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
@@ -202,11 +202,10 @@
             // groupBoxTrayIconSettings
             // 
             this.groupBoxTrayIconSettings.Controls.Add(this.checkBoxTrayNotification);
-            this.groupBoxTrayIconSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxTrayIconSettings.Controls.Add(this.checkBoxTrayEnable);
             this.groupBoxTrayIconSettings.Location = new System.Drawing.Point(426, 268);
             this.groupBoxTrayIconSettings.Name = "groupBoxTrayIconSettings";
-            this.groupBoxTrayIconSettings.Size = new System.Drawing.Size(200, 89);
+            this.groupBoxTrayIconSettings.Size = new System.Drawing.Size(200, 66);
             this.groupBoxTrayIconSettings.TabIndex = 6;
             this.groupBoxTrayIconSettings.TabStop = false;
             this.groupBoxTrayIconSettings.Text = "Tray Icon settings";
@@ -215,23 +214,12 @@
             // 
             this.checkBoxTrayNotification.AutoSize = true;
             this.checkBoxTrayNotification.Enabled = false;
-            this.checkBoxTrayNotification.Location = new System.Drawing.Point(6, 65);
+            this.checkBoxTrayNotification.Location = new System.Drawing.Point(6, 42);
             this.checkBoxTrayNotification.Name = "checkBoxTrayNotification";
             this.checkBoxTrayNotification.Size = new System.Drawing.Size(110, 17);
             this.checkBoxTrayNotification.TabIndex = 2;
             this.checkBoxTrayNotification.Text = "show notifications";
             this.checkBoxTrayNotification.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxTrayMinimiseToIcon
-            // 
-            this.checkBoxTrayMinimiseToIcon.AutoSize = true;
-            this.checkBoxTrayMinimiseToIcon.Enabled = false;
-            this.checkBoxTrayMinimiseToIcon.Location = new System.Drawing.Point(6, 42);
-            this.checkBoxTrayMinimiseToIcon.Name = "checkBoxTrayMinimiseToIcon";
-            this.checkBoxTrayMinimiseToIcon.Size = new System.Drawing.Size(100, 17);
-            this.checkBoxTrayMinimiseToIcon.TabIndex = 1;
-            this.checkBoxTrayMinimiseToIcon.Text = "minimise to icon";
-            this.checkBoxTrayMinimiseToIcon.UseVisualStyleBackColor = true;
             // 
             // checkBoxTrayEnable
             // 
@@ -290,11 +278,12 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonDPSReportServer);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 363);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 340);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 78);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 107);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
@@ -319,12 +308,23 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
+            // buttonRaidarSettings
+            // 
+            this.buttonRaidarSettings.Enabled = false;
+            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 77);
+            this.buttonRaidarSettings.Name = "buttonRaidarSettings";
+            this.buttonRaidarSettings.Size = new System.Drawing.Size(188, 23);
+            this.buttonRaidarSettings.TabIndex = 2;
+            this.buttonRaidarSettings.Text = "GW2Raidar settings";
+            this.buttonRaidarSettings.UseVisualStyleBackColor = true;
+            this.buttonRaidarSettings.Click += new System.EventHandler(this.buttonRaidarSettings_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 445);
+            this.ClientSize = new System.Drawing.Size(633, 452);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxTrayIconSettings);
             this.Controls.Add(this.groupBoxLogsDirectory);
@@ -340,7 +340,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
-            this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.groupBoxTwitchSettings.ResumeLayout(false);
             this.groupBoxTwitchSettings.PerformLayout();
             this.groupBoxLogsDirectory.ResumeLayout(false);
@@ -364,7 +363,6 @@
         private System.Windows.Forms.Label labelLocationInfo;
         private System.Windows.Forms.GroupBox groupBoxTrayIconSettings;
         private System.Windows.Forms.CheckBox checkBoxTrayNotification;
-        private System.Windows.Forms.CheckBox checkBoxTrayMinimiseToIcon;
         private System.Windows.Forms.CheckBox checkBoxTrayEnable;
         private System.Windows.Forms.NotifyIcon notifyIconTray;
         private System.Windows.Forms.CheckBox checkBoxPostToTwitch;
@@ -380,6 +378,7 @@
         private System.Windows.Forms.Button buttonOpenLogs;
         private System.Windows.Forms.Button buttonCustomName;
         private System.Windows.Forms.Button buttonDPSReportServer;
+        private System.Windows.Forms.Button buttonRaidarSettings;
     }
 }
 

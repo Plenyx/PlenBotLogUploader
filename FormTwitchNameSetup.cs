@@ -24,6 +24,7 @@ namespace PlenBotLogUploader
                 DialogResult result = MessageBox.Show($"Is this your channel name?\n\n{channelName}", "Channel name confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (result == DialogResult.Yes)
                 {
+                    mainLink.ChannelName = channelName;
                     mainLink.RegistryAccess.SetValue("channel", channelName);
                     mainLink.ReconnectBot();
                     Hide();
