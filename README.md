@@ -3,7 +3,8 @@ An open source uploader to dps.report which post the links to Twitch chat or not
 
 *Maintained by Plenyx.*
 
-**Requires .NET Framework 4.5 ([link](https://www.microsoft.com/en-us/download/details.aspx?id=30653))** - v4.6 is preinstalled on Windows 10 by default, so you don't need to download it if you own Windows 10, it is backwards compatible)**
+**Requires .NET Framework 4.5 ([link](https://www.microsoft.com/en-us/download/details.aspx?id=30653))**
+* v4.6 is preinstalled on Windows 10 by default, so you don't need to download it if you own Windows 10, it is backwards compatible
 
 ## Installation
 To install the uploader, I recommend creating a new folder and putting the executable in.

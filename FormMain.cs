@@ -27,7 +27,7 @@ namespace PlenBotLogUploader
         public string CustomTwitchName { get; set; } = "";
         public string CustomOAuthPassword { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 14;
+        public int Build { get; } = 15;
 
         // fields
         private TwitchIrcClient chatConnect;
@@ -238,6 +238,8 @@ namespace PlenBotLogUploader
                         {
                             string zipfilelocation = e.FullPath;
                             bool archived = false;
+                            // a workaround so arc can release the file for read access
+                            Thread.Sleep(600);
                             if (!e.FullPath.EndsWith(".zevtc"))
                             {
                                 zipfilelocation = $"{GetLocalDir()}{Path.GetFileName(e.FullPath)}.zevtc";
@@ -255,8 +257,6 @@ namespace PlenBotLogUploader
                                 {
                                     postData.Add("rotation_weap1", "1");
                                 }
-                                // a workaround so arc can release the file for read access
-                                Thread.Sleep(600);
                                 HttpUploadFileToDPSReport(zipfilelocation, postData);
                             }
                             catch
