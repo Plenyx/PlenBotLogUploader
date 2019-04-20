@@ -27,26 +27,27 @@ namespace PlenBotLogUploader
         public string CustomTwitchName { get; set; } = "";
         public string CustomOAuthPassword { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 15;
+        public int Build { get; } = 16;
 
         // fields
-        private TwitchIrcClient chatConnect;
         private const int minFileSize = 20480;
-        private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
+        private bool firstTimeMinimise = true;
         private FormPing pingLink;
         private FormTwitchNameSetup twitchNameLink;
         private FormDPSReportServer dpsReportServerLink;
         private FormCustomName customNameLink;
+        private TwitchIrcClient chatConnect;
+        private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private HttpClient webClient = new HttpClient();
 
         public FormMain()
         {
             InitializeComponent();
             Text = $"{Text} b{Build}";
-            pingLink = new FormPing(this);
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
+            pingLink = new FormPing(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             new Thread(NewBuildCheck).Start();
             try
@@ -79,13 +80,9 @@ namespace PlenBotLogUploader
                 {
                     RegistryAccess.SetValue("dpsReportServer", 0);
                 }
-                if (RegistryAccess.GetValue("trayEnabled") == null)
+                if (RegistryAccess.GetValue("trayMinimise") == null)
                 {
-                    RegistryAccess.SetValue("trayEnabled", 1);
-                }
-                if (RegistryAccess.GetValue("trayInfo") == null)
-                {
-                    RegistryAccess.SetValue("trayInfo", 1);
+                    RegistryAccess.SetValue("trayMinimise", 1);
                 }
                 if (RegistryAccess.GetValue("remotePingEnabled") == null)
                 {
@@ -122,6 +119,7 @@ namespace PlenBotLogUploader
                     }
                 }
                 ChannelName = ((string)RegistryAccess.GetValue("channel", "")).ToLower();
+                firstTimeMinimise = (int)RegistryAccess.GetValue("trayMinimiseFirst", 1) == 1;
                 if (!string.IsNullOrEmpty(ChannelName))
                 {
                     twitchNameLink.textBoxChannelUrl.Text = $"https://twitch.tv/{ChannelName}/";
@@ -157,15 +155,9 @@ namespace PlenBotLogUploader
                 {
                     checkBoxWepSkill1.Checked = true;
                 }
-                if ((int)RegistryAccess.GetValue("trayEnabled", 0) == 1)
+                if ((int)RegistryAccess.GetValue("trayMinimise", 0) == 1)
                 {
-                    checkBoxTrayEnable.Checked = true;
-                    checkBoxTrayNotification.Enabled = true;
-                    notifyIconTray.Visible = true;
-                }
-                if ((int)RegistryAccess.GetValue("trayInfo", 0) == 1 && checkBoxTrayEnable.Checked)
-                {
-                    checkBoxTrayNotification.Checked = true;
+                    checkBoxTrayMinimiseToIcon.Checked = true;
                 }
                 if ((int)RegistryAccess.GetValue("remotePingEnabled", 0) == 1)
                 {
@@ -213,8 +205,7 @@ namespace PlenBotLogUploader
                 checkBoxWepSkill1.CheckedChanged += new EventHandler(checkBoxWepSkill1_CheckedChanged);
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
                 checkBoxFileSizeIgnore.CheckedChanged += new EventHandler(checkBoxFileSizeIgnore_CheckedChanged);
-                checkBoxTrayNotification.CheckedChanged += new EventHandler(checkBoxTrayNotification_CheckedChanged);
-                checkBoxTrayEnable.CheckedChanged += new EventHandler(checkBoxTrayEnable_CheckedChanged);
+                checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
             }
             catch
             {
@@ -239,7 +230,7 @@ namespace PlenBotLogUploader
                             string zipfilelocation = e.FullPath;
                             bool archived = false;
                             // a workaround so arc can release the file for read access
-                            Thread.Sleep(600);
+                            Thread.Sleep(650);
                             if (!e.FullPath.EndsWith(".zevtc"))
                             {
                                 zipfilelocation = $"{GetLocalDir()}{Path.GetFileName(e.FullPath)}.zevtc";
@@ -282,7 +273,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ShowBalloon(string title, string description, int ms) => notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.Info);
+        private void ShowBalloon(string title, string description, int ms) => notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.None);
 
         protected async void NewBuildCheck()
         {
@@ -416,6 +407,7 @@ namespace PlenBotLogUploader
             {
                 content.Add(new StringContent(postData[key]), key);
             }
+            AddToText($"> Uploading {Path.GetFileName(file)}");
             try
             {
                 using (FileStream inputStream = File.OpenRead(file))
@@ -638,35 +630,9 @@ namespace PlenBotLogUploader
             dialog.Dispose();
         }
 
-        private void checkBoxTrayEnable_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxTrayEnable.Checked)
-            {
-                checkBoxTrayNotification.Enabled = true;
-                RegistryAccess.SetValue("trayEnabled", 1);
-                notifyIconTray.Visible = true;
-            }
-            else
-            {
-                checkBoxTrayNotification.Enabled = false;
-                checkBoxTrayNotification.Checked = false;
-                RegistryAccess.SetValue("trayEnabled", 0);
-                RegistryAccess.SetValue("trayMinimise", 0);
-                RegistryAccess.SetValue("trayInfo", 0);
-                notifyIconTray.Visible = false;
-            }
-        }
-
         private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("wepSkill1", checkBoxUploadLogs.Checked ? 1 : 0);
 
-        private void checkBoxTrayNotification_CheckedChanged(object sender, EventArgs e)
-        {
-            RegistryAccess.SetValue("trayInfo", checkBoxTrayNotification.Checked ? 1 : 0);
-            if (checkBoxTrayNotification.Checked)
-            {
-                ShowBalloon("Tray information", "Tray information enabled.", 4500);
-            }
-        }
+        private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e) => RegistryAccess.SetValue("trayMinimise", checkBoxTrayMinimiseToIcon.Checked ? 1 : 0);
 
         private void checkBoxPostToTwitch_CheckedChanged(object sender, EventArgs e)
         {
@@ -750,12 +716,6 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void buttonPingSettings_Click(object sender, EventArgs e)
-        {
-            pingLink.Show();
-            pingLink.BringToFront();
-        }
-
         private void buttonChangeTwitchChannel_Click(object sender, EventArgs e) => twitchNameLink.Show();
 
         private void toolStripMenuItemUploadLogs_CheckedChanged(object sender, EventArgs e) => checkBoxUploadLogs.Checked = toolStripMenuItemUploadLogs.Checked;
@@ -766,10 +726,18 @@ namespace PlenBotLogUploader
 
         private void buttonOpenLogs_Click(object sender, EventArgs e) => Process.Start(LogsLocation);
 
-        private void buttonDPSReportServer_Click(object sender, EventArgs e)
+        private void FormMain_Resize(object sender, EventArgs e)
         {
-            dpsReportServerLink.Show();
-            dpsReportServerLink.BringToFront();
+            if ((WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
+            {
+                ShowInTaskbar = false;
+                if (firstTimeMinimise)
+                {
+                    ShowBalloon("Uploader minimised", "Double click the icon to bring back the uploader.\nYou can also right click for quick settings.", 6500);
+                    RegistryAccess.SetValue("trayMinimiseFirst", 0);
+                    firstTimeMinimise = false;
+                }
+            }
         }
 
         private void FormMain_DragEnter(object sender, DragEventArgs e)
@@ -823,15 +791,45 @@ namespace PlenBotLogUploader
             }
         }
 
+        private void buttonDPSReportServer_Click(object sender, EventArgs e)
+        {
+            dpsReportServerLink.Show();
+            dpsReportServerLink.BringToFront();
+        }
+
         private void buttonCustomName_Click(object sender, EventArgs e)
         {
             customNameLink.Show();
             customNameLink.BringToFront();
         }
 
+        private void buttonPingSettings_Click(object sender, EventArgs e)
+        {
+            pingLink.Show();
+            pingLink.BringToFront();
+        }
+
         private void buttonRaidarSettings_Click(object sender, EventArgs e)
         {
             // TODO
+        }
+
+        private void toolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
+        {
+            dpsReportServerLink.Show();
+            dpsReportServerLink.BringToFront();
+        }
+
+        private void toolStripMenuItemOpenCustomName_Click(object sender, EventArgs e)
+        {
+            customNameLink.Show();
+            customNameLink.BringToFront();
+        }
+
+        private void toolStripMenuItemOpenPingSettings_Click(object sender, EventArgs e)
+        {
+            pingLink.Show();
+            pingLink.BringToFront();
         }
     }
 }

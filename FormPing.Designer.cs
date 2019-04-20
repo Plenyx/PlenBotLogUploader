@@ -67,16 +67,16 @@
             this.groupBoxRemoteSettings.Enabled = false;
             this.groupBoxRemoteSettings.Location = new System.Drawing.Point(12, 35);
             this.groupBoxRemoteSettings.Name = "groupBoxRemoteSettings";
-            this.groupBoxRemoteSettings.Size = new System.Drawing.Size(404, 187);
+            this.groupBoxRemoteSettings.Size = new System.Drawing.Size(404, 157);
             this.groupBoxRemoteSettings.TabIndex = 1;
             this.groupBoxRemoteSettings.TabStop = false;
             this.groupBoxRemoteSettings.Text = "Remote server settings";
             // 
             // buttonTestPing
             // 
-            this.buttonTestPing.Location = new System.Drawing.Point(6, 156);
+            this.buttonTestPing.Location = new System.Drawing.Point(205, 126);
             this.buttonTestPing.Name = "buttonTestPing";
-            this.buttonTestPing.Size = new System.Drawing.Size(122, 24);
+            this.buttonTestPing.Size = new System.Drawing.Size(191, 24);
             this.buttonTestPing.TabIndex = 7;
             this.buttonTestPing.Text = "Test Ping";
             this.buttonTestPing.UseVisualStyleBackColor = true;
@@ -86,7 +86,7 @@
             // 
             this.buttonPlenyxWay.Location = new System.Drawing.Point(6, 126);
             this.buttonPlenyxWay.Name = "buttonPlenyxWay";
-            this.buttonPlenyxWay.Size = new System.Drawing.Size(122, 24);
+            this.buttonPlenyxWay.Size = new System.Drawing.Size(191, 24);
             this.buttonPlenyxWay.TabIndex = 6;
             this.buttonPlenyxWay.Text = "Use Plenyx\'s server";
             this.buttonPlenyxWay.UseVisualStyleBackColor = true;
@@ -116,7 +116,7 @@
             this.groupBoxUrl.Controls.Add(this.textBoxURL);
             this.groupBoxUrl.Location = new System.Drawing.Point(134, 19);
             this.groupBoxUrl.Name = "groupBoxUrl";
-            this.groupBoxUrl.Size = new System.Drawing.Size(262, 161);
+            this.groupBoxUrl.Size = new System.Drawing.Size(262, 101);
             this.groupBoxUrl.TabIndex = 4;
             this.groupBoxUrl.TabStop = false;
             this.groupBoxUrl.Text = "URL";
@@ -126,7 +126,7 @@
             this.textBoxURL.Location = new System.Drawing.Point(6, 19);
             this.textBoxURL.Multiline = true;
             this.textBoxURL.Name = "textBoxURL";
-            this.textBoxURL.Size = new System.Drawing.Size(250, 135);
+            this.textBoxURL.Size = new System.Drawing.Size(250, 72);
             this.textBoxURL.TabIndex = 3;
             // 
             // groupBoxMethod
@@ -166,7 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 231);
+            this.ClientSize = new System.Drawing.Size(429, 199);
             this.Controls.Add(this.groupBoxRemoteSettings);
             this.Controls.Add(this.checkBoxEnablePing);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

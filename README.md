@@ -11,7 +11,9 @@ To install the uploader, I recommend creating a new folder and putting the execu
 
 The uploader will create a file called “links.txt” which will contain all previous and latest upload links.
 
-For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username “gw2loguploader”. Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code).
+For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username “gw2loguploader”. Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
+
+I recommend using the compress feature in the arc settings. Otherwise the bot will try to archive it itself, which can be more unstable.
 
 ## Update
 The uploader keeps track of its version and the online available version. When you start the executable, it will check for updates. If update is found a prompt will be displayed.

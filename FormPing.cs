@@ -44,8 +44,8 @@ namespace PlenBotLogUploader
             radioButtonMethodPost.Checked = true;
             textBoxURL.Text = "https://plenbot.net/uploader/ping/";
             textBoxSign.Text = "";
-            MessageBox.Show("In order to use the ping server you need to have a valid sign.\nA browser window will be opened with instructions on how to get one.\nFrom there you can connect PlenBot to your Discord server and post logs directly into your desired channel. (WIP)");
-            Process.Start("https://plenbot.net/uploader/#setup-sign");
+            MessageBox.Show("In order to use the ping server you need to have a valid sign.\nA browser window will be opened with instructions on how to get one.\nFrom there you can connect PlenBot to your Discord server and post logs directly into your desired channel. (still work in progress, contact me directly @Plenyx#1029)");
+            //Process.Start("https://plenbot.net/uploader/#setup-sign");
         }
 
         public async void PingTest()
