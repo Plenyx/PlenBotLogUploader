@@ -27,7 +27,7 @@ namespace PlenBotLogUploader
         public string CustomTwitchName { get; set; } = "";
         public string CustomOAuthPassword { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 16;
+        public int Build { get; } = 17;
 
         // fields
         private const int minFileSize = 20480;
@@ -293,9 +293,14 @@ namespace PlenBotLogUploader
                         DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New build available (build n.{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (result == DialogResult.Yes)
                         {
-                            MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nDo not forgot to close this application.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
                             Process.Start($"{GetLocalDir()}");
+                            if (InvokeRequired)
+                            {
+                                // invokes the function on the main thread
+                                Invoke((Action)delegate () { Close(); });
+                            }
                         }
                     }
                 }
