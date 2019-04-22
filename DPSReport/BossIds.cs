@@ -2,6 +2,7 @@
 {
     public enum BossIds
     {
+        WvW = 1,
         Sabetha = 15375,
         Gorseval = 15429,
         ValeGuardian = 15438,

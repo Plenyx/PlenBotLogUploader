@@ -1,9 +1,9 @@
 ﻿namespace PlenBotLogUploader.DPSReport
 {
-    public class DPSReportJSONevtc
+    public class DPSReportJSONEvtc
     {
-        public string type { get; set; }
-        public string version { get; set; }
-        public int bossId { get; set; }
+        public string Type { get; set; }
+        public string Version { get; set; }
+        public int BossId { get; set; }
     }
 }

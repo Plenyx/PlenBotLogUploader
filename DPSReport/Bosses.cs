@@ -37,12 +37,13 @@ namespace PlenBotLogUploader.DPSReport
                 { (int)BossIds.SoullessHorror, new BossData((int)BossIds.SoullessHorror, "Soulless Horror")  },
                 { (int)BossIds.StandardGolem, new BossData((int)BossIds.StandardGolem, "Standard Kitty Golem")  },
                 { (int)BossIds.ValeGuardian, new BossData((int)BossIds.ValeGuardian, "Vale Guardian")  },
-                { (int)BossIds.Xera, new BossData((int)BossIds.Xera, "Xera") }
+                { (int)BossIds.Xera, new BossData((int)BossIds.Xera, "Xera") },
+                { (int)BossIds.WvW, new BossData((int)BossIds.WvW, "World vs World") }
             };
         }
 
         public static bool IsGolem(int bossId) => ((bossId == (int)BossIds.StandardGolem) || (bossId == (int)BossIds.MediumGolem) || (bossId == (int)BossIds.LargeGolem));
 
-        public static bool IsEvent(int bossId) => ((bossId == (int)BossIds.BanditTrio) || (bossId == (int)BossIds.RiverOfSouls));
+        public static bool IsEvent(int bossId) => ((bossId == (int)BossIds.BanditTrio) || (bossId == (int)BossIds.RiverOfSouls) || (bossId == (int)BossIds.WvW));
     }
 }

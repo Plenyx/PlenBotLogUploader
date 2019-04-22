@@ -2,13 +2,14 @@
 {
     public class DPSReportJSONEncounter
     {
-        public bool? success { get; set; }
-        public int? duration { get; set; }
-        public int? compDps { get; set; }
-        public int? numberOfPlayers { get; set; }
-        public int? numberOfGroups { get; set; }
-        public int bossId { get; set; }
-        public string boss { get; set; }
-        public int? gw2Build { get; set; }
+        public bool? Success { get; set; }
+        public int? Duration { get; set; }
+        public int? CompDps { get; set; }
+        public int? NumberOfPlayers { get; set; }
+        public int? NumberOfGroups { get; set; }
+        public int BossId { get; set; }
+        public string Boss { get; set; }
+        public int? Gw2Build { get; set; }
+        public bool? JsonAvailable { get; set; }
     }
 }

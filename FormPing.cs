@@ -41,11 +41,26 @@ namespace PlenBotLogUploader
 
         private void buttonPlenyxWay_Click(object sender, EventArgs e)
         {
-            radioButtonMethodPost.Checked = true;
-            textBoxURL.Text = "https://plenbot.net/uploader/ping/";
-            textBoxSign.Text = "";
-            MessageBox.Show("In order to use the ping server you need to have a valid sign.\nA browser window will be opened with instructions on how to get one.\nFrom there you can connect PlenBot to your Discord server and post logs directly into your desired channel. (still work in progress, contact me directly @Plenyx#1029)");
-            //Process.Start("https://plenbot.net/uploader/#setup-sign");
+            if (textBoxURL.Text.Equals("https://plenbot.net/uploader/ping/") && radioButtonMethodPost.Checked)
+            {
+                radioButtonMethodGet.Enabled = true;
+                radioButtonMethodPost.Enabled = true;
+                textBoxURL.Enabled = true;
+                textBoxURL.Text = "";
+                buttonPlenyxWay.Text = "Use Plenyx's server";
+            }
+            else
+            {
+                radioButtonMethodGet.Enabled = false;
+                radioButtonMethodPost.Enabled = false;
+                textBoxURL.Enabled = false;
+                radioButtonMethodPost.Checked = true;
+                textBoxURL.Text = "https://plenbot.net/uploader/ping/";
+                textBoxSign.Text = "";
+                buttonPlenyxWay.Text = "Stop using Plenyx's server";
+                MessageBox.Show("In order to use the ping server you need to have a valid sign.\nA browser window will be opened with instructions on how to get one.\nFrom there you can connect PlenBot to your Discord server and post logs directly into your desired channel. (still work in progress, contact me directly @Plenyx#1029)");
+                //Process.Start("https://plenbot.net/uploader/#setup-sign");
+            }
         }
 
         public async void PingTest()

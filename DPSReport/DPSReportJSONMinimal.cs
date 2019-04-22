@@ -2,7 +2,10 @@
 {
     public class DPSReportJSONMinimal
     {
-        public string permalink { get; set; }
-        public DPSReportJSONEncounter encounter { get; set; }
+        public string Permalink { get; set; }
+        public DPSReportJSONEvtc Evtc { get; set; }
+        public DPSReportJSONEncounter Encounter { get; set; }
+
+        public string GetUrlId() => Permalink.Substring(Permalink.IndexOf("dps.report/")+11);
     }
 }

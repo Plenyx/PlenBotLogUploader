@@ -27,10 +27,10 @@ namespace PlenBotLogUploader
         public string CustomTwitchName { get; set; } = "";
         public string CustomOAuthPassword { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 17;
+        public int Build { get; } = 18;
 
         // fields
-        private const int minFileSize = 20480;
+        private const int minFileSize = 12288;
         private bool firstTimeMinimise = true;
         private FormPing pingLink;
         private FormTwitchNameSetup twitchNameLink;
@@ -173,6 +173,13 @@ namespace PlenBotLogUploader
                     }
                     pingLink.textBoxURL.Text = (string)RegistryAccess.GetValue("remotePingURL", "");
                     pingLink.textBoxSign.Text = (string)RegistryAccess.GetValue("remotePingSign", "");
+                    if (pingLink.textBoxURL.Text.Equals("https://plenbot.net/uploader/ping/") && pingLink.radioButtonMethodPost.Checked)
+                    {
+                        pingLink.buttonPlenyxWay.Text = "Stop using Plenyx's server";
+                        pingLink.textBoxURL.Enabled = false;
+                        pingLink.radioButtonMethodGet.Enabled = false;
+                        pingLink.radioButtonMethodPost.Enabled = false;
+                    }
                 }
                 if ((int)RegistryAccess.GetValue("twitchCustomNameEnabled", 0) == 1)
                 {
@@ -200,6 +207,10 @@ namespace PlenBotLogUploader
                 chatConnect.StateChange += OnIrcStateChanged;
                 chatConnect.BeginConnection();
                 new Thread(DoCommandArgs).Start();
+                if (!File.Exists($"{GetLocalDir()}logs.csv"))
+                {
+                    File.AppendAllText($"{GetLocalDir()}logs.csv", "Boss;BossId;Success;ArcVersion;Permalink\n");
+                }
                 /* Subscribe to field changes events, otherwise they would trigger with load */
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
                 checkBoxWepSkill1.CheckedChanged += new EventHandler(checkBoxWepSkill1_CheckedChanged);
@@ -412,7 +423,7 @@ namespace PlenBotLogUploader
             {
                 content.Add(new StringContent(postData[key]), key);
             }
-            AddToText($"> Uploading {Path.GetFileName(file)}");
+            AddToText($">:> Uploading {Path.GetFileName(file)}");
             try
             {
                 using (FileStream inputStream = File.OpenRead(file))
@@ -428,43 +439,44 @@ namespace PlenBotLogUploader
                                 try
                                 {
                                     DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
-                                    File.AppendAllText($"{GetLocalDir()}logs.txt", $"{reportJSON.permalink}\n");
-                                    if (checkBoxPostToTwitch.Checked && !bypassMessage)
+                                    string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                                    File.AppendAllText($"{GetLocalDir()}logs.csv", $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
+                                    if ((ChannelName != "") && checkBoxPostToTwitch.Checked && !bypassMessage)
                                     {
-                                        AddToText($"New log: {reportJSON.permalink}");
+                                        AddToText($">:> {reportJSON.Permalink}");
                                         LastLog = reportJSON;
-                                        if (allBosses.ContainsKey(reportJSON.encounter.bossId))
+                                        if (allBosses.ContainsKey(reportJSON.Encounter.BossId))
                                         {
-                                            if (!Bosses.IsGolem(reportJSON.encounter.bossId) && !Bosses.IsEvent(reportJSON.encounter.bossId))
+                                            if (!Bosses.IsGolem(reportJSON.Encounter.BossId) && !Bosses.IsEvent(reportJSON.Encounter.BossId))
                                             {
-                                                string format = $"Link to the {allBosses[reportJSON.encounter.bossId].Name}";
-                                                if (reportJSON.encounter.success ?? false)
+                                                string format = $"Link to the {allBosses[reportJSON.Encounter.BossId].Name}";
+                                                if (reportJSON.Encounter.Success ?? false)
                                                 {
-                                                    format = $"{format} {allBosses[reportJSON.encounter.bossId].SuccessMsg}";
+                                                    format = $"{format} {allBosses[reportJSON.Encounter.BossId].SuccessMsg}";
                                                 }
                                                 else
                                                 {
-                                                    format = $"{format} {allBosses[reportJSON.encounter.bossId].FailMsg}";
+                                                    format = $"{format} {allBosses[reportJSON.Encounter.BossId].FailMsg}";
                                                 }
-                                                await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.permalink}");
+                                                await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.Permalink}");
                                             }
-                                            else if (Bosses.IsEvent(reportJSON.encounter.bossId))
+                                            else if (Bosses.IsEvent(reportJSON.Encounter.BossId))
                                             {
-                                                await chatConnect.SendChatMessage(ChannelName, $"Link to the {allBosses[reportJSON.encounter.bossId].Name} log: { reportJSON.permalink}");
+                                                await chatConnect.SendChatMessage(ChannelName, $"Link to the {allBosses[reportJSON.Encounter.BossId].Name} log: { reportJSON.Permalink}");
                                             }
                                             else
                                             {
-                                                await chatConnect.SendChatMessage(ChannelName, $"Golem log: {reportJSON.permalink}");
+                                                await chatConnect.SendChatMessage(ChannelName, $"Golem log: {reportJSON.Permalink}");
                                             }
                                         }
                                         else
                                         {
-                                            await chatConnect.SendChatMessage(ChannelName, $"Link to the log: {reportJSON.permalink}");
+                                            await chatConnect.SendChatMessage(ChannelName, $"Link to the log: {reportJSON.Permalink}");
                                         }
                                     }
                                     else
                                     {
-                                        AddToText(reportJSON.permalink);
+                                        AddToText($">:> {reportJSON.Permalink}");
                                     }
                                     await PingServer(reportJSON);
                                 }
@@ -496,28 +508,29 @@ namespace PlenBotLogUploader
                 {
                     Dictionary<string, string> fields = new Dictionary<string, string>
                     {
-                        { "permalink", reportJSON.permalink },
-                        { "bossId", reportJSON.encounter.bossId.ToString() },
-                        { "success", (reportJSON.encounter.success ?? false) ? "1" : "0" },
+                        { "permalink", reportJSON.Permalink },
+                        { "bossId", reportJSON.Encounter.BossId.ToString() },
+                        { "success", (reportJSON.Encounter.Success ?? false) ? "1" : "0" },
+                        { "arcversion", $"{reportJSON.Evtc.Type}{reportJSON.Evtc.Version}" },
                         { "sign", pingLink.textBoxSign.Text }
                     };
                     FormUrlEncodedContent content = new FormUrlEncodedContent(fields);
                     try
                     {
                         var response = await webClient.PostAsync(pingLink.textBoxURL.Text.ToString(), content);
-                        AddToText("Log pinged.");
+                        AddToText($">:> Log {reportJSON.GetUrlId()} pinged.");
                     }
                     catch
                     {
-                        AddToText("Unable to ping the server, check the settings or the server is not responding.");
+                        AddToText(">:> Unable to ping the server, check the settings or the server is not responding.");
                     }
                 }
                 else if (pingLink.radioButtonMethodGet.Checked)
                 {
                     try
                     {
-                        string success = (reportJSON.encounter.success ?? false) ? "1" : "0";
-                        string encounterInfo = $"bossId={reportJSON.encounter.bossId.ToString()}&success={success}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.permalink)}";
+                        string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
+                        string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.Evtc.Type}{reportJSON.Evtc.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
                         if (pingLink.textBoxURL.Text.Contains("?"))
                         {
                             var response = await webClient.GetAsync($"{pingLink.textBoxURL.Text}&sign={pingLink.textBoxSign.Text}&{encounterInfo}");
@@ -526,11 +539,11 @@ namespace PlenBotLogUploader
                         {
                             var response = await webClient.GetAsync($"{pingLink.textBoxURL.Text}?sign={pingLink.textBoxSign.Text}&{encounterInfo}");
                         }
-                        AddToText("Log pinged.");
+                        AddToText($">:> Log {reportJSON.GetUrlId()} pinged."); ;
                     }
                     catch
                     {
-                        AddToText("Unable to ping the server, check the settings or the server is not responding.");
+                        AddToText(">:> Unable to ping the server, check the settings or the server is not responding.");
                     }
                 }
             }
@@ -538,13 +551,12 @@ namespace PlenBotLogUploader
 
         private void LogsScan(string directory)
         {
-            foreach (string f in Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories))
-            {
+            Parallel.ForEach(Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories), f => {
                 if (f.EndsWith(".evtc") || f.EndsWith(".zevtc"))
                 {
                     Logs.Add(f);
                 }
-            }
+            });
             UpdateLogCount();
         }
 
@@ -715,7 +727,7 @@ namespace PlenBotLogUploader
                     if (LastLog != null)
                     {
                         AddToText("> LAST LOG COMMAND USED");
-                        await chatConnect.SendChatMessage(ChannelName, $"Link to the last {LastLog.encounter.boss} log: {LastLog.permalink}");
+                        await chatConnect.SendChatMessage(ChannelName, $"Link to the last {LastLog.Encounter.Boss} log: {LastLog.Permalink}");
                     }
                 }
             }
@@ -755,6 +767,12 @@ namespace PlenBotLogUploader
 
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            new Thread(() => DoDragDropFiles(files)).Start();
+        }
+
+        protected void DoDragDropFiles(string[] files)
+        {
             Dictionary<string, string> postData = new Dictionary<string, string>
             {
                 { "generator", "ei" },
@@ -764,7 +782,6 @@ namespace PlenBotLogUploader
             {
                 postData.Add("rotation_weap1", "1");
             }
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
                 if (File.Exists(file) && (file.EndsWith(".evtc") || file.EndsWith(".zevtc")))
@@ -779,7 +796,7 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        HttpUploadFileToDPSReport(zipfilelocation, postData, false);
+                        HttpUploadFileToDPSReport(zipfilelocation, postData, true);
                     }
                     catch
                     {

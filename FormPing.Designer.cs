@@ -202,7 +202,7 @@
         public System.Windows.Forms.TextBox textBoxURL;
         private System.Windows.Forms.GroupBox groupBoxSign;
         public System.Windows.Forms.TextBox textBoxSign;
-        private System.Windows.Forms.Button buttonPlenyxWay;
         private System.Windows.Forms.Button buttonTestPing;
+        public System.Windows.Forms.Button buttonPlenyxWay;
     }
 }

@@ -2,9 +2,9 @@
 {
     public class DPSReportJSONPlayers
     {
-        public string display_name { get; set; }
-        public string character_name { get; set; }
-        public int profession { get; set; }
-        public int elite_spec { get; set; }
+        public string Display_name { get; set; }
+        public string Character_name { get; set; }
+        public int Profession { get; set; }
+        public int Elite_spec { get; set; }
     }
 }

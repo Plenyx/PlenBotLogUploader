@@ -84,7 +84,7 @@
     <Compile Include="DPSReport\BossIds.cs" />
     <Compile Include="DPSReport\DPSReportJSON.cs" />
     <Compile Include="DPSReport\DPSReportJSONEncounter.cs" />
-    <Compile Include="DPSReport\DPSReportJSONevtc.cs" />
+    <Compile Include="DPSReport\DPSReportJSONEvtc.cs" />
     <Compile Include="DPSReport\DPSReportJSONMinimal.cs" />
     <Compile Include="DPSReport\DPSReportJSONPlayers.cs" />
     <Compile Include="FormCustomName.cs">
