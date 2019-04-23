@@ -26,7 +26,7 @@ namespace PlenBotLogUploader
                 {
                     mainLink.ChannelName = channelName;
                     mainLink.RegistryAccess.SetValue("channel", channelName);
-                    mainLink.ReconnectBot();
+                    mainLink.ReconnectTwitchBot();
                     Hide();
                 }
             }
@@ -39,6 +39,14 @@ namespace PlenBotLogUploader
         private void FormTwitchNameSetup_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
+            Hide();
+        }
+
+        private void buttonDoNotUseTwitch_Click(object sender, EventArgs e)
+        {
+            mainLink.DisconnectTwitchBot();
+            mainLink.RegistryAccess.SetValue("connectToTwitch", 0);
+            mainLink.checkBoxPostToTwitch.Checked = false;
             Hide();
         }
     }

@@ -37,8 +37,8 @@ namespace PlenBotLogUploader.DPSReport
                 { (int)BossIds.SoullessHorror, new BossData((int)BossIds.SoullessHorror, "Soulless Horror")  },
                 { (int)BossIds.StandardGolem, new BossData((int)BossIds.StandardGolem, "Standard Kitty Golem")  },
                 { (int)BossIds.ValeGuardian, new BossData((int)BossIds.ValeGuardian, "Vale Guardian")  },
-                { (int)BossIds.Xera, new BossData((int)BossIds.Xera, "Xera") },
-                { (int)BossIds.WvW, new BossData((int)BossIds.WvW, "World vs World") }
+                { (int)BossIds.WvW, new BossData((int)BossIds.WvW, "World vs World") },
+                { (int)BossIds.Xera, new BossData((int)BossIds.Xera, "Xera") }
             };
         }
 

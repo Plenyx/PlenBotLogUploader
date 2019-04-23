@@ -39,6 +39,7 @@
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
             this.groupBoxArcdpsLogs = new System.Windows.Forms.GroupBox();
             this.buttonOpenLogs = new System.Windows.Forms.Button();
+            this.buttonDPSReportServer = new System.Windows.Forms.Button();
             this.labelLocationInfo = new System.Windows.Forms.Label();
             this.buttonLogsLocation = new System.Windows.Forms.Button();
             this.groupBoxTrayIconSettings = new System.Windows.Forms.GroupBox();
@@ -48,15 +49,15 @@
             this.toolStripMenuItemUploadLogs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPostToTwitch = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorFirst = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenPingSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.buttonRaidarSettings = new System.Windows.Forms.Button();
-            this.buttonDPSReportServer = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemOpenPingSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonDisConnectTwitch = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.groupBoxTrayIconSettings.SuspendLayout();
@@ -71,28 +72,26 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 435);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 428);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
             // 
+            this.groupBoxTwitchSettings.Controls.Add(this.buttonDisConnectTwitch);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonCustomName);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonChangeTwitchChannel);
-            this.groupBoxTwitchSettings.Controls.Add(this.checkBoxFileSizeIgnore);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxPostToTwitch);
-            this.groupBoxTwitchSettings.Controls.Add(this.checkBoxWepSkill1);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonReconnectBot);
-            this.groupBoxTwitchSettings.Controls.Add(this.checkBoxUploadLogs);
             this.groupBoxTwitchSettings.Location = new System.Drawing.Point(426, 12);
             this.groupBoxTwitchSettings.Name = "groupBoxTwitchSettings";
-            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 169);
+            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 128);
             this.groupBoxTwitchSettings.TabIndex = 4;
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
             // 
             // buttonCustomName
             // 
-            this.buttonCustomName.Location = new System.Drawing.Point(6, 137);
+            this.buttonCustomName.Location = new System.Drawing.Point(6, 68);
             this.buttonCustomName.Name = "buttonCustomName";
             this.buttonCustomName.Size = new System.Drawing.Size(91, 23);
             this.buttonCustomName.TabIndex = 9;
@@ -113,18 +112,18 @@
             // checkBoxFileSizeIgnore
             // 
             this.checkBoxFileSizeIgnore.AutoSize = true;
-            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(6, 114);
+            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(9, 56);
             this.checkBoxFileSizeIgnore.Name = "checkBoxFileSizeIgnore";
-            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(147, 17);
+            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(155, 17);
             this.checkBoxFileSizeIgnore.TabIndex = 7;
-            this.checkBoxFileSizeIgnore.Text = "ignore file size for uploads";
+            this.checkBoxFileSizeIgnore.Text = "ignore file size limit of 12 kB";
             this.checkBoxFileSizeIgnore.UseVisualStyleBackColor = true;
             // 
             // checkBoxPostToTwitch
             // 
             this.checkBoxPostToTwitch.AutoSize = true;
             this.checkBoxPostToTwitch.Enabled = false;
-            this.checkBoxPostToTwitch.Location = new System.Drawing.Point(6, 68);
+            this.checkBoxPostToTwitch.Location = new System.Drawing.Point(6, 45);
             this.checkBoxPostToTwitch.Name = "checkBoxPostToTwitch";
             this.checkBoxPostToTwitch.Size = new System.Drawing.Size(159, 17);
             this.checkBoxPostToTwitch.TabIndex = 6;
@@ -134,7 +133,7 @@
             // checkBoxWepSkill1
             // 
             this.checkBoxWepSkill1.AutoSize = true;
-            this.checkBoxWepSkill1.Location = new System.Drawing.Point(6, 91);
+            this.checkBoxWepSkill1.Location = new System.Drawing.Point(9, 38);
             this.checkBoxWepSkill1.Name = "checkBoxWepSkill1";
             this.checkBoxWepSkill1.Size = new System.Drawing.Size(126, 17);
             this.checkBoxWepSkill1.TabIndex = 5;
@@ -143,7 +142,7 @@
             // 
             // buttonReconnectBot
             // 
-            this.buttonReconnectBot.Location = new System.Drawing.Point(103, 137);
+            this.buttonReconnectBot.Location = new System.Drawing.Point(103, 68);
             this.buttonReconnectBot.Name = "buttonReconnectBot";
             this.buttonReconnectBot.Size = new System.Drawing.Size(91, 23);
             this.buttonReconnectBot.TabIndex = 4;
@@ -154,7 +153,7 @@
             // checkBoxUploadLogs
             // 
             this.checkBoxUploadLogs.AutoSize = true;
-            this.checkBoxUploadLogs.Location = new System.Drawing.Point(6, 45);
+            this.checkBoxUploadLogs.Location = new System.Drawing.Point(9, 19);
             this.checkBoxUploadLogs.Name = "checkBoxUploadLogs";
             this.checkBoxUploadLogs.Size = new System.Drawing.Size(80, 17);
             this.checkBoxUploadLogs.TabIndex = 3;
@@ -165,11 +164,14 @@
             // 
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonOpenLogs);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonDPSReportServer);
+            this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxFileSizeIgnore);
             this.groupBoxArcdpsLogs.Controls.Add(this.labelLocationInfo);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonLogsLocation);
-            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 187);
+            this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxWepSkill1);
+            this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxUploadLogs);
+            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 146);
             this.groupBoxArcdpsLogs.Name = "groupBoxArcdpsLogs";
-            this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 99);
+            this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 160);
             this.groupBoxArcdpsLogs.TabIndex = 5;
             this.groupBoxArcdpsLogs.TabStop = false;
             this.groupBoxArcdpsLogs.Text = "arcdps logs and DPS.report";
@@ -177,7 +179,7 @@
             // buttonOpenLogs
             // 
             this.buttonOpenLogs.Enabled = false;
-            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 19);
+            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 105);
             this.buttonOpenLogs.Name = "buttonOpenLogs";
             this.buttonOpenLogs.Size = new System.Drawing.Size(56, 23);
             this.buttonOpenLogs.TabIndex = 2;
@@ -185,9 +187,19 @@
             this.buttonOpenLogs.UseVisualStyleBackColor = true;
             this.buttonOpenLogs.Click += new System.EventHandler(this.buttonOpenLogs_Click);
             // 
+            // buttonDPSReportServer
+            // 
+            this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 76);
+            this.buttonDPSReportServer.Name = "buttonDPSReportServer";
+            this.buttonDPSReportServer.Size = new System.Drawing.Size(188, 23);
+            this.buttonDPSReportServer.TabIndex = 1;
+            this.buttonDPSReportServer.Text = "DPS.report server";
+            this.buttonDPSReportServer.UseVisualStyleBackColor = true;
+            this.buttonDPSReportServer.Click += new System.EventHandler(this.buttonDPSReportServer_Click);
+            // 
             // labelLocationInfo
             // 
-            this.labelLocationInfo.Location = new System.Drawing.Point(6, 45);
+            this.labelLocationInfo.Location = new System.Drawing.Point(6, 131);
             this.labelLocationInfo.Name = "labelLocationInfo";
             this.labelLocationInfo.Size = new System.Drawing.Size(188, 23);
             this.labelLocationInfo.TabIndex = 1;
@@ -195,7 +207,7 @@
             // 
             // buttonLogsLocation
             // 
-            this.buttonLogsLocation.Location = new System.Drawing.Point(6, 19);
+            this.buttonLogsLocation.Location = new System.Drawing.Point(6, 105);
             this.buttonLogsLocation.Name = "buttonLogsLocation";
             this.buttonLogsLocation.Size = new System.Drawing.Size(126, 23);
             this.buttonLogsLocation.TabIndex = 0;
@@ -206,7 +218,7 @@
             // groupBoxTrayIconSettings
             // 
             this.groupBoxTrayIconSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
-            this.groupBoxTrayIconSettings.Location = new System.Drawing.Point(426, 292);
+            this.groupBoxTrayIconSettings.Location = new System.Drawing.Point(426, 312);
             this.groupBoxTrayIconSettings.Name = "groupBoxTrayIconSettings";
             this.groupBoxTrayIconSettings.Size = new System.Drawing.Size(200, 43);
             this.groupBoxTrayIconSettings.TabIndex = 6;
@@ -243,7 +255,7 @@
             this.toolStripSeparatorSecond,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(250, 170);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(250, 148);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -266,6 +278,32 @@
             this.toolStripSeparatorFirst.Name = "toolStripSeparatorFirst";
             this.toolStripSeparatorFirst.Size = new System.Drawing.Size(246, 6);
             // 
+            // toolStripMenuItemOpenDPSReportServer
+            // 
+            this.toolStripMenuItemOpenDPSReportServer.Name = "toolStripMenuItemOpenDPSReportServer";
+            this.toolStripMenuItemOpenDPSReportServer.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemOpenDPSReportServer.Text = "Open DPS.report settings";
+            this.toolStripMenuItemOpenDPSReportServer.Click += new System.EventHandler(this.toolStripMenuItemOpenDPSReportServer_Click);
+            // 
+            // toolStripMenuItemOpenCustomName
+            // 
+            this.toolStripMenuItemOpenCustomName.Name = "toolStripMenuItemOpenCustomName";
+            this.toolStripMenuItemOpenCustomName.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemOpenCustomName.Text = "Open custom name settings";
+            this.toolStripMenuItemOpenCustomName.Click += new System.EventHandler(this.toolStripMenuItemOpenCustomName_Click);
+            // 
+            // toolStripMenuItemOpenPingSettings
+            // 
+            this.toolStripMenuItemOpenPingSettings.Name = "toolStripMenuItemOpenPingSettings";
+            this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemOpenPingSettings.Text = "Open remote server ping settings";
+            this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenPingSettings_Click);
+            // 
+            // toolStripSeparatorSecond
+            // 
+            this.toolStripSeparatorSecond.Name = "toolStripSeparatorSecond";
+            this.toolStripSeparatorSecond.Size = new System.Drawing.Size(246, 6);
+            // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
@@ -277,9 +315,9 @@
             // 
             this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 341);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 363);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 106);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 77);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
@@ -295,16 +333,6 @@
             this.buttonRaidarSettings.UseVisualStyleBackColor = true;
             this.buttonRaidarSettings.Click += new System.EventHandler(this.buttonRaidarSettings_Click);
             // 
-            // buttonDPSReportServer
-            // 
-            this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 71);
-            this.buttonDPSReportServer.Name = "buttonDPSReportServer";
-            this.buttonDPSReportServer.Size = new System.Drawing.Size(188, 23);
-            this.buttonDPSReportServer.TabIndex = 1;
-            this.buttonDPSReportServer.Text = "DPS.report server";
-            this.buttonDPSReportServer.UseVisualStyleBackColor = true;
-            this.buttonDPSReportServer.Click += new System.EventHandler(this.buttonDPSReportServer_Click);
-            // 
             // buttonPingSettings
             // 
             this.buttonPingSettings.Location = new System.Drawing.Point(6, 19);
@@ -315,38 +343,22 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
-            // toolStripSeparatorSecond
+            // buttonDisConnectTwitch
             // 
-            this.toolStripSeparatorSecond.Name = "toolStripSeparatorSecond";
-            this.toolStripSeparatorSecond.Size = new System.Drawing.Size(246, 6);
-            // 
-            // toolStripMenuItemOpenDPSReportServer
-            // 
-            this.toolStripMenuItemOpenDPSReportServer.Name = "toolStripMenuItemOpenDPSReportServer";
-            this.toolStripMenuItemOpenDPSReportServer.Size = new System.Drawing.Size(249, 22);
-            this.toolStripMenuItemOpenDPSReportServer.Text = "Open DPS.report settings";
-            this.toolStripMenuItemOpenDPSReportServer.Click += new System.EventHandler(this.toolStripMenuItemOpenDPSReportServer_Click);
-            // 
-            // toolStripMenuItemOpenPingSettings
-            // 
-            this.toolStripMenuItemOpenPingSettings.Name = "toolStripMenuItemOpenPingSettings";
-            this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(249, 22);
-            this.toolStripMenuItemOpenPingSettings.Text = "Open remote server ping settings";
-            this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenPingSettings_Click);
-            // 
-            // toolStripMenuItemOpenCustomName
-            // 
-            this.toolStripMenuItemOpenCustomName.Name = "toolStripMenuItemOpenCustomName";
-            this.toolStripMenuItemOpenCustomName.Size = new System.Drawing.Size(249, 22);
-            this.toolStripMenuItemOpenCustomName.Text = "Open custom name settings";
-            this.toolStripMenuItemOpenCustomName.Click += new System.EventHandler(this.toolStripMenuItemOpenCustomName_Click);
+            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 98);
+            this.buttonDisConnectTwitch.Name = "buttonDisConnectTwitch";
+            this.buttonDisConnectTwitch.Size = new System.Drawing.Size(188, 23);
+            this.buttonDisConnectTwitch.TabIndex = 10;
+            this.buttonDisConnectTwitch.Text = "Disconnect from Twitch";
+            this.buttonDisConnectTwitch.UseVisualStyleBackColor = true;
+            this.buttonDisConnectTwitch.Click += new System.EventHandler(this.buttonDisConnectTwitch_Click);
             // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 452);
+            this.ClientSize = new System.Drawing.Size(633, 445);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxTrayIconSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
@@ -366,6 +378,7 @@
             this.groupBoxTwitchSettings.ResumeLayout(false);
             this.groupBoxTwitchSettings.PerformLayout();
             this.groupBoxArcdpsLogs.ResumeLayout(false);
+            this.groupBoxArcdpsLogs.PerformLayout();
             this.groupBoxTrayIconSettings.ResumeLayout(false);
             this.groupBoxTrayIconSettings.PerformLayout();
             this.contextMenuStripIcon.ResumeLayout(false);
@@ -386,7 +399,6 @@
         private System.Windows.Forms.Label labelLocationInfo;
         private System.Windows.Forms.GroupBox groupBoxTrayIconSettings;
         private System.Windows.Forms.NotifyIcon notifyIconTray;
-        private System.Windows.Forms.CheckBox checkBoxPostToTwitch;
         private System.Windows.Forms.GroupBox groupBoxOtherSettings;
         private System.Windows.Forms.Button buttonPingSettings;
         private System.Windows.Forms.CheckBox checkBoxFileSizeIgnore;
@@ -405,6 +417,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenCustomName;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenPingSettings;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorSecond;
+        private System.Windows.Forms.Button buttonDisConnectTwitch;
+        public System.Windows.Forms.CheckBox checkBoxPostToTwitch;
     }
 }
 

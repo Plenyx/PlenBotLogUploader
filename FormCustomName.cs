@@ -23,7 +23,7 @@ namespace PlenBotLogUploader
             mainLink.RegistryAccess.SetValue("twitchCustomOAuth", textBoxCustomOAuth.Text);
             mainLink.CustomTwitchName = textBoxCustomName.Text.ToLower();
             mainLink.CustomOAuthPassword = textBoxCustomOAuth.Text;
-            mainLink.ReconnectBot();
+            mainLink.ReconnectTwitchBot();
         }
 
         private void checkBoxCustomNameEnable_CheckedChanged(object sender, EventArgs e)

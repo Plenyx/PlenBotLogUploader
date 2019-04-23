@@ -26,8 +26,9 @@ namespace PlenBotLogUploader
         public string DPSReportServer { get; set; } = "";
         public string CustomTwitchName { get; set; } = "";
         public string CustomOAuthPassword { get; set; } = "";
+        public bool ChannelJoined { get; set; } = false;
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 18;
+        public int Build { get; } = 19;
 
         // fields
         private const int minFileSize = 12288;
@@ -39,6 +40,7 @@ namespace PlenBotLogUploader
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private HttpClient webClient = new HttpClient();
+        private int ReconnectedFailCounter = 0;
 
         public FormMain()
         {
@@ -97,6 +99,11 @@ namespace PlenBotLogUploader
                     RegistryAccess.SetValue("twitchCustomName", "");
                     RegistryAccess.SetValue("twitchCustomOAuth", "");
                 }
+                if (RegistryAccess.GetValue("connectToTwitch") == null)
+                {
+                    RegistryAccess.SetValue("connectToTwitch", 1);
+                }
+                RegistryAccess.Flush();
                 LogsLocation = (string)RegistryAccess.GetValue("logsLocation", "");
                 if (LogsLocation == "")
                 {
@@ -195,17 +202,28 @@ namespace PlenBotLogUploader
                     twitchNameLink.Show();
                     RegistryAccess.SetValue("firstSetup", 1);
                 }
-                if (CustomTwitchName != "")
+                if ((int)RegistryAccess.GetValue("connectToTwitch") == 1)
                 {
-                    chatConnect = new TwitchIrcClient(CustomTwitchName, CustomOAuthPassword);
+                    if (CustomTwitchName != "")
+                    {
+                        chatConnect = new TwitchIrcClient(CustomTwitchName, CustomOAuthPassword);
+                    }
+                    else
+                    {
+                        chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                    }
+                    chatConnect.ReceiveMessage += ReadMessages;
+                    chatConnect.StateChange += OnIrcStateChanged;
+                    chatConnect.BeginConnection();
                 }
                 else
                 {
-                    chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                    buttonDisConnectTwitch.Text = "Connect to Twitch";
+                    buttonChangeTwitchChannel.Enabled = false;
+                    buttonCustomName.Enabled = false;
+                    buttonReconnectBot.Enabled = false;
+                    checkBoxPostToTwitch.Enabled = false;
                 }
-                chatConnect.ReceiveMessage += ReadMessages;
-                chatConnect.StateChange += OnIrcStateChanged;
-                chatConnect.BeginConnection();
                 new Thread(DoCommandArgs).Start();
                 if (!File.Exists($"{GetLocalDir()}logs.csv"))
                 {
@@ -416,6 +434,47 @@ namespace PlenBotLogUploader
             }
         }
 
+        public async Task SendLogToChat(DPSReportJSONMinimal reportJSON, bool bypassMessage = false)
+        {
+            if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage)
+            {
+                AddToText($">:> {reportJSON.Permalink}");
+                LastLog = reportJSON;
+                if (allBosses.ContainsKey(reportJSON.Encounter.BossId))
+                {
+                    if (!Bosses.IsGolem(reportJSON.Encounter.BossId) && !Bosses.IsEvent(reportJSON.Encounter.BossId))
+                    {
+                        string format = $"Link to the {allBosses[reportJSON.Encounter.BossId].Name}";
+                        if (reportJSON.Encounter.Success ?? false)
+                        {
+                            format = $"{format} {allBosses[reportJSON.Encounter.BossId].SuccessMsg}";
+                        }
+                        else
+                        {
+                            format = $"{format} {allBosses[reportJSON.Encounter.BossId].FailMsg}";
+                        }
+                        await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.Permalink}");
+                    }
+                    else if (Bosses.IsEvent(reportJSON.Encounter.BossId))
+                    {
+                        await chatConnect.SendChatMessage(ChannelName, $"Link to the {allBosses[reportJSON.Encounter.BossId].Name} log: { reportJSON.Permalink}");
+                    }
+                    else
+                    {
+                        await chatConnect.SendChatMessage(ChannelName, $"Golem log: {reportJSON.Permalink}");
+                    }
+                }
+                else
+                {
+                    await chatConnect.SendChatMessage(ChannelName, $"Link to the log: {reportJSON.Permalink}");
+                }
+            }
+            else
+            {
+                AddToText($">:> {reportJSON.Permalink}");
+            }
+        }
+
         public async void HttpUploadFileToDPSReport(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
             var content = new MultipartFormDataContent();
@@ -441,43 +500,7 @@ namespace PlenBotLogUploader
                                     DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
                                     string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
                                     File.AppendAllText($"{GetLocalDir()}logs.csv", $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
-                                    if ((ChannelName != "") && checkBoxPostToTwitch.Checked && !bypassMessage)
-                                    {
-                                        AddToText($">:> {reportJSON.Permalink}");
-                                        LastLog = reportJSON;
-                                        if (allBosses.ContainsKey(reportJSON.Encounter.BossId))
-                                        {
-                                            if (!Bosses.IsGolem(reportJSON.Encounter.BossId) && !Bosses.IsEvent(reportJSON.Encounter.BossId))
-                                            {
-                                                string format = $"Link to the {allBosses[reportJSON.Encounter.BossId].Name}";
-                                                if (reportJSON.Encounter.Success ?? false)
-                                                {
-                                                    format = $"{format} {allBosses[reportJSON.Encounter.BossId].SuccessMsg}";
-                                                }
-                                                else
-                                                {
-                                                    format = $"{format} {allBosses[reportJSON.Encounter.BossId].FailMsg}";
-                                                }
-                                                await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.Permalink}");
-                                            }
-                                            else if (Bosses.IsEvent(reportJSON.Encounter.BossId))
-                                            {
-                                                await chatConnect.SendChatMessage(ChannelName, $"Link to the {allBosses[reportJSON.Encounter.BossId].Name} log: { reportJSON.Permalink}");
-                                            }
-                                            else
-                                            {
-                                                await chatConnect.SendChatMessage(ChannelName, $"Golem log: {reportJSON.Permalink}");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            await chatConnect.SendChatMessage(ChannelName, $"Link to the log: {reportJSON.Permalink}");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        AddToText($">:> {reportJSON.Permalink}");
-                                    }
+                                    await SendLogToChat(reportJSON, bypassMessage);
                                     await PingServer(reportJSON);
                                 }
                                 catch
@@ -564,7 +587,7 @@ namespace PlenBotLogUploader
         {
             RegistryAccess.Flush();
             RegistryAccess.Dispose();
-            chatConnect.Dispose();
+            chatConnect?.Dispose();
             watcher.Dispose();
             webClient.Dispose();
         }
@@ -589,7 +612,42 @@ namespace PlenBotLogUploader
             }
         }
 
-        public void ReconnectBot()
+        public void ConnectTwitchBot()
+        {
+            buttonDisConnectTwitch.Text = "Disconnect from Twitch";
+            buttonChangeTwitchChannel.Enabled = true;
+            buttonCustomName.Enabled = true;
+            buttonReconnectBot.Enabled = true;
+            checkBoxPostToTwitch.Enabled = true;
+            if (CustomTwitchName != "")
+            {
+                chatConnect = new TwitchIrcClient(CustomTwitchName, CustomOAuthPassword);
+            }
+            else
+            {
+                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+            }
+            chatConnect.ReceiveMessage += ReadMessages;
+            chatConnect.StateChange += OnIrcStateChanged;
+            chatConnect.BeginConnection();
+        }
+
+        public void DisconnectTwitchBot()
+        {
+
+            chatConnect.ReceiveMessage -= ReadMessages;
+            chatConnect.StateChange -= OnIrcStateChanged;
+            chatConnect.Dispose();
+            chatConnect = null;
+            AddToText("<-?-> CONNECTION CLOSED");
+            buttonDisConnectTwitch.Text = "Connect to Twitch";
+            buttonChangeTwitchChannel.Enabled = false;
+            buttonCustomName.Enabled = false;
+            buttonReconnectBot.Enabled = false;
+            checkBoxPostToTwitch.Enabled = false;
+        }
+
+        public void ReconnectTwitchBot()
         {
             chatConnect.ReceiveMessage -= ReadMessages;
             chatConnect.StateChange -= OnIrcStateChanged;
@@ -608,7 +666,11 @@ namespace PlenBotLogUploader
             chatConnect.BeginConnection();
         }
 
-        private void buttonReconnectBot_Click(object sender, EventArgs e) => ReconnectBot();
+        private void buttonReconnectBot_Click(object sender, EventArgs e)
+        {
+            ReconnectedFailCounter = 0;
+            ReconnectTwitchBot();
+        }
 
         private void buttonLogsLocation_Click(object sender, EventArgs e)
         {
@@ -663,13 +725,14 @@ namespace PlenBotLogUploader
         {
             if (ShowInTaskbar)
             {
-                WindowState = FormWindowState.Minimized;
                 ShowInTaskbar = false;
+                WindowState = FormWindowState.Minimized;
             }
             else
             {
                 ShowInTaskbar = true;
                 WindowState = FormWindowState.Normal;
+                BringToFront();
             }
         }
 
@@ -680,29 +743,50 @@ namespace PlenBotLogUploader
             switch (e.NewState)
             {
                 case IrcStates.Disconnected:
-                    AddToText("> DISCONNECTED FROM TWITCH");
+                    ChannelJoined = false;
+                    AddToText("<-?-> DISCONNECTED FROM TWITCH");
+                    if (InvokeRequired)
+                    {
+                        Invoke((Action)delegate () { ReconnectedFailCounter++; });
+                    }
+                    else
+                    {
+                        ReconnectedFailCounter++;
+                    }
+                    if (ReconnectedFailCounter <= 3)
+                    {
+                        AddToText("<-?-> TRYING TO RECONNECT TO TWITCH");
+                        ReconnectTwitchBot();
+                    }
+                    else
+                    {
+                        AddToText("<-?-> FAILED TO RECONNECT TO TWITCH AFTER 3 ATTEMPTS, TRY TO CONNECT MANUALLY");
+                        DisconnectTwitchBot();
+                    }
                     break;
                 case IrcStates.Connecting:
-                    AddToText("> BOT CONNECTING TO TWITCH");
+                    AddToText("<-?-> BOT CONNECTING TO TWITCH");
                     break;
                 case IrcStates.Connected:
-                    AddToText("> CONNECTION ESTABILISHED");
+                    AddToText("<-?-> CONNECTION ESTABILISHED");
+                    ReconnectedFailCounter = 0;
                     if (ChannelName != "")
                     {
                         await chatConnect.JoinRoom(ChannelName);
                     }
                     break;
                 case IrcStates.ChannelJoining:
-                    AddToText($"> JOINING CHANNEL {e.Channel.ToUpper()}");
+                    AddToText($"<-?-> TRYING TO JOIN CHANNEL {e.Channel.ToUpper()}");
                     break;
                 case IrcStates.ChannelJoined:
-                    AddToText("> CHANNEL JOINED");
+                    AddToText("<-?-> CHANNEL JOINED");
+                    ChannelJoined = true;
                     break;
                 case IrcStates.ChannelLeaving:
-                    AddToText($"> LEAVING CHANNEL {e.Channel.ToUpper()}");
+                    AddToText($"<-?-> LEAVING CHANNEL {e.Channel.ToUpper()}");
                     break;
                 default:
-                    AddToText("> Unrecognised state received");
+                    AddToText("<-?-> UNRECOGNISED IRC STATE RECEIVED");
                     break;
             }
         }
@@ -852,6 +936,22 @@ namespace PlenBotLogUploader
         {
             pingLink.Show();
             pingLink.BringToFront();
+        }
+
+        private void buttonDisConnectTwitch_Click(object sender, EventArgs e)
+        {
+            ReconnectedFailCounter = 0;
+            if (chatConnect == null)
+            {
+                ConnectTwitchBot();
+                RegistryAccess.SetValue("connectToTwitch", 1);
+            }
+            else
+            {
+                DisconnectTwitchBot();
+                RegistryAccess.SetValue("connectToTwitch", 0);
+                checkBoxPostToTwitch.Checked = false;
+            }
         }
     }
 }

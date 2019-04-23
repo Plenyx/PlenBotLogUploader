@@ -32,6 +32,7 @@
             this.textBoxChannelUrl = new System.Windows.Forms.TextBox();
             this.labelInfo = new System.Windows.Forms.Label();
             this.buttonNext = new System.Windows.Forms.Button();
+            this.buttonDoNotUseTwitch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxChannelUrl
@@ -53,19 +54,30 @@
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(251, 67);
+            this.buttonNext.Location = new System.Drawing.Point(218, 67);
             this.buttonNext.Name = "buttonNext";
-            this.buttonNext.Size = new System.Drawing.Size(75, 23);
+            this.buttonNext.Size = new System.Drawing.Size(108, 23);
             this.buttonNext.TabIndex = 3;
-            this.buttonNext.Text = "Next";
+            this.buttonNext.Text = "Connect to Twitch";
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            // 
+            // buttonDoNotUseTwitch
+            // 
+            this.buttonDoNotUseTwitch.Location = new System.Drawing.Point(15, 67);
+            this.buttonDoNotUseTwitch.Name = "buttonDoNotUseTwitch";
+            this.buttonDoNotUseTwitch.Size = new System.Drawing.Size(197, 23);
+            this.buttonDoNotUseTwitch.TabIndex = 4;
+            this.buttonDoNotUseTwitch.Text = "I don\'t want to use Twitch to post logs";
+            this.buttonDoNotUseTwitch.UseVisualStyleBackColor = true;
+            this.buttonDoNotUseTwitch.Click += new System.EventHandler(this.buttonDoNotUseTwitch_Click);
             // 
             // FormTwitchNameSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(342, 102);
+            this.Controls.Add(this.buttonDoNotUseTwitch);
             this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.textBoxChannelUrl);
@@ -87,5 +99,6 @@
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.Button buttonNext;
         public System.Windows.Forms.TextBox textBoxChannelUrl;
+        private System.Windows.Forms.Button buttonDoNotUseTwitch;
     }
 }
