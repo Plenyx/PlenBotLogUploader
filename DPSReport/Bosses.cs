@@ -45,5 +45,7 @@ namespace PlenBotLogUploader.DPSReport
         public static bool IsGolem(int bossId) => ((bossId == (int)BossIds.StandardGolem) || (bossId == (int)BossIds.MediumGolem) || (bossId == (int)BossIds.LargeGolem));
 
         public static bool IsEvent(int bossId) => ((bossId == (int)BossIds.BanditTrio) || (bossId == (int)BossIds.RiverOfSouls) || (bossId == (int)BossIds.WvW));
+
+        public static bool IsWvW(int bossId) => (bossId == (int)BossIds.WvW);
     }
 }

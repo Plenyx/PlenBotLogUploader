@@ -99,6 +99,12 @@
     <Compile Include="FormDPSReportServer.Designer.cs">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormRaidar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRaidar.Designer.cs">
+      <DependentUpon>FormRaidar.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTwitchNameSetup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,8 @@
     <Compile Include="FormPing.Designer.cs">
       <DependentUpon>FormPing.cs</DependentUpon>
     </Compile>
+    <Compile Include="GW2Raidar\GW2RaidarJSONAuth.cs" />
+    <Compile Include="GW2Raidar\GW2RaidarJSONEncounterNew.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIError.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
@@ -131,6 +139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDPSReportServer.resx">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRaidar.resx">
+      <DependentUpon>FormRaidar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTwitchNameSetup.resx">
       <DependentUpon>FormTwitchNameSetup.cs</DependentUpon>
@@ -169,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="PlenfaceClose.ico" />
+    <None Include="Resources\AppIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

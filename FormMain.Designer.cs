@@ -30,12 +30,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
+            this.buttonDisConnectTwitch = new System.Windows.Forms.Button();
             this.buttonCustomName = new System.Windows.Forms.Button();
             this.buttonChangeTwitchChannel = new System.Windows.Forms.Button();
-            this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
             this.checkBoxPostToTwitch = new System.Windows.Forms.CheckBox();
-            this.checkBoxWepSkill1 = new System.Windows.Forms.CheckBox();
             this.buttonReconnectBot = new System.Windows.Forms.Button();
+            this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
+            this.checkBoxWepSkill1 = new System.Windows.Forms.CheckBox();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
             this.groupBoxArcdpsLogs = new System.Windows.Forms.GroupBox();
             this.buttonOpenLogs = new System.Windows.Forms.Button();
@@ -57,7 +58,6 @@
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.buttonDisConnectTwitch = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.groupBoxTrayIconSettings.SuspendLayout();
@@ -89,6 +89,16 @@
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
             // 
+            // buttonDisConnectTwitch
+            // 
+            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 98);
+            this.buttonDisConnectTwitch.Name = "buttonDisConnectTwitch";
+            this.buttonDisConnectTwitch.Size = new System.Drawing.Size(188, 23);
+            this.buttonDisConnectTwitch.TabIndex = 10;
+            this.buttonDisConnectTwitch.Text = "Disconnect from Twitch";
+            this.buttonDisConnectTwitch.UseVisualStyleBackColor = true;
+            this.buttonDisConnectTwitch.Click += new System.EventHandler(this.buttonDisConnectTwitch_Click);
+            // 
             // buttonCustomName
             // 
             this.buttonCustomName.Location = new System.Drawing.Point(6, 68);
@@ -109,16 +119,6 @@
             this.buttonChangeTwitchChannel.UseVisualStyleBackColor = true;
             this.buttonChangeTwitchChannel.Click += new System.EventHandler(this.buttonChangeTwitchChannel_Click);
             // 
-            // checkBoxFileSizeIgnore
-            // 
-            this.checkBoxFileSizeIgnore.AutoSize = true;
-            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(9, 56);
-            this.checkBoxFileSizeIgnore.Name = "checkBoxFileSizeIgnore";
-            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(155, 17);
-            this.checkBoxFileSizeIgnore.TabIndex = 7;
-            this.checkBoxFileSizeIgnore.Text = "ignore file size limit of 12 kB";
-            this.checkBoxFileSizeIgnore.UseVisualStyleBackColor = true;
-            // 
             // checkBoxPostToTwitch
             // 
             this.checkBoxPostToTwitch.AutoSize = true;
@@ -130,16 +130,6 @@
             this.checkBoxPostToTwitch.Text = "post links to the Twitch chat";
             this.checkBoxPostToTwitch.UseVisualStyleBackColor = true;
             // 
-            // checkBoxWepSkill1
-            // 
-            this.checkBoxWepSkill1.AutoSize = true;
-            this.checkBoxWepSkill1.Location = new System.Drawing.Point(9, 38);
-            this.checkBoxWepSkill1.Name = "checkBoxWepSkill1";
-            this.checkBoxWepSkill1.Size = new System.Drawing.Size(126, 17);
-            this.checkBoxWepSkill1.TabIndex = 5;
-            this.checkBoxWepSkill1.Text = "render weapon skill 1";
-            this.checkBoxWepSkill1.UseVisualStyleBackColor = true;
-            // 
             // buttonReconnectBot
             // 
             this.buttonReconnectBot.Location = new System.Drawing.Point(103, 68);
@@ -149,6 +139,26 @@
             this.buttonReconnectBot.Text = "Reconnect bot";
             this.buttonReconnectBot.UseVisualStyleBackColor = true;
             this.buttonReconnectBot.Click += new System.EventHandler(this.buttonReconnectBot_Click);
+            // 
+            // checkBoxFileSizeIgnore
+            // 
+            this.checkBoxFileSizeIgnore.AutoSize = true;
+            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(9, 56);
+            this.checkBoxFileSizeIgnore.Name = "checkBoxFileSizeIgnore";
+            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(155, 17);
+            this.checkBoxFileSizeIgnore.TabIndex = 7;
+            this.checkBoxFileSizeIgnore.Text = "ignore file size limit of 12 kB";
+            this.checkBoxFileSizeIgnore.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxWepSkill1
+            // 
+            this.checkBoxWepSkill1.AutoSize = true;
+            this.checkBoxWepSkill1.Location = new System.Drawing.Point(9, 38);
+            this.checkBoxWepSkill1.Name = "checkBoxWepSkill1";
+            this.checkBoxWepSkill1.Size = new System.Drawing.Size(126, 17);
+            this.checkBoxWepSkill1.TabIndex = 5;
+            this.checkBoxWepSkill1.Text = "render weapon skill 1";
+            this.checkBoxWepSkill1.UseVisualStyleBackColor = true;
             // 
             // checkBoxUploadLogs
             // 
@@ -324,7 +334,6 @@
             // 
             // buttonRaidarSettings
             // 
-            this.buttonRaidarSettings.Enabled = false;
             this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 48);
             this.buttonRaidarSettings.Name = "buttonRaidarSettings";
             this.buttonRaidarSettings.Size = new System.Drawing.Size(188, 23);
@@ -342,16 +351,6 @@
             this.buttonPingSettings.Text = "Remote server ping";
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
-            // 
-            // buttonDisConnectTwitch
-            // 
-            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 98);
-            this.buttonDisConnectTwitch.Name = "buttonDisConnectTwitch";
-            this.buttonDisConnectTwitch.Size = new System.Drawing.Size(188, 23);
-            this.buttonDisConnectTwitch.TabIndex = 10;
-            this.buttonDisConnectTwitch.Text = "Disconnect from Twitch";
-            this.buttonDisConnectTwitch.UseVisualStyleBackColor = true;
-            this.buttonDisConnectTwitch.Click += new System.EventHandler(this.buttonDisConnectTwitch_Click);
             // 
             // FormMain
             // 

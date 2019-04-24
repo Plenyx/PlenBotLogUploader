@@ -9,7 +9,7 @@ An open source uploader to dps.report which post the links to Twitch chat or not
 ## Installation
 To install the uploader, I recommend creating a new folder and putting the executable in.
 
-The uploader will create a file called “links.txt” which will contain all previous and latest upload links.
+The uploader will create a file called “logs.csv” which will contain all previous and latest upload links.
 
 For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username “gw2loguploader”. Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
 
@@ -21,10 +21,11 @@ The uploader keeps track of its version and the online available version. When y
 To update the bot just overwrite the previous version.
 
 ## Features
-* uploading arc dps logs to dps.report as soon as they are made
+* uploading arcdps logs to dps.report as soon as they are made
+* uploading arcdps logs to GW2Raidar when set up
 * drag & drop directly to the executable or to the running application itself to quickly upload a log
 * pinging links to Twitch chat
-* pinging links to the dps.report logs in Discord (in private beta, contact me directly)
+* pinging links to in Discord (in private beta, contact me directly)
 * custom name for the bot, otherwise “gw2loguploader” is being used
 * update reminder
 
@@ -33,8 +34,6 @@ I plan to finish the following features:
 * pinging logs into Discord channel
   * highly requested, currently in private beta
   * if you want access, contact me directly, it requires manual approval and a "sign" given by me for it to work
-* uploading to GW2Raidar
-  * highly requested
 * implementation with gw2.ninja
   * putting the commands possible by gw2.ninja to general public with zero setup requirements
 

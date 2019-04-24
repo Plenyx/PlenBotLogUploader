@@ -13,6 +13,7 @@ namespace PlenBotLogUploader
         {
             this.mainLink = mainLink;
             InitializeComponent();
+            Icon = Properties.Resources.AppIcon;
         }
 
         private void FormCustomName_FormClosing(object sender, FormClosingEventArgs e)

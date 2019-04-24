@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 using Microsoft.Win32;
 using TwitchIRCClient;
 using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.GW2Raidar;
 
 namespace PlenBotLogUploader
 {
@@ -27,8 +28,10 @@ namespace PlenBotLogUploader
         public string CustomTwitchName { get; set; } = "";
         public string CustomOAuthPassword { get; set; } = "";
         public bool ChannelJoined { get; set; } = false;
+        public string RaidarOAuth { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
-        public int Build { get; } = 19;
+        public HttpClient MainHttpClient { get; } = new HttpClient();
+        public int Build { get; } = 20;
 
         // fields
         private const int minFileSize = 12288;
@@ -37,19 +40,22 @@ namespace PlenBotLogUploader
         private FormTwitchNameSetup twitchNameLink;
         private FormDPSReportServer dpsReportServerLink;
         private FormCustomName customNameLink;
+        private FormRaidar raidarLink;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
-        private HttpClient webClient = new HttpClient();
         private int ReconnectedFailCounter = 0;
 
         public FormMain()
         {
             InitializeComponent();
+            Icon = Properties.Resources.AppIcon;
+            notifyIconTray.Icon = Properties.Resources.AppIcon;
             Text = $"{Text} b{Build}";
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
             pingLink = new FormPing(this);
+            raidarLink = new FormRaidar(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             new Thread(NewBuildCheck).Start();
             try
@@ -102,6 +108,12 @@ namespace PlenBotLogUploader
                 if (RegistryAccess.GetValue("connectToTwitch") == null)
                 {
                     RegistryAccess.SetValue("connectToTwitch", 1);
+                }
+                if (RegistryAccess.GetValue("raidarEnabled") == null)
+                {
+                    RegistryAccess.SetValue("raidarEnabled", 0);
+                    RegistryAccess.SetValue("raidarOAuth", "");
+                    RegistryAccess.SetValue("raidarTags", "");
                 }
                 RegistryAccess.Flush();
                 LogsLocation = (string)RegistryAccess.GetValue("logsLocation", "");
@@ -196,6 +208,14 @@ namespace PlenBotLogUploader
                     customNameLink.textBoxCustomName.Text = CustomTwitchName;
                     customNameLink.textBoxCustomOAuth.Text = CustomOAuthPassword;
                 }
+                RaidarOAuth = (string)RegistryAccess.GetValue("raidarOAuth", "");
+                if (RaidarOAuth != "")
+                {
+                    raidarLink.textBoxTags.Text = (string)RegistryAccess.GetValue("raidarTags", "");
+                    raidarLink.checkBoxEnableRaidar.Checked = (int)RegistryAccess.GetValue("raidarEnabled", 0) == 1;
+                    raidarLink.groupBoxCredentials.Enabled = false;
+                    raidarLink.groupBoxSettings.Enabled = true;
+                }
                 if (RegistryAccess.GetValue("firstSetup") == null)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -221,6 +241,8 @@ namespace PlenBotLogUploader
                     buttonDisConnectTwitch.Text = "Connect to Twitch";
                     buttonChangeTwitchChannel.Enabled = false;
                     buttonCustomName.Enabled = false;
+                    toolStripMenuItemOpenCustomName.Enabled = false;
+                    toolStripMenuItemPostToTwitch.Enabled = false;
                     buttonReconnectBot.Enabled = false;
                     checkBoxPostToTwitch.Enabled = false;
                 }
@@ -277,7 +299,7 @@ namespace PlenBotLogUploader
                                 {
                                     postData.Add("rotation_weap1", "1");
                                 }
-                                HttpUploadFileToDPSReport(zipfilelocation, postData);
+                                HttpUploadLog(zipfilelocation, postData);
                             }
                             catch
                             {
@@ -303,6 +325,8 @@ namespace PlenBotLogUploader
         }
 
         private void ShowBalloon(string title, string description, int ms) => notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.None);
+
+        public bool IsConnectionNull() => chatConnect == null;
 
         protected async void NewBuildCheck()
         {
@@ -372,7 +396,7 @@ namespace PlenBotLogUploader
                         }
                         try
                         {
-                            HttpUploadFileToDPSReport(zipfilelocation, postData);
+                            HttpUploadLog(zipfilelocation, postData);
                         }
                         catch
                         {
@@ -423,13 +447,16 @@ namespace PlenBotLogUploader
 
         public async Task<string> DownloadFileAsyncToString(string url)
         {
-            var responseCode = await webClient.GetAsync(new Uri(url));
+            var responseMessage = await MainHttpClient.GetAsync(new Uri(url));
             try
             {
-                return await responseCode.Content.ReadAsStringAsync();
+                var response = await responseMessage.Content.ReadAsStringAsync();
+                responseMessage?.Dispose();
+                return response;
             }
             catch
             {
+                responseMessage?.Dispose();
                 return "";
             }
         }
@@ -475,51 +502,110 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async void HttpUploadFileToDPSReport(string file, Dictionary<string, string> postData, bool bypassMessage = false)
+        public async Task HttpUploadLogToRaidar(string file, StreamContent contentStream)
         {
-            var content = new MultipartFormDataContent();
-            foreach (string key in postData.Keys)
+            using (var content = new MultipartFormDataContent())
             {
-                content.Add(new StringContent(postData[key]), key);
-            }
-            AddToText($">:> Uploading {Path.GetFileName(file)}");
-            try
-            {
-                using (FileStream inputStream = File.OpenRead(file))
+                if (raidarLink.textBoxTags.Text.Length > 0)
                 {
-                    using (StreamContent contentStream = new StreamContent(inputStream))
+                    content.Add(new StringContent(raidarLink.textBoxTags.Text), "tags");
+                }
+                content.Add(contentStream, "file", Path.GetFileName(file));
+                try
+                {
+                    MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", RaidarOAuth);
+                    using (var responseMessage = await MainHttpClient.PutAsync(new Uri("https://gw2raidar.com/api/v2/encounters/new"), content))
                     {
-                        content.Add(contentStream, "file", Path.GetFileName(file));
-                        try
+                        string response = await responseMessage.Content.ReadAsStringAsync();
+                        if (responseMessage.StatusCode == HttpStatusCode.OK)
                         {
-                            using (var responseMessage = await webClient.PostAsync(new Uri($"https://{DPSReportServer}/uploadContent"), content))
+                            GW2RaidarJSONEncounterNew responseJSON = new JavaScriptSerializer().Deserialize<GW2RaidarJSONEncounterNew>(response);
+                            AddToText($">:> Uploaded {Path.GetFileName(file)} to GW2Raidar under id {responseJSON.Upload_id}");
+                        }
+                        else if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
+                        {
+                            AddToText($"Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid name/password");
+                        }
+                        else if ((responseMessage.StatusCode == HttpStatusCode.BadRequest) || responseMessage.StatusCode == HttpStatusCode.InternalServerError)
+                        {
+                            AddToText($"Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid file/file error");
+                        }
+                    }
+                    MainHttpClient.DefaultRequestHeaders.Authorization = null;
+                }
+                catch
+                {
+                    AddToText($"Unable to upload file {Path.GetFileName(file)}, raidar not responding");
+                }
+            }
+        }
+
+        public async void HttpUploadLog(string file, Dictionary<string, string> postData, bool bypassMessage = false)
+        {
+            using (var content = new MultipartFormDataContent())
+            {
+                foreach (string key in postData.Keys)
+                {
+                    content.Add(new StringContent(postData[key]), key);
+                }
+                AddToText($">:> Uploading {Path.GetFileName(file)}");
+                int bossId = 1;
+                try
+                {
+                    using (FileStream inputStream = File.OpenRead(file))
+                    {
+                        using (StreamContent contentStream = new StreamContent(inputStream))
+                        {
+                            content.Add(contentStream, "file", Path.GetFileName(file));
+                            try
                             {
-                                string response = await responseMessage.Content.ReadAsStringAsync();
+                                using (var responseMessage = await MainHttpClient.PostAsync(new Uri($"https://{DPSReportServer}/uploadContent"), content))
+                                {
+                                    string response = await responseMessage.Content.ReadAsStringAsync();
+                                    try
+                                    {
+                                        DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
+                                        bossId = reportJSON.Encounter.BossId;
+                                        string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                                        File.AppendAllText($"{GetLocalDir()}logs.csv", $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
+                                        await SendLogToChat(reportJSON, bypassMessage);
+                                        await PingServer(reportJSON);
+                                    }
+                                    catch
+                                    {
+                                        AddToText($"Unable to upload file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                AddToText($"Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
+                            }
+                        }
+                    }
+                    if (raidarLink.checkBoxEnableRaidar.Checked && !Bosses.IsWvW(bossId))
+                    {
+                        using (FileStream inputStream = File.OpenRead(file))
+                        {
+                            using (StreamContent contentStream = new StreamContent(inputStream))
+                            {
                                 try
                                 {
-                                    DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
-                                    string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
-                                    File.AppendAllText($"{GetLocalDir()}logs.csv", $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
-                                    await SendLogToChat(reportJSON, bypassMessage);
-                                    await PingServer(reportJSON);
+                                    await HttpUploadLogToRaidar(file, contentStream);
                                 }
                                 catch
                                 {
-                                    AddToText($"Unable to upload file {file}, dps.report responded with invalid permanent link");
+                                    AddToText($"Unable to upload file {Path.GetFileName(file)} to raidar, raidar not responding");
                                 }
                             }
                         }
-                        catch
-                        {
-                            AddToText($"Unable to upload file {file}, dps.report not responding");
-                        }
                     }
                 }
-            }
-            catch
-            {
-                Thread.Sleep(650);
-                HttpUploadFileToDPSReport(file, postData, bypassMessage);
+                catch
+                {
+                    Thread.Sleep(650);
+                    HttpUploadLog(file, postData, bypassMessage);
+                }
             }
         }
 
@@ -537,15 +623,17 @@ namespace PlenBotLogUploader
                         { "arcversion", $"{reportJSON.Evtc.Type}{reportJSON.Evtc.Version}" },
                         { "sign", pingLink.textBoxSign.Text }
                     };
-                    FormUrlEncodedContent content = new FormUrlEncodedContent(fields);
-                    try
+                    using (FormUrlEncodedContent content = new FormUrlEncodedContent(fields))
                     {
-                        var response = await webClient.PostAsync(pingLink.textBoxURL.Text.ToString(), content);
-                        AddToText($">:> Log {reportJSON.GetUrlId()} pinged.");
-                    }
-                    catch
-                    {
-                        AddToText(">:> Unable to ping the server, check the settings or the server is not responding.");
+                        try
+                        {
+                            await MainHttpClient.PostAsync(pingLink.textBoxURL.Text.ToString(), content);
+                            AddToText($">:> Log {reportJSON.GetUrlId()} pinged.");
+                        }
+                        catch
+                        {
+                            AddToText(">:> Unable to ping the server, check the settings or the server is not responding.");
+                        }
                     }
                 }
                 else if (pingLink.radioButtonMethodGet.Checked)
@@ -556,11 +644,11 @@ namespace PlenBotLogUploader
                         string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.Evtc.Type}{reportJSON.Evtc.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
                         if (pingLink.textBoxURL.Text.Contains("?"))
                         {
-                            var response = await webClient.GetAsync($"{pingLink.textBoxURL.Text}&sign={pingLink.textBoxSign.Text}&{encounterInfo}");
+                            await MainHttpClient.GetAsync($"{pingLink.textBoxURL.Text}&sign={pingLink.textBoxSign.Text}&{encounterInfo}");
                         }
                         else
                         {
-                            var response = await webClient.GetAsync($"{pingLink.textBoxURL.Text}?sign={pingLink.textBoxSign.Text}&{encounterInfo}");
+                            await MainHttpClient.GetAsync($"{pingLink.textBoxURL.Text}?sign={pingLink.textBoxSign.Text}&{encounterInfo}");
                         }
                         AddToText($">:> Log {reportJSON.GetUrlId()} pinged."); ;
                     }
@@ -589,7 +677,7 @@ namespace PlenBotLogUploader
             RegistryAccess.Dispose();
             chatConnect?.Dispose();
             watcher.Dispose();
-            webClient.Dispose();
+            MainHttpClient.Dispose();
         }
 
         private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
@@ -616,6 +704,8 @@ namespace PlenBotLogUploader
         {
             buttonDisConnectTwitch.Text = "Disconnect from Twitch";
             buttonChangeTwitchChannel.Enabled = true;
+            toolStripMenuItemOpenCustomName.Enabled = true;
+            toolStripMenuItemPostToTwitch.Enabled = true;
             buttonCustomName.Enabled = true;
             buttonReconnectBot.Enabled = true;
             checkBoxPostToTwitch.Enabled = true;
@@ -634,7 +724,6 @@ namespace PlenBotLogUploader
 
         public void DisconnectTwitchBot()
         {
-
             chatConnect.ReceiveMessage -= ReadMessages;
             chatConnect.StateChange -= OnIrcStateChanged;
             chatConnect.Dispose();
@@ -643,6 +732,8 @@ namespace PlenBotLogUploader
             buttonDisConnectTwitch.Text = "Connect to Twitch";
             buttonChangeTwitchChannel.Enabled = false;
             buttonCustomName.Enabled = false;
+            toolStripMenuItemOpenCustomName.Enabled = false;
+            toolStripMenuItemPostToTwitch.Enabled = false;
             buttonReconnectBot.Enabled = false;
             checkBoxPostToTwitch.Enabled = false;
         }
@@ -880,7 +971,7 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        HttpUploadFileToDPSReport(zipfilelocation, postData, true);
+                        HttpUploadLog(zipfilelocation, postData, true);
                     }
                     catch
                     {
@@ -917,7 +1008,8 @@ namespace PlenBotLogUploader
 
         private void buttonRaidarSettings_Click(object sender, EventArgs e)
         {
-            // TODO
+            raidarLink.Show();
+            raidarLink.BringToFront();
         }
 
         private void toolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
