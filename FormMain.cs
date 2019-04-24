@@ -31,7 +31,7 @@ namespace PlenBotLogUploader
         public string RaidarOAuth { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
         public HttpClient MainHttpClient { get; } = new HttpClient();
-        public int Build { get; } = 20;
+        public int Build { get; } = 21;
 
         // fields
         private const int minFileSize = 12288;
@@ -257,6 +257,7 @@ namespace PlenBotLogUploader
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
                 checkBoxFileSizeIgnore.CheckedChanged += new EventHandler(checkBoxFileSizeIgnore_CheckedChanged);
                 checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
+                raidarLink.checkBoxEnableRaidar.CheckedChanged += new EventHandler(raidarLink.checkBoxEnableRaidar_CheckedChanged);
             }
             catch
             {

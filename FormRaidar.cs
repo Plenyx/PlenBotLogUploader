@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Web.Script.Serialization;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Net.Http;
+using System.Windows.Forms;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
 using PlenBotLogUploader.GW2Raidar;
 
 namespace PlenBotLogUploader
@@ -79,6 +75,14 @@ namespace PlenBotLogUploader
             checkBoxEnableRaidar.Checked = false;
             groupBoxCredentials.Enabled = true;
             groupBoxSettings.Enabled = false;
+        }
+
+        public void checkBoxEnableRaidar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxEnableRaidar.Checked)
+            {
+                MessageBox.Show("The uploader only uploads to Raidar. It is not waiting for the uploaded file to be fully processed.\nIf you experience any crashes with Raidar uploading on please turn them off and contact me immediatly.", "Early implementation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

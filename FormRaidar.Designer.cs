@@ -36,10 +36,10 @@
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.checkBoxEnableRaidar = new System.Windows.Forms.CheckBox();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
+            this.buttonRelog = new System.Windows.Forms.Button();
             this.labelTags = new System.Windows.Forms.Label();
             this.textBoxTags = new System.Windows.Forms.TextBox();
             this.labelConfirmation = new System.Windows.Forms.Label();
-            this.buttonRelog = new System.Windows.Forms.Button();
             this.groupBoxCredentials.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
@@ -90,6 +90,7 @@
             // 
             this.textBoxPassword.Location = new System.Drawing.Point(9, 76);
             this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.PasswordChar = '*';
             this.textBoxPassword.Size = new System.Drawing.Size(119, 20);
             this.textBoxPassword.TabIndex = 1;
             // 
@@ -124,6 +125,16 @@
             this.groupBoxSettings.TabStop = false;
             this.groupBoxSettings.Text = "GW2Raidar settings";
             // 
+            // buttonRelog
+            // 
+            this.buttonRelog.Location = new System.Drawing.Point(9, 108);
+            this.buttonRelog.Name = "buttonRelog";
+            this.buttonRelog.Size = new System.Drawing.Size(75, 23);
+            this.buttonRelog.TabIndex = 4;
+            this.buttonRelog.Text = "Relog";
+            this.buttonRelog.UseVisualStyleBackColor = true;
+            this.buttonRelog.Click += new System.EventHandler(this.buttonRelog_Click);
+            // 
             // labelTags
             // 
             this.labelTags.AutoSize = true;
@@ -148,16 +159,6 @@
             this.labelConfirmation.Size = new System.Drawing.Size(353, 13);
             this.labelConfirmation.TabIndex = 3;
             this.labelConfirmation.Text = "Your credentials are NOT saved within the settings, only authorised token";
-            // 
-            // buttonRelog
-            // 
-            this.buttonRelog.Location = new System.Drawing.Point(9, 108);
-            this.buttonRelog.Name = "buttonRelog";
-            this.buttonRelog.Size = new System.Drawing.Size(75, 23);
-            this.buttonRelog.TabIndex = 4;
-            this.buttonRelog.Text = "Relog";
-            this.buttonRelog.UseVisualStyleBackColor = true;
-            this.buttonRelog.Click += new System.EventHandler(this.buttonRelog_Click);
             // 
             // FormRaidar
             // 
@@ -191,11 +192,11 @@
         private System.Windows.Forms.Button buttonAuthenticate;
         private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.Label labelUsername;
-        public System.Windows.Forms.TextBox textBoxPassword;
-        public System.Windows.Forms.TextBox textBoxUsername;
         private System.Windows.Forms.Label labelTags;
         public System.Windows.Forms.TextBox textBoxTags;
         private System.Windows.Forms.Label labelConfirmation;
         private System.Windows.Forms.Button buttonRelog;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.TextBox textBoxUsername;
     }
 }
