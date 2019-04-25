@@ -27,9 +27,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxTwitchOnlySuccess = new System.Windows.Forms.CheckBox();
             this.buttonDisConnectTwitch = new System.Windows.Forms.Button();
             this.buttonCustomName = new System.Windows.Forms.Button();
             this.buttonChangeTwitchChannel = new System.Windows.Forms.Button();
@@ -43,7 +43,6 @@
             this.buttonDPSReportServer = new System.Windows.Forms.Button();
             this.labelLocationInfo = new System.Windows.Forms.Label();
             this.buttonLogsLocation = new System.Windows.Forms.Button();
-            this.groupBoxTrayIconSettings = new System.Windows.Forms.GroupBox();
             this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStripIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -60,7 +59,6 @@
             this.buttonPingSettings = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
-            this.groupBoxTrayIconSettings.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.SuspendLayout();
@@ -77,6 +75,7 @@
             // 
             // groupBoxTwitchSettings
             // 
+            this.groupBoxTwitchSettings.Controls.Add(this.checkBoxTwitchOnlySuccess);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonDisConnectTwitch);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonCustomName);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonChangeTwitchChannel);
@@ -84,14 +83,25 @@
             this.groupBoxTwitchSettings.Controls.Add(this.buttonReconnectBot);
             this.groupBoxTwitchSettings.Location = new System.Drawing.Point(426, 12);
             this.groupBoxTwitchSettings.Name = "groupBoxTwitchSettings";
-            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 128);
+            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 151);
             this.groupBoxTwitchSettings.TabIndex = 4;
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
             // 
+            // checkBoxTwitchOnlySuccess
+            // 
+            this.checkBoxTwitchOnlySuccess.AutoSize = true;
+            this.checkBoxTwitchOnlySuccess.Enabled = false;
+            this.checkBoxTwitchOnlySuccess.Location = new System.Drawing.Point(6, 68);
+            this.checkBoxTwitchOnlySuccess.Name = "checkBoxTwitchOnlySuccess";
+            this.checkBoxTwitchOnlySuccess.Size = new System.Drawing.Size(143, 17);
+            this.checkBoxTwitchOnlySuccess.TabIndex = 11;
+            this.checkBoxTwitchOnlySuccess.Text = "post only successful logs";
+            this.checkBoxTwitchOnlySuccess.UseVisualStyleBackColor = true;
+            // 
             // buttonDisConnectTwitch
             // 
-            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 98);
+            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 121);
             this.buttonDisConnectTwitch.Name = "buttonDisConnectTwitch";
             this.buttonDisConnectTwitch.Size = new System.Drawing.Size(188, 23);
             this.buttonDisConnectTwitch.TabIndex = 10;
@@ -101,7 +111,7 @@
             // 
             // buttonCustomName
             // 
-            this.buttonCustomName.Location = new System.Drawing.Point(6, 68);
+            this.buttonCustomName.Location = new System.Drawing.Point(6, 91);
             this.buttonCustomName.Name = "buttonCustomName";
             this.buttonCustomName.Size = new System.Drawing.Size(91, 23);
             this.buttonCustomName.TabIndex = 9;
@@ -132,7 +142,7 @@
             // 
             // buttonReconnectBot
             // 
-            this.buttonReconnectBot.Location = new System.Drawing.Point(103, 68);
+            this.buttonReconnectBot.Location = new System.Drawing.Point(103, 91);
             this.buttonReconnectBot.Name = "buttonReconnectBot";
             this.buttonReconnectBot.Size = new System.Drawing.Size(91, 23);
             this.buttonReconnectBot.TabIndex = 4;
@@ -179,7 +189,7 @@
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonLogsLocation);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxWepSkill1);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxUploadLogs);
-            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 146);
+            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 169);
             this.groupBoxArcdpsLogs.Name = "groupBoxArcdpsLogs";
             this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 160);
             this.groupBoxArcdpsLogs.TabIndex = 5;
@@ -225,30 +235,19 @@
             this.buttonLogsLocation.UseVisualStyleBackColor = true;
             this.buttonLogsLocation.Click += new System.EventHandler(this.buttonLogsLocation_Click);
             // 
-            // groupBoxTrayIconSettings
-            // 
-            this.groupBoxTrayIconSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
-            this.groupBoxTrayIconSettings.Location = new System.Drawing.Point(426, 312);
-            this.groupBoxTrayIconSettings.Name = "groupBoxTrayIconSettings";
-            this.groupBoxTrayIconSettings.Size = new System.Drawing.Size(200, 43);
-            this.groupBoxTrayIconSettings.TabIndex = 6;
-            this.groupBoxTrayIconSettings.TabStop = false;
-            this.groupBoxTrayIconSettings.Text = "Tray icon settings";
-            // 
             // checkBoxTrayMinimiseToIcon
             // 
             this.checkBoxTrayMinimiseToIcon.AutoSize = true;
-            this.checkBoxTrayMinimiseToIcon.Location = new System.Drawing.Point(9, 20);
+            this.checkBoxTrayMinimiseToIcon.Location = new System.Drawing.Point(9, 19);
             this.checkBoxTrayMinimiseToIcon.Name = "checkBoxTrayMinimiseToIcon";
-            this.checkBoxTrayMinimiseToIcon.Size = new System.Drawing.Size(100, 17);
+            this.checkBoxTrayMinimiseToIcon.Size = new System.Drawing.Size(120, 17);
             this.checkBoxTrayMinimiseToIcon.TabIndex = 0;
-            this.checkBoxTrayMinimiseToIcon.Text = "minimise to icon";
+            this.checkBoxTrayMinimiseToIcon.Text = "minimise to tray icon";
             this.checkBoxTrayMinimiseToIcon.UseVisualStyleBackColor = true;
             // 
             // notifyIconTray
             // 
             this.notifyIconTray.ContextMenuStrip = this.contextMenuStripIcon;
-            this.notifyIconTray.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconTray.Icon")));
             this.notifyIconTray.Text = "PlenBot Log Uploader";
             this.notifyIconTray.Visible = true;
             this.notifyIconTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconTray_MouseDoubleClick);
@@ -323,18 +322,19 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 363);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 336);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 77);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 104);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
             // buttonRaidarSettings
             // 
-            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 48);
+            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 71);
             this.buttonRaidarSettings.Name = "buttonRaidarSettings";
             this.buttonRaidarSettings.Size = new System.Drawing.Size(188, 23);
             this.buttonRaidarSettings.TabIndex = 2;
@@ -344,7 +344,7 @@
             // 
             // buttonPingSettings
             // 
-            this.buttonPingSettings.Location = new System.Drawing.Point(6, 19);
+            this.buttonPingSettings.Location = new System.Drawing.Point(6, 42);
             this.buttonPingSettings.Name = "buttonPingSettings";
             this.buttonPingSettings.Size = new System.Drawing.Size(188, 23);
             this.buttonPingSettings.TabIndex = 0;
@@ -359,12 +359,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(633, 445);
             this.Controls.Add(this.groupBoxOtherSettings);
-            this.Controls.Add(this.groupBoxTrayIconSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
             this.Controls.Add(this.groupBoxTwitchSettings);
             this.Controls.Add(this.textBoxUploadInfo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -378,10 +376,9 @@
             this.groupBoxTwitchSettings.PerformLayout();
             this.groupBoxArcdpsLogs.ResumeLayout(false);
             this.groupBoxArcdpsLogs.PerformLayout();
-            this.groupBoxTrayIconSettings.ResumeLayout(false);
-            this.groupBoxTrayIconSettings.PerformLayout();
             this.contextMenuStripIcon.ResumeLayout(false);
             this.groupBoxOtherSettings.ResumeLayout(false);
+            this.groupBoxOtherSettings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -396,7 +393,6 @@
         private System.Windows.Forms.GroupBox groupBoxArcdpsLogs;
         private System.Windows.Forms.Button buttonLogsLocation;
         private System.Windows.Forms.Label labelLocationInfo;
-        private System.Windows.Forms.GroupBox groupBoxTrayIconSettings;
         private System.Windows.Forms.NotifyIcon notifyIconTray;
         private System.Windows.Forms.GroupBox groupBoxOtherSettings;
         private System.Windows.Forms.Button buttonPingSettings;
@@ -418,6 +414,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorSecond;
         private System.Windows.Forms.Button buttonDisConnectTwitch;
         public System.Windows.Forms.CheckBox checkBoxPostToTwitch;
+        private System.Windows.Forms.CheckBox checkBoxTwitchOnlySuccess;
     }
 }
 

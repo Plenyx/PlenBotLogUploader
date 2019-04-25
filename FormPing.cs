@@ -23,14 +23,14 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            mainLink.RegistryAccess.SetValue("remotePingMethod", radioButtonMethodGet.Checked ? 0 : 1);
-            mainLink.RegistryAccess.SetValue("remotePingUrl", textBoxURL.Text);
-            mainLink.RegistryAccess.SetValue("remotePingSign", textBoxSign.Text);
+            mainLink.SetRegistryValue("remotePingMethod", radioButtonMethodGet.Checked ? 0 : 1);
+            mainLink.SetRegistryValue("remotePingUrl", textBoxURL.Text);
+            mainLink.SetRegistryValue("remotePingSign", textBoxSign.Text);
         }
 
         private void checkBoxEnablePing_CheckedChanged(object sender, EventArgs e)
         {
-            mainLink.RegistryAccess.SetValue("remotePingEnabled", checkBoxEnablePing.Checked ? 1 : 0);
+            mainLink.SetRegistryValue("remotePingEnabled", checkBoxEnablePing.Checked ? 1 : 0);
             groupBoxRemoteSettings.Enabled = checkBoxEnablePing.Enabled;
         }
 

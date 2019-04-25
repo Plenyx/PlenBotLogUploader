@@ -26,7 +26,7 @@ namespace PlenBotLogUploader
                 if (result == DialogResult.Yes)
                 {
                     mainLink.ChannelName = channelName;
-                    mainLink.RegistryAccess.SetValue("channel", channelName);
+                    mainLink.SetRegistryValue("channel", channelName);
                     if (!mainLink.IsConnectionNull())
                     {
                         mainLink.ReconnectTwitchBot();
@@ -49,7 +49,7 @@ namespace PlenBotLogUploader
         private void buttonDoNotUseTwitch_Click(object sender, EventArgs e)
         {
             mainLink.DisconnectTwitchBot();
-            mainLink.RegistryAccess.SetValue("connectToTwitch", 0);
+            mainLink.SetRegistryValue("connectToTwitch", 0);
             mainLink.checkBoxPostToTwitch.Checked = false;
             Hide();
         }

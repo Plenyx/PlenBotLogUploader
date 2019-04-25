@@ -25,8 +25,8 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            mainLink.RegistryAccess.SetValue("raidarEnabled", checkBoxEnableRaidar.Checked ? 1 : 0);
-            mainLink.RegistryAccess.SetValue("raidarTags", textBoxTags.Text);
+            mainLink.SetRegistryValue("raidarEnabled", checkBoxEnableRaidar.Checked ? 1 : 0);
+            mainLink.SetRegistryValue("raidarTags", textBoxTags.Text);
         }
 
         private async Task AuthoriseCredentials()
@@ -47,7 +47,7 @@ namespace PlenBotLogUploader
                         if ((responseJSON.Non_field_errors == null) || (responseJSON.Non_field_errors.Count() == 0))
                         {
                             mainLink.RaidarOAuth = responseJSON.Token;
-                            mainLink.RegistryAccess.SetValue("raidarOAuth", responseJSON.Token);
+                            mainLink.SetRegistryValue("raidarOAuth", responseJSON.Token);
                             textBoxUsername.Text = "";
                             textBoxPassword.Text = "";
                             groupBoxCredentials.Enabled = false;
@@ -71,7 +71,7 @@ namespace PlenBotLogUploader
         private void buttonRelog_Click(object sender, EventArgs e)
         {
             mainLink.RaidarOAuth = "";
-            mainLink.RegistryAccess.SetValue("raidarOAuth", "");
+            mainLink.SetRegistryValue("raidarOAuth", "");
             checkBoxEnableRaidar.Checked = false;
             groupBoxCredentials.Enabled = true;
             groupBoxSettings.Enabled = false;

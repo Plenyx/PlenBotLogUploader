@@ -18,7 +18,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            mainLink.RegistryAccess.SetValue("dpsReportServer", (radioButtonA.Checked) ? 1 : 0);
+            mainLink.SetRegistryValue("dpsReportServer", (radioButtonA.Checked) ? 1 : 0);
             if (radioButtonA.Checked)
             {
                 mainLink.DPSReportServer = "a.dps.report";
