@@ -12,6 +12,7 @@ namespace PlenBotLogUploader
         {
             this.mainLink = mainLink;
             InitializeComponent();
+            Icon = Properties.Resources.AppIcon;
         }
 
         private void buttonNext_Click(object sender, EventArgs e)

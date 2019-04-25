@@ -31,7 +31,7 @@ namespace PlenBotLogUploader
         public string RaidarOAuth { get; set; } = "";
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
         public HttpClient MainHttpClient { get; } = new HttpClient();
-        public int Build { get; } = 21;
+        public int Build { get; } = 22;
 
         // fields
         private const int minFileSize = 12288;
@@ -777,7 +777,10 @@ namespace PlenBotLogUploader
                 {
                     LogsLocation = dialog.SelectedPath;
                     RegistryAccess.SetValue("logsLocation", LogsLocation);
-                    Logs.Clear();
+                    if (Logs.Count > 0)
+                    {
+                        Logs.Clear();
+                    }
                     LogsScan(LogsLocation);
                     watcher.Renamed -= OnLogCreated;
                     watcher.Dispose();
