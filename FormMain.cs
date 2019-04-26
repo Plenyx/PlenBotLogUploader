@@ -32,7 +32,7 @@ namespace PlenBotLogUploader
         public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
         public HttpClient MainHttpClient { get; } = new HttpClient();
         public string LocalDir { get; } = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
-        public int Build { get; } = 23;
+        public int Build { get; } = 24;
 
         // fields
         private const int minFileSize = 12288;
@@ -171,7 +171,7 @@ namespace PlenBotLogUploader
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     twitchNameLink.Show();
-                    RegistryAccess.SetValue("firstSetup", 1);
+                    SetRegistryValue("firstSetup", 1);
                 }
                 if ((int)RegistryAccess.GetValue("connectToTwitch") == 1)
                 {
@@ -325,7 +325,11 @@ namespace PlenBotLogUploader
                         DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New build available (build n.{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                         if (result == DialogResult.Yes)
                         {
-                            MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (RegistryAccess.GetValue("firstUpdate") == null)
+                            {
+                                MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                SetRegistryValue("firstUpdate", 1);
+                            }
                             Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
                             Process.Start($"{LocalDir}");
                             if (InvokeRequired)
@@ -555,7 +559,7 @@ namespace PlenBotLogUploader
                                         }
                                         else if (checkBoxTwitchOnlySuccess.Checked)
                                         {
-                                            await SendLogToChat(reportJSON, false);
+                                            await SendLogToChat(reportJSON, true);
                                         }
                                         else
                                         {
@@ -941,10 +945,10 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void FormMain_DragDrop(object sender, DragEventArgs e)
+        private async void FormMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            new Thread(() => DoDragDropFiles(files)).Start();
+            await Task.Run(() => DoDragDropFiles(files));
         }
 
         protected void DoDragDropFiles(string[] files)
@@ -1029,6 +1033,12 @@ namespace PlenBotLogUploader
         {
             pingLink.Show();
             pingLink.BringToFront();
+        }
+
+        private void toolStripMenuItemOpenRaidarSettings_Click(object sender, EventArgs e)
+        {
+            raidarLink.Show();
+            raidarLink.BringToFront();
         }
 
         private void buttonDisConnectTwitch_Click(object sender, EventArgs e)

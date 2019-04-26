@@ -34,8 +34,6 @@ I plan to finish the following features:
 * pinging logs into Discord channel
   * highly requested, currently in private beta
   * if you want access, contact me directly, it requires manual approval and a "sign" given by me for it to work
-* implementation with gw2.ninja
-  * putting the commands possible by gw2.ninja to general public with zero setup requirements
 
 ## TwitchIrcClient
 A client I developed for Irc which Twitch uses.

@@ -129,6 +129,7 @@
     <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
     <Compile Include="RegistryStartup.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="TwitchIRCClient\IrcChangedEventArgs.cs" />
     <Compile Include="TwitchIRCClient\IrcMessageEventArgs.cs" />
     <Compile Include="Program.cs" />

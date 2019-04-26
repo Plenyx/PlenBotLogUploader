@@ -57,6 +57,7 @@
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
+            this.toolStripMenuItemOpenRaidarSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -261,10 +262,11 @@
             this.toolStripMenuItemOpenDPSReportServer,
             this.toolStripMenuItemOpenCustomName,
             this.toolStripMenuItemOpenPingSettings,
+            this.toolStripMenuItemOpenRaidarSettings,
             this.toolStripSeparatorSecond,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(250, 148);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(250, 192);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -352,6 +354,13 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
+            // toolStripMenuItemOpenRaidarSettings
+            // 
+            this.toolStripMenuItemOpenRaidarSettings.Name = "toolStripMenuItemOpenRaidarSettings";
+            this.toolStripMenuItemOpenRaidarSettings.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemOpenRaidarSettings.Text = "Open GW2Raidar settings";
+            this.toolStripMenuItemOpenRaidarSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenRaidarSettings_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -415,6 +424,7 @@
         private System.Windows.Forms.Button buttonDisConnectTwitch;
         public System.Windows.Forms.CheckBox checkBoxPostToTwitch;
         private System.Windows.Forms.CheckBox checkBoxTwitchOnlySuccess;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenRaidarSettings;
     }
 }
 
