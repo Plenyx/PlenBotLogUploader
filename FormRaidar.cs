@@ -81,7 +81,7 @@ namespace PlenBotLogUploader
         {
             if (checkBoxEnableRaidar.Checked)
             {
-                MessageBox.Show("The uploader only uploads to Raidar. It is not waiting for the uploaded file to be fully processed.\nIf you experience any crashes with Raidar uploading on please turn them off and contact me immediatly.", "Early implementation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("The uploader only uploads to Raidar. It is not waiting for the uploaded file to be fully processed.\nThis will cause the uploader to upload both to DPS.report and GW2Raidar.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

@@ -4,13 +4,15 @@
     {
         public int BossId { get; }
         public string Name { get; }
-        public string SuccessMsg { get; } = "kill";
-        public string FailMsg { get; } = "pull";
+        public string SuccessMsg { get; }
+        public string FailMsg { get; }
 
         public BossData(int bossId, string name)
         {
             BossId = bossId;
             Name = name;
+            SuccessMsg = $"{name} kill";
+            FailMsg = $"{name} pull";
         }
 
         public BossData(int bossId, string name, string success, string fail)

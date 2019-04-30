@@ -52,12 +52,14 @@
             this.toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenPingSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenRaidarSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenArcVersionsSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.buttonArcVersionChecking = new System.Windows.Forms.Button();
             this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.toolStripMenuItemOpenRaidarSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -71,7 +73,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 428);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 454);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
@@ -263,16 +265,17 @@
             this.toolStripMenuItemOpenCustomName,
             this.toolStripMenuItemOpenPingSettings,
             this.toolStripMenuItemOpenRaidarSettings,
+            this.toolStripMenuItemOpenArcVersionsSettings,
             this.toolStripSeparatorSecond,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(250, 192);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 214);
             // 
             // toolStripMenuItemUploadLogs
             // 
             this.toolStripMenuItemUploadLogs.CheckOnClick = true;
             this.toolStripMenuItemUploadLogs.Name = "toolStripMenuItemUploadLogs";
-            this.toolStripMenuItemUploadLogs.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemUploadLogs.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemUploadLogs.Text = "upload logs";
             this.toolStripMenuItemUploadLogs.CheckedChanged += new System.EventHandler(this.toolStripMenuItemUploadLogs_CheckedChanged);
             // 
@@ -280,59 +283,84 @@
             // 
             this.toolStripMenuItemPostToTwitch.CheckOnClick = true;
             this.toolStripMenuItemPostToTwitch.Name = "toolStripMenuItemPostToTwitch";
-            this.toolStripMenuItemPostToTwitch.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemPostToTwitch.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemPostToTwitch.Text = "post links to Twitch chat";
             this.toolStripMenuItemPostToTwitch.CheckedChanged += new System.EventHandler(this.toolStripMenuItemPostToTwitch_CheckedChanged);
             // 
             // toolStripSeparatorFirst
             // 
             this.toolStripSeparatorFirst.Name = "toolStripSeparatorFirst";
-            this.toolStripSeparatorFirst.Size = new System.Drawing.Size(246, 6);
+            this.toolStripSeparatorFirst.Size = new System.Drawing.Size(274, 6);
             // 
             // toolStripMenuItemOpenDPSReportServer
             // 
             this.toolStripMenuItemOpenDPSReportServer.Name = "toolStripMenuItemOpenDPSReportServer";
-            this.toolStripMenuItemOpenDPSReportServer.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemOpenDPSReportServer.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemOpenDPSReportServer.Text = "Open DPS.report settings";
             this.toolStripMenuItemOpenDPSReportServer.Click += new System.EventHandler(this.toolStripMenuItemOpenDPSReportServer_Click);
             // 
             // toolStripMenuItemOpenCustomName
             // 
             this.toolStripMenuItemOpenCustomName.Name = "toolStripMenuItemOpenCustomName";
-            this.toolStripMenuItemOpenCustomName.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemOpenCustomName.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemOpenCustomName.Text = "Open custom name settings";
             this.toolStripMenuItemOpenCustomName.Click += new System.EventHandler(this.toolStripMenuItemOpenCustomName_Click);
             // 
             // toolStripMenuItemOpenPingSettings
             // 
             this.toolStripMenuItemOpenPingSettings.Name = "toolStripMenuItemOpenPingSettings";
-            this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemOpenPingSettings.Text = "Open remote server ping settings";
             this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenPingSettings_Click);
+            // 
+            // toolStripMenuItemOpenRaidarSettings
+            // 
+            this.toolStripMenuItemOpenRaidarSettings.Name = "toolStripMenuItemOpenRaidarSettings";
+            this.toolStripMenuItemOpenRaidarSettings.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemOpenRaidarSettings.Text = "Open GW2Raidar settings";
+            this.toolStripMenuItemOpenRaidarSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenRaidarSettings_Click);
+            // 
+            // toolStripMenuItemOpenArcVersionsSettings
+            // 
+            this.toolStripMenuItemOpenArcVersionsSettings.Name = "toolStripMenuItemOpenArcVersionsSettings";
+            this.toolStripMenuItemOpenArcVersionsSettings.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemOpenArcVersionsSettings.Text = "Open arcdps version checking settings";
+            this.toolStripMenuItemOpenArcVersionsSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenArcVersionsSettings_Click);
             // 
             // toolStripSeparatorSecond
             // 
             this.toolStripSeparatorSecond.Name = "toolStripSeparatorSecond";
-            this.toolStripSeparatorSecond.Size = new System.Drawing.Size(246, 6);
+            this.toolStripSeparatorSecond.Size = new System.Drawing.Size(274, 6);
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(249, 22);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemExit.Text = "Shutdown";
             this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonArcVersionChecking);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 336);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 104);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 130);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
+            // 
+            // buttonArcVersionChecking
+            // 
+            this.buttonArcVersionChecking.Location = new System.Drawing.Point(6, 100);
+            this.buttonArcVersionChecking.Name = "buttonArcVersionChecking";
+            this.buttonArcVersionChecking.Size = new System.Drawing.Size(188, 23);
+            this.buttonArcVersionChecking.TabIndex = 3;
+            this.buttonArcVersionChecking.Text = "arcdps version checking settings";
+            this.buttonArcVersionChecking.UseVisualStyleBackColor = true;
+            this.buttonArcVersionChecking.Click += new System.EventHandler(this.buttonArcVersionChecking_Click);
             // 
             // buttonRaidarSettings
             // 
@@ -354,19 +382,12 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
-            // toolStripMenuItemOpenRaidarSettings
-            // 
-            this.toolStripMenuItemOpenRaidarSettings.Name = "toolStripMenuItemOpenRaidarSettings";
-            this.toolStripMenuItemOpenRaidarSettings.Size = new System.Drawing.Size(249, 22);
-            this.toolStripMenuItemOpenRaidarSettings.Text = "Open GW2Raidar settings";
-            this.toolStripMenuItemOpenRaidarSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenRaidarSettings_Click);
-            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 445);
+            this.ClientSize = new System.Drawing.Size(633, 471);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
             this.Controls.Add(this.groupBoxTwitchSettings);
@@ -425,6 +446,8 @@
         public System.Windows.Forms.CheckBox checkBoxPostToTwitch;
         private System.Windows.Forms.CheckBox checkBoxTwitchOnlySuccess;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenRaidarSettings;
+        private System.Windows.Forms.Button buttonArcVersionChecking;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenArcVersionsSettings;
     }
 }
 

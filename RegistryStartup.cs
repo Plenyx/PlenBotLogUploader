@@ -67,6 +67,10 @@ namespace PlenBotLogUploader
                     RegistryAccess.SetValue("raidarOAuth", "");
                     RegistryAccess.SetValue("raidarTags", "");
                 }
+                if (RegistryAccess.GetValue("gw2Location") == null)
+                {
+                    RegistryAccess.SetValue("gw2Location" , "");
+                }
                 RegistryAccess.Flush();
             }
         }

@@ -28,6 +28,7 @@ To update the bot just overwrite the previous version.
 * pinging links to in Discord (in private beta, contact me directly)
 * custom name for the bot, otherwise “gw2loguploader” is being used
 * update reminder
+* arcdps update auto-updater & reminder
 
 ## Future updates
 I plan to finish the following features:

@@ -20,7 +20,6 @@ namespace PlenBotLogUploader
     {
         // properties
         public RegistryKey RegistryAccess { get; set; } = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
-        public List<string> Logs { get; set; } = new List<string>();
         public string LogsLocation { get; set; } = "";
         public DPSReportJSONMinimal LastLog { get; set; }
         public string ChannelName { get; set; } = "";
@@ -29,10 +28,10 @@ namespace PlenBotLogUploader
         public string CustomOAuthPassword { get; set; } = "";
         public bool ChannelJoined { get; set; } = false;
         public string RaidarOAuth { get; set; } = "";
-        public Dictionary<int, BossData> allBosses = Bosses.GetBossesAsDictionary();
+        public Dictionary<int, BossData> AllBosses { get; } = Bosses.GetDefaultBossesAsDictionary();
         public HttpClient MainHttpClient { get; } = new HttpClient();
         public string LocalDir { get; } = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
-        public int Build { get; } = 24;
+        public int Build { get; } = 25;
 
         // fields
         private const int minFileSize = 12288;
@@ -42,9 +41,11 @@ namespace PlenBotLogUploader
         private FormDPSReportServer dpsReportServerLink;
         private FormCustomName customNameLink;
         private FormRaidar raidarLink;
+        private FormArcVersions arcVersionsLink;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
-        private int ReconnectedFailCounter = 0;
+        private int reconnectedFailCounter = 0;
+        private int logsCount = 0;
 
         public FormMain()
         {
@@ -57,15 +58,16 @@ namespace PlenBotLogUploader
             customNameLink = new FormCustomName(this);
             pingLink = new FormPing(this);
             raidarLink = new FormRaidar(this);
+            arcVersionsLink = new FormArcVersions(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            new Thread(NewBuildCheck).Start();
+            Task.Run(() => NewBuildCheck());
             try
             {
                 RegistryStartup.DoStartup();
                 LogsLocation = (string)RegistryAccess.GetValue("logsLocation", "");
                 if (LogsLocation == "")
                 {
-                    labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
+                    labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
                 }
                 else
                 {
@@ -79,8 +81,8 @@ namespace PlenBotLogUploader
                     }
                     else
                     {
-                        RegistryAccess.SetValue("logsLocation", "");
-                        labelLocationInfo.Text = "!!! Select a directory with the logs !!!";
+                        SetRegistryValue("logsLocation", "");
+                        labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
                     }
                 }
                 ChannelName = ((string)RegistryAccess.GetValue("channel", "")).ToLower();
@@ -167,6 +169,20 @@ namespace PlenBotLogUploader
                     raidarLink.groupBoxCredentials.Enabled = false;
                     raidarLink.groupBoxSettings.Enabled = true;
                 }
+                arcVersionsLink.GW2Location = (string)GetRegistryValue("gw2Location", "");
+                if (arcVersionsLink.GW2Location != "")
+                {
+                    if (File.Exists($@"{arcVersionsLink.GW2Location}\Gw2-64.exe") || File.Exists($@"{arcVersionsLink.GW2Location}\Gw2.exe"))
+                    {
+                        arcVersionsLink.StartTimer(true);
+                        arcVersionsLink.buttonEnabler.Enabled = true;
+                    }
+                    else
+                    {
+                        ShowBalloon("arcdps version checking", "There has been an error locating the main Guild Wars 2 folder, try changing the directory again.", 6500);
+                        arcVersionsLink.GW2Location = "";
+                    }
+                }
                 if (RegistryAccess.GetValue("firstSetup") == null)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -197,7 +213,7 @@ namespace PlenBotLogUploader
                     buttonReconnectBot.Enabled = false;
                     checkBoxPostToTwitch.Enabled = false;
                 }
-                new Thread(DoCommandArgs).Start();
+                Task.Run(() => DoCommandArgs());
                 if (!File.Exists($"{LocalDir}logs.csv"))
                 {
                     File.AppendAllText($"{LocalDir}logs.csv", "Boss;BossId;Success;ArcVersion;Permalink\n");
@@ -233,11 +249,11 @@ namespace PlenBotLogUploader
             }
         }
 
-        public object GetRegistryValue(string name)
+        public object GetRegistryValue(string name, object defaultValue)
         {
             try
             {
-                return RegistryAccess.GetValue(name);
+                return RegistryAccess.GetValue(name, defaultValue);
             }
             catch
             {
@@ -248,9 +264,9 @@ namespace PlenBotLogUploader
         // triggeres when a file is renamed within the folder, renaming is the last process done by arcdps to create evtc or zevtc files
         private void OnLogCreated(object sender, FileSystemEventArgs e)
         {
-            if (!Logs.Contains(e.FullPath) && (e.FullPath.EndsWith(".evtc") || e.FullPath.EndsWith(".zevtc")))
+            if (e.FullPath.EndsWith(".evtc") || e.FullPath.EndsWith(".zevtc"))
             {
-                Logs.Add(e.FullPath);
+                Interlocked.Increment(ref logsCount);
                 if (checkBoxUploadLogs.Checked)
                 {
                     try
@@ -295,7 +311,7 @@ namespace PlenBotLogUploader
                     }
                     catch
                     {
-                        Logs.Remove(e.FullPath);
+                        Interlocked.Decrement(ref logsCount);
                         AddToText("Unable to upload the file: " + e.FullPath);
                     }
                 }
@@ -303,7 +319,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ShowBalloon(string title, string description, int ms) => notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.None);
+        public void ShowBalloon(string title, string description, int ms) => notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.None);
 
         public bool IsConnectionNull() => chatConnect == null;
 
@@ -426,22 +442,38 @@ namespace PlenBotLogUploader
             }
             else
             {
-                labelLocationInfo.Text = $"Logs in the directory: {Logs.Count}";
+                labelLocationInfo.Text = $"Logs in the directory: {logsCount}";
+            }
+        }
+
+        public bool DownloadFile(string url, string destination)
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                try
+                {
+                    webClient.DownloadFileAsync(new Uri(url), @destination);
+                    return false;
+                }
+                catch
+                {
+                    return true;
+                }
             }
         }
 
         public async Task<string> DownloadFileAsyncToString(string url)
         {
-            var responseMessage = await MainHttpClient.GetAsync(new Uri(url));
             try
             {
-                var response = await responseMessage.Content.ReadAsStringAsync();
-                responseMessage?.Dispose();
-                return response;
+                using (var responseMessage = await MainHttpClient.GetAsync(new Uri(url)))
+                {
+                    var response = await responseMessage.Content.ReadAsStringAsync();
+                    return response;
+                }
             }
             catch
             {
-                responseMessage?.Dispose();
                 return "";
             }
         }
@@ -452,28 +484,16 @@ namespace PlenBotLogUploader
             {
                 AddToText($">:> {reportJSON.Permalink}");
                 LastLog = reportJSON;
-                if (allBosses.ContainsKey(reportJSON.Encounter.BossId))
+                if (AllBosses.ContainsKey(reportJSON.Encounter.BossId))
                 {
-                    if (!Bosses.IsGolem(reportJSON.Encounter.BossId) && !Bosses.IsEvent(reportJSON.Encounter.BossId))
+                    if (!Bosses.IsEvent(reportJSON.Encounter.BossId))
                     {
-                        string format = $"Link to the {allBosses[reportJSON.Encounter.BossId].Name}";
-                        if (reportJSON.Encounter.Success ?? false)
-                        {
-                            format = $"{format} {allBosses[reportJSON.Encounter.BossId].SuccessMsg}";
-                        }
-                        else
-                        {
-                            format = $"{format} {allBosses[reportJSON.Encounter.BossId].FailMsg}";
-                        }
+                        string format = (reportJSON.Encounter.Success ?? false) ? AllBosses[reportJSON.Encounter.BossId].SuccessMsg : AllBosses[reportJSON.Encounter.BossId].FailMsg;
                         await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.Permalink}");
-                    }
-                    else if (Bosses.IsEvent(reportJSON.Encounter.BossId))
-                    {
-                        await chatConnect.SendChatMessage(ChannelName, $"Link to the {allBosses[reportJSON.Encounter.BossId].Name} log: { reportJSON.Permalink}");
                     }
                     else
                     {
-                        await chatConnect.SendChatMessage(ChannelName, $"Golem log: {reportJSON.Permalink}");
+                        await chatConnect.SendChatMessage(ChannelName, $"Link to the {AllBosses[reportJSON.Encounter.BossId].Name} log: { reportJSON.Permalink}");
                     }
                 }
                 else
@@ -661,7 +681,7 @@ namespace PlenBotLogUploader
             Parallel.ForEach(Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories), f => {
                 if (f.EndsWith(".evtc") || f.EndsWith(".zevtc"))
                 {
-                    Logs.Add(f);
+                    Interlocked.Increment(ref logsCount);
                 }
             });
             UpdateLogCount();
@@ -672,7 +692,7 @@ namespace PlenBotLogUploader
             RegistryAccess.Flush();
             RegistryAccess.Dispose();
             chatConnect?.Dispose();
-            watcher.Dispose();
+            watcher?.Dispose();
             MainHttpClient.Dispose();
         }
 
@@ -755,7 +775,7 @@ namespace PlenBotLogUploader
 
         private void buttonReconnectBot_Click(object sender, EventArgs e)
         {
-            ReconnectedFailCounter = 0;
+            reconnectedFailCounter = 0;
             ReconnectTwitchBot();
         }
 
@@ -771,10 +791,7 @@ namespace PlenBotLogUploader
                     {
                         LogsLocation = dialog.SelectedPath;
                         SetRegistryValue("logsLocation", LogsLocation);
-                        if (Logs.Count > 0)
-                        {
-                            Logs.Clear();
-                        }
+                        logsCount = 0;
                         LogsScan(LogsLocation);
                         watcher.Renamed -= OnLogCreated;
                         watcher.Dispose();
@@ -843,13 +860,13 @@ namespace PlenBotLogUploader
                     AddToText("<-?-> DISCONNECTED FROM TWITCH");
                     if (InvokeRequired)
                     {
-                        Invoke((Action)delegate () { ReconnectedFailCounter++; });
+                        Invoke((Action)delegate () { reconnectedFailCounter++; });
                     }
                     else
                     {
-                        ReconnectedFailCounter++;
+                        reconnectedFailCounter++;
                     }
-                    if (ReconnectedFailCounter <= 3)
+                    if (reconnectedFailCounter <= 3)
                     {
                         AddToText("<-?-> TRYING TO RECONNECT TO TWITCH");
                         ReconnectTwitchBot();
@@ -865,7 +882,7 @@ namespace PlenBotLogUploader
                     break;
                 case IrcStates.Connected:
                     AddToText("<-?-> CONNECTION ESTABILISHED");
-                    ReconnectedFailCounter = 0;
+                    reconnectedFailCounter = 0;
                     if (ChannelName != "")
                     {
                         await chatConnect.JoinRoom(ChannelName);
@@ -1017,6 +1034,12 @@ namespace PlenBotLogUploader
             raidarLink.BringToFront();
         }
 
+        private void buttonArcVersionChecking_Click(object sender, EventArgs e)
+        {
+            arcVersionsLink.Show();
+            arcVersionsLink.BringToFront();
+        }
+
         private void toolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
         {
             dpsReportServerLink.Show();
@@ -1041,9 +1064,15 @@ namespace PlenBotLogUploader
             raidarLink.BringToFront();
         }
 
+        private void toolStripMenuItemOpenArcVersionsSettings_Click(object sender, EventArgs e)
+        {
+            arcVersionsLink.Show();
+            arcVersionsLink.BringToFront();
+        }
+
         private void buttonDisConnectTwitch_Click(object sender, EventArgs e)
         {
-            ReconnectedFailCounter = 0;
+            reconnectedFailCounter = 0;
             if (chatConnect == null)
             {
                 ConnectTwitchBot();
