@@ -87,8 +87,8 @@ namespace PlenBotLogUploader
             if (processes.Count == 0)
             {
                 SetInformationText("Downloading newest version of arcdps...");
-                mainLink.DownloadFile("http://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
-                SetInformationText("Update complete");
+                mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
+                SetInformationText("Update complete.");
                 groupBoxUpdating.Enabled = false;
                 buttonCheckNow.Enabled = true;
                 StartTimer();
@@ -122,32 +122,42 @@ namespace PlenBotLogUploader
             {
                 using (var md5 = System.Security.Cryptography.MD5.Create())
                 {
-                    using (var stream = File.OpenRead($@"{GW2Location}\bin64\d3d9.dll"))
+                    try
                     {
-                        var hash = md5.ComputeHash(stream);
-                        if (!BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant().Equals(availableVersion))
+                        using (var stream = File.OpenRead($@"{GW2Location}\bin64\d3d9.dll"))
                         {
-                            buttonCheckNow.Enabled = false;
-                            groupBoxUpdating.Enabled = true;
-                            if (manual)
+                            var hash = md5.ComputeHash(stream);
+                            if (!BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant().Equals(availableVersion))
                             {
-                                DialogResult result = MessageBox.Show("New arc version available\nDo you want to download the new version?", "arc version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                                if (result == DialogResult.Yes)
+                                buttonCheckNow.Enabled = false;
+                                groupBoxUpdating.Enabled = true;
+                                if (manual)
                                 {
-                                    UpdateArc();
+                                    DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                    if (result == DialogResult.Yes)
+                                    {
+                                        UpdateArc();
+                                    }
+                                }
+                                else
+                                {
+                                    mainLink.ShowBalloon("arcdps version checking", "New version of arc available.\nGo to arcdps version checking settings to use the auto-update.", 8500);
                                 }
                             }
                             else
                             {
-                                mainLink.ShowBalloon("arcdps version checking", "New version of arc available", 6500);
+                                if (manual)
+                                {
+                                    MessageBox.Show("arcdps is up to date.", "arcdps version checker", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
                             }
                         }
-                        else
+                    }
+                    catch
+                    {
+                        if (manual)
                         {
-                            if (manual)
-                            {
-                                MessageBox.Show("arcdps is up to date", "arc version checker", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
+                            MessageBox.Show("There has been an error trying to check if arcdps is up to date.", "arcdps version checker", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -158,7 +168,7 @@ namespace PlenBotLogUploader
                 groupBoxUpdating.Enabled = true;
                 if (manual)
                 {
-                    DialogResult result = MessageBox.Show("New arc version available\nDo you want to download the new version?", "arc version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    DialogResult result = MessageBox.Show("New arcdps version available\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     if (result == DialogResult.Yes)
                     {
                         UpdateArc();

@@ -60,6 +60,7 @@
             this.buttonArcVersionChecking = new System.Windows.Forms.Button();
             this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
+            this.buttonLogMessages = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -73,11 +74,12 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 454);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 480);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
             // 
+            this.groupBoxTwitchSettings.Controls.Add(this.buttonLogMessages);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxTwitchOnlySuccess);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonDisConnectTwitch);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonCustomName);
@@ -86,7 +88,7 @@
             this.groupBoxTwitchSettings.Controls.Add(this.buttonReconnectBot);
             this.groupBoxTwitchSettings.Location = new System.Drawing.Point(426, 12);
             this.groupBoxTwitchSettings.Name = "groupBoxTwitchSettings";
-            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 151);
+            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 178);
             this.groupBoxTwitchSettings.TabIndex = 4;
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
@@ -104,7 +106,7 @@
             // 
             // buttonDisConnectTwitch
             // 
-            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 121);
+            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 149);
             this.buttonDisConnectTwitch.Name = "buttonDisConnectTwitch";
             this.buttonDisConnectTwitch.Size = new System.Drawing.Size(188, 23);
             this.buttonDisConnectTwitch.TabIndex = 10;
@@ -192,7 +194,7 @@
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonLogsLocation);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxWepSkill1);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxUploadLogs);
-            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 169);
+            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 196);
             this.groupBoxArcdpsLogs.Name = "groupBoxArcdpsLogs";
             this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 160);
             this.groupBoxArcdpsLogs.TabIndex = 5;
@@ -269,7 +271,7 @@
             this.toolStripSeparatorSecond,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 214);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 192);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -345,7 +347,7 @@
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 336);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 362);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
             this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 130);
             this.groupBoxOtherSettings.TabIndex = 7;
@@ -382,12 +384,22 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
+            // buttonLogMessages
+            // 
+            this.buttonLogMessages.Location = new System.Drawing.Point(6, 120);
+            this.buttonLogMessages.Name = "buttonLogMessages";
+            this.buttonLogMessages.Size = new System.Drawing.Size(188, 23);
+            this.buttonLogMessages.TabIndex = 12;
+            this.buttonLogMessages.Text = "Edit log messages";
+            this.buttonLogMessages.UseVisualStyleBackColor = true;
+            this.buttonLogMessages.Click += new System.EventHandler(this.buttonLogMessages_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 471);
+            this.ClientSize = new System.Drawing.Size(633, 499);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
             this.Controls.Add(this.groupBoxTwitchSettings);
@@ -448,6 +460,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenRaidarSettings;
         private System.Windows.Forms.Button buttonArcVersionChecking;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenArcVersionsSettings;
+        private System.Windows.Forms.Button buttonLogMessages;
     }
 }
 

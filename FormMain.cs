@@ -28,10 +28,9 @@ namespace PlenBotLogUploader
         public string CustomOAuthPassword { get; set; } = "";
         public bool ChannelJoined { get; set; } = false;
         public string RaidarOAuth { get; set; } = "";
-        public Dictionary<int, BossData> AllBosses { get; } = Bosses.GetDefaultBossesAsDictionary();
         public HttpClient MainHttpClient { get; } = new HttpClient();
         public string LocalDir { get; } = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
-        public int Build { get; } = 25;
+        public int Build { get; } = 26;
 
         // fields
         private const int minFileSize = 12288;
@@ -42,6 +41,7 @@ namespace PlenBotLogUploader
         private FormCustomName customNameLink;
         private FormRaidar raidarLink;
         private FormArcVersions arcVersionsLink;
+        private FormTwitchLogMessages logMessagesLink;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
@@ -59,6 +59,7 @@ namespace PlenBotLogUploader
             pingLink = new FormPing(this);
             raidarLink = new FormRaidar(this);
             arcVersionsLink = new FormArcVersions(this);
+            logMessagesLink = new FormTwitchLogMessages(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Task.Run(() => NewBuildCheck());
             try
@@ -174,13 +175,14 @@ namespace PlenBotLogUploader
                 {
                     if (File.Exists($@"{arcVersionsLink.GW2Location}\Gw2-64.exe") || File.Exists($@"{arcVersionsLink.GW2Location}\Gw2.exe"))
                     {
-                        arcVersionsLink.StartTimer(true);
+                        Task.Run(() => { arcVersionsLink.StartTimer(true); });
                         arcVersionsLink.buttonEnabler.Enabled = true;
                     }
                     else
                     {
                         ShowBalloon("arcdps version checking", "There has been an error locating the main Guild Wars 2 folder, try changing the directory again.", 6500);
                         arcVersionsLink.GW2Location = "";
+                        SetRegistryValue("gw2Location", "");
                     }
                 }
                 if (RegistryAccess.GetValue("firstSetup") == null)
@@ -208,6 +210,7 @@ namespace PlenBotLogUploader
                     buttonDisConnectTwitch.Text = "Connect to Twitch";
                     buttonChangeTwitchChannel.Enabled = false;
                     buttonCustomName.Enabled = false;
+                    buttonLogMessages.Enabled = false;
                     toolStripMenuItemOpenCustomName.Enabled = false;
                     toolStripMenuItemPostToTwitch.Enabled = false;
                     buttonReconnectBot.Enabled = false;
@@ -484,16 +487,16 @@ namespace PlenBotLogUploader
             {
                 AddToText($">:> {reportJSON.Permalink}");
                 LastLog = reportJSON;
-                if (AllBosses.ContainsKey(reportJSON.Encounter.BossId))
+                if (logMessagesLink.AllBosses.ContainsKey(reportJSON.Encounter.BossId))
                 {
                     if (!Bosses.IsEvent(reportJSON.Encounter.BossId))
                     {
-                        string format = (reportJSON.Encounter.Success ?? false) ? AllBosses[reportJSON.Encounter.BossId].SuccessMsg : AllBosses[reportJSON.Encounter.BossId].FailMsg;
+                        string format = (reportJSON.Encounter.Success ?? false) ? logMessagesLink.AllBosses[reportJSON.Encounter.BossId].SuccessMsg : logMessagesLink.AllBosses[reportJSON.Encounter.BossId].FailMsg;
                         await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.Permalink}");
                     }
                     else
                     {
-                        await chatConnect.SendChatMessage(ChannelName, $"Link to the {AllBosses[reportJSON.Encounter.BossId].Name} log: { reportJSON.Permalink}");
+                        await chatConnect.SendChatMessage(ChannelName, $"Link to the {logMessagesLink.AllBosses[reportJSON.Encounter.BossId].Name} log: { reportJSON.Permalink}");
                     }
                 }
                 else
@@ -720,6 +723,7 @@ namespace PlenBotLogUploader
         {
             buttonDisConnectTwitch.Text = "Disconnect from Twitch";
             buttonChangeTwitchChannel.Enabled = true;
+            buttonLogMessages.Enabled = true;
             toolStripMenuItemOpenCustomName.Enabled = true;
             toolStripMenuItemPostToTwitch.Enabled = true;
             buttonCustomName.Enabled = true;
@@ -748,6 +752,7 @@ namespace PlenBotLogUploader
             buttonDisConnectTwitch.Text = "Connect to Twitch";
             buttonChangeTwitchChannel.Enabled = false;
             buttonCustomName.Enabled = false;
+            buttonLogMessages.Enabled = false;
             toolStripMenuItemOpenCustomName.Enabled = false;
             toolStripMenuItemPostToTwitch.Enabled = false;
             buttonReconnectBot.Enabled = false;
@@ -1038,6 +1043,12 @@ namespace PlenBotLogUploader
         {
             arcVersionsLink.Show();
             arcVersionsLink.BringToFront();
+        }
+
+        private void buttonLogMessages_Click(object sender, EventArgs e)
+        {
+            logMessagesLink.Show();
+            logMessagesLink.BringToFront();
         }
 
         private void toolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)

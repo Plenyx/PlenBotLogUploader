@@ -105,11 +105,23 @@
     <Compile Include="FormDPSReportServer.Designer.cs">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditBossData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditBossData.Designer.cs">
+      <DependentUpon>FormEditBossData.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRaidar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormRaidar.Designer.cs">
       <DependentUpon>FormRaidar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTwitchLogMessages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTwitchLogMessages.Designer.cs">
+      <DependentUpon>FormTwitchLogMessages.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTwitchNameSetup.cs">
       <SubType>Form</SubType>
@@ -150,8 +162,14 @@
     <EmbeddedResource Include="FormDPSReportServer.resx">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormEditBossData.resx">
+      <DependentUpon>FormEditBossData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormRaidar.resx">
       <DependentUpon>FormRaidar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTwitchLogMessages.resx">
+      <DependentUpon>FormTwitchLogMessages.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTwitchNameSetup.resx">
       <DependentUpon>FormTwitchNameSetup.cs</DependentUpon>

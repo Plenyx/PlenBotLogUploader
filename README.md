@@ -9,9 +9,11 @@ An open source uploader to dps.report which post the links to Twitch chat or not
 ## Installation
 To install the uploader, I recommend creating a new folder and putting the executable in.
 
-The uploader will create a file called “logs.csv” which will contain all previous and latest upload links.
+The uploader will create a file called "logs.csv" which will contain all previous and latest upload links.
 
-For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username “gw2loguploader”. Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
+For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username "gw2loguploader". Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
+
+If you are using the uploader with Twitch integration, you can customise bot messages in the "Edit Twitch log messages" dialog window. Settings are saved in "twitch_messages.txt" file.
 
 I recommend using the compress feature in the arc settings. Otherwise the bot will try to archive it itself, which can be more unstable.
 
@@ -20,13 +22,20 @@ The uploader keeps track of its version and the online available version. When y
 
 To update the bot just overwrite the previous version.
 
+## Uninstall/Reinstall
+To fully remove all the saved settings in the registry, use the enclosed "ResetSettings.reg" file in the release tab.
+
+To remove all the saved logs remove the "logs.csv" file located in the directory of the executable.
+
+To remove all the saved Twitch messages remove the "twitch_messages.txt" file located in the directory of the executable.
+
 ## Features
 * uploading arcdps logs to dps.report as soon as they are made
 * uploading arcdps logs to GW2Raidar when set up
 * drag & drop directly to the executable or to the running application itself to quickly upload a log
-* pinging links to Twitch chat
+* pinging links to Twitch chat with customisable messages
 * pinging links to in Discord (in private beta, contact me directly)
-* custom name for the bot, otherwise “gw2loguploader” is being used
+* custom name for the bot, otherwise "gw2loguploader" is being used
 * update reminder
 * arcdps update auto-updater & reminder
 

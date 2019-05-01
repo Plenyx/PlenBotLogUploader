@@ -131,6 +131,7 @@
             this.linkLabelLink.TabIndex = 2;
             this.linkLabelLink.TabStop = true;
             this.linkLabelLink.Text = "Open Delta\'s site";
+            this.linkLabelLink.VisitedLinkColor = System.Drawing.Color.Blue;
             this.linkLabelLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLink_LinkClicked);
             // 
             // FormArcVersions
