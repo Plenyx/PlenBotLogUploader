@@ -4,75 +4,72 @@ namespace PlenBotLogUploader
 {
     public static class RegistryStartup
     {
-        public static void DoStartup()
+        public static void DoStartup(RegistryKey registryAccess)
         {
-            using (RegistryKey RegistryAccess = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader"))
+            if (registryAccess.GetValue("logsLocation") == null)
             {
-                if (RegistryAccess.GetValue("logsLocation") == null)
-                {
-                    RegistryAccess.SetValue("logsLocation", "");
-                }
-                if (RegistryAccess.GetValue("channel") == null)
-                {
-                    RegistryAccess.SetValue("channel", "");
-                }
-                if (RegistryAccess.GetValue("uploadAll") == null)
-                {
-                    RegistryAccess.SetValue("uploadAll", 1);
-                }
-                if (RegistryAccess.GetValue("uploadToTwitch") == null)
-                {
-                    RegistryAccess.SetValue("uploadToTwitch", 1);
-                }
-                if (RegistryAccess.GetValue("uploadTwitchOnlySuccess") == null)
-                {
-                    RegistryAccess.SetValue("uploadTwitchOnlySuccess", 0);
-                }
-                if (RegistryAccess.GetValue("uploadIgnoreSize") == null)
-                {
-                    RegistryAccess.SetValue("uploadIgnoreSize", 0);
-                }
-                if (RegistryAccess.GetValue("wepSkill1") == null)
-                {
-                    RegistryAccess.SetValue("wepSkill1", 1);
-                }
-                if (RegistryAccess.GetValue("dpsReportServer") == null)
-                {
-                    RegistryAccess.SetValue("dpsReportServer", 0);
-                }
-                if (RegistryAccess.GetValue("trayMinimise") == null)
-                {
-                    RegistryAccess.SetValue("trayMinimise", 1);
-                }
-                if (RegistryAccess.GetValue("remotePingEnabled") == null)
-                {
-                    RegistryAccess.SetValue("remotePingEnabled", 0);
-                    RegistryAccess.SetValue("remotePingMethod", 0);
-                    RegistryAccess.SetValue("remotePingURL", "");
-                    RegistryAccess.SetValue("remotePingSign", "");
-                }
-                if (RegistryAccess.GetValue("twitchCustomNameEnabled") == null)
-                {
-                    RegistryAccess.SetValue("twitchCustomNameEnabled", 0);
-                    RegistryAccess.SetValue("twitchCustomName", "");
-                    RegistryAccess.SetValue("twitchCustomOAuth", "");
-                }
-                if (RegistryAccess.GetValue("connectToTwitch") == null)
-                {
-                    RegistryAccess.SetValue("connectToTwitch", 1);
-                }
-                if (RegistryAccess.GetValue("raidarEnabled") == null)
-                {
-                    RegistryAccess.SetValue("raidarEnabled", 0);
-                    RegistryAccess.SetValue("raidarOAuth", "");
-                    RegistryAccess.SetValue("raidarTags", "");
-                }
-                if (RegistryAccess.GetValue("gw2Location") == null)
-                {
-                    RegistryAccess.SetValue("gw2Location" , "");
-                }
-                RegistryAccess.Flush();
+                registryAccess.SetValue("logsLocation", "");
             }
+            if (registryAccess.GetValue("channel") == null)
+            {
+                registryAccess.SetValue("channel", "");
+            }
+            if (registryAccess.GetValue("uploadAll") == null)
+            {
+                registryAccess.SetValue("uploadAll", 1);
+            }
+            if (registryAccess.GetValue("uploadToTwitch") == null)
+            {
+                registryAccess.SetValue("uploadToTwitch", 1);
+            }
+            if (registryAccess.GetValue("uploadTwitchOnlySuccess") == null)
+            {
+                registryAccess.SetValue("uploadTwitchOnlySuccess", 0);
+            }
+            if (registryAccess.GetValue("uploadIgnoreSize") == null)
+            {
+                registryAccess.SetValue("uploadIgnoreSize", 0);
+            }
+            if (registryAccess.GetValue("wepSkill1") == null)
+            {
+                registryAccess.SetValue("wepSkill1", 1);
+            }
+            if (registryAccess.GetValue("dpsReportServer") == null)
+            {
+                registryAccess.SetValue("dpsReportServer", 0);
+            }
+            if (registryAccess.GetValue("trayMinimise") == null)
+            {
+                registryAccess.SetValue("trayMinimise", 1);
+            }
+            if (registryAccess.GetValue("remotePingEnabled") == null)
+            {
+                registryAccess.SetValue("remotePingEnabled", 0);
+                registryAccess.SetValue("remotePingMethod", 0);
+                registryAccess.SetValue("remotePingURL", "");
+                registryAccess.SetValue("remotePingSign", "");
+            }
+            if (registryAccess.GetValue("twitchCustomNameEnabled") == null)
+            {
+                registryAccess.SetValue("twitchCustomNameEnabled", 0);
+                registryAccess.SetValue("twitchCustomName", "");
+                registryAccess.SetValue("twitchCustomOAuth", "");
+            }
+            if (registryAccess.GetValue("connectToTwitch") == null)
+            {
+                registryAccess.SetValue("connectToTwitch", 1);
+            }
+            if (registryAccess.GetValue("raidarEnabled") == null)
+            {
+                registryAccess.SetValue("raidarEnabled", 0);
+                registryAccess.SetValue("raidarOAuth", "");
+                registryAccess.SetValue("raidarTags", "");
+            }
+            if (registryAccess.GetValue("gw2Location") == null)
+            {
+                registryAccess.SetValue("gw2Location" , "");
+            }
+            registryAccess.Flush();
         }
     }
 }

@@ -20,9 +20,6 @@ namespace PlenBotLogUploader
             textBoxFailMsg.Text = data.FailMsg;
         }
 
-        private void FormEditBossData_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            editLink.AllBosses[data.BossId] = new BossData(data.BossId, data.Name, textBoxSuccessMsg.Text, textBoxFailMsg.Text);
-        }
+        private void FormEditBossData_FormClosing(object sender, FormClosingEventArgs e) => editLink.AllBosses[data.BossId] = new BossData(data.BossId, data.Name, textBoxSuccessMsg.Text, textBoxFailMsg.Text);
     }
 }

@@ -19,8 +19,22 @@
         {
             BossId = bossId;
             Name = name;
-            SuccessMsg = success;
-            FailMsg = fail;
+            if (success != "")
+            {
+                SuccessMsg = success;
+            }
+            else
+            {
+                SuccessMsg = $"{name} kill";
+            }
+            if (fail != "")
+            {
+                FailMsg = fail;
+            }
+            else
+            {
+                FailMsg = $"{name} pull";
+            }
         }
     }
 }

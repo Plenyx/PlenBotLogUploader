@@ -33,11 +33,11 @@
             this.timerCheckNewArcversion = new System.Windows.Forms.Timer(this.components);
             this.buttonCheckNow = new System.Windows.Forms.Button();
             this.groupBoxUpdating = new System.Windows.Forms.GroupBox();
+            this.linkLabelLink = new System.Windows.Forms.LinkLabel();
+            this.labelInformation = new System.Windows.Forms.Label();
+            this.buttonUpdate = new System.Windows.Forms.Button();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
             this.buttonEnabler = new System.Windows.Forms.Button();
-            this.buttonUpdate = new System.Windows.Forms.Button();
-            this.labelInformation = new System.Windows.Forms.Label();
-            this.linkLabelLink = new System.Windows.Forms.LinkLabel();
             this.groupBoxUpdating.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
@@ -69,7 +69,6 @@
             // 
             // groupBoxUpdating
             // 
-            this.groupBoxUpdating.Controls.Add(this.linkLabelLink);
             this.groupBoxUpdating.Controls.Add(this.labelInformation);
             this.groupBoxUpdating.Controls.Add(this.buttonUpdate);
             this.groupBoxUpdating.Enabled = false;
@@ -79,6 +78,37 @@
             this.groupBoxUpdating.TabIndex = 2;
             this.groupBoxUpdating.TabStop = false;
             this.groupBoxUpdating.Text = "Update process";
+            // 
+            // linkLabelLink
+            // 
+            this.linkLabelLink.AutoSize = true;
+            this.linkLabelLink.Location = new System.Drawing.Point(214, 93);
+            this.linkLabelLink.Name = "linkLabelLink";
+            this.linkLabelLink.Size = new System.Drawing.Size(87, 13);
+            this.linkLabelLink.TabIndex = 2;
+            this.linkLabelLink.TabStop = true;
+            this.linkLabelLink.Text = "Open Delta\'s site";
+            this.linkLabelLink.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.linkLabelLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLink_LinkClicked);
+            // 
+            // labelInformation
+            // 
+            this.labelInformation.Location = new System.Drawing.Point(6, 42);
+            this.labelInformation.Name = "labelInformation";
+            this.labelInformation.Size = new System.Drawing.Size(188, 23);
+            this.labelInformation.TabIndex = 1;
+            this.labelInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonUpdate
+            // 
+            this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonUpdate.Location = new System.Drawing.Point(6, 13);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(188, 23);
+            this.buttonUpdate.TabIndex = 0;
+            this.buttonUpdate.Text = "Update now";
+            this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // groupBoxSettings
             // 
@@ -103,42 +133,12 @@
             this.buttonEnabler.UseVisualStyleBackColor = true;
             this.buttonEnabler.Click += new System.EventHandler(this.buttonEnabler_Click);
             // 
-            // buttonUpdate
-            // 
-            this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdate.Location = new System.Drawing.Point(6, 13);
-            this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(95, 23);
-            this.buttonUpdate.TabIndex = 0;
-            this.buttonUpdate.Text = "Update now";
-            this.buttonUpdate.UseVisualStyleBackColor = true;
-            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
-            // 
-            // labelInformation
-            // 
-            this.labelInformation.Location = new System.Drawing.Point(6, 42);
-            this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(188, 23);
-            this.labelInformation.TabIndex = 1;
-            this.labelInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // linkLabelLink
-            // 
-            this.linkLabelLink.AutoSize = true;
-            this.linkLabelLink.Location = new System.Drawing.Point(107, 18);
-            this.linkLabelLink.Name = "linkLabelLink";
-            this.linkLabelLink.Size = new System.Drawing.Size(87, 13);
-            this.linkLabelLink.TabIndex = 2;
-            this.linkLabelLink.TabStop = true;
-            this.linkLabelLink.Text = "Open Delta\'s site";
-            this.linkLabelLink.VisitedLinkColor = System.Drawing.Color.Blue;
-            this.linkLabelLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLink_LinkClicked);
-            // 
             // FormArcVersions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(371, 119);
+            this.Controls.Add(this.linkLabelLink);
             this.Controls.Add(this.groupBoxSettings);
             this.Controls.Add(this.groupBoxUpdating);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -149,9 +149,9 @@
             this.Text = "arcdps version checking settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormArcVersions_FormClosing);
             this.groupBoxUpdating.ResumeLayout(false);
-            this.groupBoxUpdating.PerformLayout();
             this.groupBoxSettings.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

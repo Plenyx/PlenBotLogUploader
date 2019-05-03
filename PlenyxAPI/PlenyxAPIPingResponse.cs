@@ -1,10 +1,10 @@
 ﻿namespace PlenBotLogUploader.PlenyxAPI
 {
-    public class PlenyxAPIPingTest
+    public class PlenyxAPIPingResponse
     {
         public PlenyxAPIStatus Status { get; set; }
         public PlenyxAPIStatus Error { get; set; }
-
-        public bool IsValid() => (Status?.Code ?? 400) == 200 || (Status?.Code ?? 400) == 201;
+        public int? User_id { get; set; }
+        public string Log_id { get; set; } = "";
     }
 }

@@ -34,16 +34,24 @@ To remove all the saved Twitch messages remove the "twitch_messages.txt" file lo
 * uploading arcdps logs to GW2Raidar when set up
 * drag & drop directly to the executable or to the running application itself to quickly upload a log
 * pinging links to Twitch chat with customisable messages
-* pinging links to in Discord (in private beta, contact me directly)
+* pinging links to in Discord (via remote server ping; using my server is in private beta, contact me directly)
 * custom name for the bot, otherwise "gw2loguploader" is being used
 * update reminder
 * arcdps update auto-updater & reminder
 
 ## Future updates
 I plan to finish the following features:
-* pinging logs into Discord channel
-  * highly requested, currently in private beta
-  * if you want access, contact me directly, it requires manual approval and a "sign" given by me for it to work
+* remote server ping
+  * creating a back server for collecting logs
+  * can be used to further process uploaded logs, like pinging to a Discord server as an example
+    * if you want to use pinging to Discord via my server, contact me directly, it requires manual approval and a "sign" given by me for it to work
+* *adding additional features based on feedback*
+  * I am always looking to provide more features to the users, if you have any ideas of how to improve the uploader, don't be afraid to contact me directly.
+
+## Remote server ping
+Remote server ping allows you to send log data to a custom server.
+
+If you wish to create your own server, follow the [MAKE-CUSTOM-REMOTE-SERVER-README](https://github.com/Plenyx/PlenBotLogUploader/blob/master/MAKE-CUSTOM-REMOTE-SERVER-README.md) readme.
 
 ## TwitchIrcClient
 A client I developed for Irc which Twitch uses.
