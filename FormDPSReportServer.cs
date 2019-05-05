@@ -4,8 +4,10 @@ namespace PlenBotLogUploader
 {
     public partial class FormDPSReportServer : Form
     {
+        #region definitions
         // fields
         private FormMain mainLink;
+        #endregion
 
         public FormDPSReportServer(FormMain mainLink)
         {

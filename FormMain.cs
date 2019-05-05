@@ -19,6 +19,7 @@ namespace PlenBotLogUploader
 {
     public partial class FormMain : Form
     {
+        #region definitions
         // properties
         public string LogsLocation { get; set; } = "";
         public DPSReportJSONMinimal LastLog { get; set; }
@@ -30,7 +31,7 @@ namespace PlenBotLogUploader
         public string RaidarOAuth { get; set; } = "";
         public HttpClient MainHttpClient { get; } = new HttpClient();
         public string LocalDir { get; } = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
-        public int Build { get; } = 27;
+        public int Build { get; } = 28;
 
         // fields
         private const int minFileSize = 12288;
@@ -42,12 +43,15 @@ namespace PlenBotLogUploader
         private FormRaidar raidarLink;
         private FormArcVersions arcVersionsLink;
         private FormTwitchLogMessages logMessagesLink;
+        private FormDiscordPings discordPingsLink;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private RegistryKey registryAccess = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
         private int reconnectedFailCounter = 0;
         private int logsCount = 0;
+        #endregion
 
+        #region constructor
         public FormMain()
         {
             InitializeComponent();
@@ -61,6 +65,7 @@ namespace PlenBotLogUploader
             raidarLink = new FormRaidar(this);
             arcVersionsLink = new FormArcVersions(this);
             logMessagesLink = new FormTwitchLogMessages(this);
+            discordPingsLink = new FormDiscordPings(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             Task.Run(() => NewBuildCheck());
             try
@@ -155,7 +160,7 @@ namespace PlenBotLogUploader
                         pingLink.radioButtonMethodPost.Enabled = false;
                     }
                 }
-                if (GetRegistryValue<int>("twitchCustomNameEnabled", 0) == 1)
+                if (GetRegistryValue("twitchCustomNameEnabled", 0) == 1)
                 {
                     customNameLink.checkBoxCustomNameEnable.Checked = true;
                     CustomTwitchName = (GetRegistryValue("twitchCustomName", "")).ToLower();
@@ -238,7 +243,9 @@ namespace PlenBotLogUploader
                 Close();
             }
         }
+        #endregion
 
+        #region registry access
         public bool SetRegistryValue(string name, object value)
         {
             try
@@ -276,7 +283,34 @@ namespace PlenBotLogUploader
                 return default(T);
             }
         }
+        #endregion
 
+        #region form events
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            registryAccess.Flush();
+            registryAccess.Dispose();
+            chatConnect?.Dispose();
+            watcher?.Dispose();
+            MainHttpClient.Dispose();
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            if ((WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
+            {
+                ShowInTaskbar = false;
+                if (firstTimeMinimise)
+                {
+                    ShowBalloon("Uploader minimised", "Double click the icon to bring back the uploader.\nYou can also right click for quick settings.", 6500);
+                    SetRegistryValue("trayMinimiseFirst", 0);
+                    firstTimeMinimise = false;
+                }
+            }
+        }
+        #endregion
+
+        #region tools
         // triggeres when a file is renamed within the folder, renaming is the last process done by arcdps to create evtc or zevtc files
         private void OnLogCreated(object sender, FileSystemEventArgs e)
         {
@@ -337,7 +371,16 @@ namespace PlenBotLogUploader
 
         public void ShowBalloon(string title, string description, int ms) => notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.None);
 
-        public bool IsConnectionNull() => chatConnect == null;
+        private void LogsScan(string directory)
+        {
+            Parallel.ForEach(Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories), f => {
+                if (f.EndsWith(".evtc") || f.EndsWith(".zevtc"))
+                {
+                    Interlocked.Increment(ref logsCount);
+                }
+            });
+            UpdateLogCount();
+        }
 
         protected async void NewBuildCheck()
         {
@@ -442,8 +485,10 @@ namespace PlenBotLogUploader
                 }
             }
         }
+        #endregion
 
-        private void AddToText(string s)
+        #region self-invocable functions
+        public void AddToText(string s)
         {
             if (textBoxUploadInfo.InvokeRequired)
             {
@@ -471,20 +516,28 @@ namespace PlenBotLogUploader
                 labelLocationInfo.Text = $"Logs in the directory: {logsCount}";
             }
         }
+        #endregion
 
-        public bool DownloadFile(string url, string destination)
+        #region downloading methods
+        public async Task<bool> DownloadFile(string url, string destination)
         {
-            using (WebClient webClient = new WebClient())
+            try
             {
-                try
+                using (var responseMessage = await MainHttpClient.GetAsync(new Uri(url)))
                 {
-                    webClient.DownloadFileAsync(new Uri(url), @destination);
-                    return true;
+                    using (var response = await responseMessage.Content.ReadAsStreamAsync())
+                    {
+                        using (var stream = new FileStream(@destination, FileMode.Create, FileAccess.Write))
+                        {
+                            await response.CopyToAsync(stream);
+                        }
+                    }
                 }
-                catch
-                {
-                    return false;
-                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -503,8 +556,10 @@ namespace PlenBotLogUploader
                 return "";
             }
         }
+        #endregion
 
-        public async Task SendLogToChat(DPSReportJSONMinimal reportJSON, bool bypassMessage = false)
+        #region log upload and processing
+        public async Task SendLogToTwitchChat(DPSReportJSONMinimal reportJSON, bool bypassMessage = false)
         {
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage)
             {
@@ -601,16 +656,17 @@ namespace PlenBotLogUploader
                                         File.AppendAllText($"{LocalDir}logs.csv", $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
                                         if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                         {
-                                            await SendLogToChat(reportJSON, bypassMessage);
+                                            await SendLogToTwitchChat(reportJSON, bypassMessage);
                                         }
                                         else if (checkBoxTwitchOnlySuccess.Checked)
                                         {
-                                            await SendLogToChat(reportJSON, true);
+                                            await SendLogToTwitchChat(reportJSON, true);
                                         }
                                         else
                                         {
-                                            await SendLogToChat(reportJSON, bypassMessage);
+                                            await SendLogToTwitchChat(reportJSON, bypassMessage);
                                         }
+                                        await discordPingsLink.ExecuteAllActiveWebhooks(reportJSON, logMessagesLink.AllBosses);
                                         await PingServer(reportJSON);
                                     }
                                     catch
@@ -721,46 +777,10 @@ namespace PlenBotLogUploader
                 }
             }
         }
+        #endregion
 
-        private void LogsScan(string directory)
-        {
-            Parallel.ForEach(Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories), f => {
-                if (f.EndsWith(".evtc") || f.EndsWith(".zevtc"))
-                {
-                    Interlocked.Increment(ref logsCount);
-                }
-            });
-            UpdateLogCount();
-        }
-
-        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            registryAccess.Flush();
-            registryAccess.Dispose();
-            chatConnect?.Dispose();
-            watcher?.Dispose();
-            MainHttpClient.Dispose();
-        }
-
-        private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxUploadLogs.Checked)
-            {
-                SetRegistryValue("uploadAll", 1);
-                toolStripMenuItemUploadLogs.Checked = true;
-                checkBoxPostToTwitch.Enabled = true;
-                toolStripMenuItemPostToTwitch.Enabled = true;
-            }
-            else
-            {
-                SetRegistryValue("uploadAll", 0);
-                toolStripMenuItemUploadLogs.Checked = false;
-                checkBoxPostToTwitch.Enabled = false;
-                checkBoxPostToTwitch.Checked = false;
-                toolStripMenuItemPostToTwitch.Enabled = false;
-                toolStripMenuItemPostToTwitch.Checked = false;
-            }
-        }
+        #region Twitch bot methods
+        public bool IsConnectionNull() => chatConnect == null;
 
         public void ConnectTwitchBot()
         {
@@ -819,6 +839,107 @@ namespace PlenBotLogUploader
             chatConnect.ReceiveMessage += ReadMessages;
             chatConnect.StateChange += OnIrcStateChanged;
             chatConnect.BeginConnection();
+        }
+
+        protected async void OnIrcStateChanged(object sender, IrcChangedEventArgs e)
+        {
+            switch (e.NewState)
+            {
+                case IrcStates.Disconnected:
+                    ChannelJoined = false;
+                    AddToText("<-?-> DISCONNECTED FROM TWITCH");
+                    if (InvokeRequired)
+                    {
+                        Invoke((Action)delegate () { reconnectedFailCounter++; });
+                    }
+                    else
+                    {
+                        reconnectedFailCounter++;
+                    }
+                    if (reconnectedFailCounter <= 3)
+                    {
+                        AddToText("<-?-> TRYING TO RECONNECT TO TWITCH");
+                        ReconnectTwitchBot();
+                    }
+                    else
+                    {
+                        AddToText("<-?-> FAILED TO RECONNECT TO TWITCH AFTER 3 ATTEMPTS, TRY TO CONNECT MANUALLY");
+                        DisconnectTwitchBot();
+                    }
+                    break;
+                case IrcStates.Connecting:
+                    AddToText("<-?-> BOT CONNECTING TO TWITCH");
+                    break;
+                case IrcStates.Connected:
+                    AddToText("<-?-> CONNECTION ESTABILISHED");
+                    reconnectedFailCounter = 0;
+                    if (ChannelName != "")
+                    {
+                        await chatConnect.JoinRoom(ChannelName);
+                    }
+                    break;
+                case IrcStates.ChannelJoining:
+                    AddToText($"<-?-> TRYING TO JOIN CHANNEL {e.Channel.ToUpper()}");
+                    break;
+                case IrcStates.ChannelJoined:
+                    AddToText("<-?-> CHANNEL JOINED");
+                    ChannelJoined = true;
+                    break;
+                case IrcStates.ChannelLeaving:
+                    AddToText($"<-?-> LEAVING CHANNEL {e.Channel.ToUpper()}");
+                    break;
+                default:
+                    AddToText("<-?-> UNRECOGNISED IRC STATE RECEIVED");
+                    break;
+            }
+        }
+
+        protected async void ReadMessages(object sender, IrcMessageEventArgs e)
+        {
+            if (e == null)
+            {
+                return;
+            }
+            string[] messageSplit = e.Message.Split(new string[] { $"#{ChannelName} :" }, StringSplitOptions.None);
+            if (messageSplit.Length > 1)
+            {
+                string command = messageSplit[1].Split(' ')[0].ToLower();
+                if (command.Equals("!uploader"))
+                {
+                    AddToText("> UPLOADER COMMAND USED");
+                    await chatConnect.SendChatMessage(ChannelName, $"PlenBot Log Uploader v1 build n.{Build} | https://github.com/Plenyx/PlenBotLogUploader/releases");
+                }
+                else if (command.Equals("!lastlog") || command.Equals("!log"))
+                {
+                    if (LastLog != null)
+                    {
+                        AddToText("> LAST LOG COMMAND USED");
+                        await chatConnect.SendChatMessage(ChannelName, $"Link to the last {LastLog.Encounter.Boss} log: {LastLog.Permalink}");
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region buttons & checks events
+        private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxUploadLogs.Checked)
+            {
+                SetRegistryValue("uploadAll", 1);
+                toolStripMenuItemUploadLogs.Checked = true;
+                checkBoxPostToTwitch.Enabled = true;
+                toolStripMenuItemPostToTwitch.Enabled = true;
+            }
+            else
+            {
+                SetRegistryValue("uploadAll", 0);
+                toolStripMenuItemUploadLogs.Checked = false;
+                checkBoxPostToTwitch.Enabled = false;
+                checkBoxPostToTwitch.Checked = false;
+                toolStripMenuItemPostToTwitch.Enabled = false;
+                toolStripMenuItemPostToTwitch.Checked = false;
+            }
         }
 
         private void buttonReconnectBot_Click(object sender, EventArgs e)
@@ -899,85 +1020,6 @@ namespace PlenBotLogUploader
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e) => notifyIconTray.Visible = false;
 
-        protected async void OnIrcStateChanged(object sender, IrcChangedEventArgs e)
-        {
-            switch (e.NewState)
-            {
-                case IrcStates.Disconnected:
-                    ChannelJoined = false;
-                    AddToText("<-?-> DISCONNECTED FROM TWITCH");
-                    if (InvokeRequired)
-                    {
-                        Invoke((Action)delegate () { reconnectedFailCounter++; });
-                    }
-                    else
-                    {
-                        reconnectedFailCounter++;
-                    }
-                    if (reconnectedFailCounter <= 3)
-                    {
-                        AddToText("<-?-> TRYING TO RECONNECT TO TWITCH");
-                        ReconnectTwitchBot();
-                    }
-                    else
-                    {
-                        AddToText("<-?-> FAILED TO RECONNECT TO TWITCH AFTER 3 ATTEMPTS, TRY TO CONNECT MANUALLY");
-                        DisconnectTwitchBot();
-                    }
-                    break;
-                case IrcStates.Connecting:
-                    AddToText("<-?-> BOT CONNECTING TO TWITCH");
-                    break;
-                case IrcStates.Connected:
-                    AddToText("<-?-> CONNECTION ESTABILISHED");
-                    reconnectedFailCounter = 0;
-                    if (ChannelName != "")
-                    {
-                        await chatConnect.JoinRoom(ChannelName);
-                    }
-                    break;
-                case IrcStates.ChannelJoining:
-                    AddToText($"<-?-> TRYING TO JOIN CHANNEL {e.Channel.ToUpper()}");
-                    break;
-                case IrcStates.ChannelJoined:
-                    AddToText("<-?-> CHANNEL JOINED");
-                    ChannelJoined = true;
-                    break;
-                case IrcStates.ChannelLeaving:
-                    AddToText($"<-?-> LEAVING CHANNEL {e.Channel.ToUpper()}");
-                    break;
-                default:
-                    AddToText("<-?-> UNRECOGNISED IRC STATE RECEIVED");
-                    break;
-            }
-        }
-
-        protected async void ReadMessages(object sender, IrcMessageEventArgs e)
-        {
-            if (e == null)
-            {
-                return;
-            }
-            string[] messageSplit = e.Message.Split(new string[] { $"#{ChannelName} :" }, StringSplitOptions.None);
-            if (messageSplit.Length > 1)
-            {
-                string command = messageSplit[1].Split(' ')[0].ToLower();
-                if (command.Equals("!uploader"))
-                {
-                    AddToText("> UPLOADER COMMAND USED");
-                    await chatConnect.SendChatMessage(ChannelName, $"PlenBot Log Uploader v1 build n.{Build} | https://github.com/Plenyx/PlenBotLogUploader/releases");
-                }
-                else if (command.Equals("!lastlog") || command.Equals("!log"))
-                {
-                    if (LastLog != null)
-                    {
-                        AddToText("> LAST LOG COMMAND USED");
-                        await chatConnect.SendChatMessage(ChannelName, $"Link to the last {LastLog.Encounter.Boss} log: {LastLog.Permalink}");
-                    }
-                }
-            }
-        }
-
         private void buttonChangeTwitchChannel_Click(object sender, EventArgs e) => twitchNameLink.Show();
 
         private void toolStripMenuItemUploadLogs_CheckedChanged(object sender, EventArgs e) => checkBoxUploadLogs.Checked = toolStripMenuItemUploadLogs.Checked;
@@ -988,20 +1030,96 @@ namespace PlenBotLogUploader
 
         private void buttonOpenLogs_Click(object sender, EventArgs e) => Process.Start(LogsLocation);
 
-        private void FormMain_Resize(object sender, EventArgs e)
+        private void buttonDPSReportServer_Click(object sender, EventArgs e)
         {
-            if ((WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
-            {
-                ShowInTaskbar = false;
-                if (firstTimeMinimise)
-                {
-                    ShowBalloon("Uploader minimised", "Double click the icon to bring back the uploader.\nYou can also right click for quick settings.", 6500);
-                    SetRegistryValue("trayMinimiseFirst", 0);
-                    firstTimeMinimise = false;
-                }
-            }
+            dpsReportServerLink.Show();
+            dpsReportServerLink.BringToFront();
         }
 
+        private void buttonCustomName_Click(object sender, EventArgs e)
+        {
+            customNameLink.Show();
+            customNameLink.BringToFront();
+        }
+
+        private void buttonPingSettings_Click(object sender, EventArgs e)
+        {
+            pingLink.Show();
+            pingLink.BringToFront();
+        }
+
+        private void buttonRaidarSettings_Click(object sender, EventArgs e)
+        {
+            raidarLink.Show();
+            raidarLink.BringToFront();
+        }
+
+        private void buttonArcVersionChecking_Click(object sender, EventArgs e)
+        {
+            arcVersionsLink.Show();
+            arcVersionsLink.BringToFront();
+        }
+
+        private void buttonLogMessages_Click(object sender, EventArgs e)
+        {
+            logMessagesLink.Show();
+            logMessagesLink.BringToFront();
+        }
+
+        private void buttonDiscordWebhooks_Click(object sender, EventArgs e)
+        {
+            discordPingsLink.Show();
+            discordPingsLink.BringToFront();
+        }
+
+        private void toolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
+        {
+            dpsReportServerLink.Show();
+            dpsReportServerLink.BringToFront();
+        }
+
+        private void toolStripMenuItemOpenCustomName_Click(object sender, EventArgs e)
+        {
+            customNameLink.Show();
+            customNameLink.BringToFront();
+        }
+
+        private void toolStripMenuItemOpenPingSettings_Click(object sender, EventArgs e)
+        {
+            pingLink.Show();
+            pingLink.BringToFront();
+        }
+
+        private void toolStripMenuItemOpenRaidarSettings_Click(object sender, EventArgs e)
+        {
+            raidarLink.Show();
+            raidarLink.BringToFront();
+        }
+
+        private void toolStripMenuItemOpenArcVersionsSettings_Click(object sender, EventArgs e)
+        {
+            arcVersionsLink.Show();
+            arcVersionsLink.BringToFront();
+        }
+
+        private void buttonDisConnectTwitch_Click(object sender, EventArgs e)
+        {
+            reconnectedFailCounter = 0;
+            if (chatConnect == null)
+            {
+                ConnectTwitchBot();
+                SetRegistryValue("connectToTwitch", 1);
+            }
+            else
+            {
+                DisconnectTwitchBot();
+                SetRegistryValue("connectToTwitch", 0);
+                checkBoxPostToTwitch.Checked = false;
+            }
+        }
+        #endregion
+
+        #region drag&drop
         private void FormMain_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -1057,87 +1175,6 @@ namespace PlenBotLogUploader
                 }
             }
         }
-
-        private void buttonDPSReportServer_Click(object sender, EventArgs e)
-        {
-            dpsReportServerLink.Show();
-            dpsReportServerLink.BringToFront();
-        }
-
-        private void buttonCustomName_Click(object sender, EventArgs e)
-        {
-            customNameLink.Show();
-            customNameLink.BringToFront();
-        }
-
-        private void buttonPingSettings_Click(object sender, EventArgs e)
-        {
-            pingLink.Show();
-            pingLink.BringToFront();
-        }
-
-        private void buttonRaidarSettings_Click(object sender, EventArgs e)
-        {
-            raidarLink.Show();
-            raidarLink.BringToFront();
-        }
-
-        private void buttonArcVersionChecking_Click(object sender, EventArgs e)
-        {
-            arcVersionsLink.Show();
-            arcVersionsLink.BringToFront();
-        }
-
-        private void buttonLogMessages_Click(object sender, EventArgs e)
-        {
-            logMessagesLink.Show();
-            logMessagesLink.BringToFront();
-        }
-
-        private void toolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
-        {
-            dpsReportServerLink.Show();
-            dpsReportServerLink.BringToFront();
-        }
-
-        private void toolStripMenuItemOpenCustomName_Click(object sender, EventArgs e)
-        {
-            customNameLink.Show();
-            customNameLink.BringToFront();
-        }
-
-        private void toolStripMenuItemOpenPingSettings_Click(object sender, EventArgs e)
-        {
-            pingLink.Show();
-            pingLink.BringToFront();
-        }
-
-        private void toolStripMenuItemOpenRaidarSettings_Click(object sender, EventArgs e)
-        {
-            raidarLink.Show();
-            raidarLink.BringToFront();
-        }
-
-        private void toolStripMenuItemOpenArcVersionsSettings_Click(object sender, EventArgs e)
-        {
-            arcVersionsLink.Show();
-            arcVersionsLink.BringToFront();
-        }
-
-        private void buttonDisConnectTwitch_Click(object sender, EventArgs e)
-        {
-            reconnectedFailCounter = 0;
-            if (chatConnect == null)
-            {
-                ConnectTwitchBot();
-                SetRegistryValue("connectToTwitch", 1);
-            }
-            else
-            {
-                DisconnectTwitchBot();
-                SetRegistryValue("connectToTwitch", 0);
-                checkBoxPostToTwitch.Checked = false;
-            }
-        }
+        #endregion
     }
 }

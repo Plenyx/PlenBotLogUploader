@@ -32,6 +32,8 @@
             this.labelFailMsg = new System.Windows.Forms.Label();
             this.textBoxSuccessMsg = new System.Windows.Forms.TextBox();
             this.textBoxFailMsg = new System.Windows.Forms.TextBox();
+            this.textBoxIcon = new System.Windows.Forms.TextBox();
+            this.labelIcon = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelSuccessMsg
@@ -66,11 +68,29 @@
             this.textBoxFailMsg.Size = new System.Drawing.Size(375, 20);
             this.textBoxFailMsg.TabIndex = 3;
             // 
+            // textBoxIcon
+            // 
+            this.textBoxIcon.Location = new System.Drawing.Point(15, 129);
+            this.textBoxIcon.Name = "textBoxIcon";
+            this.textBoxIcon.Size = new System.Drawing.Size(375, 20);
+            this.textBoxIcon.TabIndex = 4;
+            // 
+            // labelIcon
+            // 
+            this.labelIcon.AutoSize = true;
+            this.labelIcon.Location = new System.Drawing.Point(12, 113);
+            this.labelIcon.Name = "labelIcon";
+            this.labelIcon.Size = new System.Drawing.Size(165, 13);
+            this.labelIcon.TabIndex = 5;
+            this.labelIcon.Text = "Icon URL for Discord Webhooks:";
+            // 
             // FormEditBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 113);
+            this.ClientSize = new System.Drawing.Size(404, 161);
+            this.Controls.Add(this.labelIcon);
+            this.Controls.Add(this.textBoxIcon);
             this.Controls.Add(this.textBoxFailMsg);
             this.Controls.Add(this.textBoxSuccessMsg);
             this.Controls.Add(this.labelFailMsg);
@@ -93,5 +113,7 @@
         private System.Windows.Forms.Label labelFailMsg;
         private System.Windows.Forms.TextBox textBoxSuccessMsg;
         private System.Windows.Forms.TextBox textBoxFailMsg;
+        private System.Windows.Forms.TextBox textBoxIcon;
+        private System.Windows.Forms.Label labelIcon;
     }
 }

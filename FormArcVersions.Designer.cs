@@ -33,11 +33,12 @@
             this.timerCheckNewArcversion = new System.Windows.Forms.Timer(this.components);
             this.buttonCheckNow = new System.Windows.Forms.Button();
             this.groupBoxUpdating = new System.Windows.Forms.GroupBox();
-            this.linkLabelLink = new System.Windows.Forms.LinkLabel();
             this.labelInformation = new System.Windows.Forms.Label();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
             this.buttonEnabler = new System.Windows.Forms.Button();
+            this.radioButtonDownloadAll = new System.Windows.Forms.RadioButton();
+            this.radioButtonUpdateAll = new System.Windows.Forms.RadioButton();
             this.groupBoxUpdating.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
@@ -69,33 +70,23 @@
             // 
             // groupBoxUpdating
             // 
+            this.groupBoxUpdating.Controls.Add(this.radioButtonUpdateAll);
+            this.groupBoxUpdating.Controls.Add(this.radioButtonDownloadAll);
             this.groupBoxUpdating.Controls.Add(this.labelInformation);
             this.groupBoxUpdating.Controls.Add(this.buttonUpdate);
             this.groupBoxUpdating.Enabled = false;
-            this.groupBoxUpdating.Location = new System.Drawing.Point(160, 12);
+            this.groupBoxUpdating.Location = new System.Drawing.Point(160, 6);
             this.groupBoxUpdating.Name = "groupBoxUpdating";
-            this.groupBoxUpdating.Size = new System.Drawing.Size(200, 71);
+            this.groupBoxUpdating.Size = new System.Drawing.Size(288, 106);
             this.groupBoxUpdating.TabIndex = 2;
             this.groupBoxUpdating.TabStop = false;
             this.groupBoxUpdating.Text = "Update process";
             // 
-            // linkLabelLink
-            // 
-            this.linkLabelLink.AutoSize = true;
-            this.linkLabelLink.Location = new System.Drawing.Point(214, 93);
-            this.linkLabelLink.Name = "linkLabelLink";
-            this.linkLabelLink.Size = new System.Drawing.Size(87, 13);
-            this.linkLabelLink.TabIndex = 2;
-            this.linkLabelLink.TabStop = true;
-            this.linkLabelLink.Text = "Open Delta\'s site";
-            this.linkLabelLink.VisitedLinkColor = System.Drawing.Color.Blue;
-            this.linkLabelLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelLink_LinkClicked);
-            // 
             // labelInformation
             // 
-            this.labelInformation.Location = new System.Drawing.Point(6, 42);
+            this.labelInformation.Location = new System.Drawing.Point(3, 77);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(188, 23);
+            this.labelInformation.Size = new System.Drawing.Size(279, 23);
             this.labelInformation.TabIndex = 1;
             this.labelInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -104,7 +95,7 @@
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.buttonUpdate.Location = new System.Drawing.Point(6, 13);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(188, 23);
+            this.buttonUpdate.Size = new System.Drawing.Size(276, 23);
             this.buttonUpdate.TabIndex = 0;
             this.buttonUpdate.Text = "Update now";
             this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -133,25 +124,49 @@
             this.buttonEnabler.UseVisualStyleBackColor = true;
             this.buttonEnabler.Click += new System.EventHandler(this.buttonEnabler_Click);
             // 
+            // radioButtonDownloadAll
+            // 
+            this.radioButtonDownloadAll.AutoSize = true;
+            this.radioButtonDownloadAll.Location = new System.Drawing.Point(6, 51);
+            this.radioButtonDownloadAll.Name = "radioButtonDownloadAll";
+            this.radioButtonDownloadAll.Size = new System.Drawing.Size(128, 17);
+            this.radioButtonDownloadAll.TabIndex = 2;
+            this.radioButtonDownloadAll.TabStop = true;
+            this.radioButtonDownloadAll.Text = "Download all modules";
+            this.radioButtonDownloadAll.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonUpdateAll
+            // 
+            this.radioButtonUpdateAll.AutoSize = true;
+            this.radioButtonUpdateAll.Checked = true;
+            this.radioButtonUpdateAll.Location = new System.Drawing.Point(139, 51);
+            this.radioButtonUpdateAll.Name = "radioButtonUpdateAll";
+            this.radioButtonUpdateAll.Size = new System.Drawing.Size(143, 17);
+            this.radioButtonUpdateAll.TabIndex = 3;
+            this.radioButtonUpdateAll.TabStop = true;
+            this.radioButtonUpdateAll.Text = "Update installed modules";
+            this.radioButtonUpdateAll.UseVisualStyleBackColor = true;
+            // 
             // FormArcVersions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(371, 119);
-            this.Controls.Add(this.linkLabelLink);
+            this.ClientSize = new System.Drawing.Size(460, 118);
             this.Controls.Add(this.groupBoxSettings);
             this.Controls.Add(this.groupBoxUpdating);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.HelpButton = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormArcVersions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "arcdps version checking settings";
+            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.FormArcVersions_HelpButtonClicked);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormArcVersions_FormClosing);
             this.groupBoxUpdating.ResumeLayout(false);
+            this.groupBoxUpdating.PerformLayout();
             this.groupBoxSettings.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -164,7 +179,8 @@
         private System.Windows.Forms.GroupBox groupBoxSettings;
         public System.Windows.Forms.Button buttonEnabler;
         private System.Windows.Forms.Button buttonUpdate;
-        private System.Windows.Forms.LinkLabel linkLabelLink;
         private System.Windows.Forms.Label labelInformation;
+        private System.Windows.Forms.RadioButton radioButtonUpdateAll;
+        private System.Windows.Forms.RadioButton radioButtonDownloadAll;
     }
 }

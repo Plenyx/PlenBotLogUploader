@@ -10,12 +10,14 @@ namespace PlenBotLogUploader
 {
     public partial class FormArcVersions : Form
     {
+        #region definitions
         // properties
         public string GW2Location { get; set; } = "";
 
         // fields
         private FormMain mainLink;
         private int gw2Instances = 0;
+        #endregion
 
         public FormArcVersions(FormMain mainLink)
         {
@@ -80,17 +82,42 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void UpdateArc()
+        private async Task UpdateArc()
         {
+            buttonUpdate.Enabled = false;
             var processes = Process.GetProcessesByName("Gw2-64").ToList();
             processes.AddRange(Process.GetProcessesByName("Gw2").ToList());
             if (processes.Count == 0)
             {
-                SetInformationText("Downloading newest version of arcdps...");
-                mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
+                if (radioButtonDownloadAll.Checked || radioButtonUpdateAll.Checked)
+                {
+                    SetInformationText("Downloading newest version of arcdps and modules...");
+                }
+                else
+                {
+                    SetInformationText("Downloading newest version of arcdps...");
+                }
+                await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
+                if (radioButtonDownloadAll.Checked)
+                {
+                    await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
+                    await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
+                }
+                else if (radioButtonUpdateAll.Checked)
+                {
+                    if (File.Exists($@"{GW2Location}\bin64\d3d9_arcdps_extras.dll"))
+                    {
+                        await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
+                    }
+                    if (File.Exists($@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll"))
+                    {
+                        await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
+                    }
+                }
                 SetInformationText("Update complete.");
                 groupBoxUpdating.Enabled = false;
                 buttonCheckNow.Enabled = true;
+                buttonUpdate.Enabled = true;
                 StartTimer();
             }
             else
@@ -105,12 +132,12 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ProcessExited(object sender, EventArgs e)
+        private async void ProcessExited(object sender, EventArgs e)
         {
             Interlocked.Decrement(ref gw2Instances);
             if (gw2Instances == 0)
             {
-                UpdateArc();
+                await UpdateArc();
             }
         }
 
@@ -124,32 +151,52 @@ namespace PlenBotLogUploader
                 {
                     try
                     {
-                        using (var stream = File.OpenRead($@"{GW2Location}\bin64\d3d9.dll"))
+                        if (File.Exists($@"{GW2Location}\bin64\d3d9.dll"))
                         {
-                            var hash = md5.ComputeHash(stream);
-                            if (!BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant().Equals(availableVersion))
+                            using (var stream = File.OpenRead($@"{GW2Location}\bin64\d3d9.dll"))
                             {
-                                buttonCheckNow.Enabled = false;
-                                groupBoxUpdating.Enabled = true;
-                                if (manual)
+                                var hash = md5.ComputeHash(stream);
+                                if (!BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant().Equals(availableVersion))
                                 {
-                                    DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                                    if (result == DialogResult.Yes)
+                                    buttonCheckNow.Enabled = false;
+                                    groupBoxUpdating.Enabled = true;
+                                    if (manual)
                                     {
-                                        UpdateArc();
+                                        DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                        if (result == DialogResult.Yes)
+                                        {
+                                            await UpdateArc();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        mainLink.ShowBalloon("arcdps version checking", "New version of arcdps available.\nGo to arcdps version checking settings to use the auto-update.", 8500);
                                     }
                                 }
                                 else
                                 {
-                                    mainLink.ShowBalloon("arcdps version checking", "New version of arc available.\nGo to arcdps version checking settings to use the auto-update.", 8500);
+                                    if (manual)
+                                    {
+                                        MessageBox.Show("arcdps is up to date.", "arcdps version checker", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            buttonCheckNow.Enabled = false;
+                            groupBoxUpdating.Enabled = true;
+                            if (manual)
+                            {
+                                DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                if (result == DialogResult.Yes)
+                                {
+                                    await UpdateArc();
                                 }
                             }
                             else
                             {
-                                if (manual)
-                                {
-                                    MessageBox.Show("arcdps is up to date.", "arcdps version checker", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                }
+                                mainLink.ShowBalloon("arcdps version checking", "New version of arcdps available.\nGo to arcdps version checking settings to use the auto-update.", 8500);
                             }
                         }
                     }
@@ -171,12 +218,12 @@ namespace PlenBotLogUploader
                     DialogResult result = MessageBox.Show("New arcdps version available\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     if (result == DialogResult.Yes)
                     {
-                        UpdateArc();
+                        await UpdateArc();
                     }
                 }
                 else
                 {
-                    mainLink.ShowBalloon("arcdps version checking", "New version of arc available", 6500);
+                    mainLink.ShowBalloon("arcdps version checking", "New version of arcdps available", 6500);
                 }
             }
         }
@@ -195,6 +242,12 @@ namespace PlenBotLogUploader
 
         private void linkLabelLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start("https://deltaconnected.com/arcdps/");
 
-        private void buttonUpdate_Click(object sender, EventArgs e) => UpdateArc();
+        private async void buttonUpdate_Click(object sender, EventArgs e) => await UpdateArc();
+
+        private void FormArcVersions_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Process.Start("https://deltaconnected.com/arcdps/");
+        }
     }
 }

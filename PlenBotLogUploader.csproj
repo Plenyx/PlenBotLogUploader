@@ -79,6 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiscordAPI\DiscordAPIJSONContent.cs" />
+    <Compile Include="DiscordAPI\DiscordAPIJSONWebhookResponse.cs" />
+    <Compile Include="DiscordAPI\DiscordWebhookData.cs" />
     <Compile Include="DPSReport\BossData.cs" />
     <Compile Include="DPSReport\Bosses.cs" />
     <Compile Include="DPSReport\BossIds.cs" />
@@ -99,6 +102,12 @@
     <Compile Include="FormCustomName.Designer.cs">
       <DependentUpon>FormCustomName.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormDiscordPings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDiscordPings.Designer.cs">
+      <DependentUpon>FormDiscordPings.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDPSReportServer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +119,12 @@
     </Compile>
     <Compile Include="FormEditBossData.Designer.cs">
       <DependentUpon>FormEditBossData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditDiscordWebhook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditDiscordWebhook.Designer.cs">
+      <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </Compile>
     <Compile Include="FormRaidar.cs">
       <SubType>Form</SubType>
@@ -147,6 +162,10 @@
     <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
     <Compile Include="RegistryStartup.cs" />
+    <Compile Include="RemotePing\PingAuthentication.cs" />
+    <Compile Include="RemotePing\PingConfiguration.cs" />
+    <Compile Include="RemotePing\PingMethod.cs" />
+    <Compile Include="RemotePing\TestPingResult.cs" />
     <Compile Include="TwitchIRCClient\IrcChangedEventArgs.cs" />
     <Compile Include="TwitchIRCClient\IrcMessageEventArgs.cs" />
     <Compile Include="Program.cs" />
@@ -159,11 +178,17 @@
     <EmbeddedResource Include="FormCustomName.resx">
       <DependentUpon>FormCustomName.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormDiscordPings.resx">
+      <DependentUpon>FormDiscordPings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDPSReportServer.resx">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditBossData.resx">
       <DependentUpon>FormEditBossData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditDiscordWebhook.resx">
+      <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRaidar.resx">
       <DependentUpon>FormRaidar.cs</DependentUpon>

@@ -9,8 +9,10 @@ namespace PlenBotLogUploader
 {
     public partial class FormPing : Form
     {
+        #region definitions
         // fields
         private FormMain mainLink;
+        #endregion
 
         public FormPing(FormMain mainLink)
         {
@@ -34,12 +36,6 @@ namespace PlenBotLogUploader
             groupBoxRemoteSettings.Enabled = checkBoxEnablePing.Enabled;
         }
 
-        private void FormPing_HelpButtonClicked(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
-            Process.Start("https://plenbot.net/uploader/#setup");
-        }
-
         private void buttonPlenyxWay_Click(object sender, EventArgs e)
         {
             if (textBoxURL.Text.Equals("https://plenbot.net/uploader/ping/") && radioButtonMethodPost.Checked)
@@ -48,7 +44,7 @@ namespace PlenBotLogUploader
                 radioButtonMethodPost.Enabled = true;
                 textBoxURL.Enabled = true;
                 textBoxURL.Text = "";
-                buttonPlenyxWay.Text = "Use Plenyx's server";
+                buttonPlenyxWay.Text = "Plenyx's server";
             }
             else
             {
@@ -59,8 +55,6 @@ namespace PlenBotLogUploader
                 textBoxURL.Text = "https://plenbot.net/uploader/ping/";
                 textBoxSign.Text = "";
                 buttonPlenyxWay.Text = "Stop using Plenyx's server";
-                MessageBox.Show("In order to use the ping server you need to have a valid sign.\nA browser window will be opened with instructions on how to get one.\nFrom there you can connect PlenBot to your Discord server and post logs directly into your desired channel. (still work in progress, contact me directly @Plenyx#1029)");
-                //Process.Start("https://plenbot.net/uploader/#setup-sign");
             }
         }
 

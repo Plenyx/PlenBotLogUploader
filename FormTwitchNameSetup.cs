@@ -6,7 +6,10 @@ namespace PlenBotLogUploader
 {
     public partial class FormTwitchNameSetup : Form
     {
+        #region definitions
+        // fields
         private FormMain mainLink;
+        #endregion
 
         public FormTwitchNameSetup(FormMain mainLink)
         {

@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPing));
             this.checkBoxEnablePing = new System.Windows.Forms.CheckBox();
             this.groupBoxRemoteSettings = new System.Windows.Forms.GroupBox();
-            this.buttonTestPing = new System.Windows.Forms.Button();
+            this.groupBoxPredefinedServers = new System.Windows.Forms.GroupBox();
             this.buttonPlenyxWay = new System.Windows.Forms.Button();
-            this.groupBoxSign = new System.Windows.Forms.GroupBox();
+            this.buttonTestPing = new System.Windows.Forms.Button();
+            this.groupBoxAuthentication = new System.Windows.Forms.GroupBox();
+            this.radioButtonUseNormalField = new System.Windows.Forms.RadioButton();
+            this.radioButtonUseAuthField = new System.Windows.Forms.RadioButton();
             this.textBoxSign = new System.Windows.Forms.TextBox();
             this.groupBoxUrl = new System.Windows.Forms.GroupBox();
             this.textBoxURL = new System.Windows.Forms.TextBox();
@@ -41,7 +43,8 @@
             this.radioButtonMethodGet = new System.Windows.Forms.RadioButton();
             this.radioButtonMethodPost = new System.Windows.Forms.RadioButton();
             this.groupBoxRemoteSettings.SuspendLayout();
-            this.groupBoxSign.SuspendLayout();
+            this.groupBoxPredefinedServers.SuspendLayout();
+            this.groupBoxAuthentication.SuspendLayout();
             this.groupBoxUrl.SuspendLayout();
             this.groupBoxMethod.SuspendLayout();
             this.SuspendLayout();
@@ -59,55 +62,91 @@
             // 
             // groupBoxRemoteSettings
             // 
+            this.groupBoxRemoteSettings.Controls.Add(this.groupBoxPredefinedServers);
             this.groupBoxRemoteSettings.Controls.Add(this.buttonTestPing);
-            this.groupBoxRemoteSettings.Controls.Add(this.buttonPlenyxWay);
-            this.groupBoxRemoteSettings.Controls.Add(this.groupBoxSign);
+            this.groupBoxRemoteSettings.Controls.Add(this.groupBoxAuthentication);
             this.groupBoxRemoteSettings.Controls.Add(this.groupBoxUrl);
             this.groupBoxRemoteSettings.Controls.Add(this.groupBoxMethod);
             this.groupBoxRemoteSettings.Enabled = false;
             this.groupBoxRemoteSettings.Location = new System.Drawing.Point(12, 35);
             this.groupBoxRemoteSettings.Name = "groupBoxRemoteSettings";
-            this.groupBoxRemoteSettings.Size = new System.Drawing.Size(404, 157);
+            this.groupBoxRemoteSettings.Size = new System.Drawing.Size(580, 169);
             this.groupBoxRemoteSettings.TabIndex = 1;
             this.groupBoxRemoteSettings.TabStop = false;
             this.groupBoxRemoteSettings.Text = "Remote server settings";
             // 
-            // buttonTestPing
+            // groupBoxPredefinedServers
             // 
-            this.buttonTestPing.Location = new System.Drawing.Point(205, 126);
-            this.buttonTestPing.Name = "buttonTestPing";
-            this.buttonTestPing.Size = new System.Drawing.Size(191, 24);
-            this.buttonTestPing.TabIndex = 7;
-            this.buttonTestPing.Text = "Test Ping";
-            this.buttonTestPing.UseVisualStyleBackColor = true;
-            this.buttonTestPing.Click += new System.EventHandler(this.buttonTestPing_Click);
+            this.groupBoxPredefinedServers.Controls.Add(this.buttonPlenyxWay);
+            this.groupBoxPredefinedServers.Location = new System.Drawing.Point(159, 70);
+            this.groupBoxPredefinedServers.Name = "groupBoxPredefinedServers";
+            this.groupBoxPredefinedServers.Size = new System.Drawing.Size(157, 93);
+            this.groupBoxPredefinedServers.TabIndex = 8;
+            this.groupBoxPredefinedServers.TabStop = false;
+            this.groupBoxPredefinedServers.Text = "Predefined servers";
             // 
             // buttonPlenyxWay
             // 
-            this.buttonPlenyxWay.Location = new System.Drawing.Point(6, 126);
+            this.buttonPlenyxWay.Location = new System.Drawing.Point(6, 19);
             this.buttonPlenyxWay.Name = "buttonPlenyxWay";
-            this.buttonPlenyxWay.Size = new System.Drawing.Size(191, 24);
+            this.buttonPlenyxWay.Size = new System.Drawing.Size(143, 24);
             this.buttonPlenyxWay.TabIndex = 6;
-            this.buttonPlenyxWay.Text = "Use Plenyx\'s server";
+            this.buttonPlenyxWay.Text = "Plenyx\'s server";
             this.buttonPlenyxWay.UseVisualStyleBackColor = true;
             this.buttonPlenyxWay.Click += new System.EventHandler(this.buttonPlenyxWay_Click);
             // 
-            // groupBoxSign
+            // buttonTestPing
             // 
-            this.groupBoxSign.Controls.Add(this.textBoxSign);
-            this.groupBoxSign.Location = new System.Drawing.Point(7, 70);
-            this.groupBoxSign.Name = "groupBoxSign";
-            this.groupBoxSign.Size = new System.Drawing.Size(121, 50);
-            this.groupBoxSign.TabIndex = 5;
-            this.groupBoxSign.TabStop = false;
-            this.groupBoxSign.Text = "Sign";
+            this.buttonTestPing.Location = new System.Drawing.Point(484, 130);
+            this.buttonTestPing.Name = "buttonTestPing";
+            this.buttonTestPing.Size = new System.Drawing.Size(90, 33);
+            this.buttonTestPing.TabIndex = 7;
+            this.buttonTestPing.Text = "Test ping";
+            this.buttonTestPing.UseVisualStyleBackColor = true;
+            this.buttonTestPing.Click += new System.EventHandler(this.buttonTestPing_Click);
+            // 
+            // groupBoxAuthentication
+            // 
+            this.groupBoxAuthentication.Controls.Add(this.radioButtonUseNormalField);
+            this.groupBoxAuthentication.Controls.Add(this.radioButtonUseAuthField);
+            this.groupBoxAuthentication.Controls.Add(this.textBoxSign);
+            this.groupBoxAuthentication.Location = new System.Drawing.Point(7, 70);
+            this.groupBoxAuthentication.Name = "groupBoxAuthentication";
+            this.groupBoxAuthentication.Size = new System.Drawing.Size(146, 93);
+            this.groupBoxAuthentication.TabIndex = 5;
+            this.groupBoxAuthentication.TabStop = false;
+            this.groupBoxAuthentication.Text = "Authentication";
+            // 
+            // radioButtonUseNormalField
+            // 
+            this.radioButtonUseNormalField.AutoSize = true;
+            this.radioButtonUseNormalField.Checked = true;
+            this.radioButtonUseNormalField.Enabled = false;
+            this.radioButtonUseNormalField.Location = new System.Drawing.Point(7, 69);
+            this.radioButtonUseNormalField.Name = "radioButtonUseNormalField";
+            this.radioButtonUseNormalField.Size = new System.Drawing.Size(89, 17);
+            this.radioButtonUseNormalField.TabIndex = 2;
+            this.radioButtonUseNormalField.TabStop = true;
+            this.radioButtonUseNormalField.Text = "Use as a field";
+            this.radioButtonUseNormalField.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonUseAuthField
+            // 
+            this.radioButtonUseAuthField.AutoSize = true;
+            this.radioButtonUseAuthField.Enabled = false;
+            this.radioButtonUseAuthField.Location = new System.Drawing.Point(7, 46);
+            this.radioButtonUseAuthField.Name = "radioButtonUseAuthField";
+            this.radioButtonUseAuthField.Size = new System.Drawing.Size(129, 17);
+            this.radioButtonUseAuthField.TabIndex = 1;
+            this.radioButtonUseAuthField.Text = "Use as Authentication";
+            this.radioButtonUseAuthField.UseVisualStyleBackColor = true;
             // 
             // textBoxSign
             // 
             this.textBoxSign.Location = new System.Drawing.Point(7, 20);
             this.textBoxSign.MaxLength = 50;
             this.textBoxSign.Name = "textBoxSign";
-            this.textBoxSign.Size = new System.Drawing.Size(105, 20);
+            this.textBoxSign.Size = new System.Drawing.Size(133, 20);
             this.textBoxSign.TabIndex = 0;
             this.textBoxSign.UseSystemPasswordChar = true;
             // 
@@ -116,17 +155,16 @@
             this.groupBoxUrl.Controls.Add(this.textBoxURL);
             this.groupBoxUrl.Location = new System.Drawing.Point(134, 19);
             this.groupBoxUrl.Name = "groupBoxUrl";
-            this.groupBoxUrl.Size = new System.Drawing.Size(262, 101);
+            this.groupBoxUrl.Size = new System.Drawing.Size(440, 44);
             this.groupBoxUrl.TabIndex = 4;
             this.groupBoxUrl.TabStop = false;
             this.groupBoxUrl.Text = "URL";
             // 
             // textBoxURL
             // 
-            this.textBoxURL.Location = new System.Drawing.Point(6, 19);
-            this.textBoxURL.Multiline = true;
+            this.textBoxURL.Location = new System.Drawing.Point(6, 18);
             this.textBoxURL.Name = "textBoxURL";
-            this.textBoxURL.Size = new System.Drawing.Size(250, 72);
+            this.textBoxURL.Size = new System.Drawing.Size(428, 20);
             this.textBoxURL.TabIndex = 3;
             // 
             // groupBoxMethod
@@ -166,22 +204,20 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 199);
+            this.ClientSize = new System.Drawing.Size(604, 212);
             this.Controls.Add(this.groupBoxRemoteSettings);
             this.Controls.Add(this.checkBoxEnablePing);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.HelpButton = true;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormPing";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Remote ping settings";
-            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.FormPing_HelpButtonClicked);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPing_FormClosing);
             this.groupBoxRemoteSettings.ResumeLayout(false);
-            this.groupBoxSign.ResumeLayout(false);
-            this.groupBoxSign.PerformLayout();
+            this.groupBoxPredefinedServers.ResumeLayout(false);
+            this.groupBoxAuthentication.ResumeLayout(false);
+            this.groupBoxAuthentication.PerformLayout();
             this.groupBoxUrl.ResumeLayout(false);
             this.groupBoxUrl.PerformLayout();
             this.groupBoxMethod.ResumeLayout(false);
@@ -200,9 +236,12 @@
         public System.Windows.Forms.RadioButton radioButtonMethodPost;
         private System.Windows.Forms.GroupBox groupBoxUrl;
         public System.Windows.Forms.TextBox textBoxURL;
-        private System.Windows.Forms.GroupBox groupBoxSign;
+        private System.Windows.Forms.GroupBox groupBoxAuthentication;
         public System.Windows.Forms.TextBox textBoxSign;
         private System.Windows.Forms.Button buttonTestPing;
         public System.Windows.Forms.Button buttonPlenyxWay;
+        private System.Windows.Forms.GroupBox groupBoxPredefinedServers;
+        private System.Windows.Forms.RadioButton radioButtonUseNormalField;
+        private System.Windows.Forms.RadioButton radioButtonUseAuthField;
     }
 }

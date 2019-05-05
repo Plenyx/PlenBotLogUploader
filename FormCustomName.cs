@@ -6,8 +6,10 @@ namespace PlenBotLogUploader
 {
     public partial class FormCustomName : Form
     {
+        #region definitions
         // fields
         private FormMain mainLink;
+        #endregion
 
         public FormCustomName(FormMain mainLink)
         {

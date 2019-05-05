@@ -5,9 +5,11 @@ namespace PlenBotLogUploader
 {
     public partial class FormEditBossData : Form
     {
+        #region definitions
         // fields
         private FormTwitchLogMessages editLink;
         private BossData data;
+        #endregion
 
         public FormEditBossData(FormTwitchLogMessages editLink, BossData data)
         {
@@ -18,8 +20,9 @@ namespace PlenBotLogUploader
             Text = $"{data.Name} ({data.BossId})";
             textBoxSuccessMsg.Text = data.SuccessMsg;
             textBoxFailMsg.Text = data.FailMsg;
+            textBoxIcon.Text = data.Icon;
         }
 
-        private void FormEditBossData_FormClosing(object sender, FormClosingEventArgs e) => editLink.AllBosses[data.BossId] = new BossData(data.BossId, data.Name, textBoxSuccessMsg.Text, textBoxFailMsg.Text);
+        private void FormEditBossData_FormClosing(object sender, FormClosingEventArgs e) => editLink.AllBosses[data.BossId] = new BossData(data.BossId, data.Name, textBoxSuccessMsg.Text, textBoxFailMsg.Text, textBoxIcon.Text);
     }
 }

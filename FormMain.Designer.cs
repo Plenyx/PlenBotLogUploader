@@ -29,6 +29,7 @@
             this.components = new System.ComponentModel.Container();
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
+            this.buttonLogMessages = new System.Windows.Forms.Button();
             this.checkBoxTwitchOnlySuccess = new System.Windows.Forms.CheckBox();
             this.buttonDisConnectTwitch = new System.Windows.Forms.Button();
             this.buttonCustomName = new System.Windows.Forms.Button();
@@ -57,10 +58,10 @@
             this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.buttonDiscordWebhooks = new System.Windows.Forms.Button();
             this.buttonArcVersionChecking = new System.Windows.Forms.Button();
             this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.buttonLogMessages = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -74,7 +75,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 480);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 508);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
@@ -92,6 +93,16 @@
             this.groupBoxTwitchSettings.TabIndex = 4;
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
+            // 
+            // buttonLogMessages
+            // 
+            this.buttonLogMessages.Location = new System.Drawing.Point(6, 120);
+            this.buttonLogMessages.Name = "buttonLogMessages";
+            this.buttonLogMessages.Size = new System.Drawing.Size(188, 23);
+            this.buttonLogMessages.TabIndex = 12;
+            this.buttonLogMessages.Text = "Edit log messages";
+            this.buttonLogMessages.UseVisualStyleBackColor = true;
+            this.buttonLogMessages.Click += new System.EventHandler(this.buttonLogMessages_Click);
             // 
             // checkBoxTwitchOnlySuccess
             // 
@@ -343,16 +354,27 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonDiscordWebhooks);
             this.groupBoxOtherSettings.Controls.Add(this.buttonArcVersionChecking);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 362);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 130);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 158);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
+            // 
+            // buttonDiscordWebhooks
+            // 
+            this.buttonDiscordWebhooks.Location = new System.Drawing.Point(6, 42);
+            this.buttonDiscordWebhooks.Name = "buttonDiscordWebhooks";
+            this.buttonDiscordWebhooks.Size = new System.Drawing.Size(188, 23);
+            this.buttonDiscordWebhooks.TabIndex = 4;
+            this.buttonDiscordWebhooks.Text = "Discord webhooks settings";
+            this.buttonDiscordWebhooks.UseVisualStyleBackColor = true;
+            this.buttonDiscordWebhooks.Click += new System.EventHandler(this.buttonDiscordWebhooks_Click);
             // 
             // buttonArcVersionChecking
             // 
@@ -376,7 +398,7 @@
             // 
             // buttonPingSettings
             // 
-            this.buttonPingSettings.Location = new System.Drawing.Point(6, 42);
+            this.buttonPingSettings.Location = new System.Drawing.Point(6, 129);
             this.buttonPingSettings.Name = "buttonPingSettings";
             this.buttonPingSettings.Size = new System.Drawing.Size(188, 23);
             this.buttonPingSettings.TabIndex = 0;
@@ -384,22 +406,12 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
-            // buttonLogMessages
-            // 
-            this.buttonLogMessages.Location = new System.Drawing.Point(6, 120);
-            this.buttonLogMessages.Name = "buttonLogMessages";
-            this.buttonLogMessages.Size = new System.Drawing.Size(188, 23);
-            this.buttonLogMessages.TabIndex = 12;
-            this.buttonLogMessages.Text = "Edit log messages";
-            this.buttonLogMessages.UseVisualStyleBackColor = true;
-            this.buttonLogMessages.Click += new System.EventHandler(this.buttonLogMessages_Click);
-            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 499);
+            this.ClientSize = new System.Drawing.Size(633, 526);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
             this.Controls.Add(this.groupBoxTwitchSettings);
@@ -461,6 +473,7 @@
         private System.Windows.Forms.Button buttonArcVersionChecking;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenArcVersionsSettings;
         private System.Windows.Forms.Button buttonLogMessages;
+        private System.Windows.Forms.Button buttonDiscordWebhooks;
     }
 }
 

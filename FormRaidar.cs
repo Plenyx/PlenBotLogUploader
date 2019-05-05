@@ -11,8 +11,10 @@ namespace PlenBotLogUploader
 {
     public partial class FormRaidar : Form
     {
+        #region definitions
         // fields
         private FormMain mainLink;
+        #endregion
 
         public FormRaidar(FormMain mainLink)
         {

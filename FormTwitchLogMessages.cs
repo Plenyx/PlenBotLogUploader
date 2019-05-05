@@ -8,11 +8,13 @@ namespace PlenBotLogUploader
 {
     public partial class FormTwitchLogMessages : Form
     {
+        #region definitions
         // properties
         public Dictionary<int, BossData> AllBosses { get; set; }
 
         // fields
         private FormMain mainLink;
+        #endregion
 
         public FormTwitchLogMessages(FormMain mainLink)
         {
@@ -31,18 +33,18 @@ namespace PlenBotLogUploader
                         {
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int bossId);
-                            AllBosses.Add(bossId, new BossData(bossId, values[1], values[2], values[3]));
+                            AllBosses.Add(bossId, new BossData(bossId, values[1], values[2], values[3], values[4]));
                         }
                     }
                 }
                 catch
                 {
-                    AllBosses = Bosses.GetDefaultBossesAsDictionary();
+                    AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
                 }
             }
             else
             {
-                AllBosses = Bosses.GetDefaultBossesAsDictionary();
+                AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
             }
             foreach (int key in AllBosses.Keys)
             {
@@ -66,7 +68,7 @@ namespace PlenBotLogUploader
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in AllBosses.Keys)
                 {
-                    await writer.WriteLineAsync($"{AllBosses[key].BossId}<;>{AllBosses[key].Name}<;>{AllBosses[key].SuccessMsg}<;>{AllBosses[key].FailMsg}");
+                    await writer.WriteLineAsync($"{AllBosses[key].BossId}<;>{AllBosses[key].Name}<;>{AllBosses[key].SuccessMsg}<;>{AllBosses[key].FailMsg}<;>{AllBosses[key].Icon}");
                 }
             }
         }

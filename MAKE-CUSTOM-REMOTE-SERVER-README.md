@@ -8,10 +8,10 @@
 For "ping test" functionality to work you need to implement JSON response structure found in PlenyxAPI/PlenyxAPIPingTest.cs.
 
 The JSON response structure is as follows:
-* status***!***
+* status ***!***
   * code
   * msg
-* error***!***
+* error ***!***
   * code
   * msg
 
@@ -25,13 +25,13 @@ To ping logs themselves you need to implement response that would react to eithe
 You need to implement JSON respond structure found in PlenyxAPI/PlenyxAPIPingResponse.cs.
 
 The JSON response structure is as follows:
-* status***!***
+* status ***!***
   * code
   * msg
-* error***!***
+* error ***!***
   * code
   * msg
-* log***?***
+* log ***?***
   * user_id
   * log_id
 
