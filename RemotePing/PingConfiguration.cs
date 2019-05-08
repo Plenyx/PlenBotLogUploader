@@ -12,7 +12,7 @@ namespace PlenBotLogUploader.RemotePing
         public bool Active { get; set; } = false;
         public string Name { get; set; } = "";
         public string URL { get; set; } = "";
-        public PingMethod Method { get; set; } = PingMethod.Get;
+        public PingMethod Method { get; set; } = PingMethod.Post;
         public PingAuthentication Authentication { get; set; }
 
         public async Task<TestPingResult> TestPingAsync(FormMain mainLink)
@@ -45,7 +45,7 @@ namespace PlenBotLogUploader.RemotePing
 
         public async Task PingServerAsync(FormMain mainLink, DPSReportJSONMinimal reportJSON)
         {
-            if (Method != PingMethod.Get || Method != PingMethod.Delete)
+            if (Method.Equals(PingMethod.Post) || Method.Equals(PingMethod.Put))
             {
                 Dictionary<string, string> fields = new Dictionary<string, string>
                 {
@@ -91,7 +91,7 @@ namespace PlenBotLogUploader.RemotePing
                     }
                     catch
                     {
-                        mainLink.AddToText(">:> Unable to ping the server, check the settings or the server is not responding.");
+                        mainLink.AddToText($">:> Unable to ping the server \"{Name}\", check the settings or the server is not responding.");
                     }
                     finally
                     {
@@ -106,7 +106,7 @@ namespace PlenBotLogUploader.RemotePing
                     }
                 }
             }
-            else
+            else if (Method.Equals(PingMethod.Get) || Method.Equals(PingMethod.Delete))
             {
                 string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
                 string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.Evtc.Type}{reportJSON.Evtc.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
@@ -150,7 +150,7 @@ namespace PlenBotLogUploader.RemotePing
                 }
                 catch
                 {
-                    mainLink.AddToText(">:> Unable to ping the server, check the settings or the server is not responding.");
+                    mainLink.AddToText($">:> Unable to ping the server \"{Name}\", check the settings or the server is not responding.");
                 }
                 finally
                 {

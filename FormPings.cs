@@ -43,7 +43,7 @@ namespace PlenBotLogUploader
                             int.TryParse(values[3], out int method);
                             int.TryParse(values[4], out int authActive);
                             int.TryParse(values[5], out int useAsAuth);
-                            if (method > 4 || method < 0)
+                            if (method > 3 || method < 0)
                             {
                                 method = 0;
                             }

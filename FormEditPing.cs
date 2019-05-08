@@ -65,14 +65,7 @@ namespace PlenBotLogUploader
             {
                 if (addNew)
                 {
-                    var auth = new PingAuthentication()
-                    {
-                        Active = (textBoxSign.Text == "") ? true : false,
-                        UseAsAuth = radioButtonUseAuthField.Checked,
-                        AuthName = "Sign",
-                        AuthToken = textBoxSign.Text
-                    };
-                    PingMethod chosenMethod;
+                    PingMethod chosenMethod = PingMethod.Post;
                     if (radioButtonMethodPut.Checked)
                     {
                         chosenMethod = PingMethod.Put;
@@ -85,10 +78,13 @@ namespace PlenBotLogUploader
                     {
                         chosenMethod = PingMethod.Delete;
                     }
-                    else
+                    var auth = new PingAuthentication()
                     {
-                        chosenMethod = PingMethod.Post;
-                    }
+                        Active = (textBoxSign.Text == "") ? false : true,
+                        UseAsAuth = radioButtonUseAuthField.Checked,
+                        AuthName = "Sign",
+                        AuthToken = textBoxSign.Text
+                    };
                     pingLink.AllPings[reservedId] = new PingConfiguration() { Active = false, Name = textBoxName.Text, URL = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
                     pingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
                 }

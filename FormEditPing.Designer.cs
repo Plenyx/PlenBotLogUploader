@@ -162,7 +162,6 @@
             this.radioButtonMethodDelete.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.radioButtonMethodDelete.Size = new System.Drawing.Size(67, 17);
             this.radioButtonMethodDelete.TabIndex = 3;
-            this.radioButtonMethodDelete.TabStop = true;
             this.radioButtonMethodDelete.Text = "DELETE";
             this.radioButtonMethodDelete.UseVisualStyleBackColor = true;
             // 
@@ -173,29 +172,28 @@
             this.radioButtonMethodPut.Name = "radioButtonMethodPut";
             this.radioButtonMethodPut.Size = new System.Drawing.Size(47, 17);
             this.radioButtonMethodPut.TabIndex = 2;
-            this.radioButtonMethodPut.TabStop = true;
             this.radioButtonMethodPut.Text = "PUT";
             this.radioButtonMethodPut.UseVisualStyleBackColor = true;
             // 
             // radioButtonMethodGet
             // 
             this.radioButtonMethodGet.AutoSize = true;
-            this.radioButtonMethodGet.Checked = true;
             this.radioButtonMethodGet.Location = new System.Drawing.Point(6, 19);
             this.radioButtonMethodGet.Name = "radioButtonMethodGet";
             this.radioButtonMethodGet.Size = new System.Drawing.Size(47, 17);
             this.radioButtonMethodGet.TabIndex = 0;
-            this.radioButtonMethodGet.TabStop = true;
             this.radioButtonMethodGet.Text = "GET";
             this.radioButtonMethodGet.UseVisualStyleBackColor = true;
             // 
             // radioButtonMethodPost
             // 
             this.radioButtonMethodPost.AutoSize = true;
+            this.radioButtonMethodPost.Checked = true;
             this.radioButtonMethodPost.Location = new System.Drawing.Point(59, 19);
             this.radioButtonMethodPost.Name = "radioButtonMethodPost";
             this.radioButtonMethodPost.Size = new System.Drawing.Size(54, 17);
             this.radioButtonMethodPost.TabIndex = 1;
+            this.radioButtonMethodPost.TabStop = true;
             this.radioButtonMethodPost.Text = "POST";
             this.radioButtonMethodPost.UseVisualStyleBackColor = true;
             // 

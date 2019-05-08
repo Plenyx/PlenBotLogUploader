@@ -13,7 +13,6 @@ using Microsoft.Win32;
 using TwitchIRCClient;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.GW2Raidar;
-using PlenBotLogUploader.PlenyxAPI;
 
 namespace PlenBotLogUploader
 {
@@ -31,7 +30,7 @@ namespace PlenBotLogUploader
         public string RaidarOAuth { get; set; } = "";
         public HttpClient MainHttpClient { get; } = new HttpClient();
         public string LocalDir { get; } = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
-        public int Build { get; } = 29;
+        public int Build { get; } = 30;
 
         // fields
         private const int minFileSize = 12288;

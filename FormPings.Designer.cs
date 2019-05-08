@@ -32,10 +32,10 @@
             this.listViewDiscordWebhooks = new System.Windows.Forms.ListView();
             this.contextMenuStripInteract = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemTest = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTest = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +47,7 @@
             this.listViewDiscordWebhooks.MultiSelect = false;
             this.listViewDiscordWebhooks.Name = "listViewDiscordWebhooks";
             this.listViewDiscordWebhooks.Size = new System.Drawing.Size(561, 252);
+            this.listViewDiscordWebhooks.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewDiscordWebhooks.TabIndex = 0;
             this.listViewDiscordWebhooks.UseCompatibleStateImageBehavior = false;
             this.listViewDiscordWebhooks.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listViewDiscordWebhooks_ItemChecked);
@@ -60,7 +61,7 @@
             this.toolStripSeparator1,
             this.toolStripMenuItemAdd});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(229, 120);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(229, 98);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEdit
@@ -69,6 +70,13 @@
             this.toolStripMenuItemEdit.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemEdit.Text = "Edit selected configuration";
             this.toolStripMenuItemEdit.Click += new System.EventHandler(this.toolStripMenuItemEdit_Click);
+            // 
+            // toolStripMenuItemTest
+            // 
+            this.toolStripMenuItemTest.Name = "toolStripMenuItemTest";
+            this.toolStripMenuItemTest.Size = new System.Drawing.Size(228, 22);
+            this.toolStripMenuItemTest.Text = "Test selected configuration";
+            this.toolStripMenuItemTest.Click += new System.EventHandler(this.toolStripMenuItemTest_Click);
             // 
             // toolStripMenuItemDelete
             // 
@@ -88,13 +96,6 @@
             this.toolStripMenuItemAdd.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemAdd.Text = "Add new ping configuration";
             this.toolStripMenuItemAdd.Click += new System.EventHandler(this.toolStripMenuItemAdd_Click);
-            // 
-            // toolStripMenuItemTest
-            // 
-            this.toolStripMenuItemTest.Name = "toolStripMenuItemTest";
-            this.toolStripMenuItemTest.Size = new System.Drawing.Size(228, 22);
-            this.toolStripMenuItemTest.Text = "Test selected configuration";
-            this.toolStripMenuItemTest.Click += new System.EventHandler(this.toolStripMenuItemTest_Click);
             // 
             // FormPings
             // 
