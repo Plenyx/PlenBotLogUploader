@@ -45,7 +45,7 @@ To remove all the saved remote server ping configurations, remove the "remote_pi
   * pinging links to Twitch chat with customisable messages
   * custom name for the Twitch chat bot, otherwise "gw2loguploader" is being used
 * update reminder
-* arcdps auto-updater & reminder for both arcdps and it's modules (extras & build templates)
+* arcdps auto-updater & reminder for both arcdps and its modules (extras & build templates)
 
 ## Future updates
 I plan to finish the following features:

@@ -138,36 +138,6 @@ namespace PlenBotLogUploader
                 {
                     checkBoxTrayMinimiseToIcon.Checked = true;
                 }
-                if (GetRegistryValue("remotePingEnabled", 0) == 1)
-                {
-                    registryAccess.DeleteValue("remotePingEnabled");
-                    registryAccess.DeleteValue("remotePingMethod");
-                    registryAccess.DeleteValue("remotePingURL");
-                    registryAccess.DeleteValue("remotePingSign");
-                    registryAccess.Flush();
-
-                    /*
-                    pingLink.checkBoxEnablePing.Checked = true;
-                    int method = GetRegistryValue("remotePingMethod", 0);
-                    if (method == 0)
-                    {
-                        pingLink.radioButtonMethodGet.Checked = true;
-                    }
-                    else if (method == 1)
-                    {
-                        pingLink.radioButtonMethodPost.Checked = true;
-                    }
-                    pingLink.textBoxURL.Text = GetRegistryValue("remotePingURL", "");
-                    pingLink.textBoxSign.Text = GetRegistryValue("remotePingSign", "");
-                    if (pingLink.textBoxURL.Text.Equals("https://plenbot.net/uploader/ping/") && pingLink.radioButtonMethodPost.Checked)
-                    {
-                        pingLink.buttonPlenyxWay.Text = "Stop using Plenyx's server";
-                        pingLink.textBoxURL.Enabled = false;
-                        pingLink.radioButtonMethodGet.Enabled = false;
-                        pingLink.radioButtonMethodPost.Enabled = false;
-                    }
-                    */
-                }
                 if (GetRegistryValue("twitchCustomNameEnabled", 0) == 1)
                 {
                     customNameLink.checkBoxCustomNameEnable.Checked = true;
