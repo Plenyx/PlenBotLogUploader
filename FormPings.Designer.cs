@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader
 {
-    partial class FormDiscordPings
+    partial class FormPings
     {
         /// <summary>
         /// Required designer variable.
@@ -60,43 +60,43 @@
             this.toolStripSeparator1,
             this.toolStripMenuItemAdd});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(206, 120);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(229, 120);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEdit
             // 
             this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
-            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(205, 22);
-            this.toolStripMenuItemEdit.Text = "Edit selected webhook";
+            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(228, 22);
+            this.toolStripMenuItemEdit.Text = "Edit selected configuration";
             this.toolStripMenuItemEdit.Click += new System.EventHandler(this.toolStripMenuItemEdit_Click);
             // 
             // toolStripMenuItemDelete
             // 
             this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
-            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(205, 22);
-            this.toolStripMenuItemDelete.Text = "Delete selected webhook";
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(228, 22);
+            this.toolStripMenuItemDelete.Text = "Delete selected configuration";
             this.toolStripMenuItemDelete.Click += new System.EventHandler(this.toolStripMenuItemDelete_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(202, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(225, 6);
             // 
             // toolStripMenuItemAdd
             // 
             this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
-            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(205, 22);
-            this.toolStripMenuItemAdd.Text = "Add new webhook";
+            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(228, 22);
+            this.toolStripMenuItemAdd.Text = "Add new ping configuration";
             this.toolStripMenuItemAdd.Click += new System.EventHandler(this.toolStripMenuItemAdd_Click);
             // 
             // toolStripMenuItemTest
             // 
             this.toolStripMenuItemTest.Name = "toolStripMenuItemTest";
-            this.toolStripMenuItemTest.Size = new System.Drawing.Size(205, 22);
-            this.toolStripMenuItemTest.Text = "Test selected webhook";
+            this.toolStripMenuItemTest.Size = new System.Drawing.Size(228, 22);
+            this.toolStripMenuItemTest.Text = "Test selected configuration";
             this.toolStripMenuItemTest.Click += new System.EventHandler(this.toolStripMenuItemTest_Click);
             // 
-            // FormDiscordPings
+            // FormPings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -105,10 +105,10 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormDiscordPings";
+            this.Name = "FormPings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Discord webhooks";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDiscordPings_FormClosing);
+            this.Text = "Remote server pings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPings_FormClosing);
             this.contextMenuStripInteract.ResumeLayout(false);
             this.ResumeLayout(false);
 

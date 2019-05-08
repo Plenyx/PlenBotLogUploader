@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using PlenBotLogUploader.DiscordAPI;
 
 namespace PlenBotLogUploader
@@ -46,14 +38,21 @@ namespace PlenBotLogUploader
         {
             if (textBoxName.Text != "")
             {
-                discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData(data?.Active ?? false, textBoxName.Text, textBoxUrl.Text, checkBoxOnlySuccess.Checked);
                 if (addNew)
                 {
+                    discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData() { Active = false, Name = textBoxName.Text, URL = textBoxUrl.Text, OnlySuccess = checkBoxOnlySuccess.Checked };
                     discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
                 }
                 else
                 {
-                    discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
+                    if (discordPingLink.AllWebhooks.ContainsKey(reservedId))
+                    {
+                        discordPingLink.AllWebhooks[reservedId].Active = data.Active;
+                        discordPingLink.AllWebhooks[reservedId].Name = textBoxName.Text;
+                        discordPingLink.AllWebhooks[reservedId].URL = textBoxUrl.Text;
+                        discordPingLink.AllWebhooks[reservedId].OnlySuccess = checkBoxOnlySuccess.Checked;
+                        discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
+                    }
                 }
             }
         }

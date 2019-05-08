@@ -42,13 +42,6 @@ namespace PlenBotLogUploader
             {
                 registryAccess.SetValue("trayMinimise", 1);
             }
-            if (registryAccess.GetValue("remotePingEnabled") == null)
-            {
-                registryAccess.SetValue("remotePingEnabled", 0);
-                registryAccess.SetValue("remotePingMethod", 0);
-                registryAccess.SetValue("remotePingURL", "");
-                registryAccess.SetValue("remotePingSign", "");
-            }
             if (registryAccess.GetValue("twitchCustomNameEnabled") == null)
             {
                 registryAccess.SetValue("twitchCustomNameEnabled", 0);

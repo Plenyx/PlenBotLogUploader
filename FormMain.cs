@@ -31,20 +31,20 @@ namespace PlenBotLogUploader
         public string RaidarOAuth { get; set; } = "";
         public HttpClient MainHttpClient { get; } = new HttpClient();
         public string LocalDir { get; } = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
-        public int Build { get; } = 28;
+        public int Build { get; } = 29;
 
         // fields
         private const int minFileSize = 12288;
         private bool firstTimeMinimise = true;
-        private FormPing pingLink;
         private FormTwitchNameSetup twitchNameLink;
         private FormDPSReportServer dpsReportServerLink;
         private FormCustomName customNameLink;
         private FormRaidar raidarLink;
         private FormArcVersions arcVersionsLink;
-        private FormTwitchLogMessages logMessagesLink;
+        private FormBossData bossDataLink;
         private FormDiscordPings discordPingsLink;
         private TwitchIrcClient chatConnect;
+        private FormPings pingsLink;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private RegistryKey registryAccess = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
         private int reconnectedFailCounter = 0;
@@ -61,13 +61,13 @@ namespace PlenBotLogUploader
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
-            pingLink = new FormPing(this);
+            pingsLink = new FormPings(this);
             raidarLink = new FormRaidar(this);
             arcVersionsLink = new FormArcVersions(this);
-            logMessagesLink = new FormTwitchLogMessages(this);
+            bossDataLink = new FormBossData(this);
             discordPingsLink = new FormDiscordPings(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            Task.Run(() => NewBuildCheck());
+            Task.Run(() => NewBuildCheckAsync());
             try
             {
                 RegistryStartup.DoStartup(registryAccess);
@@ -140,6 +140,13 @@ namespace PlenBotLogUploader
                 }
                 if (GetRegistryValue("remotePingEnabled", 0) == 1)
                 {
+                    registryAccess.DeleteValue("remotePingEnabled");
+                    registryAccess.DeleteValue("remotePingMethod");
+                    registryAccess.DeleteValue("remotePingURL");
+                    registryAccess.DeleteValue("remotePingSign");
+                    registryAccess.Flush();
+
+                    /*
                     pingLink.checkBoxEnablePing.Checked = true;
                     int method = GetRegistryValue("remotePingMethod", 0);
                     if (method == 0)
@@ -159,6 +166,7 @@ namespace PlenBotLogUploader
                         pingLink.radioButtonMethodGet.Enabled = false;
                         pingLink.radioButtonMethodPost.Enabled = false;
                     }
+                    */
                 }
                 if (GetRegistryValue("twitchCustomNameEnabled", 0) == 1)
                 {
@@ -181,7 +189,7 @@ namespace PlenBotLogUploader
                 {
                     if (File.Exists($@"{arcVersionsLink.GW2Location}\Gw2-64.exe") || File.Exists($@"{arcVersionsLink.GW2Location}\Gw2.exe"))
                     {
-                        Task.Run(() => { arcVersionsLink.StartTimer(true); });
+                        Task.Run(() => { arcVersionsLink.StartTimerAsync(true); });
                         arcVersionsLink.buttonEnabler.Enabled = true;
                     }
                     else
@@ -207,7 +215,7 @@ namespace PlenBotLogUploader
                     {
                         chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
                     }
-                    chatConnect.ReceiveMessage += ReadMessages;
+                    chatConnect.ReceiveMessage += ReadMessagesAsync;
                     chatConnect.StateChange += OnIrcStateChanged;
                     chatConnect.BeginConnection();
                 }
@@ -216,7 +224,6 @@ namespace PlenBotLogUploader
                     buttonDisConnectTwitch.Text = "Connect to Twitch";
                     buttonChangeTwitchChannel.Enabled = false;
                     buttonCustomName.Enabled = false;
-                    buttonLogMessages.Enabled = false;
                     toolStripMenuItemOpenCustomName.Enabled = false;
                     toolStripMenuItemPostToTwitch.Enabled = false;
                     buttonReconnectBot.Enabled = false;
@@ -292,6 +299,7 @@ namespace PlenBotLogUploader
             registryAccess.Dispose();
             chatConnect?.Dispose();
             watcher?.Dispose();
+            toolStripMenuItemDiscordWebhooks.DropDown?.Dispose();
             MainHttpClient.Dispose();
         }
 
@@ -344,7 +352,7 @@ namespace PlenBotLogUploader
                                 {
                                     postData.Add("rotation_weap1", "1");
                                 }
-                                HttpUploadLog(zipfilelocation, postData);
+                                HttpUploadLogAsync(zipfilelocation, postData);
                             }
                             catch
                             {
@@ -382,11 +390,11 @@ namespace PlenBotLogUploader
             UpdateLogCount();
         }
 
-        protected async void NewBuildCheck()
+        protected async void NewBuildCheckAsync()
         {
             try
             {
-                string response = await DownloadFileAsyncToString("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
+                string response = await DownloadFileToStringAsync("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
                 if (int.TryParse(response, out int currentversion))
                 {
                     if (currentversion > Build)
@@ -466,7 +474,7 @@ namespace PlenBotLogUploader
                                 }
                                 try
                                 {
-                                    HttpUploadLog(zipfilelocation, postData);
+                                    HttpUploadLogAsync(zipfilelocation, postData);
                                 }
                                 catch
                                 {
@@ -519,7 +527,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region downloading methods
-        public async Task<bool> DownloadFile(string url, string destination)
+        public async Task<bool> DownloadFileAsync(string url, string destination)
         {
             try
             {
@@ -541,7 +549,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task<string> DownloadFileAsyncToString(string url)
+        public async Task<string> DownloadFileToStringAsync(string url)
         {
             try
             {
@@ -559,27 +567,20 @@ namespace PlenBotLogUploader
         #endregion
 
         #region log upload and processing
-        public async Task SendLogToTwitchChat(DPSReportJSONMinimal reportJSON, bool bypassMessage = false)
+        public async Task SendLogToTwitchChatAsync(DPSReportJSONMinimal reportJSON, bool bypassMessage = false)
         {
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage)
             {
                 AddToText($">:> {reportJSON.Permalink}");
                 LastLog = reportJSON;
-                if (logMessagesLink.AllBosses.ContainsKey(reportJSON.Encounter.BossId))
+                if (bossDataLink.AllBosses.ContainsKey(reportJSON.Encounter.BossId))
                 {
-                    if (!Bosses.IsEvent(reportJSON.Encounter.BossId))
-                    {
-                        string format = (reportJSON.Encounter.Success ?? false) ? logMessagesLink.AllBosses[reportJSON.Encounter.BossId].SuccessMsg : logMessagesLink.AllBosses[reportJSON.Encounter.BossId].FailMsg;
-                        await chatConnect.SendChatMessage(ChannelName, $"{format}: {reportJSON.Permalink}");
-                    }
-                    else
-                    {
-                        await chatConnect.SendChatMessage(ChannelName, $"Link to the {logMessagesLink.AllBosses[reportJSON.Encounter.BossId].Name} log: { reportJSON.Permalink}");
-                    }
+                    string format = (reportJSON.Encounter.Success ?? false) ? bossDataLink.AllBosses[reportJSON.Encounter.BossId].SuccessMsg : bossDataLink.AllBosses[reportJSON.Encounter.BossId].FailMsg;
+                    await chatConnect.SendChatMessageAsync(ChannelName, $"{format}: {reportJSON.Permalink}");
                 }
                 else
                 {
-                    await chatConnect.SendChatMessage(ChannelName, $"Link to the log: {reportJSON.Permalink}");
+                    await chatConnect.SendChatMessageAsync(ChannelName, $"Link to the log: {reportJSON.Permalink}");
                 }
             }
             else
@@ -588,7 +589,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task HttpUploadLogToRaidar(string file, StreamContent contentStream)
+        public async Task HttpUploadLogToRaidarAsync(string file, StreamContent contentStream)
         {
             using (var content = new MultipartFormDataContent())
             {
@@ -610,23 +611,23 @@ namespace PlenBotLogUploader
                         }
                         else if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
                         {
-                            AddToText($"Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid name/password");
+                            AddToText($">:> Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid name/password");
                         }
                         else if ((responseMessage.StatusCode == HttpStatusCode.BadRequest) || responseMessage.StatusCode == HttpStatusCode.InternalServerError)
                         {
-                            AddToText($"Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid file/file error");
+                            AddToText($">:> Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid file/file error");
                         }
                     }
                     MainHttpClient.DefaultRequestHeaders.Authorization = null;
                 }
                 catch
                 {
-                    AddToText($"Unable to upload file {Path.GetFileName(file)}, raidar not responding");
+                    AddToText($">:> Unable to upload file {Path.GetFileName(file)}, raidar not responding");
                 }
             }
         }
 
-        public async void HttpUploadLog(string file, Dictionary<string, string> postData, bool bypassMessage = false)
+        public async void HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
             using (var content = new MultipartFormDataContent())
             {
@@ -653,34 +654,39 @@ namespace PlenBotLogUploader
                                         DPSReportJSONMinimal reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSONMinimal>(response);
                                         bossId = reportJSON.Encounter.BossId;
                                         string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                                        // log file
                                         File.AppendAllText($"{LocalDir}logs.csv", $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
+                                        // Twitch chat
                                         if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                         {
-                                            await SendLogToTwitchChat(reportJSON, bypassMessage);
+                                            await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
                                         }
                                         else if (checkBoxTwitchOnlySuccess.Checked)
                                         {
-                                            await SendLogToTwitchChat(reportJSON, true);
+                                            await SendLogToTwitchChatAsync(reportJSON, true);
                                         }
                                         else
                                         {
-                                            await SendLogToTwitchChat(reportJSON, bypassMessage);
+                                            await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
                                         }
-                                        await discordPingsLink.ExecuteAllActiveWebhooks(reportJSON, logMessagesLink.AllBosses);
-                                        await PingServer(reportJSON);
+                                        // Discord webhooks
+                                        await discordPingsLink.ExecuteAllActiveWebhooksAsync(reportJSON, bossDataLink.AllBosses);
+                                        // remote server ping
+                                        await pingsLink.ExecuteAllPingsAsync(reportJSON);
                                     }
                                     catch
                                     {
-                                        AddToText($"Unable to upload file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
+                                        AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
                                     }
                                 }
                             }
                             catch
                             {
-                                AddToText($"Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
                             }
                         }
                     }
+                    // upload to raidar
                     if (raidarLink.checkBoxEnableRaidar.Checked && !Bosses.IsWvW(bossId))
                     {
                         using (FileStream inputStream = File.OpenRead(file))
@@ -689,11 +695,11 @@ namespace PlenBotLogUploader
                             {
                                 try
                                 {
-                                    await HttpUploadLogToRaidar(file, contentStream);
+                                    await HttpUploadLogToRaidarAsync(file, contentStream);
                                 }
                                 catch
                                 {
-                                    AddToText($"Unable to upload file {Path.GetFileName(file)} to raidar, raidar not responding");
+                                    AddToText($">:> Unable to upload file {Path.GetFileName(file)} to raidar, raidar not responding");
                                 }
                             }
                         }
@@ -702,78 +708,7 @@ namespace PlenBotLogUploader
                 catch
                 {
                     Thread.Sleep(650);
-                    HttpUploadLog(file, postData, bypassMessage);
-                }
-            }
-        }
-
-        public async Task PingServer(DPSReportJSONMinimal reportJSON)
-        {
-            if (pingLink.checkBoxEnablePing.Checked)
-            {
-                if (pingLink.radioButtonMethodPost.Checked)
-                {
-                    Dictionary<string, string> fields = new Dictionary<string, string>
-                    {
-                        { "permalink", reportJSON.Permalink },
-                        { "bossId", reportJSON.Encounter.BossId.ToString() },
-                        { "success", (reportJSON.Encounter.Success ?? false) ? "1" : "0" },
-                        { "arcversion", $"{reportJSON.Evtc.Type}{reportJSON.Evtc.Version}" },
-                        { "sign", pingLink.textBoxSign.Text }
-                    };
-                    using (FormUrlEncodedContent content = new FormUrlEncodedContent(fields))
-                    {
-                        try
-                        {
-                            using (var responseMessage = await MainHttpClient.PostAsync(pingLink.textBoxURL.Text.ToString(), content))
-                            {
-                                string response = await responseMessage.Content.ReadAsStringAsync();
-                                PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
-                                if (statusJSON.Status?.IsSuccess() ?? false)
-                                {
-                                    AddToText($">:> Log {reportJSON.GetUrlId()} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
-                                }
-                                else
-                                {
-                                    AddToText($">:> Log {reportJSON.GetUrlId()} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
-                                }
-                            }
-                        }
-                        catch
-                        {
-                            AddToText(">:> Unable to ping the server, check the settings or the server is not responding.");
-                        }
-                    }
-                }
-                else if (pingLink.radioButtonMethodGet.Checked)
-                {
-                    try
-                    {
-                        string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
-                        string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.Evtc.Type}{reportJSON.Evtc.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
-                        string fullLink = $"{pingLink.textBoxURL.Text}?sign={pingLink.textBoxSign.Text}&{encounterInfo}";
-                        if (pingLink.textBoxURL.Text.Contains("?"))
-                        {
-                            fullLink = $"{pingLink.textBoxURL.Text}&sign={pingLink.textBoxSign.Text}&{encounterInfo}";
-                        }
-                        using (var responseMessage = await MainHttpClient.GetAsync(fullLink))
-                        {
-                            string response = await responseMessage.Content.ReadAsStringAsync();
-                            PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
-                            if (statusJSON.Status?.IsSuccess() ?? false)
-                            {
-                                AddToText($">:> Log {reportJSON.GetUrlId()} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
-                            }
-                            else
-                            {
-                                AddToText($">:> Log {reportJSON.GetUrlId()} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        AddToText(">:> Unable to ping the server, check the settings or the server is not responding.");
-                    }
+                    HttpUploadLogAsync(file, postData, bypassMessage);
                 }
             }
         }
@@ -786,7 +721,6 @@ namespace PlenBotLogUploader
         {
             buttonDisConnectTwitch.Text = "Disconnect from Twitch";
             buttonChangeTwitchChannel.Enabled = true;
-            buttonLogMessages.Enabled = true;
             toolStripMenuItemOpenCustomName.Enabled = true;
             toolStripMenuItemPostToTwitch.Enabled = true;
             buttonCustomName.Enabled = true;
@@ -800,14 +734,14 @@ namespace PlenBotLogUploader
             {
                 chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
             }
-            chatConnect.ReceiveMessage += ReadMessages;
+            chatConnect.ReceiveMessage += ReadMessagesAsync;
             chatConnect.StateChange += OnIrcStateChanged;
             chatConnect.BeginConnection();
         }
 
         public void DisconnectTwitchBot()
         {
-            chatConnect.ReceiveMessage -= ReadMessages;
+            chatConnect.ReceiveMessage -= ReadMessagesAsync;
             chatConnect.StateChange -= OnIrcStateChanged;
             chatConnect.Dispose();
             chatConnect = null;
@@ -815,7 +749,6 @@ namespace PlenBotLogUploader
             buttonDisConnectTwitch.Text = "Connect to Twitch";
             buttonChangeTwitchChannel.Enabled = false;
             buttonCustomName.Enabled = false;
-            buttonLogMessages.Enabled = false;
             toolStripMenuItemOpenCustomName.Enabled = false;
             toolStripMenuItemPostToTwitch.Enabled = false;
             buttonReconnectBot.Enabled = false;
@@ -824,7 +757,7 @@ namespace PlenBotLogUploader
 
         public void ReconnectTwitchBot()
         {
-            chatConnect.ReceiveMessage -= ReadMessages;
+            chatConnect.ReceiveMessage -= ReadMessagesAsync;
             chatConnect.StateChange -= OnIrcStateChanged;
             chatConnect.Dispose();
             chatConnect = null;
@@ -836,7 +769,7 @@ namespace PlenBotLogUploader
             {
                 chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
             }
-            chatConnect.ReceiveMessage += ReadMessages;
+            chatConnect.ReceiveMessage += ReadMessagesAsync;
             chatConnect.StateChange += OnIrcStateChanged;
             chatConnect.BeginConnection();
         }
@@ -875,7 +808,7 @@ namespace PlenBotLogUploader
                     reconnectedFailCounter = 0;
                     if (ChannelName != "")
                     {
-                        await chatConnect.JoinRoom(ChannelName);
+                        await chatConnect.JoinRoomAsync(ChannelName);
                     }
                     break;
                 case IrcStates.ChannelJoining:
@@ -894,7 +827,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        protected async void ReadMessages(object sender, IrcMessageEventArgs e)
+        protected async void ReadMessagesAsync(object sender, IrcMessageEventArgs e)
         {
             if (e == null)
             {
@@ -907,14 +840,14 @@ namespace PlenBotLogUploader
                 if (command.Equals("!uploader"))
                 {
                     AddToText("> UPLOADER COMMAND USED");
-                    await chatConnect.SendChatMessage(ChannelName, $"PlenBot Log Uploader v1 build n.{Build} | https://github.com/Plenyx/PlenBotLogUploader/releases");
+                    await chatConnect.SendChatMessageAsync(ChannelName, $"PlenBot Log Uploader v1 build n.{Build} | https://github.com/Plenyx/PlenBotLogUploader/releases");
                 }
                 else if (command.Equals("!lastlog") || command.Equals("!log"))
                 {
                     if (LastLog != null)
                     {
                         AddToText("> LAST LOG COMMAND USED");
-                        await chatConnect.SendChatMessage(ChannelName, $"Link to the last {LastLog.Encounter.Boss} log: {LastLog.Permalink}");
+                        await chatConnect.SendChatMessageAsync(ChannelName, $"Link to the last {LastLog.Encounter.Boss} log: {LastLog.Permalink}");
                     }
                 }
             }
@@ -1044,8 +977,8 @@ namespace PlenBotLogUploader
 
         private void buttonPingSettings_Click(object sender, EventArgs e)
         {
-            pingLink.Show();
-            pingLink.BringToFront();
+            pingsLink.Show();
+            pingsLink.BringToFront();
         }
 
         private void buttonRaidarSettings_Click(object sender, EventArgs e)
@@ -1060,10 +993,10 @@ namespace PlenBotLogUploader
             arcVersionsLink.BringToFront();
         }
 
-        private void buttonLogMessages_Click(object sender, EventArgs e)
+        private void buttonBossData_Click(object sender, EventArgs e)
         {
-            logMessagesLink.Show();
-            logMessagesLink.BringToFront();
+            bossDataLink.Show();
+            bossDataLink.BringToFront();
         }
 
         private void buttonDiscordWebhooks_Click(object sender, EventArgs e)
@@ -1086,8 +1019,8 @@ namespace PlenBotLogUploader
 
         private void toolStripMenuItemOpenPingSettings_Click(object sender, EventArgs e)
         {
-            pingLink.Show();
-            pingLink.BringToFront();
+            pingsLink.Show();
+            pingsLink.BringToFront();
         }
 
         private void toolStripMenuItemOpenRaidarSettings_Click(object sender, EventArgs e)
@@ -1100,6 +1033,12 @@ namespace PlenBotLogUploader
         {
             arcVersionsLink.Show();
             arcVersionsLink.BringToFront();
+        }
+
+        private void toolStripMenuItemDiscordWebhooks_Click(object sender, EventArgs e)
+        {
+            discordPingsLink.Show();
+            discordPingsLink.BringToFront();
         }
 
         private void buttonDisConnectTwitch_Click(object sender, EventArgs e)
@@ -1159,7 +1098,7 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        HttpUploadLog(zipfilelocation, postData, true);
+                        HttpUploadLogAsync(zipfilelocation, postData, true);
                     }
                     catch
                     {

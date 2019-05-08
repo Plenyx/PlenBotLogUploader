@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using PlenBotLogUploader.DPSReport;
-using PlenBotLogUploader.DiscordAPI;
-using System.Net.Http;
-using System.Web.Script.Serialization;
 using System.IO;
+using System.Text;
+using System.Net.Http;
+using System.Windows.Forms;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
+using PlenBotLogUploader.DiscordAPI;
+using PlenBotLogUploader.DPSReport;
 
 namespace PlenBotLogUploader
 {
@@ -44,7 +40,7 @@ namespace PlenBotLogUploader
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int active);
                             int.TryParse(values[3], out int success);
-                            AddWebhook(new DiscordWebhookData(active == 1 ? true : false, values[1], values[2], success == 1 ? true : false));
+                            AddWebhook(new DiscordWebhookData() { Active = active == 1 ? true : false, Name = values[1], URL = values[2], OnlySuccess = success == 1 ? true : false });
                         }
                     }
                 }
@@ -85,36 +81,47 @@ namespace PlenBotLogUploader
             AllWebhooks.Add(webhookIdsKey, data);
         }
 
-        public async Task ExecuteAllActiveWebhooks(DPSReportJSONMinimal reportJSON, Dictionary<int, BossData> allBosses)
+        public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSONMinimal reportJSON, Dictionary<int, BossData> allBosses)
         {
+            string bossName = reportJSON.Encounter.Boss;
+            string successString = (reportJSON.Encounter.Success ?? false) ? "success" : "fail";
+            string icon = "";
+            if (allBosses.ContainsKey(reportJSON.Encounter.BossId))
+            {
+                bossName = allBosses[reportJSON.Encounter.BossId].Name;
+                icon = allBosses[reportJSON.Encounter.BossId].Icon;
+            }
+            int color = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
+            var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
+            {
+                Url = icon
+            };
+            var discordContentEmbed = new DiscordAPIJSONContentEmbed()
+            {
+                Title = bossName,
+                Url = reportJSON.Permalink,
+                Description = $"Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
+                Color = color,
+                Thumbnail = discordContentEmbedThumbnail
+            };
+            if (reportJSON.Players.Values.Count <= 10)
+            {
+                List<DiscordAPIJSONContentEmbedField> fields = new List<DiscordAPIJSONContentEmbedField>();
+                foreach (var player in reportJSON.Players.Values)
+                {
+                    fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.Character_name, Value = $"```{player.Display_name}\n\n{Players.ResolveSpecName(player.Profession, player.Elite_spec)}```", Inline = true });
+                }
+                discordContentEmbed.Fields = fields.ToArray();
+            }
+            var discordContent = new DiscordAPIJSONContent()
+            {
+                Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+            };
             try
             {
-                string bossName = reportJSON.Encounter.Boss;
-                string successString = (reportJSON.Encounter.Success ?? false) ? "success" : "fail";
-                string icon = "";
-                if (allBosses.ContainsKey(reportJSON.Encounter.BossId))
-                {
-                    bossName = allBosses[reportJSON.Encounter.BossId].Name;
-                    icon = allBosses[reportJSON.Encounter.BossId].Icon;
-                }
-                int color = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
-                var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
-                {
-                    url = icon
-                };
-                var discordContentEmbed = new DiscordAPIJSONContentEmbed()
-                {
-                    title = bossName,
-                    url = reportJSON.Permalink,
-                    description = $"Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
-                    color = color,
-                    thumbnail = discordContentEmbedThumbnail
-                };
-                var discordContent = new DiscordAPIJSONContent()
-                {
-                    embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
-                };
-                string jsonContent = new JavaScriptSerializer().Serialize(discordContent);
+                var serialiser = new JavaScriptSerializer();
+                serialiser.RegisterConverters(new[] { new DiscordAPIJSONContentConverter() });
+                string jsonContent = serialiser.Serialize(discordContent);
                 foreach (var key in AllWebhooks.Keys)
                 {
                     if (!AllWebhooks[key].Active || (AllWebhooks[key].OnlySuccess && !(reportJSON.Encounter.Success ?? false)))
@@ -123,14 +130,13 @@ namespace PlenBotLogUploader
                     }
                     using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
                     {
-                        var responseMessage = await mainLink.MainHttpClient.PostAsync(new Uri(AllWebhooks[key].URL), content);
-                        responseMessage?.Dispose();
+                        using (await mainLink.MainHttpClient.PostAsync(new Uri(AllWebhooks[key].URL), content)) { }
                     }
                 }
             }
             catch
             {
-                mainLink.AddToText("Unable to execute active webhooks.");
+                mainLink.AddToText(">:> Unable to execute active webhooks.");
             }
         }
 
@@ -166,6 +172,39 @@ namespace PlenBotLogUploader
             string name = e.Item.Name;
             int.TryParse(e.Item.Name, out int reservedId);
             AllWebhooks[reservedId].Active = e.Item.Checked;
+        }
+
+        private void contextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
+            {
+                toolStripMenuItemEdit.Enabled = true;
+                toolStripMenuItemDelete.Enabled = true;
+                toolStripMenuItemTest.Enabled = true;
+            }
+            else
+            {
+                toolStripMenuItemEdit.Enabled = false;
+                toolStripMenuItemDelete.Enabled = false;
+                toolStripMenuItemTest.Enabled = false;
+            }
+        }
+
+        private async void toolStripMenuItemTest_Click(object sender, EventArgs e)
+        {
+            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
+            {
+                var selected = listViewDiscordWebhooks.SelectedItems[0];
+                int.TryParse(selected.Name, out int reservedId);
+                if (await AllWebhooks[reservedId].TestWebhookAsync(mainLink))
+                {
+                    MessageBox.Show("Webhook is valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Webhook is not valid.\nCheck your URL.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

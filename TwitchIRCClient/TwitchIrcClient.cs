@@ -59,11 +59,11 @@ namespace TwitchIRCClient
             tcpClient = new TcpClient(serverIp, serverPort);
             inputStream = new StreamReader(tcpClient.GetStream());
             outputStream = new StreamWriter(tcpClient.GetStream());
-            Login();
+            LoginAsync();
             StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.Connecting));
         }
 
-        public async void Login()
+        public async void LoginAsync()
         {
             try
             {
@@ -77,7 +77,7 @@ namespace TwitchIRCClient
                 await outputStream.FlushAsync();
                 Connecting = true;
                 ReceiveMessage += OnMessageReceived;
-                ReadMessagesThread = new Thread(ReadMessages)
+                ReadMessagesThread = new Thread(ReadMessagesAsync)
                 {
                     IsBackground = true
                 };
@@ -89,7 +89,7 @@ namespace TwitchIRCClient
             }
         }
 
-        public async Task<bool> JoinRoom(string channelName, bool partPreviousChannels = false)
+        public async Task<bool> JoinRoomAsync(string channelName, bool partPreviousChannels = false)
         {
             channelName = channelName.ToLower();
             if (ChannelNames.Contains(channelName))
@@ -100,7 +100,7 @@ namespace TwitchIRCClient
             {
                 foreach (string name in ChannelNames)
                 {
-                    await LeaveRoom(name);
+                    await LeaveRoomAsync(name);
                     StateChange?.Invoke(this, new IrcChangedEventArgs(name, true));
                 }
                 ChannelNames.Clear();
@@ -123,7 +123,7 @@ namespace TwitchIRCClient
             }
         }
 
-        public async Task<bool> LeaveRoom(string channelName)
+        public async Task<bool> LeaveRoomAsync(string channelName)
         {
             channelName = channelName.ToLower();
             if (!ChannelNames.Contains(channelName))
@@ -147,7 +147,7 @@ namespace TwitchIRCClient
             }
         }
 
-        public async Task<bool> SendIrcMessage(string message)
+        public async Task<bool> SendIrcMessageAsync(string message)
         {
             try
             {
@@ -164,7 +164,7 @@ namespace TwitchIRCClient
             }
         }
 
-        public async Task<bool> SendChatMessage(string channelName, string message)
+        public async Task<bool> SendChatMessageAsync(string channelName, string message)
         {
             channelName = channelName.ToLower();
             if (!ChannelNames.Contains(channelName))
@@ -196,7 +196,7 @@ namespace TwitchIRCClient
             tcpClient?.Close();
         }
 
-        private async void ReadMessages()
+        private async void ReadMessagesAsync()
         {
             while (Connecting || Connected)
             {
@@ -227,7 +227,7 @@ namespace TwitchIRCClient
             }
             else if (Connected && e.Message.Equals("PING :tmi.twitch.tv"))
             {
-                await SendIrcMessage("PONG :tmi.twitch.tv");
+                await SendIrcMessageAsync("PONG :tmi.twitch.tv");
             }
             else if (Connecting && e.Message.Equals($":{userName}.tmi.twitch.tv 353 {userName} = #{LastChannelName} :{userName}"))
             {

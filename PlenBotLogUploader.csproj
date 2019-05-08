@@ -80,6 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiscordAPI\DiscordAPIJSONContent.cs" />
+    <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbed.cs" />
+    <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbedField.cs" />
+    <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbedFooter.cs" />
+    <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbedThumbnail.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONWebhookResponse.cs" />
     <Compile Include="DiscordAPI\DiscordWebhookData.cs" />
     <Compile Include="DPSReport\BossData.cs" />
@@ -90,6 +94,9 @@
     <Compile Include="DPSReport\DPSReportJSONEvtc.cs" />
     <Compile Include="DPSReport\DPSReportJSONMinimal.cs" />
     <Compile Include="DPSReport\DPSReportJSONPlayers.cs" />
+    <Compile Include="DPSReport\EliteSpecs.cs" />
+    <Compile Include="DPSReport\Players.cs" />
+    <Compile Include="DPSReport\Professions.cs" />
     <Compile Include="FormArcVersions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,17 +133,23 @@
     <Compile Include="FormEditDiscordWebhook.Designer.cs">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPings.Designer.cs">
+      <DependentUpon>FormPings.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRaidar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormRaidar.Designer.cs">
       <DependentUpon>FormRaidar.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTwitchLogMessages.cs">
+    <Compile Include="FormBossData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTwitchLogMessages.Designer.cs">
-      <DependentUpon>FormTwitchLogMessages.cs</DependentUpon>
+    <Compile Include="FormBossData.Designer.cs">
+      <DependentUpon>FormBossData.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTwitchNameSetup.cs">
       <SubType>Form</SubType>
@@ -150,14 +163,15 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPing.cs">
+    <Compile Include="FormEditPing.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPing.Designer.cs">
-      <DependentUpon>FormPing.cs</DependentUpon>
+    <Compile Include="FormEditPing.Designer.cs">
+      <DependentUpon>FormEditPing.cs</DependentUpon>
     </Compile>
     <Compile Include="GW2Raidar\GW2RaidarJSONAuth.cs" />
     <Compile Include="GW2Raidar\GW2RaidarJSONEncounterNew.cs" />
+    <Compile Include="DiscordAPI\DiscordAPIJSONContentConverter.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingResponse.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
@@ -190,11 +204,14 @@
     <EmbeddedResource Include="FormEditDiscordWebhook.resx">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormPings.resx">
+      <DependentUpon>FormPings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormRaidar.resx">
       <DependentUpon>FormRaidar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTwitchLogMessages.resx">
-      <DependentUpon>FormTwitchLogMessages.cs</DependentUpon>
+    <EmbeddedResource Include="FormBossData.resx">
+      <DependentUpon>FormBossData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTwitchNameSetup.resx">
       <DependentUpon>FormTwitchNameSetup.cs</DependentUpon>
@@ -202,8 +219,8 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPing.resx">
-      <DependentUpon>FormPing.cs</DependentUpon>
+    <EmbeddedResource Include="FormEditPing.resx">
+      <DependentUpon>FormEditPing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

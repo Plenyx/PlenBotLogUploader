@@ -31,7 +31,7 @@ namespace PlenBotLogUploader
             mainLink.SetRegistryValue("raidarTags", textBoxTags.Text);
         }
 
-        private async Task AuthoriseCredentials()
+        private async Task AuthoriseCredentialsAsync()
         {
             Dictionary<string, string> fields = new Dictionary<string, string>
             {
@@ -68,7 +68,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async void buttonAuthenticate_Click(object sender, EventArgs e) => await AuthoriseCredentials();
+        private async void buttonAuthenticate_Click(object sender, EventArgs e) => await AuthoriseCredentialsAsync();
 
         private void buttonRelog_Click(object sender, EventArgs e)
         {

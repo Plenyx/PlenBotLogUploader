@@ -41,18 +41,18 @@
             this.labelSuccessMsg.AutoSize = true;
             this.labelSuccessMsg.Location = new System.Drawing.Point(12, 9);
             this.labelSuccessMsg.Name = "labelSuccessMsg";
-            this.labelSuccessMsg.Size = new System.Drawing.Size(110, 13);
+            this.labelSuccessMsg.Size = new System.Drawing.Size(144, 13);
             this.labelSuccessMsg.TabIndex = 0;
-            this.labelSuccessMsg.Text = "Message on success:";
+            this.labelSuccessMsg.Text = "Twitch message on success:";
             // 
             // labelFailMsg
             // 
             this.labelFailMsg.AutoSize = true;
             this.labelFailMsg.Location = new System.Drawing.Point(12, 61);
             this.labelFailMsg.Name = "labelFailMsg";
-            this.labelFailMsg.Size = new System.Drawing.Size(84, 13);
+            this.labelFailMsg.Size = new System.Drawing.Size(118, 13);
             this.labelFailMsg.TabIndex = 1;
-            this.labelFailMsg.Text = "Message on fail:";
+            this.labelFailMsg.Text = "Twitch message on fail:";
             // 
             // textBoxSuccessMsg
             // 
@@ -80,9 +80,9 @@
             this.labelIcon.AutoSize = true;
             this.labelIcon.Location = new System.Drawing.Point(12, 113);
             this.labelIcon.Name = "labelIcon";
-            this.labelIcon.Size = new System.Drawing.Size(165, 13);
+            this.labelIcon.Size = new System.Drawing.Size(162, 13);
             this.labelIcon.TabIndex = 5;
-            this.labelIcon.Text = "Icon URL for Discord Webhooks:";
+            this.labelIcon.Text = "Icon URL for Discord webhooks:";
             // 
             // FormEditBossData
             // 

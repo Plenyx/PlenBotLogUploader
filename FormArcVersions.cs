@@ -51,22 +51,22 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async void StartTimer(bool checkNow = false)
+        public async void StartTimerAsync(bool checkNow = false)
         {
             timerCheckNewArcversion.Stop();
             if (checkNow)
             {
-                await CheckNewVersion();
+                await CheckNewVersionAsync();
             }
             timerCheckNewArcversion.Start();
         }
 
-        public async void StopTimer(bool checkNow = false)
+        public async void StopTimerAsync(bool checkNow = false)
         {
             timerCheckNewArcversion.Stop();
             if (checkNow)
             {
-                await CheckNewVersion();
+                await CheckNewVersionAsync();
             }
         }
 
@@ -82,7 +82,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async Task UpdateArc()
+        private async Task UpdateArcAsync()
         {
             buttonUpdate.Enabled = false;
             var processes = Process.GetProcessesByName("Gw2-64").ToList();
@@ -97,28 +97,28 @@ namespace PlenBotLogUploader
                 {
                     SetInformationText("Downloading newest version of arcdps...");
                 }
-                await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
+                await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
                 if (radioButtonDownloadAll.Checked)
                 {
-                    await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
-                    await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
+                    await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
+                    await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
                 }
                 else if (radioButtonUpdateAll.Checked)
                 {
                     if (File.Exists($@"{GW2Location}\bin64\d3d9_arcdps_extras.dll"))
                     {
-                        await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
+                        await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
                     }
                     if (File.Exists($@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll"))
                     {
-                        await mainLink.DownloadFile("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
+                        await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
                     }
                 }
                 SetInformationText("Update complete.");
                 groupBoxUpdating.Enabled = false;
                 buttonCheckNow.Enabled = true;
                 buttonUpdate.Enabled = true;
-                StartTimer();
+                StartTimerAsync();
             }
             else
             {
@@ -137,13 +137,13 @@ namespace PlenBotLogUploader
             Interlocked.Decrement(ref gw2Instances);
             if (gw2Instances == 0)
             {
-                await UpdateArc();
+                await UpdateArcAsync();
             }
         }
 
-        public async Task CheckNewVersion(bool manual = false)
+        public async Task CheckNewVersionAsync(bool manual = false)
         {
-            string availableVersionResnponse = await mainLink.DownloadFileAsyncToString("https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum");
+            string availableVersionResnponse = await mainLink.DownloadFileToStringAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum");
             string availableVersion = availableVersionResnponse.Split(' ')[0];
             if (File.Exists($@"{GW2Location}\bin64\d3d9.dll"))
             {
@@ -165,7 +165,7 @@ namespace PlenBotLogUploader
                                         DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                         if (result == DialogResult.Yes)
                                         {
-                                            await UpdateArc();
+                                            await UpdateArcAsync();
                                         }
                                     }
                                     else
@@ -191,7 +191,7 @@ namespace PlenBotLogUploader
                                 DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                 if (result == DialogResult.Yes)
                                 {
-                                    await UpdateArc();
+                                    await UpdateArcAsync();
                                 }
                             }
                             else
@@ -218,7 +218,7 @@ namespace PlenBotLogUploader
                     DialogResult result = MessageBox.Show("New arcdps version available\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     if (result == DialogResult.Yes)
                     {
-                        await UpdateArc();
+                        await UpdateArcAsync();
                     }
                 }
                 else
@@ -228,13 +228,13 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async void buttonCheckNow_Click(object sender, EventArgs e) => await CheckNewVersion(true);
+        private async void buttonCheckNow_Click(object sender, EventArgs e) => await CheckNewVersionAsync(true);
 
-        private async void timerCheckNewArcversion_Tick(object sender, EventArgs e) => await CheckNewVersion();
+        private async void timerCheckNewArcversion_Tick(object sender, EventArgs e) => await CheckNewVersionAsync();
 
         private void buttonEnabler_Click(object sender, EventArgs e)
         {
-            StopTimer();
+            StopTimerAsync();
             GW2Location = "";
             mainLink.SetRegistryValue("gw2Location", "");
             buttonEnabler.Enabled = false;
@@ -242,7 +242,7 @@ namespace PlenBotLogUploader
 
         private void linkLabelLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start("https://deltaconnected.com/arcdps/");
 
-        private async void buttonUpdate_Click(object sender, EventArgs e) => await UpdateArc();
+        private async void buttonUpdate_Click(object sender, EventArgs e) => await UpdateArcAsync();
 
         private void FormArcVersions_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {

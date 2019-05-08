@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader.RemotePing
 {
-    public enum PingMethods
+    public enum PingMethod
     {
         Get,
         Post,

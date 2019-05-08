@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTwitchNameSetup));
             this.textBoxChannelUrl = new System.Windows.Forms.TextBox();
             this.labelInfo = new System.Windows.Forms.Label();
             this.buttonNext = new System.Windows.Forms.Button();
@@ -37,7 +36,7 @@
             // 
             // textBoxChannelUrl
             // 
-            this.textBoxChannelUrl.Location = new System.Drawing.Point(15, 32);
+            this.textBoxChannelUrl.Location = new System.Drawing.Point(15, 25);
             this.textBoxChannelUrl.Name = "textBoxChannelUrl";
             this.textBoxChannelUrl.Size = new System.Drawing.Size(311, 20);
             this.textBoxChannelUrl.TabIndex = 0;
@@ -45,10 +44,10 @@
             // labelInfo
             // 
             this.labelInfo.AutoSize = true;
-            this.labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelInfo.Location = new System.Drawing.Point(12, 9);
             this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(240, 20);
+            this.labelInfo.Size = new System.Drawing.Size(165, 13);
             this.labelInfo.TabIndex = 1;
             this.labelInfo.Text = "Enter link to your Twitch channel:";
             // 
@@ -82,7 +81,6 @@
             this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.textBoxChannelUrl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormTwitchNameSetup";

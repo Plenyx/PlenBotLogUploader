@@ -7,11 +7,11 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private FormTwitchLogMessages editLink;
+        private FormBossData editLink;
         private BossData data;
         #endregion
 
-        public FormEditBossData(FormTwitchLogMessages editLink, BossData data)
+        public FormEditBossData(FormBossData editLink, BossData data)
         {
             this.editLink = editLink;
             InitializeComponent();

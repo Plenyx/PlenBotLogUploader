@@ -7,6 +7,8 @@
 ## Ping test
 For "ping test" functionality to work you need to implement JSON response structure found in PlenyxAPI/PlenyxAPIPingTest.cs.
 
+Additionaly, your URL link needs to support /pingtest/ as the append to use the ping test.
+
 The JSON response structure is as follows:
 * status ***!***
   * code

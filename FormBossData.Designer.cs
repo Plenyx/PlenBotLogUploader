@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader
 {
-    partial class FormTwitchLogMessages
+    partial class FormBossData
     {
         /// <summary>
         /// Required designer variable.
@@ -44,7 +44,7 @@
             this.listViewBosses.View = System.Windows.Forms.View.Tile;
             this.listViewBosses.DoubleClick += new System.EventHandler(this.listViewBosses_DoubleClick);
             // 
-            // FormTwitchLogMessages
+            // FormBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -53,9 +53,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormTwitchLogMessages";
+            this.Name = "FormBossData";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Edit Twitch log messages";
+            this.Text = "Edit boss data";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTwitchLogMessages_FormClosing);
             this.ResumeLayout(false);
 

@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader
 {
-    partial class FormPing
+    partial class FormEditPing
     {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkBoxEnablePing = new System.Windows.Forms.CheckBox();
-            this.groupBoxRemoteSettings = new System.Windows.Forms.GroupBox();
             this.groupBoxPredefinedServers = new System.Windows.Forms.GroupBox();
             this.buttonPlenyxWay = new System.Windows.Forms.Button();
             this.buttonTestPing = new System.Windows.Forms.Button();
@@ -40,45 +38,23 @@
             this.groupBoxUrl = new System.Windows.Forms.GroupBox();
             this.textBoxURL = new System.Windows.Forms.TextBox();
             this.groupBoxMethod = new System.Windows.Forms.GroupBox();
+            this.radioButtonMethodDelete = new System.Windows.Forms.RadioButton();
+            this.radioButtonMethodPut = new System.Windows.Forms.RadioButton();
             this.radioButtonMethodGet = new System.Windows.Forms.RadioButton();
             this.radioButtonMethodPost = new System.Windows.Forms.RadioButton();
-            this.groupBoxRemoteSettings.SuspendLayout();
+            this.groupBoxName = new System.Windows.Forms.GroupBox();
+            this.textBoxName = new System.Windows.Forms.TextBox();
             this.groupBoxPredefinedServers.SuspendLayout();
             this.groupBoxAuthentication.SuspendLayout();
             this.groupBoxUrl.SuspendLayout();
             this.groupBoxMethod.SuspendLayout();
+            this.groupBoxName.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // checkBoxEnablePing
-            // 
-            this.checkBoxEnablePing.AutoSize = true;
-            this.checkBoxEnablePing.Location = new System.Drawing.Point(12, 12);
-            this.checkBoxEnablePing.Name = "checkBoxEnablePing";
-            this.checkBoxEnablePing.Size = new System.Drawing.Size(153, 17);
-            this.checkBoxEnablePing.TabIndex = 0;
-            this.checkBoxEnablePing.Text = "enable remote server pings";
-            this.checkBoxEnablePing.UseVisualStyleBackColor = true;
-            this.checkBoxEnablePing.CheckedChanged += new System.EventHandler(this.checkBoxEnablePing_CheckedChanged);
-            // 
-            // groupBoxRemoteSettings
-            // 
-            this.groupBoxRemoteSettings.Controls.Add(this.groupBoxPredefinedServers);
-            this.groupBoxRemoteSettings.Controls.Add(this.buttonTestPing);
-            this.groupBoxRemoteSettings.Controls.Add(this.groupBoxAuthentication);
-            this.groupBoxRemoteSettings.Controls.Add(this.groupBoxUrl);
-            this.groupBoxRemoteSettings.Controls.Add(this.groupBoxMethod);
-            this.groupBoxRemoteSettings.Enabled = false;
-            this.groupBoxRemoteSettings.Location = new System.Drawing.Point(12, 35);
-            this.groupBoxRemoteSettings.Name = "groupBoxRemoteSettings";
-            this.groupBoxRemoteSettings.Size = new System.Drawing.Size(580, 169);
-            this.groupBoxRemoteSettings.TabIndex = 1;
-            this.groupBoxRemoteSettings.TabStop = false;
-            this.groupBoxRemoteSettings.Text = "Remote server settings";
             // 
             // groupBoxPredefinedServers
             // 
             this.groupBoxPredefinedServers.Controls.Add(this.buttonPlenyxWay);
-            this.groupBoxPredefinedServers.Location = new System.Drawing.Point(159, 70);
+            this.groupBoxPredefinedServers.Location = new System.Drawing.Point(297, 113);
             this.groupBoxPredefinedServers.Name = "groupBoxPredefinedServers";
             this.groupBoxPredefinedServers.Size = new System.Drawing.Size(157, 93);
             this.groupBoxPredefinedServers.TabIndex = 8;
@@ -97,7 +73,7 @@
             // 
             // buttonTestPing
             // 
-            this.buttonTestPing.Location = new System.Drawing.Point(484, 130);
+            this.buttonTestPing.Location = new System.Drawing.Point(460, 173);
             this.buttonTestPing.Name = "buttonTestPing";
             this.buttonTestPing.Size = new System.Drawing.Size(90, 33);
             this.buttonTestPing.TabIndex = 7;
@@ -110,7 +86,7 @@
             this.groupBoxAuthentication.Controls.Add(this.radioButtonUseNormalField);
             this.groupBoxAuthentication.Controls.Add(this.radioButtonUseAuthField);
             this.groupBoxAuthentication.Controls.Add(this.textBoxSign);
-            this.groupBoxAuthentication.Location = new System.Drawing.Point(7, 70);
+            this.groupBoxAuthentication.Location = new System.Drawing.Point(145, 113);
             this.groupBoxAuthentication.Name = "groupBoxAuthentication";
             this.groupBoxAuthentication.Size = new System.Drawing.Size(146, 93);
             this.groupBoxAuthentication.TabIndex = 5;
@@ -121,7 +97,6 @@
             // 
             this.radioButtonUseNormalField.AutoSize = true;
             this.radioButtonUseNormalField.Checked = true;
-            this.radioButtonUseNormalField.Enabled = false;
             this.radioButtonUseNormalField.Location = new System.Drawing.Point(7, 69);
             this.radioButtonUseNormalField.Name = "radioButtonUseNormalField";
             this.radioButtonUseNormalField.Size = new System.Drawing.Size(89, 17);
@@ -133,7 +108,6 @@
             // radioButtonUseAuthField
             // 
             this.radioButtonUseAuthField.AutoSize = true;
-            this.radioButtonUseAuthField.Enabled = false;
             this.radioButtonUseAuthField.Location = new System.Drawing.Point(7, 46);
             this.radioButtonUseAuthField.Name = "radioButtonUseAuthField";
             this.radioButtonUseAuthField.Size = new System.Drawing.Size(129, 17);
@@ -153,9 +127,9 @@
             // groupBoxUrl
             // 
             this.groupBoxUrl.Controls.Add(this.textBoxURL);
-            this.groupBoxUrl.Location = new System.Drawing.Point(134, 19);
+            this.groupBoxUrl.Location = new System.Drawing.Point(12, 62);
             this.groupBoxUrl.Name = "groupBoxUrl";
-            this.groupBoxUrl.Size = new System.Drawing.Size(440, 44);
+            this.groupBoxUrl.Size = new System.Drawing.Size(538, 44);
             this.groupBoxUrl.TabIndex = 4;
             this.groupBoxUrl.TabStop = false;
             this.groupBoxUrl.Text = "URL";
@@ -164,19 +138,44 @@
             // 
             this.textBoxURL.Location = new System.Drawing.Point(6, 18);
             this.textBoxURL.Name = "textBoxURL";
-            this.textBoxURL.Size = new System.Drawing.Size(428, 20);
+            this.textBoxURL.Size = new System.Drawing.Size(521, 20);
             this.textBoxURL.TabIndex = 3;
             // 
             // groupBoxMethod
             // 
+            this.groupBoxMethod.Controls.Add(this.radioButtonMethodDelete);
+            this.groupBoxMethod.Controls.Add(this.radioButtonMethodPut);
             this.groupBoxMethod.Controls.Add(this.radioButtonMethodGet);
             this.groupBoxMethod.Controls.Add(this.radioButtonMethodPost);
-            this.groupBoxMethod.Location = new System.Drawing.Point(6, 19);
+            this.groupBoxMethod.Location = new System.Drawing.Point(12, 113);
             this.groupBoxMethod.Name = "groupBoxMethod";
-            this.groupBoxMethod.Size = new System.Drawing.Size(122, 44);
+            this.groupBoxMethod.Size = new System.Drawing.Size(127, 73);
             this.groupBoxMethod.TabIndex = 2;
             this.groupBoxMethod.TabStop = false;
             this.groupBoxMethod.Text = "Method";
+            // 
+            // radioButtonMethodDelete
+            // 
+            this.radioButtonMethodDelete.AutoSize = true;
+            this.radioButtonMethodDelete.Location = new System.Drawing.Point(59, 46);
+            this.radioButtonMethodDelete.Name = "radioButtonMethodDelete";
+            this.radioButtonMethodDelete.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.radioButtonMethodDelete.Size = new System.Drawing.Size(67, 17);
+            this.radioButtonMethodDelete.TabIndex = 3;
+            this.radioButtonMethodDelete.TabStop = true;
+            this.radioButtonMethodDelete.Text = "DELETE";
+            this.radioButtonMethodDelete.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMethodPut
+            // 
+            this.radioButtonMethodPut.AutoSize = true;
+            this.radioButtonMethodPut.Location = new System.Drawing.Point(6, 46);
+            this.radioButtonMethodPut.Name = "radioButtonMethodPut";
+            this.radioButtonMethodPut.Size = new System.Drawing.Size(47, 17);
+            this.radioButtonMethodPut.TabIndex = 2;
+            this.radioButtonMethodPut.TabStop = true;
+            this.radioButtonMethodPut.Text = "PUT";
+            this.radioButtonMethodPut.UseVisualStyleBackColor = true;
             // 
             // radioButtonMethodGet
             // 
@@ -200,21 +199,41 @@
             this.radioButtonMethodPost.Text = "POST";
             this.radioButtonMethodPost.UseVisualStyleBackColor = true;
             // 
-            // FormPing
+            // groupBoxName
+            // 
+            this.groupBoxName.Controls.Add(this.textBoxName);
+            this.groupBoxName.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxName.Name = "groupBoxName";
+            this.groupBoxName.Size = new System.Drawing.Size(538, 44);
+            this.groupBoxName.TabIndex = 9;
+            this.groupBoxName.TabStop = false;
+            this.groupBoxName.Text = "Name";
+            // 
+            // textBoxName
+            // 
+            this.textBoxName.Location = new System.Drawing.Point(6, 16);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Size = new System.Drawing.Size(521, 20);
+            this.textBoxName.TabIndex = 0;
+            // 
+            // FormEditPing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(604, 212);
-            this.Controls.Add(this.groupBoxRemoteSettings);
-            this.Controls.Add(this.checkBoxEnablePing);
+            this.ClientSize = new System.Drawing.Size(558, 213);
+            this.Controls.Add(this.groupBoxName);
+            this.Controls.Add(this.groupBoxPredefinedServers);
+            this.Controls.Add(this.buttonTestPing);
+            this.Controls.Add(this.groupBoxAuthentication);
+            this.Controls.Add(this.groupBoxMethod);
+            this.Controls.Add(this.groupBoxUrl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormPing";
+            this.Name = "FormEditPing";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Remote ping settings";
+            this.Text = "Edit remote ping settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPing_FormClosing);
-            this.groupBoxRemoteSettings.ResumeLayout(false);
             this.groupBoxPredefinedServers.ResumeLayout(false);
             this.groupBoxAuthentication.ResumeLayout(false);
             this.groupBoxAuthentication.PerformLayout();
@@ -222,26 +241,28 @@
             this.groupBoxUrl.PerformLayout();
             this.groupBoxMethod.ResumeLayout(false);
             this.groupBoxMethod.PerformLayout();
+            this.groupBoxName.ResumeLayout(false);
+            this.groupBoxName.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        public System.Windows.Forms.CheckBox checkBoxEnablePing;
-        private System.Windows.Forms.GroupBox groupBoxRemoteSettings;
         private System.Windows.Forms.GroupBox groupBoxMethod;
-        public System.Windows.Forms.RadioButton radioButtonMethodGet;
-        public System.Windows.Forms.RadioButton radioButtonMethodPost;
         private System.Windows.Forms.GroupBox groupBoxUrl;
-        public System.Windows.Forms.TextBox textBoxURL;
         private System.Windows.Forms.GroupBox groupBoxAuthentication;
-        public System.Windows.Forms.TextBox textBoxSign;
         private System.Windows.Forms.Button buttonTestPing;
-        public System.Windows.Forms.Button buttonPlenyxWay;
         private System.Windows.Forms.GroupBox groupBoxPredefinedServers;
         private System.Windows.Forms.RadioButton radioButtonUseNormalField;
         private System.Windows.Forms.RadioButton radioButtonUseAuthField;
+        private System.Windows.Forms.RadioButton radioButtonMethodDelete;
+        private System.Windows.Forms.RadioButton radioButtonMethodPut;
+        private System.Windows.Forms.RadioButton radioButtonMethodGet;
+        private System.Windows.Forms.RadioButton radioButtonMethodPost;
+        private System.Windows.Forms.TextBox textBoxURL;
+        private System.Windows.Forms.TextBox textBoxSign;
+        private System.Windows.Forms.Button buttonPlenyxWay;
+        private System.Windows.Forms.GroupBox groupBoxName;
+        private System.Windows.Forms.TextBox textBoxName;
     }
 }

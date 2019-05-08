@@ -6,7 +6,7 @@ using PlenBotLogUploader.DPSReport;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormTwitchLogMessages : Form
+    public partial class FormBossData : Form
     {
         #region definitions
         // properties
@@ -16,17 +16,21 @@ namespace PlenBotLogUploader
         private FormMain mainLink;
         #endregion
 
-        public FormTwitchLogMessages(FormMain mainLink)
+        public FormBossData(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             if (File.Exists($@"{mainLink.LocalDir}\twitch_messages.txt"))
             {
+                File.Move($@"{mainLink.LocalDir}\twitch_messages.txt", $@"{mainLink.LocalDir}\boss_data.txt");
+            }
+            if (File.Exists($@"{mainLink.LocalDir}\boss_data.txt"))
+            {
                 AllBosses = new Dictionary<int, BossData>();
                 try
                 {
-                    using (StreamReader reader = new StreamReader($@"{mainLink.LocalDir}\twitch_messages.txt"))
+                    using (StreamReader reader = new StreamReader($@"{mainLink.LocalDir}\boss_data.txt"))
                     {
                         string line = reader.ReadLine();
                         while ((line = reader.ReadLine()) != null)
@@ -63,7 +67,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            using (StreamWriter writer = new StreamWriter($@"{mainLink.LocalDir}\twitch_messages.txt"))
+            using (StreamWriter writer = new StreamWriter($@"{mainLink.LocalDir}\boss_data.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in AllBosses.Keys)
