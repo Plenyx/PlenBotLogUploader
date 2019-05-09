@@ -19,7 +19,19 @@ namespace PlenBotLogUploader.RemotePing
         {
             try
             {
-                string response = await mainLink.DownloadFileToStringAsync($"{URL}pingtest/?sign={Authentication.AuthToken}");
+                string auth = "";
+                if (Authentication.Active)
+                {
+                    if (Authentication.UseAsAuth)
+                    {
+                        mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                    }
+                    else
+                    {
+                        auth = $"?{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
+                    }
+                }
+                string response = await mainLink.DownloadFileToStringAsync($"{URL}pingtest/{auth}");
                 try
                 {
                     PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
@@ -35,6 +47,10 @@ namespace PlenBotLogUploader.RemotePing
                 catch
                 {
                     return new TestPingResult(false, "There has been an error checking the server settings.\nIs the server correctly set?");
+                }
+                finally
+                {
+                    mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = null;
                 }
             }
             catch
@@ -119,7 +135,7 @@ namespace PlenBotLogUploader.RemotePing
                 {
                     if (!Authentication.UseAsAuth)
                     {
-                        fullLink = $"{fullLink}&{Authentication.AuthName}={Authentication.AuthToken}";
+                        fullLink = $"{fullLink}&{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
                     }
                     else
                     {

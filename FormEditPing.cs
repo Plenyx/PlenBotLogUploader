@@ -36,7 +36,8 @@ namespace PlenBotLogUploader
             }
             textBoxName.Text = config?.Name ?? "";
             textBoxURL.Text = config?.URL ?? "";
-            textBoxSign.Text = config?.Authentication.AuthToken ?? "";
+            textBoxAuthName.Text = config?.Authentication.AuthName ?? "";
+            textBoxAuthToken.Text = config?.Authentication.AuthToken ?? "";
             PingMethod method = config?.Method ?? PingMethod.Post;
             switch (method)
             {
@@ -80,10 +81,10 @@ namespace PlenBotLogUploader
                     }
                     var auth = new PingAuthentication()
                     {
-                        Active = (textBoxSign.Text == "") ? false : true,
+                        Active = (textBoxAuthToken.Text == "") ? false : true,
                         UseAsAuth = radioButtonUseAuthField.Checked,
-                        AuthName = "Sign",
-                        AuthToken = textBoxSign.Text
+                        AuthName = textBoxAuthName.Text,
+                        AuthToken = textBoxAuthToken.Text
                     };
                     pingLink.AllPings[reservedId] = new PingConfiguration() { Active = false, Name = textBoxName.Text, URL = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
                     pingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
@@ -111,29 +112,33 @@ namespace PlenBotLogUploader
                         {
                             pingLink.AllPings[reservedId].Method = PingMethod.Post;
                         }
-                        pingLink.AllPings[reservedId].Authentication.Active = (textBoxSign.Text == "") ? false : true;
+                        pingLink.AllPings[reservedId].Authentication.Active = (textBoxAuthToken.Text == "") ? false : true;
                         pingLink.AllPings[reservedId].Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
-                        pingLink.AllPings[reservedId].Authentication.AuthName = config.Authentication.AuthName;
-                        pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxSign.Text;
+                        pingLink.AllPings[reservedId].Authentication.AuthName = textBoxAuthName.Text;
+                        pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxAuthToken.Text;
                         pingLink.listViewDiscordWebhooks.Items[pingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = config.Active };
                     }
                 }
             }
         }
 
-        private void buttonPlenyxWay_Click(object sender, EventArgs e)
-        {
-            radioButtonMethodPost.Checked = true;
-            textBoxURL.Text = "https://plenbot.net/uploader/ping/";
-            radioButtonUseNormalField.Checked = true;
-            textBoxSign.Text = "";
-        }
-
         public async void PingTestAsync()
         {
             try
             {
-                string response = await mainLink.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/?sign={textBoxSign.Text}");
+                string auth = "";
+                if ((textBoxAuthName.Text != "") || (textBoxAuthToken.Text != ""))
+                {
+                    if (radioButtonUseNormalField.Checked)
+                    {
+                        auth = $"?{textBoxAuthName.Text.ToLower()}={textBoxAuthToken.Text}";
+                    }
+                    else
+                    {
+                        mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(textBoxAuthName.Text, textBoxAuthToken.Text);
+                    }
+                }
+                string response = await mainLink.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/{auth}");
                 try
                 {
                     PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
@@ -149,6 +154,16 @@ namespace PlenBotLogUploader
                 catch
                 {
                     MessageBox.Show("There has been an error checking the server settings.\nIs the server correctly set?", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                finally
+                {
+                    if ((textBoxAuthName.Text != "") || (textBoxAuthToken.Text != ""))
+                    {
+                        if (radioButtonUseAuthField.Checked)
+                        {
+                            mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = null;
+                        }
+                    }
                 }
             }
             catch
