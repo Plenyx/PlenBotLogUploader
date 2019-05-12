@@ -33,6 +33,7 @@
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.textBoxUrl = new System.Windows.Forms.TextBox();
             this.checkBoxOnlySuccess = new System.Windows.Forms.CheckBox();
+            this.checkBoxPlayers = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // labelName
@@ -77,11 +78,22 @@
             this.checkBoxOnlySuccess.Text = "Upload only successful logs";
             this.checkBoxOnlySuccess.UseVisualStyleBackColor = true;
             // 
+            // checkBoxPlayers
+            // 
+            this.checkBoxPlayers.AutoSize = true;
+            this.checkBoxPlayers.Location = new System.Drawing.Point(15, 133);
+            this.checkBoxPlayers.Name = "checkBoxPlayers";
+            this.checkBoxPlayers.Size = new System.Drawing.Size(349, 17);
+            this.checkBoxPlayers.TabIndex = 5;
+            this.checkBoxPlayers.Text = "Show players and played professions with elite specs in the message";
+            this.checkBoxPlayers.UseVisualStyleBackColor = true;
+            // 
             // FormEditDiscordWebhook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(419, 139);
+            this.ClientSize = new System.Drawing.Size(419, 159);
+            this.Controls.Add(this.checkBoxPlayers);
             this.Controls.Add(this.checkBoxOnlySuccess);
             this.Controls.Add(this.textBoxUrl);
             this.Controls.Add(this.textBoxName);
@@ -106,5 +118,6 @@
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.TextBox textBoxUrl;
         private System.Windows.Forms.CheckBox checkBoxOnlySuccess;
+        private System.Windows.Forms.CheckBox checkBoxPlayers;
     }
 }

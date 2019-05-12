@@ -29,8 +29,9 @@ namespace PlenBotLogUploader
         public bool ChannelJoined { get; set; } = false;
         public string RaidarOAuth { get; set; } = "";
         public HttpClient MainHttpClient { get; } = new HttpClient();
-        public string LocalDir { get; } = $"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8))}\\";
-        public int Build { get; } = 31;
+        public string LocalDir { get; } = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
+        public bool StartedMinimised { get; private set; } = false;
+        public int Build { get; } = 32;
 
         // fields
         private const int minFileSize = 12288;
@@ -57,6 +58,7 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             notifyIconTray.Icon = Properties.Resources.AppIcon;
             Text = $"{Text} b{Build}";
+            notifyIconTray.Text = $"{notifyIconTray.Text} b{Build}";
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
@@ -66,7 +68,6 @@ namespace PlenBotLogUploader
             bossDataLink = new FormBossData(this);
             discordPingsLink = new FormDiscordPings(this);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            Task.Run(() => NewBuildCheckAsync());
             try
             {
                 RegistryStartup.DoStartup(registryAccess);
@@ -198,10 +199,17 @@ namespace PlenBotLogUploader
                     buttonReconnectBot.Enabled = false;
                     checkBoxPostToTwitch.Enabled = false;
                 }
-                DoCommandArgs();
                 if (!File.Exists($"{LocalDir}logs.csv"))
                 {
                     File.AppendAllText($"{LocalDir}logs.csv", "Boss;BossId;Success;ArcVersion;Permalink\n");
+                }
+                // startup check
+                using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                {
+                    if (registryRun.GetValue("PlenBot Log Uploader") != null)
+                    {
+                        checkBoxStartWhenWindowsStarts.Checked = true;
+                    }
                 }
                 /* Subscribe to field changes events, otherwise they would trigger with load */
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
@@ -211,12 +219,13 @@ namespace PlenBotLogUploader
                 checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
                 checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(checkBoxTwitchOnlySuccess_CheckedChanged);
                 raidarLink.checkBoxEnableRaidar.CheckedChanged += new EventHandler(raidarLink.checkBoxEnableRaidar_CheckedChanged);
+                checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(checkBoxStartWhenWindowsStarts_CheckedChanged);
             }
             catch
             {
                 Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\Plenyx\PlenBotUploader");
                 MessageBox.Show("An error in the Windows' registry has occurred.\nAll settings are reset.\nTry running the application again.", "An error has occurred");
-                Close();
+                ExitApp();
             }
         }
         #endregion
@@ -262,13 +271,18 @@ namespace PlenBotLogUploader
         #endregion
 
         #region form events
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            DoCommandArgs();
+            Task.Run(() => NewBuildCheckAsync());
+        }
+
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
+            chatConnect?.Dispose();
             registryAccess.Flush();
             registryAccess.Dispose();
-            chatConnect?.Dispose();
             watcher?.Dispose();
-            toolStripMenuItemDiscordWebhooks.DropDown?.Dispose();
             MainHttpClient.Dispose();
         }
 
@@ -277,6 +291,7 @@ namespace PlenBotLogUploader
             if ((WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
             {
                 ShowInTaskbar = false;
+                Hide();
                 if (firstTimeMinimise)
                 {
                     ShowBalloon("Uploader minimised", "Double click the icon to bring back the uploader.\nYou can also right click for quick settings.", 6500);
@@ -368,30 +383,38 @@ namespace PlenBotLogUploader
                 {
                     if (currentversion > Build)
                     {
+                        buttonUpdateNow.Invoke((Action)delegate () { buttonUpdateNow.Visible = true; });
                         AddToText($">");
                         AddToText($">>");
-                        AddToText($">>> New build available (build n.{response})");
+                        AddToText($">>> New build available (build n. {response})");
                         AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
                         AddToText($">>");
                         AddToText($">");
-                        DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New build available (build n.{response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                        if (result == DialogResult.Yes)
+                        if (StartedMinimised)
                         {
-                            if (GetRegistryValue("firstUpdate") == null)
+                            ShowBalloon("New build available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest build is build n. {response}.", 8500);
+                        }
+                        else
+                        {
+                            DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New build available for the uploader (build n. {response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                            if (result == DialogResult.Yes)
                             {
-                                MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                SetRegistryValue("firstUpdate", 1);
-                            }
-                            Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
-                            Process.Start($"{LocalDir}");
-                            if (InvokeRequired)
-                            {
-                                // invokes the function on the main thread
-                                Invoke((Action)delegate () { Close(); });
-                            }
-                            else
-                            {
-                                Close();
+                                if (GetRegistryValue("firstUpdate") == null)
+                                {
+                                    MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    SetRegistryValue("firstUpdate", 1);
+                                }
+                                Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
+                                Process.Start($"{LocalDir}");
+                                if (InvokeRequired)
+                                {
+                                    // invokes the function on the main thread
+                                    Invoke((Action)delegate () { ExitApp(); });
+                                }
+                                else
+                                {
+                                    ExitApp();
+                                }
                             }
                         }
                     }
@@ -403,6 +426,12 @@ namespace PlenBotLogUploader
             }
         }
 
+        private void ExitApp()
+        {
+            Close();
+            Application.Exit();
+        }
+
         protected void DoCommandArgs()
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -410,55 +439,58 @@ namespace PlenBotLogUploader
             {
                 if ((args.Length == 2) && (args[1].Equals("-m")))
                 {
+                    StartedMinimised = true;
                     WindowState = FormWindowState.Minimized;
+                    if (checkBoxTrayMinimiseToIcon.Checked)
+                    {
+                        ShowInTaskbar = false;
+                        Hide();
+                    }
                 }
                 else
                 {
-                    Task.Run(() =>
+                    Dictionary<string, string> postData = new Dictionary<string, string>
                     {
-                        Dictionary<string, string> postData = new Dictionary<string, string>
+                        { "generator", "ei" },
+                        { "json", "1" }
+                    };
+                    if (checkBoxWepSkill1.Checked)
+                    {
+                        postData.Add("rotation_weap1", "1");
+                    }
+                    foreach (string arg in args)
+                    {
+                        if (arg == Application.ExecutablePath)
                         {
-                            { "generator", "ei" },
-                            { "json", "1" }
-                        };
-                        if (checkBoxWepSkill1.Checked)
-                        {
-                            postData.Add("rotation_weap1", "1");
+                            continue;
                         }
-                        foreach (string arg in args)
+                        if (File.Exists(arg) && (arg.EndsWith(".evtc") || arg.EndsWith(".zevtc")))
                         {
-                            if (arg == Application.ExecutablePath)
+                            bool archived = false;
+                            string zipfilelocation = arg;
+                            if (!arg.EndsWith(".zevtc"))
                             {
-                                continue;
+                                zipfilelocation = $"{LocalDir}{Path.GetFileName(arg)}.zevtc";
+                                using (ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@arg, Path.GetFileName(arg)); }
+                                archived = true;
                             }
-                            if (File.Exists(arg) && (arg.EndsWith(".evtc") || arg.EndsWith(".zevtc")))
+                            try
                             {
-                                bool archived = false;
-                                string zipfilelocation = arg;
-                                if (!arg.EndsWith(".zevtc"))
+                                HttpUploadLogAsync(zipfilelocation, postData);
+                            }
+                            catch
+                            {
+                                AddToText($">>> Unknown error uploading a log: {zipfilelocation}");
+                            }
+                            finally
+                            {
+                                if (archived)
                                 {
-                                    zipfilelocation = $"{LocalDir}{Path.GetFileName(arg)}.zevtc";
-                                    using (ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@arg, Path.GetFileName(arg)); }
-                                    archived = true;
-                                }
-                                try
-                                {
-                                    HttpUploadLogAsync(zipfilelocation, postData);
-                                }
-                                catch
-                                {
-                                    AddToText($">>> Unknown error uploading a log: {zipfilelocation}");
-                                }
-                                finally
-                                {
-                                    if (archived)
-                                    {
-                                        File.Delete($"{LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
-                                    }
+                                    File.Delete($"{LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
                                 }
                             }
                         }
-                    });
+                    }
                 }
             }
         }
@@ -911,9 +943,11 @@ namespace PlenBotLogUploader
             {
                 ShowInTaskbar = false;
                 WindowState = FormWindowState.Minimized;
+                Hide();
             }
             else
             {
+                Show();
                 ShowInTaskbar = true;
                 WindowState = FormWindowState.Normal;
                 BringToFront();
@@ -1023,6 +1057,44 @@ namespace PlenBotLogUploader
                 DisconnectTwitchBot();
                 SetRegistryValue("connectToTwitch", 0);
                 checkBoxPostToTwitch.Checked = false;
+            }
+        }
+
+        private void buttonUpdateNow_Click(object sender, EventArgs e)
+        {
+            if (GetRegistryValue("firstUpdate") == null)
+            {
+                MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SetRegistryValue("firstUpdate", 1);
+            }
+            Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
+            Process.Start($"{LocalDir}");
+            if (InvokeRequired)
+            {
+                // invokes the function on the main thread
+                Invoke((Action)delegate () { ExitApp(); });
+            }
+            else
+            {
+                ExitApp();
+            }
+        }
+
+        private void checkBoxStartWhenWindowsStarts_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxStartWhenWindowsStarts.Checked)
+            {
+                using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                {
+                    registryRun.SetValue("PlenBot Log Uploader", $"\"{Application.ExecutablePath.Replace('/', '\\')}\" -m");
+                }
+            }
+            else
+            {
+                using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                {
+                    registryRun.DeleteValue("PlenBot Log Uploader");
+                }
             }
         }
         #endregion

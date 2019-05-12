@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Net.Http;
 using System.Windows.Forms;
@@ -39,8 +40,21 @@ namespace PlenBotLogUploader
                         {
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int active);
-                            int.TryParse(values[3], out int success);
-                            AddWebhook(new DiscordWebhookData() { Active = active == 1 ? true : false, Name = values[1], URL = values[2], OnlySuccess = success == 1 ? true : false });
+                            int.TryParse(values[3], out int onlySuccess);
+                            // compatibility with older versions
+                            int showPlayers = 1;
+                            if (values.Count() > 4)
+                            {
+                                int.TryParse(values[4], out showPlayers);
+                            }
+                            AddWebhook(new DiscordWebhookData()
+                            {
+                                Active = active == 1 ? true : false,
+                                Name = values[1],
+                                URL = values[2],
+                                OnlySuccess = onlySuccess == 1 ? true : false,
+                                ShowPlayers = showPlayers == 1 ? true : false
+                            });
                         }
                     }
                 }
@@ -68,9 +82,11 @@ namespace PlenBotLogUploader
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in AllWebhooks.Keys)
                 {
-                    string active = AllWebhooks[key].Active ? "1" : "0";
-                    string success = AllWebhooks[key].OnlySuccess ? "1" : "0";
-                    await writer.WriteLineAsync($"{active}<;>{AllWebhooks[key].Name}<;>{AllWebhooks[key].URL}<;>{success}");
+                    var webhook = AllWebhooks[key];
+                    string active = webhook.Active ? "1" : "0";
+                    string onlySuccess = webhook.OnlySuccess ? "1" : "0";
+                    string showPlayers = webhook.ShowPlayers ? "1" : "0";
+                    await writer.WriteLineAsync($"{active}<;>{webhook.Name}<;>{webhook.URL}<;>{onlySuccess}<;>{showPlayers}");
                 }
             }
         }
@@ -104,6 +120,10 @@ namespace PlenBotLogUploader
                 Color = color,
                 Thumbnail = discordContentEmbedThumbnail
             };
+            var discordContentWithoutPlayers = new DiscordAPIJSONContent()
+            {
+                Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+            };
             if (reportJSON.Players.Values.Count <= 10)
             {
                 List<DiscordAPIJSONContentEmbedField> fields = new List<DiscordAPIJSONContentEmbedField>();
@@ -113,7 +133,7 @@ namespace PlenBotLogUploader
                 }
                 discordContentEmbed.Fields = fields.ToArray();
             }
-            var discordContent = new DiscordAPIJSONContent()
+            var discordContentWithPlayers = new DiscordAPIJSONContent()
             {
                 Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
             };
@@ -121,16 +141,27 @@ namespace PlenBotLogUploader
             {
                 var serialiser = new JavaScriptSerializer();
                 serialiser.RegisterConverters(new[] { new DiscordAPIJSONContentConverter() });
-                string jsonContent = serialiser.Serialize(discordContent);
+                string jsonContentWithoutPlayers = serialiser.Serialize(discordContentWithoutPlayers);
+                string jsonContentWithPlayers = serialiser.Serialize(discordContentWithPlayers);
                 foreach (var key in AllWebhooks.Keys)
                 {
                     if (!AllWebhooks[key].Active || (AllWebhooks[key].OnlySuccess && !(reportJSON.Encounter.Success ?? false)))
                     {
                         continue;
                     }
-                    using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
+                    if (AllWebhooks[key].ShowPlayers)
                     {
-                        using (await mainLink.MainHttpClient.PostAsync(new Uri(AllWebhooks[key].URL), content)) { }
+                        using (var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json"))
+                        {
+                            using (await mainLink.MainHttpClient.PostAsync(new Uri(AllWebhooks[key].URL), content)) { }
+                        }
+                    }
+                    else
+                    {
+                        using (var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json"))
+                        {
+                            using (await mainLink.MainHttpClient.PostAsync(new Uri(AllWebhooks[key].URL), content)) { }
+                        }
                     }
                 }
             }

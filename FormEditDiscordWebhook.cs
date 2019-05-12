@@ -32,6 +32,7 @@ namespace PlenBotLogUploader
             textBoxName.Text = data?.Name ?? "";
             textBoxUrl.Text = data?.URL ?? "";
             checkBoxOnlySuccess.Checked = data?.OnlySuccess ?? false;
+            checkBoxPlayers.Checked = data?.ShowPlayers ?? false;
         }
 
         private void FormEditDiscordWebhook_FormClosing(object sender, FormClosingEventArgs e)
@@ -40,17 +41,19 @@ namespace PlenBotLogUploader
             {
                 if (addNew)
                 {
-                    discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData() { Active = false, Name = textBoxName.Text, URL = textBoxUrl.Text, OnlySuccess = checkBoxOnlySuccess.Checked };
+                    discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData() { Active = false, Name = textBoxName.Text, URL = textBoxUrl.Text, OnlySuccess = checkBoxOnlySuccess.Checked, ShowPlayers = checkBoxPlayers.Checked };
                     discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
                 }
                 else
                 {
                     if (discordPingLink.AllWebhooks.ContainsKey(reservedId))
                     {
-                        discordPingLink.AllWebhooks[reservedId].Active = data.Active;
-                        discordPingLink.AllWebhooks[reservedId].Name = textBoxName.Text;
-                        discordPingLink.AllWebhooks[reservedId].URL = textBoxUrl.Text;
-                        discordPingLink.AllWebhooks[reservedId].OnlySuccess = checkBoxOnlySuccess.Checked;
+                        var webhook = discordPingLink.AllWebhooks[reservedId];
+                        webhook.Active = data.Active;
+                        webhook.Name = textBoxName.Text;
+                        webhook.URL = textBoxUrl.Text;
+                        webhook.OnlySuccess = checkBoxOnlySuccess.Checked;
+                        webhook.ShowPlayers = checkBoxPlayers.Checked;
                         discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
                     }
                 }

@@ -5,10 +5,11 @@ namespace PlenBotLogUploader.DiscordAPI
 {
     public class DiscordWebhookData
     {
-        public bool Active { get; set; }
+        public bool Active { get; set; } = false;
         public string Name { get; set; }
         public string URL { get; set; }
-        public bool OnlySuccess { get; set; }
+        public bool OnlySuccess { get; set; } = false;
+        public bool ShowPlayers { get; set; } = true;
 
         public async Task<bool> TestWebhookAsync(FormMain mainLink)
         {

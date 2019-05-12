@@ -52,11 +52,11 @@
             this.toolStripSeparatorFirst = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemOpenPingSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenRaidarSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenArcVersionsSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemDiscordWebhooks = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenPingSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
@@ -64,6 +64,8 @@
             this.buttonArcVersionChecking = new System.Windows.Forms.Button();
             this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
+            this.buttonUpdateNow = new System.Windows.Forms.Button();
+            this.checkBoxStartWhenWindowsStarts = new System.Windows.Forms.CheckBox();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -77,7 +79,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 479);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 504);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
@@ -286,7 +288,7 @@
             this.toolStripSeparatorThird,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 242);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 220);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -323,13 +325,6 @@
             this.toolStripMenuItemOpenCustomName.Text = "Open custom name settings";
             this.toolStripMenuItemOpenCustomName.Click += new System.EventHandler(this.toolStripMenuItemOpenCustomName_Click);
             // 
-            // toolStripMenuItemOpenPingSettings
-            // 
-            this.toolStripMenuItemOpenPingSettings.Name = "toolStripMenuItemOpenPingSettings";
-            this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(277, 22);
-            this.toolStripMenuItemOpenPingSettings.Text = "Remote server pings";
-            this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenPingSettings_Click);
-            // 
             // toolStripMenuItemOpenRaidarSettings
             // 
             this.toolStripMenuItemOpenRaidarSettings.Name = "toolStripMenuItemOpenRaidarSettings";
@@ -356,6 +351,13 @@
             this.toolStripMenuItemDiscordWebhooks.Text = "Discord webhooks";
             this.toolStripMenuItemDiscordWebhooks.Click += new System.EventHandler(this.toolStripMenuItemDiscordWebhooks_Click);
             // 
+            // toolStripMenuItemOpenPingSettings
+            // 
+            this.toolStripMenuItemOpenPingSettings.Name = "toolStripMenuItemOpenPingSettings";
+            this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemOpenPingSettings.Text = "Remote server pings";
+            this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenPingSettings_Click);
+            // 
             // toolStripSeparatorThird
             // 
             this.toolStripSeparatorThird.Name = "toolStripSeparatorThird";
@@ -370,6 +372,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.checkBoxStartWhenWindowsStarts);
             this.groupBoxOtherSettings.Controls.Add(this.buttonDiscordWebhooks);
             this.groupBoxOtherSettings.Controls.Add(this.buttonArcVersionChecking);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
@@ -377,14 +380,14 @@
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 333);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 158);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 183);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
             // buttonDiscordWebhooks
             // 
-            this.buttonDiscordWebhooks.Location = new System.Drawing.Point(6, 42);
+            this.buttonDiscordWebhooks.Location = new System.Drawing.Point(6, 65);
             this.buttonDiscordWebhooks.Name = "buttonDiscordWebhooks";
             this.buttonDiscordWebhooks.Size = new System.Drawing.Size(188, 23);
             this.buttonDiscordWebhooks.TabIndex = 4;
@@ -394,7 +397,7 @@
             // 
             // buttonArcVersionChecking
             // 
-            this.buttonArcVersionChecking.Location = new System.Drawing.Point(6, 100);
+            this.buttonArcVersionChecking.Location = new System.Drawing.Point(6, 123);
             this.buttonArcVersionChecking.Name = "buttonArcVersionChecking";
             this.buttonArcVersionChecking.Size = new System.Drawing.Size(188, 23);
             this.buttonArcVersionChecking.TabIndex = 3;
@@ -404,7 +407,7 @@
             // 
             // buttonRaidarSettings
             // 
-            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 71);
+            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 94);
             this.buttonRaidarSettings.Name = "buttonRaidarSettings";
             this.buttonRaidarSettings.Size = new System.Drawing.Size(188, 23);
             this.buttonRaidarSettings.TabIndex = 2;
@@ -414,7 +417,7 @@
             // 
             // buttonPingSettings
             // 
-            this.buttonPingSettings.Location = new System.Drawing.Point(6, 129);
+            this.buttonPingSettings.Location = new System.Drawing.Point(6, 152);
             this.buttonPingSettings.Name = "buttonPingSettings";
             this.buttonPingSettings.Size = new System.Drawing.Size(188, 23);
             this.buttonPingSettings.TabIndex = 0;
@@ -422,12 +425,35 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
             // 
+            // buttonUpdateNow
+            // 
+            this.buttonUpdateNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonUpdateNow.Location = new System.Drawing.Point(24, 468);
+            this.buttonUpdateNow.Name = "buttonUpdateNow";
+            this.buttonUpdateNow.Size = new System.Drawing.Size(112, 40);
+            this.buttonUpdateNow.TabIndex = 8;
+            this.buttonUpdateNow.Text = "Update the uploader";
+            this.buttonUpdateNow.UseVisualStyleBackColor = true;
+            this.buttonUpdateNow.Visible = false;
+            this.buttonUpdateNow.Click += new System.EventHandler(this.buttonUpdateNow_Click);
+            // 
+            // checkBoxStartWhenWindowsStarts
+            // 
+            this.checkBoxStartWhenWindowsStarts.AutoSize = true;
+            this.checkBoxStartWhenWindowsStarts.Location = new System.Drawing.Point(9, 42);
+            this.checkBoxStartWhenWindowsStarts.Name = "checkBoxStartWhenWindowsStarts";
+            this.checkBoxStartWhenWindowsStarts.Size = new System.Drawing.Size(175, 17);
+            this.checkBoxStartWhenWindowsStarts.TabIndex = 5;
+            this.checkBoxStartWhenWindowsStarts.Text = "start uploader on system startup";
+            this.checkBoxStartWhenWindowsStarts.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 496);
+            this.ClientSize = new System.Drawing.Size(633, 523);
+            this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
             this.Controls.Add(this.groupBoxTwitchSettings);
@@ -439,6 +465,7 @@
             this.Text = "PlenBot Log Uploader";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
@@ -492,6 +519,8 @@
         private System.Windows.Forms.Button buttonDiscordWebhooks;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorThird;
         public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDiscordWebhooks;
+        private System.Windows.Forms.Button buttonUpdateNow;
+        private System.Windows.Forms.CheckBox checkBoxStartWhenWindowsStarts;
     }
 }
 
