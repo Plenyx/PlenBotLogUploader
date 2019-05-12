@@ -31,7 +31,7 @@ namespace PlenBotLogUploader
         public HttpClient MainHttpClient { get; } = new HttpClient();
         public string LocalDir { get; } = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
         public bool StartedMinimised { get; private set; } = false;
-        public int Build { get; } = 32;
+        public int Build { get; } = 33;
 
         // fields
         private const int minFileSize = 12288;

@@ -124,6 +124,14 @@ namespace PlenBotLogUploader
             {
                 Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
             };
+            var discordContentEmbedForPlayers = new DiscordAPIJSONContentEmbed()
+            {
+                Title = bossName,
+                Url = reportJSON.Permalink,
+                Description = $"Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
+                Color = color,
+                Thumbnail = discordContentEmbedThumbnail
+            };
             if (reportJSON.Players.Values.Count <= 10)
             {
                 List<DiscordAPIJSONContentEmbedField> fields = new List<DiscordAPIJSONContentEmbedField>();
@@ -131,11 +139,11 @@ namespace PlenBotLogUploader
                 {
                     fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.Character_name, Value = $"```{player.Display_name}\n\n{Players.ResolveSpecName(player.Profession, player.Elite_spec)}```", Inline = true });
                 }
-                discordContentEmbed.Fields = fields.ToArray();
+                discordContentEmbedForPlayers.Fields = fields.ToArray();
             }
             var discordContentWithPlayers = new DiscordAPIJSONContent()
             {
-                Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+                Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbedForPlayers }
             };
             try
             {
