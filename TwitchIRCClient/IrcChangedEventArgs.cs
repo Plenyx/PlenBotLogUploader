@@ -12,9 +12,9 @@ namespace TwitchIRCClient
             NewState = newState;
         }
 
-        public IrcChangedEventArgs(string channel, bool channelPart = false)
+        public IrcChangedEventArgs(IrcStates newState, string channel)
         {
-            NewState = (channelPart) ? IrcStates.ChannelLeaving : IrcStates.ChannelJoining;
+            NewState = newState;
             Channel = channel;
         }
     }

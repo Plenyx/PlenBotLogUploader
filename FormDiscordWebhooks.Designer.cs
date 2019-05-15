@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader
 {
-    partial class FormDiscordPings
+    partial class FormDiscordWebhooks
     {
         /// <summary>
         /// Required designer variable.

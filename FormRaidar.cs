@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Http;
 using System.Windows.Forms;
 using System.Threading.Tasks;
@@ -27,8 +26,8 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            mainLink.SetRegistryValue("raidarEnabled", checkBoxEnableRaidar.Checked ? 1 : 0);
-            mainLink.SetRegistryValue("raidarTags", textBoxTags.Text);
+            mainLink.RegistryController.SetRegistryValue("raidarEnabled", checkBoxEnableRaidar.Checked ? 1 : 0);
+            mainLink.RegistryController.SetRegistryValue("raidarTags", textBoxTags.Text);
         }
 
         private async Task AuthoriseCredentialsAsync()
@@ -42,20 +41,21 @@ namespace PlenBotLogUploader
             {
                 try
                 {
-                    using (var responseMessage = await mainLink.MainHttpClient.PostAsync(new Uri("https://gw2raidar.com/api/v2/token"), content))
+                    var uri = new Uri("https://gw2raidar.com/api/v2/token");
+                    using (var responseMessage = await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content))
                     {
                         string response = await responseMessage.Content.ReadAsStringAsync();
                         GW2RaidarJSONAuth responseJSON = new JavaScriptSerializer().Deserialize<GW2RaidarJSONAuth>(response);
-                        if ((responseJSON.Non_field_errors == null) || (responseJSON.Non_field_errors.Count() == 0))
+                        if ((responseJSON.Non_field_errors == null) || (responseJSON.Non_field_errors.Count == 0))
                         {
                             mainLink.RaidarOAuth = responseJSON.Token;
-                            mainLink.SetRegistryValue("raidarOAuth", responseJSON.Token);
+                            mainLink.RegistryController.SetRegistryValue("raidarOAuth", responseJSON.Token);
                             textBoxUsername.Text = "";
                             textBoxPassword.Text = "";
                             groupBoxCredentials.Enabled = false;
                             groupBoxSettings.Enabled = true;
                         }
-                        else if (responseJSON.Non_field_errors.Count() > 0)
+                        else if (responseJSON.Non_field_errors.Count > 0)
                         {
                             MessageBox.Show(responseJSON.Non_field_errors[0], "An error authenticating with GW2Raidar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
@@ -73,7 +73,7 @@ namespace PlenBotLogUploader
         private void buttonRelog_Click(object sender, EventArgs e)
         {
             mainLink.RaidarOAuth = "";
-            mainLink.SetRegistryValue("raidarOAuth", "");
+            mainLink.RegistryController.SetRegistryValue("raidarOAuth", "");
             checkBoxEnableRaidar.Checked = false;
             groupBoxCredentials.Enabled = true;
             groupBoxSettings.Enabled = false;

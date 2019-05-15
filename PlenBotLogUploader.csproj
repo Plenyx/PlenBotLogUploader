@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>PlenfaceClose.ico</ApplicationIcon>
+    <ApplicationIcon>IconAssembly.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -92,7 +92,6 @@
     <Compile Include="DPSReport\DPSReportJSON.cs" />
     <Compile Include="DPSReport\DPSReportJSONEncounter.cs" />
     <Compile Include="DPSReport\DPSReportJSONEvtc.cs" />
-    <Compile Include="DPSReport\DPSReportJSONMinimal.cs" />
     <Compile Include="DPSReport\DPSReportJSONPlayers.cs" />
     <Compile Include="DPSReport\EliteSpecs.cs" />
     <Compile Include="DPSReport\Players.cs" />
@@ -109,11 +108,11 @@
     <Compile Include="FormCustomName.Designer.cs">
       <DependentUpon>FormCustomName.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormDiscordPings.cs">
+    <Compile Include="FormDiscordWebhooks.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDiscordPings.Designer.cs">
-      <DependentUpon>FormDiscordPings.cs</DependentUpon>
+    <Compile Include="FormDiscordWebhooks.Designer.cs">
+      <DependentUpon>FormDiscordWebhooks.cs</DependentUpon>
     </Compile>
     <Compile Include="FormDPSReportServer.cs">
       <SubType>Form</SubType>
@@ -175,11 +174,12 @@
     <Compile Include="PlenyxAPI\PlenyxAPIPingResponse.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
-    <Compile Include="RegistryStartup.cs" />
     <Compile Include="RemotePing\PingAuthentication.cs" />
     <Compile Include="RemotePing\PingConfiguration.cs" />
     <Compile Include="RemotePing\PingMethod.cs" />
     <Compile Include="RemotePing\TestPingResult.cs" />
+    <Compile Include="Tools\HttpClientController.cs" />
+    <Compile Include="Tools\RegistryController.cs" />
     <Compile Include="TwitchIRCClient\IrcChangedEventArgs.cs" />
     <Compile Include="TwitchIRCClient\IrcMessageEventArgs.cs" />
     <Compile Include="Program.cs" />
@@ -192,8 +192,8 @@
     <EmbeddedResource Include="FormCustomName.resx">
       <DependentUpon>FormCustomName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDiscordPings.resx">
-      <DependentUpon>FormDiscordPings.cs</DependentUpon>
+    <EmbeddedResource Include="FormDiscordWebhooks.resx">
+      <DependentUpon>FormDiscordWebhooks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormDPSReportServer.resx">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
@@ -249,6 +249,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icon.ico" />
+    <Content Include="IconAssembly.ico" />
     <Content Include="PlenfaceClose.ico" />
   </ItemGroup>
   <ItemGroup>

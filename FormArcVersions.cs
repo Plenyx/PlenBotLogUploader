@@ -44,7 +44,7 @@ namespace PlenBotLogUploader
                     if (File.Exists($@"{location}\bin64\d3d9.dll"))
                     {
                         GW2Location = location;
-                        mainLink.SetRegistryValue("gw2Location", location);
+                        mainLink.RegistryController.SetRegistryValue("gw2Location", location);
                         buttonEnabler.Enabled = true;
                     }
                 }
@@ -97,21 +97,21 @@ namespace PlenBotLogUploader
                 {
                     SetInformationText("Downloading newest version of arcdps...");
                 }
-                await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
+                await mainLink.HttpClientController.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
                 if (radioButtonDownloadAll.Checked)
                 {
-                    await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
-                    await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
+                    await mainLink.HttpClientController.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
+                    await mainLink.HttpClientController.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
                 }
                 else if (radioButtonUpdateAll.Checked)
                 {
                     if (File.Exists($@"{GW2Location}\bin64\d3d9_arcdps_extras.dll"))
                     {
-                        await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
+                        await mainLink.HttpClientController.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/extras/d3d9_arcdps_extras.dll", $@"{GW2Location}\bin64\d3d9_arcdps_extras.dll");
                     }
                     if (File.Exists($@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll"))
                     {
-                        await mainLink.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
+                        await mainLink.HttpClientController.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
                     }
                 }
                 SetInformationText("Update complete.");
@@ -143,7 +143,7 @@ namespace PlenBotLogUploader
 
         public async Task CheckNewVersionAsync(bool manual = false)
         {
-            string availableVersionResnponse = await mainLink.DownloadFileToStringAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum");
+            string availableVersionResnponse = await mainLink.HttpClientController.DownloadFileToStringAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum");
             string availableVersion = availableVersionResnponse.Split(' ')[0];
             if (File.Exists($@"{GW2Location}\bin64\d3d9.dll"))
             {
@@ -236,7 +236,7 @@ namespace PlenBotLogUploader
         {
             StopTimerAsync();
             GW2Location = "";
-            mainLink.SetRegistryValue("gw2Location", "");
+            mainLink.RegistryController.SetRegistryValue("gw2Location", "");
             buttonEnabler.Enabled = false;
         }
 

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.RemotePing;
 
 namespace PlenBotLogUploader
@@ -91,13 +88,13 @@ namespace PlenBotLogUploader
             AllPings.Add(settingsIdsKey, config);
         }
 
-        public async Task ExecuteAllPingsAsync(DPSReport.DPSReportJSONMinimal reportJSON)
+        public async Task ExecuteAllPingsAsync(DPSReportJSON reportJSON)
         {
-            foreach (var ping in AllPings.Keys)
+            foreach (int key in AllPings.Keys)
             {
-                if (AllPings[ping].Active)
+                if (AllPings[key].Active)
                 {
-                    await AllPings[ping].PingServerAsync(mainLink, reportJSON);
+                    await AllPings[key].PingServerAsync(mainLink, reportJSON);
                 }
             }
         }
@@ -147,7 +144,6 @@ namespace PlenBotLogUploader
 
         private void listViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            string name = e.Item.Name;
             int.TryParse(e.Item.Name, out int reservedId);
             AllPings[reservedId].Active = e.Item.Checked;
         }

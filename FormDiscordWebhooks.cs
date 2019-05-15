@@ -12,7 +12,7 @@ using PlenBotLogUploader.DPSReport;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormDiscordPings : Form
+    public partial class FormDiscordWebhooks : Form
     {
         #region definitions
         // properties
@@ -23,7 +23,7 @@ namespace PlenBotLogUploader
         private int webhookIdsKey = 0;
         #endregion
 
-        public FormDiscordPings(FormMain mainLink)
+        public FormDiscordWebhooks(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();
@@ -97,7 +97,7 @@ namespace PlenBotLogUploader
             AllWebhooks.Add(webhookIdsKey, data);
         }
 
-        public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSONMinimal reportJSON, Dictionary<int, BossData> allBosses)
+        public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON, Dictionary<int, BossData> allBosses)
         {
             string bossName = reportJSON.Encounter.Boss;
             string successString = (reportJSON.Encounter.Success ?? false) ? "success" : "fail";
@@ -157,18 +157,19 @@ namespace PlenBotLogUploader
                     {
                         continue;
                     }
+                    var uri = new Uri(AllWebhooks[key].URL);
                     if (AllWebhooks[key].ShowPlayers)
                     {
                         using (var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json"))
                         {
-                            using (await mainLink.MainHttpClient.PostAsync(new Uri(AllWebhooks[key].URL), content)) { }
+                            using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
                         }
                     }
                     else
                     {
                         using (var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json"))
                         {
-                            using (await mainLink.MainHttpClient.PostAsync(new Uri(AllWebhooks[key].URL), content)) { }
+                            using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
                         }
                     }
                 }
@@ -208,7 +209,6 @@ namespace PlenBotLogUploader
 
         private void listViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            string name = e.Item.Name;
             int.TryParse(e.Item.Name, out int reservedId);
             AllWebhooks[reservedId].Active = e.Item.Checked;
         }

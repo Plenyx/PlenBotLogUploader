@@ -135,10 +135,10 @@ namespace PlenBotLogUploader
                     }
                     else
                     {
-                        mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(textBoxAuthName.Text, textBoxAuthToken.Text);
+                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(textBoxAuthName.Text, textBoxAuthToken.Text);
                     }
                 }
-                string response = await mainLink.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/{auth}");
+                string response = await mainLink.HttpClientController.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/{auth}");
                 try
                 {
                     PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
@@ -161,7 +161,7 @@ namespace PlenBotLogUploader
                     {
                         if (radioButtonUseAuthField.Checked)
                         {
-                            mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = null;
+                            mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
                         }
                     }
                 }

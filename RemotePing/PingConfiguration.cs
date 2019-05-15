@@ -24,14 +24,14 @@ namespace PlenBotLogUploader.RemotePing
                 {
                     if (Authentication.UseAsAuth)
                     {
-                        mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
                     }
                     else
                     {
                         auth = $"?{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
                     }
                 }
-                string response = await mainLink.DownloadFileToStringAsync($"{URL}pingtest/{auth}");
+                string response = await mainLink.HttpClientController.DownloadFileToStringAsync($"{URL}pingtest/{auth}");
                 try
                 {
                     PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
@@ -50,7 +50,7 @@ namespace PlenBotLogUploader.RemotePing
                 }
                 finally
                 {
-                    mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = null;
+                    mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
                 }
             }
             catch
@@ -59,7 +59,7 @@ namespace PlenBotLogUploader.RemotePing
             }
         }
 
-        public async Task PingServerAsync(FormMain mainLink, DPSReportJSONMinimal reportJSON)
+        public async Task PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON)
         {
             if (Method.Equals(PingMethod.Post) || Method.Equals(PingMethod.Put))
             {
@@ -78,7 +78,7 @@ namespace PlenBotLogUploader.RemotePing
                     }
                     else
                     {
-                        mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
                     }
                 }
                 using (FormUrlEncodedContent content = new FormUrlEncodedContent(fields))
@@ -88,11 +88,11 @@ namespace PlenBotLogUploader.RemotePing
                     {
                         if (Method.Equals(PingMethod.Put))
                         {
-                            responseMessage = await mainLink.MainHttpClient.PutAsync(URL, content);
+                            responseMessage = await mainLink.HttpClientController.MainHttpClient.PutAsync(URL, content);
                         }
                         else
                         {
-                            responseMessage = await mainLink.MainHttpClient.PostAsync(URL, content);
+                            responseMessage = await mainLink.HttpClientController.MainHttpClient.PostAsync(URL, content);
                         }
                         string response = await responseMessage.Content.ReadAsStringAsync();
                         PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
@@ -118,7 +118,7 @@ namespace PlenBotLogUploader.RemotePing
                 {
                     if (Authentication.UseAsAuth)
                     {
-                        mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = null;
+                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
                     }
                 }
             }
@@ -139,7 +139,7 @@ namespace PlenBotLogUploader.RemotePing
                     }
                     else
                     {
-                        mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
                     }
                 }
                 HttpResponseMessage responseMessage = null;
@@ -147,11 +147,11 @@ namespace PlenBotLogUploader.RemotePing
                 {
                     if (Method.Equals(PingMethod.Delete))
                     {
-                        responseMessage = await mainLink.MainHttpClient.DeleteAsync(fullLink);
+                        responseMessage = await mainLink.HttpClientController.MainHttpClient.DeleteAsync(fullLink);
                     }
                     else
                     {
-                        responseMessage = await mainLink.MainHttpClient.GetAsync(fullLink);
+                        responseMessage = await mainLink.HttpClientController.MainHttpClient.GetAsync(fullLink);
                     }
                     string response = await responseMessage.Content.ReadAsStringAsync();
                     PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
@@ -176,7 +176,7 @@ namespace PlenBotLogUploader.RemotePing
                 {
                     if (Authentication.UseAsAuth)
                     {
-                        mainLink.MainHttpClient.DefaultRequestHeaders.Authorization = null;
+                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
                     }
                 }
             }

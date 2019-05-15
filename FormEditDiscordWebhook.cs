@@ -7,13 +7,13 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private FormDiscordPings discordPingLink;
+        private FormDiscordWebhooks discordPingLink;
         private DiscordWebhookData data;
         private int reservedId;
         private bool addNew;
         #endregion
 
-        public FormEditDiscordWebhook(FormDiscordPings discordPingLink, int reservedId, bool addNew, DiscordWebhookData data)
+        public FormEditDiscordWebhook(FormDiscordWebhooks discordPingLink, int reservedId, bool addNew, DiscordWebhookData data)
         {
             this.discordPingLink = discordPingLink;
             this.data = data;

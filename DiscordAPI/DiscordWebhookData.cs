@@ -15,7 +15,7 @@ namespace PlenBotLogUploader.DiscordAPI
         {
             try
             {
-                string response = await mainLink.DownloadFileToStringAsync($"{URL}");
+                string response = await mainLink.HttpClientController.DownloadFileToStringAsync($"{URL}");
                 DiscordAPIJSONWebhookResponse pingtest = new JavaScriptSerializer().Deserialize<DiscordAPIJSONWebhookResponse>(response);
                 return pingtest.IsSuccess();
             }

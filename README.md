@@ -1,24 +1,25 @@
 # PlenBotLogUploader [![Build status](https://ci.appveyor.com/api/projects/status/qdx2bmsj54yg0c0y?svg=true)](https://ci.appveyor.com/project/Plenyx/plenbotloguploader)
-An open source uploader to dps.report which post the links to Twitch chat or not, depending on the setting and more.
+The all-in-one solution for all your arcdps logs.
 
 *Maintained by Plenyx.*
 
 **Requires .NET Framework 4.5 ([link](https://www.microsoft.com/en-us/download/details.aspx?id=30653))**
-* v4.6 is preinstalled on Windows 10 by default, so you don't need to download it if you own Windows 10, it is backwards compatible
+* v4.6 is preinstalled on Windows 10 by default, you don't need to download 4.5 if you own Windows 10, 4.6 is backwards compatible
 
-## Installation
+## Installation ([download](https://github.com/Plenyx/PlenBotLogUploader/releases))
 To install the uploader, I recommend creating a new folder and putting the executable in.
 
-The uploader will create a file called "logs.csv" which will contain all previous and latest upload links.
+The uploader will create a file called "logs.csv" which will contain all previous and latest upload links with additional data.
 
 For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username "gw2loguploader". Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
 
 If you are using the uploader with Twitch integration, you can customise bot messages in the "Edit boss data" dialog window. Settings are saved in "boss_data.txt" file.
 
-I recommend using the compress feature in the arc settings. Otherwise the bot will try to archive it itself, which can be more unstable.
+I recommend using the compress feature in the arcdps log settings. Otherwise the bot will try to archive it itself, which can delay log uploads.
 
 ## Update
-The uploader keeps track of its version and the online available version. When you start the executable, it will check for updates. If update is found a prompt will be displayed.
+The uploader keeps track of its version and the online available version.
+When you start the executable, it will check for a new version. If update is available a prompt will be displayed.
 
 To update the bot you need to overwrite the previous executable.
 
