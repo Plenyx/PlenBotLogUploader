@@ -22,7 +22,7 @@ namespace PlenBotLogUploader.Tools
             }
         }
 
-        public T GetRegistryValue<T>(string name, T defaultValue = default)
+        public T GetRegistryValue<T>(string name, T defaultValue = default(T))
         {
             try
             {
