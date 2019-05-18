@@ -55,7 +55,10 @@ namespace PlenBotLogUploader
 
         private void buttonDoNotUseTwitch_Click(object sender, EventArgs e)
         {
-            mainLink.DisconnectTwitchBot();
+            if (!mainLink.IsConnectionNull())
+            {
+                mainLink.DisconnectTwitchBot();
+            }
             mainLink.RegistryController.SetRegistryValue("connectToTwitch", 0);
             mainLink.checkBoxPostToTwitch.Checked = false;
             Hide();

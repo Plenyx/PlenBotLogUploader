@@ -143,9 +143,9 @@ namespace PlenBotLogUploader
 
         public async Task CheckNewVersionAsync(bool manual = false)
         {
-            string availableVersionResnponse = await mainLink.HttpClientController.DownloadFileToStringAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum");
-            string availableVersion = availableVersionResnponse.Split(' ')[0];
-            if (File.Exists($@"{GW2Location}\bin64\d3d9.dll"))
+            string availableVersionResponse = await mainLink.HttpClientController.DownloadFileToStringAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum");
+            string availableVersion = availableVersionResponse.Split(' ')[0];
+            if ((availableVersion != "") && (File.Exists($@"{GW2Location}\bin64\d3d9.dll")))
             {
                 using (var md5 = System.Security.Cryptography.MD5.Create())
                 {
@@ -156,7 +156,7 @@ namespace PlenBotLogUploader
                             using (var stream = File.OpenRead($@"{GW2Location}\bin64\d3d9.dll"))
                             {
                                 var hash = md5.ComputeHash(stream);
-                                if (!BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant().Equals(availableVersion))
+                                if (!BitConverter.ToString(hash).Replace("-", "").ToLower().Equals(availableVersion))
                                 {
                                     buttonCheckNow.Enabled = false;
                                     groupBoxUpdating.Enabled = true;
@@ -220,10 +220,6 @@ namespace PlenBotLogUploader
                     {
                         await UpdateArcAsync();
                     }
-                }
-                else
-                {
-                    mainLink.ShowBalloon("arcdps version checking", "New version of arcdps available", 6500);
                 }
             }
         }

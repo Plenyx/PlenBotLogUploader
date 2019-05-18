@@ -29,6 +29,7 @@
             this.components = new System.ComponentModel.Container();
             this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
+            this.buttonTwitchCommands = new System.Windows.Forms.Button();
             this.checkBoxTwitchOnlySuccess = new System.Windows.Forms.CheckBox();
             this.buttonDisConnectTwitch = new System.Windows.Forms.Button();
             this.buttonCustomName = new System.Windows.Forms.Button();
@@ -52,6 +53,7 @@
             this.toolStripSeparatorFirst = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenTwitchCommands = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenRaidarSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenArcVersionsSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
@@ -80,11 +82,12 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 504);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 534);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
             // 
+            this.groupBoxTwitchSettings.Controls.Add(this.buttonTwitchCommands);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxTwitchOnlySuccess);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonDisConnectTwitch);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonCustomName);
@@ -93,10 +96,20 @@
             this.groupBoxTwitchSettings.Controls.Add(this.buttonReconnectBot);
             this.groupBoxTwitchSettings.Location = new System.Drawing.Point(426, 12);
             this.groupBoxTwitchSettings.Name = "groupBoxTwitchSettings";
-            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 149);
+            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 179);
             this.groupBoxTwitchSettings.TabIndex = 4;
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
+            // 
+            // buttonTwitchCommands
+            // 
+            this.buttonTwitchCommands.Location = new System.Drawing.Point(6, 120);
+            this.buttonTwitchCommands.Name = "buttonTwitchCommands";
+            this.buttonTwitchCommands.Size = new System.Drawing.Size(188, 23);
+            this.buttonTwitchCommands.TabIndex = 12;
+            this.buttonTwitchCommands.Text = "Twitch commands";
+            this.buttonTwitchCommands.UseVisualStyleBackColor = true;
+            this.buttonTwitchCommands.Click += new System.EventHandler(this.ButtonTwitchCommands_Click);
             // 
             // checkBoxTwitchOnlySuccess
             // 
@@ -111,7 +124,7 @@
             // 
             // buttonDisConnectTwitch
             // 
-            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 120);
+            this.buttonDisConnectTwitch.Location = new System.Drawing.Point(6, 149);
             this.buttonDisConnectTwitch.Name = "buttonDisConnectTwitch";
             this.buttonDisConnectTwitch.Size = new System.Drawing.Size(188, 23);
             this.buttonDisConnectTwitch.TabIndex = 10;
@@ -210,7 +223,7 @@
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonLogsLocation);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxWepSkill1);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxUploadLogs);
-            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 167);
+            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 197);
             this.groupBoxArcdpsLogs.Name = "groupBoxArcdpsLogs";
             this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 160);
             this.groupBoxArcdpsLogs.TabIndex = 5;
@@ -281,6 +294,7 @@
             this.toolStripSeparatorFirst,
             this.toolStripMenuItemOpenDPSReportServer,
             this.toolStripMenuItemOpenCustomName,
+            this.toolStripMenuItemOpenTwitchCommands,
             this.toolStripMenuItemOpenRaidarSettings,
             this.toolStripMenuItemOpenArcVersionsSettings,
             this.toolStripSeparatorSecond,
@@ -289,7 +303,7 @@
             this.toolStripSeparatorThird,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 220);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 264);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -325,6 +339,13 @@
             this.toolStripMenuItemOpenCustomName.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemOpenCustomName.Text = "Open custom name settings";
             this.toolStripMenuItemOpenCustomName.Click += new System.EventHandler(this.toolStripMenuItemOpenCustomName_Click);
+            // 
+            // toolStripMenuItemOpenTwitchCommands
+            // 
+            this.toolStripMenuItemOpenTwitchCommands.Name = "toolStripMenuItemOpenTwitchCommands";
+            this.toolStripMenuItemOpenTwitchCommands.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemOpenTwitchCommands.Text = "Open Twitch commands";
+            this.toolStripMenuItemOpenTwitchCommands.Click += new System.EventHandler(this.ToolStripMenuItemOpenTwitchCommands_Click);
             // 
             // toolStripMenuItemOpenRaidarSettings
             // 
@@ -379,7 +400,7 @@
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 333);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 363);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
             this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 183);
             this.groupBoxOtherSettings.TabIndex = 7;
@@ -439,7 +460,7 @@
             // buttonUpdateNow
             // 
             this.buttonUpdateNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdateNow.Location = new System.Drawing.Point(24, 468);
+            this.buttonUpdateNow.Location = new System.Drawing.Point(21, 498);
             this.buttonUpdateNow.Name = "buttonUpdateNow";
             this.buttonUpdateNow.Size = new System.Drawing.Size(112, 40);
             this.buttonUpdateNow.TabIndex = 8;
@@ -458,7 +479,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 523);
+            this.ClientSize = new System.Drawing.Size(633, 554);
             this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
@@ -528,6 +549,8 @@
         private System.Windows.Forms.Button buttonUpdateNow;
         private System.Windows.Forms.CheckBox checkBoxStartWhenWindowsStarts;
         private System.Windows.Forms.Timer timerCheckUpdate;
+        private System.Windows.Forms.Button buttonTwitchCommands;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenTwitchCommands;
     }
 }
 

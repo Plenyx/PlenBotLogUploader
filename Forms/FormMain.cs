@@ -43,6 +43,7 @@ namespace PlenBotLogUploader
         private readonly FormBossData bossDataLink;
         private readonly FormDiscordWebhooks discordWebhooksLink;
         private readonly FormPings pingsLink;
+        private readonly FormTwitchCommands twitchCommandsLink;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private bool firstTimeMinimise = true;
@@ -51,7 +52,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderBuild = 35;
+        private const int uploaderBuild = 36;
         #endregion
 
         #region constructor
@@ -70,6 +71,7 @@ namespace PlenBotLogUploader
             arcVersionsLink = new FormArcVersions(this);
             bossDataLink = new FormBossData(this);
             discordWebhooksLink = new FormDiscordWebhooks(this);
+            twitchCommandsLink = new FormTwitchCommands(this);
             try
             {
                 LogsLocation = RegistryController.GetRegistryValue("logsLocation", "");
@@ -170,6 +172,10 @@ namespace PlenBotLogUploader
                         RegistryController.SetRegistryValue("gw2Location", "");
                     }
                 }
+                twitchCommandsLink.checkBoxUploaderEnable.Checked = RegistryController.GetRegistryValue("twitchCommandUploaderEnabled", 1) == 1;
+                twitchCommandsLink.textBoxUploaderCommand.Text = RegistryController.GetRegistryValue("twitchCommandUploader", "!uploader");
+                twitchCommandsLink.checkBoxLastLogEnable.Checked = RegistryController.GetRegistryValue("twitchCommandLastLogEnabled", 0) == 1;
+                twitchCommandsLink.textBoxLastLogCommand.Text = RegistryController.GetRegistryValue("twitchCommandLastLog", "!lastlog");
                 if (RegistryController.GetRegistryValue("firstSetup", 0) == 0)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -194,10 +200,12 @@ namespace PlenBotLogUploader
                 {
                     buttonDisConnectTwitch.Text = "Connect to Twitch";
                     buttonChangeTwitchChannel.Enabled = false;
-                    buttonCustomName.Enabled = false;
                     toolStripMenuItemOpenCustomName.Enabled = false;
                     toolStripMenuItemPostToTwitch.Enabled = false;
+                    toolStripMenuItemOpenTwitchCommands.Enabled = false;
+                    buttonCustomName.Enabled = false;
                     buttonReconnectBot.Enabled = false;
+                    buttonTwitchCommands.Enabled = false;
                     checkBoxPostToTwitch.Enabled = false;
                 }
                 if (!File.Exists($"{LocalDir}logs.csv"))
@@ -701,8 +709,10 @@ namespace PlenBotLogUploader
             buttonChangeTwitchChannel.Enabled = true;
             toolStripMenuItemOpenCustomName.Enabled = true;
             toolStripMenuItemPostToTwitch.Enabled = true;
+            toolStripMenuItemOpenTwitchCommands.Enabled = true;
             buttonCustomName.Enabled = true;
             buttonReconnectBot.Enabled = true;
+            buttonTwitchCommands.Enabled = true;
             checkBoxPostToTwitch.Enabled = true;
             if (CustomTwitchName != "")
             {
@@ -727,10 +737,12 @@ namespace PlenBotLogUploader
             AddToText("<-?-> CONNECTION CLOSED");
             buttonDisConnectTwitch.Text = "Connect to Twitch";
             buttonChangeTwitchChannel.Enabled = false;
-            buttonCustomName.Enabled = false;
             toolStripMenuItemOpenCustomName.Enabled = false;
             toolStripMenuItemPostToTwitch.Enabled = false;
+            toolStripMenuItemOpenTwitchCommands.Enabled = false;
+            buttonCustomName.Enabled = false;
             buttonReconnectBot.Enabled = false;
+            buttonTwitchCommands.Enabled = false;
             checkBoxPostToTwitch.Enabled = false;
             RegistryController.SetRegistryValue("connectToTwitch", 0);
         }
@@ -817,12 +829,12 @@ namespace PlenBotLogUploader
             if (messageSplit.Length > 1)
             {
                 string command = messageSplit[1].Split(' ')[0].ToLower();
-                if (command.Equals("!uploader"))
+                if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
                     AddToText("> UPLOADER COMMAND USED");
                     await chatConnect.SendChatMessageAsync(ChannelName, $"PlenBot Log Uploader v1 build n.{uploaderBuild} | https://plenbot.net/uploader/");
                 }
-                else if (command.Equals("!lastlog") || command.Equals("!log"))
+                else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {
                     if (LastLog != null)
                     {
@@ -986,6 +998,12 @@ namespace PlenBotLogUploader
             discordWebhooksLink.BringToFront();
         }
 
+        private void ButtonTwitchCommands_Click(object sender, EventArgs e)
+        {
+            twitchCommandsLink.Show();
+            twitchCommandsLink.BringToFront();
+        }
+
         private void toolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
         {
             dpsReportServerLink.Show();
@@ -1020,6 +1038,12 @@ namespace PlenBotLogUploader
         {
             discordWebhooksLink.Show();
             discordWebhooksLink.BringToFront();
+        }
+
+        private void ToolStripMenuItemOpenTwitchCommands_Click(object sender, EventArgs e)
+        {
+            twitchCommandsLink.Show();
+            twitchCommandsLink.BringToFront();
         }
 
         private void buttonDisConnectTwitch_Click(object sender, EventArgs e)

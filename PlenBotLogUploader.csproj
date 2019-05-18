@@ -96,77 +96,83 @@
     <Compile Include="DPSReport\EliteSpecs.cs" />
     <Compile Include="DPSReport\Players.cs" />
     <Compile Include="DPSReport\Professions.cs" />
-    <Compile Include="FormArcVersions.cs">
+    <Compile Include="Forms\FormArcVersions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormArcVersions.Designer.cs">
+    <Compile Include="Forms\FormArcVersions.Designer.cs">
       <DependentUpon>FormArcVersions.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormCustomName.cs">
+    <Compile Include="Forms\FormCustomName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormCustomName.Designer.cs">
+    <Compile Include="Forms\FormCustomName.Designer.cs">
       <DependentUpon>FormCustomName.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormDiscordWebhooks.cs">
+    <Compile Include="Forms\FormDiscordWebhooks.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDiscordWebhooks.Designer.cs">
+    <Compile Include="Forms\FormDiscordWebhooks.Designer.cs">
       <DependentUpon>FormDiscordWebhooks.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormDPSReportServer.cs">
+    <Compile Include="Forms\FormDPSReportServer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDPSReportServer.Designer.cs">
+    <Compile Include="Forms\FormDPSReportServer.Designer.cs">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEditBossData.cs">
+    <Compile Include="Forms\FormEditBossData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEditBossData.Designer.cs">
+    <Compile Include="Forms\FormEditBossData.Designer.cs">
       <DependentUpon>FormEditBossData.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEditDiscordWebhook.cs">
+    <Compile Include="Forms\FormEditDiscordWebhook.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEditDiscordWebhook.Designer.cs">
+    <Compile Include="Forms\FormEditDiscordWebhook.Designer.cs">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPings.cs">
+    <Compile Include="Forms\FormPings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPings.Designer.cs">
+    <Compile Include="Forms\FormPings.Designer.cs">
       <DependentUpon>FormPings.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormRaidar.cs">
+    <Compile Include="Forms\FormRaidar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormRaidar.Designer.cs">
+    <Compile Include="Forms\FormRaidar.Designer.cs">
       <DependentUpon>FormRaidar.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormBossData.cs">
+    <Compile Include="Forms\FormBossData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormBossData.Designer.cs">
+    <Compile Include="Forms\FormBossData.Designer.cs">
       <DependentUpon>FormBossData.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTwitchNameSetup.cs">
+    <Compile Include="Forms\FormTwitchNameSetup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTwitchNameSetup.Designer.cs">
+    <Compile Include="Forms\FormTwitchNameSetup.Designer.cs">
       <DependentUpon>FormTwitchNameSetup.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMain.cs">
+    <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
+    <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEditPing.cs">
+    <Compile Include="Forms\FormEditPing.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEditPing.Designer.cs">
+    <Compile Include="Forms\FormEditPing.Designer.cs">
       <DependentUpon>FormEditPing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormTwitchCommands.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormTwitchCommands.Designer.cs">
+      <DependentUpon>FormTwitchCommands.cs</DependentUpon>
     </Compile>
     <Compile Include="GW2Raidar\GW2RaidarJSONAuth.cs" />
     <Compile Include="GW2Raidar\GW2RaidarJSONEncounterNew.cs" />
@@ -186,40 +192,43 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TwitchIRCClient\IrcStates.cs" />
     <Compile Include="TwitchIRCClient\TwitchIrcClient.cs" />
-    <EmbeddedResource Include="FormArcVersions.resx">
+    <EmbeddedResource Include="Forms\FormArcVersions.resx">
       <DependentUpon>FormArcVersions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormCustomName.resx">
+    <EmbeddedResource Include="Forms\FormCustomName.resx">
       <DependentUpon>FormCustomName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDiscordWebhooks.resx">
+    <EmbeddedResource Include="Forms\FormDiscordWebhooks.resx">
       <DependentUpon>FormDiscordWebhooks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDPSReportServer.resx">
+    <EmbeddedResource Include="Forms\FormDPSReportServer.resx">
       <DependentUpon>FormDPSReportServer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEditBossData.resx">
+    <EmbeddedResource Include="Forms\FormEditBossData.resx">
       <DependentUpon>FormEditBossData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEditDiscordWebhook.resx">
+    <EmbeddedResource Include="Forms\FormEditDiscordWebhook.resx">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPings.resx">
+    <EmbeddedResource Include="Forms\FormPings.resx">
       <DependentUpon>FormPings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRaidar.resx">
+    <EmbeddedResource Include="Forms\FormRaidar.resx">
       <DependentUpon>FormRaidar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormBossData.resx">
+    <EmbeddedResource Include="Forms\FormBossData.resx">
       <DependentUpon>FormBossData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTwitchNameSetup.resx">
+    <EmbeddedResource Include="Forms\FormTwitchCommands.resx">
+      <DependentUpon>FormTwitchCommands.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormTwitchNameSetup.resx">
       <DependentUpon>FormTwitchNameSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
+    <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEditPing.resx">
+    <EmbeddedResource Include="Forms\FormEditPing.resx">
       <DependentUpon>FormEditPing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
