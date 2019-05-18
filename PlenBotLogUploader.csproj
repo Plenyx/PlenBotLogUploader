@@ -251,7 +251,6 @@
   <ItemGroup>
     <Content Include="Icon.ico" />
     <Content Include="IconAssembly.ico" />
-    <Content Include="PlenfaceClose.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

@@ -60,12 +60,13 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxStartWhenWindowsStarts = new System.Windows.Forms.CheckBox();
             this.buttonDiscordWebhooks = new System.Windows.Forms.Button();
             this.buttonArcVersionChecking = new System.Windows.Forms.Button();
             this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
             this.buttonUpdateNow = new System.Windows.Forms.Button();
-            this.checkBoxStartWhenWindowsStarts = new System.Windows.Forms.CheckBox();
+            this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -385,6 +386,16 @@
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
+            // checkBoxStartWhenWindowsStarts
+            // 
+            this.checkBoxStartWhenWindowsStarts.AutoSize = true;
+            this.checkBoxStartWhenWindowsStarts.Location = new System.Drawing.Point(9, 42);
+            this.checkBoxStartWhenWindowsStarts.Name = "checkBoxStartWhenWindowsStarts";
+            this.checkBoxStartWhenWindowsStarts.Size = new System.Drawing.Size(175, 17);
+            this.checkBoxStartWhenWindowsStarts.TabIndex = 5;
+            this.checkBoxStartWhenWindowsStarts.Text = "start uploader on system startup";
+            this.checkBoxStartWhenWindowsStarts.UseVisualStyleBackColor = true;
+            // 
             // buttonDiscordWebhooks
             // 
             this.buttonDiscordWebhooks.Location = new System.Drawing.Point(6, 65);
@@ -437,15 +448,10 @@
             this.buttonUpdateNow.Visible = false;
             this.buttonUpdateNow.Click += new System.EventHandler(this.buttonUpdateNow_Click);
             // 
-            // checkBoxStartWhenWindowsStarts
+            // timerCheckUpdate
             // 
-            this.checkBoxStartWhenWindowsStarts.AutoSize = true;
-            this.checkBoxStartWhenWindowsStarts.Location = new System.Drawing.Point(9, 42);
-            this.checkBoxStartWhenWindowsStarts.Name = "checkBoxStartWhenWindowsStarts";
-            this.checkBoxStartWhenWindowsStarts.Size = new System.Drawing.Size(175, 17);
-            this.checkBoxStartWhenWindowsStarts.TabIndex = 5;
-            this.checkBoxStartWhenWindowsStarts.Text = "start uploader on system startup";
-            this.checkBoxStartWhenWindowsStarts.UseVisualStyleBackColor = true;
+            this.timerCheckUpdate.Interval = 5400000;
+            this.timerCheckUpdate.Tick += new System.EventHandler(this.TimerCheckUpdate_Tick);
             // 
             // FormMain
             // 
@@ -521,6 +527,7 @@
         public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDiscordWebhooks;
         private System.Windows.Forms.Button buttonUpdateNow;
         private System.Windows.Forms.CheckBox checkBoxStartWhenWindowsStarts;
+        private System.Windows.Forms.Timer timerCheckUpdate;
     }
 }
 

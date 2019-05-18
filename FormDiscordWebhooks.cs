@@ -151,10 +151,12 @@ namespace PlenBotLogUploader
                 serialiser.RegisterConverters(new[] { new DiscordAPIJSONContentConverter() });
                 string jsonContentWithoutPlayers = serialiser.Serialize(discordContentWithoutPlayers);
                 string jsonContentWithPlayers = serialiser.Serialize(discordContentWithPlayers);
+                var count = AllWebhooks.Count;
                 foreach (var key in AllWebhooks.Keys)
                 {
                     if (!AllWebhooks[key].Active || (AllWebhooks[key].OnlySuccess && !(reportJSON.Encounter.Success ?? false)))
                     {
+                        count--;
                         continue;
                     }
                     var uri = new Uri(AllWebhooks[key].URL);
@@ -172,6 +174,10 @@ namespace PlenBotLogUploader
                             using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
                         }
                     }
+                }
+                if (count > 0)
+                {
+                    mainLink.AddToText(">:> All active webhooks successfully executed.");
                 }
             }
             catch

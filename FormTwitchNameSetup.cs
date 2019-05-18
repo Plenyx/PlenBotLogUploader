@@ -30,7 +30,11 @@ namespace PlenBotLogUploader
                 {
                     mainLink.ChannelName = channelName;
                     mainLink.RegistryController.SetRegistryValue("channel", channelName);
-                    if (!mainLink.IsConnectionNull())
+                    if (mainLink.IsConnectionNull())
+                    {
+                        mainLink.ConnectTwitchBot();
+                    }
+                    else
                     {
                         mainLink.ReconnectTwitchBot();
                     }

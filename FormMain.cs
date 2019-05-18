@@ -51,7 +51,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderBuild = 34;
+        private const int uploaderBuild = 35;
         #endregion
 
         #region constructor
@@ -108,14 +108,14 @@ namespace PlenBotLogUploader
                     DPSReportServer = "a.dps.report";
                     dpsReportServerLink.radioButtonA.Checked = true;
                 }
-                if (RegistryController.GetRegistryValue("uploadAll", 0) == 1)
+                if (RegistryController.GetRegistryValue("uploadAll", 1) == 1)
                 {
                     checkBoxUploadLogs.Checked = true;
                     checkBoxPostToTwitch.Enabled = true;
                     toolStripMenuItemUploadLogs.Checked = true;
                     toolStripMenuItemPostToTwitch.Enabled = true;
                 }
-                if (RegistryController.GetRegistryValue("uploadToTwitch", 0) == 1)
+                if (RegistryController.GetRegistryValue("uploadToTwitch", 1) == 1)
                 {
                     checkBoxPostToTwitch.Checked = true;
                     checkBoxPostToTwitch.Enabled = true;
@@ -131,11 +131,11 @@ namespace PlenBotLogUploader
                 {
                     checkBoxFileSizeIgnore.Checked = true;
                 }
-                if (RegistryController.GetRegistryValue("wepSkill1", 0) == 1)
+                if (RegistryController.GetRegistryValue("wepSkill1", 1) == 1)
                 {
                     checkBoxWepSkill1.Checked = true;
                 }
-                if (RegistryController.GetRegistryValue("trayMinimise", 0) == 1)
+                if (RegistryController.GetRegistryValue("trayMinimise", 1) == 1)
                 {
                     checkBoxTrayMinimiseToIcon.Checked = true;
                 }
@@ -317,7 +317,7 @@ namespace PlenBotLogUploader
         }
         #endregion
 
-        #region tools
+        #region required methods
         // triggeres when a file is renamed within the folder, renaming is the last process done by arcdps to create evtc or zevtc files
         private void OnLogCreated(object sender, FileSystemEventArgs e)
         {
@@ -389,7 +389,7 @@ namespace PlenBotLogUploader
             UpdateLogCount();
         }
 
-        protected async void NewBuildCheckAsync()
+        protected async void NewBuildCheckAsync(bool showBaloonOnly = false)
         {
             try
             {
@@ -401,7 +401,7 @@ namespace PlenBotLogUploader
                         buttonUpdateNow.Invoke((Action)delegate () { buttonUpdateNow.Visible = true; });
                         AddToText($">>> New build available (build n. {response})");
                         AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
-                        if (StartedMinimised)
+                        if (StartedMinimised || showBaloonOnly)
                         {
                             ShowBalloon("New build available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest build is build n. {response}.", 8500);
                         }
@@ -428,6 +428,11 @@ namespace PlenBotLogUploader
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+                        timerCheckUpdate.Enabled = true;
+                        timerCheckUpdate.Start();
                     }
                 }
             }
@@ -710,6 +715,7 @@ namespace PlenBotLogUploader
             chatConnect.ReceiveMessage += ReadMessagesAsync;
             chatConnect.StateChange += OnIrcStateChanged;
             chatConnect.BeginConnection();
+            RegistryController.SetRegistryValue("connectToTwitch", 1);
         }
 
         public void DisconnectTwitchBot()
@@ -726,6 +732,7 @@ namespace PlenBotLogUploader
             toolStripMenuItemPostToTwitch.Enabled = false;
             buttonReconnectBot.Enabled = false;
             checkBoxPostToTwitch.Enabled = false;
+            RegistryController.SetRegistryValue("connectToTwitch", 0);
         }
 
         public void ReconnectTwitchBot()
@@ -1067,6 +1074,12 @@ namespace PlenBotLogUploader
                     registryRun.DeleteValue("PlenBot Log Uploader");
                 }
             }
+        }
+        private void TimerCheckUpdate_Tick(object sender, EventArgs e)
+        {
+            timerCheckUpdate.Stop();
+            timerCheckUpdate.Enabled = false;
+            Task.Run(() => NewBuildCheckAsync(true));
         }
         #endregion
     }
