@@ -44,8 +44,21 @@ namespace PlenBotLogUploader
                             {
                                 method = 0;
                             }
-                            var auth = new PingAuthentication() { Active = authActive == 1, UseAsAuth = useAsAuth == 1, AuthName = values[6], AuthToken = values[7] };
-                            AddPing(new PingConfiguration() { Active = active == 1 ? true : false, Name = values[1], URL = values[2], Method = (PingMethod)method, Authentication = auth });
+                            var auth = new PingAuthentication()
+                            {
+                                Active = authActive == 1,
+                                UseAsAuth = useAsAuth == 1,
+                                AuthName = values[6],
+                                AuthToken = values[7]
+                            };
+                            AddPing(new PingConfiguration()
+                            {
+                                Active = active == 1,
+                                Name = values[1],
+                                URL = values[2],
+                                Method = (PingMethod)method,
+                                Authentication = auth
+                            });
                         }
                     }
                 }
@@ -73,11 +86,12 @@ namespace PlenBotLogUploader
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in AllPings.Keys)
                 {
-                    string active = AllPings[key].Active ? "1" : "0";
-                    string method = ((int)AllPings[key].Method).ToString();
-                    string authActive = AllPings[key].Authentication.Active ? "1" : "0";
-                    string useAsAuth = AllPings[key].Authentication.UseAsAuth ? "1" : "0";
-                    await writer.WriteLineAsync($"{active}<;>{AllPings[key].Name}<;>{AllPings[key].URL}<;>{method}<;>{authActive}<;>{useAsAuth}<;>{AllPings[key].Authentication.AuthName}<;>{AllPings[key].Authentication.AuthToken}");
+                    var ping = AllPings[key];
+                    string active = ping.Active ? "1" : "0";
+                    string method = ((int)ping.Method).ToString();
+                    string authActive = ping.Authentication.Active ? "1" : "0";
+                    string useAsAuth = ping.Authentication.UseAsAuth ? "1" : "0";
+                    await writer.WriteLineAsync($"{active}<;>{ping.Name}<;>{ping.URL}<;>{method}<;>{authActive}<;>{useAsAuth}<;>{ping.Authentication.AuthName}<;>{ping.Authentication.AuthToken}");
                 }
             }
         }

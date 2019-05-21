@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCustomName));
             this.checkBoxCustomNameEnable = new System.Windows.Forms.CheckBox();
             this.groupBoxCustomNameSettings = new System.Windows.Forms.GroupBox();
-            this.textBoxCustomName = new System.Windows.Forms.TextBox();
-            this.textBoxCustomOAuth = new System.Windows.Forms.TextBox();
-            this.labelCustomName = new System.Windows.Forms.Label();
-            this.labelCustomOAuth = new System.Windows.Forms.Label();
             this.linkLabelGetOAuth = new System.Windows.Forms.LinkLabel();
+            this.labelCustomOAuth = new System.Windows.Forms.Label();
+            this.labelCustomName = new System.Windows.Forms.Label();
+            this.textBoxCustomOAuth = new System.Windows.Forms.TextBox();
+            this.textBoxCustomName = new System.Windows.Forms.TextBox();
+            this.labelInformation = new System.Windows.Forms.Label();
             this.groupBoxCustomNameSettings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,39 +65,6 @@
             this.groupBoxCustomNameSettings.TabStop = false;
             this.groupBoxCustomNameSettings.Text = "Custom name settings";
             // 
-            // textBoxCustomName
-            // 
-            this.textBoxCustomName.Location = new System.Drawing.Point(6, 32);
-            this.textBoxCustomName.Name = "textBoxCustomName";
-            this.textBoxCustomName.Size = new System.Drawing.Size(254, 20);
-            this.textBoxCustomName.TabIndex = 0;
-            // 
-            // textBoxCustomOAuth
-            // 
-            this.textBoxCustomOAuth.Location = new System.Drawing.Point(6, 71);
-            this.textBoxCustomOAuth.Name = "textBoxCustomOAuth";
-            this.textBoxCustomOAuth.PasswordChar = '*';
-            this.textBoxCustomOAuth.Size = new System.Drawing.Size(254, 20);
-            this.textBoxCustomOAuth.TabIndex = 1;
-            // 
-            // labelCustomName
-            // 
-            this.labelCustomName.AutoSize = true;
-            this.labelCustomName.Location = new System.Drawing.Point(6, 16);
-            this.labelCustomName.Name = "labelCustomName";
-            this.labelCustomName.Size = new System.Drawing.Size(74, 13);
-            this.labelCustomName.TabIndex = 2;
-            this.labelCustomName.Text = "Custom name:";
-            // 
-            // labelCustomOAuth
-            // 
-            this.labelCustomOAuth.AutoSize = true;
-            this.labelCustomOAuth.Location = new System.Drawing.Point(6, 55);
-            this.labelCustomOAuth.Name = "labelCustomOAuth";
-            this.labelCustomOAuth.Size = new System.Drawing.Size(94, 13);
-            this.labelCustomOAuth.TabIndex = 3;
-            this.labelCustomOAuth.Text = "OAuth2 password:";
-            // 
             // linkLabelGetOAuth
             // 
             this.linkLabelGetOAuth.AutoSize = true;
@@ -110,15 +77,57 @@
             this.linkLabelGetOAuth.VisitedLinkColor = System.Drawing.Color.Blue;
             this.linkLabelGetOAuth.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelGetOAuth_LinkClicked);
             // 
+            // labelCustomOAuth
+            // 
+            this.labelCustomOAuth.AutoSize = true;
+            this.labelCustomOAuth.Location = new System.Drawing.Point(6, 55);
+            this.labelCustomOAuth.Name = "labelCustomOAuth";
+            this.labelCustomOAuth.Size = new System.Drawing.Size(94, 13);
+            this.labelCustomOAuth.TabIndex = 3;
+            this.labelCustomOAuth.Text = "OAuth2 password:";
+            // 
+            // labelCustomName
+            // 
+            this.labelCustomName.AutoSize = true;
+            this.labelCustomName.Location = new System.Drawing.Point(6, 16);
+            this.labelCustomName.Name = "labelCustomName";
+            this.labelCustomName.Size = new System.Drawing.Size(74, 13);
+            this.labelCustomName.TabIndex = 2;
+            this.labelCustomName.Text = "Custom name:";
+            // 
+            // textBoxCustomOAuth
+            // 
+            this.textBoxCustomOAuth.Location = new System.Drawing.Point(6, 71);
+            this.textBoxCustomOAuth.Name = "textBoxCustomOAuth";
+            this.textBoxCustomOAuth.PasswordChar = '*';
+            this.textBoxCustomOAuth.Size = new System.Drawing.Size(254, 20);
+            this.textBoxCustomOAuth.TabIndex = 1;
+            // 
+            // textBoxCustomName
+            // 
+            this.textBoxCustomName.Location = new System.Drawing.Point(6, 32);
+            this.textBoxCustomName.Name = "textBoxCustomName";
+            this.textBoxCustomName.Size = new System.Drawing.Size(254, 20);
+            this.textBoxCustomName.TabIndex = 0;
+            // 
+            // labelInformation
+            // 
+            this.labelInformation.Location = new System.Drawing.Point(12, 146);
+            this.labelInformation.Name = "labelInformation";
+            this.labelInformation.Size = new System.Drawing.Size(270, 26);
+            this.labelInformation.TabIndex = 2;
+            this.labelInformation.Text = "This feature requires a use of another Twitch account";
+            this.labelInformation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormCustomName
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(289, 146);
+            this.ClientSize = new System.Drawing.Size(289, 179);
+            this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.groupBoxCustomNameSettings);
             this.Controls.Add(this.checkBoxCustomNameEnable);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormCustomName";
@@ -140,5 +149,6 @@
         public System.Windows.Forms.TextBox textBoxCustomOAuth;
         public System.Windows.Forms.TextBox textBoxCustomName;
         private System.Windows.Forms.LinkLabel linkLabelGetOAuth;
+        private System.Windows.Forms.Label labelInformation;
     }
 }

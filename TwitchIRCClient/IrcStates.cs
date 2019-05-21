@@ -1,4 +1,4 @@
-﻿namespace TwitchIRCClient
+﻿namespace PlenBotLogUploader.TwitchIRCClient
 {
     public enum IrcStates
     {

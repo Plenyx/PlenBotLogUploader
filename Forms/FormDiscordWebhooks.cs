@@ -41,7 +41,7 @@ namespace PlenBotLogUploader
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int active);
                             int.TryParse(values[3], out int onlySuccess);
-                            // compatibility with older versions
+                            // compatibility with build < 32
                             int showPlayers = 1;
                             if (values.Count() > 4)
                             {
@@ -49,11 +49,11 @@ namespace PlenBotLogUploader
                             }
                             AddWebhook(new DiscordWebhookData()
                             {
-                                Active = active == 1 ? true : false,
+                                Active = active == 1,
                                 Name = values[1],
                                 URL = values[2],
-                                OnlySuccess = onlySuccess == 1 ? true : false,
-                                ShowPlayers = showPlayers == 1 ? true : false
+                                OnlySuccess = onlySuccess == 1,
+                                ShowPlayers = showPlayers == 1
                             });
                         }
                     }
@@ -151,16 +151,15 @@ namespace PlenBotLogUploader
                 serialiser.RegisterConverters(new[] { new DiscordAPIJSONContentConverter() });
                 string jsonContentWithoutPlayers = serialiser.Serialize(discordContentWithoutPlayers);
                 string jsonContentWithPlayers = serialiser.Serialize(discordContentWithPlayers);
-                var count = AllWebhooks.Count;
                 foreach (var key in AllWebhooks.Keys)
                 {
-                    if (!AllWebhooks[key].Active || (AllWebhooks[key].OnlySuccess && !(reportJSON.Encounter.Success ?? false)))
+                    var webhook = AllWebhooks[key];
+                    if (!webhook.Active || (webhook.OnlySuccess && !(reportJSON.Encounter.Success ?? false)))
                     {
-                        count--;
                         continue;
                     }
-                    var uri = new Uri(AllWebhooks[key].URL);
-                    if (AllWebhooks[key].ShowPlayers)
+                    var uri = new Uri(webhook.URL);
+                    if (webhook.ShowPlayers)
                     {
                         using (var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json"))
                         {
@@ -175,7 +174,7 @@ namespace PlenBotLogUploader
                         }
                     }
                 }
-                if (count > 0)
+                if (AllWebhooks.Count > 0)
                 {
                     mainLink.AddToText(">:> All active webhooks successfully executed.");
                 }

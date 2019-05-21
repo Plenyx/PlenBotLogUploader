@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using Microsoft.Win32;
-using TwitchIRCClient;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.GW2Raidar;
+using PlenBotLogUploader.TwitchIRCClient;
 
 namespace PlenBotLogUploader
 {
@@ -52,7 +52,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderBuild = 36;
+        private const int uploaderBuild = 37;
         #endregion
 
         #region constructor
@@ -97,7 +97,7 @@ namespace PlenBotLogUploader
                 }
                 ChannelName = RegistryController.GetRegistryValue("channel", "").ToLower();
                 firstTimeMinimise = RegistryController.GetRegistryValue("trayMinimiseFirst", 1) == 1;
-                if (!string.IsNullOrEmpty(ChannelName))
+                if (ChannelName != "")
                 {
                     twitchNameLink.textBoxChannelUrl.Text = $"https://twitch.tv/{ChannelName}/";
                 }
@@ -397,7 +397,7 @@ namespace PlenBotLogUploader
             UpdateLogCount();
         }
 
-        protected async void NewBuildCheckAsync(bool showBaloonOnly = false)
+        protected async void NewBuildCheckAsync()
         {
             try
             {
@@ -406,36 +406,17 @@ namespace PlenBotLogUploader
                 {
                     if (currentversion > uploaderBuild)
                     {
-                        buttonUpdateNow.Invoke((Action)delegate () { buttonUpdateNow.Visible = true; });
-                        AddToText($">>> New build available (build n. {response})");
-                        AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
-                        if (StartedMinimised || showBaloonOnly)
+                        if (buttonUpdateNow.InvokeRequired)
                         {
-                            ShowBalloon("New build available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest build is build n. {response}.", 8500);
+                            buttonUpdateNow.Invoke((Action)delegate () { buttonUpdateNow.Visible = true; });
                         }
                         else
                         {
-                            DialogResult result = MessageBox.Show("Do you want to download the newest version?", $"New build available for the uploader (build n. {response})", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                            if (result == DialogResult.Yes)
-                            {
-                                if (RegistryController.GetRegistryValue("firstUpdate", 0) == 0)
-                                {
-                                    MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    RegistryController.SetRegistryValue("firstUpdate", 1);
-                                }
-                                Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
-                                Process.Start($"{LocalDir}");
-                                if (InvokeRequired)
-                                {
-                                    // invokes the function on the main thread
-                                    Invoke((Action)delegate () { ExitApp(); });
-                                }
-                                else
-                                {
-                                    ExitApp();
-                                }
-                            }
+                            buttonUpdateNow.Visible = true;
                         }
+                        AddToText($">>> New build available (build n. {response})");
+                        AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
+                        ShowBalloon("New build available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest build is build n. {response}.", 8500);
                     }
                     else
                     {
@@ -1103,7 +1084,7 @@ namespace PlenBotLogUploader
         {
             timerCheckUpdate.Stop();
             timerCheckUpdate.Enabled = false;
-            Task.Run(() => NewBuildCheckAsync(true));
+            Task.Run(() => NewBuildCheckAsync());
         }
         #endregion
     }

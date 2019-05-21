@@ -33,12 +33,13 @@
             this.timerCheckNewArcversion = new System.Windows.Forms.Timer(this.components);
             this.buttonCheckNow = new System.Windows.Forms.Button();
             this.groupBoxUpdating = new System.Windows.Forms.GroupBox();
+            this.radioButtonUpdateAll = new System.Windows.Forms.RadioButton();
+            this.radioButtonDownloadAll = new System.Windows.Forms.RadioButton();
             this.labelInformation = new System.Windows.Forms.Label();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
             this.buttonEnabler = new System.Windows.Forms.Button();
-            this.radioButtonDownloadAll = new System.Windows.Forms.RadioButton();
-            this.radioButtonUpdateAll = new System.Windows.Forms.RadioButton();
+            this.labelIssues = new System.Windows.Forms.Label();
             this.groupBoxUpdating.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
@@ -82,6 +83,29 @@
             this.groupBoxUpdating.TabStop = false;
             this.groupBoxUpdating.Text = "Update process";
             // 
+            // radioButtonUpdateAll
+            // 
+            this.radioButtonUpdateAll.AutoSize = true;
+            this.radioButtonUpdateAll.Checked = true;
+            this.radioButtonUpdateAll.Location = new System.Drawing.Point(139, 51);
+            this.radioButtonUpdateAll.Name = "radioButtonUpdateAll";
+            this.radioButtonUpdateAll.Size = new System.Drawing.Size(143, 17);
+            this.radioButtonUpdateAll.TabIndex = 3;
+            this.radioButtonUpdateAll.TabStop = true;
+            this.radioButtonUpdateAll.Text = "Update installed modules";
+            this.radioButtonUpdateAll.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDownloadAll
+            // 
+            this.radioButtonDownloadAll.AutoSize = true;
+            this.radioButtonDownloadAll.Location = new System.Drawing.Point(6, 51);
+            this.radioButtonDownloadAll.Name = "radioButtonDownloadAll";
+            this.radioButtonDownloadAll.Size = new System.Drawing.Size(128, 17);
+            this.radioButtonDownloadAll.TabIndex = 2;
+            this.radioButtonDownloadAll.TabStop = true;
+            this.radioButtonDownloadAll.Text = "Download all modules";
+            this.radioButtonDownloadAll.UseVisualStyleBackColor = true;
+            // 
             // labelInformation
             // 
             this.labelInformation.Location = new System.Drawing.Point(3, 77);
@@ -124,34 +148,22 @@
             this.buttonEnabler.UseVisualStyleBackColor = true;
             this.buttonEnabler.Click += new System.EventHandler(this.buttonEnabler_Click);
             // 
-            // radioButtonDownloadAll
+            // labelIssues
             // 
-            this.radioButtonDownloadAll.AutoSize = true;
-            this.radioButtonDownloadAll.Location = new System.Drawing.Point(6, 51);
-            this.radioButtonDownloadAll.Name = "radioButtonDownloadAll";
-            this.radioButtonDownloadAll.Size = new System.Drawing.Size(128, 17);
-            this.radioButtonDownloadAll.TabIndex = 2;
-            this.radioButtonDownloadAll.TabStop = true;
-            this.radioButtonDownloadAll.Text = "Download all modules";
-            this.radioButtonDownloadAll.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonUpdateAll
-            // 
-            this.radioButtonUpdateAll.AutoSize = true;
-            this.radioButtonUpdateAll.Checked = true;
-            this.radioButtonUpdateAll.Location = new System.Drawing.Point(139, 51);
-            this.radioButtonUpdateAll.Name = "radioButtonUpdateAll";
-            this.radioButtonUpdateAll.Size = new System.Drawing.Size(143, 17);
-            this.radioButtonUpdateAll.TabIndex = 3;
-            this.radioButtonUpdateAll.TabStop = true;
-            this.radioButtonUpdateAll.Text = "Update installed modules";
-            this.radioButtonUpdateAll.UseVisualStyleBackColor = true;
+            this.labelIssues.Location = new System.Drawing.Point(12, 115);
+            this.labelIssues.Name = "labelIssues";
+            this.labelIssues.Size = new System.Drawing.Size(436, 37);
+            this.labelIssues.TabIndex = 4;
+            this.labelIssues.Text = "If you are experiencing issues with these settings please disable checking so you" +
+    " are not bothered by notifications and contact me on Discord or Github";
+            this.labelIssues.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormArcVersions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(460, 118);
+            this.ClientSize = new System.Drawing.Size(460, 155);
+            this.Controls.Add(this.labelIssues);
             this.Controls.Add(this.groupBoxSettings);
             this.Controls.Add(this.groupBoxUpdating);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -182,5 +194,6 @@
         private System.Windows.Forms.Label labelInformation;
         private System.Windows.Forms.RadioButton radioButtonUpdateAll;
         private System.Windows.Forms.RadioButton radioButtonDownloadAll;
+        private System.Windows.Forms.Label labelIssues;
     }
 }

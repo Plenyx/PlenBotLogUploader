@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.Tools
@@ -28,7 +25,7 @@ namespace PlenBotLogUploader.Tools
                 {
                     using (var response = await responseMessage.Content.ReadAsStreamAsync())
                     {
-                        using (var stream = new FileStream(@destination, FileMode.Create, FileAccess.Write))
+                        using (var stream = File.Create(@destination))
                         {
                             await response.CopyToAsync(stream);
                         }

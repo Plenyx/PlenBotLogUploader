@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace TwitchIRCClient
+namespace PlenBotLogUploader.TwitchIRCClient
 {
     class TwitchIrcClient : IDisposable
     {
@@ -21,36 +21,26 @@ namespace TwitchIRCClient
         // private
         private readonly string userName;
         private readonly string password;
-        private readonly string serverIp;
-        private readonly int serverPort;
         private TcpClient tcpClient;
         private StreamReader inputStream;
         private StreamWriter outputStream;
+
+        // constants
+        private const string serverIp = "irc.chat.twitch.tv";
+        private const int serverPort = 6667;
 
         public TwitchIrcClient(string userName, string password)
         {
             this.userName = userName;
             this.password = password;
-            serverIp = "irc.chat.twitch.tv";
-            serverPort = 6667;
         }
 
         public TwitchIrcClient(string userName, string password, string channelName)
         {
             this.userName = userName;
             this.password = password;
-            serverIp = "irc.chat.twitch.tv";
-            serverPort = 6667;
             LastChannelName = channelName.ToLower();
             ChannelNames.Add(LastChannelName);
-        }
-
-        public TwitchIrcClient(string userName, string password, string ip, int port)
-        {
-            this.userName = userName;
-            this.password = password;
-            serverIp = ip;
-            serverPort = port;
         }
 
         public void BeginConnection()

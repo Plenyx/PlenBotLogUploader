@@ -22,7 +22,7 @@ You can only have one of the structures marked with ***!*** in the response.
 For a successful ping test the status code needs to be either 200 or 201.
 
 ## Pinging logs
-To ping logs themselves you need to implement response that would react to either GET or POST requests.
+To ping logs themselves you need to implement response that would react to either GET, DELETE, PUT or POST method requests.
 
 You need to implement JSON respond structure found in PlenyxAPI/PlenyxAPIPingResponse.cs.
 

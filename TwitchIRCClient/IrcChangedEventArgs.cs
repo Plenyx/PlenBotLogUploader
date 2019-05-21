@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TwitchIRCClient
+namespace PlenBotLogUploader.TwitchIRCClient
 {
     public class IrcChangedEventArgs : EventArgs
     {
