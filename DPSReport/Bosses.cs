@@ -42,6 +42,101 @@ namespace PlenBotLogUploader.DPSReport
             };
         }
 
+        public static int GetWingForBoss(int bossId)
+        {
+            switch(bossId)
+            {
+                case (int)BossIds.ValeGuardian:
+                case (int)BossIds.Gorseval:
+                case (int)BossIds.Sabetha:
+                    return 1;
+                case (int)BossIds.Slothasor:
+                case (int)BossIds.BanditTrio:
+                case (int)BossIds.Matthias:
+                    return 2;
+                case (int)BossIds.KeepConstruct:
+                case (int)BossIds.Xera:
+                    return 3;
+                case (int)BossIds.Cairn:
+                case (int)BossIds.MursaatOverseer:
+                case (int)BossIds.Samarog:
+                case (int)BossIds.Deimos:
+                    return 4;
+                case (int)BossIds.SoullessHorror:
+                case (int)BossIds.RiverOfSouls:
+                case (int)BossIds.BrokenKing:
+                case (int)BossIds.EaterOfSouls:
+                case (int)BossIds.EyesFateJudgement:
+                case (int)BossIds.Dhuum:
+                    return 5;
+                case (int)BossIds.ConjuredAmalgamate:
+                case (int)BossIds.LargosTwins:
+                case (int)BossIds.Qadim:
+                    return 6;
+                default:
+                    return 0;
+            }
+        }
+
+        public static int GetBossOrder(int bossId)
+        {
+            switch(bossId)
+            {
+                case (int)BossIds.ValeGuardian:
+                case (int)BossIds.Slothasor:
+                case (int)BossIds.Cairn:
+                case (int)BossIds.SoullessHorror:
+                case (int)BossIds.ConjuredAmalgamate:
+                    return 1;
+                case (int)BossIds.Gorseval:
+                case (int)BossIds.BanditTrio:
+                case (int)BossIds.KeepConstruct:
+                case (int)BossIds.MursaatOverseer:
+                case (int)BossIds.RiverOfSouls:
+                case (int)BossIds.LargosTwins:
+                    return 2;
+                case (int)BossIds.Matthias:
+                case (int)BossIds.Xera:
+                case (int)BossIds.Sabetha:
+                case (int)BossIds.Samarog:
+                case (int)BossIds.BrokenKing:
+                case (int)BossIds.Qadim:
+                    return 3;
+                case (int)BossIds.Deimos:
+                case(int)BossIds.EaterOfSouls:
+                    return 4;
+                case (int)BossIds.EyesFateJudgement:
+                    return 5;
+                case (int)BossIds.Dhuum:
+                    return 6;
+                default:
+                    return 0;
+            }
+        }
+
+        public static string GetWingName(int wingNumber)
+        {
+            switch(wingNumber)
+            {
+                case 1:
+                    return "Spirit Vale";
+                case 2:
+                    return "Salvation Pass";
+                case 3:
+                    return "Stronghold of the Faithful";
+                case 4:
+                    return "Bastion of the Penitent";
+                case 5:
+                    return "Hall of Chains";
+                case 6:
+                    return "Mythwright Gambit";
+                case 7:
+                    return "The Key of Ahdashim";
+                default:
+                    return "Unknown wing";
+            }
+        }
+
         public static bool IsFractal(int bossId) => (bossId == (int)BossIds.Arkk) || (bossId == (int)BossIds.Artsariiv) || (bossId == (int)BossIds.Ensolyss) || (bossId == (int)BossIds.MAMA) || (bossId == (int)BossIds.Siax) || (bossId == (int)BossIds.Skorvald);
 
         public static bool IsGolem(int bossId) => (bossId == (int)BossIds.StandardGolem) || (bossId == (int)BossIds.MediumGolem) || (bossId == (int)BossIds.LargeGolem);

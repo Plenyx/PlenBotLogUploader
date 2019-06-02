@@ -14,6 +14,7 @@ namespace PlenBotLogUploader
 
         // fields
         private FormMain mainLink;
+        private int bossesIdsKey = 0;
         #endregion
 
         public FormBossData(FormMain mainLink)
@@ -37,7 +38,7 @@ namespace PlenBotLogUploader
                         {
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int bossId);
-                            AllBosses.Add(bossId, new BossData(bossId, values[1], values[2], values[3], values[4]));
+                            AddBoss(new BossData(bossId, values[1], values[2], values[3], values[4]));
                         }
                     }
                 }
@@ -56,11 +57,17 @@ namespace PlenBotLogUploader
             }
         }
 
+        public void AddBoss(BossData data)
+        {
+            bossesIdsKey++;
+            AllBosses.Add(bossesIdsKey, data);
+        }
+
         private void listViewBosses_DoubleClick(object sender, EventArgs e)
         {
             var selected = listViewBosses.SelectedItems[0];
-            int.TryParse(selected.Name, out int bossId);
-            new FormEditBossData(this, AllBosses[bossId]).Show();
+            int.TryParse(selected.Name, out int reservedId);
+            new FormEditBossData(this, AllBosses[reservedId], reservedId).Show();
         }
 
         private async void FormTwitchLogMessages_FormClosing(object sender, FormClosingEventArgs e)
@@ -74,6 +81,59 @@ namespace PlenBotLogUploader
                 {
                     await writer.WriteLineAsync($"{AllBosses[key].BossId}<;>{AllBosses[key].Name}<;>{AllBosses[key].SuccessMsg}<;>{AllBosses[key].FailMsg}<;>{AllBosses[key].Icon}");
                 }
+            }
+        }
+
+        private void ButtonResetSettings_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to reset all the bosses?\nThis will undo all Discord webhook icon and Twitch messages settings.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                listViewBosses.Items.Clear();
+                AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
+                foreach (int key in AllBosses.Keys)
+                {
+                    listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllBosses[key].Name });
+                }
+            }
+        }
+
+        private void ButtonAddNew_Click(object sender, EventArgs e)
+        {
+            bossesIdsKey++;
+            new FormEditBossData(this, null, bossesIdsKey).Show();
+        }
+
+        private void ToolStripMenuItemAddNew_Click(object sender, EventArgs e)
+        {
+            bossesIdsKey++;
+            new FormEditBossData(this, null, bossesIdsKey).Show();
+        }
+
+        private void ToolStripMenuItemDeleteBoss_Click(object sender, EventArgs e)
+        {
+            if (listViewBosses.SelectedItems.Count > 0)
+            {
+                var selected = listViewBosses.SelectedItems[0];
+                int.TryParse(selected.Name, out int reservedId);
+                DialogResult result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    listViewBosses.Items.RemoveByKey(reservedId.ToString());
+                    AllBosses.Remove(reservedId);
+                }
+            }
+        }
+
+        private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (listViewBosses.SelectedItems.Count > 0)
+            {
+                toolStripMenuItemDeleteBoss.Enabled = true;
+            }
+            else
+            {
+                toolStripMenuItemDeleteBoss.Enabled = false;
             }
         }
     }

@@ -36,6 +36,8 @@
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonAddNew = new System.Windows.Forms.Button();
+            this.labelInformation = new System.Windows.Forms.Label();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,6 +45,7 @@
             // 
             this.listViewDiscordWebhooks.CheckBoxes = true;
             this.listViewDiscordWebhooks.ContextMenuStrip = this.contextMenuStripInteract;
+            this.listViewDiscordWebhooks.HideSelection = false;
             this.listViewDiscordWebhooks.Location = new System.Drawing.Point(12, 12);
             this.listViewDiscordWebhooks.MultiSelect = false;
             this.listViewDiscordWebhooks.Name = "listViewDiscordWebhooks";
@@ -97,11 +100,32 @@
             this.toolStripMenuItemAdd.Text = "Add new ping configuration";
             this.toolStripMenuItemAdd.Click += new System.EventHandler(this.toolStripMenuItemAdd_Click);
             // 
+            // buttonAddNew
+            // 
+            this.buttonAddNew.Location = new System.Drawing.Point(425, 270);
+            this.buttonAddNew.Name = "buttonAddNew";
+            this.buttonAddNew.Size = new System.Drawing.Size(148, 23);
+            this.buttonAddNew.TabIndex = 1;
+            this.buttonAddNew.Text = "Add new ping configuration";
+            this.buttonAddNew.UseVisualStyleBackColor = true;
+            this.buttonAddNew.Click += new System.EventHandler(this.ButtonAddNew_Click);
+            // 
+            // labelInformation
+            // 
+            this.labelInformation.AutoSize = true;
+            this.labelInformation.Location = new System.Drawing.Point(12, 275);
+            this.labelInformation.Name = "labelInformation";
+            this.labelInformation.Size = new System.Drawing.Size(295, 13);
+            this.labelInformation.TabIndex = 2;
+            this.labelInformation.Text = "You can right click the box window to bring up context menu.";
+            // 
             // FormPings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(585, 276);
+            this.ClientSize = new System.Drawing.Size(585, 301);
+            this.Controls.Add(this.labelInformation);
+            this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewDiscordWebhooks);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -112,6 +136,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPings_FormClosing);
             this.contextMenuStripInteract.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -123,5 +148,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
         public System.Windows.Forms.ListView listViewDiscordWebhooks;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTest;
+        private System.Windows.Forms.Button buttonAddNew;
+        private System.Windows.Forms.Label labelInformation;
     }
 }

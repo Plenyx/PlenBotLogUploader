@@ -22,16 +22,14 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            mainLink.RegistryController.SetRegistryValue("twitchCustomName", textBoxCustomName.Text.ToLower());
-            mainLink.RegistryController.SetRegistryValue("twitchCustomOAuth", textBoxCustomOAuth.Text);
-            mainLink.CustomTwitchName = textBoxCustomName.Text.ToLower();
-            mainLink.CustomOAuthPassword = textBoxCustomOAuth.Text;
+            Properties.Settings.Default.CustomTwitchName = textBoxCustomName.Text.ToLower();
+            Properties.Settings.Default.CustomTwitchOAuthPassword = textBoxCustomOAuth.Text;
             mainLink.ReconnectTwitchBot();
         }
 
         private void checkBoxCustomNameEnable_CheckedChanged(object sender, EventArgs e)
         {
-            mainLink.RegistryController.SetRegistryValue("twitchCustomNameEnabled", checkBoxCustomNameEnable.Checked ? 1 : 0);
+            Properties.Settings.Default.CustomTwitchNameEnabled = checkBoxCustomNameEnable.Checked;
             groupBoxCustomNameSettings.Enabled = checkBoxCustomNameEnable.Checked;
         }
 

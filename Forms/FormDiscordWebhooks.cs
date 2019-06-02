@@ -185,6 +185,127 @@ namespace PlenBotLogUploader
             }
         }
 
+        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses)
+        {
+            var RaidLogs = reportsJSON
+                .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
+                .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.Evtc.BossId) })
+                .OrderBy(anon => Bosses.GetWingForBoss(anon.LogData.Evtc.BossId)).ThenBy(anon => Bosses.GetBossOrder(anon.LogData.Encounter.BossId))
+                .ToList();
+            var FractalLogs = reportsJSON
+                .Where(anon => Bosses.IsFractal(anon.Evtc.BossId))
+                .ToList();
+            var GolemLogs = reportsJSON
+                .Where(anon => Bosses.IsGolem(anon.Evtc.BossId))
+                .ToList();
+            var WvWLogs = reportsJSON
+                .Where(anon => Bosses.IsWvW(anon.Evtc.BossId))
+                .ToList();
+            StringBuilder builder = new StringBuilder();
+            if (RaidLogs.Count > 0)
+            {
+                builder.Append("***Raid logs:***\n");
+                int lastWing = 0;
+                foreach (var data in RaidLogs)
+                {
+                    if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.Evtc.BossId)))
+                    {
+                        builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                        lastWing = Bosses.GetWingForBoss(data.LogData.Evtc.BossId);
+                    }
+                    string bossName = data.LogData.Encounter.Boss;
+                    if (allBosses.ContainsKey(data.LogData.Evtc.BossId))
+                    {
+                        bossName = allBosses[data.LogData.Evtc.BossId].Name;
+                    }
+                    builder.Append($"[{bossName}]({data.LogData.Permalink})\n");
+                }
+            }
+            if (FractalLogs.Count > 0)
+            {
+                if (builder.Length > 0)
+                {
+                    builder.Append("\n\n");
+                }
+                builder.Append("***Fractal logs:***\n");
+                foreach (var log in FractalLogs)
+                {
+                    string bossName = log.Encounter.Boss;
+                    if (allBosses.ContainsKey(log.Evtc.BossId))
+                    {
+                        bossName = allBosses[log.Evtc.BossId].Name;
+                    }
+                    builder.Append($"[{bossName}]({log.Permalink})\n");
+                }
+            }
+            if (GolemLogs.Count > 0)
+            {
+                if (builder.Length > 0)
+                {
+                    builder.Append("\n\n");
+                }
+                builder.Append("***Golem logs:***\n");
+                foreach (var log in GolemLogs)
+                {
+                    builder.Append($"{log.Permalink}\n");
+                }
+            }
+            if (WvWLogs.Count > 0)
+            {
+                if (builder.Length > 0)
+                {
+                    builder.Append("\n\n");
+                }
+                builder.Append("***WvW logs:***\n");
+                foreach(var log in WvWLogs)
+                {
+                    builder.Append($"{log.Permalink}\n");
+                }
+            }
+            var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
+            {
+                Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
+            };
+            var discordContentEmbed = new DiscordAPIJSONContentEmbed()
+            {
+                Title = "Log session",
+                Description = builder.ToString(),
+                Color = 32768,
+                Thumbnail = discordContentEmbedThumbnail
+            };
+            var discordContent = new DiscordAPIJSONContent()
+            {
+                Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+            };
+            try
+            {
+                var serialiser = new JavaScriptSerializer();
+                serialiser.RegisterConverters(new[] { new DiscordAPIJSONContentConverter() });
+                string jsonContentWithoutPlayers = serialiser.Serialize(discordContent);
+                foreach (var key in AllWebhooks.Keys)
+                {
+                    var webhook = AllWebhooks[key];
+                    if (!webhook.Active)
+                    {
+                        continue;
+                    }
+                    var uri = new Uri(webhook.URL);
+                    using (var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json"))
+                    {
+                        using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
+                    }
+                }
+                if (AllWebhooks.Count > 0)
+                {
+                    mainLink.AddToText(">:> All active webhooks successfully executed with finished log session.");
+                }
+            }
+            catch
+            {
+                mainLink.AddToText(">:> Unable to execute active webhooks with finished log session.");
+            }
+        }
+
         private void toolStripMenuItemAdd_Click(object sender, EventArgs e)
         {
             webhookIdsKey++;
@@ -249,6 +370,12 @@ namespace PlenBotLogUploader
                     MessageBox.Show("Webhook is not valid.\nCheck your URL.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void ButtonAddNew_Click(object sender, EventArgs e)
+        {
+            webhookIdsKey++;
+            new FormEditDiscordWebhook(this, webhookIdsKey, true, null).Show();
         }
     }
 }

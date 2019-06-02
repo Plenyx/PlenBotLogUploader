@@ -26,8 +26,8 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            mainLink.RegistryController.SetRegistryValue("raidarEnabled", checkBoxEnableRaidar.Checked ? 1 : 0);
-            mainLink.RegistryController.SetRegistryValue("raidarTags", textBoxTags.Text);
+            Properties.Settings.Default.RaidarEnabled = checkBoxEnableRaidar.Checked;
+            Properties.Settings.Default.RaidarTags = textBoxTags.Text;
         }
 
         private async Task AuthoriseCredentialsAsync()
@@ -48,8 +48,7 @@ namespace PlenBotLogUploader
                         GW2RaidarJSONAuth responseJSON = new JavaScriptSerializer().Deserialize<GW2RaidarJSONAuth>(response);
                         if ((responseJSON.Non_field_errors == null) || (responseJSON.Non_field_errors.Count == 0))
                         {
-                            mainLink.RaidarOAuth = responseJSON.Token;
-                            mainLink.RegistryController.SetRegistryValue("raidarOAuth", responseJSON.Token);
+                            Properties.Settings.Default.RaidarOAuth = responseJSON.Token;
                             textBoxUsername.Text = "";
                             textBoxPassword.Text = "";
                             groupBoxCredentials.Enabled = false;
@@ -72,8 +71,7 @@ namespace PlenBotLogUploader
 
         private void buttonRelog_Click(object sender, EventArgs e)
         {
-            mainLink.RaidarOAuth = "";
-            mainLink.RegistryController.SetRegistryValue("raidarOAuth", "");
+            Properties.Settings.Default.RaidarOAuth = "";
             checkBoxEnableRaidar.Checked = false;
             groupBoxCredentials.Enabled = true;
             groupBoxSettings.Enabled = false;

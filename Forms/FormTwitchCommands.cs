@@ -20,10 +20,10 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            mainLink.RegistryController.SetRegistryValue("twitchCommandUploaderEnabled", checkBoxUploaderEnable.Checked ? 1 : 0);
-            mainLink.RegistryController.SetRegistryValue("twitchCommandUploader", textBoxUploaderCommand.Text);
-            mainLink.RegistryController.SetRegistryValue("twitchCommandLastLogEnabled", checkBoxLastLogEnable.Checked ? 1 : 0);
-            mainLink.RegistryController.SetRegistryValue("twitchCommandLastLog", textBoxLastLogCommand.Text);
+            Properties.Settings.Default.TwitchCommandUploaderEnabled = checkBoxUploaderEnable.Checked;
+            Properties.Settings.Default.TwitchCommandUploader = textBoxUploaderCommand.Text;
+            Properties.Settings.Default.TwitchCommandLastLogEnabled = checkBoxLastLogEnable.Checked;
+            Properties.Settings.Default.TwitchCommandLastLog = textBoxLastLogCommand.Text;
         }
     }
 }

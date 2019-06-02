@@ -24,7 +24,7 @@ When you start the executable, it will check for a new version. If update is ava
 To update the bot you need to overwrite the previous executable.
 
 ## Uninstall/Reinstall
-To fully remove all the saved settings in the registry, use the enclosed "ResetSettings.reg" file in the release tab.
+To remove all application settings, remove the "PlenBotLogUploader.exe.config" file located in the directory of the executable.
 
 To remove all the saved logs, remove the "logs.csv" file located in the directory of the executable.
 
@@ -33,6 +33,8 @@ To remove all the saved boss data, remove the "boss_data.txt" file located in th
 To remove all the saved Discord webhooks, remove the "discord_webhooks.txt" file located in the directory of the executable.
 
 To remove all the saved remote server ping configurations, remove the "remote_pings.txt" file located in the directory of the executable.
+
+To fully remove all the saved settings in the registry, use the enclosed "ResetSettings.reg" file in the release tab.
 
 ## Features
 * arcdps log uploads
@@ -50,7 +52,6 @@ To remove all the saved remote server ping configurations, remove the "remote_pi
 
 ## Future updates
 I plan to finish the following features:
-* **All initially requested features are finished!**
 * *adding additional features based on feedback*
   * I am always looking to provide more features to the users, if you have any ideas of how to improve the uploader, don't be afraid to contact me directly.
 

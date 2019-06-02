@@ -41,6 +41,7 @@
             this.checkBoxWepSkill1 = new System.Windows.Forms.CheckBox();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
             this.groupBoxArcdpsLogs = new System.Windows.Forms.GroupBox();
+            this.buttonSession = new System.Windows.Forms.Button();
             this.buttonOpenLogs = new System.Windows.Forms.Button();
             this.buttonDPSReportServer = new System.Windows.Forms.Button();
             this.labelLocationInfo = new System.Windows.Forms.Label();
@@ -69,6 +70,7 @@
             this.buttonPingSettings = new System.Windows.Forms.Button();
             this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -82,7 +84,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 534);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 566);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
@@ -175,7 +177,7 @@
             // 
             // buttonBossData
             // 
-            this.buttonBossData.Location = new System.Drawing.Point(111, 76);
+            this.buttonBossData.Location = new System.Drawing.Point(111, 108);
             this.buttonBossData.Name = "buttonBossData";
             this.buttonBossData.Size = new System.Drawing.Size(83, 23);
             this.buttonBossData.TabIndex = 12;
@@ -215,6 +217,7 @@
             // 
             // groupBoxArcdpsLogs
             // 
+            this.groupBoxArcdpsLogs.Controls.Add(this.buttonSession);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonBossData);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonOpenLogs);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonDPSReportServer);
@@ -225,15 +228,25 @@
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxUploadLogs);
             this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 197);
             this.groupBoxArcdpsLogs.Name = "groupBoxArcdpsLogs";
-            this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 160);
+            this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 192);
             this.groupBoxArcdpsLogs.TabIndex = 5;
             this.groupBoxArcdpsLogs.TabStop = false;
             this.groupBoxArcdpsLogs.Text = "arcdps logs and DPS.report";
             // 
+            // buttonSession
+            // 
+            this.buttonSession.Location = new System.Drawing.Point(6, 79);
+            this.buttonSession.Name = "buttonSession";
+            this.buttonSession.Size = new System.Drawing.Size(188, 23);
+            this.buttonSession.TabIndex = 13;
+            this.buttonSession.Text = "Log session settings";
+            this.buttonSession.UseVisualStyleBackColor = true;
+            this.buttonSession.Click += new System.EventHandler(this.ButtonSession_Click);
+            // 
             // buttonOpenLogs
             // 
             this.buttonOpenLogs.Enabled = false;
-            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 105);
+            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 137);
             this.buttonOpenLogs.Name = "buttonOpenLogs";
             this.buttonOpenLogs.Size = new System.Drawing.Size(56, 23);
             this.buttonOpenLogs.TabIndex = 2;
@@ -243,7 +256,7 @@
             // 
             // buttonDPSReportServer
             // 
-            this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 76);
+            this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 108);
             this.buttonDPSReportServer.Name = "buttonDPSReportServer";
             this.buttonDPSReportServer.Size = new System.Drawing.Size(99, 23);
             this.buttonDPSReportServer.TabIndex = 1;
@@ -253,7 +266,7 @@
             // 
             // labelLocationInfo
             // 
-            this.labelLocationInfo.Location = new System.Drawing.Point(6, 131);
+            this.labelLocationInfo.Location = new System.Drawing.Point(6, 163);
             this.labelLocationInfo.Name = "labelLocationInfo";
             this.labelLocationInfo.Size = new System.Drawing.Size(188, 23);
             this.labelLocationInfo.TabIndex = 1;
@@ -261,7 +274,7 @@
             // 
             // buttonLogsLocation
             // 
-            this.buttonLogsLocation.Location = new System.Drawing.Point(6, 105);
+            this.buttonLogsLocation.Location = new System.Drawing.Point(6, 137);
             this.buttonLogsLocation.Name = "buttonLogsLocation";
             this.buttonLogsLocation.Size = new System.Drawing.Size(126, 23);
             this.buttonLogsLocation.TabIndex = 0;
@@ -303,7 +316,7 @@
             this.toolStripSeparatorThird,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 264);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 242);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -400,7 +413,7 @@
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 363);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 395);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
             this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 183);
             this.groupBoxOtherSettings.TabIndex = 7;
@@ -460,7 +473,7 @@
             // buttonUpdateNow
             // 
             this.buttonUpdateNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdateNow.Location = new System.Drawing.Point(21, 498);
+            this.buttonUpdateNow.Location = new System.Drawing.Point(22, 530);
             this.buttonUpdateNow.Name = "buttonUpdateNow";
             this.buttonUpdateNow.Size = new System.Drawing.Size(112, 40);
             this.buttonUpdateNow.TabIndex = 8;
@@ -474,12 +487,16 @@
             this.timerCheckUpdate.Interval = 5400000;
             this.timerCheckUpdate.Tick += new System.EventHandler(this.TimerCheckUpdate_Tick);
             // 
+            // toolTip
+            // 
+            this.toolTip.ShowAlways = true;
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 554);
+            this.ClientSize = new System.Drawing.Size(633, 583);
             this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
@@ -551,6 +568,8 @@
         private System.Windows.Forms.Timer timerCheckUpdate;
         private System.Windows.Forms.Button buttonTwitchCommands;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenTwitchCommands;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button buttonSession;
     }
 }
 

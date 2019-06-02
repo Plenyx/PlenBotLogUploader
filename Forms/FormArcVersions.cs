@@ -44,7 +44,7 @@ namespace PlenBotLogUploader
                     if (File.Exists($@"{location}\bin64\d3d9.dll"))
                     {
                         GW2Location = location;
-                        mainLink.RegistryController.SetRegistryValue("gw2Location", location);
+                        Properties.Settings.Default.GW2Location = location;
                         buttonEnabler.Enabled = true;
                     }
                 }
@@ -232,7 +232,7 @@ namespace PlenBotLogUploader
         {
             StopTimerAsync();
             GW2Location = "";
-            mainLink.RegistryController.SetRegistryValue("gw2Location", "");
+            Properties.Settings.Default.GW2Location = "";
             buttonEnabler.Enabled = false;
         }
 

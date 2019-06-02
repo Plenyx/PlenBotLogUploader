@@ -132,6 +132,12 @@
     <Compile Include="Forms\FormEditDiscordWebhook.Designer.cs">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormLogSession.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormLogSession.Designer.cs">
+      <DependentUpon>FormLogSession.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormPings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,7 +191,6 @@
     <Compile Include="RemotePing\PingMethod.cs" />
     <Compile Include="RemotePing\TestPingResult.cs" />
     <Compile Include="Tools\HttpClientController.cs" />
-    <Compile Include="Tools\RegistryController.cs" />
     <Compile Include="TwitchIRCClient\IrcChangedEventArgs.cs" />
     <Compile Include="TwitchIRCClient\IrcMessageEventArgs.cs" />
     <Compile Include="Program.cs" />
@@ -209,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditDiscordWebhook.resx">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormLogSession.resx">
+      <DependentUpon>FormLogSession.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPings.resx">
       <DependentUpon>FormPings.cs</DependentUpon>

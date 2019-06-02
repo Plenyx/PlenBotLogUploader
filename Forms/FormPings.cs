@@ -179,5 +179,11 @@ namespace PlenBotLogUploader
                 }
             }
         }
+
+        private void ButtonAddNew_Click(object sender, EventArgs e)
+        {
+            settingsIdsKey++;
+            new FormEditPing(mainLink, this, settingsIdsKey, true, null).Show();
+        }
     }
 }
