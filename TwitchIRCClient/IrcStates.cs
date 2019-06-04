@@ -2,6 +2,7 @@
 {
     public enum IrcStates
     {
+        FailedConnection,
         Disconnected,
         Connecting,
         Connected,

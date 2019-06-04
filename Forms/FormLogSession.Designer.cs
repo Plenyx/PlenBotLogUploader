@@ -31,13 +31,14 @@
             this.buttonSessionStarter = new System.Windows.Forms.Button();
             this.checkBoxSupressWebhooks = new System.Windows.Forms.CheckBox();
             this.checkBoxOnlySuccess = new System.Windows.Forms.CheckBox();
+            this.buttonUnPauseSession = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonSessionStarter
             // 
             this.buttonSessionStarter.Location = new System.Drawing.Point(12, 12);
             this.buttonSessionStarter.Name = "buttonSessionStarter";
-            this.buttonSessionStarter.Size = new System.Drawing.Size(271, 23);
+            this.buttonSessionStarter.Size = new System.Drawing.Size(163, 23);
             this.buttonSessionStarter.TabIndex = 0;
             this.buttonSessionStarter.Text = "Start a log session";
             this.buttonSessionStarter.UseVisualStyleBackColor = true;
@@ -67,11 +68,23 @@
             this.checkBoxOnlySuccess.Text = "only successful attempts";
             this.checkBoxOnlySuccess.UseVisualStyleBackColor = true;
             // 
+            // buttonUnPauseSession
+            // 
+            this.buttonUnPauseSession.Enabled = false;
+            this.buttonUnPauseSession.Location = new System.Drawing.Point(181, 12);
+            this.buttonUnPauseSession.Name = "buttonUnPauseSession";
+            this.buttonUnPauseSession.Size = new System.Drawing.Size(102, 23);
+            this.buttonUnPauseSession.TabIndex = 3;
+            this.buttonUnPauseSession.Text = "Pause session";
+            this.buttonUnPauseSession.UseVisualStyleBackColor = true;
+            this.buttonUnPauseSession.Click += new System.EventHandler(this.ButtonUnPauseSession_Click);
+            // 
             // FormLogSession
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(295, 91);
+            this.Controls.Add(this.buttonUnPauseSession);
             this.Controls.Add(this.checkBoxOnlySuccess);
             this.Controls.Add(this.checkBoxSupressWebhooks);
             this.Controls.Add(this.buttonSessionStarter);
@@ -92,5 +105,6 @@
         private System.Windows.Forms.Button buttonSessionStarter;
         public System.Windows.Forms.CheckBox checkBoxSupressWebhooks;
         public System.Windows.Forms.CheckBox checkBoxOnlySuccess;
+        private System.Windows.Forms.Button buttonUnPauseSession;
     }
 }

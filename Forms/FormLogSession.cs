@@ -11,6 +11,7 @@ namespace PlenBotLogUploader
 
         // fields
         private FormMain mainLink;
+        private bool sessionPaused = false;
         #endregion
 
         public FormLogSession(FormMain mainLink)
@@ -28,17 +29,39 @@ namespace PlenBotLogUploader
 
         private async void ButtonSessionStarter_Click(object sender, EventArgs e)
         {
-            if (SessionRunning)
+            if (SessionRunning || sessionPaused)
             {
                 buttonSessionStarter.Text = "Start a log session";
+                buttonUnPauseSession.Text = "Pause session";
+                buttonUnPauseSession.Enabled = false;
                 SessionRunning = false;
+                sessionPaused = false;
                 await mainLink.ExecuteSessionLogWebhooksAsync();
                 mainLink.SessionLogs.Clear();
             }
             else
             {
                 buttonSessionStarter.Text = "Stop the log session";
+                buttonUnPauseSession.Text = "Pause session";
+                buttonUnPauseSession.Enabled = true;
                 SessionRunning = true;
+                sessionPaused = false;
+            }
+        }
+
+        private void ButtonUnPauseSession_Click(object sender, EventArgs e)
+        {
+            if (!sessionPaused)
+            {
+                SessionRunning = false;
+                sessionPaused = true;
+                buttonUnPauseSession.Text = "Unpause session";
+            }
+            else
+            {
+                SessionRunning = true;
+                sessionPaused = false;
+                buttonUnPauseSession.Text = "Pause session";
             }
         }
     }

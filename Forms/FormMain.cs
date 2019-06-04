@@ -47,7 +47,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderBuild = 38;
+        private const int uploaderBuild = 39;
         #endregion
 
         #region constructor
@@ -59,6 +59,7 @@ namespace PlenBotLogUploader
             toolTip.SetToolTip(checkBoxWepSkill1, "If checked dps.report renders all autoattacks.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked logs with less than 12 kB filesize will not be uploaded.");
             #endregion
+            Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
             notifyIconTray.Icon = Properties.Resources.AppIcon;
             Text = $"{Text} b{uploaderBuild}";
@@ -197,10 +198,8 @@ namespace PlenBotLogUploader
                 {
                     buttonDisConnectTwitch.Text = "Connect to Twitch";
                     buttonChangeTwitchChannel.Enabled = false;
-                    toolStripMenuItemOpenCustomName.Enabled = false;
                     toolStripMenuItemPostToTwitch.Enabled = false;
                     toolStripMenuItemOpenTwitchCommands.Enabled = false;
-                    buttonCustomName.Enabled = false;
                     buttonReconnectBot.Enabled = false;
                     buttonTwitchCommands.Enabled = false;
                     checkBoxPostToTwitch.Enabled = false;
@@ -217,7 +216,7 @@ namespace PlenBotLogUploader
                         checkBoxStartWhenWindowsStarts.Checked = true;
                     }
                 }
-                /* Subscribe to field changes events, otherwise they would trigger with load */
+                /* Subscribe to field changes events, otherwise they would trigger on load */
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
                 checkBoxWepSkill1.CheckedChanged += new EventHandler(checkBoxWepSkill1_CheckedChanged);
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
@@ -700,13 +699,16 @@ namespace PlenBotLogUploader
 
         public void ConnectTwitchBot()
         {
+            if (InvokeRequired)
+            {
+                Invoke((Action)delegate { ConnectTwitchBot(); });
+                return;
+            }
             buttonDisConnectTwitch.Text = "Disconnect from Twitch";
             buttonChangeTwitchChannel.Enabled = true;
-            toolStripMenuItemOpenCustomName.Enabled = true;
             toolStripMenuItemPostToTwitch.Enabled = true;
             toolStripMenuItemOpenTwitchCommands.Enabled = true;
             buttonCustomName.Enabled = true;
-            buttonReconnectBot.Enabled = true;
             buttonTwitchCommands.Enabled = true;
             checkBoxPostToTwitch.Enabled = true;
             if (Properties.Settings.Default.CustomTwitchNameEnabled)
@@ -725,6 +727,11 @@ namespace PlenBotLogUploader
 
         public void DisconnectTwitchBot()
         {
+            if (InvokeRequired)
+            {
+                Invoke((Action)delegate { DisconnectTwitchBot(); });
+                return;
+            }
             chatConnect.ReceiveMessage -= ReadMessagesAsync;
             chatConnect.StateChange -= OnIrcStateChanged;
             chatConnect.Dispose();
@@ -732,10 +739,8 @@ namespace PlenBotLogUploader
             AddToText("<-?-> CONNECTION CLOSED");
             buttonDisConnectTwitch.Text = "Connect to Twitch";
             buttonChangeTwitchChannel.Enabled = false;
-            toolStripMenuItemOpenCustomName.Enabled = false;
             toolStripMenuItemPostToTwitch.Enabled = false;
             toolStripMenuItemOpenTwitchCommands.Enabled = false;
-            buttonCustomName.Enabled = false;
             buttonReconnectBot.Enabled = false;
             buttonTwitchCommands.Enabled = false;
             checkBoxPostToTwitch.Enabled = false;
@@ -744,6 +749,11 @@ namespace PlenBotLogUploader
 
         public void ReconnectTwitchBot()
         {
+            if (InvokeRequired)
+            {
+                Invoke((Action)delegate { ReconnectTwitchBot(); });
+                return;
+            }
             chatConnect.ReceiveMessage -= ReadMessagesAsync;
             chatConnect.StateChange -= OnIrcStateChanged;
             chatConnect.Dispose();
@@ -808,6 +818,10 @@ namespace PlenBotLogUploader
                 case IrcStates.ChannelLeaving:
                     AddToText($"<-?-> LEAVING CHANNEL {e.Channel.ToUpper()}");
                     break;
+                case IrcStates.FailedConnection:
+                    AddToText("<-?-> FAILED TO CONNECT TO TWITCH");
+                    DisconnectTwitchBot();
+                    break;
                 default:
                     AddToText("<-?-> UNRECOGNISED IRC STATE RECEIVED");
                     break;
@@ -816,7 +830,7 @@ namespace PlenBotLogUploader
 
         protected async void ReadMessagesAsync(object sender, IrcMessageEventArgs e)
         {
-            if (e == null)
+            if ((e == null) || (e.Message == null))
             {
                 return;
             }

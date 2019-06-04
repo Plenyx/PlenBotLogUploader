@@ -204,8 +204,18 @@ namespace PlenBotLogUploader.TwitchIRCClient
 
         protected async void OnMessageReceived(object sender, IrcMessageEventArgs e)
         {
-            if (e == null)
+            if ((e == null) || (e.Message == null))
             {
+                if (Connecting && !Connected)
+                {
+                    StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.FailedConnection));
+                }
+                else
+                {
+                    StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.Disconnected));
+                }
+                Connecting = false;
+                Connected = false;
                 return;
             }
             if (!Connected && e.Message.Equals($":tmi.twitch.tv 001 {userName} :Welcome, GLHF!"))
