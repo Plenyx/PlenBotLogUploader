@@ -36,7 +36,7 @@ namespace PlenBotLogUploader
                 buttonUnPauseSession.Enabled = false;
                 SessionRunning = false;
                 sessionPaused = false;
-                await mainLink.ExecuteSessionLogWebhooksAsync();
+                await mainLink.ExecuteSessionLogWebhooksAsync(!checkBoxOnlySuccess.Checked);
                 mainLink.SessionLogs.Clear();
             }
             else

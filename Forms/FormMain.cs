@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Diagnostics;
@@ -47,7 +48,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderBuild = 39;
+        private const int uploaderBuild = 40;
         #endregion
 
         #region constructor
@@ -532,9 +533,12 @@ namespace PlenBotLogUploader
             {
                 AddToText($">:> {reportJSON.Permalink}");
                 LastLog = reportJSON;
-                if (bossDataLink.AllBosses.ContainsKey(reportJSON.Encounter.BossId))
+                var bossDataRef = bossDataLink.AllBosses
+                    .Where(anon => anon.Value.BossId.Equals(reportJSON.Encounter.BossId))
+                    .Select(anon => anon.Value);
+                if (bossDataRef.Count() == 1)
                 {
-                    string format = (reportJSON.Encounter.Success ?? false) ? bossDataLink.AllBosses[reportJSON.Encounter.BossId].SuccessMsg : bossDataLink.AllBosses[reportJSON.Encounter.BossId].FailMsg;
+                    string format = (reportJSON.Encounter.Success ?? false) ? bossDataRef.First().SuccessMsg : bossDataRef.First().FailMsg;
                     await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{format}: {reportJSON.Permalink}");
                 }
                 else
@@ -691,7 +695,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionLogWebhooksAsync() => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses);
+        public async Task ExecuteSessionLogWebhooksAsync(bool showSuccess) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses, showSuccess);
         #endregion
 
         #region Twitch bot methods

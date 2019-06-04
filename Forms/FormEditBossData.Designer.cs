@@ -145,9 +145,9 @@
             this.groupBoxOtherSettings.Controls.Add(this.labelFailMsg);
             this.groupBoxOtherSettings.Controls.Add(this.textBoxIcon);
             this.groupBoxOtherSettings.Controls.Add(this.textBoxFailMsg);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(14, 120);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(12, 120);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(378, 143);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(380, 143);
             this.groupBoxOtherSettings.TabIndex = 11;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Uploader settings for the boss";
@@ -156,7 +156,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 272);
+            this.ClientSize = new System.Drawing.Size(403, 272);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxCrucial);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

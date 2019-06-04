@@ -10,7 +10,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        public Dictionary<int, BossData> AllBosses { get; set; }
+        public Dictionary<int, BossData> AllBosses { get; private set; }
 
         // fields
         private FormMain mainLink;

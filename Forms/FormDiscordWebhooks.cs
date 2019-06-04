@@ -102,10 +102,13 @@ namespace PlenBotLogUploader
             string bossName = reportJSON.Encounter.Boss;
             string successString = (reportJSON.Encounter.Success ?? false) ? "success" : "fail";
             string icon = "";
-            if (allBosses.ContainsKey(reportJSON.Encounter.BossId))
+            var bossDataRef = allBosses
+                .Where(anon => anon.Value.BossId.Equals(reportJSON.Encounter.BossId))
+                .Select(anon => anon.Value);
+            if (bossDataRef.Count() == 1)
             {
-                bossName = allBosses[reportJSON.Encounter.BossId].Name;
-                icon = allBosses[reportJSON.Encounter.BossId].Icon;
+                bossName = bossDataRef.First().Name;
+                icon = bossDataRef.First().Icon;
             }
             int color = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
             var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
@@ -185,12 +188,14 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses)
+        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses, bool showSuccess)
         {
             var RaidLogs = reportsJSON
                 .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
                 .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.Evtc.BossId) })
-                .OrderBy(anon => Bosses.GetWingForBoss(anon.LogData.Evtc.BossId)).ThenBy(anon => Bosses.GetBossOrder(anon.LogData.Encounter.BossId))
+                .OrderBy(anon => Bosses.GetWingForBoss(anon.LogData.Evtc.BossId))
+                .ThenBy(anon => Bosses.GetBossOrder(anon.LogData.Encounter.BossId))
+                .ThenBy(anon => anon.LogData.UploadTime)
                 .ToList();
             var FractalLogs = reportsJSON
                 .Where(anon => Bosses.IsFractal(anon.Evtc.BossId))
@@ -214,11 +219,15 @@ namespace PlenBotLogUploader
                         lastWing = Bosses.GetWingForBoss(data.LogData.Evtc.BossId);
                     }
                     string bossName = data.LogData.Encounter.Boss;
-                    if (allBosses.ContainsKey(data.LogData.Evtc.BossId))
+                    var bossDataRef = allBosses
+                        .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
+                        .Select(anon => anon.Value);
+                    if (bossDataRef.Count() == 1)
                     {
-                        bossName = allBosses[data.LogData.Evtc.BossId].Name;
+                        bossName = bossDataRef.First().Name;
                     }
-                    builder.Append($"[{bossName}]({data.LogData.Permalink})\n");
+                    string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " (kill)" : "") : "";
+                    builder.Append($"[{bossName}]({data.LogData.Permalink}){successText}\n");
                 }
             }
             if (FractalLogs.Count > 0)
@@ -231,9 +240,12 @@ namespace PlenBotLogUploader
                 foreach (var log in FractalLogs)
                 {
                     string bossName = log.Encounter.Boss;
-                    if (allBosses.ContainsKey(log.Evtc.BossId))
+                    var bossDataRef = allBosses
+                        .Where(anon => anon.Value.BossId.Equals(log.Encounter.BossId))
+                        .Select(anon => anon.Value);
+                    if (bossDataRef.Count() == 1)
                     {
-                        bossName = allBosses[log.Evtc.BossId].Name;
+                        bossName = bossDataRef.First().Name;
                     }
                     builder.Append($"[{bossName}]({log.Permalink})\n");
                 }

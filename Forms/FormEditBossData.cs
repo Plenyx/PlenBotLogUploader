@@ -48,6 +48,7 @@ namespace PlenBotLogUploader
                     else
                     {
                         editLink.AllBosses[reservedId] = new BossData(bossId, textBoxBossName.Text, textBoxSuccessMsg.Text, textBoxFailMsg.Text, textBoxIcon.Text);
+                        editLink.listViewBosses.Items[editLink.listViewBosses.Items.IndexOfKey(reservedId.ToString())].Text = textBoxBossName.Text;
                     }
                 }
             }
