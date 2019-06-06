@@ -131,7 +131,7 @@ namespace PlenBotLogUploader.DPSReport
                 case 6:
                     return "Mythwright Gambit";
                 case 7:
-                    return "The Key of Ahdashim";
+                    return "Key of Ahdashim";
                 default:
                     return "Unknown wing";
             }

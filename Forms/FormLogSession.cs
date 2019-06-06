@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace PlenBotLogUploader
@@ -12,6 +13,7 @@ namespace PlenBotLogUploader
         // fields
         private FormMain mainLink;
         private bool sessionPaused = false;
+        private readonly Stopwatch stopWatch = new Stopwatch();
         #endregion
 
         public FormLogSession(FormMain mainLink)
@@ -25,6 +27,8 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
+            Properties.Settings.Default.SessionName = textBoxSessionName.Text;
+            Properties.Settings.Default.SessionMessage = textBoxSessionContent.Text;
         }
 
         private async void ButtonSessionStarter_Click(object sender, EventArgs e)
@@ -36,7 +40,19 @@ namespace PlenBotLogUploader
                 buttonUnPauseSession.Enabled = false;
                 SessionRunning = false;
                 sessionPaused = false;
-                await mainLink.ExecuteSessionLogWebhooksAsync(!checkBoxOnlySuccess.Checked);
+                groupBoxSessionSettings.Enabled = true;
+                stopWatch.Stop();
+                var elapsed = stopWatch.Elapsed;
+                string elapsedTime = $"{elapsed.Seconds}s";
+                if (elapsed.Hours > 0 || elapsed.Days > 0)
+                {
+                    elapsedTime = $"{elapsed.Days * 24 + elapsed.Hours}h {elapsed.Minutes}m {elapsed.Seconds}s";
+                }
+                else if (elapsed.Minutes > 0)
+                {
+                    elapsedTime = $"{elapsed.Minutes}m {elapsed.Seconds}s";
+                }
+                await mainLink.ExecuteSessionLogWebhooksAsync(textBoxSessionName.Text, textBoxSessionContent.Text, !checkBoxOnlySuccess.Checked, elapsedTime);
                 mainLink.SessionLogs.Clear();
             }
             else
@@ -46,6 +62,8 @@ namespace PlenBotLogUploader
                 buttonUnPauseSession.Enabled = true;
                 SessionRunning = true;
                 sessionPaused = false;
+                groupBoxSessionSettings.Enabled = false;
+                stopWatch.Start();
             }
         }
 
@@ -64,5 +82,9 @@ namespace PlenBotLogUploader
                 buttonUnPauseSession.Text = "Pause session";
             }
         }
+
+        public void CheckBoxSupressWebhooks_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSuppressWebhooks = checkBoxSupressWebhooks.Checked;
+
+        public void CheckBoxOnlySuccess_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionOnlySuccess = checkBoxOnlySuccess.Checked;
     }
 }

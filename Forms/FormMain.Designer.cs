@@ -239,7 +239,7 @@
             this.buttonSession.Name = "buttonSession";
             this.buttonSession.Size = new System.Drawing.Size(188, 23);
             this.buttonSession.TabIndex = 13;
-            this.buttonSession.Text = "Log session settings";
+            this.buttonSession.Text = "Log sessions";
             this.buttonSession.UseVisualStyleBackColor = true;
             this.buttonSession.Click += new System.EventHandler(this.ButtonSession_Click);
             // 

@@ -100,7 +100,8 @@ namespace PlenBotLogUploader
         public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON, Dictionary<int, BossData> allBosses)
         {
             string bossName = reportJSON.Encounter.Boss;
-            string successString = (reportJSON.Encounter.Success ?? false) ? "success" : "fail";
+            string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
+            string extraJSON = (reportJSON.ExtraJSON == null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
             string icon = "";
             var bossDataRef = allBosses
                 .Where(anon => anon.Value.BossId.Equals(reportJSON.Encounter.BossId))
@@ -119,7 +120,7 @@ namespace PlenBotLogUploader
             {
                 Title = bossName,
                 Url = reportJSON.Permalink,
-                Description = $"Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
+                Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
                 Color = color,
                 Thumbnail = discordContentEmbedThumbnail
             };
@@ -131,7 +132,7 @@ namespace PlenBotLogUploader
             {
                 Title = bossName,
                 Url = reportJSON.Permalink,
-                Description = $"Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
+                Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
                 Color = color,
                 Thumbnail = discordContentEmbedThumbnail
             };
@@ -188,7 +189,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses, bool showSuccess)
+        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses, string sessionName, string contentText, bool showSuccess, string elapsedTime)
         {
             var RaidLogs = reportsJSON
                 .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
@@ -207,6 +208,7 @@ namespace PlenBotLogUploader
                 .Where(anon => Bosses.IsWvW(anon.Evtc.BossId))
                 .ToList();
             StringBuilder builder = new StringBuilder();
+            builder.Append($"Session duration: {elapsedTime}\n\n");
             if (RaidLogs.Count > 0)
             {
                 builder.Append("***Raid logs:***\n");
@@ -226,8 +228,9 @@ namespace PlenBotLogUploader
                     {
                         bossName = bossDataRef.First().Name;
                     }
-                    string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " (kill)" : "") : "";
-                    builder.Append($"[{bossName}]({data.LogData.Permalink}){successText}\n");
+                    string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
+                    string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                    builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                 }
             }
             if (FractalLogs.Count > 0)
@@ -280,20 +283,21 @@ namespace PlenBotLogUploader
             };
             var discordContentEmbed = new DiscordAPIJSONContentEmbed()
             {
-                Title = "Log session",
+                Title = sessionName,
                 Description = builder.ToString(),
                 Color = 32768,
                 Thumbnail = discordContentEmbedThumbnail
             };
             var discordContent = new DiscordAPIJSONContent()
             {
+                Content = contentText,
                 Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
             };
             try
             {
                 var serialiser = new JavaScriptSerializer();
                 serialiser.RegisterConverters(new[] { new DiscordAPIJSONContentConverter() });
-                string jsonContentWithoutPlayers = serialiser.Serialize(discordContent);
+                string jsonContent = serialiser.Serialize(discordContent);
                 foreach (var key in AllWebhooks.Keys)
                 {
                     var webhook = AllWebhooks[key];
@@ -302,7 +306,7 @@ namespace PlenBotLogUploader
                         continue;
                     }
                     var uri = new Uri(webhook.URL);
-                    using (var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json"))
+                    using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
                     {
                         using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
                     }
@@ -316,6 +320,11 @@ namespace PlenBotLogUploader
             {
                 mainLink.AddToText(">:> Unable to execute active webhooks with finished log session.");
             }
+            RaidLogs = null;
+            FractalLogs = null;
+            WvWLogs = null;
+            GolemLogs = null;
+            discordContent = null;
         }
 
         private void toolStripMenuItemAdd_Click(object sender, EventArgs e)

@@ -22,7 +22,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        public DPSReportJSON LastLog { get; set; }
+        public string LastLogLocation { get; set; } = "";
         public List<DPSReportJSON> SessionLogs { get; set; } = new List<DPSReportJSON>();
         public bool ChannelJoined { get; set; } = false;
         public string DPSReportServer { get; set; } = "";
@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderBuild = 40;
+        private const int uploaderBuild = 41;
         #endregion
 
         #region constructor
@@ -175,6 +175,10 @@ namespace PlenBotLogUploader
                 twitchCommandsLink.textBoxUploaderCommand.Text = Properties.Settings.Default.TwitchCommandUploader;
                 twitchCommandsLink.checkBoxLastLogEnable.Checked = Properties.Settings.Default.TwitchCommandLastLogEnabled;
                 twitchCommandsLink.textBoxLastLogCommand.Text = Properties.Settings.Default.TwitchCommandLastLog;
+                logSessionLink.textBoxSessionName.Text = Properties.Settings.Default.SessionName;
+                logSessionLink.checkBoxSupressWebhooks.Checked = Properties.Settings.Default.SessionSuppressWebhooks;
+                logSessionLink.checkBoxOnlySuccess.Checked = Properties.Settings.Default.SessionOnlySuccess;
+                logSessionLink.textBoxSessionContent.Text = Properties.Settings.Default.SessionMessage;
                 if (Properties.Settings.Default.FirstRun)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -226,6 +230,8 @@ namespace PlenBotLogUploader
                 checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(checkBoxTwitchOnlySuccess_CheckedChanged);
                 checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(checkBoxStartWhenWindowsStarts_CheckedChanged);
                 raidarLink.checkBoxEnableRaidar.CheckedChanged += new EventHandler(raidarLink.checkBoxEnableRaidar_CheckedChanged);
+                logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
+                logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
             }
             catch
             {
@@ -270,13 +276,13 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async void FormMain_DragDrop(object sender, DragEventArgs e)
+        private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            await Task.Run(() => DoDragDropFiles(files));
+            var files = ((string[])e.Data.GetData(DataFormats.FileDrop)).ToList();
+            Task.Run(() => DoDragDropFiles(files));
         }
 
-        protected void DoDragDropFiles(string[] files)
+        protected void DoDragDropFiles(List<string> files)
         {
             Dictionary<string, string> postData = new Dictionary<string, string>
             {
@@ -532,7 +538,7 @@ namespace PlenBotLogUploader
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage)
             {
                 AddToText($">:> {reportJSON.Permalink}");
-                LastLog = reportJSON;
+                LastLogLocation = reportJSON.Permalink;
                 var bossDataRef = bossDataLink.AllBosses
                     .Where(anon => anon.Value.BossId.Equals(reportJSON.Encounter.BossId))
                     .Select(anon => anon.Value);
@@ -618,6 +624,14 @@ namespace PlenBotLogUploader
                                         DPSReportJSON reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSON>(response);
                                         bossId = reportJSON.Encounter.BossId;
                                         string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                                        // extra JSON from Elite Insights
+                                        if (reportJSON.Encounter.JsonAvailable ?? false)
+                                        {
+                                            string jsonString = await HttpClientController.DownloadFileToStringAsync($"https://{DPSReportServer}/getJson?permalink={reportJSON.Permalink}");
+                                            JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 5000000 };
+                                            DPSReportJSONExtraJSON extraJSON = serilizer.Deserialize<DPSReportJSONExtraJSON>(jsonString);
+                                            reportJSON.ExtraJSON = extraJSON;
+                                        }
                                         // log file
                                         File.AppendAllText($"{LocalDir}logs.csv", $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
                                         // Twitch chat
@@ -655,10 +669,12 @@ namespace PlenBotLogUploader
                                         }
                                         // remote server ping
                                         await pingsLink.ExecuteAllPingsAsync(reportJSON);
+                                        // dispose
+                                        reportJSON = null;
                                     }
                                     catch
                                     {
-                                        AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
+                                        AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
                                     }
                                 }
                             }
@@ -695,7 +711,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionLogWebhooksAsync(bool showSuccess) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses, showSuccess);
+        public async Task ExecuteSessionLogWebhooksAsync(string sessionName, string contentText, bool showSuccess, string elapsedTime) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses, sessionName, contentText, showSuccess, elapsedTime);
         #endregion
 
         #region Twitch bot methods
@@ -849,10 +865,10 @@ namespace PlenBotLogUploader
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {
-                    if (LastLog != null)
+                    if (LastLogLocation != "")
                     {
                         AddToText("> LAST LOG COMMAND USED");
-                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Link to the last {LastLog.Encounter.Boss} log: {LastLog.Permalink}");
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Link to the last log: {LastLogLocation}");
                     }
                 }
             }

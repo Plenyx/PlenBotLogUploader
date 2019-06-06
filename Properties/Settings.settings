@@ -74,5 +74,17 @@
     <Setting Name="FirstUpdate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="SessionName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Log session</Value>
+    </Setting>
+    <Setting Name="SessionSuppressWebhooks" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SessionOnlySuccess" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SessionMessage" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

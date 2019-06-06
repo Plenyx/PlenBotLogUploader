@@ -310,5 +310,53 @@ namespace PlenBotLogUploader.Properties {
                 this["FirstUpdate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Log session")]
+        public string SessionName {
+            get {
+                return ((string)(this["SessionName"]));
+            }
+            set {
+                this["SessionName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SessionSuppressWebhooks {
+            get {
+                return ((bool)(this["SessionSuppressWebhooks"]));
+            }
+            set {
+                this["SessionSuppressWebhooks"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SessionOnlySuccess {
+            get {
+                return ((bool)(this["SessionOnlySuccess"]));
+            }
+            set {
+                this["SessionOnlySuccess"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SessionMessage {
+            get {
+                return ((string)(this["SessionMessage"]));
+            }
+            set {
+                this["SessionMessage"] = value;
+            }
+        }
     }
 }

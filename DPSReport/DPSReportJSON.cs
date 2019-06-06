@@ -13,6 +13,7 @@ namespace PlenBotLogUploader.DPSReport
         public DPSReportJSONEvtc Evtc { get; set; }
         public DPSReportJSONEncounter Encounter { get; set; }
         public Dictionary<string, DPSReportJSONPlayers> Players { get; set; } = new Dictionary<string, DPSReportJSONPlayers>();
+        public DPSReportJSONExtraJSON ExtraJSON { get; set; }
 
         public string GetUrlId() => Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
     }
