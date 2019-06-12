@@ -187,6 +187,10 @@ namespace PlenBotLogUploader
                     twitchNameLink.Show();
                     Properties.Settings.Default.FirstRun = false;
                 }
+                else if (Properties.Settings.Default.LogsLocation == "")
+                {
+                    MessageBox.Show("Path to arcdps logs is not set.\nDo not forget to set it up so the logs can be auto-uploaded.", "Just a reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 if (Properties.Settings.Default.ConnectToTwitch)
                 {
                     if (Properties.Settings.Default.CustomTwitchNameEnabled)
