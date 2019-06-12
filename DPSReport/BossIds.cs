@@ -32,6 +32,9 @@
         RiverOfSouls = 19828,
         Qadim = 20934,
         LargosTwins = 21105,
+        CardinalSabir = 21964,
+        QadimThePeerless = 22000,
+        CardinalAdina = 22006,
         ConjuredAmalgamate = 43974
     }
 }

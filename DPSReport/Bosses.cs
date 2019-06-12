@@ -73,6 +73,10 @@ namespace PlenBotLogUploader.DPSReport
                 case (int)BossIds.LargosTwins:
                 case (int)BossIds.Qadim:
                     return 6;
+                case (int)BossIds.CardinalAdina:
+                case (int)BossIds.CardinalSabir:
+                case (int)BossIds.QadimThePeerless:
+                    return 7;
                 default:
                     return 0;
             }
@@ -87,6 +91,7 @@ namespace PlenBotLogUploader.DPSReport
                 case (int)BossIds.Cairn:
                 case (int)BossIds.SoullessHorror:
                 case (int)BossIds.ConjuredAmalgamate:
+                case (int)BossIds.CardinalAdina:
                     return 1;
                 case (int)BossIds.Gorseval:
                 case (int)BossIds.BanditTrio:
@@ -94,6 +99,7 @@ namespace PlenBotLogUploader.DPSReport
                 case (int)BossIds.MursaatOverseer:
                 case (int)BossIds.RiverOfSouls:
                 case (int)BossIds.LargosTwins:
+                case (int)BossIds.CardinalSabir:
                     return 2;
                 case (int)BossIds.Matthias:
                 case (int)BossIds.Xera:
@@ -101,6 +107,7 @@ namespace PlenBotLogUploader.DPSReport
                 case (int)BossIds.Samarog:
                 case (int)BossIds.BrokenKing:
                 case (int)BossIds.Qadim:
+                case (int)BossIds.QadimThePeerless:
                     return 3;
                 case (int)BossIds.Deimos:
                 case(int)BossIds.EaterOfSouls:
@@ -131,7 +138,7 @@ namespace PlenBotLogUploader.DPSReport
                 case 6:
                     return "Mythwright Gambit";
                 case 7:
-                    return "Key of Ahdashim";
+                    return "The Key of Ahdashim";
                 default:
                     return "Unknown wing";
             }

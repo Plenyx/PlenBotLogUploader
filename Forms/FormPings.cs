@@ -73,7 +73,7 @@ namespace PlenBotLogUploader
             }
             foreach (int key in AllPings.Keys)
             {
-                listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllPings[key].Name, Checked = AllPings[key].Active });
+                listViewPings.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllPings[key].Name, Checked = AllPings[key].Active });
             }
         }
 
@@ -121,9 +121,9 @@ namespace PlenBotLogUploader
 
         private void toolStripMenuItemEdit_Click(object sender, EventArgs e)
         {
-            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
+            if (listViewPings.SelectedItems.Count > 0)
             {
-                var selected = listViewDiscordWebhooks.SelectedItems[0];
+                var selected = listViewPings.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
                 new FormEditPing(mainLink, this, reservedId, false, AllPings[reservedId]).Show();
             }
@@ -131,29 +131,21 @@ namespace PlenBotLogUploader
 
         private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
-            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
+            if (listViewPings.SelectedItems.Count > 0)
             {
-                var selected = listViewDiscordWebhooks.SelectedItems[0];
+                var selected = listViewPings.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                listViewDiscordWebhooks.Items.RemoveByKey(reservedId.ToString());
+                listViewPings.Items.RemoveByKey(reservedId.ToString());
                 AllPings.Remove(reservedId);
             }
         }
 
         private void contextMenuStripInteract_Opening(object sender, CancelEventArgs e)
         {
-            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
-            {
-                toolStripMenuItemEdit.Enabled = true;
-                toolStripMenuItemDelete.Enabled = true;
-                toolStripMenuItemTest.Enabled = true;
-            }
-            else
-            {
-                toolStripMenuItemEdit.Enabled = false;
-                toolStripMenuItemDelete.Enabled = false;
-                toolStripMenuItemTest.Enabled = false;
-            }
+            var toggle = listViewPings.SelectedItems.Count > 0;
+            toolStripMenuItemEdit.Enabled = toggle;
+            toolStripMenuItemDelete.Enabled = toggle;
+            toolStripMenuItemTest.Enabled = toggle;
         }
 
         private void listViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -164,9 +156,9 @@ namespace PlenBotLogUploader
 
         private async void toolStripMenuItemTest_Click(object sender, EventArgs e)
         {
-            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
+            if (listViewPings.SelectedItems.Count > 0)
             {
-                var selected = listViewDiscordWebhooks.SelectedItems[0];
+                var selected = listViewPings.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
                 var result = await AllPings[reservedId].TestPingAsync(mainLink);
                 if (result.Success)

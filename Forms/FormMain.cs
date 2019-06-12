@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderBuild = 41;
+        private const int uploaderRelease = 42;
         #endregion
 
         #region constructor
@@ -63,8 +63,8 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
             notifyIconTray.Icon = Properties.Resources.AppIcon;
-            Text = $"{Text} b{uploaderBuild}";
-            notifyIconTray.Text = $"{notifyIconTray.Text} b{uploaderBuild}";
+            Text = $"{Text} release {uploaderRelease}";
+            notifyIconTray.Text = $"{notifyIconTray.Text} release {uploaderRelease}";
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
@@ -245,7 +245,7 @@ namespace PlenBotLogUploader
         private void FormMain_Load(object sender, EventArgs e)
         {
             DoCommandArgs();
-            Task.Run(() => NewBuildCheckAsync());
+            Task.Run(() => NewReleaseCheckAsync());
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -397,14 +397,14 @@ namespace PlenBotLogUploader
             UpdateLogCount();
         }
 
-        protected async void NewBuildCheckAsync()
+        protected async void NewReleaseCheckAsync()
         {
             try
             {
                 string response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
                 if (int.TryParse(response, out int currentversion))
                 {
-                    if (currentversion > uploaderBuild)
+                    if (currentversion > uploaderRelease)
                     {
                         if (buttonUpdateNow.InvokeRequired)
                         {
@@ -414,9 +414,9 @@ namespace PlenBotLogUploader
                         {
                             buttonUpdateNow.Visible = true;
                         }
-                        AddToText($">>> New build available (build n. {response})");
+                        AddToText($">>> New release available (release n. {response})");
                         AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
-                        ShowBalloon("New build available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest build is build n. {response}.", 8500);
+                        ShowBalloon("New release available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest release is release n. {response}.", 8500);
                     }
                     else
                     {
@@ -427,7 +427,7 @@ namespace PlenBotLogUploader
             }
             catch
             {
-                AddToText("> Unable to check new build version.");
+                AddToText("> Unable to check new release version.");
             }
         }
 
@@ -861,7 +861,7 @@ namespace PlenBotLogUploader
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
                     AddToText("> UPLOADER COMMAND USED");
-                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"PlenBot Log Uploader v1 build n.{uploaderBuild} | https://plenbot.net/uploader/");
+                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"PlenBot Log Uploader release n.{uploaderRelease} | https://plenbot.net/uploader/");
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {
@@ -1139,7 +1139,7 @@ namespace PlenBotLogUploader
         {
             timerCheckUpdate.Stop();
             timerCheckUpdate.Enabled = false;
-            Task.Run(() => NewBuildCheckAsync());
+            Task.Run(() => NewReleaseCheckAsync());
         }
         #endregion
     }

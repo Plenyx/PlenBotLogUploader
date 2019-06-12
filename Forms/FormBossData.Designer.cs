@@ -30,13 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.listViewBosses = new System.Windows.Forms.ListView();
-            this.buttonAddNew = new System.Windows.Forms.Button();
-            this.buttonResetSettings = new System.Windows.Forms.Button();
-            this.buttonAddAhdashimBosses = new System.Windows.Forms.Button();
             this.contextMenuStripInteract = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemDeleteBoss = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemAddNew = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonAddNew = new System.Windows.Forms.Button();
+            this.buttonResetSettings = new System.Windows.Forms.Button();
+            this.buttonAddAhdashimBosses = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
@@ -55,36 +55,6 @@
             this.listViewBosses.UseCompatibleStateImageBehavior = false;
             this.listViewBosses.View = System.Windows.Forms.View.Tile;
             this.listViewBosses.DoubleClick += new System.EventHandler(this.listViewBosses_DoubleClick);
-            // 
-            // buttonAddNew
-            // 
-            this.buttonAddNew.Location = new System.Drawing.Point(673, 340);
-            this.buttonAddNew.Name = "buttonAddNew";
-            this.buttonAddNew.Size = new System.Drawing.Size(96, 23);
-            this.buttonAddNew.TabIndex = 1;
-            this.buttonAddNew.Text = "Add a new boss";
-            this.buttonAddNew.UseVisualStyleBackColor = true;
-            this.buttonAddNew.Click += new System.EventHandler(this.ButtonAddNew_Click);
-            // 
-            // buttonResetSettings
-            // 
-            this.buttonResetSettings.Location = new System.Drawing.Point(569, 340);
-            this.buttonResetSettings.Name = "buttonResetSettings";
-            this.buttonResetSettings.Size = new System.Drawing.Size(98, 23);
-            this.buttonResetSettings.TabIndex = 2;
-            this.buttonResetSettings.Text = "Reset all bosses";
-            this.buttonResetSettings.UseVisualStyleBackColor = true;
-            this.buttonResetSettings.Click += new System.EventHandler(this.ButtonResetSettings_Click);
-            // 
-            // buttonAddAhdashimBosses
-            // 
-            this.buttonAddAhdashimBosses.Enabled = false;
-            this.buttonAddAhdashimBosses.Location = new System.Drawing.Point(432, 340);
-            this.buttonAddAhdashimBosses.Name = "buttonAddAhdashimBosses";
-            this.buttonAddAhdashimBosses.Size = new System.Drawing.Size(131, 23);
-            this.buttonAddAhdashimBosses.TabIndex = 3;
-            this.buttonAddAhdashimBosses.Text = "Add Ahdashim bosses";
-            this.buttonAddAhdashimBosses.UseVisualStyleBackColor = true;
             // 
             // contextMenuStripInteract
             // 
@@ -114,6 +84,36 @@
             this.toolStripMenuItemAddNew.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItemAddNew.Text = "Add a new boss";
             this.toolStripMenuItemAddNew.Click += new System.EventHandler(this.ToolStripMenuItemAddNew_Click);
+            // 
+            // buttonAddNew
+            // 
+            this.buttonAddNew.Location = new System.Drawing.Point(673, 340);
+            this.buttonAddNew.Name = "buttonAddNew";
+            this.buttonAddNew.Size = new System.Drawing.Size(96, 23);
+            this.buttonAddNew.TabIndex = 1;
+            this.buttonAddNew.Text = "Add a new boss";
+            this.buttonAddNew.UseVisualStyleBackColor = true;
+            this.buttonAddNew.Click += new System.EventHandler(this.ButtonAddNew_Click);
+            // 
+            // buttonResetSettings
+            // 
+            this.buttonResetSettings.Location = new System.Drawing.Point(569, 340);
+            this.buttonResetSettings.Name = "buttonResetSettings";
+            this.buttonResetSettings.Size = new System.Drawing.Size(98, 23);
+            this.buttonResetSettings.TabIndex = 2;
+            this.buttonResetSettings.Text = "Reset all bosses";
+            this.buttonResetSettings.UseVisualStyleBackColor = true;
+            this.buttonResetSettings.Click += new System.EventHandler(this.ButtonResetSettings_Click);
+            // 
+            // buttonAddAhdashimBosses
+            // 
+            this.buttonAddAhdashimBosses.Location = new System.Drawing.Point(432, 340);
+            this.buttonAddAhdashimBosses.Name = "buttonAddAhdashimBosses";
+            this.buttonAddAhdashimBosses.Size = new System.Drawing.Size(131, 23);
+            this.buttonAddAhdashimBosses.TabIndex = 3;
+            this.buttonAddAhdashimBosses.Text = "Add Ahdashim bosses";
+            this.buttonAddAhdashimBosses.UseVisualStyleBackColor = true;
+            this.buttonAddAhdashimBosses.Click += new System.EventHandler(this.ButtonAddAhdashimBosses_Click);
             // 
             // labelInformation
             // 

@@ -127,13 +127,25 @@ namespace PlenBotLogUploader
 
         private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (listViewBosses.SelectedItems.Count > 0)
+            toolStripMenuItemDeleteBoss.Enabled = listViewBosses.SelectedItems.Count > 0;
+        }
+
+        private void ButtonAddAhdashimBosses_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to do this?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result.Equals(DialogResult.Yes))
             {
-                toolStripMenuItemDeleteBoss.Enabled = true;
-            }
-            else
-            {
-                toolStripMenuItemDeleteBoss.Enabled = false;
+                List<int> bossesIds = new List<int>();
+                AddBoss(new BossData(21964, "Cardinal Sabir"));
+                bossesIds.Add(bossesIdsKey);
+                AddBoss(new BossData(22006, "Cardinal Adina"));
+                bossesIds.Add(bossesIdsKey);
+                AddBoss(new BossData(22000, "Qadim the Peerless"));
+                bossesIds.Add(bossesIdsKey);
+                foreach (var key in bossesIds)
+                {
+                    listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllBosses[key].Name });
+                }
             }
         }
     }

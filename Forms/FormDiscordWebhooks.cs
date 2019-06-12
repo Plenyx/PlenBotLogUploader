@@ -362,18 +362,10 @@ namespace PlenBotLogUploader
 
         private void contextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
-            {
-                toolStripMenuItemEdit.Enabled = true;
-                toolStripMenuItemDelete.Enabled = true;
-                toolStripMenuItemTest.Enabled = true;
-            }
-            else
-            {
-                toolStripMenuItemEdit.Enabled = false;
-                toolStripMenuItemDelete.Enabled = false;
-                toolStripMenuItemTest.Enabled = false;
-            }
+            var toggle = listViewDiscordWebhooks.SelectedItems.Count > 0;
+            toolStripMenuItemEdit.Enabled = toggle;
+            toolStripMenuItemDelete.Enabled = toggle;
+            toolStripMenuItemTest.Enabled = toggle;
         }
 
         private async void toolStripMenuItemTest_Click(object sender, EventArgs e)

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.listViewDiscordWebhooks = new System.Windows.Forms.ListView();
+            this.listViewPings = new System.Windows.Forms.ListView();
             this.contextMenuStripInteract = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTest = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,19 +41,19 @@
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listViewDiscordWebhooks
+            // listViewPings
             // 
-            this.listViewDiscordWebhooks.CheckBoxes = true;
-            this.listViewDiscordWebhooks.ContextMenuStrip = this.contextMenuStripInteract;
-            this.listViewDiscordWebhooks.HideSelection = false;
-            this.listViewDiscordWebhooks.Location = new System.Drawing.Point(12, 12);
-            this.listViewDiscordWebhooks.MultiSelect = false;
-            this.listViewDiscordWebhooks.Name = "listViewDiscordWebhooks";
-            this.listViewDiscordWebhooks.Size = new System.Drawing.Size(561, 252);
-            this.listViewDiscordWebhooks.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.listViewDiscordWebhooks.TabIndex = 0;
-            this.listViewDiscordWebhooks.UseCompatibleStateImageBehavior = false;
-            this.listViewDiscordWebhooks.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listViewDiscordWebhooks_ItemChecked);
+            this.listViewPings.CheckBoxes = true;
+            this.listViewPings.ContextMenuStrip = this.contextMenuStripInteract;
+            this.listViewPings.HideSelection = false;
+            this.listViewPings.Location = new System.Drawing.Point(12, 12);
+            this.listViewPings.MultiSelect = false;
+            this.listViewPings.Name = "listViewPings";
+            this.listViewPings.Size = new System.Drawing.Size(561, 252);
+            this.listViewPings.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.listViewPings.TabIndex = 0;
+            this.listViewPings.UseCompatibleStateImageBehavior = false;
+            this.listViewPings.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listViewDiscordWebhooks_ItemChecked);
             // 
             // contextMenuStripInteract
             // 
@@ -126,7 +126,7 @@
             this.ClientSize = new System.Drawing.Size(585, 301);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.buttonAddNew);
-            this.Controls.Add(this.listViewDiscordWebhooks);
+            this.Controls.Add(this.listViewPings);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -146,7 +146,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
-        public System.Windows.Forms.ListView listViewDiscordWebhooks;
+        public System.Windows.Forms.ListView listViewPings;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTest;
         private System.Windows.Forms.Button buttonAddNew;
         private System.Windows.Forms.Label labelInformation;
