@@ -215,9 +215,9 @@ namespace PlenBotLogUploader
                     buttonTwitchCommands.Enabled = false;
                     checkBoxPostToTwitch.Enabled = false;
                 }
-                if (!File.Exists($"{LocalDir}logs.csv"))
+                if (!File.Exists($"{LocalDir}uploaded_logs.csv"))
                 {
-                    File.AppendAllText($"{LocalDir}logs.csv", "Boss;BossId;Success;arcdpsVersion;Permalink\n");
+                    File.AppendAllText($"{LocalDir}uploaded_logs.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
                 }
                 // startup check
                 using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
@@ -639,7 +639,8 @@ namespace PlenBotLogUploader
                                             reportJSON.ExtraJSON = extraJSON;
                                         }
                                         // log file
-                                        File.AppendAllText($"{LocalDir}logs.csv", $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
+                                        File.AppendAllText($"{LocalDir}uploaded_logs.csv",
+                                            $"{reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
                                         // Twitch chat
                                         if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                         {
