@@ -63,8 +63,8 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
             notifyIconTray.Icon = Properties.Resources.AppIcon;
-            Text = $"{Text} release {uploaderRelease}";
-            notifyIconTray.Text = $"{notifyIconTray.Text} release {uploaderRelease}";
+            Text = $"{Text} r{uploaderRelease}";
+            notifyIconTray.Text = $"{notifyIconTray.Text} r{uploaderRelease}";
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
@@ -416,7 +416,7 @@ namespace PlenBotLogUploader
                         }
                         AddToText($">>> New release available (release n. {response})");
                         AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
-                        ShowBalloon("New release available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest release is release n. {response}.", 8500);
+                        ShowBalloon("New release available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
                     }
                     else
                     {
