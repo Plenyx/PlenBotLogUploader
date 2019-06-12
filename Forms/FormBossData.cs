@@ -39,6 +39,10 @@ namespace PlenBotLogUploader
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int bossId);
                             AddBoss(new BossData(bossId, values[1], values[2], values[3], values[4]));
+                            if (bossId.Equals((int)BossIds.QadimThePeerless))
+                            {
+                                buttonAddAhdashimBosses.Enabled = false;
+                            }
                         }
                     }
                 }
@@ -88,7 +92,7 @@ namespace PlenBotLogUploader
 
         private void ButtonResetSettings_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to reset all the bosses?\nThis will undo all Discord webhook icon and Twitch messages settings.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Are you sure you want to reset all the bosses?\nThis will undo all Discord webhook icon and Twitch messages settings and reset them to their default state.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 listViewBosses.Items.Clear();
@@ -149,6 +153,7 @@ namespace PlenBotLogUploader
                 {
                     listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllBosses[key].Name });
                 }
+                buttonAddAhdashimBosses.Enabled = false;
             }
         }
     }
