@@ -56,9 +56,11 @@ namespace PlenBotLogUploader
         {
             InitializeComponent();
             #region tooltips
-            toolTip.SetToolTip(checkBoxUploadLogs, "If not checked logs will not be uploaded at all.");
-            toolTip.SetToolTip(checkBoxWepSkill1, "If checked dps.report renders all autoattacks.");
-            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked logs with less than 12 kB filesize will not be uploaded.");
+            toolTip.SetToolTip(checkBoxUploadLogs, "If not checked, logs will not be uploaded at all.");
+            toolTip.SetToolTip(checkBoxWepSkill1, "If checked, dps.report renders all autoattacks.");
+            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
+            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch chat if connected to a channel.");
+            toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch chat if connected to a channel.");
             #endregion
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
