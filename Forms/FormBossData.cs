@@ -45,11 +45,13 @@ namespace PlenBotLogUploader
                 catch
                 {
                     AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
+                    bossesIdsKey = AllBosses.Count;
                 }
             }
             else
             {
                 AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
+                bossesIdsKey = AllBosses.Count;
             }
             foreach (int key in AllBosses.Keys)
             {
@@ -91,6 +93,7 @@ namespace PlenBotLogUploader
             {
                 listViewBosses.Items.Clear();
                 AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
+                bossesIdsKey = AllBosses.Count;
                 foreach (int key in AllBosses.Keys)
                 {
                     listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllBosses[key].Name });
@@ -136,11 +139,11 @@ namespace PlenBotLogUploader
             if (result.Equals(DialogResult.Yes))
             {
                 List<int> bossesIds = new List<int>();
-                AddBoss(new BossData(21964, "Cardinal Sabir"));
+                AddBoss(new BossData((int)BossIds.CardinalSabir, "Cardinal Sabir"));
                 bossesIds.Add(bossesIdsKey);
-                AddBoss(new BossData(22006, "Cardinal Adina"));
+                AddBoss(new BossData((int)BossIds.CardinalAdina, "Cardinal Adina"));
                 bossesIds.Add(bossesIdsKey);
-                AddBoss(new BossData(22000, "Qadim the Peerless"));
+                AddBoss(new BossData((int)BossIds.QadimThePeerless, "Qadim the Peerless"));
                 bossesIds.Add(bossesIdsKey);
                 foreach (var key in bossesIds)
                 {
