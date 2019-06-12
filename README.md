@@ -26,7 +26,7 @@ To update the bot you need to overwrite the previous executable.
 ## Uninstall/Reinstall
 To remove all application settings, remove the "PlenBotLogUploader.exe.config" file located in the directory of the executable.
 
-To remove all the saved logs, remove the "logs.csv" file located in the directory of the executable.
+To remove all the saved logs, remove the "uploaded_logs.csv" file located in the directory of the executable.
 
 To remove all the saved boss data, remove the "boss_data.txt" file located in the directory of the executable.
 
