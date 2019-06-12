@@ -56,7 +56,7 @@ namespace PlenBotLogUploader
         {
             InitializeComponent();
             #region tooltips
-            toolTip.SetToolTip(checkBoxUploadLogs, "If not checked, logs will not be uploaded at all.");
+            toolTip.SetToolTip(checkBoxUploadLogs, "If not checked, no logs will be uploaded unless provided manually.");
             toolTip.SetToolTip(checkBoxWepSkill1, "If checked, dps.report renders all autoattacks.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch chat if connected to a channel.");
