@@ -16,5 +16,7 @@ namespace PlenBotLogUploader.DPSReport
         public DPSReportJSONExtraJSON ExtraJSON { get; set; }
 
         public string GetUrlId() => Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
+
+        public bool IsCM() => ExtraJSON?.FightName.EndsWith(" CM") ?? false;
     }
 }
