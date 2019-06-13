@@ -41,12 +41,7 @@ namespace PlenBotLogUploader
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int active);
                             int.TryParse(values[3], out int onlySuccess);
-                            // compatibility with build < 32
-                            int showPlayers = 1;
-                            if (values.Count() > 4)
-                            {
-                                int.TryParse(values[4], out showPlayers);
-                            }
+                            int.TryParse(values[4], out int showPlayers);
                             AddWebhook(new DiscordWebhookData()
                             {
                                 Active = active == 1,

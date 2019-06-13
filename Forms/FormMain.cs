@@ -23,7 +23,7 @@ namespace PlenBotLogUploader
         #region definitions
         // properties
         public string LastLogLocation { get; set; } = "";
-        public List<DPSReportJSON> SessionLogs { get; set; } = new List<DPSReportJSON>();
+        public List<DPSReportJSON> SessionLogs { get; } = new List<DPSReportJSON>();
         public bool ChannelJoined { get; set; } = false;
         public string DPSReportServer { get; set; } = "";
         public string LocalDir { get; } = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderRelease = 42;
+        private const int uploaderRelease = 43;
         #endregion
 
         #region constructor
