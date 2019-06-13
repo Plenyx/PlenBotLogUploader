@@ -99,7 +99,7 @@ namespace PlenBotLogUploader
 
         public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON, Dictionary<int, BossData> allBosses)
         {
-            string bossName = reportJSON.Encounter.Boss;
+            string bossName = reportJSON.Encounter.Boss + (reportJSON.IsCM() ? " CM" : "");
             string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
             string extraJSON = (reportJSON.ExtraJSON == null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
             string icon = "";
@@ -220,7 +220,7 @@ namespace PlenBotLogUploader
                         builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                         lastWing = Bosses.GetWingForBoss(data.LogData.Evtc.BossId);
                     }
-                    string bossName = data.LogData.Encounter.Boss;
+                    string bossName = data.LogData.Encounter.Boss + (data.LogData.IsCM() ? " CM" : "");
                     var bossDataRef = allBosses
                         .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
                         .Select(anon => anon.Value);
