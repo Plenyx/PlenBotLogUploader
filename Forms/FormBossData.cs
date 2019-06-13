@@ -140,7 +140,7 @@ namespace PlenBotLogUploader
         private void ButtonAddAhdashimBosses_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Are you sure you want to do this?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result.Equals(DialogResult.Yes))
+            if (result == DialogResult.Yes)
             {
                 List<int> bossesIds = new List<int>();
                 AddBoss(new BossData((int)BossIds.CardinalSabir, "Cardinal Sabir"));
