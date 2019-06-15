@@ -544,7 +544,6 @@ namespace PlenBotLogUploader
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage)
             {
                 AddToText($">:> {reportJSON.Permalink}");
-                LastLogLocation = reportJSON.Permalink;
                 var bossDataRef = bossDataLink.AllBosses
                     .Where(anon => anon.Value.BossId.Equals(reportJSON.Encounter.BossId))
                     .Select(anon => anon.Value);
@@ -642,6 +641,7 @@ namespace PlenBotLogUploader
                                         File.AppendAllText($"{LocalDir}uploaded_logs.csv",
                                             $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
                                         // Twitch chat
+                                        LastLogLocation = reportJSON.Permalink;
                                         if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                         {
                                             await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
