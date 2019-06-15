@@ -1142,6 +1142,18 @@ namespace PlenBotLogUploader
                 }
             }
         }
+
+        private void ButtonReset_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to do this?\nThis resets all your settings but not boss data, webhooks and ping configurations.\nIf you click yes the application will close itself.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                Process.Start(LocalDir);
+                Properties.Settings.Default.Reset();
+                ExitApp();
+            }
+        }
+
         private void TimerCheckUpdate_Tick(object sender, EventArgs e)
         {
             timerCheckUpdate.Stop();

@@ -71,6 +71,7 @@
             this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonReset = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -84,7 +85,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 566);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 594);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
@@ -407,6 +408,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonReset);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxStartWhenWindowsStarts);
             this.groupBoxOtherSettings.Controls.Add(this.buttonDiscordWebhooks);
             this.groupBoxOtherSettings.Controls.Add(this.buttonArcVersionChecking);
@@ -415,7 +417,7 @@
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 395);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 183);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 211);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
@@ -473,7 +475,7 @@
             // buttonUpdateNow
             // 
             this.buttonUpdateNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdateNow.Location = new System.Drawing.Point(22, 530);
+            this.buttonUpdateNow.Location = new System.Drawing.Point(22, 559);
             this.buttonUpdateNow.Name = "buttonUpdateNow";
             this.buttonUpdateNow.Size = new System.Drawing.Size(112, 40);
             this.buttonUpdateNow.TabIndex = 8;
@@ -491,12 +493,22 @@
             // 
             this.toolTip.ShowAlways = true;
             // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(6, 181);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(188, 23);
+            this.buttonReset.TabIndex = 9;
+            this.buttonReset.Text = "Reset all settings";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.ButtonReset_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 583);
+            this.ClientSize = new System.Drawing.Size(633, 612);
             this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
@@ -570,6 +582,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenTwitchCommands;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button buttonSession;
+        private System.Windows.Forms.Button buttonReset;
     }
 }
 
