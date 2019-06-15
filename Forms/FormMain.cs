@@ -420,7 +420,7 @@ namespace PlenBotLogUploader
                         {
                             buttonUpdateNow.Visible = true;
                         }
-                        AddToText($">>> New release available (release n. {response})");
+                        AddToText($">>> New release available (r{response})");
                         AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
                         ShowBalloon("New release available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
                     }
@@ -868,7 +868,7 @@ namespace PlenBotLogUploader
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
                     AddToText("> UPLOADER COMMAND USED");
-                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"PlenBot Log Uploader release n.{uploaderRelease} | https://plenbot.net/uploader/");
+                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"PlenBot Log Uploader r{uploaderRelease} | https://plenbot.net/uploader/");
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {
