@@ -47,7 +47,7 @@ To fully remove all the saved settings in the registry, use the enclosed "ResetS
   * pinging links to Discord channels (via Discord webhooks)
   * pinging log data to remote servers (via Remote server pings)
   * organise logs in log sessions
-    * record all logs under one sessions nad unleash one message with all log links to Discord channels
+    * record all logs under one session and unleash one message with all log links to Discord channels
 * Twitch integration
   * pinging links to Twitch chat with customisable messages
   * custom name for the Twitch chat bot, otherwise "gw2loguploader" is being used
