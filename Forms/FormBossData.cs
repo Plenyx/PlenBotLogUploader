@@ -143,11 +143,11 @@ namespace PlenBotLogUploader
             if (result == DialogResult.Yes)
             {
                 List<int> bossesIds = new List<int>();
-                AddBoss(new BossData((int)BossIds.CardinalSabir, "Cardinal Sabir"));
+                AddBoss(new BossData((int)BossIds.CardinalSabir, "Cardinal Sabir", "https://wiki.guildwars2.com/images/f/fc/Mini_Air_Djinn.png"));
                 bossesIds.Add(bossesIdsKey);
-                AddBoss(new BossData((int)BossIds.CardinalAdina, "Cardinal Adina"));
+                AddBoss(new BossData((int)BossIds.CardinalAdina, "Cardinal Adina", "https://wiki.guildwars2.com/images/a/a0/Mini_Earth_Djinn.png"));
                 bossesIds.Add(bossesIdsKey);
-                AddBoss(new BossData((int)BossIds.QadimThePeerless, "Qadim the Peerless"));
+                AddBoss(new BossData((int)BossIds.QadimThePeerless, "Qadim the Peerless", "https://wiki.guildwars2.com/images/8/8b/Mini_Qadim_the_Peerless.png"));
                 bossesIds.Add(bossesIdsKey);
                 foreach (var key in bossesIds)
                 {
