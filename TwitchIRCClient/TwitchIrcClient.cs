@@ -45,11 +45,18 @@ namespace PlenBotLogUploader.TwitchIRCClient
 
         public void BeginConnection()
         {
-            tcpClient = new TcpClient(serverIp, serverPort);
-            inputStream = new StreamReader(tcpClient.GetStream());
-            outputStream = new StreamWriter(tcpClient.GetStream());
-            StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.Connecting));
-            LoginAsync();
+            try
+            {
+                tcpClient = new TcpClient(serverIp, serverPort);
+                inputStream = new StreamReader(tcpClient.GetStream());
+                outputStream = new StreamWriter(tcpClient.GetStream());
+                StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.Connecting));
+                LoginAsync();
+            }
+            catch
+            {
+                StateChange?.Invoke(this, new IrcChangedEventArgs(IrcStates.Disconnected));
+            }
         }
 
         public async void LoginAsync()
