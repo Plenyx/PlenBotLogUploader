@@ -633,7 +633,7 @@ namespace PlenBotLogUploader
                                         if (reportJSON.Encounter.JsonAvailable ?? false)
                                         {
                                             string jsonString = await HttpClientController.DownloadFileToStringAsync($"https://{DPSReportServer}/getJson?permalink={reportJSON.Permalink}");
-                                            JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 5000000 };
+                                            JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 10000000 };
                                             DPSReportJSONExtraJSON extraJSON = serilizer.Deserialize<DPSReportJSONExtraJSON>(jsonString);
                                             reportJSON.ExtraJSON = extraJSON;
                                         }
