@@ -184,15 +184,23 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses, string sessionName, string contentText, bool showSuccess, string elapsedTime)
+        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses, string sessionName, string contentText, bool showSuccess, string elapsedTime, int sortBy)
         {
             var RaidLogs = reportsJSON
-                .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
-                .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.Evtc.BossId) })
-                .OrderBy(anon => Bosses.GetWingForBoss(anon.LogData.Evtc.BossId))
-                .ThenBy(anon => Bosses.GetBossOrder(anon.LogData.Encounter.BossId))
-                .ThenBy(anon => anon.LogData.UploadTime)
-                .ToList();
+                    .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
+                    .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.Evtc.BossId) })
+                    .OrderBy(anon => anon.LogData.UploadTime)
+                    .ToList();
+            if (sortBy == 0)
+            {
+                RaidLogs = reportsJSON
+                    .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
+                    .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.Evtc.BossId) })
+                    .OrderBy(anon => Bosses.GetWingForBoss(anon.LogData.Evtc.BossId))
+                    .ThenBy(anon => Bosses.GetBossOrder(anon.LogData.Encounter.BossId))
+                    .ThenBy(anon => anon.LogData.UploadTime)
+                    .ToList();
+            }
             var FractalLogs = reportsJSON
                 .Where(anon => Bosses.IsFractal(anon.Evtc.BossId))
                 .ToList();
@@ -207,25 +215,45 @@ namespace PlenBotLogUploader
             if (RaidLogs.Count > 0)
             {
                 builder.Append("***Raid logs:***\n");
-                int lastWing = 0;
-                foreach (var data in RaidLogs)
+                if (sortBy == 1)
                 {
-                    if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.Evtc.BossId)))
+                    foreach (var data in RaidLogs)
                     {
-                        builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
-                        lastWing = Bosses.GetWingForBoss(data.LogData.Evtc.BossId);
+                        string bossName = data.LogData.Encounter.Boss + (data.LogData.IsCM() ? " CM" : "");
+                        var bossDataRef = allBosses
+                            .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
+                            .Select(anon => anon.Value);
+                        if (bossDataRef.Count() == 1)
+                        {
+                            bossName = bossDataRef.First().Name;
+                        }
+                        string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
+                        string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                        builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                     }
-                    string bossName = data.LogData.Encounter.Boss + (data.LogData.IsCM() ? " CM" : "");
-                    var bossDataRef = allBosses
-                        .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
-                        .Select(anon => anon.Value);
-                    if (bossDataRef.Count() == 1)
+                }
+                else
+                {
+                    int lastWing = 0;
+                    foreach (var data in RaidLogs)
                     {
-                        bossName = bossDataRef.First().Name;
+                        if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.Evtc.BossId)))
+                        {
+                            builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                            lastWing = Bosses.GetWingForBoss(data.LogData.Evtc.BossId);
+                        }
+                        string bossName = data.LogData.Encounter.Boss + (data.LogData.IsCM() ? " CM" : "");
+                        var bossDataRef = allBosses
+                            .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
+                            .Select(anon => anon.Value);
+                        if (bossDataRef.Count() == 1)
+                        {
+                            bossName = bossDataRef.First().Name;
+                        }
+                        string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
+                        string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                        builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                     }
-                    string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
-                    string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
-                    builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                 }
             }
             if (FractalLogs.Count > 0)

@@ -52,7 +52,12 @@ namespace PlenBotLogUploader
                 {
                     elapsedTime = $"{elapsed.Minutes}m {elapsed.Seconds}s";
                 }
-                await mainLink.ExecuteSessionLogWebhooksAsync(textBoxSessionName.Text, textBoxSessionContent.Text, !checkBoxOnlySuccess.Checked, elapsedTime);
+                int sortBy = 0;
+                if (radioButtonSortByUpload.Checked)
+                {
+                    sortBy = 1;
+                }
+                await mainLink.ExecuteSessionLogWebhooksAsync(textBoxSessionName.Text, textBoxSessionContent.Text, !checkBoxOnlySuccess.Checked, elapsedTime, sortBy);
                 mainLink.SessionLogs.Clear();
             }
             else
@@ -86,5 +91,9 @@ namespace PlenBotLogUploader
         public void CheckBoxSupressWebhooks_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSuppressWebhooks = checkBoxSupressWebhooks.Checked;
 
         public void CheckBoxOnlySuccess_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionOnlySuccess = checkBoxOnlySuccess.Checked;
+
+        private void RadioButtonSortByWing_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSort = 0;
+
+        private void RadioButtonSortByUpload_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSort = 1;
     }
 }

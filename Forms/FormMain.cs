@@ -181,6 +181,7 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSupressWebhooks.Checked = Properties.Settings.Default.SessionSuppressWebhooks;
                 logSessionLink.checkBoxOnlySuccess.Checked = Properties.Settings.Default.SessionOnlySuccess;
                 logSessionLink.textBoxSessionContent.Text = Properties.Settings.Default.SessionMessage;
+                logSessionLink.radioButtonSortByUpload.Checked = Properties.Settings.Default.SessionSort == 1;
                 if (Properties.Settings.Default.FirstRun)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -725,7 +726,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionLogWebhooksAsync(string sessionName, string contentText, bool showSuccess, string elapsedTime) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses, sessionName, contentText, showSuccess, elapsedTime);
+        public async Task ExecuteSessionLogWebhooksAsync(string sessionName, string contentText, bool showSuccess, string elapsedTime, int sortBy) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses, sessionName, contentText, showSuccess, elapsedTime, sortBy);
         #endregion
 
         #region Twitch bot methods

@@ -358,5 +358,17 @@ namespace PlenBotLogUploader.Properties {
                 this["SessionMessage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SessionSort {
+            get {
+                return ((int)(this["SessionSort"]));
+            }
+            set {
+                this["SessionSort"] = value;
+            }
+        }
     }
 }
