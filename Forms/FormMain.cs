@@ -647,7 +647,7 @@ namespace PlenBotLogUploader
                                         }
                                         // log file
                                         File.AppendAllText($"{LocalDir}uploaded_logs.csv",
-                                            $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink} \n");
+                                            $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
                                         // Twitch chat
                                         LastLogLocation = reportJSON.Permalink;
                                         if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
