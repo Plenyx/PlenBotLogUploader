@@ -632,10 +632,17 @@ namespace PlenBotLogUploader
                                         // extra JSON from Elite Insights
                                         if (reportJSON.Encounter.JsonAvailable ?? false)
                                         {
-                                            string jsonString = await HttpClientController.DownloadFileToStringAsync($"https://{DPSReportServer}/getJson?permalink={reportJSON.Permalink}");
-                                            JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 10000000 };
-                                            DPSReportJSONExtraJSON extraJSON = serilizer.Deserialize<DPSReportJSONExtraJSON>(jsonString);
-                                            reportJSON.ExtraJSON = extraJSON;
+                                            try
+                                            {
+                                                string jsonString = await HttpClientController.DownloadFileToStringAsync($"https://{DPSReportServer}/getJson?permalink={reportJSON.Permalink}");
+                                                JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 15000000 };
+                                                DPSReportJSONExtraJSON extraJSON = serilizer.Deserialize<DPSReportJSONExtraJSON>(jsonString);
+                                                reportJSON.ExtraJSON = extraJSON;
+                                            }
+                                            catch
+                                            {
+                                                AddToText("Extra JSON available but couldn't be obtained.");
+                                            }
                                         }
                                         // log file
                                         File.AppendAllText($"{LocalDir}uploaded_logs.csv",
