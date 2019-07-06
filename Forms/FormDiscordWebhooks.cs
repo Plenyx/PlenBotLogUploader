@@ -103,7 +103,7 @@ namespace PlenBotLogUploader
                 .Select(anon => anon.Value);
             if (bossDataRef.Count() == 1)
             {
-                bossName = bossDataRef.First().Name;
+                bossName = bossDataRef.First().Name + (reportJSON.IsCM() ? " CM" : "");
                 icon = bossDataRef.First().Icon;
             }
             int color = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
@@ -225,7 +225,7 @@ namespace PlenBotLogUploader
                             .Select(anon => anon.Value);
                         if (bossDataRef.Count() == 1)
                         {
-                            bossName = bossDataRef.First().Name;
+                            bossName = bossDataRef.First().Name + (data.LogData.IsCM() ? " CM" : "");
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
@@ -248,7 +248,7 @@ namespace PlenBotLogUploader
                             .Select(anon => anon.Value);
                         if (bossDataRef.Count() == 1)
                         {
-                            bossName = bossDataRef.First().Name;
+                            bossName = bossDataRef.First().Name + (data.LogData.IsCM() ? " CM" : "");
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
