@@ -551,7 +551,9 @@ namespace PlenBotLogUploader
                 if (bossDataRef.Count() == 1)
                 {
                     string format = (reportJSON.Encounter.Success ?? false) ? bossDataRef.First().SuccessMsg : bossDataRef.First().FailMsg;
-                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{format}: {reportJSON.Permalink}");
+                    format = format.Replace("<boss>", (reportJSON.IsCM()) ? bossDataRef.First().Name + " CM" : bossDataRef.First().Name);
+                    format = (format.IndexOf("<log>") != -1) ? format.Replace("<log>", reportJSON.Permalink) : format + $": {reportJSON.Permalink}";
+                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, format);
                 }
                 else
                 {
