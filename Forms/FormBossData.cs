@@ -14,12 +14,14 @@ namespace PlenBotLogUploader
 
         // fields
         private FormMain mainLink;
+        private FormTemplateBossData templateLink;
         private int bossesIdsKey = 0;
         #endregion
 
         public FormBossData(FormMain mainLink)
         {
             this.mainLink = mainLink;
+            templateLink = new FormTemplateBossData(this);
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             if (File.Exists($@"{mainLink.LocalDir}\twitch_messages.txt"))
@@ -38,7 +40,7 @@ namespace PlenBotLogUploader
                         {
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int bossId);
-                            AddBoss(new BossData(bossId, values[1], values[2], values[3], values[4]));
+                            AddBoss(new BossData() { BossId = bossId, Name = values[1], SuccessMsg = values[2], FailMsg = values[3], Icon = values[4] });
                         }
                     }
                 }
@@ -131,6 +133,12 @@ namespace PlenBotLogUploader
         private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             toolStripMenuItemDeleteBoss.Enabled = listViewBosses.SelectedItems.Count > 0;
+        }
+
+        private void ButtonOpenTemplate_Click(object sender, EventArgs e)
+        {
+            templateLink.Show();
+            templateLink.BringToFront();
         }
     }
 }

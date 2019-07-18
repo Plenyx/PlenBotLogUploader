@@ -37,6 +37,7 @@
             this.buttonAddNew = new System.Windows.Forms.Button();
             this.buttonResetSettings = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
+            this.buttonOpenTemplate = new System.Windows.Forms.Button();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,11 +114,22 @@
             this.labelInformation.TabIndex = 5;
             this.labelInformation.Text = "You can right click the box window to bring up context menu.";
             // 
+            // buttonOpenTemplate
+            // 
+            this.buttonOpenTemplate.Location = new System.Drawing.Point(418, 340);
+            this.buttonOpenTemplate.Name = "buttonOpenTemplate";
+            this.buttonOpenTemplate.Size = new System.Drawing.Size(145, 23);
+            this.buttonOpenTemplate.TabIndex = 6;
+            this.buttonOpenTemplate.Text = "Open boss data templates";
+            this.buttonOpenTemplate.UseVisualStyleBackColor = true;
+            this.buttonOpenTemplate.Click += new System.EventHandler(this.ButtonOpenTemplate_Click);
+            // 
             // FormBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(781, 375);
+            this.Controls.Add(this.buttonOpenTemplate);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.buttonResetSettings);
             this.Controls.Add(this.buttonAddNew);
@@ -144,5 +156,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddNew;
         private System.Windows.Forms.Label labelInformation;
+        private System.Windows.Forms.Button buttonOpenTemplate;
     }
 }

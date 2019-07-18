@@ -42,12 +42,24 @@ namespace PlenBotLogUploader
                 {
                     if (data == null)
                     {
-                        editLink.AllBosses[reservedId] = new BossData(bossId, textBoxBossName.Text, textBoxSuccessMsg.Text, textBoxFailMsg.Text, textBoxIcon.Text);
+                        editLink.AllBosses[reservedId] = new BossData()
+                        {
+                            BossId = bossId,
+                            Name = textBoxBossName.Text,
+                            SuccessMsg = textBoxSuccessMsg.Text,
+                            FailMsg = textBoxFailMsg.Text,
+                            Icon = textBoxIcon.Text
+                        };
                         editLink.listViewBosses.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxBossName.Text });
                     }
                     else
                     {
-                        editLink.AllBosses[reservedId] = new BossData(bossId, textBoxBossName.Text, textBoxSuccessMsg.Text, textBoxFailMsg.Text, textBoxIcon.Text);
+                        var boss = editLink.AllBosses[reservedId];
+                        boss.BossId = bossId;
+                        boss.Name = textBoxBossName.Text;
+                        boss.SuccessMsg = textBoxSuccessMsg.Text;
+                        boss.FailMsg = textBoxFailMsg.Text;
+                        boss.Icon = textBoxIcon.Text;
                         editLink.listViewBosses.Items[editLink.listViewBosses.Items.IndexOfKey(reservedId.ToString())].Text = textBoxBossName.Text;
                     }
                 }
