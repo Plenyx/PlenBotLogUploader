@@ -7,7 +7,7 @@ namespace UnitTestsForPlenBotLogUploader
     public class PingTests
     {
         [TestMethod]
-        public void TestGetNonAuth()
+        public void TestGetNonAuthSuccess()
         {
             PingConfiguration config = new PingConfiguration()
             {
