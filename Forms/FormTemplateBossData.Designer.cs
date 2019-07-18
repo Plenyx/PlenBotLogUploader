@@ -46,7 +46,7 @@
             this.groupBoxTemplateControls.Controls.Add(this.labelSuccessMessage);
             this.groupBoxTemplateControls.Controls.Add(this.textBoxFailMessage);
             this.groupBoxTemplateControls.Controls.Add(this.textBoxSuccessMessage);
-            this.groupBoxTemplateControls.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxTemplateControls.Location = new System.Drawing.Point(12, 7);
             this.groupBoxTemplateControls.Name = "groupBoxTemplateControls";
             this.groupBoxTemplateControls.Size = new System.Drawing.Size(379, 101);
             this.groupBoxTemplateControls.TabIndex = 0;
@@ -111,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(403, 120);
+            this.ClientSize = new System.Drawing.Size(403, 114);
             this.Controls.Add(this.groupBoxTemplateControls);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
