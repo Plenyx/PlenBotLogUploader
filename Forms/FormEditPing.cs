@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Web.Script.Serialization;
+using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.PlenyxAPI;
 using PlenBotLogUploader.RemotePing;
 
@@ -126,43 +127,36 @@ namespace PlenBotLogUploader
         {
             try
             {
-                string auth = "";
-                if ((textBoxAuthName.Text != "") || (textBoxAuthToken.Text != ""))
+                using (HttpClientController controller = new HttpClientController())
                 {
-                    if (radioButtonUseNormalField.Checked)
-                    {
-                        auth = $"?{textBoxAuthName.Text.ToLower()}={textBoxAuthToken.Text}";
-                    }
-                    else
-                    {
-                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(textBoxAuthName.Text, textBoxAuthToken.Text);
-                    }
-                }
-                string response = await mainLink.HttpClientController.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/{auth}");
-                try
-                {
-                    PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
-                    if (pingtest.IsValid())
-                    {
-                        MessageBox.Show("Ping settings are valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Sign is not valid.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("There has been an error checking the server settings.\nIs the server correctly set?", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
-                finally
-                {
+                    string auth = "";
                     if ((textBoxAuthName.Text != "") || (textBoxAuthToken.Text != ""))
                     {
-                        if (radioButtonUseAuthField.Checked)
+                        if (radioButtonUseNormalField.Checked)
                         {
-                            mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
+                            auth = $"?{textBoxAuthName.Text.ToLower()}={textBoxAuthToken.Text}";
                         }
+                        else
+                        {
+                            controller.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(textBoxAuthName.Text, textBoxAuthToken.Text);
+                        }
+                    }
+                    string response = await controller.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/{auth}");
+                    try
+                    {
+                        PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
+                        if (pingtest.IsValid())
+                        {
+                            MessageBox.Show("Ping settings are valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Sign is not valid.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("There has been an error checking the server settings.\nIs the server correctly set?", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     }
                 }
             }

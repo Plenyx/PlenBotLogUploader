@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.PlenyxAPI;
 
@@ -15,42 +16,41 @@ namespace PlenBotLogUploader.RemotePing
         public PingMethod Method { get; set; } = PingMethod.Post;
         public PingAuthentication Authentication { get; set; }
 
-        public async Task<TestPingResult> TestPingAsync(FormMain mainLink)
+        public async Task<TestPingResult> TestPingAsync()
         {
             try
             {
-                string auth = "";
-                if (Authentication.Active)
+                using (HttpClientController controller = new HttpClientController())
                 {
-                    if (Authentication.UseAsAuth)
+                    string auth = "";
+                    if (Authentication.Active)
                     {
-                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                        if (Authentication.UseAsAuth)
+                        {
+                            controller.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                        }
+                        else
+                        {
+                            auth = $"?{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
+                        }
                     }
-                    else
+                    string response = await controller.DownloadFileToStringAsync($"{URL}pingtest/{auth}");
+                    try
                     {
-                        auth = $"?{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
+                        PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
+                        if (pingtest.IsValid())
+                        {
+                            return new TestPingResult(true, "Ping settings are valid.");
+                        }
+                        else
+                        {
+                            return new TestPingResult(false, "Sign is not valid.");
+                        }
                     }
-                }
-                string response = await mainLink.HttpClientController.DownloadFileToStringAsync($"{URL}pingtest/{auth}");
-                try
-                {
-                    PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
-                    if (pingtest.IsValid())
+                    catch
                     {
-                        return new TestPingResult(true, "Ping settings are valid.");
+                        return new TestPingResult(false, "There has been an error checking the server settings.\nIs the server correctly set?");
                     }
-                    else
-                    {
-                        return new TestPingResult(false, "Sign is not valid.");
-                    }
-                }
-                catch
-                {
-                    return new TestPingResult(false, "There has been an error checking the server settings.\nIs the server correctly set?");
-                }
-                finally
-                {
-                    mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
                 }
             }
             catch
@@ -61,38 +61,92 @@ namespace PlenBotLogUploader.RemotePing
 
         public async Task PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON)
         {
-            if (Method.Equals(PingMethod.Post) || Method.Equals(PingMethod.Put))
+            using (HttpClientController controller = new HttpClientController())
             {
-                Dictionary<string, string> fields = new Dictionary<string, string>
+                if (Method.Equals(PingMethod.Post) || Method.Equals(PingMethod.Put))
                 {
-                    { "permalink", reportJSON.Permalink },
-                    { "bossId", reportJSON.Encounter.BossId.ToString() },
-                    { "success", (reportJSON.Encounter.Success ?? false) ? "1" : "0" },
-                    { "arcversion", $"{reportJSON.Evtc.Type}{reportJSON.Evtc.Version}" }
-                };
-                if (Authentication.Active)
-                {
-                    if (!Authentication.UseAsAuth)
+                    Dictionary<string, string> fields = new Dictionary<string, string>
                     {
-                        fields.Add(Authentication.AuthName, Authentication.AuthToken);
-                    }
-                    else
+                        { "permalink", reportJSON.Permalink },
+                        { "bossId", reportJSON.Encounter.BossId.ToString() },
+                        { "success", (reportJSON.Encounter.Success ?? false) ? "1" : "0" },
+                        { "arcversion", $"{reportJSON.Evtc.Type}{reportJSON.Evtc.Version}" }
+                    };
+                    if (Authentication.Active)
                     {
-                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
-                    }
-                }
-                using (FormUrlEncodedContent content = new FormUrlEncodedContent(fields))
-                {
-                    HttpResponseMessage responseMessage = null;
-                    try
-                    {
-                        if (Method.Equals(PingMethod.Put))
+                        if (!Authentication.UseAsAuth)
                         {
-                            responseMessage = await mainLink.HttpClientController.MainHttpClient.PutAsync(URL, content);
+                            fields.Add(Authentication.AuthName, Authentication.AuthToken);
                         }
                         else
                         {
-                            responseMessage = await mainLink.HttpClientController.MainHttpClient.PostAsync(URL, content);
+                            controller.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                        }
+                    }
+                    using (FormUrlEncodedContent content = new FormUrlEncodedContent(fields))
+                    {
+                        HttpResponseMessage responseMessage = null;
+                        try
+                        {
+                            if (Method.Equals(PingMethod.Put))
+                            {
+                                responseMessage = await controller.MainHttpClient.PutAsync(URL, content);
+                            }
+                            else
+                            {
+                                responseMessage = await controller.MainHttpClient.PostAsync(URL, content);
+                            }
+                            string response = await responseMessage.Content.ReadAsStringAsync();
+                            PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
+                            if (statusJSON.Status?.IsSuccess() ?? false)
+                            {
+                                mainLink.AddToText($">:> Log {reportJSON.GetUrlId()} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
+                            }
+                            else
+                            {
+                                mainLink.AddToText($">:> Log {reportJSON.GetUrlId()} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
+                            }
+                        }
+                        catch
+                        {
+                            mainLink.AddToText($">:> Unable to ping the server \"{Name}\", check the settings or the server is not responding.");
+                        }
+                        finally
+                        {
+                            responseMessage?.Dispose();
+                        }
+                    }
+                }
+                else if (Method.Equals(PingMethod.Get) || Method.Equals(PingMethod.Delete))
+                {
+                    string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
+                    string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.Evtc.Type}{reportJSON.Evtc.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
+                    string fullLink = $"{URL}?{encounterInfo}";
+                    if (URL.Contains("?"))
+                    {
+                        fullLink = $"{URL}&{encounterInfo}";
+                    }
+                    if (Authentication.Active)
+                    {
+                        if (!Authentication.UseAsAuth)
+                        {
+                            fullLink = $"{fullLink}&{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
+                        }
+                        else
+                        {
+                            controller.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                        }
+                    }
+                    HttpResponseMessage responseMessage = null;
+                    try
+                    {
+                        if (Method.Equals(PingMethod.Delete))
+                        {
+                            responseMessage = await controller.MainHttpClient.DeleteAsync(fullLink);
+                        }
+                        else
+                        {
+                            responseMessage = await controller.MainHttpClient.GetAsync(fullLink);
                         }
                         string response = await responseMessage.Content.ReadAsStringAsync();
                         PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
@@ -112,71 +166,6 @@ namespace PlenBotLogUploader.RemotePing
                     finally
                     {
                         responseMessage?.Dispose();
-                    }
-                }
-                if (Authentication.Active)
-                {
-                    if (Authentication.UseAsAuth)
-                    {
-                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
-                    }
-                }
-            }
-            else if (Method.Equals(PingMethod.Get) || Method.Equals(PingMethod.Delete))
-            {
-                string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
-                string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.Evtc.Type}{reportJSON.Evtc.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
-                string fullLink = $"{URL}?{encounterInfo}";
-                if (URL.Contains("?"))
-                {
-                    fullLink = $"{URL}&{encounterInfo}";
-                }
-                if (Authentication.Active)
-                {
-                    if (!Authentication.UseAsAuth)
-                    {
-                        fullLink = $"{fullLink}&{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
-                    }
-                    else
-                    {
-                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
-                    }
-                }
-                HttpResponseMessage responseMessage = null;
-                try
-                {
-                    if (Method.Equals(PingMethod.Delete))
-                    {
-                        responseMessage = await mainLink.HttpClientController.MainHttpClient.DeleteAsync(fullLink);
-                    }
-                    else
-                    {
-                        responseMessage = await mainLink.HttpClientController.MainHttpClient.GetAsync(fullLink);
-                    }
-                    string response = await responseMessage.Content.ReadAsStringAsync();
-                    PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
-                    if (statusJSON.Status?.IsSuccess() ?? false)
-                    {
-                        mainLink.AddToText($">:> Log {reportJSON.GetUrlId()} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
-                    }
-                    else
-                    {
-                        mainLink.AddToText($">:> Log {reportJSON.GetUrlId()} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
-                    }
-                }
-                catch
-                {
-                    mainLink.AddToText($">:> Unable to ping the server \"{Name}\", check the settings or the server is not responding.");
-                }
-                finally
-                {
-                    responseMessage?.Dispose();
-                }
-                if (Authentication.Active)
-                {
-                    if (Authentication.UseAsAuth)
-                    {
-                        mainLink.HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
                     }
                 }
             }

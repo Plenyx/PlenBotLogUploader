@@ -160,7 +160,7 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewPings.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                var result = await AllPings[reservedId].TestPingAsync(mainLink);
+                var result = await AllPings[reservedId].TestPingAsync();
                 if (result.Success)
                 {
                     MessageBox.Show(result.Message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

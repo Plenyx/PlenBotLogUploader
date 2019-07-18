@@ -36,7 +36,6 @@
             this.toolStripMenuItemAddNew = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddNew = new System.Windows.Forms.Button();
             this.buttonResetSettings = new System.Windows.Forms.Button();
-            this.buttonAddAhdashimBosses = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
@@ -105,16 +104,6 @@
             this.buttonResetSettings.UseVisualStyleBackColor = true;
             this.buttonResetSettings.Click += new System.EventHandler(this.ButtonResetSettings_Click);
             // 
-            // buttonAddAhdashimBosses
-            // 
-            this.buttonAddAhdashimBosses.Location = new System.Drawing.Point(432, 340);
-            this.buttonAddAhdashimBosses.Name = "buttonAddAhdashimBosses";
-            this.buttonAddAhdashimBosses.Size = new System.Drawing.Size(131, 23);
-            this.buttonAddAhdashimBosses.TabIndex = 3;
-            this.buttonAddAhdashimBosses.Text = "Add Ahdashim bosses";
-            this.buttonAddAhdashimBosses.UseVisualStyleBackColor = true;
-            this.buttonAddAhdashimBosses.Click += new System.EventHandler(this.ButtonAddAhdashimBosses_Click);
-            // 
             // labelInformation
             // 
             this.labelInformation.AutoSize = true;
@@ -130,7 +119,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(781, 375);
             this.Controls.Add(this.labelInformation);
-            this.Controls.Add(this.buttonAddAhdashimBosses);
             this.Controls.Add(this.buttonResetSettings);
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewBosses);
@@ -151,7 +139,6 @@
         private System.Windows.Forms.Button buttonAddNew;
         private System.Windows.Forms.Button buttonResetSettings;
         public System.Windows.Forms.ListView listViewBosses;
-        private System.Windows.Forms.Button buttonAddAhdashimBosses;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripInteract;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDeleteBoss;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;

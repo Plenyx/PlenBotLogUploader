@@ -39,10 +39,6 @@ namespace PlenBotLogUploader
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int bossId);
                             AddBoss(new BossData(bossId, values[1], values[2], values[3], values[4]));
-                            if (bossId.Equals((int)BossIds.QadimThePeerless))
-                            {
-                                buttonAddAhdashimBosses.Enabled = false;
-                            }
                         }
                     }
                 }
@@ -135,26 +131,6 @@ namespace PlenBotLogUploader
         private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             toolStripMenuItemDeleteBoss.Enabled = listViewBosses.SelectedItems.Count > 0;
-        }
-
-        private void ButtonAddAhdashimBosses_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Are you sure you want to do this?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.Yes)
-            {
-                List<int> bossesIds = new List<int>();
-                AddBoss(new BossData((int)BossIds.CardinalSabir, "Cardinal Sabir", "https://wiki.guildwars2.com/images/f/fc/Mini_Air_Djinn.png"));
-                bossesIds.Add(bossesIdsKey);
-                AddBoss(new BossData((int)BossIds.CardinalAdina, "Cardinal Adina", "https://wiki.guildwars2.com/images/a/a0/Mini_Earth_Djinn.png"));
-                bossesIds.Add(bossesIdsKey);
-                AddBoss(new BossData((int)BossIds.QadimThePeerless, "Qadim the Peerless", "https://wiki.guildwars2.com/images/8/8b/Mini_Qadim_the_Peerless.png"));
-                bossesIds.Add(bossesIdsKey);
-                foreach (var key in bossesIds)
-                {
-                    listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllBosses[key].Name });
-                }
-                buttonAddAhdashimBosses.Enabled = false;
-            }
         }
     }
 }
