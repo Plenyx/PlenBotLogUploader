@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderRelease = 46;
+        private const int uploaderRelease = 47;
         #endregion
 
         #region constructor
