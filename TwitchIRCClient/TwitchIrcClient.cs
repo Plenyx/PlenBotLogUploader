@@ -10,12 +10,33 @@ namespace PlenBotLogUploader.TwitchIRCClient
     class TwitchIrcClient : IDisposable
     {
         // public
+        /// <summary>
+        /// Last channel joined.
+        /// </summary>
         public string LastChannelName { get; private set; } = "";
+        /// <summary>
+        /// List of all channel currently joined.
+        /// </summary>
         public List<string> ChannelNames { get; private set; } = new List<string>();
+        /// <summary>
+        /// Indicates if the connection is about to commence.
+        /// </summary>
         public bool Connecting { get; private set; } = false;
+        /// <summary>
+        /// Indicates if a successfull connection with Twitch has been estabilished.
+        /// </summary>
         public bool Connected { get; private set; } = false;
+        /// <summary>
+        /// A thread for message invokes.
+        /// </summary>
         public Thread ReadMessagesThread { get; private set; }
+        /// <summary>
+        /// An event that triggers on new IRC message being received.
+        /// </summary>
         public event EventHandler<IrcMessageEventArgs> ReceiveMessage;
+        /// <summary>
+        /// An event that triggers on new IRC state change.
+        /// </summary>
         public event EventHandler<IrcChangedEventArgs> StateChange;
 
         // private
@@ -29,12 +50,23 @@ namespace PlenBotLogUploader.TwitchIRCClient
         private const string serverIp = "irc.chat.twitch.tv";
         private const int serverPort = 6667;
 
+        /// <summary>
+        /// Create TwitchIrcClient class using user name and a password.
+        /// </summary>
+        /// <param name="userName">Username for Twitch IRC</param>
+        /// <param name="password">Password for Twitch IRC</param>
         public TwitchIrcClient(string userName, string password)
         {
             this.userName = userName;
             this.password = password;
         }
 
+        /// <summary>
+        /// Create TwitchIrcClient class using user name, a password and immediate channel join.
+        /// </summary>
+        /// <param name="userName">Username for Twitch IRC</param>
+        /// <param name="password">Password for Twitch IRC</param>
+        /// <param name="channelName">Channel to connect to at startup</param>
         public TwitchIrcClient(string userName, string password, string channelName)
         {
             this.userName = userName;
@@ -43,6 +75,9 @@ namespace PlenBotLogUploader.TwitchIRCClient
             ChannelNames.Add(LastChannelName);
         }
 
+        /// <summary>
+        /// Start the connection to the IRC.
+        /// </summary>
         public void BeginConnection()
         {
             try
@@ -59,7 +94,7 @@ namespace PlenBotLogUploader.TwitchIRCClient
             }
         }
 
-        public async void LoginAsync()
+        private async void LoginAsync()
         {
             try
             {
@@ -85,6 +120,12 @@ namespace PlenBotLogUploader.TwitchIRCClient
             }
         }
 
+        /// <summary>
+        /// Enter IRC room asynchronously.
+        /// </summary>
+        /// <param name="channelName">Room name to enter</param>
+        /// <param name="partPreviousChannels">if set to true leave all previous entered channels</param>
+        /// <returns>If room was entered successfully.</returns>
         public async Task<bool> JoinRoomAsync(string channelName, bool partPreviousChannels = false)
         {
             channelName = channelName.ToLower();
@@ -118,6 +159,11 @@ namespace PlenBotLogUploader.TwitchIRCClient
             }
         }
 
+        /// <summary>
+        /// Leave IRC room asynchronously.
+        /// </summary>
+        /// <param name="channelName">Room name to leave</param>
+        /// <returns>If room was left successfully.</returns>
         public async Task<bool> LeaveRoomAsync(string channelName)
         {
             channelName = channelName.ToLower();
@@ -142,6 +188,11 @@ namespace PlenBotLogUploader.TwitchIRCClient
             }
         }
 
+        /// <summary>
+        /// Sends an IRC message to the server.
+        /// </summary>
+        /// <param name="message">Message to send</param>
+        /// <returns>If message was successfully sent.</returns>
         public async Task<bool> SendIrcMessageAsync(string message)
         {
             try
@@ -159,6 +210,12 @@ namespace PlenBotLogUploader.TwitchIRCClient
             }
         }
 
+        /// <summary>
+        /// Sends a message to a specified channel.
+        /// </summary>
+        /// <param name="channelName">Name of the channel</param>
+        /// <param name="message">Message to send</param>
+        /// <returns>If message was successfully sent.</returns>
         public async Task<bool> SendChatMessageAsync(string channelName, string message)
         {
             channelName = channelName.ToLower();
@@ -181,6 +238,9 @@ namespace PlenBotLogUploader.TwitchIRCClient
             }
         }
 
+        /// <summary>
+        /// Disposes of the resources held by the class.
+        /// </summary>
         public void Dispose()
         {
             Connecting = false;

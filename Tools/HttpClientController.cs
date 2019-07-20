@@ -70,7 +70,7 @@ namespace PlenBotLogUploader.Tools
         }
 
         /// <summary>
-        /// Disposes of the class.
+        /// Disposes of the resources held by the class.
         /// </summary>
         public void Dispose()
         {
