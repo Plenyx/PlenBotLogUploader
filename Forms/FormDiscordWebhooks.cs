@@ -349,10 +349,6 @@ namespace PlenBotLogUploader
             {
                 mainLink.AddToText(">:> All active webhooks successfully executed with finished log session.");
             }
-            RaidLogs = null;
-            FractalLogs = null;
-            WvWLogs = null;
-            GolemLogs = null;
         }
 
         private async Task SendDiscordMessage(string title, string description, string contentText)
@@ -396,7 +392,6 @@ namespace PlenBotLogUploader
             {
                 mainLink.AddToText(">:> Unable to execute active webhooks with finished log session.");
             }
-            discordContent = null;
         }
 
         private void toolStripMenuItemAdd_Click(object sender, EventArgs e)
