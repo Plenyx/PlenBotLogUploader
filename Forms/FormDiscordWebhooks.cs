@@ -22,6 +22,9 @@ namespace PlenBotLogUploader
         // fields
         private FormMain mainLink;
         private int webhookIdsKey = 0;
+
+        // consts
+        private const int maxAllowedMessageSize = 1800;
         #endregion
 
         public FormDiscordWebhooks(FormMain mainLink)
@@ -231,6 +234,12 @@ namespace PlenBotLogUploader
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                         builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
+                        if (builder.Length >= maxAllowedMessageSize)
+                        {
+                            await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                            builder.Clear();
+                            builder.Append("***Raid logs:***\n");
+                        }
                     }
                 }
                 else
@@ -254,6 +263,12 @@ namespace PlenBotLogUploader
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                         builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
+                        if (builder.Length >= maxAllowedMessageSize)
+                        {
+                            await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                            builder.Clear();
+                            builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                        }
                     }
                 }
             }
@@ -275,6 +290,12 @@ namespace PlenBotLogUploader
                         bossName = bossDataRef.First().Name;
                     }
                     builder.Append($"[{bossName}]({log.Permalink})\n");
+                    if (builder.Length >= maxAllowedMessageSize)
+                    {
+                        await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                        builder.Clear();
+                        builder.Append("***Fractal logs:***\n");
+                    }
                 }
             }
             if (GolemLogs.Count > 0)
@@ -287,6 +308,12 @@ namespace PlenBotLogUploader
                 foreach (var log in GolemLogs)
                 {
                     builder.Append($"{log.Permalink}\n");
+                    if (builder.Length >= maxAllowedMessageSize)
+                    {
+                        await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                        builder.Clear();
+                        builder.Append("***Golem logs:***\n");
+                    }
                 }
             }
             if (WvWLogs.Count > 0)
@@ -299,22 +326,44 @@ namespace PlenBotLogUploader
                 foreach(var log in WvWLogs)
                 {
                     builder.Append($"{log.Permalink}\n");
+                    if (builder.Length >= maxAllowedMessageSize)
+                    {
+                        await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                        builder.Clear();
+                        builder.Append("***WvW logs:***\n");
+                    }
                 }
             }
+            if (builder.Length > 0)
+            {
+                await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+            }
+            if (AllWebhooks.Count > 0)
+            {
+                mainLink.AddToText(">:> All active webhooks successfully executed with finished log session.");
+            }
+            RaidLogs = null;
+            FractalLogs = null;
+            WvWLogs = null;
+            GolemLogs = null;
+        }
+
+        private async Task SendDiscordMessage(string title, string description, string contentText)
+        {
             var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
             {
                 Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
             };
             var discordContentEmbed = new DiscordAPIJSONContentEmbed()
             {
-                Title = logSessionSettings.Name,
-                Description = builder.ToString(),
+                Title = title,
+                Description = description,
                 Color = 32768,
                 Thumbnail = discordContentEmbedThumbnail
             };
             var discordContent = new DiscordAPIJSONContent()
             {
-                Content = logSessionSettings.ContentText,
+                Content = contentText,
                 Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
             };
             try
@@ -335,19 +384,11 @@ namespace PlenBotLogUploader
                         using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
                     }
                 }
-                if (AllWebhooks.Count > 0)
-                {
-                    mainLink.AddToText(">:> All active webhooks successfully executed with finished log session.");
-                }
             }
             catch
             {
                 mainLink.AddToText(">:> Unable to execute active webhooks with finished log session.");
             }
-            RaidLogs = null;
-            FractalLogs = null;
-            WvWLogs = null;
-            GolemLogs = null;
             discordContent = null;
         }
 
