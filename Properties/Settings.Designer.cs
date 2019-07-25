@@ -370,5 +370,29 @@ namespace PlenBotLogUploader.Properties {
                 this["SessionSort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<boss> kill: <log>")]
+        public string BossTemplateSuccess {
+            get {
+                return ((string)(this["BossTemplateSuccess"]));
+            }
+            set {
+                this["BossTemplateSuccess"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<boss> pull: <log>")]
+        public string BossTemplateFail {
+            get {
+                return ((string)(this["BossTemplateFail"]));
+            }
+            set {
+                this["BossTemplateFail"] = value;
+            }
+        }
     }
 }

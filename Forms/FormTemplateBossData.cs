@@ -17,12 +17,16 @@ namespace PlenBotLogUploader
             this.bossDataLink = bossDataLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
+            textBoxSuccessMessage.Text = Properties.Settings.Default.BossTemplateSuccess;
+            textBoxFailMessage.Text = Properties.Settings.Default.BossTemplateFail;
         }
 
         private void FormTemplateBossData_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
+            Properties.Settings.Default.BossTemplateSuccess = textBoxSuccessMessage.Text;
+            Properties.Settings.Default.BossTemplateFail = textBoxFailMessage.Text;
         }
 
         private void ButtonSuccessSave_Click(object sender, EventArgs e)

@@ -97,7 +97,6 @@
             this.textBoxFailMessage.Name = "textBoxFailMessage";
             this.textBoxFailMessage.Size = new System.Drawing.Size(305, 20);
             this.textBoxFailMessage.TabIndex = 1;
-            this.textBoxFailMessage.Text = "<boss> pull: <log>";
             // 
             // textBoxSuccessMessage
             // 
@@ -105,7 +104,6 @@
             this.textBoxSuccessMessage.Name = "textBoxSuccessMessage";
             this.textBoxSuccessMessage.Size = new System.Drawing.Size(305, 20);
             this.textBoxSuccessMessage.TabIndex = 0;
-            this.textBoxSuccessMessage.Text = "<boss> kill: <log>";
             // 
             // FormTemplateBossData
             // 
