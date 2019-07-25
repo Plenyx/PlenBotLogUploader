@@ -41,6 +41,7 @@ namespace PlenBotLogUploader
         private readonly FormPings pingsLink;
         private readonly FormTwitchCommands twitchCommandsLink;
         private readonly FormLogSession logSessionLink;
+        private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
@@ -67,6 +68,7 @@ namespace PlenBotLogUploader
             notifyIconTray.Icon = Properties.Resources.AppIcon;
             Text = $"{Text} r{uploaderRelease}";
             notifyIconTray.Text = $"{notifyIconTray.Text} r{uploaderRelease}";
+            semaphore = new SemaphoreSlim(Properties.Settings.Default.MaxConcurrentUploads, Properties.Settings.Default.MaxConcurrentUploads);
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
@@ -286,10 +288,18 @@ namespace PlenBotLogUploader
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
             var files = ((string[])e.Data.GetData(DataFormats.FileDrop)).ToList();
-            Task.Run(() => DoDragDropFiles(files));
+            foreach (var file in files)
+            {
+                Task.Run(async () =>
+                {
+                    semaphore.Wait();
+                    await DoDragDropFile(file);
+                    semaphore.Release();
+                });
+            }
         }
 
-        protected void DoDragDropFiles(List<string> files)
+        protected async Task DoDragDropFile(string file)
         {
             Dictionary<string, string> postData = new Dictionary<string, string>
             {
@@ -300,32 +310,29 @@ namespace PlenBotLogUploader
             {
                 postData.Add("rotation_weap1", "1");
             }
-            foreach (string file in files)
+            if (File.Exists(file) && (file.EndsWith(".evtc") || file.EndsWith(".zevtc")))
             {
-                if (File.Exists(file) && (file.EndsWith(".evtc") || file.EndsWith(".zevtc")))
+                bool archived = false;
+                string zipfilelocation = file;
+                if (!file.EndsWith(".zevtc"))
                 {
-                    bool archived = false;
-                    string zipfilelocation = file;
-                    if (!file.EndsWith(".zevtc"))
+                    zipfilelocation = $"{LocalDir}{Path.GetFileName(file)}.zevtc";
+                    using (ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@file, Path.GetFileName(file)); }
+                    archived = true;
+                }
+                try
+                {
+                    await HttpUploadLogAsync(zipfilelocation, postData, true);
+                }
+                catch
+                {
+                    AddToText($">>> Unknown error uploading a log: {zipfilelocation}");
+                }
+                finally
+                {
+                    if (archived)
                     {
-                        zipfilelocation = $"{LocalDir}{Path.GetFileName(file)}.zevtc";
-                        using (ZipArchive zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@file, Path.GetFileName(file)); }
-                        archived = true;
-                    }
-                    try
-                    {
-                        HttpUploadLogAsync(zipfilelocation, postData, true);
-                    }
-                    catch
-                    {
-                        AddToText($">>> Unknown error uploading a log: {zipfilelocation}");
-                    }
-                    finally
-                    {
-                        if (archived)
-                        {
-                            File.Delete($"{LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
-                        }
+                        File.Delete($"{LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
                     }
                 }
             }
@@ -334,7 +341,7 @@ namespace PlenBotLogUploader
 
         #region required methods
         // triggeres when a file is renamed within the folder, renaming is the last process done by arcdps to create evtc or zevtc files
-        private void OnLogCreated(object sender, FileSystemEventArgs e)
+        private async void OnLogCreated(object sender, FileSystemEventArgs e)
         {
             if (e.FullPath.EndsWith(".evtc") || e.FullPath.EndsWith(".zevtc"))
             {
@@ -366,7 +373,7 @@ namespace PlenBotLogUploader
                                 {
                                     postData.Add("rotation_weap1", "1");
                                 }
-                                HttpUploadLogAsync(zipfilelocation, postData);
+                                await HttpUploadLogAsync(zipfilelocation, postData);
                             }
                             catch
                             {
@@ -604,7 +611,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async void HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
+        public async Task HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
             using (var content = new MultipartFormDataContent())
             {
@@ -723,7 +730,7 @@ namespace PlenBotLogUploader
                 catch
                 {
                     Thread.Sleep(650);
-                    HttpUploadLogAsync(file, postData, bypassMessage);
+                    await HttpUploadLogAsync(file, postData, bypassMessage);
                 }
             }
         }

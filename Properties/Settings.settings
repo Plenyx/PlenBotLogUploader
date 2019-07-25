@@ -95,5 +95,8 @@
     <Setting Name="BossTemplateFail" Type="System.String" Scope="User">
       <Value Profile="(Default)">&lt;boss&gt; pull: &lt;log&gt;</Value>
     </Setting>
+    <Setting Name="MaxConcurrentUploads" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

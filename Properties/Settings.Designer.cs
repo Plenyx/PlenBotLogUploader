@@ -394,5 +394,17 @@ namespace PlenBotLogUploader.Properties {
                 this["BossTemplateFail"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int MaxConcurrentUploads {
+            get {
+                return ((int)(this["MaxConcurrentUploads"]));
+            }
+            set {
+                this["MaxConcurrentUploads"] = value;
+            }
+        }
     }
 }
