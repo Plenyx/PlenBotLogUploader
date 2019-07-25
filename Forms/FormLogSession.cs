@@ -43,21 +43,8 @@ namespace PlenBotLogUploader
                 sessionPaused = false;
                 groupBoxSessionSettings.Enabled = true;
                 stopWatch.Stop();
-                var elapsed = stopWatch.Elapsed;
-                string elapsedTime = $"{elapsed.Seconds}s";
-                if (elapsed.Hours > 0 || elapsed.Days > 0)
-                {
-                    elapsedTime = $"{elapsed.Days * 24 + elapsed.Hours}h {elapsed.Minutes}m {elapsed.Seconds}s";
-                }
-                else if (elapsed.Minutes > 0)
-                {
-                    elapsedTime = $"{elapsed.Minutes}m {elapsed.Seconds}s";
-                }
-                int sortBy = 0;
-                if (radioButtonSortByUpload.Checked)
-                {
-                    sortBy = 1;
-                }
+                string elapsedTime = NiceTime.ParseTimeSpanHMS(stopWatch.Elapsed);
+                int sortBy = radioButtonSortByUpload.Checked ? 1 : 0;
                 var logSessionSettings = new LogSessionSettings()
                 {
                     Name = textBoxSessionName.Text,

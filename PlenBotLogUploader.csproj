@@ -200,6 +200,7 @@
     <Compile Include="Tools\HttpClientController.cs" />
     <Compile Include="Tools\LogSessionSettings.cs" />
     <Compile Include="Tools\LogSessionSortBy.cs" />
+    <Compile Include="Tools\NiceTime.cs" />
     <Compile Include="TwitchIRCClient\IrcChangedEventArgs.cs" />
     <Compile Include="TwitchIRCClient\IrcMessageEventArgs.cs" />
     <Compile Include="Program.cs" />
