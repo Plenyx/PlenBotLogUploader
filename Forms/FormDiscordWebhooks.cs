@@ -216,6 +216,7 @@ namespace PlenBotLogUploader
                 .ToList();
             StringBuilder builder = new StringBuilder();
             builder.Append($"Session duration: {logSessionSettings.ElapsedTime}\n\n");
+            int messageCount = 0;
             if (RaidLogs.Count > 0)
             {
                 builder.Append("***Raid logs:***\n");
@@ -236,7 +237,8 @@ namespace PlenBotLogUploader
                         builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                         if (builder.Length >= maxAllowedMessageSize)
                         {
-                            await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                            messageCount++;
+                            await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
                             builder.Clear();
                             builder.Append("***Raid logs:***\n");
                         }
@@ -265,7 +267,8 @@ namespace PlenBotLogUploader
                         builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                         if (builder.Length >= maxAllowedMessageSize)
                         {
-                            await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                            messageCount++;
+                            await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
                             builder.Clear();
                             builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                         }
@@ -292,7 +295,8 @@ namespace PlenBotLogUploader
                     builder.Append($"[{bossName}]({log.Permalink})\n");
                     if (builder.Length >= maxAllowedMessageSize)
                     {
-                        await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                        messageCount++;
+                        await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
                         builder.Clear();
                         builder.Append("***Fractal logs:***\n");
                     }
@@ -310,7 +314,8 @@ namespace PlenBotLogUploader
                     builder.Append($"{log.Permalink}\n");
                     if (builder.Length >= maxAllowedMessageSize)
                     {
-                        await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                        messageCount++;
+                        await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
                         builder.Clear();
                         builder.Append("***Golem logs:***\n");
                     }
@@ -328,7 +333,8 @@ namespace PlenBotLogUploader
                     builder.Append($"{log.Permalink}\n");
                     if (builder.Length >= maxAllowedMessageSize)
                     {
-                        await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                        messageCount++;
+                        await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
                         builder.Clear();
                         builder.Append("***WvW logs:***\n");
                     }
@@ -336,7 +342,8 @@ namespace PlenBotLogUploader
             }
             if (builder.Length > 0)
             {
-                await SendDiscordMessage(logSessionSettings.Name, builder.ToString(), logSessionSettings.ContentText);
+                messageCount++;
+                await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
             }
             if (AllWebhooks.Count > 0)
             {
