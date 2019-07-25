@@ -728,7 +728,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionLogWebhooksAsync(string sessionName, string contentText, bool showSuccess, string elapsedTime, int sortBy) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses, sessionName, contentText, showSuccess, elapsedTime, sortBy);
+        public async Task ExecuteSessionLogWebhooksAsync(LogSessionSettings logSessionSettings) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses, logSessionSettings);
         #endregion
 
         #region Twitch bot methods

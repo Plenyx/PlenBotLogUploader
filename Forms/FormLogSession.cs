@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using PlenBotLogUploader.Tools;
 
 namespace PlenBotLogUploader
 {
@@ -57,7 +58,15 @@ namespace PlenBotLogUploader
                 {
                     sortBy = 1;
                 }
-                await mainLink.ExecuteSessionLogWebhooksAsync(textBoxSessionName.Text, textBoxSessionContent.Text, !checkBoxOnlySuccess.Checked, elapsedTime, sortBy);
+                var logSessionSettings = new LogSessionSettings()
+                {
+                    Name = textBoxSessionName.Text,
+                    ContentText = textBoxSessionContent.Text,
+                    ShowSuccess = !checkBoxOnlySuccess.Checked,
+                    ElapsedTime = elapsedTime,
+                    SortBy = (LogSessionSortBy)sortBy
+                };
+                await mainLink.ExecuteSessionLogWebhooksAsync(logSessionSettings);
                 mainLink.SessionLogs.Clear();
             }
             else

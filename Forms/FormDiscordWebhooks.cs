@@ -7,8 +7,9 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
-using PlenBotLogUploader.DiscordAPI;
+using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.DiscordAPI;
 
 namespace PlenBotLogUploader
 {
@@ -184,14 +185,14 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses, string sessionName, string contentText, bool showSuccess, string elapsedTime, int sortBy)
+        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses, LogSessionSettings logSessionSettings)
         {
             var RaidLogs = reportsJSON
                     .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
                     .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.Evtc.BossId) })
                     .OrderBy(anon => anon.LogData.UploadTime)
                     .ToList();
-            if (sortBy == 0)
+            if (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing))
             {
                 RaidLogs = reportsJSON
                     .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
@@ -211,11 +212,11 @@ namespace PlenBotLogUploader
                 .Where(anon => Bosses.IsWvW(anon.Evtc.BossId))
                 .ToList();
             StringBuilder builder = new StringBuilder();
-            builder.Append($"Session duration: {elapsedTime}\n\n");
+            builder.Append($"Session duration: {logSessionSettings.ElapsedTime}\n\n");
             if (RaidLogs.Count > 0)
             {
                 builder.Append("***Raid logs:***\n");
-                if (sortBy == 1)
+                if (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing))
                 {
                     foreach (var data in RaidLogs)
                     {
@@ -228,7 +229,7 @@ namespace PlenBotLogUploader
                             bossName = bossDataRef.First().Name + (data.LogData.IsCM() ? " CM" : "");
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
-                        string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                        string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                         builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                     }
                 }
@@ -251,7 +252,7 @@ namespace PlenBotLogUploader
                             bossName = bossDataRef.First().Name + (data.LogData.IsCM() ? " CM" : "");
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
-                        string successText = (showSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                        string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                         builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                     }
                 }
@@ -306,14 +307,14 @@ namespace PlenBotLogUploader
             };
             var discordContentEmbed = new DiscordAPIJSONContentEmbed()
             {
-                Title = sessionName,
+                Title = logSessionSettings.Name,
                 Description = builder.ToString(),
                 Color = 32768,
                 Thumbnail = discordContentEmbedThumbnail
             };
             var discordContent = new DiscordAPIJSONContent()
             {
-                Content = contentText,
+                Content = logSessionSettings.ContentText,
                 Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
             };
             try
