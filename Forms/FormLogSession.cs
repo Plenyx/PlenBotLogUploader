@@ -55,7 +55,7 @@ namespace PlenBotLogUploader
                     ElapsedTime = elapsedTime,
                     SortBy = (LogSessionSortBy)sortBy
                 };
-                var fileName = $"{textBoxSessionName.Text.ToLower()} {sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
+                var fileName = $"{textBoxSessionName.Text.ToLower().Replace(" ", "")} {sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
                 File.AppendAllText($"{mainLink.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
                 foreach (var reportJSON in mainLink.SessionLogs)
                 {
