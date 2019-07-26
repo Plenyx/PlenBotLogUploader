@@ -63,6 +63,7 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.buttonReset = new System.Windows.Forms.Button();
             this.checkBoxStartWhenWindowsStarts = new System.Windows.Forms.CheckBox();
             this.buttonDiscordWebhooks = new System.Windows.Forms.Button();
             this.buttonArcVersionChecking = new System.Windows.Forms.Button();
@@ -71,7 +72,8 @@
             this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonReset = new System.Windows.Forms.Button();
+            this.labelMaximumUploads = new System.Windows.Forms.Label();
+            this.comboBoxMaxUploads = new System.Windows.Forms.ComboBox();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -85,7 +87,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 594);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 622);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
@@ -408,6 +410,8 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.comboBoxMaxUploads);
+            this.groupBoxOtherSettings.Controls.Add(this.labelMaximumUploads);
             this.groupBoxOtherSettings.Controls.Add(this.buttonReset);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxStartWhenWindowsStarts);
             this.groupBoxOtherSettings.Controls.Add(this.buttonDiscordWebhooks);
@@ -417,10 +421,20 @@
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 395);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 211);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 239);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
+            // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(6, 208);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(188, 23);
+            this.buttonReset.TabIndex = 9;
+            this.buttonReset.Text = "Reset all settings";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.ButtonReset_Click);
             // 
             // checkBoxStartWhenWindowsStarts
             // 
@@ -434,7 +448,7 @@
             // 
             // buttonDiscordWebhooks
             // 
-            this.buttonDiscordWebhooks.Location = new System.Drawing.Point(6, 65);
+            this.buttonDiscordWebhooks.Location = new System.Drawing.Point(6, 92);
             this.buttonDiscordWebhooks.Name = "buttonDiscordWebhooks";
             this.buttonDiscordWebhooks.Size = new System.Drawing.Size(188, 23);
             this.buttonDiscordWebhooks.TabIndex = 4;
@@ -444,7 +458,7 @@
             // 
             // buttonArcVersionChecking
             // 
-            this.buttonArcVersionChecking.Location = new System.Drawing.Point(6, 123);
+            this.buttonArcVersionChecking.Location = new System.Drawing.Point(6, 150);
             this.buttonArcVersionChecking.Name = "buttonArcVersionChecking";
             this.buttonArcVersionChecking.Size = new System.Drawing.Size(188, 23);
             this.buttonArcVersionChecking.TabIndex = 3;
@@ -454,7 +468,7 @@
             // 
             // buttonRaidarSettings
             // 
-            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 94);
+            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 121);
             this.buttonRaidarSettings.Name = "buttonRaidarSettings";
             this.buttonRaidarSettings.Size = new System.Drawing.Size(188, 23);
             this.buttonRaidarSettings.TabIndex = 2;
@@ -464,7 +478,7 @@
             // 
             // buttonPingSettings
             // 
-            this.buttonPingSettings.Location = new System.Drawing.Point(6, 152);
+            this.buttonPingSettings.Location = new System.Drawing.Point(6, 179);
             this.buttonPingSettings.Name = "buttonPingSettings";
             this.buttonPingSettings.Size = new System.Drawing.Size(188, 23);
             this.buttonPingSettings.TabIndex = 0;
@@ -475,7 +489,7 @@
             // buttonUpdateNow
             // 
             this.buttonUpdateNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdateNow.Location = new System.Drawing.Point(22, 559);
+            this.buttonUpdateNow.Location = new System.Drawing.Point(22, 586);
             this.buttonUpdateNow.Name = "buttonUpdateNow";
             this.buttonUpdateNow.Size = new System.Drawing.Size(112, 40);
             this.buttonUpdateNow.TabIndex = 8;
@@ -493,22 +507,40 @@
             // 
             this.toolTip.ShowAlways = true;
             // 
-            // buttonReset
+            // labelMaximumUploads
             // 
-            this.buttonReset.Location = new System.Drawing.Point(6, 181);
-            this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(188, 23);
-            this.buttonReset.TabIndex = 9;
-            this.buttonReset.Text = "Reset all settings";
-            this.buttonReset.UseVisualStyleBackColor = true;
-            this.buttonReset.Click += new System.EventHandler(this.ButtonReset_Click);
+            this.labelMaximumUploads.AutoSize = true;
+            this.labelMaximumUploads.Location = new System.Drawing.Point(6, 68);
+            this.labelMaximumUploads.Name = "labelMaximumUploads";
+            this.labelMaximumUploads.Size = new System.Drawing.Size(121, 13);
+            this.labelMaximumUploads.TabIndex = 10;
+            this.labelMaximumUploads.Text = "Max concurrent uploads";
+            // 
+            // comboBoxMaxUploads
+            // 
+            this.comboBoxMaxUploads.FormattingEnabled = true;
+            this.comboBoxMaxUploads.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
+            this.comboBoxMaxUploads.Location = new System.Drawing.Point(133, 65);
+            this.comboBoxMaxUploads.Name = "comboBoxMaxUploads";
+            this.comboBoxMaxUploads.Size = new System.Drawing.Size(61, 21);
+            this.comboBoxMaxUploads.TabIndex = 11;
             // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 612);
+            this.ClientSize = new System.Drawing.Size(633, 640);
             this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
@@ -583,6 +615,8 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button buttonSession;
         private System.Windows.Forms.Button buttonReset;
+        private System.Windows.Forms.ComboBox comboBoxMaxUploads;
+        private System.Windows.Forms.Label labelMaximumUploads;
     }
 }
 

@@ -62,6 +62,7 @@ namespace PlenBotLogUploader
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch chat if connected to a channel.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch chat if connected to a channel.");
+            toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             #endregion
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
@@ -69,6 +70,7 @@ namespace PlenBotLogUploader
             Text = $"{Text} r{uploaderRelease}";
             notifyIconTray.Text = $"{notifyIconTray.Text} r{uploaderRelease}";
             semaphore = new SemaphoreSlim(Properties.Settings.Default.MaxConcurrentUploads, Properties.Settings.Default.MaxConcurrentUploads);
+            comboBoxMaxUploads.Text = Properties.Settings.Default.MaxConcurrentUploads.ToString();
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
@@ -241,6 +243,7 @@ namespace PlenBotLogUploader
                 raidarLink.checkBoxEnableRaidar.CheckedChanged += new EventHandler(raidarLink.checkBoxEnableRaidar_CheckedChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
+                comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
             }
             catch
             {
@@ -451,12 +454,12 @@ namespace PlenBotLogUploader
             Application.Exit();
         }
 
-        protected void DoCommandArgs()
+        protected async void DoCommandArgs()
         {
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Length > 1)
+            var args = Environment.GetCommandLineArgs().ToList();
+            if (args.Count > 1)
             {
-                if ((args.Length == 2) && (args[1].Equals("-m")))
+                if ((args.Count == 2) && (args[1].Equals("-m")))
                 {
                     StartedMinimised = true;
                     WindowState = FormWindowState.Minimized;
@@ -495,7 +498,7 @@ namespace PlenBotLogUploader
                             }
                             try
                             {
-                                HttpUploadLogAsync(zipfilelocation, postData);
+                                await HttpUploadLogAsync(zipfilelocation, postData);
                             }
                             catch
                             {
@@ -739,7 +742,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region Twitch bot methods
-        public bool IsConnectionNull() => chatConnect == null;
+        public bool IsTwitchConnectionNull() => chatConnect == null;
 
         public void ConnectTwitchBot()
         {
@@ -1176,6 +1179,16 @@ namespace PlenBotLogUploader
             timerCheckUpdate.Stop();
             timerCheckUpdate.Enabled = false;
             Task.Run(() => NewReleaseCheckAsync());
+        }
+
+        private void ComboBoxMaxUploads_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Int32.TryParse(comboBoxMaxUploads.Text, out int threads))
+            {
+                Properties.Settings.Default.MaxConcurrentUploads = threads;
+                semaphore?.Dispose();
+                semaphore = new SemaphoreSlim(threads, threads);
+            }
         }
         #endregion
     }

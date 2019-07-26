@@ -29,7 +29,7 @@ namespace PlenBotLogUploader
                 if (result == DialogResult.Yes)
                 {
                     Properties.Settings.Default.TwitchChannelName = channelName;
-                    if (mainLink.IsConnectionNull())
+                    if (mainLink.IsTwitchConnectionNull())
                     {
                         mainLink.ConnectTwitchBot();
                     }
@@ -54,7 +54,7 @@ namespace PlenBotLogUploader
 
         private void buttonDoNotUseTwitch_Click(object sender, EventArgs e)
         {
-            if (!mainLink.IsConnectionNull())
+            if (!mainLink.IsTwitchConnectionNull())
             {
                 mainLink.DisconnectTwitchBot();
             }

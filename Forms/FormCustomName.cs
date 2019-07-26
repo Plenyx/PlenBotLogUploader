@@ -24,7 +24,7 @@ namespace PlenBotLogUploader
             Hide();
             Properties.Settings.Default.CustomTwitchName = textBoxCustomName.Text.ToLower();
             Properties.Settings.Default.CustomTwitchOAuthPassword = textBoxCustomOAuth.Text;
-            if (!mainLink.IsConnectionNull())
+            if (!mainLink.IsTwitchConnectionNull())
             {
                 mainLink.ReconnectTwitchBot();
             }
