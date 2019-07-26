@@ -35,13 +35,14 @@
             this.textBoxSessionName = new System.Windows.Forms.TextBox();
             this.labelSessionName = new System.Windows.Forms.Label();
             this.groupBoxSessionSettings = new System.Windows.Forms.GroupBox();
+            this.groupBoxDiscordWebhooks = new System.Windows.Forms.GroupBox();
+            this.radioButtonSortByUpload = new System.Windows.Forms.RadioButton();
+            this.radioButtonSortByWing = new System.Windows.Forms.RadioButton();
             this.textBoxSessionContent = new System.Windows.Forms.TextBox();
             this.labelSessionContent = new System.Windows.Forms.Label();
-            this.groupBoxSortSetting = new System.Windows.Forms.GroupBox();
-            this.radioButtonSortByWing = new System.Windows.Forms.RadioButton();
-            this.radioButtonSortByUpload = new System.Windows.Forms.RadioButton();
+            this.checkBoxSaveToFile = new System.Windows.Forms.CheckBox();
             this.groupBoxSessionSettings.SuspendLayout();
-            this.groupBoxSortSetting.SuspendLayout();
+            this.groupBoxDiscordWebhooks.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonSessionStarter
@@ -57,25 +58,21 @@
             // checkBoxSupressWebhooks
             // 
             this.checkBoxSupressWebhooks.AutoSize = true;
-            this.checkBoxSupressWebhooks.Checked = true;
-            this.checkBoxSupressWebhooks.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSupressWebhooks.Location = new System.Drawing.Point(9, 58);
+            this.checkBoxSupressWebhooks.Location = new System.Drawing.Point(6, 19);
             this.checkBoxSupressWebhooks.Name = "checkBoxSupressWebhooks";
-            this.checkBoxSupressWebhooks.Size = new System.Drawing.Size(271, 17);
+            this.checkBoxSupressWebhooks.Size = new System.Drawing.Size(232, 17);
             this.checkBoxSupressWebhooks.TabIndex = 1;
-            this.checkBoxSupressWebhooks.Text = "suppress Discord webhooks until session concludes";
+            this.checkBoxSupressWebhooks.Text = "suppress webhooks until session concludes";
             this.checkBoxSupressWebhooks.UseVisualStyleBackColor = true;
             // 
             // checkBoxOnlySuccess
             // 
             this.checkBoxOnlySuccess.AutoSize = true;
-            this.checkBoxOnlySuccess.Checked = true;
-            this.checkBoxOnlySuccess.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxOnlySuccess.Location = new System.Drawing.Point(9, 81);
+            this.checkBoxOnlySuccess.Location = new System.Drawing.Point(9, 58);
             this.checkBoxOnlySuccess.Name = "checkBoxOnlySuccess";
-            this.checkBoxOnlySuccess.Size = new System.Drawing.Size(141, 17);
+            this.checkBoxOnlySuccess.Size = new System.Drawing.Size(167, 17);
             this.checkBoxOnlySuccess.TabIndex = 2;
-            this.checkBoxOnlySuccess.Text = "only successful attempts";
+            this.checkBoxOnlySuccess.Text = "save only successful attempts";
             this.checkBoxOnlySuccess.UseVisualStyleBackColor = true;
             // 
             // buttonUnPauseSession
@@ -107,77 +104,88 @@
             // 
             // groupBoxSessionSettings
             // 
-            this.groupBoxSessionSettings.Controls.Add(this.groupBoxSortSetting);
-            this.groupBoxSessionSettings.Controls.Add(this.textBoxSessionContent);
-            this.groupBoxSessionSettings.Controls.Add(this.labelSessionContent);
+            this.groupBoxSessionSettings.Controls.Add(this.checkBoxSaveToFile);
+            this.groupBoxSessionSettings.Controls.Add(this.groupBoxDiscordWebhooks);
             this.groupBoxSessionSettings.Controls.Add(this.textBoxSessionName);
             this.groupBoxSessionSettings.Controls.Add(this.labelSessionName);
             this.groupBoxSessionSettings.Controls.Add(this.checkBoxOnlySuccess);
-            this.groupBoxSessionSettings.Controls.Add(this.checkBoxSupressWebhooks);
             this.groupBoxSessionSettings.Location = new System.Drawing.Point(12, 41);
             this.groupBoxSessionSettings.Name = "groupBoxSessionSettings";
-            this.groupBoxSessionSettings.Size = new System.Drawing.Size(285, 220);
+            this.groupBoxSessionSettings.Size = new System.Drawing.Size(285, 237);
             this.groupBoxSessionSettings.TabIndex = 6;
             this.groupBoxSessionSettings.TabStop = false;
             this.groupBoxSessionSettings.Text = "Session settings";
             // 
-            // textBoxSessionContent
+            // groupBoxDiscordWebhooks
             // 
-            this.textBoxSessionContent.Location = new System.Drawing.Point(9, 117);
-            this.textBoxSessionContent.Name = "textBoxSessionContent";
-            this.textBoxSessionContent.Size = new System.Drawing.Size(270, 20);
-            this.textBoxSessionContent.TabIndex = 7;
+            this.groupBoxDiscordWebhooks.Controls.Add(this.radioButtonSortByUpload);
+            this.groupBoxDiscordWebhooks.Controls.Add(this.labelSessionContent);
+            this.groupBoxDiscordWebhooks.Controls.Add(this.textBoxSessionContent);
+            this.groupBoxDiscordWebhooks.Controls.Add(this.radioButtonSortByWing);
+            this.groupBoxDiscordWebhooks.Controls.Add(this.checkBoxSupressWebhooks);
+            this.groupBoxDiscordWebhooks.Location = new System.Drawing.Point(6, 104);
+            this.groupBoxDiscordWebhooks.Name = "groupBoxDiscordWebhooks";
+            this.groupBoxDiscordWebhooks.Size = new System.Drawing.Size(270, 127);
+            this.groupBoxDiscordWebhooks.TabIndex = 8;
+            this.groupBoxDiscordWebhooks.TabStop = false;
+            this.groupBoxDiscordWebhooks.Text = "Discord webhook settings";
             // 
-            // labelSessionContent
+            // radioButtonSortByUpload
             // 
-            this.labelSessionContent.AutoSize = true;
-            this.labelSessionContent.Location = new System.Drawing.Point(6, 101);
-            this.labelSessionContent.Name = "labelSessionContent";
-            this.labelSessionContent.Size = new System.Drawing.Size(91, 13);
-            this.labelSessionContent.TabIndex = 6;
-            this.labelSessionContent.Text = "Discord message:";
-            // 
-            // groupBoxSortSetting
-            // 
-            this.groupBoxSortSetting.Controls.Add(this.radioButtonSortByUpload);
-            this.groupBoxSortSetting.Controls.Add(this.radioButtonSortByWing);
-            this.groupBoxSortSetting.Location = new System.Drawing.Point(9, 143);
-            this.groupBoxSortSetting.Name = "groupBoxSortSetting";
-            this.groupBoxSortSetting.Size = new System.Drawing.Size(270, 70);
-            this.groupBoxSortSetting.TabIndex = 8;
-            this.groupBoxSortSetting.TabStop = false;
-            this.groupBoxSortSetting.Text = "Discord webhook sort setting";
+            this.radioButtonSortByUpload.AutoSize = true;
+            this.radioButtonSortByUpload.Location = new System.Drawing.Point(6, 104);
+            this.radioButtonSortByUpload.Name = "radioButtonSortByUpload";
+            this.radioButtonSortByUpload.Size = new System.Drawing.Size(135, 17);
+            this.radioButtonSortByUpload.TabIndex = 1;
+            this.radioButtonSortByUpload.TabStop = true;
+            this.radioButtonSortByUpload.Text = "sort logs by upload time";
+            this.radioButtonSortByUpload.UseVisualStyleBackColor = true;
+            this.radioButtonSortByUpload.CheckedChanged += new System.EventHandler(this.RadioButtonSortByUpload_CheckedChanged);
             // 
             // radioButtonSortByWing
             // 
             this.radioButtonSortByWing.AutoSize = true;
             this.radioButtonSortByWing.Checked = true;
-            this.radioButtonSortByWing.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonSortByWing.Location = new System.Drawing.Point(6, 81);
             this.radioButtonSortByWing.Name = "radioButtonSortByWing";
-            this.radioButtonSortByWing.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonSortByWing.Size = new System.Drawing.Size(176, 17);
             this.radioButtonSortByWing.TabIndex = 0;
             this.radioButtonSortByWing.TabStop = true;
-            this.radioButtonSortByWing.Text = "sort by wing";
+            this.radioButtonSortByWing.Text = "sort logs by wing and boss order";
             this.radioButtonSortByWing.UseVisualStyleBackColor = true;
             this.radioButtonSortByWing.CheckedChanged += new System.EventHandler(this.RadioButtonSortByWing_CheckedChanged);
             // 
-            // radioButtonSortByUpload
+            // textBoxSessionContent
             // 
-            this.radioButtonSortByUpload.AutoSize = true;
-            this.radioButtonSortByUpload.Location = new System.Drawing.Point(7, 43);
-            this.radioButtonSortByUpload.Name = "radioButtonSortByUpload";
-            this.radioButtonSortByUpload.Size = new System.Drawing.Size(91, 17);
-            this.radioButtonSortByUpload.TabIndex = 1;
-            this.radioButtonSortByUpload.TabStop = true;
-            this.radioButtonSortByUpload.Text = "sort by upload";
-            this.radioButtonSortByUpload.UseVisualStyleBackColor = true;
-            this.radioButtonSortByUpload.CheckedChanged += new System.EventHandler(this.RadioButtonSortByUpload_CheckedChanged);
+            this.textBoxSessionContent.Location = new System.Drawing.Point(6, 55);
+            this.textBoxSessionContent.Name = "textBoxSessionContent";
+            this.textBoxSessionContent.Size = new System.Drawing.Size(258, 20);
+            this.textBoxSessionContent.TabIndex = 7;
+            // 
+            // labelSessionContent
+            // 
+            this.labelSessionContent.AutoSize = true;
+            this.labelSessionContent.Location = new System.Drawing.Point(6, 39);
+            this.labelSessionContent.Name = "labelSessionContent";
+            this.labelSessionContent.Size = new System.Drawing.Size(91, 13);
+            this.labelSessionContent.TabIndex = 6;
+            this.labelSessionContent.Text = "Discord message:";
+            // 
+            // checkBoxSaveToFile
+            // 
+            this.checkBoxSaveToFile.AutoSize = true;
+            this.checkBoxSaveToFile.Location = new System.Drawing.Point(9, 81);
+            this.checkBoxSaveToFile.Name = "checkBoxSaveToFile";
+            this.checkBoxSaveToFile.Size = new System.Drawing.Size(115, 17);
+            this.checkBoxSaveToFile.TabIndex = 9;
+            this.checkBoxSaveToFile.Text = "save session to file";
+            this.checkBoxSaveToFile.UseVisualStyleBackColor = true;
             // 
             // FormLogSession
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 268);
+            this.ClientSize = new System.Drawing.Size(309, 286);
             this.Controls.Add(this.groupBoxSessionSettings);
             this.Controls.Add(this.buttonUnPauseSession);
             this.Controls.Add(this.buttonSessionStarter);
@@ -190,8 +198,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLogSession_FormClosing);
             this.groupBoxSessionSettings.ResumeLayout(false);
             this.groupBoxSessionSettings.PerformLayout();
-            this.groupBoxSortSetting.ResumeLayout(false);
-            this.groupBoxSortSetting.PerformLayout();
+            this.groupBoxDiscordWebhooks.ResumeLayout(false);
+            this.groupBoxDiscordWebhooks.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -207,8 +215,9 @@
         public System.Windows.Forms.TextBox textBoxSessionName;
         private System.Windows.Forms.Label labelSessionContent;
         public System.Windows.Forms.TextBox textBoxSessionContent;
-        private System.Windows.Forms.GroupBox groupBoxSortSetting;
+        private System.Windows.Forms.GroupBox groupBoxDiscordWebhooks;
         public System.Windows.Forms.RadioButton radioButtonSortByUpload;
         public System.Windows.Forms.RadioButton radioButtonSortByWing;
+        private System.Windows.Forms.CheckBox checkBoxSaveToFile;
     }
 }
