@@ -406,5 +406,17 @@ namespace PlenBotLogUploader.Properties {
                 this["MaxConcurrentUploads"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SessionSaveToFile {
+            get {
+                return ((bool)(this["SessionSaveToFile"]));
+            }
+            set {
+                this["SessionSaveToFile"] = value;
+            }
+        }
     }
 }

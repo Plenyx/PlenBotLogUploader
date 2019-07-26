@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Diagnostics;
 using System.Windows.Forms;
 using PlenBotLogUploader.Tools;
@@ -15,6 +16,7 @@ namespace PlenBotLogUploader
         private FormMain mainLink;
         private bool sessionPaused = false;
         private readonly Stopwatch stopWatch = new Stopwatch();
+        private DateTime sessionTimeStarted;
         #endregion
 
         public FormLogSession(FormMain mainLink)
@@ -53,6 +55,14 @@ namespace PlenBotLogUploader
                     ElapsedTime = elapsedTime,
                     SortBy = (LogSessionSortBy)sortBy
                 };
+                var fileName = $"{textBoxSessionName.Text.ToLower()} {sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
+                File.AppendAllText($"{mainLink.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
+                foreach (var reportJSON in mainLink.SessionLogs)
+                {
+                    string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                    File.AppendAllText($"{mainLink.LocalDir}{fileName}.csv",
+                        $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
+                }
                 await mainLink.ExecuteSessionLogWebhooksAsync(logSessionSettings);
                 mainLink.SessionLogs.Clear();
             }
@@ -65,6 +75,7 @@ namespace PlenBotLogUploader
                 sessionPaused = false;
                 groupBoxSessionSettings.Enabled = false;
                 stopWatch.Start();
+                sessionTimeStarted = DateTime.Now;
             }
         }
 
@@ -87,6 +98,8 @@ namespace PlenBotLogUploader
         public void CheckBoxSupressWebhooks_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSuppressWebhooks = checkBoxSupressWebhooks.Checked;
 
         public void CheckBoxOnlySuccess_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionOnlySuccess = checkBoxOnlySuccess.Checked;
+
+        public void CheckBoxSaveToFile_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSaveToFile = checkBoxSaveToFile.Checked;
 
         private void RadioButtonSortByWing_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSort = 0;
 

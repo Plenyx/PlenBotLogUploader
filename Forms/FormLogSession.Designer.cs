@@ -218,6 +218,6 @@
         private System.Windows.Forms.GroupBox groupBoxDiscordWebhooks;
         public System.Windows.Forms.RadioButton radioButtonSortByUpload;
         public System.Windows.Forms.RadioButton radioButtonSortByWing;
-        private System.Windows.Forms.CheckBox checkBoxSaveToFile;
+        public System.Windows.Forms.CheckBox checkBoxSaveToFile;
     }
 }
