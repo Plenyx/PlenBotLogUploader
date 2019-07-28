@@ -277,7 +277,7 @@ namespace PlenBotLogUploader
             }
             if (FractalLogs.Count > 0)
             {
-                if (builder.Length > 0)
+                if (!builder.ToString().EndsWith("***\n"))
                 {
                     builder.Append("\n\n");
                 }
@@ -304,7 +304,7 @@ namespace PlenBotLogUploader
             }
             if (GolemLogs.Count > 0)
             {
-                if (builder.Length > 0)
+                if (!builder.ToString().EndsWith("***\n"))
                 {
                     builder.Append("\n\n");
                 }
@@ -323,7 +323,7 @@ namespace PlenBotLogUploader
             }
             if (WvWLogs.Count > 0)
             {
-                if (builder.Length > 0)
+                if (!builder.ToString().EndsWith("***\n"))
                 {
                     builder.Append("\n\n");
                 }
@@ -340,7 +340,7 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            if (builder.Length > 0)
+            if (!builder.ToString().EndsWith("***\n"))
             {
                 messageCount++;
                 await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
