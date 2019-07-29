@@ -643,63 +643,70 @@ namespace PlenBotLogUploader
                                     try
                                     {
                                         DPSReportJSON reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSON>(response);
-                                        bossId = reportJSON.Encounter.BossId;
-                                        string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
-                                        // extra JSON from Elite Insights
-                                        if (reportJSON.Encounter.JsonAvailable ?? false)
+                                        if (reportJSON.Error.Equals(""))
                                         {
-                                            try
+                                            bossId = reportJSON.Encounter.BossId;
+                                            string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                                            // extra JSON from Elite Insights
+                                            if (reportJSON.Encounter.JsonAvailable ?? false)
                                             {
-                                                string jsonString = await HttpClientController.DownloadFileToStringAsync($"https://{DPSReportServer}/getJson?permalink={reportJSON.Permalink}");
-                                                JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 15000000 };
-                                                DPSReportJSONExtraJSON extraJSON = serilizer.Deserialize<DPSReportJSONExtraJSON>(jsonString);
-                                                reportJSON.ExtraJSON = extraJSON;
+                                                try
+                                                {
+                                                    string jsonString = await HttpClientController.DownloadFileToStringAsync($"https://{DPSReportServer}/getJson?permalink={reportJSON.Permalink}");
+                                                    JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 15000000 };
+                                                    DPSReportJSONExtraJSON extraJSON = serilizer.Deserialize<DPSReportJSONExtraJSON>(jsonString);
+                                                    reportJSON.ExtraJSON = extraJSON;
+                                                }
+                                                catch
+                                                {
+                                                    AddToText("Extra JSON available but couldn't be obtained.");
+                                                }
                                             }
-                                            catch
+                                            // log file
+                                            File.AppendAllText($"{LocalDir}uploaded_logs.csv",
+                                                $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
+                                            // Twitch chat
+                                            LastLogLocation = reportJSON.Permalink;
+                                            if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                             {
-                                                AddToText("Extra JSON available but couldn't be obtained.");
+                                                await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
                                             }
-                                        }
-                                        // log file
-                                        File.AppendAllText($"{LocalDir}uploaded_logs.csv",
-                                            $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
-                                        // Twitch chat
-                                        LastLogLocation = reportJSON.Permalink;
-                                        if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
-                                        {
-                                            await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
-                                        }
-                                        else if (checkBoxTwitchOnlySuccess.Checked)
-                                        {
-                                            await SendLogToTwitchChatAsync(reportJSON, true);
-                                        }
-                                        else
-                                        {
-                                            await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
-                                        }
-                                        // Discord webhooks & log sessions
-                                        if (logSessionLink.SessionRunning)
-                                        {
-                                            if (logSessionLink.checkBoxOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
+                                            else if (checkBoxTwitchOnlySuccess.Checked)
                                             {
-                                                SessionLogs.Add(reportJSON);
+                                                await SendLogToTwitchChatAsync(reportJSON, true);
                                             }
-                                            else if (!logSessionLink.checkBoxOnlySuccess.Checked)
+                                            else
                                             {
-                                                SessionLogs.Add(reportJSON);
+                                                await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
                                             }
-                                            if (!logSessionLink.checkBoxSupressWebhooks.Checked)
+                                            // Discord webhooks & log sessions
+                                            if (logSessionLink.SessionRunning)
+                                            {
+                                                if (logSessionLink.checkBoxOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
+                                                {
+                                                    SessionLogs.Add(reportJSON);
+                                                }
+                                                else if (!logSessionLink.checkBoxOnlySuccess.Checked)
+                                                {
+                                                    SessionLogs.Add(reportJSON);
+                                                }
+                                                if (!logSessionLink.checkBoxSupressWebhooks.Checked)
+                                                {
+                                                    await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON, bossDataLink.AllBosses);
+                                                }
+                                            }
+                                            else
                                             {
                                                 await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON, bossDataLink.AllBosses);
                                             }
+                                            // remote server ping
+                                            await pingsLink.ExecuteAllPingsAsync(reportJSON);
+                                            // dispose
                                         }
                                         else
                                         {
-                                            await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON, bossDataLink.AllBosses);
+                                            AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJSON.Error}");
                                         }
-                                        // remote server ping
-                                        await pingsLink.ExecuteAllPingsAsync(reportJSON);
-                                        // dispose
                                         reportJSON = null;
                                     }
                                     catch
