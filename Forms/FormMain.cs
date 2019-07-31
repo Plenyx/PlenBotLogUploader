@@ -703,7 +703,7 @@ namespace PlenBotLogUploader
                                             await pingsLink.ExecuteAllPingsAsync(reportJSON);
                                             // dispose
                                         }
-                                        else if(!reportJSON?.Error.Equals("") ?? false)
+                                        else if(reportJSON.Error.Length > 0)
                                         {
                                             AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJSON.Error}");
                                         }
