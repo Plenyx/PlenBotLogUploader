@@ -713,9 +713,8 @@ namespace PlenBotLogUploader
                                         }
                                         reportJSON = null;
                                     }
-                                    catch(Exception e)
+                                    catch
                                     {
-                                        AddToText(e.Message);
                                         AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
                                     }
                                 }
