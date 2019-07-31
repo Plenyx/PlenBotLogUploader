@@ -643,7 +643,7 @@ namespace PlenBotLogUploader
                                     try
                                     {
                                         DPSReportJSON reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSON>(response);
-                                        if (reportJSON.Error.Equals(""))
+                                        if (String.IsNullOrEmpty(reportJSON.Error))
                                         {
                                             bossId = reportJSON.Encounter.BossId;
                                             string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
@@ -703,14 +703,19 @@ namespace PlenBotLogUploader
                                             await pingsLink.ExecuteAllPingsAsync(reportJSON);
                                             // dispose
                                         }
-                                        else
+                                        else if(!reportJSON?.Error.Equals("") ?? false)
                                         {
                                             AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJSON.Error}");
                                         }
+                                        else
+                                        {
+                                            AddToText($">:> Unable to process file {Path.GetFileName(file)}, error while deserilising the response.");
+                                        }
                                         reportJSON = null;
                                     }
-                                    catch
+                                    catch(Exception e)
                                     {
+                                        AddToText(e.Message);
                                         AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
                                     }
                                 }
