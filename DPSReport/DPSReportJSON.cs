@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -18,7 +19,7 @@ namespace PlenBotLogUploader.DPSReport
         {
             get
             {
-                if (!string.IsNullOrEmpty(_error))
+                if (!String.IsNullOrEmpty(_error))
                 {
                     return "";
                 }
@@ -26,13 +27,12 @@ namespace PlenBotLogUploader.DPSReport
             }
             set
             {
-                if(!string.IsNullOrEmpty(value))
+                if(!String.IsNullOrEmpty(value))
                 {
                     _error = value;
                 }
             }
         }
-
         private string _error;
 
         public string GetUrlId() => Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
