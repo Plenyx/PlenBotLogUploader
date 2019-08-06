@@ -49,7 +49,6 @@ namespace PlenBotLogUploader
 
         // constants
         private const int minFileSize = 12288;
-        private const int uploaderRelease = 49;
         #endregion
 
         #region constructor
@@ -67,8 +66,8 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
             notifyIconTray.Icon = Properties.Resources.AppIcon;
-            Text = $"{Text} r{uploaderRelease}";
-            notifyIconTray.Text = $"{notifyIconTray.Text} r{uploaderRelease}";
+            Text = $"{Text} r{Properties.Settings.Default.ReleaseVersion}";
+            notifyIconTray.Text = $"{notifyIconTray.Text} r{Properties.Settings.Default.ReleaseVersion}";
             semaphore = new SemaphoreSlim(Properties.Settings.Default.MaxConcurrentUploads, Properties.Settings.Default.MaxConcurrentUploads);
             comboBoxMaxUploads.Text = Properties.Settings.Default.MaxConcurrentUploads.ToString();
             twitchNameLink = new FormTwitchNameSetup(this);
@@ -424,7 +423,7 @@ namespace PlenBotLogUploader
                 string response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
                 if (int.TryParse(response, out int currentversion))
                 {
-                    if (currentversion > uploaderRelease)
+                    if (currentversion > Properties.Settings.Default.ReleaseVersion)
                     {
                         if (buttonUpdateNow.InvokeRequired)
                         {
@@ -564,7 +563,7 @@ namespace PlenBotLogUploader
                 if (bossDataRef.Count() == 1)
                 {
                     string format = (reportJSON.Encounter.Success ?? false) ? bossDataRef.First().SuccessMsg : bossDataRef.First().FailMsg;
-                    format = format.Replace("<boss>", (reportJSON.IsCM()) ? bossDataRef.First().Name + " CM" : bossDataRef.First().Name);
+                    format = format.Replace("<boss>", (reportJSON.ChallengeMode) ? bossDataRef.First().Name + " CM" : bossDataRef.First().Name);
                     format = (format.IndexOf("<log>") != -1) ? format.Replace("<log>", reportJSON.Permalink) : format + $": {reportJSON.Permalink}";
                     await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, format);
                 }
@@ -901,7 +900,7 @@ namespace PlenBotLogUploader
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
                     AddToText("> UPLOADER COMMAND USED");
-                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"PlenBot Log Uploader r{uploaderRelease} | https://plenbot.net/uploader/");
+                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"PlenBot Log Uploader r{Properties.Settings.Default.ReleaseVersion} | https://plenbot.net/uploader/");
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {

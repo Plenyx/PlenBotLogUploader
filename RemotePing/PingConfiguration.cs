@@ -100,11 +100,11 @@ namespace PlenBotLogUploader.RemotePing
                             PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
                             if (statusJSON.Status?.IsSuccess() ?? false)
                             {
-                                mainLink.AddToText($">:> Log {reportJSON.GetUrlId()} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
+                                mainLink.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
                             }
                             else
                             {
-                                mainLink.AddToText($">:> Log {reportJSON.GetUrlId()} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
+                                mainLink.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
                             }
                         }
                         catch
@@ -152,11 +152,11 @@ namespace PlenBotLogUploader.RemotePing
                         PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
                         if (statusJSON.Status?.IsSuccess() ?? false)
                         {
-                            mainLink.AddToText($">:> Log {reportJSON.GetUrlId()} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
+                            mainLink.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
                         }
                         else
                         {
-                            mainLink.AddToText($">:> Log {reportJSON.GetUrlId()} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
+                            mainLink.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
                         }
                     }
                     catch

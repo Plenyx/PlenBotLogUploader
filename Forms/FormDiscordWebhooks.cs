@@ -98,7 +98,7 @@ namespace PlenBotLogUploader
 
         public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON, Dictionary<int, BossData> allBosses)
         {
-            string bossName = reportJSON.Encounter.Boss + (reportJSON.IsCM() ? " CM" : "");
+            string bossName = reportJSON.Encounter.Boss + (reportJSON.ChallengeMode ? " CM" : "");
             string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
             string extraJSON = (reportJSON.ExtraJSON == null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
             string icon = "";
@@ -107,7 +107,7 @@ namespace PlenBotLogUploader
                 .Select(anon => anon.Value);
             if (bossDataRef.Count() == 1)
             {
-                bossName = bossDataRef.First().Name + (reportJSON.IsCM() ? " CM" : "");
+                bossName = bossDataRef.First().Name + (reportJSON.ChallengeMode ? " CM" : "");
                 icon = bossDataRef.First().Icon;
             }
             int color = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
@@ -224,13 +224,13 @@ namespace PlenBotLogUploader
                 {
                     foreach (var data in RaidLogs)
                     {
-                        string bossName = data.LogData.Encounter.Boss + (data.LogData.IsCM() ? " CM" : "");
+                        string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossDataRef = allBosses
                             .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
                             .Select(anon => anon.Value);
                         if (bossDataRef.Count() == 1)
                         {
-                            bossName = bossDataRef.First().Name + (data.LogData.IsCM() ? " CM" : "");
+                            bossName = bossDataRef.First().Name + (data.LogData.ChallengeMode ? " CM" : "");
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
@@ -254,13 +254,13 @@ namespace PlenBotLogUploader
                             builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                             lastWing = Bosses.GetWingForBoss(data.LogData.Evtc.BossId);
                         }
-                        string bossName = data.LogData.Encounter.Boss + (data.LogData.IsCM() ? " CM" : "");
+                        string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossDataRef = allBosses
                             .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
                             .Select(anon => anon.Value);
                         if (bossDataRef.Count() == 1)
                         {
-                            bossName = bossDataRef.First().Name + (data.LogData.IsCM() ? " CM" : "");
+                            bossName = bossDataRef.First().Name + (data.LogData.ChallengeMode ? " CM" : "");
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";

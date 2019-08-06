@@ -5,6 +5,10 @@ namespace PlenBotLogUploader.DPSReport
 {
     public class DPSReportJSON
     {
+        // private
+        private string _error;
+
+        //public
         public string Id { get; set; }
         public string Permalink { get; set; }
         public int UploadTime { get; set; }
@@ -33,10 +37,19 @@ namespace PlenBotLogUploader.DPSReport
                 }
             }
         }
-        private string _error;
-
-        public string GetUrlId() => Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
-
-        public bool IsCM() => ExtraJSON?.FightName.EndsWith(" CM") ?? false;
+        public string UrlId
+        {
+            get
+            {
+                return Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
+            }
+        }
+        public bool ChallengeMode
+        {
+            get
+            {
+                return ExtraJSON?.FightName.EndsWith(" CM") ?? false;
+            }
+        }
     }
 }

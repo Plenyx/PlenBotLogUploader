@@ -101,5 +101,8 @@
     <Setting Name="SessionSaveToFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ReleaseVersion" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">49</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
