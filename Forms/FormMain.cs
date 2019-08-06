@@ -711,7 +711,6 @@ namespace PlenBotLogUploader
                                         {
                                             AddToText($">:> Unable to process file {Path.GetFileName(file)}, error while deserilising the response.");
                                         }
-                                        reportJSON = null;
                                     }
                                     catch
                                     {

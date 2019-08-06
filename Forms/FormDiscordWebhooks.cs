@@ -220,7 +220,7 @@ namespace PlenBotLogUploader
             if (RaidLogs.Count > 0)
             {
                 builder.Append("***Raid logs:***\n");
-                if (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing))
+                if (logSessionSettings.SortBy.Equals(LogSessionSortBy.UploadTime))
                 {
                     foreach (var data in RaidLogs)
                     {
