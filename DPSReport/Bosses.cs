@@ -21,27 +21,28 @@ namespace PlenBotLogUploader.DPSReport
                 { 11, new BossData() { BossId = (int)BossIds.EaterOfSouls, Name = "Eater of Souls" } },
                 { 12, new BossData() { BossId = (int)BossIds.Ensolyss, Name = "Ensolyss of the Endless Torment" } },
                 { 13, new BossData() { BossId = (int)BossIds.EyesFateJudgement, Name = "Eyes of Fate & Judgement" } },
-                { 14, new BossData() { BossId = (int)BossIds.Gorseval, Name = "Gorseval", Icon = "https://wiki.guildwars2.com/images/d/d1/Mini_Gorseval_the_Multifarious.png" } },
-                { 15, new BossData() { BossId = (int)BossIds.KeepConstruct, Name = "Keep Construct", Icon = "https://wiki.guildwars2.com/images/e/ea/Mini_Keep_Construct.png" } },
-                { 16, new BossData() { BossId = (int)BossIds.LargeGolem, Name = "Large Kitty Golem", SuccessMsg = "Golem log", FailMsg = "Golem log", Icon = "https://wiki.guildwars2.com/images/4/47/Mini_Baron_von_Scrufflebutt.png" } },
-                { 17, new BossData() { BossId = (int)BossIds.LargosTwins, Name = "Largos Twins", Icon = "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png" } },
-                { 18, new BossData() { BossId = (int)BossIds.MAMA, Name = "M.A.M.A." } },
-                { 19, new BossData() { BossId = (int)BossIds.Matthias, Name = "Matthias Gabrel", Icon = "https://wiki.guildwars2.com/images/5/5d/Mini_Matthias_Abomination.png" } },
-                { 20, new BossData() { BossId = (int)BossIds.MediumGolem, Name = "Medium Kitty Golem", SuccessMsg = "Golem log", FailMsg = "Golem log", Icon = "https://wiki.guildwars2.com/images/c/cb/Mini_Mister_Mittens.png" } },
-                { 21, new BossData() { BossId = (int)BossIds.MursaatOverseer, Name = "Mursaat Overseer", Icon = "https://wiki.guildwars2.com/images/c/c8/Mini_Mursaat_Overseer.png" } },
-                { 22, new BossData() { BossId = (int)BossIds.Qadim, Name = "Qadim", Icon = "https://wiki.guildwars2.com/images/f/f2/Mini_Qadim.png" } },
-                { 23, new BossData() { BossId = (int)BossIds.QadimThePeerless, Name = "Qadim the Peerless", Icon = "https://wiki.guildwars2.com/images/8/8b/Mini_Qadim_the_Peerless.png" } },
-                { 24, new BossData() { BossId = (int)BossIds.RiverOfSouls, Name = "River of Souls", SuccessMsg = "River of Souls log", FailMsg = "River of Souls log" } },
-                { 25, new BossData() { BossId = (int)BossIds.Sabetha, Name = "Sabetha the Saboteur", Icon = "https://wiki.guildwars2.com/images/5/54/Mini_Sabetha.png" } },
-                { 26, new BossData() { BossId = (int)BossIds.Samarog, Name = "Samarog", Icon = "https://wiki.guildwars2.com/images/f/f0/Mini_Samarog.png" } },
-                { 27, new BossData() { BossId = (int)BossIds.Siax, Name = "Siax the Corrupted" } },
-                { 28, new BossData() { BossId = (int)BossIds.Skorvald, Name = "Skorvald the Shattered" } },
-                { 29, new BossData() { BossId = (int)BossIds.Slothasor, Name = "Slothasor", Icon = "https://wiki.guildwars2.com/images/1/12/Mini_Slothasor.png" } },
-                { 30, new BossData() { BossId = (int)BossIds.SoullessHorror, Name = "Soulless Horror", Icon = "https://wiki.guildwars2.com/images/d/d4/Mini_Desmina.png" } },
-                { 31, new BossData() { BossId = (int)BossIds.StandardGolem, Name = "Standard Kitty Golem", SuccessMsg = "Golem log", FailMsg = "Golem log", Icon = "https://wiki.guildwars2.com/images/8/8f/Mini_Professor_Mew.png" } },
-                { 32, new BossData() { BossId = (int)BossIds.ValeGuardian, Name = "Vale Guardian", Icon = "https://wiki.guildwars2.com/images/f/fb/Mini_Vale_Guardian.png" } },
-                { 33, new BossData() { BossId = (int)BossIds.WvW, Name = "World vs World", SuccessMsg = "WvW log", FailMsg = "WvW log", Icon = "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png" } },
-                { 34, new BossData() { BossId = (int)BossIds.Xera, Name = "Xera", Icon = "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png" } }
+                { 14, new BossData() { BossId = (int)BossIds.IcebroodConstruct, Name = "Icebrood Construction" } },
+                { 15, new BossData() { BossId = (int)BossIds.Gorseval, Name = "Gorseval", Icon = "https://wiki.guildwars2.com/images/d/d1/Mini_Gorseval_the_Multifarious.png" } },
+                { 16, new BossData() { BossId = (int)BossIds.KeepConstruct, Name = "Keep Construct", Icon = "https://wiki.guildwars2.com/images/e/ea/Mini_Keep_Construct.png" } },
+                { 17, new BossData() { BossId = (int)BossIds.LargeGolem, Name = "Large Kitty Golem", SuccessMsg = "Golem log", FailMsg = "Golem log", Icon = "https://wiki.guildwars2.com/images/4/47/Mini_Baron_von_Scrufflebutt.png" } },
+                { 18, new BossData() { BossId = (int)BossIds.LargosTwins, Name = "Largos Twins", Icon = "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png" } },
+                { 19, new BossData() { BossId = (int)BossIds.MAMA, Name = "M.A.M.A." } },
+                { 20, new BossData() { BossId = (int)BossIds.Matthias, Name = "Matthias Gabrel", Icon = "https://wiki.guildwars2.com/images/5/5d/Mini_Matthias_Abomination.png" } },
+                { 21, new BossData() { BossId = (int)BossIds.MediumGolem, Name = "Medium Kitty Golem", SuccessMsg = "Golem log", FailMsg = "Golem log", Icon = "https://wiki.guildwars2.com/images/c/cb/Mini_Mister_Mittens.png" } },
+                { 22, new BossData() { BossId = (int)BossIds.MursaatOverseer, Name = "Mursaat Overseer", Icon = "https://wiki.guildwars2.com/images/c/c8/Mini_Mursaat_Overseer.png" } },
+                { 23, new BossData() { BossId = (int)BossIds.Qadim, Name = "Qadim", Icon = "https://wiki.guildwars2.com/images/f/f2/Mini_Qadim.png" } },
+                { 24, new BossData() { BossId = (int)BossIds.QadimThePeerless, Name = "Qadim the Peerless", Icon = "https://wiki.guildwars2.com/images/8/8b/Mini_Qadim_the_Peerless.png" } },
+                { 25, new BossData() { BossId = (int)BossIds.RiverOfSouls, Name = "River of Souls", SuccessMsg = "River of Souls log", FailMsg = "River of Souls log" } },
+                { 26, new BossData() { BossId = (int)BossIds.Sabetha, Name = "Sabetha the Saboteur", Icon = "https://wiki.guildwars2.com/images/5/54/Mini_Sabetha.png" } },
+                { 27, new BossData() { BossId = (int)BossIds.Samarog, Name = "Samarog", Icon = "https://wiki.guildwars2.com/images/f/f0/Mini_Samarog.png" } },
+                { 28, new BossData() { BossId = (int)BossIds.Siax, Name = "Siax the Corrupted" } },
+                { 29, new BossData() { BossId = (int)BossIds.Skorvald, Name = "Skorvald the Shattered" } },
+                { 30, new BossData() { BossId = (int)BossIds.Slothasor, Name = "Slothasor", Icon = "https://wiki.guildwars2.com/images/1/12/Mini_Slothasor.png" } },
+                { 31, new BossData() { BossId = (int)BossIds.SoullessHorror, Name = "Soulless Horror", Icon = "https://wiki.guildwars2.com/images/d/d4/Mini_Desmina.png" } },
+                { 32, new BossData() { BossId = (int)BossIds.StandardGolem, Name = "Standard Kitty Golem", SuccessMsg = "Golem log", FailMsg = "Golem log", Icon = "https://wiki.guildwars2.com/images/8/8f/Mini_Professor_Mew.png" } },
+                { 33, new BossData() { BossId = (int)BossIds.ValeGuardian, Name = "Vale Guardian", Icon = "https://wiki.guildwars2.com/images/f/fb/Mini_Vale_Guardian.png" } },
+                { 34, new BossData() { BossId = (int)BossIds.WvW, Name = "World vs World", SuccessMsg = "WvW log", FailMsg = "WvW log", Icon = "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png" } },
+                { 35, new BossData() { BossId = (int)BossIds.Xera, Name = "Xera", Icon = "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png" } }
             };
         }
 
@@ -154,5 +155,7 @@ namespace PlenBotLogUploader.DPSReport
         public static bool IsEvent(int bossId) => (bossId == (int)BossIds.BanditTrio) || (bossId == (int)BossIds.RiverOfSouls);
 
         public static bool IsWvW(int bossId) => bossId == (int)BossIds.WvW;
+
+        public static bool IsStrike(int bossId) => bossId == (int)BossIds.IcebroodConstruct;
     }
 }

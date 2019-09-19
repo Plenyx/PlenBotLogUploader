@@ -35,6 +35,7 @@
         CardinalSabir = 21964,
         QadimThePeerless = 22000,
         CardinalAdina = 22006,
+        IcebroodConstruct = 22154,
         ConjuredAmalgamate = 43974
     }
 }
