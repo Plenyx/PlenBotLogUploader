@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlenBotLogUploader", "PlenBotLogUploader.csproj", "{C3964EB9-6AD1-44E9-AE7A-3230E9D70604}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestsForPlenBotLogUploader", "UnitTestsForPlenBotLogUploader\UnitTestsForPlenBotLogUploader.csproj", "{C0FD6D68-E1E5-43CD-A3F2-ED829195725D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{C3964EB9-6AD1-44E9-AE7A-3230E9D70604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3964EB9-6AD1-44E9-AE7A-3230E9D70604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3964EB9-6AD1-44E9-AE7A-3230E9D70604}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0FD6D68-E1E5-43CD-A3F2-ED829195725D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0FD6D68-E1E5-43CD-A3F2-ED829195725D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0FD6D68-E1E5-43CD-A3F2-ED829195725D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0FD6D68-E1E5-43CD-A3F2-ED829195725D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
