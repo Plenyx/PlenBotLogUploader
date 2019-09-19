@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using PlenBotLogUploader.DPSReport;
@@ -42,6 +43,11 @@ namespace PlenBotLogUploader
                             int.TryParse(values[0], out int bossId);
                             AddBoss(new BossData() { BossId = bossId, Name = values[1], SuccessMsg = values[2], FailMsg = values[3], Icon = values[4] });
                         }
+                    }
+                    if(AllBosses.Where(anon => anon.Value.BossId.Equals((int)BossIds.IcebroodConstruct)).Count() == 0)
+                    {
+                        AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
+                        bossesIdsKey = AllBosses.Count;
                     }
                 }
                 catch
