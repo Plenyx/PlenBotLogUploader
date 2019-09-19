@@ -208,6 +208,9 @@ namespace PlenBotLogUploader
             var FractalLogs = reportsJSON
                 .Where(anon => Bosses.IsFractal(anon.Evtc.BossId))
                 .ToList();
+            var StrikeLogs = reportsJSON
+                .Where(anon => Bosses.IsStrike(anon.Evtc.BossId))
+                .ToList();
             var GolemLogs = reportsJSON
                 .Where(anon => Bosses.IsGolem(anon.Evtc.BossId))
                 .ToList();
@@ -299,6 +302,33 @@ namespace PlenBotLogUploader
                         await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
                         builder.Clear();
                         builder.Append("***Fractal logs:***\n");
+                    }
+                }
+            }
+            if (StrikeLogs.Count > 0)
+            {
+                if (!builder.ToString().EndsWith("***\n"))
+                {
+                    builder.Append("\n\n");
+                }
+                builder.Append("***Strike mission logs:***\n");
+                foreach (var log in StrikeLogs)
+                {
+                    string bossName = log.Encounter.Boss;
+                    var bossDataRef = allBosses
+                        .Where(anon => anon.Value.BossId.Equals(log.Encounter.BossId))
+                        .Select(anon => anon.Value);
+                    if (bossDataRef.Count() == 1)
+                    {
+                        bossName = bossDataRef.First().Name;
+                    }
+                    builder.Append($"[{bossName}]({log.Permalink})\n");
+                    if (builder.Length >= maxAllowedMessageSize)
+                    {
+                        messageCount++;
+                        await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        builder.Clear();
+                        builder.Append("***Strike mission logs:***\n");
                     }
                 }
             }
