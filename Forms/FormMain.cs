@@ -655,6 +655,7 @@ namespace PlenBotLogUploader
                                                     JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 15000000 };
                                                     DPSReportJSONExtraJSON extraJSON = serilizer.Deserialize<DPSReportJSONExtraJSON>(jsonString);
                                                     reportJSON.ExtraJSON = extraJSON;
+                                                    bossId = reportJSON.ExtraJSON.TriggerID;
                                                 }
                                                 catch
                                                 {
@@ -663,7 +664,7 @@ namespace PlenBotLogUploader
                                             }
                                             // log file
                                             File.AppendAllText($"{LocalDir}uploaded_logs.csv",
-                                                $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
+                                                $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
                                             // Twitch chat
                                             LastLogLocation = reportJSON.Permalink;
                                             if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
