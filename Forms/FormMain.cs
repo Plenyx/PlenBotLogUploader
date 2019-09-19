@@ -558,13 +558,13 @@ namespace PlenBotLogUploader
             {
                 AddToText($">:> {reportJSON.Permalink}");
                 var bossDataRef = bossDataLink.AllBosses
-                    .Where(anon => anon.Value.BossId.Equals(reportJSON.Encounter.BossId))
+                    .Where(anon => anon.Value.BossId.Equals(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId))
                     .Select(anon => anon.Value);
                 if (bossDataRef.Count() == 1)
                 {
                     string format = (reportJSON.Encounter.Success ?? false) ? bossDataRef.First().SuccessMsg : bossDataRef.First().FailMsg;
                     format = format.Replace("<boss>", (reportJSON.ChallengeMode) ? bossDataRef.First().Name + " CM" : bossDataRef.First().Name);
-                    format = (format.IndexOf("<log>") != -1) ? format.Replace("<log>", reportJSON.Permalink) : format + $": {reportJSON.Permalink}";
+                    format = format.Replace("<log>", reportJSON.Permalink);
                     await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, format);
                 }
                 else
