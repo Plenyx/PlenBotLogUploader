@@ -27,7 +27,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.textBoxUploadInfo = new System.Windows.Forms.TextBox();
             this.groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
             this.buttonTwitchCommands = new System.Windows.Forms.Button();
             this.checkBoxTwitchOnlySuccess = new System.Windows.Forms.CheckBox();
@@ -73,21 +72,12 @@
             this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.richTextBoxUploadInfo = new System.Windows.Forms.RichTextBox();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // textBoxUploadInfo
-            // 
-            this.textBoxUploadInfo.Location = new System.Drawing.Point(12, 12);
-            this.textBoxUploadInfo.MaxLength = 9999999;
-            this.textBoxUploadInfo.Multiline = true;
-            this.textBoxUploadInfo.Name = "textBoxUploadInfo";
-            this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 609);
-            this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
             // 
@@ -523,17 +513,28 @@
             // 
             this.toolTip.ShowAlways = true;
             // 
+            // richTextBoxUploadInfo
+            // 
+            this.richTextBoxUploadInfo.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.richTextBoxUploadInfo.Location = new System.Drawing.Point(12, 12);
+            this.richTextBoxUploadInfo.Name = "richTextBoxUploadInfo";
+            this.richTextBoxUploadInfo.ReadOnly = true;
+            this.richTextBoxUploadInfo.Size = new System.Drawing.Size(408, 609);
+            this.richTextBoxUploadInfo.TabIndex = 9;
+            this.richTextBoxUploadInfo.Text = "";
+            this.richTextBoxUploadInfo.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 624);
+            this.ClientSize = new System.Drawing.Size(633, 629);
             this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
             this.Controls.Add(this.groupBoxTwitchSettings);
-            this.Controls.Add(this.textBoxUploadInfo);
+            this.Controls.Add(this.richTextBoxUploadInfo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "FormMain";
@@ -553,12 +554,10 @@
             this.groupBoxOtherSettings.ResumeLayout(false);
             this.groupBoxOtherSettings.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBoxUploadInfo;
         private System.Windows.Forms.GroupBox groupBoxTwitchSettings;
         private System.Windows.Forms.CheckBox checkBoxUploadLogs;
         private System.Windows.Forms.Button buttonReconnectBot;
@@ -604,6 +603,7 @@
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.ComboBox comboBoxMaxUploads;
         private System.Windows.Forms.Label labelMaximumUploads;
+        private System.Windows.Forms.RichTextBox richTextBoxUploadInfo;
     }
 }
 

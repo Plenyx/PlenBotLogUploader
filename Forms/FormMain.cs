@@ -15,6 +15,7 @@ using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.GW2Raidar;
 using PlenBotLogUploader.TwitchIRCClient;
+using System.Drawing;
 
 namespace PlenBotLogUploader
 {
@@ -332,6 +333,8 @@ namespace PlenBotLogUploader
                 }
             }
         }
+
+        private void RichTextBoxUploadInfo_LinkClicked(object sender, LinkClickedEventArgs e) => Process.Start(e.LinkText);
         #endregion
 
         #region required methods
@@ -505,16 +508,20 @@ namespace PlenBotLogUploader
         #region self-invocable functions
         public void AddToText(string s)
         {
-            if (textBoxUploadInfo.InvokeRequired)
+            if (richTextBoxUploadInfo.InvokeRequired)
             {
                 // invokes the same function on the main thread
-                textBoxUploadInfo.Invoke((Action<string>)delegate (string text) { AddToText(text); }, s);
+                richTextBoxUploadInfo.Invoke((Action<string>)delegate (string text) { AddToText(text); }, s);
             }
             else
             {
-                textBoxUploadInfo.AppendText(s + Environment.NewLine);
-                textBoxUploadInfo.SelectionStart = textBoxUploadInfo.TextLength;
-                textBoxUploadInfo.ScrollToCaret();
+                var messagePre = s.IndexOf(' ');
+                richTextBoxUploadInfo.SelectionColor = Color.Blue;
+                richTextBoxUploadInfo.AppendText(s.Substring(0, messagePre + 1));
+                richTextBoxUploadInfo.SelectionColor = Color.Black;
+                richTextBoxUploadInfo.AppendText(s.Substring(messagePre) + Environment.NewLine);
+                richTextBoxUploadInfo.SelectionStart = richTextBoxUploadInfo.TextLength;
+                richTextBoxUploadInfo.ScrollToCaret();
             }
             
         }
@@ -897,7 +904,7 @@ namespace PlenBotLogUploader
         }
         #endregion
 
-        #region buttons & checks events
+        #region buttons & checks, events
         private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxUploadLogs.Checked)
