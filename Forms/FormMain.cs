@@ -57,7 +57,6 @@ namespace PlenBotLogUploader
             InitializeComponent();
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If not checked, no logs will be uploaded unless provided manually.");
-            toolTip.SetToolTip(checkBoxWepSkill1, "If checked, dps.report renders all autoattacks.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch chat if connected to a channel.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch chat if connected to a channel.");
@@ -138,10 +137,6 @@ namespace PlenBotLogUploader
                 if (Properties.Settings.Default.UploadIgnoreFileSize)
                 {
                     checkBoxFileSizeIgnore.Checked = true;
-                }
-                if (Properties.Settings.Default.LogWeaponSkill1)
-                {
-                    checkBoxWepSkill1.Checked = true;
                 }
                 if (Properties.Settings.Default.TrayMinimise)
                 {
@@ -234,7 +229,6 @@ namespace PlenBotLogUploader
                 }
                 /* Subscribe to field changes events, otherwise they would trigger on load */
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
-                checkBoxWepSkill1.CheckedChanged += new EventHandler(checkBoxWepSkill1_CheckedChanged);
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
                 checkBoxFileSizeIgnore.CheckedChanged += new EventHandler(checkBoxFileSizeIgnore_CheckedChanged);
                 checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
@@ -311,10 +305,6 @@ namespace PlenBotLogUploader
                 { "generator", "ei" },
                 { "json", "1" }
             };
-            if (checkBoxWepSkill1.Checked)
-            {
-                postData.Add("rotation_weap1", "1");
-            }
             if (File.Exists(file) && (file.EndsWith(".evtc") || file.EndsWith(".zevtc")))
             {
                 bool archived = false;
@@ -374,10 +364,6 @@ namespace PlenBotLogUploader
                                     { "generator", "ei" },
                                     { "json", "1" }
                                 };
-                                if (checkBoxWepSkill1.Checked)
-                                {
-                                    postData.Add("rotation_weap1", "1");
-                                }
                                 await HttpUploadLogAsync(zipfilelocation, postData);
                             }
                             catch
@@ -478,10 +464,6 @@ namespace PlenBotLogUploader
                         { "generator", "ei" },
                         { "json", "1" }
                     };
-                    if (checkBoxWepSkill1.Checked)
-                    {
-                        postData.Add("rotation_weap1", "1");
-                    }
                     foreach (string arg in args)
                     {
                         if (arg == Application.ExecutablePath)
@@ -975,8 +957,6 @@ namespace PlenBotLogUploader
                 }
             }
         }
-
-        private void checkBoxWepSkill1_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.LogWeaponSkill1 = checkBoxUploadLogs.Checked;
 
         private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.TrayMinimise = checkBoxTrayMinimiseToIcon.Checked;
 

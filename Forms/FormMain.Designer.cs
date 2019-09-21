@@ -38,7 +38,6 @@
             this.buttonReconnectBot = new System.Windows.Forms.Button();
             this.buttonBossData = new System.Windows.Forms.Button();
             this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
-            this.checkBoxWepSkill1 = new System.Windows.Forms.CheckBox();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
             this.groupBoxArcdpsLogs = new System.Windows.Forms.GroupBox();
             this.buttonSession = new System.Windows.Forms.Button();
@@ -63,6 +62,8 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.comboBoxMaxUploads = new System.Windows.Forms.ComboBox();
+            this.labelMaximumUploads = new System.Windows.Forms.Label();
             this.buttonReset = new System.Windows.Forms.Button();
             this.checkBoxStartWhenWindowsStarts = new System.Windows.Forms.CheckBox();
             this.buttonDiscordWebhooks = new System.Windows.Forms.Button();
@@ -72,8 +73,6 @@
             this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.labelMaximumUploads = new System.Windows.Forms.Label();
-            this.comboBoxMaxUploads = new System.Windows.Forms.ComboBox();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -87,7 +86,7 @@
             this.textBoxUploadInfo.Multiline = true;
             this.textBoxUploadInfo.Name = "textBoxUploadInfo";
             this.textBoxUploadInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 622);
+            this.textBoxUploadInfo.Size = new System.Drawing.Size(408, 609);
             this.textBoxUploadInfo.TabIndex = 0;
             // 
             // groupBoxTwitchSettings
@@ -180,7 +179,7 @@
             // 
             // buttonBossData
             // 
-            this.buttonBossData.Location = new System.Drawing.Point(111, 108);
+            this.buttonBossData.Location = new System.Drawing.Point(111, 94);
             this.buttonBossData.Name = "buttonBossData";
             this.buttonBossData.Size = new System.Drawing.Size(83, 23);
             this.buttonBossData.TabIndex = 12;
@@ -191,22 +190,12 @@
             // checkBoxFileSizeIgnore
             // 
             this.checkBoxFileSizeIgnore.AutoSize = true;
-            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(9, 56);
+            this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(9, 42);
             this.checkBoxFileSizeIgnore.Name = "checkBoxFileSizeIgnore";
             this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(155, 17);
             this.checkBoxFileSizeIgnore.TabIndex = 7;
             this.checkBoxFileSizeIgnore.Text = "ignore file size limit of 12 kB";
             this.checkBoxFileSizeIgnore.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxWepSkill1
-            // 
-            this.checkBoxWepSkill1.AutoSize = true;
-            this.checkBoxWepSkill1.Location = new System.Drawing.Point(9, 38);
-            this.checkBoxWepSkill1.Name = "checkBoxWepSkill1";
-            this.checkBoxWepSkill1.Size = new System.Drawing.Size(126, 17);
-            this.checkBoxWepSkill1.TabIndex = 5;
-            this.checkBoxWepSkill1.Text = "render weapon skill 1";
-            this.checkBoxWepSkill1.UseVisualStyleBackColor = true;
             // 
             // checkBoxUploadLogs
             // 
@@ -227,18 +216,17 @@
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxFileSizeIgnore);
             this.groupBoxArcdpsLogs.Controls.Add(this.labelLocationInfo);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonLogsLocation);
-            this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxWepSkill1);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxUploadLogs);
             this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 197);
             this.groupBoxArcdpsLogs.Name = "groupBoxArcdpsLogs";
-            this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 192);
+            this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 179);
             this.groupBoxArcdpsLogs.TabIndex = 5;
             this.groupBoxArcdpsLogs.TabStop = false;
             this.groupBoxArcdpsLogs.Text = "arcdps logs and DPS.report";
             // 
             // buttonSession
             // 
-            this.buttonSession.Location = new System.Drawing.Point(6, 79);
+            this.buttonSession.Location = new System.Drawing.Point(6, 65);
             this.buttonSession.Name = "buttonSession";
             this.buttonSession.Size = new System.Drawing.Size(188, 23);
             this.buttonSession.TabIndex = 13;
@@ -249,7 +237,7 @@
             // buttonOpenLogs
             // 
             this.buttonOpenLogs.Enabled = false;
-            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 137);
+            this.buttonOpenLogs.Location = new System.Drawing.Point(138, 123);
             this.buttonOpenLogs.Name = "buttonOpenLogs";
             this.buttonOpenLogs.Size = new System.Drawing.Size(56, 23);
             this.buttonOpenLogs.TabIndex = 2;
@@ -259,7 +247,7 @@
             // 
             // buttonDPSReportServer
             // 
-            this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 108);
+            this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 94);
             this.buttonDPSReportServer.Name = "buttonDPSReportServer";
             this.buttonDPSReportServer.Size = new System.Drawing.Size(99, 23);
             this.buttonDPSReportServer.TabIndex = 1;
@@ -269,7 +257,7 @@
             // 
             // labelLocationInfo
             // 
-            this.labelLocationInfo.Location = new System.Drawing.Point(6, 163);
+            this.labelLocationInfo.Location = new System.Drawing.Point(6, 149);
             this.labelLocationInfo.Name = "labelLocationInfo";
             this.labelLocationInfo.Size = new System.Drawing.Size(188, 23);
             this.labelLocationInfo.TabIndex = 1;
@@ -277,7 +265,7 @@
             // 
             // buttonLogsLocation
             // 
-            this.buttonLogsLocation.Location = new System.Drawing.Point(6, 137);
+            this.buttonLogsLocation.Location = new System.Drawing.Point(6, 123);
             this.buttonLogsLocation.Name = "buttonLogsLocation";
             this.buttonLogsLocation.Size = new System.Drawing.Size(126, 23);
             this.buttonLogsLocation.TabIndex = 0;
@@ -419,12 +407,40 @@
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 395);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 382);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
             this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 239);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
+            // 
+            // comboBoxMaxUploads
+            // 
+            this.comboBoxMaxUploads.FormattingEnabled = true;
+            this.comboBoxMaxUploads.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
+            this.comboBoxMaxUploads.Location = new System.Drawing.Point(133, 65);
+            this.comboBoxMaxUploads.Name = "comboBoxMaxUploads";
+            this.comboBoxMaxUploads.Size = new System.Drawing.Size(61, 21);
+            this.comboBoxMaxUploads.TabIndex = 11;
+            // 
+            // labelMaximumUploads
+            // 
+            this.labelMaximumUploads.AutoSize = true;
+            this.labelMaximumUploads.Location = new System.Drawing.Point(6, 68);
+            this.labelMaximumUploads.Name = "labelMaximumUploads";
+            this.labelMaximumUploads.Size = new System.Drawing.Size(121, 13);
+            this.labelMaximumUploads.TabIndex = 10;
+            this.labelMaximumUploads.Text = "Max concurrent uploads";
             // 
             // buttonReset
             // 
@@ -489,7 +505,7 @@
             // buttonUpdateNow
             // 
             this.buttonUpdateNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdateNow.Location = new System.Drawing.Point(22, 586);
+            this.buttonUpdateNow.Location = new System.Drawing.Point(24, 572);
             this.buttonUpdateNow.Name = "buttonUpdateNow";
             this.buttonUpdateNow.Size = new System.Drawing.Size(112, 40);
             this.buttonUpdateNow.TabIndex = 8;
@@ -507,40 +523,12 @@
             // 
             this.toolTip.ShowAlways = true;
             // 
-            // labelMaximumUploads
-            // 
-            this.labelMaximumUploads.AutoSize = true;
-            this.labelMaximumUploads.Location = new System.Drawing.Point(6, 68);
-            this.labelMaximumUploads.Name = "labelMaximumUploads";
-            this.labelMaximumUploads.Size = new System.Drawing.Size(121, 13);
-            this.labelMaximumUploads.TabIndex = 10;
-            this.labelMaximumUploads.Text = "Max concurrent uploads";
-            // 
-            // comboBoxMaxUploads
-            // 
-            this.comboBoxMaxUploads.FormattingEnabled = true;
-            this.comboBoxMaxUploads.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10"});
-            this.comboBoxMaxUploads.Location = new System.Drawing.Point(133, 65);
-            this.comboBoxMaxUploads.Name = "comboBoxMaxUploads";
-            this.comboBoxMaxUploads.Size = new System.Drawing.Size(61, 21);
-            this.comboBoxMaxUploads.TabIndex = 11;
-            // 
             // FormMain
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 640);
+            this.ClientSize = new System.Drawing.Size(633, 624);
             this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
@@ -574,7 +562,6 @@
         private System.Windows.Forms.GroupBox groupBoxTwitchSettings;
         private System.Windows.Forms.CheckBox checkBoxUploadLogs;
         private System.Windows.Forms.Button buttonReconnectBot;
-        private System.Windows.Forms.CheckBox checkBoxWepSkill1;
         private System.Windows.Forms.GroupBox groupBoxArcdpsLogs;
         private System.Windows.Forms.Button buttonLogsLocation;
         private System.Windows.Forms.Label labelLocationInfo;

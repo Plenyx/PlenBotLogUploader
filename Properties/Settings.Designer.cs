@@ -157,18 +157,6 @@ namespace PlenBotLogUploader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LogWeaponSkill1 {
-            get {
-                return ((bool)(this["LogWeaponSkill1"]));
-            }
-            set {
-                this["LogWeaponSkill1"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool CustomTwitchNameEnabled {
             get {
