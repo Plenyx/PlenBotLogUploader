@@ -322,7 +322,7 @@ namespace PlenBotLogUploader
                 }
                 catch
                 {
-                    AddToText($">>> Unknown error uploading a log: {zipfilelocation}");
+                    AddToText($">:> Unknown error uploading a log: {zipfilelocation}");
                 }
                 finally
                 {
@@ -385,7 +385,7 @@ namespace PlenBotLogUploader
                     catch
                     {
                         Interlocked.Decrement(ref logsCount);
-                        AddToText("Unable to upload the file: " + e.FullPath);
+                        AddToText(">:> Unable to upload the file: " + e.FullPath);
                     }
                 }
                 UpdateLogCount();
@@ -423,7 +423,7 @@ namespace PlenBotLogUploader
                             buttonUpdateNow.Visible = true;
                         }
                         AddToText($">>> New release available (r{response})");
-                        AddToText("https://github.com/Plenyx/PlenBotLogUploader/releases/");
+                        AddToText(">>> https://github.com/Plenyx/PlenBotLogUploader/releases/");
                         ShowBalloon("New release available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
                     }
                     else
@@ -435,7 +435,7 @@ namespace PlenBotLogUploader
             }
             catch
             {
-                AddToText("> Unable to check new release version.");
+                AddToText(">>> Unable to check new release version.");
             }
         }
 
@@ -554,7 +554,10 @@ namespace PlenBotLogUploader
                     string format = (reportJSON.Encounter.Success ?? false) ? bossDataRef.First().SuccessMsg : bossDataRef.First().FailMsg;
                     format = format.Replace("<boss>", (reportJSON.ChallengeMode) ? bossDataRef.First().Name + " CM" : bossDataRef.First().Name);
                     format = format.Replace("<log>", reportJSON.Permalink);
-                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, format);
+                    if (!string.IsNullOrWhiteSpace(format))
+                    {
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, format);
+                    }
                 }
                 else
                 {
@@ -648,7 +651,7 @@ namespace PlenBotLogUploader
                                                 }
                                                 catch
                                                 {
-                                                    AddToText("Extra JSON available but couldn't be obtained.");
+                                                    AddToText(">:> Extra JSON available but couldn't be obtained.");
                                                 }
                                             }
                                             // log file
@@ -837,8 +840,12 @@ namespace PlenBotLogUploader
                     }
                     if (reconnectedFailCounter <= 3)
                     {
-                        AddToText("<-?-> TRYING TO RECONNECT TO TWITCH");
-                        ReconnectTwitchBot();
+                        AddToText($"<-?-> TRYING TO RECONNECT TO TWITCH IN {reconnectedFailCounter*10}s");
+                        await Task.Run(() =>
+                        {
+                            Thread.Sleep(reconnectedFailCounter * 10000);
+                            ReconnectTwitchBot();
+                        });
                     }
                     else
                     {
