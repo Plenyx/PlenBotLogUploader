@@ -519,6 +519,7 @@
             this.richTextBoxUploadInfo.Location = new System.Drawing.Point(12, 12);
             this.richTextBoxUploadInfo.Name = "richTextBoxUploadInfo";
             this.richTextBoxUploadInfo.ReadOnly = true;
+            this.richTextBoxUploadInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.richTextBoxUploadInfo.Size = new System.Drawing.Size(408, 609);
             this.richTextBoxUploadInfo.TabIndex = 9;
             this.richTextBoxUploadInfo.Text = "";

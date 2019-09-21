@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Linq;
+using System.Drawing;
 using System.Net.Http;
 using System.Threading;
 using System.Diagnostics;
@@ -15,7 +16,6 @@ using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.GW2Raidar;
 using PlenBotLogUploader.TwitchIRCClient;
-using System.Drawing;
 
 namespace PlenBotLogUploader
 {
