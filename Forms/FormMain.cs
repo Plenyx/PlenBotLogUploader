@@ -82,7 +82,7 @@ namespace PlenBotLogUploader
             logSessionLink = new FormLogSession(this);
             try
             {
-                if (Properties.Settings.Default.LogsLocation == "")
+                if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
                 }
@@ -188,11 +188,11 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSaveToFile.Checked = Properties.Settings.Default.SessionSaveToFile;
                 if (Properties.Settings.Default.FirstRun)
                 {
-                    MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly by Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     twitchNameLink.Show();
                     Properties.Settings.Default.FirstRun = false;
                 }
-                else if (Properties.Settings.Default.LogsLocation == "")
+                else if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     MessageBox.Show("Path to arcdps logs is not set.\nDo not forget to set it up so the logs can be auto-uploaded.", "Just a reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
