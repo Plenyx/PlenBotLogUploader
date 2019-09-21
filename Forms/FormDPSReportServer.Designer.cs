@@ -28,10 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDPSReportServer));
             this.groupBoxAroundRadio = new System.Windows.Forms.GroupBox();
-            this.radioButtonNormal = new System.Windows.Forms.RadioButton();
             this.radioButtonA = new System.Windows.Forms.RadioButton();
+            this.radioButtonNormal = new System.Windows.Forms.RadioButton();
             this.groupBoxAroundRadio.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +45,16 @@
             this.groupBoxAroundRadio.TabStop = false;
             this.groupBoxAroundRadio.Text = "DPS.report servers";
             // 
+            // radioButtonA
+            // 
+            this.radioButtonA.AutoSize = true;
+            this.radioButtonA.Location = new System.Drawing.Point(159, 29);
+            this.radioButtonA.Name = "radioButtonA";
+            this.radioButtonA.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonA.TabIndex = 1;
+            this.radioButtonA.Text = "a.dps.report";
+            this.radioButtonA.UseVisualStyleBackColor = true;
+            // 
             // radioButtonNormal
             // 
             this.radioButtonNormal.AutoSize = true;
@@ -58,16 +67,6 @@
             this.radioButtonNormal.Text = "dps.report";
             this.radioButtonNormal.UseVisualStyleBackColor = true;
             // 
-            // radioButtonA
-            // 
-            this.radioButtonA.AutoSize = true;
-            this.radioButtonA.Location = new System.Drawing.Point(159, 29);
-            this.radioButtonA.Name = "radioButtonA";
-            this.radioButtonA.Size = new System.Drawing.Size(81, 17);
-            this.radioButtonA.TabIndex = 1;
-            this.radioButtonA.Text = "a.dps.report";
-            this.radioButtonA.UseVisualStyleBackColor = true;
-            // 
             // FormDPSReportServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -75,12 +74,11 @@
             this.ClientSize = new System.Drawing.Size(284, 87);
             this.Controls.Add(this.groupBoxAroundRadio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormDPSReportServer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DPS Report upload server";
+            this.Text = "DPS.report upload server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDPSReportServer_FormClosing);
             this.groupBoxAroundRadio.ResumeLayout(false);
             this.groupBoxAroundRadio.PerformLayout();
