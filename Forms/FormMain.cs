@@ -57,10 +57,10 @@ namespace PlenBotLogUploader
         {
             InitializeComponent();
             #region tooltips
-            toolTip.SetToolTip(checkBoxUploadLogs, "If not checked, no logs will be uploaded unless provided manually.");
+            toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
-            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch chat if connected to a channel.");
-            toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch chat if connected to a channel.");
+            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it.");
+            toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             #endregion
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
@@ -238,7 +238,7 @@ namespace PlenBotLogUploader
                 raidarLink.checkBoxEnableRaidar.CheckedChanged += new EventHandler(raidarLink.checkBoxEnableRaidar_CheckedChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
-                logSessionLink.checkBoxSaveToFile.CheckedChanged += new System.EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
+                logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
                 comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
             }
             catch

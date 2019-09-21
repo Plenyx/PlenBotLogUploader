@@ -409,7 +409,7 @@ namespace PlenBotLogUploader.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("51")]
+        [global::System.Configuration.DefaultSettingValueAttribute("52")]
         public int ReleaseVersion {
             get {
                 return ((int)(this["ReleaseVersion"]));
