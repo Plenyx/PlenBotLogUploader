@@ -295,7 +295,9 @@ namespace PlenBotLogUploader
                     {
                         bossName = bossDataRef.First().Name;
                     }
-                    builder.Append($"[{bossName}]({log.Permalink})\n");
+                    string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                    builder.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
@@ -322,7 +324,9 @@ namespace PlenBotLogUploader
                     {
                         bossName = bossDataRef.First().Name;
                     }
-                    builder.Append($"[{bossName}]({log.Permalink})\n");
+                    string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                    builder.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
