@@ -21,7 +21,7 @@ namespace PlenBotLogUploader.DPSReport
                 { 11, new BossData() { BossId = (int)BossIds.EaterOfSouls, Name = "Eater of Souls" } },
                 { 12, new BossData() { BossId = (int)BossIds.Ensolyss, Name = "Ensolyss of the Endless Torment" } },
                 { 13, new BossData() { BossId = (int)BossIds.EyesFateJudgement, Name = "Eyes of Fate & Judgement" } },
-                { 14, new BossData() { BossId = (int)BossIds.IcebroodConstruct, Name = "Icebrood Construct" } },
+                { 14, new BossData() { BossId = (int)BossIds.IcebroodConstruct, Name = "Icebrood Construct", Icon = "https://wiki.guildwars2.com/images/e/e2/Icebrood_Construct.jpg" } },
                 { 15, new BossData() { BossId = (int)BossIds.Gorseval, Name = "Gorseval", Icon = "https://wiki.guildwars2.com/images/d/d1/Mini_Gorseval_the_Multifarious.png" } },
                 { 16, new BossData() { BossId = (int)BossIds.KeepConstruct, Name = "Keep Construct", Icon = "https://wiki.guildwars2.com/images/e/ea/Mini_Keep_Construct.png" } },
                 { 17, new BossData() { BossId = (int)BossIds.LargeGolem, Name = "Large Kitty Golem", SuccessMsg = "Golem log: <log>", FailMsg = "Golem log: <log>", Icon = "https://wiki.guildwars2.com/images/4/47/Mini_Baron_von_Scrufflebutt.png" } },
