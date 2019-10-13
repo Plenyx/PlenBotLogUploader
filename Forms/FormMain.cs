@@ -82,7 +82,7 @@ namespace PlenBotLogUploader
             logSessionLink = new FormLogSession(this);
             try
             {
-                CompatibilityUpdate.DoUpdate();
+                CompatibilityUpdate.DoUpdate(LocalDir);
                 if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
@@ -1131,7 +1131,7 @@ namespace PlenBotLogUploader
         {
             if (Properties.Settings.Default.FirstUpdate)
             {
-                MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simple overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simply overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Properties.Settings.Default.FirstUpdate = false;
             }
             Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
