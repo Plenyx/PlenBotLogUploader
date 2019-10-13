@@ -82,6 +82,7 @@ namespace PlenBotLogUploader
             logSessionLink = new FormLogSession(this);
             try
             {
+                CompatibilityUpdate.DoUpdate();
                 if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
