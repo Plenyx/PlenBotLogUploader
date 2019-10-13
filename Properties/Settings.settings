@@ -101,5 +101,8 @@
     <Setting Name="ReleaseVersion" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">52</Value>
     </Setting>
+    <Setting Name="SavedVersion" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">52</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
