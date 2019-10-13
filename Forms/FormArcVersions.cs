@@ -36,7 +36,7 @@ namespace PlenBotLogUploader
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                dialog.Filter = "Guild Wars 2|Gw2-64.exe;Gw2.exe";
+                dialog.Filter = "Guild Wars 2|Gw2-64.exe";
                 DialogResult result = dialog.ShowDialog();
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.FileName))
                 {
