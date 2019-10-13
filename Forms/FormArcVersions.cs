@@ -86,7 +86,6 @@ namespace PlenBotLogUploader
         {
             buttonUpdate.Enabled = false;
             var processes = Process.GetProcessesByName("Gw2-64").ToList();
-            processes.AddRange(Process.GetProcessesByName("Gw2").ToList());
             if (processes.Count == 0)
             {
                 if (radioButtonDownloadAll.Checked || radioButtonUpdateAll.Checked)
