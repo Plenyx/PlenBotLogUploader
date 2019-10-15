@@ -27,7 +27,7 @@ namespace PlenBotLogUploader.RemotePing
                     {
                         if (Authentication.UseAsAuth)
                         {
-                            controller.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
                         }
                         else
                         {
@@ -80,7 +80,7 @@ namespace PlenBotLogUploader.RemotePing
                         }
                         else
                         {
-                            controller.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
                         }
                     }
                     using (FormUrlEncodedContent content = new FormUrlEncodedContent(fields))
@@ -90,11 +90,11 @@ namespace PlenBotLogUploader.RemotePing
                         {
                             if (Method.Equals(PingMethod.Put))
                             {
-                                responseMessage = await controller.MainHttpClient.PutAsync(URL, content);
+                                responseMessage = await controller.PutAsync(URL, content);
                             }
                             else
                             {
-                                responseMessage = await controller.MainHttpClient.PostAsync(URL, content);
+                                responseMessage = await controller.PostAsync(URL, content);
                             }
                             string response = await responseMessage.Content.ReadAsStringAsync();
                             PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
@@ -134,7 +134,7 @@ namespace PlenBotLogUploader.RemotePing
                         }
                         else
                         {
-                            controller.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
                         }
                     }
                     HttpResponseMessage responseMessage = null;
@@ -142,11 +142,11 @@ namespace PlenBotLogUploader.RemotePing
                     {
                         if (Method.Equals(PingMethod.Delete))
                         {
-                            responseMessage = await controller.MainHttpClient.DeleteAsync(fullLink);
+                            responseMessage = await controller.DeleteAsync(fullLink);
                         }
                         else
                         {
-                            responseMessage = await controller.MainHttpClient.GetAsync(fullLink);
+                            responseMessage = await controller.GetAsync(fullLink);
                         }
                         string response = await responseMessage.Content.ReadAsStringAsync();
                         PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
