@@ -88,26 +88,8 @@ namespace PlenBotLogUploader
             var processes = Process.GetProcessesByName("Gw2-64").ToList();
             if (processes.Count == 0)
             {
-                if (radioButtonDownloadAll.Checked || radioButtonUpdateAll.Checked)
-                {
-                    SetInformationText("Downloading newest version of arcdps and modules...");
-                }
-                else
-                {
-                    SetInformationText("Downloading newest version of arcdps...");
-                }
+                SetInformationText("Downloading newest version of arcdps...");
                 await mainLink.HttpClientController.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/d3d9.dll", $@"{GW2Location}\bin64\d3d9.dll");
-                if (radioButtonDownloadAll.Checked)
-                {
-                    await mainLink.HttpClientController.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
-                }
-                else if (radioButtonUpdateAll.Checked)
-                {
-                    if (File.Exists($@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll"))
-                    {
-                        await mainLink.HttpClientController.DownloadFileAsync("https://deltaconnected.com/arcdps/x64/buildtemplates/d3d9_arcdps_buildtemplates.dll", $@"{GW2Location}\bin64\d3d9_arcdps_buildtemplates.dll");
-                    }
-                }
                 SetInformationText("Update complete.");
                 groupBoxUpdating.Enabled = false;
                 buttonCheckNow.Enabled = true;

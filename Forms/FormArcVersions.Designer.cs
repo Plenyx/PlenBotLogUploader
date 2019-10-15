@@ -33,8 +33,6 @@
             this.timerCheckNewArcversion = new System.Windows.Forms.Timer(this.components);
             this.buttonCheckNow = new System.Windows.Forms.Button();
             this.groupBoxUpdating = new System.Windows.Forms.GroupBox();
-            this.radioButtonUpdateAll = new System.Windows.Forms.RadioButton();
-            this.radioButtonDownloadAll = new System.Windows.Forms.RadioButton();
             this.labelInformation = new System.Windows.Forms.Label();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
@@ -71,8 +69,6 @@
             // 
             // groupBoxUpdating
             // 
-            this.groupBoxUpdating.Controls.Add(this.radioButtonUpdateAll);
-            this.groupBoxUpdating.Controls.Add(this.radioButtonDownloadAll);
             this.groupBoxUpdating.Controls.Add(this.labelInformation);
             this.groupBoxUpdating.Controls.Add(this.buttonUpdate);
             this.groupBoxUpdating.Enabled = false;
@@ -82,29 +78,6 @@
             this.groupBoxUpdating.TabIndex = 2;
             this.groupBoxUpdating.TabStop = false;
             this.groupBoxUpdating.Text = "Update process";
-            // 
-            // radioButtonUpdateAll
-            // 
-            this.radioButtonUpdateAll.AutoSize = true;
-            this.radioButtonUpdateAll.Checked = true;
-            this.radioButtonUpdateAll.Location = new System.Drawing.Point(139, 51);
-            this.radioButtonUpdateAll.Name = "radioButtonUpdateAll";
-            this.radioButtonUpdateAll.Size = new System.Drawing.Size(143, 17);
-            this.radioButtonUpdateAll.TabIndex = 3;
-            this.radioButtonUpdateAll.TabStop = true;
-            this.radioButtonUpdateAll.Text = "Update installed modules";
-            this.radioButtonUpdateAll.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonDownloadAll
-            // 
-            this.radioButtonDownloadAll.AutoSize = true;
-            this.radioButtonDownloadAll.Location = new System.Drawing.Point(6, 51);
-            this.radioButtonDownloadAll.Name = "radioButtonDownloadAll";
-            this.radioButtonDownloadAll.Size = new System.Drawing.Size(128, 17);
-            this.radioButtonDownloadAll.TabIndex = 2;
-            this.radioButtonDownloadAll.TabStop = true;
-            this.radioButtonDownloadAll.Text = "Download all modules";
-            this.radioButtonDownloadAll.UseVisualStyleBackColor = true;
             // 
             // labelInformation
             // 
@@ -116,10 +89,10 @@
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.buttonUpdate.Location = new System.Drawing.Point(6, 13);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(276, 23);
+            this.buttonUpdate.Size = new System.Drawing.Size(276, 58);
             this.buttonUpdate.TabIndex = 0;
             this.buttonUpdate.Text = "Update now";
             this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -176,7 +149,6 @@
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.FormArcVersions_HelpButtonClicked);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormArcVersions_FormClosing);
             this.groupBoxUpdating.ResumeLayout(false);
-            this.groupBoxUpdating.PerformLayout();
             this.groupBoxSettings.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -192,8 +164,6 @@
         public System.Windows.Forms.Button buttonEnabler;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Label labelInformation;
-        private System.Windows.Forms.RadioButton radioButtonUpdateAll;
-        private System.Windows.Forms.RadioButton radioButtonDownloadAll;
         private System.Windows.Forms.Label labelIssues;
     }
 }
