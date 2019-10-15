@@ -99,10 +99,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ReleaseVersion" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">52</Value>
+      <Value Profile="(Default)">53</Value>
     </Setting>
     <Setting Name="SavedVersion" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">52</Value>
+      <Value Profile="(Default)">53</Value>
     </Setting>
   </Settings>
 </SettingsFile>
