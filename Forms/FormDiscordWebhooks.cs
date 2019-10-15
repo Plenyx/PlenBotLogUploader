@@ -166,14 +166,14 @@ namespace PlenBotLogUploader
                     {
                         using (var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json"))
                         {
-                            using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
+                            using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
                         }
                     }
                     else
                     {
                         using (var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json"))
                         {
-                            using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
+                            using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
                         }
                     }
                 }
@@ -418,7 +418,7 @@ namespace PlenBotLogUploader
                     var uri = new Uri(webhook.URL);
                     using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
                     {
-                        using (await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content)) { }
+                        using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
                     }
                 }
             }

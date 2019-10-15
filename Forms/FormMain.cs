@@ -582,8 +582,8 @@ namespace PlenBotLogUploader
                 content.Add(contentStream, "file", Path.GetFileName(file));
                 try
                 {
-                    HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Properties.Settings.Default.RaidarOAuth);
-                    using (var responseMessage = await HttpClientController.MainHttpClient.PutAsync("https://gw2raidar.com/api/v2/encounters/new", content))
+                    HttpClientController.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Properties.Settings.Default.RaidarOAuth);
+                    using (var responseMessage = await HttpClientController.PutAsync("https://gw2raidar.com/api/v2/encounters/new", content))
                     {
                         string response = await responseMessage.Content.ReadAsStringAsync();
                         if (responseMessage.StatusCode == HttpStatusCode.OK)
@@ -600,7 +600,7 @@ namespace PlenBotLogUploader
                             AddToText($">:> Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid file/file error");
                         }
                     }
-                    HttpClientController.MainHttpClient.DefaultRequestHeaders.Authorization = null;
+                    HttpClientController.DefaultRequestHeaders.Authorization = null;
                 }
                 catch
                 {
@@ -629,7 +629,7 @@ namespace PlenBotLogUploader
                             try
                             {
                                 var uri = new Uri($"https://{DPSReportServer}/uploadContent");
-                                using (var responseMessage = await HttpClientController.MainHttpClient.PostAsync(uri, content))
+                                using (var responseMessage = await HttpClientController.PostAsync(uri, content))
                                 {
                                     string response = await responseMessage.Content.ReadAsStringAsync();
                                     try

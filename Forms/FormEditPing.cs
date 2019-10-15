@@ -138,7 +138,7 @@ namespace PlenBotLogUploader
                         }
                         else
                         {
-                            controller.MainHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(textBoxAuthName.Text, textBoxAuthToken.Text);
+                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(textBoxAuthName.Text, textBoxAuthToken.Text);
                         }
                     }
                     string response = await controller.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/{auth}");

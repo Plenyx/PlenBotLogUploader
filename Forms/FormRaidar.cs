@@ -42,7 +42,7 @@ namespace PlenBotLogUploader
                 try
                 {
                     var uri = new Uri("https://gw2raidar.com/api/v2/token");
-                    using (var responseMessage = await mainLink.HttpClientController.MainHttpClient.PostAsync(uri, content))
+                    using (var responseMessage = await mainLink.HttpClientController.PostAsync(uri, content))
                     {
                         string response = await responseMessage.Content.ReadAsStringAsync();
                         GW2RaidarJSONAuth responseJSON = new JavaScriptSerializer().Deserialize<GW2RaidarJSONAuth>(response);

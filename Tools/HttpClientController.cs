@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.Tools
 {
-    public class HttpClientController: IDisposable
+    public class HttpClientController: HttpClient
     {
         #region init
         /// <summary>
-        /// The HttpClient provided by the class.
-        /// </summary>
-        public HttpClient MainHttpClient { get; } = new HttpClient();
-
-        /// <summary>
-        /// The HttpClient provided by the class.
+        /// The initial settings by HttpClientController child of HttpClient.
         /// </summary>
         public HttpClientController()
         {
@@ -31,7 +26,7 @@ namespace PlenBotLogUploader.Tools
             try
             {
                 var uri = new Uri(url);
-                using (var responseMessage = await MainHttpClient.GetAsync(uri))
+                using (var responseMessage = await GetAsync(uri))
                 {
                     using (var response = await responseMessage.Content.ReadAsStreamAsync())
                     {
@@ -57,7 +52,7 @@ namespace PlenBotLogUploader.Tools
             try
             {
                 var uri = new Uri(url);
-                using (var responseMessage = await MainHttpClient.GetAsync(uri))
+                using (var responseMessage = await GetAsync(uri))
                 {
                     var response = await responseMessage.Content.ReadAsStringAsync();
                     return response;
@@ -67,14 +62,6 @@ namespace PlenBotLogUploader.Tools
             {
                 return "";
             }
-        }
-
-        /// <summary>
-        /// Disposes of the resources held by the class.
-        /// </summary>
-        public void Dispose()
-        {
-            MainHttpClient?.Dispose();
         }
     }
 }
