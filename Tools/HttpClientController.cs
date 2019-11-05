@@ -19,7 +19,7 @@ namespace PlenBotLogUploader.Tools
         #endregion
 
         /// <summary>
-        /// Downloads the file asynchronously.
+        /// Downloads a file asynchronously.
         /// </summary>
         public async Task<bool> DownloadFileAsync(string url, string destination)
         {

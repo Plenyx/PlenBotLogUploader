@@ -2,8 +2,15 @@
 
 namespace PlenBotLogUploader.DPSReport
 {
+    /// <summary>
+    /// Contains static methods for working with encounters
+    /// </summary>
     public static class Bosses
     {
+        /// <summary>
+        /// returns a dictionary with default BossData values
+        /// </summary>
+        /// <returns>Dictionary with default BossData values</returns>
         public static Dictionary<int, BossData> GetDefaultSettingsForBossesAsDictionary()
         {
             return new Dictionary<int, BossData>()
@@ -46,6 +53,11 @@ namespace PlenBotLogUploader.DPSReport
             };
         }
 
+        /// <summary>
+        /// returns a wing number based on a given encounter ID
+        /// </summary>
+        /// <param name="bossId">ID of the encounter</param>
+        /// <returns>wing number</returns>
         public static int GetWingForBoss(int bossId)
         {
             switch(bossId)
@@ -86,6 +98,11 @@ namespace PlenBotLogUploader.DPSReport
             }
         }
 
+        /// <summary>
+        /// returns the order of the encounter within a wing based on given encounter ID
+        /// </summary>
+        /// <param name="bossId">ID of the encounter</param>
+        /// <returns>order of the encounter within a wing</returns>
         public static int GetBossOrder(int bossId)
         {
             switch(bossId)
@@ -125,6 +142,11 @@ namespace PlenBotLogUploader.DPSReport
             }
         }
 
+        /// <summary>
+        /// returns a wing name based on its number
+        /// </summary>
+        /// <param name="wingNumber">number of the wing</param>
+        /// <returns>wing name</returns>
         public static string GetWingName(int wingNumber)
         {
             switch(wingNumber)
@@ -148,14 +170,39 @@ namespace PlenBotLogUploader.DPSReport
             }
         }
 
+        /// <summary>
+        /// returns true if the encounter ID is a fractal
+        /// </summary>
+        /// <param name="bossId">encounter ID</param>
+        /// <returns>true if it is a fractal</returns>
         public static bool IsFractal(int bossId) => (bossId == (int)BossIds.Arkk) || (bossId == (int)BossIds.Artsariiv) || (bossId == (int)BossIds.Ensolyss) || (bossId == (int)BossIds.MAMA) || (bossId == (int)BossIds.Siax) || (bossId == (int)BossIds.Skorvald);
 
+        /// <summary>
+        /// returns true if the encounter ID is a golem
+        /// </summary>
+        /// <param name="bossId">encounter ID</param>
+        /// <returns>true if it is a golem</returns>
         public static bool IsGolem(int bossId) => (bossId == (int)BossIds.StandardGolem) || (bossId == (int)BossIds.MediumGolem) || (bossId == (int)BossIds.LargeGolem);
 
+        /// <summary>
+        /// returns true if the encounter ID is an event
+        /// </summary>
+        /// <param name="bossId">encounter ID</param>
+        /// <returns>true if it is an event</returns>
         public static bool IsEvent(int bossId) => (bossId == (int)BossIds.BanditTrio) || (bossId == (int)BossIds.RiverOfSouls);
 
+        /// <summary>
+        /// returns true if the encounter ID is WvW
+        /// </summary>
+        /// <param name="bossId">encounter ID</param>
+        /// <returns>true if it is WvW</returns>
         public static bool IsWvW(int bossId) => bossId == (int)BossIds.WvW;
 
+        /// <summary>
+        /// returns true if the encounter ID is a strike mission
+        /// </summary>
+        /// <param name="bossId">encounter ID</param>
+        /// <returns>true if it is a strike mission</returns>
         public static bool IsStrike(int bossId) => bossId == (int)BossIds.IcebroodConstruct;
     }
 }

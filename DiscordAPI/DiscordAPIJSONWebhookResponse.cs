@@ -1,5 +1,8 @@
 ﻿namespace PlenBotLogUploader.DiscordAPI
 {
+    /// <summary>
+    /// Discord's response to CreateMessage endpoint
+    /// </summary>
     public class DiscordAPIJSONWebhookResponse
     {
         // On success
@@ -14,6 +17,11 @@
         public int? Code { get; set; }
         public string Message { get; set; }
 
-        public bool IsSuccess() => Code == null;
+        public bool Success {
+            get
+            {
+                return Code == null;
+            }
+        }
     }
 }

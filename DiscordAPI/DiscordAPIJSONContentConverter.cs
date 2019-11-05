@@ -4,6 +4,9 @@ using System.Web.Script.Serialization;
 
 namespace PlenBotLogUploader.DiscordAPI
 {
+    /// <summary>
+    /// Content Converter used to serialise object to fire up CreateMessage Discord endpoint
+    /// </summary>
     public class DiscordAPIJSONContentConverter : JavaScriptConverter
     {
         public override IEnumerable<Type> SupportedTypes
