@@ -146,7 +146,14 @@ namespace PlenBotLogUploader
                                     }
                                     else
                                     {
-                                        mainLink.ShowBalloon("arcdps version checking", "New version of arcdps available.\nGo to arcdps version checking settings to use the auto-update.", 8500);
+                                        if (Properties.Settings.Default.ArcAutoUpdate)
+                                        {
+                                            await UpdateArcAsync();
+                                        }
+                                        else
+                                        {
+                                            mainLink.ShowBalloon("arcdps version checking", "New version of arcdps available.\nGo to arcdps version checking settings to use the auto-update.", 8500);
+                                        }
                                     }
                                 }
                                 else
@@ -221,5 +228,7 @@ namespace PlenBotLogUploader
             e.Cancel = true;
             Process.Start("https://deltaconnected.com/arcdps/");
         }
+
+        public void checkBoxAutoUpdateArc_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.ArcAutoUpdate = checkBoxAutoUpdateArc.Checked;
     }
 }

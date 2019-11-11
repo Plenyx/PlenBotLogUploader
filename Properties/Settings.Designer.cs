@@ -427,5 +427,17 @@ namespace PlenBotLogUploader.Properties {
                 this["SavedVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ArcAutoUpdate {
+            get {
+                return ((bool)(this["ArcAutoUpdate"]));
+            }
+            set {
+                this["ArcAutoUpdate"] = value;
+            }
+        }
     }
 }

@@ -104,5 +104,8 @@
     <Setting Name="SavedVersion" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">53</Value>
     </Setting>
+    <Setting Name="ArcAutoUpdate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

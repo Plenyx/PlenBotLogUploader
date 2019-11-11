@@ -183,6 +183,7 @@ namespace PlenBotLogUploader
                 logSessionLink.textBoxSessionContent.Text = Properties.Settings.Default.SessionMessage;
                 logSessionLink.radioButtonSortByUpload.Checked = Properties.Settings.Default.SessionSort == 1;
                 logSessionLink.checkBoxSaveToFile.Checked = Properties.Settings.Default.SessionSaveToFile;
+                arcVersionsLink.checkBoxAutoUpdateArc.Checked = Properties.Settings.Default.ArcAutoUpdate;
                 if (Properties.Settings.Default.FirstRun)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -236,11 +237,12 @@ namespace PlenBotLogUploader
                 checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
                 checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(checkBoxTwitchOnlySuccess_CheckedChanged);
                 checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(checkBoxStartWhenWindowsStarts_CheckedChanged);
+                comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
                 raidarLink.checkBoxEnableRaidar.CheckedChanged += new EventHandler(raidarLink.checkBoxEnableRaidar_CheckedChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
-                comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
+                arcVersionsLink.checkBoxAutoUpdateArc.CheckedChanged += new EventHandler(arcVersionsLink.checkBoxAutoUpdateArc_CheckedChanged);
             }
             catch
             {
