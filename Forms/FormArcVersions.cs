@@ -129,39 +129,40 @@ namespace PlenBotLogUploader
                     {
                         if (File.Exists($@"{GW2Location}\bin64\d3d9.dll"))
                         {
+                            byte[] hash = null;
                             using (var stream = File.OpenRead($@"{GW2Location}\bin64\d3d9.dll"))
                             {
-                                var hash = md5.ComputeHash(stream);
-                                if (!BitConverter.ToString(hash).Replace("-", "").ToLower().Equals(availableVersion))
+                                hash = md5.ComputeHash(stream);
+                            }
+                            if (!BitConverter.ToString(hash).Replace("-", "").ToLower().Equals(availableVersion))
+                            {
+                                buttonCheckNow.Enabled = false;
+                                groupBoxUpdating.Enabled = true;
+                                if (manual)
                                 {
-                                    buttonCheckNow.Enabled = false;
-                                    groupBoxUpdating.Enabled = true;
-                                    if (manual)
+                                    DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                    if (result == DialogResult.Yes)
                                     {
-                                        DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                                        if (result == DialogResult.Yes)
-                                        {
-                                            await UpdateArcAsync();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (Properties.Settings.Default.ArcAutoUpdate)
-                                        {
-                                            await UpdateArcAsync();
-                                        }
-                                        else
-                                        {
-                                            mainLink.ShowBalloon("arcdps version checking", "New version of arcdps available.\nGo to arcdps version checking settings to use the auto-update.", 8500);
-                                        }
+                                        await UpdateArcAsync();
                                     }
                                 }
                                 else
                                 {
-                                    if (manual)
+                                    if (Properties.Settings.Default.ArcAutoUpdate)
                                     {
-                                        MessageBox.Show("arcdps is up to date.", "arcdps version checker", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        await UpdateArcAsync();
                                     }
+                                    else
+                                    {
+                                        mainLink.ShowBalloon("arcdps version checking", "New version of arcdps available.\nGo to arcdps version checking settings to use the auto-update.", 8500);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (manual)
+                                {
+                                    MessageBox.Show("arcdps is up to date.", "arcdps version checker", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                             }
                         }
