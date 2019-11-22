@@ -5,8 +5,7 @@ If you need any help to set-up the bot, be up-to-date with latest features or ha
 
 *Maintained by Plenyx.*
 
-**Requires .NET Framework 4.5 ([link](https://www.microsoft.com/en-us/download/details.aspx?id=30653))**
-* v4.6 is preinstalled on Windows 10 by default, you don't need to download 4.5 if you own Windows 10, 4.6 is backwards compatible
+**Requires .NET Framework 4.8 ([link](https://dotnet.microsoft.com/download/thank-you/net48))**
 
 ## Installation ([download](https://github.com/Plenyx/PlenBotLogUploader/releases))
 To install the uploader, I recommend creating a new folder and putting the executable in.
@@ -52,7 +51,7 @@ To fully remove all the saved settings in the registry, use the enclosed "ResetS
   * pinging links to Twitch chat with customisable messages
   * custom name for the Twitch chat bot, otherwise "gw2loguploader" is being used
 * update reminder
-* arcdps auto-updater & reminder for both arcdps and its modules (extras & build templates)
+* arcdps auto-updater
 
 ## Future updates
 I plan to finish the following features:
@@ -67,8 +66,8 @@ If you wish to create your own server, follow the [MAKE-CUSTOM-REMOTE-SERVER-REA
 ## TwitchIrcClient
 A client I developed for Irc which Twitch uses.
 
-Initially built on .NET Framework 4.7, but I made it work on 4.5 and .NET Core 2.1.
+Initially built on .NET Framework 4.7, but I made it work on 4.8 and .NET Core 2.1.
 
 *Maintained by Plenyx.*
 
-**Requires either .NET Framework 4.5 or .NET Core 2.1**
+**Requires either .NET Framework 4.8 or .NET Core 2.1**
