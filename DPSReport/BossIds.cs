@@ -12,6 +12,7 @@
         StandardGolem = 16199,
         KeepConstruct = 16235,
         Xera = 16246,
+        TwistedCastle = 16247,
         Ensolyss = 16948,
         MAMA = 17021,
         Siax = 17028,

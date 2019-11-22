@@ -47,9 +47,10 @@ namespace PlenBotLogUploader.DPSReport
                 { 30, new BossData() { BossId = (int)BossIds.Slothasor, Name = "Slothasor", Icon = "https://wiki.guildwars2.com/images/1/12/Mini_Slothasor.png" } },
                 { 31, new BossData() { BossId = (int)BossIds.SoullessHorror, Name = "Soulless Horror", Icon = "https://wiki.guildwars2.com/images/d/d4/Mini_Desmina.png" } },
                 { 32, new BossData() { BossId = (int)BossIds.StandardGolem, Name = "Standard Kitty Golem", SuccessMsg = "Golem log: <log>", FailMsg = "Golem log: <log>", Icon = "https://wiki.guildwars2.com/images/8/8f/Mini_Professor_Mew.png" } },
-                { 33, new BossData() { BossId = (int)BossIds.ValeGuardian, Name = "Vale Guardian", Icon = "https://wiki.guildwars2.com/images/f/fb/Mini_Vale_Guardian.png" } },
-                { 34, new BossData() { BossId = (int)BossIds.WvW, Name = "World vs World", SuccessMsg = "WvW log: <log>", FailMsg = "WvW log: <log>", Icon = "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png" } },
-                { 35, new BossData() { BossId = (int)BossIds.Xera, Name = "Xera", Icon = "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png" } }
+                { 33, new BossData() { BossId = (int)BossIds.TwistedCastle, Name = "Twisted Castle", SuccessMsg = "Twisted Castle log: <log>", FailMsg = "Twisted Castle log: <log>" }  },
+                { 34, new BossData() { BossId = (int)BossIds.ValeGuardian, Name = "Vale Guardian", Icon = "https://wiki.guildwars2.com/images/f/fb/Mini_Vale_Guardian.png" } },
+                { 35, new BossData() { BossId = (int)BossIds.WvW, Name = "World vs World", SuccessMsg = "WvW log: <log>", FailMsg = "WvW log: <log>", Icon = "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png" } },
+                { 36, new BossData() { BossId = (int)BossIds.Xera, Name = "Xera", Icon = "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png" } }
             };
         }
 
