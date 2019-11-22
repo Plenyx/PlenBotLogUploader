@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace PlenBotLogUploader
@@ -11,9 +13,17 @@ namespace PlenBotLogUploader
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+            var currProcess = Process.GetCurrentProcess();
+            var otherProcesses = Process.GetProcessesByName("PlenBotLogUploader")
+                .ToList()
+                .Where(anon => !anon.Id.Equals(currProcess.Id))
+                .ToList();
+            if (otherProcesses.Count == 0)
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new FormMain());
+            }
         }
     }
 }
