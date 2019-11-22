@@ -26,11 +26,16 @@ namespace PlenBotLogUploader.DiscordAPI
         /// </summary>
         public bool ShowPlayers { get; set; } = true;
 
-        public async Task<bool> TestWebhookAsync(FormMain mainLink)
+        /// <summary>
+        /// Tests if webhook is valid
+        /// </summary>
+        /// <param name="httpController">HttpClientController class used for using http connection</param>
+        /// <returns>True if webhook is valid, false otherwise</returns>
+        public async Task<bool> TestWebhookAsync(Tools.HttpClientController httpController)
         {
             try
             {
-                string response = await mainLink.HttpClientController.DownloadFileToStringAsync(URL);
+                string response = await httpController.DownloadFileToStringAsync(URL);
                 DiscordAPIJSONWebhookResponse pingtest = new JavaScriptSerializer().Deserialize<DiscordAPIJSONWebhookResponse>(response);
                 return pingtest.Success;
             }

@@ -475,7 +475,7 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewDiscordWebhooks.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                if (await AllWebhooks[reservedId].TestWebhookAsync(mainLink))
+                if (await AllWebhooks[reservedId].TestWebhookAsync(mainLink.HttpClientController))
                 {
                     MessageBox.Show("Webhook is valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
