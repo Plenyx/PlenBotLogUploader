@@ -47,6 +47,7 @@ namespace PlenBotLogUploader
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
         private int logsCount = 0;
+        private Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
 
         // constants
         private const int minFileSize = 12288;
@@ -549,7 +550,7 @@ namespace PlenBotLogUploader
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage)
             {
                 AddToText($">:> {reportJSON.Permalink}");
-                var bossDataRef = bossDataLink.AllBosses
+                var bossDataRef = allBosses
                     .Where(anon => anon.Value.BossId.Equals(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId))
                     .Select(anon => anon.Value);
                 if (bossDataRef.Count() == 1)
@@ -687,12 +688,12 @@ namespace PlenBotLogUploader
                                                 }
                                                 if (!logSessionLink.checkBoxSupressWebhooks.Checked)
                                                 {
-                                                    await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON, bossDataLink.AllBosses);
+                                                    await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON);
                                                 }
                                             }
                                             else
                                             {
-                                                await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON, bossDataLink.AllBosses);
+                                                await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON);
                                             }
                                             // remote server ping
                                             await pingsLink.ExecuteAllPingsAsync(reportJSON);
@@ -720,7 +721,7 @@ namespace PlenBotLogUploader
                         }
                     }
                     // upload to raidar
-                    if (raidarLink.checkBoxEnableRaidar.Checked && !Bosses.IsWvW(bossId))
+                    if (raidarLink.checkBoxEnableRaidar.Checked && !allBosses.Where(anon => anon.Value.Type.Equals(BossType.WvW)).Select(anon => anon.Value.BossId).Contains(bossId))
                     {
                         using (FileStream inputStream = File.OpenRead(file))
                         {
@@ -746,7 +747,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionLogWebhooksAsync(LogSessionSettings logSessionSettings) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, bossDataLink.AllBosses, logSessionSettings);
+        public async Task ExecuteSessionLogWebhooksAsync(LogSessionSettings logSessionSettings) => await discordWebhooksLink.ExecuteSessionAllActiveWebhooksAsync(SessionLogs, logSessionSettings);
         #endregion
 
         #region Twitch bot methods

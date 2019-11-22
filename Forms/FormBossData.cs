@@ -10,19 +10,17 @@ namespace PlenBotLogUploader
     public partial class FormBossData : Form
     {
         #region definitions
-        // properties
-        public Dictionary<int, BossData> AllBosses { get; private set; }
-
         // fields
         private FormMain mainLink;
         private FormTemplateBossData templateLink;
         private int bossesIdsKey = 0;
+        private Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         #endregion
 
         public FormBossData(FormMain mainLink)
         {
             this.mainLink = mainLink;
-            templateLink = new FormTemplateBossData(this);
+            templateLink = new FormTemplateBossData();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             if (File.Exists($@"{mainLink.LocalDir}\twitch_messages.txt"))
@@ -31,7 +29,6 @@ namespace PlenBotLogUploader
             }
             if (File.Exists($@"{mainLink.LocalDir}\boss_data.txt"))
             {
-                AllBosses = new Dictionary<int, BossData>();
                 try
                 {
                     using (StreamReader reader = new StreamReader($@"{mainLink.LocalDir}\boss_data.txt"))
@@ -41,43 +38,57 @@ namespace PlenBotLogUploader
                         {
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int bossId);
-                            AddBoss(new BossData() { BossId = bossId, Name = values[1], SuccessMsg = values[2], FailMsg = values[3], Icon = values[4] });
+                            int.TryParse(values[5], out int type);
+                            int.TryParse(values[6], out int isEvent);
+                            AddBoss(new BossData() { BossId = bossId, Name = values[1], SuccessMsg = values[2], FailMsg = values[3], Icon = values[4], Type = (BossType)(type), Event = (isEvent == 1) ? true : false });
                         }
                     }
-                    if(AllBosses.Where(anon => anon.Value.BossId.Equals((int)BossIds.IcebroodConstruct)).Count() == 0)
+                    if(allBosses.Where(anon => anon.Value.BossId.Equals((int)BossIds.IcebroodConstruct)).Count() == 0)
                     {
-                        AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
-                        bossesIdsKey = AllBosses.Count;
+                        allBosses.Clear();
+                        foreach (var keyPair in Bosses.GetDefaultSettingsForBossesAsDictionary())
+                        {
+                            allBosses.Add(keyPair.Key, keyPair.Value);
+                        }
+                        bossesIdsKey = allBosses.Count;
                     }
                 }
                 catch
                 {
-                    AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
-                    bossesIdsKey = AllBosses.Count;
+                    allBosses.Clear();
+                    foreach (var keyPair in Bosses.GetDefaultSettingsForBossesAsDictionary())
+                    {
+                        allBosses.Add(keyPair.Key, keyPair.Value);
+                    }
+                    bossesIdsKey = allBosses.Count;
                 }
             }
             else
             {
-                AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
-                bossesIdsKey = AllBosses.Count;
+                allBosses.Clear();
+                foreach (var keyPair in Bosses.GetDefaultSettingsForBossesAsDictionary())
+                {
+                    allBosses.Add(keyPair.Key, keyPair.Value);
+                }
+                bossesIdsKey = allBosses.Count;
             }
-            foreach (int key in AllBosses.Keys)
+            foreach (int key in allBosses.Keys)
             {
-                listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllBosses[key].Name });
+                listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = allBosses[key].Name });
             }
         }
 
         public void AddBoss(BossData data)
         {
             bossesIdsKey++;
-            AllBosses.Add(bossesIdsKey, data);
+            allBosses.Add(bossesIdsKey, data);
         }
 
         private void listViewBosses_DoubleClick(object sender, EventArgs e)
         {
             var selected = listViewBosses.SelectedItems[0];
             int.TryParse(selected.Name, out int reservedId);
-            new FormEditBossData(this, AllBosses[reservedId], reservedId).Show();
+            new FormEditBossData(this, allBosses[reservedId], reservedId).Show();
         }
 
         private async void FormTwitchLogMessages_FormClosing(object sender, FormClosingEventArgs e)
@@ -87,9 +98,9 @@ namespace PlenBotLogUploader
             using (StreamWriter writer = new StreamWriter($@"{mainLink.LocalDir}\boss_data.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
-                foreach (int key in AllBosses.Keys)
+                foreach (int key in allBosses.Keys)
                 {
-                    await writer.WriteLineAsync($"{AllBosses[key].BossId}<;>{AllBosses[key].Name}<;>{AllBosses[key].SuccessMsg}<;>{AllBosses[key].FailMsg}<;>{AllBosses[key].Icon}");
+                    await writer.WriteLineAsync($"{allBosses[key].BossId}<;>{allBosses[key].Name}<;>{allBosses[key].SuccessMsg}<;>{allBosses[key].FailMsg}<;>{allBosses[key].Icon}<;>{(int)(allBosses[key].Type)}<;>{((allBosses[key].Event) ? "1" : "0")}");
                 }
             }
         }
@@ -100,11 +111,15 @@ namespace PlenBotLogUploader
             if (result == DialogResult.Yes)
             {
                 listViewBosses.Items.Clear();
-                AllBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
-                bossesIdsKey = AllBosses.Count;
-                foreach (int key in AllBosses.Keys)
+                allBosses.Clear();
+                foreach (var keyPair in Bosses.GetDefaultSettingsForBossesAsDictionary())
                 {
-                    listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllBosses[key].Name });
+                    allBosses.Add(keyPair.Key, keyPair.Value);
+                }
+                bossesIdsKey = allBosses.Count;
+                foreach (int key in allBosses.Keys)
+                {
+                    listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = allBosses[key].Name });
                 }
             }
         }
@@ -131,7 +146,7 @@ namespace PlenBotLogUploader
                 if (result == DialogResult.Yes)
                 {
                     listViewBosses.Items.RemoveByKey(reservedId.ToString());
-                    AllBosses.Remove(reservedId);
+                    allBosses.Remove(reservedId);
                 }
             }
         }

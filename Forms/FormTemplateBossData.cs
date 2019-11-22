@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using PlenBotLogUploader.DPSReport;
 
 namespace PlenBotLogUploader
@@ -9,12 +10,11 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private FormBossData bossDataLink;
+        private Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         #endregion
 
-        public FormTemplateBossData(FormBossData bossDataLink)
+        public FormTemplateBossData()
         {
-            this.bossDataLink = bossDataLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             textBoxSuccessMessage.Text = Properties.Settings.Default.BossTemplateSuccess;
@@ -34,14 +34,14 @@ namespace PlenBotLogUploader
             DialogResult result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on success to \"{textBoxSuccessMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
-                var BossesToChange = bossDataLink.AllBosses
-                    .Where(anon => !Bosses.IsGolem(anon.Value.BossId))
-                    .Where(anon => !Bosses.IsWvW(anon.Value.BossId))
-                    .Where(anon => !Bosses.IsEvent(anon.Value.BossId))
+                var BossesToChange = allBosses
+                    .Where(anon => !anon.Value.Type.Equals(BossType.Golem))
+                    .Where(anon => !anon.Value.Type.Equals(BossType.WvW))
+                    .Where(anon => !anon.Value.Event)
                     .ToDictionary(anon => anon.Key, anon => anon.Value);
                 foreach (var key in BossesToChange.Keys)
                 {
-                    var boss = bossDataLink.AllBosses[key];
+                    var boss = allBosses[key];
                     boss.SuccessMsg = textBoxSuccessMessage.Text;
                 }
                 MessageBox.Show("All changes are saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -53,14 +53,14 @@ namespace PlenBotLogUploader
             DialogResult result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on fail to \"{textBoxFailMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
-                var BossesToChange = bossDataLink.AllBosses
-                    .Where(anon => !Bosses.IsGolem(anon.Value.BossId))
-                    .Where(anon => !Bosses.IsWvW(anon.Value.BossId))
-                    .Where(anon => !Bosses.IsEvent(anon.Value.BossId))
+                var BossesToChange = allBosses
+                    .Where(anon => !anon.Value.Type.Equals(BossType.Golem))
+                    .Where(anon => !anon.Value.Type.Equals(BossType.WvW))
+                    .Where(anon => !anon.Value.Event)
                     .ToDictionary(anon => anon.Key, anon => anon.Value);
                 foreach (var key in BossesToChange.Keys)
                 {
-                    var boss = bossDataLink.AllBosses[key];
+                    var boss = allBosses[key];
                     boss.FailMsg = textBoxFailMessage.Text;
                 }
                 MessageBox.Show("All changes are saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -40,8 +40,17 @@
             this.labelBossName = new System.Windows.Forms.Label();
             this.groupBoxCrucial = new System.Windows.Forms.GroupBox();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.groupBoxBossType = new System.Windows.Forms.GroupBox();
+            this.radioButtonTypeNone = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeStrike = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeWvW = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeGolem = new System.Windows.Forms.RadioButton();
+            this.checkBoxEvent = new System.Windows.Forms.CheckBox();
             this.groupBoxCrucial.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
+            this.groupBoxBossType.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelSuccessMsg
@@ -145,18 +154,109 @@
             this.groupBoxOtherSettings.Controls.Add(this.labelFailMsg);
             this.groupBoxOtherSettings.Controls.Add(this.textBoxIcon);
             this.groupBoxOtherSettings.Controls.Add(this.textBoxFailMsg);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(12, 120);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(12, 189);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(380, 143);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(379, 139);
             this.groupBoxOtherSettings.TabIndex = 11;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Uploader settings for the boss";
+            // 
+            // groupBoxBossType
+            // 
+            this.groupBoxBossType.Controls.Add(this.checkBoxEvent);
+            this.groupBoxBossType.Controls.Add(this.radioButtonTypeGolem);
+            this.groupBoxBossType.Controls.Add(this.radioButtonTypeWvW);
+            this.groupBoxBossType.Controls.Add(this.radioButtonTypeStrike);
+            this.groupBoxBossType.Controls.Add(this.radioButtonTypeFractal);
+            this.groupBoxBossType.Controls.Add(this.radioButtonTypeRaid);
+            this.groupBoxBossType.Controls.Add(this.radioButtonTypeNone);
+            this.groupBoxBossType.Location = new System.Drawing.Point(12, 120);
+            this.groupBoxBossType.Name = "groupBoxBossType";
+            this.groupBoxBossType.Size = new System.Drawing.Size(379, 63);
+            this.groupBoxBossType.TabIndex = 12;
+            this.groupBoxBossType.TabStop = false;
+            this.groupBoxBossType.Text = "Boss type";
+            // 
+            // radioButtonTypeNone
+            // 
+            this.radioButtonTypeNone.AutoSize = true;
+            this.radioButtonTypeNone.Checked = true;
+            this.radioButtonTypeNone.Location = new System.Drawing.Point(7, 19);
+            this.radioButtonTypeNone.Name = "radioButtonTypeNone";
+            this.radioButtonTypeNone.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonTypeNone.TabIndex = 0;
+            this.radioButtonTypeNone.TabStop = true;
+            this.radioButtonTypeNone.Text = "None";
+            this.radioButtonTypeNone.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeRaid
+            // 
+            this.radioButtonTypeRaid.AutoSize = true;
+            this.radioButtonTypeRaid.Location = new System.Drawing.Point(64, 19);
+            this.radioButtonTypeRaid.Name = "radioButtonTypeRaid";
+            this.radioButtonTypeRaid.Size = new System.Drawing.Size(47, 17);
+            this.radioButtonTypeRaid.TabIndex = 1;
+            this.radioButtonTypeRaid.Text = "Raid";
+            this.radioButtonTypeRaid.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeFractal
+            // 
+            this.radioButtonTypeFractal.AutoSize = true;
+            this.radioButtonTypeFractal.Location = new System.Drawing.Point(117, 19);
+            this.radioButtonTypeFractal.Name = "radioButtonTypeFractal";
+            this.radioButtonTypeFractal.Size = new System.Drawing.Size(57, 17);
+            this.radioButtonTypeFractal.TabIndex = 2;
+            this.radioButtonTypeFractal.Text = "Fractal";
+            this.radioButtonTypeFractal.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeStrike
+            // 
+            this.radioButtonTypeStrike.AutoSize = true;
+            this.radioButtonTypeStrike.Location = new System.Drawing.Point(180, 19);
+            this.radioButtonTypeStrike.Name = "radioButtonTypeStrike";
+            this.radioButtonTypeStrike.Size = new System.Drawing.Size(52, 17);
+            this.radioButtonTypeStrike.TabIndex = 3;
+            this.radioButtonTypeStrike.Text = "Strike";
+            this.radioButtonTypeStrike.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeWvW
+            // 
+            this.radioButtonTypeWvW.AutoSize = true;
+            this.radioButtonTypeWvW.Location = new System.Drawing.Point(299, 19);
+            this.radioButtonTypeWvW.Name = "radioButtonTypeWvW";
+            this.radioButtonTypeWvW.Size = new System.Drawing.Size(53, 17);
+            this.radioButtonTypeWvW.TabIndex = 4;
+            this.radioButtonTypeWvW.TabStop = true;
+            this.radioButtonTypeWvW.Text = "WvW";
+            this.radioButtonTypeWvW.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeGolem
+            // 
+            this.radioButtonTypeGolem.AutoSize = true;
+            this.radioButtonTypeGolem.Location = new System.Drawing.Point(238, 19);
+            this.radioButtonTypeGolem.Name = "radioButtonTypeGolem";
+            this.radioButtonTypeGolem.Size = new System.Drawing.Size(55, 17);
+            this.radioButtonTypeGolem.TabIndex = 5;
+            this.radioButtonTypeGolem.TabStop = true;
+            this.radioButtonTypeGolem.Text = "Golem";
+            this.radioButtonTypeGolem.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxEvent
+            // 
+            this.checkBoxEvent.AutoSize = true;
+            this.checkBoxEvent.Location = new System.Drawing.Point(7, 43);
+            this.checkBoxEvent.Name = "checkBoxEvent";
+            this.checkBoxEvent.Size = new System.Drawing.Size(54, 17);
+            this.checkBoxEvent.TabIndex = 6;
+            this.checkBoxEvent.Text = "Event";
+            this.checkBoxEvent.UseVisualStyleBackColor = true;
             // 
             // FormEditBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(403, 272);
+            this.ClientSize = new System.Drawing.Size(403, 338);
+            this.Controls.Add(this.groupBoxBossType);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxCrucial);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -170,6 +270,8 @@
             this.groupBoxCrucial.PerformLayout();
             this.groupBoxOtherSettings.ResumeLayout(false);
             this.groupBoxOtherSettings.PerformLayout();
+            this.groupBoxBossType.ResumeLayout(false);
+            this.groupBoxBossType.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -188,5 +290,13 @@
         private System.Windows.Forms.Label labelBossName;
         private System.Windows.Forms.GroupBox groupBoxCrucial;
         private System.Windows.Forms.GroupBox groupBoxOtherSettings;
+        private System.Windows.Forms.GroupBox groupBoxBossType;
+        private System.Windows.Forms.RadioButton radioButtonTypeWvW;
+        private System.Windows.Forms.RadioButton radioButtonTypeStrike;
+        private System.Windows.Forms.RadioButton radioButtonTypeFractal;
+        private System.Windows.Forms.RadioButton radioButtonTypeRaid;
+        private System.Windows.Forms.RadioButton radioButtonTypeNone;
+        private System.Windows.Forms.CheckBox checkBoxEvent;
+        private System.Windows.Forms.RadioButton radioButtonTypeGolem;
     }
 }

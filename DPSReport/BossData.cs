@@ -10,7 +10,7 @@
         /// </summary>
         public int BossId { get; set; }
         /// <summary>
-        /// name of the encounter
+        /// Name of the encounter
         /// </summary>
         public string Name { get; set; }
         /// <summary>
@@ -25,5 +25,13 @@
         /// Icon used for Discord webhooks
         /// </summary>
         public string Icon { get; set; } = "";
+        /// <summary>
+        /// Type of the boss
+        /// </summary>
+        public BossType Type { get; set; } = BossType.None;
+        /// <summary>
+        /// Indicated if the encounter is an event
+        /// </summary>
+        public bool Event { get; set; } = false;
     }
 }

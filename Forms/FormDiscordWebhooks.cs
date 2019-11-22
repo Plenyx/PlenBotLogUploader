@@ -22,6 +22,7 @@ namespace PlenBotLogUploader
         // fields
         private FormMain mainLink;
         private int webhookIdsKey = 0;
+        private Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
 
         // consts
         private const int maxAllowedMessageSize = 1800;
@@ -96,7 +97,7 @@ namespace PlenBotLogUploader
             AllWebhooks.Add(webhookIdsKey, data);
         }
 
-        public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON, Dictionary<int, BossData> allBosses)
+        public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON)
         {
             string bossName = reportJSON.Encounter.Boss + (reportJSON.ChallengeMode ? " CM" : "");
             string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
@@ -188,7 +189,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, Dictionary<int, BossData> allBosses, LogSessionSettings logSessionSettings)
+        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
             var RaidLogs = reportsJSON
                     .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
@@ -206,16 +207,24 @@ namespace PlenBotLogUploader
                     .ToList();
             }
             var FractalLogs = reportsJSON
-                .Where(anon => Bosses.IsFractal(anon.Evtc.BossId))
+                .Where(anon => allBosses
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.Evtc.BossId))
+                    .First().Value.Type.Equals(BossType.Fractal))
                 .ToList();
             var StrikeLogs = reportsJSON
-                .Where(anon => Bosses.IsStrike(anon.Evtc.BossId))
+                .Where(anon => allBosses
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.Evtc.BossId))
+                    .First().Value.Type.Equals(BossType.Strike))
                 .ToList();
             var GolemLogs = reportsJSON
-                .Where(anon => Bosses.IsGolem(anon.Evtc.BossId))
+                .Where(anon => allBosses
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.Evtc.BossId))
+                    .First().Value.Type.Equals(BossType.Golem))
                 .ToList();
             var WvWLogs = reportsJSON
-                .Where(anon => Bosses.IsWvW(anon.Evtc.BossId))
+                .Where(anon => allBosses
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.Evtc.BossId))
+                    .First().Value.Type.Equals(BossType.WvW))
                 .ToList();
             StringBuilder builder = new StringBuilder();
             builder.Append($"Session duration: {logSessionSettings.ElapsedTime}\n\n");
