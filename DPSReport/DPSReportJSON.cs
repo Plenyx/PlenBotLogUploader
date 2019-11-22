@@ -8,10 +8,6 @@ namespace PlenBotLogUploader.DPSReport
     /// </summary>
     public class DPSReportJSON
     {
-        // private
-        private string _error;
-
-        // public
         /// <summary>
         /// DPSReport ID
         /// </summary>
@@ -55,24 +51,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// Returns an error if one was encountered
         /// </summary>
-        public string Error
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(_error))
-                {
-                    return "";
-                }
-                return _error;
-            }
-            set
-            {
-                if(!String.IsNullOrEmpty(value))
-                {
-                    _error = value;
-                }
-            }
-        }
+        public string Error { get; set; }
         /// <summary>
         /// the URL ID used in dps.report
         /// </summary>
