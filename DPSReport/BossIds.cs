@@ -33,6 +33,7 @@
         RiverOfSouls = 19828,
         Qadim = 20934,
         LargosTwins = 21105,
+        Freezie = 21333,
         CardinalSabir = 21964,
         QadimThePeerless = 22000,
         CardinalAdina = 22006,
