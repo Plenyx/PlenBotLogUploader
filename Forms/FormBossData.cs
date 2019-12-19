@@ -23,10 +23,6 @@ namespace PlenBotLogUploader
             templateLink = new FormTemplateBossData();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{mainLink.LocalDir}\twitch_messages.txt"))
-            {
-                File.Move($@"{mainLink.LocalDir}\twitch_messages.txt", $@"{mainLink.LocalDir}\boss_data.txt");
-            }
             if (File.Exists($@"{mainLink.LocalDir}\boss_data.txt"))
             {
                 try
@@ -42,15 +38,6 @@ namespace PlenBotLogUploader
                             int.TryParse(values[6], out int isEvent);
                             AddBoss(new BossData() { BossId = bossId, Name = values[1], SuccessMsg = values[2], FailMsg = values[3], Icon = values[4], Type = (BossType)(type), Event = (isEvent == 1) ? true : false });
                         }
-                    }
-                    if(allBosses.Where(anon => anon.Value.BossId.Equals((int)BossIds.IcebroodConstruct)).Count() == 0)
-                    {
-                        allBosses.Clear();
-                        foreach (var keyPair in Bosses.GetDefaultSettingsForBossesAsDictionary())
-                        {
-                            allBosses.Add(keyPair.Key, keyPair.Value);
-                        }
-                        bossesIdsKey = allBosses.Count;
                     }
                 }
                 catch
