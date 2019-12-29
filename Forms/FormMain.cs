@@ -429,8 +429,10 @@ namespace PlenBotLogUploader
                         {
                             buttonUpdateNow.Visible = true;
                         }
+                        var notes = await HttpClientController.DownloadFileToStringAsync("https://plenbot.net/uploader/release-info/");
                         AddToText($">>> New release available (r{response})");
                         AddToText(">>> https://github.com/Plenyx/PlenBotLogUploader/releases/");
+                        AddToText(notes);
                         ShowBalloon("New release available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
                     }
                     else
