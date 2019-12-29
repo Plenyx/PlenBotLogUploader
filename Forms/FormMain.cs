@@ -919,16 +919,7 @@ namespace PlenBotLogUploader
                     AddToText("> (Spotify) SONG COMMAND USED");
                     try
                     {
-                        var processes = Process.GetProcessesByName("Spotify");
-                        Process process = null;
-                        foreach(var subProcess in processes)
-                        {
-                            if(!subProcess.MainWindowTitle.Equals(""))
-                            {
-                                process = subProcess;
-                                break;
-                            }
-                        }
+                        Process process = Process.GetProcessesByName("Spotify").FirstOrDefault(anon => !string.IsNullOrWhiteSpace(anon.MainWindowTitle));
                         if (process.MainWindowTitle.Contains("Spotify"))
                         {
                             await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "No song is being played.");
