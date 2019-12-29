@@ -107,5 +107,11 @@
     <Setting Name="ArcAutoUpdate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="TwitchCommandSongEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchCommandSong" Type="System.String" Scope="User">
+      <Value Profile="(Default)">!song</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

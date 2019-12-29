@@ -31,11 +31,15 @@
             this.checkBoxUploaderEnable = new System.Windows.Forms.CheckBox();
             this.checkBoxLastLogEnable = new System.Windows.Forms.CheckBox();
             this.groupBoxUploader = new System.Windows.Forms.GroupBox();
-            this.groupBoxLastLog = new System.Windows.Forms.GroupBox();
             this.textBoxUploaderCommand = new System.Windows.Forms.TextBox();
+            this.groupBoxLastLog = new System.Windows.Forms.GroupBox();
             this.textBoxLastLogCommand = new System.Windows.Forms.TextBox();
+            this.groupBoxSong = new System.Windows.Forms.GroupBox();
+            this.checkBoxSongEnable = new System.Windows.Forms.CheckBox();
+            this.textBoxSongCommand = new System.Windows.Forms.TextBox();
             this.groupBoxUploader.SuspendLayout();
             this.groupBoxLastLog.SuspendLayout();
+            this.groupBoxSong.SuspendLayout();
             this.SuspendLayout();
             // 
             // checkBoxUploaderEnable
@@ -69,6 +73,13 @@
             this.groupBoxUploader.TabStop = false;
             this.groupBoxUploader.Text = "!uploader";
             // 
+            // textBoxUploaderCommand
+            // 
+            this.textBoxUploaderCommand.Location = new System.Drawing.Point(7, 43);
+            this.textBoxUploaderCommand.Name = "textBoxUploaderCommand";
+            this.textBoxUploaderCommand.Size = new System.Drawing.Size(164, 20);
+            this.textBoxUploaderCommand.TabIndex = 1;
+            // 
             // groupBoxLastLog
             // 
             this.groupBoxLastLog.Controls.Add(this.textBoxLastLogCommand);
@@ -80,13 +91,6 @@
             this.groupBoxLastLog.TabStop = false;
             this.groupBoxLastLog.Text = "!lastlog";
             // 
-            // textBoxUploaderCommand
-            // 
-            this.textBoxUploaderCommand.Location = new System.Drawing.Point(7, 43);
-            this.textBoxUploaderCommand.Name = "textBoxUploaderCommand";
-            this.textBoxUploaderCommand.Size = new System.Drawing.Size(164, 20);
-            this.textBoxUploaderCommand.TabIndex = 1;
-            // 
             // textBoxLastLogCommand
             // 
             this.textBoxLastLogCommand.Location = new System.Drawing.Point(6, 42);
@@ -94,11 +98,40 @@
             this.textBoxLastLogCommand.Size = new System.Drawing.Size(165, 20);
             this.textBoxLastLogCommand.TabIndex = 2;
             // 
+            // groupBoxSong
+            // 
+            this.groupBoxSong.Controls.Add(this.textBoxSongCommand);
+            this.groupBoxSong.Controls.Add(this.checkBoxSongEnable);
+            this.groupBoxSong.Location = new System.Drawing.Point(12, 164);
+            this.groupBoxSong.Name = "groupBoxSong";
+            this.groupBoxSong.Size = new System.Drawing.Size(179, 69);
+            this.groupBoxSong.TabIndex = 4;
+            this.groupBoxSong.TabStop = false;
+            this.groupBoxSong.Text = "(Spotify) !song";
+            // 
+            // checkBoxSongEnable
+            // 
+            this.checkBoxSongEnable.AutoSize = true;
+            this.checkBoxSongEnable.Location = new System.Drawing.Point(7, 19);
+            this.checkBoxSongEnable.Name = "checkBoxSongEnable";
+            this.checkBoxSongEnable.Size = new System.Drawing.Size(107, 17);
+            this.checkBoxSongEnable.TabIndex = 0;
+            this.checkBoxSongEnable.Text = "enable command";
+            this.checkBoxSongEnable.UseVisualStyleBackColor = true;
+            // 
+            // textBoxSongCommand
+            // 
+            this.textBoxSongCommand.Location = new System.Drawing.Point(7, 42);
+            this.textBoxSongCommand.Name = "textBoxSongCommand";
+            this.textBoxSongCommand.Size = new System.Drawing.Size(164, 20);
+            this.textBoxSongCommand.TabIndex = 1;
+            // 
             // FormTwitchCommands
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(203, 168);
+            this.ClientSize = new System.Drawing.Size(199, 239);
+            this.Controls.Add(this.groupBoxSong);
             this.Controls.Add(this.groupBoxLastLog);
             this.Controls.Add(this.groupBoxUploader);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -112,6 +145,8 @@
             this.groupBoxUploader.PerformLayout();
             this.groupBoxLastLog.ResumeLayout(false);
             this.groupBoxLastLog.PerformLayout();
+            this.groupBoxSong.ResumeLayout(false);
+            this.groupBoxSong.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -124,5 +159,8 @@
         private System.Windows.Forms.GroupBox groupBoxLastLog;
         public System.Windows.Forms.TextBox textBoxUploaderCommand;
         public System.Windows.Forms.TextBox textBoxLastLogCommand;
+        private System.Windows.Forms.GroupBox groupBoxSong;
+        public System.Windows.Forms.CheckBox checkBoxSongEnable;
+        public System.Windows.Forms.TextBox textBoxSongCommand;
     }
 }

@@ -57,13 +57,6 @@ namespace PlenBotLogUploader
         public FormMain()
         {
             InitializeComponent();
-            #region tooltips
-            toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
-            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
-            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it.");
-            toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
-            toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
-            #endregion
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
             notifyIconTray.Icon = Properties.Resources.AppIcon;
@@ -81,6 +74,14 @@ namespace PlenBotLogUploader
             discordWebhooksLink = new FormDiscordWebhooks(this);
             twitchCommandsLink = new FormTwitchCommands(this);
             logSessionLink = new FormLogSession(this);
+            #region tooltips
+            toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
+            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
+            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it.");
+            toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
+            toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
+            toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
+            #endregion
             try
             {
                 CompatibilityUpdate.DoUpdate(LocalDir);
@@ -178,6 +179,8 @@ namespace PlenBotLogUploader
                 twitchCommandsLink.textBoxUploaderCommand.Text = Properties.Settings.Default.TwitchCommandUploader;
                 twitchCommandsLink.checkBoxLastLogEnable.Checked = Properties.Settings.Default.TwitchCommandLastLogEnabled;
                 twitchCommandsLink.textBoxLastLogCommand.Text = Properties.Settings.Default.TwitchCommandLastLog;
+                twitchCommandsLink.checkBoxSongEnable.Checked = Properties.Settings.Default.TwitchCommandSongEnabled;
+                twitchCommandsLink.textBoxSongCommand.Text = Properties.Settings.Default.TwitchCommandSong;
                 logSessionLink.textBoxSessionName.Text = Properties.Settings.Default.SessionName;
                 logSessionLink.checkBoxSupressWebhooks.Checked = Properties.Settings.Default.SessionSuppressWebhooks;
                 logSessionLink.checkBoxOnlySuccess.Checked = Properties.Settings.Default.SessionOnlySuccess;
@@ -909,6 +912,35 @@ namespace PlenBotLogUploader
                     {
                         AddToText("> LAST LOG COMMAND USED");
                         await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Link to the last log: {LastLogLocation}");
+                    }
+                }
+                else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
+                {
+                    AddToText("> (Spotify) SONG COMMAND USED");
+                    try
+                    {
+                        var processes = Process.GetProcessesByName("Spotify");
+                        Process process = null;
+                        foreach(var subProcess in processes)
+                        {
+                            if(!subProcess.MainWindowTitle.Equals(""))
+                            {
+                                process = subProcess;
+                                break;
+                            }
+                        }
+                        if (process.MainWindowTitle.Contains("Spotify"))
+                        {
+                            await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "No song is being played.");
+                        }
+                        else
+                        {
+                            await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, process.MainWindowTitle);
+                        }
+                    }
+                    catch
+                    {
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "Spotify is not running.");
                     }
                 }
             }
