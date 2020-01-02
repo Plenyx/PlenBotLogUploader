@@ -66,8 +66,8 @@ If you wish to create your own server, follow the [MAKE-CUSTOM-REMOTE-SERVER-REA
 ## TwitchIrcClient
 A client I developed for Irc which Twitch uses.
 
-Initially built on .NET Framework 4.7, but I made it work on 4.8 and .NET Core 2.1.
+Initially built on .NET Framework 4.7, but it also works on 4.8 and .NET Core 2.1, 3.0 & 3.1.
 
 *Maintained by Plenyx.*
 
-**Requires either .NET Framework 4.8 or .NET Core 2.1**
+**Requires either .NET Framework 4.8 or .NET Core 3.0**
