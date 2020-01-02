@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -35,9 +34,16 @@ namespace PlenBotLogUploader
                     {
                         foreach (var process in otherProcesses)
                         {
-                            process.Kill();
+                            try
+                            {
+                                process.WaitForExit(350);
+                                process.Kill();
+                            }
+                            catch
+                            {
+                                // do nothing
+                            }
                         }
-                        Thread.Sleep(250);
                         File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
                         Process.Start(localDir + args[2], "-finishupdate");
                         return;
