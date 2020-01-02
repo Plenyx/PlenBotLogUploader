@@ -433,7 +433,7 @@ namespace PlenBotLogUploader
                         AddToText($">>> New release available (r{response})");
                         AddToText(">>> https://github.com/Plenyx/PlenBotLogUploader/releases/");
                         AddToText(notes);
-                        ShowBalloon("New release available for the uploader", $"If you want to begin the update process, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
+                        ShowBalloon("New release available for the uploader", $"If you want to update immediately, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
                     }
                     else
                     {
@@ -1155,23 +1155,28 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void buttonUpdateNow_Click(object sender, EventArgs e)
+        private async void buttonUpdateNow_Click(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.FirstUpdate)
+            buttonUpdateNow.Enabled = false;
+            AddToText(">>> Downloading update...");
+            var result = await HttpClientController.DownloadFileAsync("https://plenbot.net/uploader/update/", $"{LocalDir}PlenBotLogUploader_Update.exe");
+            if (result)
             {
-                MessageBox.Show("The folder with the current location of this executable is going to be opened.\nYou can update the bot by simply overwriting the previous executable.\nThe application will now close.", $"Ease of installation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Properties.Settings.Default.FirstUpdate = false;
-            }
-            Process.Start("https://github.com/Plenyx/PlenBotLogUploader/releases/");
-            Process.Start($"{LocalDir}");
-            if (InvokeRequired)
-            {
-                // invokes the function on the main thread
-                Invoke((Action)delegate () { ExitApp(); });
+                Process.Start($"{LocalDir}PlenBotLogUploader_Update.exe", "-update " + Path.GetFileName(Application.ExecutablePath.Replace('/', '\\')));
+                if (InvokeRequired)
+                {
+                    // invokes the function on the main thread
+                    Invoke((Action)delegate () { ExitApp(); });
+                }
+                else
+                {
+                    ExitApp();
+                }
             }
             else
             {
-                ExitApp();
+                AddToText(">>> Something went wrong with the download. Please try again later.");
+                buttonUpdateNow.Enabled = true;
             }
         }
 

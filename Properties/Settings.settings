@@ -68,9 +68,6 @@
     <Setting Name="TwitchCommandLastLog" Type="System.String" Scope="User">
       <Value Profile="(Default)">!lastlog</Value>
     </Setting>
-    <Setting Name="FirstUpdate" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="SessionName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Log session</Value>
     </Setting>

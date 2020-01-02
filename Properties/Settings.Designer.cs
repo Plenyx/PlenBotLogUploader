@@ -289,18 +289,6 @@ namespace PlenBotLogUploader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool FirstUpdate {
-            get {
-                return ((bool)(this["FirstUpdate"]));
-            }
-            set {
-                this["FirstUpdate"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Log session")]
         public string SessionName {
             get {
