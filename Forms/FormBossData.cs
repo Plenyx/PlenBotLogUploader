@@ -27,14 +27,8 @@ namespace PlenBotLogUploader
             {
                 try
                 {
-                    using (StreamReader reader = new StreamReader($@"{mainLink.LocalDir}\boss_data.txt"))
-                    {
-                        string line = reader.ReadLine();
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            AddBoss(BossData.FromSave(line));
-                        }
-                    }
+                    allBosses = Bosses.FromFile($@"{mainLink.LocalDir}\boss_data.txt");
+                    bossesIdsKey = allBosses.Count;
                 }
                 catch
                 {

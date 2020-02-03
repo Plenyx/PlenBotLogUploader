@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -20,6 +21,30 @@ namespace PlenBotLogUploader.DPSReport
             }
             return instance;
         }
+
+        /// <summary>
+        /// Loads all bosses' data from a specified file.
+        /// </summary>
+        /// <param name="file">The file from which the bosses are loaded from</param>
+        /// <returns>A dictionary with all encounters</returns>
+        public static Dictionary<int, BossData> FromFile(string file)
+        {
+            var allBosses = GetAllBosses();
+            if(allBosses.Count > 0)
+            {
+                allBosses.Clear();
+            }
+            using (StreamReader reader = new StreamReader(file))
+            {
+                string line = reader.ReadLine();
+                while ((line = reader.ReadLine()) != null)
+                {
+                    allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
+                }
+            }
+            return allBosses;
+        }
+
         /// <summary>
         /// returns a dictionary with default BossData values
         /// </summary>

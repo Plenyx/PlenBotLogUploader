@@ -61,7 +61,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="savedFormat">string representing the object</param>
         /// <returns>deserilised object of BossData type</returns>
-        public static BossData FromSave(string savedFormat)
+        public static BossData FromSavedFormat(string savedFormat)
         {
             try
             {
