@@ -38,6 +38,10 @@
         QadimThePeerless = 22000,
         CardinalAdina = 22006,
         IcebroodConstruct = 22154,
+        TheVoiceAndTheClawOfTheFallen = 22343,
+        FraenirOfJormag = 22492,
+        Boneskinner = 22521,
+        WhisperOfJormag = 22711,
         ConjuredAmalgamate = 43974
     }
 }
