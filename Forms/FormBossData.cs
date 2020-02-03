@@ -32,11 +32,7 @@ namespace PlenBotLogUploader
                         string line = reader.ReadLine();
                         while ((line = reader.ReadLine()) != null)
                         {
-                            string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
-                            int.TryParse(values[0], out int bossId);
-                            int.TryParse(values[5], out int type);
-                            int.TryParse(values[6], out int isEvent);
-                            AddBoss(new BossData() { BossId = bossId, Name = values[1], SuccessMsg = values[2], FailMsg = values[3], Icon = values[4], Type = (BossType)(type), Event = (isEvent == 1) ? true : false });
+                            AddBoss(BossData.FromSave(line));
                         }
                     }
                 }
@@ -87,7 +83,7 @@ namespace PlenBotLogUploader
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in allBosses.Keys)
                 {
-                    await writer.WriteLineAsync($"{allBosses[key].BossId}<;>{allBosses[key].Name}<;>{allBosses[key].SuccessMsg}<;>{allBosses[key].FailMsg}<;>{allBosses[key].Icon}<;>{(int)(allBosses[key].Type)}<;>{((allBosses[key].Event) ? "1" : "0")}");
+                    await writer.WriteLineAsync(allBosses[key].ToString(true));
                 }
             }
         }
