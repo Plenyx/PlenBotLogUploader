@@ -96,10 +96,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ReleaseVersion" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">55</Value>
+      <Value Profile="(Default)">56</Value>
     </Setting>
     <Setting Name="SavedVersion" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">55</Value>
+      <Value Profile="(Default)">56</Value>
     </Setting>
     <Setting Name="ArcAutoUpdate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
