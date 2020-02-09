@@ -47,11 +47,11 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="savableFormat">whether the text should be in savable format</param>
         /// <returns>Returns a string that represents the current object.</returns>
-        public string ToString(bool savableFormat)
+        public string ToString(bool savableFormat = false)
         {
             if(!savableFormat)
             {
-                return ToString();
+                return base.ToString();
             }
             return $"{BossId}<;>{Name}<;>{SuccessMsg}<;>{FailMsg}<;>{Icon}<;>{(int)(Type)}<;>{((Event) ? "1" : "0")}";
         }
