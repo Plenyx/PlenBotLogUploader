@@ -14,26 +14,32 @@ namespace PlenBotLogUploader.TwitchIRCClient
         /// Last channel joined.
         /// </summary>
         public string LastChannelName { get; private set; } = "";
+
         /// <summary>
         /// List of all channel currently joined.
         /// </summary>
         public List<string> ChannelNames { get; private set; } = new List<string>();
+
         /// <summary>
         /// Indicates if the connection is about to commence.
         /// </summary>
         public bool Connecting { get; private set; } = false;
+
         /// <summary>
         /// Indicates if a successfull connection with Twitch has been estabilished.
         /// </summary>
         public bool Connected { get; private set; } = false;
+
         /// <summary>
         /// A thread for message invokes.
         /// </summary>
         public Thread ReadMessagesThread { get; private set; }
+
         /// <summary>
         /// An event that triggers on new IRC message being received.
         /// </summary>
         public event EventHandler<IrcMessageEventArgs> ReceiveMessage;
+
         /// <summary>
         /// An event that triggers on new IRC state change.
         /// </summary>
