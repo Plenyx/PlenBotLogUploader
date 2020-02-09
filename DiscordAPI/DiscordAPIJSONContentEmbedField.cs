@@ -9,12 +9,14 @@
         /// name of the field
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// value of the field
         /// </summary>
         public string Value { get; set; }
+
         /// <summary>
-        /// whether or not this field should display inline
+        /// whether or not this field should be displayed inline
         /// </summary>
         public bool Inline { get; set; } = false;
     }

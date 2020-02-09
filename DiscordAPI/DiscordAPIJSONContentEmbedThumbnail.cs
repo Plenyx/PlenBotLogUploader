@@ -6,7 +6,7 @@
     public class DiscordAPIJSONContentEmbedThumbnail
     {
         /// <summary>
-        /// source url of thumbnail (only supports http(s) and attachments)
+        /// source url of the thumbnail (only supports http(s) and attachments)
         /// </summary>
         public string Url { get; set; }
     }

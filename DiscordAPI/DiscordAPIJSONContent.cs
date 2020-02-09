@@ -11,6 +11,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// the message contents (up to 2000 characters)
         /// </summary>
         public string Content { get; set; } = "";
+
         /// <summary>
         /// embedded (Discord) rich content
         /// </summary>
