@@ -31,8 +31,8 @@ namespace PlenBotLogUploader
             }
             textBoxBossID.Text = data?.BossId.ToString() ?? "";
             textBoxBossName.Text = data?.Name ?? "";
-            textBoxSuccessMsg.Text = data?.SuccessMsg ?? "<boss> kill: <log>";
-            textBoxFailMsg.Text = data?.FailMsg ?? "<boss> pull: <log>";
+            textBoxSuccessMsg.Text = data?.SuccessMsg ?? Properties.Settings.Default.BossTemplateSuccess;
+            textBoxFailMsg.Text = data?.FailMsg ?? Properties.Settings.Default.BossTemplateFail;
             textBoxIcon.Text = data?.Icon ?? "";
             switch(data?.Type ?? BossType.None)
             {
