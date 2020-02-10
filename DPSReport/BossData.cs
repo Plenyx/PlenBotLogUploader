@@ -20,12 +20,12 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// Twitch message when encounter is a success
         /// </summary>
-        public string SuccessMsg { get; set; } = "<boss> kill: <log>";
+        public string SuccessMsg { get; set; } = Properties.Settings.Default.BossTemplateSuccess;
 
         /// <summary>
         /// Twitch message when encounter is a failure
         /// </summary>
-        public string FailMsg { get; set; } = "<boss> pull: <log>";
+        public string FailMsg { get; set; } = Properties.Settings.Default.BossTemplateFail;
 
         /// <summary>
         /// Icon used for Discord webhooks
