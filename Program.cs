@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace PlenBotLogUploader
 {
@@ -50,11 +51,22 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            if (args.Count == 2)
+            else if (args.Count == 2)
             {
                 if (args[1].ToLower() == "-finishupdate")
                 {
                     File.Delete(localDir + "PlenBotLogUploader_Update.exe");
+                }
+                else if (args[1].ToLower() == "-resetsettings")
+                {
+                    using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                    {
+                        if (registryRun.GetValue("PlenBot Log Uploader") != null)
+                        {
+                            registryRun.DeleteValue("PlenBot Log Uploader");
+                        }
+                    }
+                    Properties.Settings.Default.Reset();
                 }
             }
             if (otherProcesses.Count == 0)
