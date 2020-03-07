@@ -15,6 +15,7 @@ namespace PlenBotLogUploader.Tools
                 return;
             }
             /// start of updates
+            Properties.Settings.Default.Upgrade();
             // Release 55
             if (Properties.Settings.Default.SavedVersion < 55)
             {
