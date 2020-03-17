@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -11,51 +12,61 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// DPSReport ID
         /// </summary>
+        [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>
         /// URL to DPSReport
         /// </summary>
+        [JsonProperty("permalink")]
         public string Permalink { get; set; }
 
         /// <summary>
         /// Time when the log was uploaded to DPSReport
         /// </summary>
+        [JsonProperty("uploadTime")]
         public int UploadTime { get; set; }
 
         /// <summary>
         /// Total time of the encounter, might be null
         /// </summary>
+        [JsonProperty("encounterTime")]
         public int? EncounterTime { get; set; }
 
         /// <summary>
         /// Tool which processed the log on DPSReport
         /// </summary>
+        [JsonProperty("generator")]
         public string Generator { get; set; }
 
         /// <summary>
         /// User ID when uploading multiple logs to DPSReport
         /// </summary>
+        [JsonProperty("userid")]
         public string UserId { get; set; }
 
         /// <summary>
         /// EVTC sub-object of DPSReport's response
         /// </summary>
-        public DPSReportJSONEvtc Evtc { get; set; }
+        [JsonProperty("evtc")]
+        public DPSReportJSONEVTC EVTC { get; set; }
 
         /// <summary>
         /// Encounter sub-object of DPSReport's response
         /// </summary>
+        [JsonProperty("encounter")]
         public DPSReportJSONEncounter Encounter { get; set; }
 
         /// <summary>
         /// Players sub-objects of DPSReport's response
         /// </summary>
+        [JsonProperty("players")]
         public Dictionary<string, DPSReportJSONPlayers> Players { get; set; } = new Dictionary<string, DPSReportJSONPlayers>();
 
         /// <summary>
         /// ExtraJSON sub-objects of DPSReport's response
         /// </summary>
+        [JsonProperty("extrajson")]
         public DPSReportJSONExtraJSON ExtraJSON { get; set; }
 
         /// <summary>

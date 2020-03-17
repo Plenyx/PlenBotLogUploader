@@ -10,12 +10,12 @@ using System.Windows.Forms;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using Microsoft.Win32;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.GW2Raidar;
 using PlenBotLogUploader.TwitchIRCClient;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
 {
@@ -596,8 +596,8 @@ namespace PlenBotLogUploader
                         string response = await responseMessage.Content.ReadAsStringAsync();
                         if (responseMessage.StatusCode == HttpStatusCode.OK)
                         {
-                            GW2RaidarJSONEncounterNew responseJSON = new JavaScriptSerializer().Deserialize<GW2RaidarJSONEncounterNew>(response);
-                            AddToText($">:> Uploaded {Path.GetFileName(file)} to GW2Raidar under id {responseJSON.Upload_id}");
+                            var responseJSON = JsonConvert.DeserializeObject<GW2RaidarJSONEncounterNew>(response);
+                            AddToText($">:> Uploaded {Path.GetFileName(file)} to GW2Raidar under id {responseJSON.UploadId}");
                         }
                         else if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
                         {
@@ -642,7 +642,7 @@ namespace PlenBotLogUploader
                                     string response = await responseMessage.Content.ReadAsStringAsync();
                                     try
                                     {
-                                        DPSReportJSON reportJSON = new JavaScriptSerializer().Deserialize<DPSReportJSON>(response);
+                                        var reportJSON = JsonConvert.DeserializeObject<DPSReportJSON>(response);
                                         if (String.IsNullOrEmpty(reportJSON.Error))
                                         {
                                             bossId = reportJSON.Encounter.BossId;
@@ -653,8 +653,7 @@ namespace PlenBotLogUploader
                                                 try
                                                 {
                                                     string jsonString = await HttpClientController.DownloadFileToStringAsync($"https://dps.report/getJson?permalink={reportJSON.Permalink}");
-                                                    JavaScriptSerializer serilizer = new JavaScriptSerializer() { MaxJsonLength = 15000000 };
-                                                    DPSReportJSONExtraJSON extraJSON = serilizer.Deserialize<DPSReportJSONExtraJSON>(jsonString);
+                                                    var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
                                                     reportJSON.ExtraJSON = extraJSON;
                                                     bossId = reportJSON.ExtraJSON.TriggerID;
                                                 }
@@ -665,7 +664,7 @@ namespace PlenBotLogUploader
                                             }
                                             // log file
                                             File.AppendAllText($"{LocalDir}uploaded_logs.csv",
-                                                $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.Permalink}\n");
+                                                $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
                                             // Twitch chat
                                             LastLogLocation = reportJSON.Permalink;
                                             if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
@@ -713,8 +712,9 @@ namespace PlenBotLogUploader
                                             AddToText($">:> Unable to process file {Path.GetFileName(file)}, error while deserilising the response.");
                                         }
                                     }
-                                    catch
+                                    catch(Exception e)
                                     {
+                                        AddToText(e.Message);
                                         AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
                                     }
                                 }

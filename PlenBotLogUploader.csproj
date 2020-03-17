@@ -73,7 +73,6 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -98,7 +97,7 @@
     <Compile Include="DPSReport\BossType.cs" />
     <Compile Include="DPSReport\DPSReportJSON.cs" />
     <Compile Include="DPSReport\DPSReportJSONEncounter.cs" />
-    <Compile Include="DPSReport\DPSReportJSONEvtc.cs" />
+    <Compile Include="DPSReport\DPSReportJSONEVTC.cs" />
     <Compile Include="DPSReport\DPSReportJSONExtraJSON.cs" />
     <Compile Include="DPSReport\DPSReportJSONPlayers.cs" />
     <Compile Include="DPSReport\EliteSpecs.cs" />
@@ -196,7 +195,6 @@
     </Compile>
     <Compile Include="GW2Raidar\GW2RaidarJSONAuth.cs" />
     <Compile Include="GW2Raidar\GW2RaidarJSONEncounterNew.cs" />
-    <Compile Include="DiscordAPI\DiscordAPIJSONContentConverter.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingResponse.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />

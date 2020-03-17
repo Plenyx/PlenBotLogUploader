@@ -3,8 +3,8 @@ using System.Net.Http;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using PlenBotLogUploader.GW2Raidar;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
 {
@@ -45,8 +45,8 @@ namespace PlenBotLogUploader
                     using (var responseMessage = await mainLink.HttpClientController.PostAsync(uri, content))
                     {
                         string response = await responseMessage.Content.ReadAsStringAsync();
-                        GW2RaidarJSONAuth responseJSON = new JavaScriptSerializer().Deserialize<GW2RaidarJSONAuth>(response);
-                        if ((responseJSON.Non_field_errors == null) || (responseJSON.Non_field_errors.Count == 0))
+                        var responseJSON = JsonConvert.DeserializeObject<GW2RaidarJSONAuth>(response);
+                        if ((responseJSON.NonFieldErrors == null) || (responseJSON.NonFieldErrors.Count == 0))
                         {
                             Properties.Settings.Default.RaidarOAuth = responseJSON.Token;
                             textBoxUsername.Text = "";
@@ -54,9 +54,9 @@ namespace PlenBotLogUploader
                             groupBoxCredentials.Enabled = false;
                             groupBoxSettings.Enabled = true;
                         }
-                        else if (responseJSON.Non_field_errors.Count > 0)
+                        else if (responseJSON.NonFieldErrors.Count > 0)
                         {
-                            MessageBox.Show(responseJSON.Non_field_errors[0], "An error authenticating with GW2Raidar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(responseJSON.NonFieldErrors[0], "An error authenticating with GW2Raidar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }

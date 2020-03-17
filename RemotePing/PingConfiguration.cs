@@ -1,10 +1,10 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.PlenyxAPI;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.RemotePing
 {
@@ -37,8 +37,8 @@ namespace PlenBotLogUploader.RemotePing
                     string response = await controller.DownloadFileToStringAsync($"{URL}pingtest/{auth}");
                     try
                     {
-                        PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
-                        if (pingtest.IsValid())
+                        var pingTest = JsonConvert.DeserializeObject<PlenyxAPIPingTest>(response);
+                        if (pingTest.IsValid())
                         {
                             return new TestPingResult(true, "Ping settings are valid.");
                         }
@@ -70,7 +70,7 @@ namespace PlenBotLogUploader.RemotePing
                         { "permalink", reportJSON.Permalink },
                         { "bossId", reportJSON.Encounter.BossId.ToString() },
                         { "success", (reportJSON.Encounter.Success ?? false) ? "1" : "0" },
-                        { "arcversion", $"{reportJSON.Evtc.Type}{reportJSON.Evtc.Version}" }
+                        { "arcversion", $"{reportJSON.EVTC.Type}{reportJSON.EVTC.Version}" }
                     };
                     if (Authentication.Active)
                     {
@@ -97,7 +97,7 @@ namespace PlenBotLogUploader.RemotePing
                                 responseMessage = await controller.PostAsync(URL, content);
                             }
                             string response = await responseMessage.Content.ReadAsStringAsync();
-                            PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
+                            var statusJSON = JsonConvert.DeserializeObject<PlenyxAPIPingResponse>(response);
                             if (statusJSON.Status?.IsSuccess() ?? false)
                             {
                                 mainLink.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
@@ -120,7 +120,7 @@ namespace PlenBotLogUploader.RemotePing
                 else if (Method.Equals(PingMethod.Get) || Method.Equals(PingMethod.Delete))
                 {
                     string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
-                    string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.Evtc.Type}{reportJSON.Evtc.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
+                    string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.EVTC.Type}{reportJSON.EVTC.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
                     string fullLink = $"{URL}?{encounterInfo}";
                     if (URL.Contains("?"))
                     {
@@ -149,7 +149,7 @@ namespace PlenBotLogUploader.RemotePing
                             responseMessage = await controller.GetAsync(fullLink);
                         }
                         string response = await responseMessage.Content.ReadAsStringAsync();
-                        PlenyxAPIPingResponse statusJSON = new JavaScriptSerializer().Deserialize<PlenyxAPIPingResponse>(response);
+                        var statusJSON = JsonConvert.DeserializeObject<PlenyxAPIPingResponse>(response);
                         if (statusJSON.Status?.IsSuccess() ?? false)
                         {
                             mainLink.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");

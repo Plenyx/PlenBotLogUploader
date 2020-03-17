@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.DiscordAPI
 {
@@ -40,8 +40,8 @@ namespace PlenBotLogUploader.DiscordAPI
             try
             {
                 string response = await httpController.DownloadFileToStringAsync(URL);
-                DiscordAPIJSONWebhookResponse pingtest = new JavaScriptSerializer().Deserialize<DiscordAPIJSONWebhookResponse>(response);
-                return pingtest.Success;
+                var pingTest = JsonConvert.DeserializeObject<DiscordAPIJSONWebhookResponse>(response);
+                return pingTest.Success;
             }
             catch
             {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Web.Script.Serialization;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.PlenyxAPI;
 using PlenBotLogUploader.RemotePing;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
 {
@@ -144,7 +144,7 @@ namespace PlenBotLogUploader
                     string response = await controller.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/{auth}");
                     try
                     {
-                        PlenyxAPIPingTest pingtest = new JavaScriptSerializer().Deserialize<PlenyxAPIPingTest>(response);
+                        var pingtest = JsonConvert.DeserializeObject<PlenyxAPIPingTest>(response);
                         if (pingtest.IsValid())
                         {
                             MessageBox.Show("Ping settings are valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

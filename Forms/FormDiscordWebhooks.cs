@@ -6,10 +6,10 @@ using System.Net.Http;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.DiscordAPI;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
 {
@@ -120,7 +120,7 @@ namespace PlenBotLogUploader
             {
                 Title = bossName,
                 Url = reportJSON.Permalink,
-                Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
+                Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
                 Color = color,
                 Thumbnail = discordContentEmbedThumbnail
             };
@@ -132,7 +132,7 @@ namespace PlenBotLogUploader
             {
                 Title = bossName,
                 Url = reportJSON.Permalink,
-                Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
+                Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
                 Color = color,
                 Thumbnail = discordContentEmbedThumbnail
             };
@@ -141,7 +141,7 @@ namespace PlenBotLogUploader
                 List<DiscordAPIJSONContentEmbedField> fields = new List<DiscordAPIJSONContentEmbedField>();
                 foreach (var player in reportJSON.Players.Values)
                 {
-                    fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.Character_name, Value = $"```{player.Display_name}\n\n{Players.ResolveSpecName(player.Profession, player.Elite_spec)}```", Inline = true });
+                    fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.CharacterName, Value = $"```{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.Elite_spec)}```", Inline = true });
                 }
                 discordContentEmbedForPlayers.Fields = fields.ToArray();
             }
@@ -151,10 +151,8 @@ namespace PlenBotLogUploader
             };
             try
             {
-                var serialiser = new JavaScriptSerializer();
-                serialiser.RegisterConverters(new[] { new DiscordAPIJSONContentConverter() });
-                string jsonContentWithoutPlayers = serialiser.Serialize(discordContentWithoutPlayers);
-                string jsonContentWithPlayers = serialiser.Serialize(discordContentWithPlayers);
+                string jsonContentWithoutPlayers = JsonConvert.SerializeObject(discordContentWithoutPlayers);
+                string jsonContentWithPlayers = JsonConvert.SerializeObject(discordContentWithPlayers);
                 foreach (var key in AllWebhooks.Keys)
                 {
                     var webhook = AllWebhooks[key];
@@ -192,38 +190,38 @@ namespace PlenBotLogUploader
         public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
             var RaidLogs = reportsJSON
-                    .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
-                    .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.Evtc.BossId) })
+                    .Where(anon => Bosses.GetWingForBoss(anon.EVTC.BossId) > 0)
+                    .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.EVTC.BossId) })
                     .OrderBy(anon => anon.LogData.UploadTime)
                     .ToList();
             if (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing))
             {
                 RaidLogs = reportsJSON
-                    .Where(anon => Bosses.GetWingForBoss(anon.Evtc.BossId) > 0)
-                    .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.Evtc.BossId) })
-                    .OrderBy(anon => Bosses.GetWingForBoss(anon.LogData.Evtc.BossId))
+                    .Where(anon => Bosses.GetWingForBoss(anon.EVTC.BossId) > 0)
+                    .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.EVTC.BossId) })
+                    .OrderBy(anon => Bosses.GetWingForBoss(anon.LogData.EVTC.BossId))
                     .ThenBy(anon => Bosses.GetBossOrder(anon.LogData.Encounter.BossId))
                     .ThenBy(anon => anon.LogData.UploadTime)
                     .ToList();
             }
             var FractalLogs = reportsJSON
                 .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.Evtc.BossId))
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
                     .First().Value.Type.Equals(BossType.Fractal))
                 .ToList();
             var StrikeLogs = reportsJSON
                 .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.Evtc.BossId))
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
                     .First().Value.Type.Equals(BossType.Strike))
                 .ToList();
             var GolemLogs = reportsJSON
                 .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.Evtc.BossId))
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
                     .First().Value.Type.Equals(BossType.Golem))
                 .ToList();
             var WvWLogs = reportsJSON
                 .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.Evtc.BossId))
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
                     .First().Value.Type.Equals(BossType.WvW))
                 .ToList();
             StringBuilder builder = new StringBuilder();
@@ -261,10 +259,10 @@ namespace PlenBotLogUploader
                     int lastWing = 0;
                     foreach (var data in RaidLogs)
                     {
-                        if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.Evtc.BossId)))
+                        if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.EVTC.BossId)))
                         {
                             builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
-                            lastWing = Bosses.GetWingForBoss(data.LogData.Evtc.BossId);
+                            lastWing = Bosses.GetWingForBoss(data.LogData.EVTC.BossId);
                         }
                         string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossDataRef = allBosses
@@ -414,9 +412,7 @@ namespace PlenBotLogUploader
             };
             try
             {
-                var serialiser = new JavaScriptSerializer();
-                serialiser.RegisterConverters(new[] { new DiscordAPIJSONContentConverter() });
-                string jsonContent = serialiser.Serialize(discordContent);
+                string jsonContent = JsonConvert.SerializeObject(discordContent);
                 foreach (var key in AllWebhooks.Keys)
                 {
                     var webhook = AllWebhooks[key];
