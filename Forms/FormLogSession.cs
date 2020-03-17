@@ -43,7 +43,6 @@ namespace PlenBotLogUploader
                 buttonUnPauseSession.Enabled = false;
                 SessionRunning = false;
                 sessionPaused = false;
-                groupBoxSessionSettings.Enabled = true;
                 stopWatch.Stop();
                 string elapsedTime = NiceTime.ParseTimeSpanHMS(stopWatch.Elapsed);
                 int sortBy = radioButtonSortByUpload.Checked ? 1 : 0;
@@ -73,7 +72,6 @@ namespace PlenBotLogUploader
                 buttonUnPauseSession.Enabled = true;
                 SessionRunning = true;
                 sessionPaused = false;
-                groupBoxSessionSettings.Enabled = false;
                 stopWatch.Start();
                 sessionTimeStarted = DateTime.Now;
             }
