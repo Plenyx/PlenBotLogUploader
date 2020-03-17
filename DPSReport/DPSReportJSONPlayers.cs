@@ -14,6 +14,6 @@ namespace PlenBotLogUploader.DPSReport
         public int Profession { get; set; }
 
         [JsonProperty("elite_spec")]
-        public int Elite_spec { get; set; }
+        public int EliteSpec { get; set; }
     }
 }

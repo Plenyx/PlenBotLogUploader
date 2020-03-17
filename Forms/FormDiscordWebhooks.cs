@@ -20,9 +20,9 @@ namespace PlenBotLogUploader
         public Dictionary<int, DiscordWebhookData> AllWebhooks { get; set; }
 
         // fields
-        private FormMain mainLink;
+        private readonly FormMain mainLink;
+        private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         private int webhookIdsKey = 0;
-        private Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
 
         // consts
         private const int maxAllowedMessageSize = 1800;
@@ -141,7 +141,7 @@ namespace PlenBotLogUploader
                 List<DiscordAPIJSONContentEmbedField> fields = new List<DiscordAPIJSONContentEmbedField>();
                 foreach (var player in reportJSON.Players.Values)
                 {
-                    fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.CharacterName, Value = $"```{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.Elite_spec)}```", Inline = true });
+                    fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.CharacterName, Value = $"```\n{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.EliteSpec)}\n```", Inline = true });
                 }
                 discordContentEmbedForPlayers.Fields = fields.ToArray();
             }

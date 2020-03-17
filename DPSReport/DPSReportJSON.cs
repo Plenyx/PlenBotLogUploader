@@ -71,6 +71,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// Returns an error if one was encountered
         /// </summary>
+        [JsonProperty("error")]
         public string Error { get; set; }
 
         /// <summary>

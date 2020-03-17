@@ -15,7 +15,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>A dictionary with all encounters</returns>
         public static Dictionary<int, BossData> GetAllBosses()
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = new Dictionary<int, BossData>();
             }
@@ -30,7 +30,7 @@ namespace PlenBotLogUploader.DPSReport
         public static Dictionary<int, BossData> FromFile(string file)
         {
             var allBosses = GetAllBosses();
-            if(allBosses.Count > 0)
+            if (allBosses.Count > 0)
             {
                 allBosses.Clear();
             }
@@ -104,7 +104,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>wing number</returns>
         public static int GetWingForBoss(int bossId)
         {
-            switch(bossId)
+            switch (bossId)
             {
                 case (int)BossIds.ValeGuardian:
                 case (int)BossIds.Gorseval:
@@ -150,7 +150,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>order of the encounter within a wing</returns>
         public static int GetBossOrder(int bossId)
         {
-            switch(bossId)
+            switch (bossId)
             {
                 case (int)BossIds.ValeGuardian:
                 case (int)BossIds.Slothasor:
@@ -195,7 +195,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>wing name</returns>
         public static string GetWingName(int wingNumber)
         {
-            switch(wingNumber)
+            switch (wingNumber)
             {
                 case 1:
                     return "Spirit Vale";

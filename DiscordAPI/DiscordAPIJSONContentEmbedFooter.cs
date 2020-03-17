@@ -17,6 +17,6 @@ namespace PlenBotLogUploader.DiscordAPI
         /// url of the footer icon (only supports http(s) and attachments)
         /// </summary>
         [JsonProperty("icon_url")]
-        public string Icon_url { get; set; } = "https://plenbot.net/uploader/img/favicon.png";
+        public string IconUrl { get; set; } = "https://plenbot.net/uploader/img/favicon.png";
     }
 }
