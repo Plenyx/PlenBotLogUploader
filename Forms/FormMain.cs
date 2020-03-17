@@ -712,9 +712,8 @@ namespace PlenBotLogUploader
                                             AddToText($">:> Unable to process file {Path.GetFileName(file)}, error while deserilising the response.");
                                         }
                                     }
-                                    catch(Exception e)
+                                    catch
                                     {
-                                        AddToText(e.Message);
                                         AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
                                     }
                                 }

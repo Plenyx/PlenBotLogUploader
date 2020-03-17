@@ -66,7 +66,6 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// ExtraJSON sub-objects of DPSReport's response
         /// </summary>
-        [JsonProperty("extrajson")]
         public DPSReportJSONExtraJSON ExtraJSON { get; set; }
 
         /// <summary>
