@@ -1042,11 +1042,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            notifyIconTray.Visible = false;
-            Properties.Settings.Default.Save();
-        }
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e) => Properties.Settings.Default.Save();
 
         private void buttonChangeTwitchChannel_Click(object sender, EventArgs e) => twitchNameLink.Show();
 
