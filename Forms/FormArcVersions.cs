@@ -46,6 +46,7 @@ namespace PlenBotLogUploader
                         GW2Location = location;
                         Properties.Settings.Default.GW2Location = location;
                         buttonEnabler.Enabled = true;
+                        buttonCheckNow.Enabled = true;
                     }
                 }
             }

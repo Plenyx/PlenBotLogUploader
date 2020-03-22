@@ -167,6 +167,7 @@ namespace PlenBotLogUploader
                     {
                         Task.Run(() => { arcVersionsLink.StartTimerAsync(true); });
                         arcVersionsLink.buttonEnabler.Enabled = true;
+                        arcVersionsLink.buttonCheckNow.Enabled = true;
                     }
                     else
                     {
@@ -525,10 +526,17 @@ namespace PlenBotLogUploader
             else
             {
                 var messagePre = s.IndexOf(' ');
-                richTextBoxUploadInfo.SelectionColor = Color.Blue;
-                richTextBoxUploadInfo.AppendText(s.Substring(0, messagePre + 1));
-                richTextBoxUploadInfo.SelectionColor = Color.Black;
-                richTextBoxUploadInfo.AppendText(s.Substring(messagePre) + Environment.NewLine);
+                if (messagePre != -1)
+                {
+                    richTextBoxUploadInfo.SelectionColor = Color.Blue;
+                    richTextBoxUploadInfo.AppendText(s.Substring(0, messagePre + 1));
+                    richTextBoxUploadInfo.SelectionColor = Color.Black;
+                    richTextBoxUploadInfo.AppendText($"{s.Substring(messagePre)}{Environment.NewLine}");
+                }
+                else
+                {
+                    richTextBoxUploadInfo.AppendText($"{s}{Environment.NewLine}");
+                }
                 richTextBoxUploadInfo.SelectionStart = richTextBoxUploadInfo.TextLength;
                 richTextBoxUploadInfo.ScrollToCaret();
             }

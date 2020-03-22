@@ -36,9 +36,9 @@
             this.labelInformation = new System.Windows.Forms.Label();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxAutoUpdateArc = new System.Windows.Forms.CheckBox();
             this.buttonEnabler = new System.Windows.Forms.Button();
             this.labelIssues = new System.Windows.Forms.Label();
-            this.checkBoxAutoUpdateArc = new System.Windows.Forms.CheckBox();
             this.groupBoxUpdating.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.SuspendLayout();
@@ -60,6 +60,7 @@
             // 
             // buttonCheckNow
             // 
+            this.buttonCheckNow.Enabled = false;
             this.buttonCheckNow.Location = new System.Drawing.Point(6, 48);
             this.buttonCheckNow.Name = "buttonCheckNow";
             this.buttonCheckNow.Size = new System.Drawing.Size(130, 23);
@@ -112,6 +113,16 @@
             this.groupBoxSettings.TabStop = false;
             this.groupBoxSettings.Text = "Settings";
             // 
+            // checkBoxAutoUpdateArc
+            // 
+            this.checkBoxAutoUpdateArc.AutoSize = true;
+            this.checkBoxAutoUpdateArc.Location = new System.Drawing.Point(6, 106);
+            this.checkBoxAutoUpdateArc.Name = "checkBoxAutoUpdateArc";
+            this.checkBoxAutoUpdateArc.Size = new System.Drawing.Size(119, 17);
+            this.checkBoxAutoUpdateArc.TabIndex = 3;
+            this.checkBoxAutoUpdateArc.Text = "Auto update arcdps";
+            this.checkBoxAutoUpdateArc.UseVisualStyleBackColor = true;
+            // 
             // buttonEnabler
             // 
             this.buttonEnabler.Enabled = false;
@@ -132,16 +143,6 @@
             this.labelIssues.Text = "If you are experiencing issues with these settings please disable checking so you" +
     " are not bothered by notifications and contact me on Discord or Github";
             this.labelIssues.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // checkBoxAutoUpdateArc
-            // 
-            this.checkBoxAutoUpdateArc.AutoSize = true;
-            this.checkBoxAutoUpdateArc.Location = new System.Drawing.Point(6, 106);
-            this.checkBoxAutoUpdateArc.Name = "checkBoxAutoUpdateArc";
-            this.checkBoxAutoUpdateArc.Size = new System.Drawing.Size(119, 17);
-            this.checkBoxAutoUpdateArc.TabIndex = 3;
-            this.checkBoxAutoUpdateArc.Text = "Auto update arcdps";
-            this.checkBoxAutoUpdateArc.UseVisualStyleBackColor = true;
             // 
             // FormArcVersions
             // 
@@ -171,7 +172,6 @@
 
         private System.Windows.Forms.Button buttonChangeGWLocation;
         private System.Windows.Forms.Timer timerCheckNewArcversion;
-        private System.Windows.Forms.Button buttonCheckNow;
         private System.Windows.Forms.GroupBox groupBoxUpdating;
         private System.Windows.Forms.GroupBox groupBoxSettings;
         public System.Windows.Forms.Button buttonEnabler;
@@ -179,5 +179,6 @@
         private System.Windows.Forms.Label labelInformation;
         private System.Windows.Forms.Label labelIssues;
         public System.Windows.Forms.CheckBox checkBoxAutoUpdateArc;
+        public System.Windows.Forms.Button buttonCheckNow;
     }
 }
