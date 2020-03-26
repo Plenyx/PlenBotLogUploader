@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using PlenBotLogUploader.DPSReport;
 
 namespace PlenBotLogUploader.Tools
@@ -61,6 +62,29 @@ namespace PlenBotLogUploader.Tools
                         var whisper = new BossData() { BossId = (int)BossIds.WhisperOfJormag, Name = "Whisper of Jormag", SuccessMsg = Properties.Settings.Default.BossTemplateSuccess, FailMsg = Properties.Settings.Default.BossTemplateFail, Icon = "https://wiki.guildwars2.com/images/c/c0/Mini_Whisper_of_Jormag.png", Type = BossType.Strike };
                         File.AppendAllText($@"{localDir}\boss_data.txt", whisper.ToString(true));
                     }
+                }
+                catch
+                {
+                    // do nothing, since the file does not exist, or is corrupted (data does not line up)
+                }
+            }
+            // Release 57
+            if (Properties.Settings.Default.SavedVersion < 57)
+            {
+                /// add another parameter for webhook txt file
+                try
+                {
+                    var lines = new List<string>();
+                    using (StreamReader reader = new StreamReader($@"{localDir}\discord_webhooks.txt"))
+                    {
+                        string line = reader.ReadLine();
+                        lines.Add(line);
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            lines.Add($"{line}<;>");
+                        }
+                    }
+                    File.WriteAllLines($@"{localDir}\discord_webhooks.txt", lines);
                 }
                 catch
                 {

@@ -205,6 +205,7 @@
     <Compile Include="RemotePing\PingConfiguration.cs" />
     <Compile Include="RemotePing\PingMethod.cs" />
     <Compile Include="RemotePing\TestPingResult.cs" />
+    <Compile Include="Tools\BossesDisableHelperClass.cs" />
     <Compile Include="Tools\CompatibilityUpdate.cs" />
     <Compile Include="Tools\Gw2SharpHelper.cs" />
     <Compile Include="Tools\HttpClientController.cs" />

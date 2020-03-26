@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.DiscordAPI
@@ -6,7 +7,7 @@ namespace PlenBotLogUploader.DiscordAPI
     public class DiscordWebhookData
     {
         /// <summary>
-        /// Tells if the webhook is currently active
+        /// Indicates whether the webhook is currently active
         /// </summary>
         public bool Active { get; set; } = false;
 
@@ -21,17 +22,22 @@ namespace PlenBotLogUploader.DiscordAPI
         public string URL { get; set; }
 
         /// <summary>
-        /// Tells if the webhook is executed only if the ecounter is a success
+        /// Indicates whether the webhook is executed only if the ecounter is a success
         /// </summary>
         public bool OnlySuccess { get; set; } = false;
 
         /// <summary>
-        /// Tells if players are showed in the webhook
+        /// Indicates whether players are showed in the webhook
         /// </summary>
         public bool ShowPlayers { get; set; } = true;
 
         /// <summary>
-        /// Tests if webhook is valid
+        /// A list containing boss ids which indicate, that the bosses with the ids shouldn't be posted via webhook
+        /// </summary>
+        public List<int> BossesDisable { get; set; } = new List<int>();
+
+        /// <summary>
+        /// Tests whether webhook is valid
         /// </summary>
         /// <param name="httpController">HttpClientController class used for using http connection</param>
         /// <returns>True if webhook is valid, false otherwise</returns>
@@ -47,6 +53,20 @@ namespace PlenBotLogUploader.DiscordAPI
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// True if boss is enabled for webhook broadcast, false otherwise; default: true
+        /// </summary>
+        /// <param name="bossId">Queried boss ID</param>
+        /// <returns></returns>
+        public bool IsBossEnabled(int bossId)
+        {
+            if (BossesDisable.Contains(bossId))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

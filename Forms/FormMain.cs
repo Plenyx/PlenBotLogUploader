@@ -42,12 +42,12 @@ namespace PlenBotLogUploader
         private readonly FormPings pingsLink;
         private readonly FormTwitchCommands twitchCommandsLink;
         private readonly FormLogSession logSessionLink;
+        private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
         private int logsCount = 0;
-        private Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
 
         // constants
         private const int minFileSize = 12288;
@@ -56,6 +56,7 @@ namespace PlenBotLogUploader
         #region constructor
         public FormMain()
         {
+            CompatibilityUpdate.DoUpdate(LocalDir);
             InitializeComponent();
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
@@ -84,7 +85,6 @@ namespace PlenBotLogUploader
             #endregion
             try
             {
-                CompatibilityUpdate.DoUpdate(LocalDir);
                 if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
@@ -345,7 +345,7 @@ namespace PlenBotLogUploader
         private void RichTextBoxUploadInfo_LinkClicked(object sender, LinkClickedEventArgs e) => Process.Start(e.LinkText);
         #endregion
 
-        #region required methods
+        #region main program methods
         // triggeres when a file is renamed within the folder, renaming is the last process done by arcdps to create evtc or zevtc files
         private async void OnLogCreated(object sender, FileSystemEventArgs e)
         {

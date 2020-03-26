@@ -47,13 +47,24 @@ namespace PlenBotLogUploader
                             int.TryParse(values[0], out int active);
                             int.TryParse(values[3], out int onlySuccess);
                             int.TryParse(values[4], out int showPlayers);
+                            var bossesDisable = values[5];
+                            var bossesDisableSplit = bossesDisable.Split(';');
+                            var bossesDisableList = new List<int>();
+                            foreach (var bossIdString in bossesDisableSplit)
+                            {
+                                if (int.TryParse(bossIdString, out int bossId))
+                                {
+                                    bossesDisableList.Add(bossId);
+                                }
+                            }
                             AddWebhook(new DiscordWebhookData()
                             {
                                 Active = active == 1,
                                 Name = values[1],
                                 URL = values[2],
                                 OnlySuccess = onlySuccess == 1,
-                                ShowPlayers = showPlayers == 1
+                                ShowPlayers = showPlayers == 1,
+                                BossesDisable = bossesDisableList
                             });
                         }
                     }
@@ -86,7 +97,7 @@ namespace PlenBotLogUploader
                     string active = webhook.Active ? "1" : "0";
                     string onlySuccess = webhook.OnlySuccess ? "1" : "0";
                     string showPlayers = webhook.ShowPlayers ? "1" : "0";
-                    await writer.WriteLineAsync($"{active}<;>{webhook.Name}<;>{webhook.URL}<;>{onlySuccess}<;>{showPlayers}");
+                    await writer.WriteLineAsync($"{active}<;>{webhook.Name}<;>{webhook.URL}<;>{onlySuccess}<;>{showPlayers}<;>{string.Join(";", webhook.BossesDisable.Select(anon => anon.ToString()).ToArray())}");
                 }
             }
         }
@@ -156,7 +167,7 @@ namespace PlenBotLogUploader
                 foreach (var key in AllWebhooks.Keys)
                 {
                     var webhook = AllWebhooks[key];
-                    if (!webhook.Active || (webhook.OnlySuccess && !(reportJSON.Encounter.Success ?? false)))
+                    if (!webhook.Active || (webhook.OnlySuccess && !(reportJSON.Encounter.Success ?? false)) || webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
                     {
                         continue;
                     }
