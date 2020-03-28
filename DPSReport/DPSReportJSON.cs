@@ -13,7 +13,7 @@ namespace PlenBotLogUploader.DPSReport
         /// DPSReport ID
         /// </summary>
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public string ID { get; set; }
 
         /// <summary>
         /// URL to DPSReport

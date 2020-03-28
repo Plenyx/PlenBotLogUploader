@@ -393,7 +393,7 @@ namespace PlenBotLogUploader
                     catch
                     {
                         Interlocked.Decrement(ref logsCount);
-                        AddToText(">:> Unable to upload the file: " + e.FullPath);
+                        AddToText($">:> Unable to upload the file: {e.FullPath}");
                     }
                 }
                 UpdateLogCount();
@@ -651,7 +651,7 @@ namespace PlenBotLogUploader
                                     try
                                     {
                                         var reportJSON = JsonConvert.DeserializeObject<DPSReportJSON>(response);
-                                        if (String.IsNullOrEmpty(reportJSON.Error))
+                                        if (string.IsNullOrEmpty(reportJSON.Error))
                                         {
                                             bossId = reportJSON.Encounter.BossId;
                                             string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
@@ -1240,7 +1240,7 @@ namespace PlenBotLogUploader
 
         private void ComboBoxMaxUploads_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Int32.TryParse(comboBoxMaxUploads.Text, out int threads))
+            if (int.TryParse(comboBoxMaxUploads.Text, out int threads))
             {
                 Properties.Settings.Default.MaxConcurrentUploads = threads;
                 semaphore?.Dispose();

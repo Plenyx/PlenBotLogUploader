@@ -65,9 +65,6 @@
     <StartupObject>PlenBotLogUploader.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gw2Sharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Gw2Sharp.0.8.2\lib\netstandard2.0\Gw2Sharp.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -207,7 +204,7 @@
     <Compile Include="RemotePing\TestPingResult.cs" />
     <Compile Include="Tools\BossesDisableHelperClass.cs" />
     <Compile Include="Tools\CompatibilityUpdate.cs" />
-    <Compile Include="Tools\Gw2SharpHelper.cs" />
+    <Compile Include="Tools\Gw2APIHelper.cs" />
     <Compile Include="Tools\HttpClientController.cs" />
     <Compile Include="Tools\LogSessionSettings.cs" />
     <Compile Include="Tools\LogSessionSortBy.cs" />
