@@ -435,6 +435,7 @@ namespace PlenBotLogUploader
                         AddToText(">>> https://github.com/Plenyx/PlenBotLogUploader/releases/");
                         AddToText(notes);
                         ShowBalloon("New release available for the uploader", $"If you want to update immediately, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
+                        Properties.Settings.Default.SavedVersion = Properties.Settings.Default.SavedVersion;
                     }
                     else
                     {
