@@ -47,14 +47,17 @@ namespace PlenBotLogUploader
                             int.TryParse(values[0], out int active);
                             int.TryParse(values[3], out int onlySuccess);
                             int.TryParse(values[4], out int showPlayers);
-                            var bossesDisable = values[5];
-                            var bossesDisableSplit = bossesDisable.Split(';');
                             var bossesDisableList = new List<int>();
-                            foreach (var bossIdString in bossesDisableSplit)
+                            if (values.Count() > 5)
                             {
-                                if (int.TryParse(bossIdString, out int bossId))
+                                var bossesDisable = values[5];
+                                var bossesDisableSplit = bossesDisable.Split(';');
+                                foreach (var bossIdString in bossesDisableSplit)
                                 {
-                                    bossesDisableList.Add(bossId);
+                                    if (int.TryParse(bossIdString, out int bossId))
+                                    {
+                                        bossesDisableList.Add(bossId);
+                                    }
                                 }
                             }
                             AddWebhook(new DiscordWebhookData()

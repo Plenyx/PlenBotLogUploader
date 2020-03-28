@@ -16,7 +16,6 @@ namespace PlenBotLogUploader.Tools
                 return;
             }
             /// start of updates
-            Properties.Settings.Default.Upgrade();
             // Release 55
             if (Properties.Settings.Default.SavedVersion < 55)
             {
@@ -92,7 +91,9 @@ namespace PlenBotLogUploader.Tools
                 }
             }
             // end of updates
+            Properties.Settings.Default.Upgrade();
             Properties.Settings.Default.SavedVersion = Properties.Settings.Default.ReleaseVersion;
+            Properties.Settings.Default.Save();
         }
     }
 }
