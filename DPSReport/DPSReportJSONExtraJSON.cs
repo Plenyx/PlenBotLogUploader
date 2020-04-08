@@ -24,5 +24,8 @@ namespace PlenBotLogUploader.DPSReport
 
         [JsonProperty("fightIcon")]
         public string FightIcon { get; set; }
+
+        [JsonProperty("isCM")]
+        public bool IsCM { get; set; }
     }
 }

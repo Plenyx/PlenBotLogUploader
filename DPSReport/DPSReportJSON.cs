@@ -92,7 +92,7 @@ namespace PlenBotLogUploader.DPSReport
         {
             get
             {
-                return ExtraJSON?.FightName.EndsWith(" CM") ?? false;
+                return ExtraJSON?.IsCM ?? false;
             }
         }
     }
