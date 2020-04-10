@@ -44,7 +44,7 @@ namespace PlenBotLogUploader
                 .ToDictionary(anon => anon.Key, anon => anon.Value);
             foreach (var bossNumber in bosses.Keys)
             {
-                checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass() { BossID = bosses[bossNumber].BossId, Text = $"{bosses[bossNumber].Type}: {bosses[bossNumber].Name} ({bosses[bossNumber].BossId})" }, data.IsBossEnabled(bosses[bossNumber].BossId));
+                checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass() { BossID = bosses[bossNumber].BossId, Text = $"{bosses[bossNumber].Type}: {bosses[bossNumber].Name} ({bosses[bossNumber].BossId})" }, data?.IsBossEnabled(bosses[bossNumber].BossId) ?? true);
             }
         }
 
