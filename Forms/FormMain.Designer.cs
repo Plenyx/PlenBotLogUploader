@@ -53,7 +53,6 @@
             this.toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenTwitchCommands = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemOpenRaidarSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenArcVersionsSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemDiscordWebhooks = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +66,6 @@
             this.checkBoxStartWhenWindowsStarts = new System.Windows.Forms.CheckBox();
             this.buttonDiscordWebhooks = new System.Windows.Forms.Button();
             this.buttonArcVersionChecking = new System.Windows.Forms.Button();
-            this.buttonRaidarSettings = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
             this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
@@ -289,7 +287,6 @@
             this.toolStripMenuItemOpenDPSReportServer,
             this.toolStripMenuItemOpenCustomName,
             this.toolStripMenuItemOpenTwitchCommands,
-            this.toolStripMenuItemOpenRaidarSettings,
             this.toolStripMenuItemOpenArcVersionsSettings,
             this.toolStripSeparatorSecond,
             this.toolStripMenuItemDiscordWebhooks,
@@ -341,13 +338,6 @@
             this.toolStripMenuItemOpenTwitchCommands.Text = "Open Twitch commands";
             this.toolStripMenuItemOpenTwitchCommands.Click += new System.EventHandler(this.ToolStripMenuItemOpenTwitchCommands_Click);
             // 
-            // toolStripMenuItemOpenRaidarSettings
-            // 
-            this.toolStripMenuItemOpenRaidarSettings.Name = "toolStripMenuItemOpenRaidarSettings";
-            this.toolStripMenuItemOpenRaidarSettings.Size = new System.Drawing.Size(277, 22);
-            this.toolStripMenuItemOpenRaidarSettings.Text = "Open GW2Raidar settings";
-            this.toolStripMenuItemOpenRaidarSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenRaidarSettings_Click);
-            // 
             // toolStripMenuItemOpenArcVersionsSettings
             // 
             this.toolStripMenuItemOpenArcVersionsSettings.Name = "toolStripMenuItemOpenArcVersionsSettings";
@@ -395,7 +385,6 @@
             this.groupBoxOtherSettings.Controls.Add(this.buttonDiscordWebhooks);
             this.groupBoxOtherSettings.Controls.Add(this.buttonArcVersionChecking);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
-            this.groupBoxOtherSettings.Controls.Add(this.buttonRaidarSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 382);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
@@ -471,16 +460,6 @@
             this.buttonArcVersionChecking.Text = "arcdps version checking settings";
             this.buttonArcVersionChecking.UseVisualStyleBackColor = true;
             this.buttonArcVersionChecking.Click += new System.EventHandler(this.buttonArcVersionChecking_Click);
-            // 
-            // buttonRaidarSettings
-            // 
-            this.buttonRaidarSettings.Location = new System.Drawing.Point(6, 121);
-            this.buttonRaidarSettings.Name = "buttonRaidarSettings";
-            this.buttonRaidarSettings.Size = new System.Drawing.Size(188, 23);
-            this.buttonRaidarSettings.TabIndex = 2;
-            this.buttonRaidarSettings.Text = "GW2Raidar settings";
-            this.buttonRaidarSettings.UseVisualStyleBackColor = true;
-            this.buttonRaidarSettings.Click += new System.EventHandler(this.buttonRaidarSettings_Click);
             // 
             // buttonPingSettings
             // 
@@ -578,7 +557,6 @@
         private System.Windows.Forms.Button buttonOpenLogs;
         private System.Windows.Forms.Button buttonCustomName;
         private System.Windows.Forms.Button buttonDPSReportServer;
-        private System.Windows.Forms.Button buttonRaidarSettings;
         private System.Windows.Forms.CheckBox checkBoxTrayMinimiseToIcon;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenDPSReportServer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenCustomName;
@@ -587,7 +565,6 @@
         private System.Windows.Forms.Button buttonDisConnectTwitch;
         public System.Windows.Forms.CheckBox checkBoxPostToTwitch;
         private System.Windows.Forms.CheckBox checkBoxTwitchOnlySuccess;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenRaidarSettings;
         private System.Windows.Forms.Button buttonArcVersionChecking;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenArcVersionsSettings;
         private System.Windows.Forms.Button buttonBossData;

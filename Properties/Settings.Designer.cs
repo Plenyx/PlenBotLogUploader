@@ -85,18 +85,6 @@ namespace PlenBotLogUploader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RaidarOAuth {
-            get {
-                return ((string)(this["RaidarOAuth"]));
-            }
-            set {
-                this["RaidarOAuth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool FirstTimeMinimise {
             get {
@@ -164,30 +152,6 @@ namespace PlenBotLogUploader.Properties {
             }
             set {
                 this["CustomTwitchNameEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RaidarTags {
-            get {
-                return ((string)(this["RaidarTags"]));
-            }
-            set {
-                this["RaidarTags"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool RaidarEnabled {
-            get {
-                return ((bool)(this["RaidarEnabled"]));
-            }
-            set {
-                this["RaidarEnabled"] = value;
             }
         }
         

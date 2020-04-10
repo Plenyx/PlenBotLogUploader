@@ -35,7 +35,6 @@ namespace PlenBotLogUploader
         private readonly FormTwitchNameSetup twitchNameLink;
         private readonly FormDPSReportServer dpsReportServerLink;
         private readonly FormCustomName customNameLink;
-        private readonly FormRaidar raidarLink;
         private readonly FormArcVersions arcVersionsLink;
         private readonly FormBossData bossDataLink;
         private readonly FormDiscordWebhooks discordWebhooksLink;
@@ -70,7 +69,6 @@ namespace PlenBotLogUploader
             dpsReportServerLink = new FormDPSReportServer(this);
             customNameLink = new FormCustomName(this);
             pingsLink = new FormPings(this);
-            raidarLink = new FormRaidar(this);
             arcVersionsLink = new FormArcVersions(this);
             bossDataLink = new FormBossData(this);
             discordWebhooksLink = new FormDiscordWebhooks(this);
@@ -79,7 +77,7 @@ namespace PlenBotLogUploader
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
-            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it.");
+            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it and OBS is running.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
@@ -153,13 +151,6 @@ namespace PlenBotLogUploader
                     Properties.Settings.Default.CustomTwitchName = Properties.Settings.Default.CustomTwitchName.ToLower();
                     customNameLink.textBoxCustomName.Text = Properties.Settings.Default.CustomTwitchName;
                     customNameLink.textBoxCustomOAuth.Text = Properties.Settings.Default.CustomTwitchOAuthPassword;
-                }
-                if (Properties.Settings.Default.RaidarOAuth != "")
-                {
-                    raidarLink.textBoxTags.Text = Properties.Settings.Default.RaidarTags;
-                    raidarLink.checkBoxEnableRaidar.Checked = Properties.Settings.Default.RaidarEnabled;
-                    raidarLink.groupBoxCredentials.Enabled = false;
-                    raidarLink.groupBoxSettings.Enabled = true;
                 }
                 arcVersionsLink.GW2Location = Properties.Settings.Default.GW2Location;
                 if (arcVersionsLink.GW2Location != "")
@@ -244,7 +235,6 @@ namespace PlenBotLogUploader
                 checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(checkBoxTwitchOnlySuccess_CheckedChanged);
                 checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(checkBoxStartWhenWindowsStarts_CheckedChanged);
                 comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
-                raidarLink.checkBoxEnableRaidar.CheckedChanged += new EventHandler(raidarLink.checkBoxEnableRaidar_CheckedChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
@@ -589,44 +579,6 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task HttpUploadLogToRaidarAsync(string file, StreamContent contentStream)
-        {
-            using (var content = new MultipartFormDataContent())
-            {
-                if (raidarLink.textBoxTags.Text.Length > 0)
-                {
-                    content.Add(new StringContent(raidarLink.textBoxTags.Text), "tags");
-                }
-                content.Add(contentStream, "file", Path.GetFileName(file));
-                try
-                {
-                    HttpClientController.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", Properties.Settings.Default.RaidarOAuth);
-                    using (var responseMessage = await HttpClientController.PutAsync("https://gw2raidar.com/api/v2/encounters/new", content))
-                    {
-                        string response = await responseMessage.Content.ReadAsStringAsync();
-                        if (responseMessage.StatusCode == HttpStatusCode.OK)
-                        {
-                            var responseJSON = JsonConvert.DeserializeObject<GW2RaidarJSONEncounterNew>(response);
-                            AddToText($">:> Uploaded {Path.GetFileName(file)} to GW2Raidar under id {responseJSON.UploadId}");
-                        }
-                        else if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
-                        {
-                            AddToText($">:> Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid name/password");
-                        }
-                        else if ((responseMessage.StatusCode == HttpStatusCode.BadRequest) || responseMessage.StatusCode == HttpStatusCode.InternalServerError)
-                        {
-                            AddToText($">:> Unable to upload file {Path.GetFileName(file)}, raidar responded with invalid file/file error");
-                        }
-                    }
-                    HttpClientController.DefaultRequestHeaders.Authorization = null;
-                }
-                catch
-                {
-                    AddToText($">:> Unable to upload file {Path.GetFileName(file)}, raidar not responding");
-                }
-            }
-        }
-
         public async Task HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
             using (var content = new MultipartFormDataContent())
@@ -731,24 +683,6 @@ namespace PlenBotLogUploader
                             catch
                             {
                                 AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
-                            }
-                        }
-                    }
-                    // upload to raidar
-                    if (raidarLink.checkBoxEnableRaidar.Checked && !allBosses.Where(anon => anon.Value.Type.Equals(BossType.WvW)).Select(anon => anon.Value.BossId).Contains(bossId))
-                    {
-                        using (FileStream inputStream = File.OpenRead(file))
-                        {
-                            using (StreamContent contentStream = new StreamContent(inputStream))
-                            {
-                                try
-                                {
-                                    await HttpUploadLogToRaidarAsync(file, contentStream);
-                                }
-                                catch
-                                {
-                                    AddToText($">:> Unable to upload file {Path.GetFileName(file)} to raidar, raidar not responding");
-                                }
                             }
                         }
                     }
@@ -1087,12 +1021,6 @@ namespace PlenBotLogUploader
             pingsLink.BringToFront();
         }
 
-        private void buttonRaidarSettings_Click(object sender, EventArgs e)
-        {
-            raidarLink.Show();
-            raidarLink.BringToFront();
-        }
-
         private void buttonArcVersionChecking_Click(object sender, EventArgs e)
         {
             arcVersionsLink.Show();
@@ -1133,12 +1061,6 @@ namespace PlenBotLogUploader
         {
             pingsLink.Show();
             pingsLink.BringToFront();
-        }
-
-        private void toolStripMenuItemOpenRaidarSettings_Click(object sender, EventArgs e)
-        {
-            raidarLink.Show();
-            raidarLink.BringToFront();
         }
 
         private void toolStripMenuItemOpenArcVersionsSettings_Click(object sender, EventArgs e)

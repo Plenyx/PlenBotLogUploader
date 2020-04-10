@@ -151,12 +151,6 @@
     <Compile Include="Forms\FormPings.Designer.cs">
       <DependentUpon>FormPings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormRaidar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormRaidar.Designer.cs">
-      <DependentUpon>FormRaidar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FormBossData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -238,9 +232,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPings.resx">
       <DependentUpon>FormPings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormRaidar.resx">
-      <DependentUpon>FormRaidar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormBossData.resx">
       <DependentUpon>FormBossData.cs</DependentUpon>
