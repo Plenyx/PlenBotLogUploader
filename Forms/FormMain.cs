@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Linq;
 using System.Drawing;
 using System.Net.Http;
@@ -13,7 +12,6 @@ using System.Collections.Generic;
 using Microsoft.Win32;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
-using PlenBotLogUploader.GW2Raidar;
 using PlenBotLogUploader.TwitchIRCClient;
 using Newtonsoft.Json;
 

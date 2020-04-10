@@ -187,8 +187,6 @@
     <Compile Include="Forms\FormTwitchCommands.Designer.cs">
       <DependentUpon>FormTwitchCommands.cs</DependentUpon>
     </Compile>
-    <Compile Include="GW2Raidar\GW2RaidarJSONAuth.cs" />
-    <Compile Include="GW2Raidar\GW2RaidarJSONEncounterNew.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingResponse.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
     <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
