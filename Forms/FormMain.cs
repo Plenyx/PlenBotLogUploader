@@ -56,7 +56,8 @@ namespace PlenBotLogUploader
         #region constructor
         public FormMain()
         {
-            CompatibilityUpdate.DoUpdate(LocalDir);
+            CompatibilityUpdate.SetLocalDir(LocalDir);
+            CompatibilityUpdate.DoUpdate();
             InitializeComponent();
             Properties.Settings.Default.PropertyChanged += delegate { Properties.Settings.Default.Save(); };
             Icon = Properties.Resources.AppIcon;
