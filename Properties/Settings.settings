@@ -101,5 +101,8 @@
     <Setting Name="TwitchCommandSong" Type="System.String" Scope="User">
       <Value Profile="(Default)">!song</Value>
     </Setting>
+    <Setting Name="GW2APIKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -139,6 +139,12 @@
     <Compile Include="Forms\FormEditDiscordWebhook.Designer.cs">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormGW2API.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormGW2API.Designer.cs">
+      <DependentUpon>FormGW2API.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormLogSession.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditDiscordWebhook.resx">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormGW2API.resx">
+      <DependentUpon>FormGW2API.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormLogSession.resx">
       <DependentUpon>FormLogSession.cs</DependentUpon>

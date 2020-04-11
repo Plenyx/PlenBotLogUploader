@@ -71,6 +71,7 @@
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.richTextBoxUploadInfo = new System.Windows.Forms.RichTextBox();
+            this.buttonGW2API = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -294,7 +295,7 @@
             this.toolStripSeparatorThird,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 242);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 220);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -378,6 +379,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonGW2API);
             this.groupBoxOtherSettings.Controls.Add(this.comboBoxMaxUploads);
             this.groupBoxOtherSettings.Controls.Add(this.labelMaximumUploads);
             this.groupBoxOtherSettings.Controls.Add(this.buttonReset);
@@ -504,6 +506,16 @@
             this.richTextBoxUploadInfo.Text = "";
             this.richTextBoxUploadInfo.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
             // 
+            // buttonGW2API
+            // 
+            this.buttonGW2API.Location = new System.Drawing.Point(6, 121);
+            this.buttonGW2API.Name = "buttonGW2API";
+            this.buttonGW2API.Size = new System.Drawing.Size(188, 23);
+            this.buttonGW2API.TabIndex = 12;
+            this.buttonGW2API.Text = "GW2 API settings";
+            this.buttonGW2API.UseVisualStyleBackColor = true;
+            this.buttonGW2API.Click += new System.EventHandler(this.buttonGW2API_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -582,6 +594,7 @@
         private System.Windows.Forms.ComboBox comboBoxMaxUploads;
         private System.Windows.Forms.Label labelMaximumUploads;
         private System.Windows.Forms.RichTextBox richTextBoxUploadInfo;
+        private System.Windows.Forms.Button buttonGW2API;
     }
 }
 

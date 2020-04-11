@@ -39,6 +39,7 @@ namespace PlenBotLogUploader
         private readonly FormPings pingsLink;
         private readonly FormTwitchCommands twitchCommandsLink;
         private readonly FormLogSession logSessionLink;
+        private readonly FormGW2API gw2APILink;
         private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
@@ -72,6 +73,7 @@ namespace PlenBotLogUploader
             discordWebhooksLink = new FormDiscordWebhooks(this);
             twitchCommandsLink = new FormTwitchCommands(this);
             logSessionLink = new FormLogSession(this);
+            gw2APILink = new FormGW2API(this);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
@@ -179,6 +181,7 @@ namespace PlenBotLogUploader
                 logSessionLink.radioButtonSortByUpload.Checked = Properties.Settings.Default.SessionSort == 1;
                 logSessionLink.checkBoxSaveToFile.Checked = Properties.Settings.Default.SessionSaveToFile;
                 arcVersionsLink.checkBoxAutoUpdateArc.Checked = Properties.Settings.Default.ArcAutoUpdate;
+                gw2APILink.textBoxAPIKey.Text = Properties.Settings.Default.GW2APIKey;
                 if (Properties.Settings.Default.FirstRun)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1168,6 +1171,12 @@ namespace PlenBotLogUploader
                 semaphore?.Dispose();
                 semaphore = new SemaphoreSlim(threads, threads);
             }
+        }
+
+        private void buttonGW2API_Click(object sender, EventArgs e)
+        {
+            gw2APILink.Show();
+            gw2APILink.BringToFront();
         }
         #endregion
     }

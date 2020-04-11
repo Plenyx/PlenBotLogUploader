@@ -415,5 +415,17 @@ namespace PlenBotLogUploader.Properties {
                 this["TwitchCommandSong"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GW2APIKey {
+            get {
+                return ((string)(this["GW2APIKey"]));
+            }
+            set {
+                this["GW2APIKey"] = value;
+            }
+        }
     }
 }
