@@ -86,7 +86,7 @@ namespace PlenBotLogUploader.DPSReport
         }
 
         /// <summary>
-        /// whether the enouncter was in challenge mode (works only for raids and certain fractals)
+        /// whether the enouncter was in challenge mode
         /// </summary>
         public bool ChallengeMode
         {

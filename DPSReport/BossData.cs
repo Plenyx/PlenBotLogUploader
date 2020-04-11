@@ -53,7 +53,7 @@ namespace PlenBotLogUploader.DPSReport
             {
                 return base.ToString();
             }
-            return $"{BossId}<;>{Name}<;>{SuccessMsg}<;>{FailMsg}<;>{Icon}<;>{(int)(Type)}<;>{((Event) ? "1" : "0")}";
+            return $"{BossId}<;>{Name}<;>{SuccessMsg}<;>{FailMsg}<;>{Icon}<;>{(int)Type}<;>{(Event ? "1" : "0")}";
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ namespace PlenBotLogUploader.DPSReport
     /// <summary>
     /// Contains static methods for working with encounters
     /// </summary>
-    public class Bosses
+    public static class Bosses
     {
         private static Dictionary<int, BossData> instance = null;
         /// <summary>

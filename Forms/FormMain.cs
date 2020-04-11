@@ -704,7 +704,7 @@ namespace PlenBotLogUploader
             var processes = Process.GetProcesses();
             foreach (var process in processes)
             {
-                if ((process.ProcessName.ToLower() == "obs64") || (process.ProcessName.ToLower() == "streamlabs obs"))
+                if ((process.ProcessName.ToLower() == "obs") || (process.ProcessName.ToLower() == "obs64") || (process.ProcessName.ToLower() == "streamlabs obs"))
                 {
                     return true;
                 }
