@@ -561,9 +561,7 @@ namespace PlenBotLogUploader
                     .Select(anon => anon.Value);
                 if (bossDataRef.Count() == 1)
                 {
-                    string format = (reportJSON.Encounter.Success ?? false) ? bossDataRef.First().SuccessMsg : bossDataRef.First().FailMsg;
-                    format = format.Replace("<boss>", (reportJSON.ChallengeMode) ? bossDataRef.First().Name + " CM" : bossDataRef.First().Name);
-                    format = format.Replace("<log>", reportJSON.Permalink);
+                    var format = bossDataRef.First().TwitchMessageFormat(reportJSON);
                     if (!string.IsNullOrWhiteSpace(format))
                     {
                         await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, format);

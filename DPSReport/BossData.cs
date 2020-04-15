@@ -57,6 +57,19 @@ namespace PlenBotLogUploader.DPSReport
         }
 
         /// <summary>
+        /// Formats Twitch message based on the DPSReport's JSON response.
+        /// </summary>
+        /// <param name="reportJSON">DPSReport's JSON response</param>
+        /// <returns>Formatted string</returns>
+        public string TwitchMessageFormat(DPSReportJSON reportJSON)
+        {
+            string format = (reportJSON.Encounter.Success ?? false) ? SuccessMsg : FailMsg;
+            format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);
+            format = format.Replace("<log>", reportJSON.Permalink);
+            return format;
+        }
+
+        /// <summary>
         /// Creates an BossData object from saved format.
         /// </summary>
         /// <param name="savedFormat">string representing the object</param>
