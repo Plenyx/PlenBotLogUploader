@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using PlenBotLogUploader.Tools;
-using PlenBotLogUploader.PlenyxAPI;
 using PlenBotLogUploader.RemotePing;
-using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
 {
@@ -37,7 +34,7 @@ namespace PlenBotLogUploader
             }
             textBoxName.Text = config?.Name ?? "";
             textBoxURL.Text = config?.URL ?? "";
-            textBoxAuthName.Text = config?.Authentication.AuthName ?? "";
+            textBoxAuthName.Text = config?.Authentication.AuthName ?? "Bearer";
             textBoxAuthToken.Text = config?.Authentication.AuthToken ?? "";
             PingMethod method = config?.Method ?? PingMethod.Post;
             switch (method)
@@ -58,6 +55,10 @@ namespace PlenBotLogUploader
             if (config?.Authentication.UseAsAuth ?? false)
             {
                 radioButtonUseAuthField.Checked = true;
+            }
+            else if (!config?.Authentication.UseAsAuth ?? false)
+            {
+                radioButtonUseNormalField.Checked = true;
             }
         }
 
@@ -123,49 +124,38 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async void PingTestAsync()
+        private async void buttonTestPing_Click(object sender, EventArgs e)
         {
-            try
+            PingMethod chosenMethod = PingMethod.Post;
+            if (radioButtonMethodPut.Checked)
             {
-                using (HttpClientController controller = new HttpClientController())
-                {
-                    string auth = "";
-                    if ((textBoxAuthName.Text != "") || (textBoxAuthToken.Text != ""))
-                    {
-                        if (radioButtonUseNormalField.Checked)
-                        {
-                            auth = $"?{textBoxAuthName.Text.ToLower()}={textBoxAuthToken.Text}";
-                        }
-                        else
-                        {
-                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(textBoxAuthName.Text, textBoxAuthToken.Text);
-                        }
-                    }
-                    string response = await controller.DownloadFileToStringAsync($"{textBoxURL.Text}pingtest/{auth}");
-                    try
-                    {
-                        var pingtest = JsonConvert.DeserializeObject<PlenyxAPIPingTest>(response);
-                        if (pingtest.IsValid())
-                        {
-                            MessageBox.Show("Ping settings are valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Sign is not valid.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("There has been an error checking the server settings.\nIs the server correctly set?", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    }
-                }
+                chosenMethod = PingMethod.Put;
             }
-            catch
+            else if (radioButtonMethodGet.Checked)
             {
-                MessageBox.Show("There has been an error pinging the server.\nCheck your settings.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                chosenMethod = PingMethod.Get;
+            }
+            else if (radioButtonMethodDelete.Checked)
+            {
+                chosenMethod = PingMethod.Delete;
+            }
+            var auth = new PingAuthentication()
+            {
+                Active = (textBoxAuthToken.Text == "") ? false : true,
+                UseAsAuth = radioButtonUseAuthField.Checked,
+                AuthName = textBoxAuthName.Text,
+                AuthToken = textBoxAuthToken.Text
+            };
+            var tempPing = new PingConfiguration() { Active = false, Name = textBoxName.Text, URL = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
+            var result = await tempPing.PingServerAsync(null, null);
+            if (result)
+            {
+                MessageBox.Show("Ping test successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
-
-        private void buttonTestPing_Click(object sender, EventArgs e) => PingTestAsync();
     }
 }

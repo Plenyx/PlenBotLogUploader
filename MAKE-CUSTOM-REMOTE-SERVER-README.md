@@ -3,42 +3,40 @@
 ## General rules
 * your server must respond in JSON with utf-8 encoding
 * your server must be accessible from the machine from which you intent to use the uploader
-
-## Ping test
-For "ping test" functionality to work you need to implement JSON response structure found in PlenyxAPI/PlenyxAPIPingTest.cs.
-
-Additionaly, your URL link needs to support /pingtest/ as the append to use the ping test.
-
-The JSON response structure is as follows:
-* status ***!***
-  * code
-  * msg
-* error ***!***
-  * code
-  * msg
-
-You can only have one of the structures marked with ***!*** in the response.
-
-For a successful ping test the status code needs to be either 200 or 201.
+* your server should be responding in http status codes
 
 ## Pinging logs
-To ping logs themselves you need to implement response that would react to either GET, DELETE, PUT or POST method requests.
+To ping logs you need to implement response that would react to either GET, DELETE, PUT or POST method requests.
 
-You need to implement JSON respond structure found in PlenyxAPI/PlenyxAPIPingResponse.cs.
+You need to implement this JSON response structure:
 
-The JSON response structure is as follows:
-* status ***!***
-  * code
-  * msg
-* error ***!***
-  * code
-  * msg
-* log ***?***
-  * user_id
-  * log_id
+    {
+      "msg": (string)
+    }
 
-You can only have one of the structures marked with ***!*** in the response.
+Where "**msg**" is used as a text response from the server and will be displayed on the main window of PlenBotLogUploader and *is a string*.
 
-Structure marked with ***?*** is optional and only returned on successful ping.
+## Processing logs on the remote server
+For POST and PUT methods, the fields are encoded as *application/x-www-form-urlencoded* (*/ping/*)
 
-For a successful ping the status code needs to be either 200, 201 or 204.
+For GET and DELETE methods, the fields are encoded *within the url request* (*/ping/?bossId=...*)
+
+These are the fields being sent:
+
+    {
+      "permalink": (string),
+      "bossId": (int),
+      "success": (string),
+      "arcversion": (string)
+    }
+
+* "**permalink**" contains a direct link to a processed log on dps.report *as a string*
+* "**bossId**" contains the encounter (boss) id *as an integer*
+* "**success**" contains "1" if the encounter was a success, "0" otherwise *as a string*
+* "**arcversion**" contains the arcdps version used to create the original log *as a string*
+
+## Remote server examples
+[PHP example with post request and Authorisation header](https://github.com/Plenyx/PlenBotLogUploader/blob/master/php-remote-template.php)
+
+## Other links
+[HTTP Status Codes list](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)

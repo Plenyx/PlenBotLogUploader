@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonTestPing = new System.Windows.Forms.Button();
-            this.groupBoxAuthentication = new System.Windows.Forms.GroupBox();
+            this.groupBoxAuthorisation = new System.Windows.Forms.GroupBox();
+            this.labelAuthToken = new System.Windows.Forms.Label();
+            this.labelAuthName = new System.Windows.Forms.Label();
+            this.textBoxAuthName = new System.Windows.Forms.TextBox();
             this.radioButtonUseNormalField = new System.Windows.Forms.RadioButton();
             this.radioButtonUseAuthField = new System.Windows.Forms.RadioButton();
             this.textBoxAuthToken = new System.Windows.Forms.TextBox();
@@ -42,39 +44,52 @@
             this.radioButtonMethodPost = new System.Windows.Forms.RadioButton();
             this.groupBoxName = new System.Windows.Forms.GroupBox();
             this.textBoxName = new System.Windows.Forms.TextBox();
-            this.textBoxAuthName = new System.Windows.Forms.TextBox();
-            this.labelAuthName = new System.Windows.Forms.Label();
-            this.labelAuthToken = new System.Windows.Forms.Label();
-            this.groupBoxAuthentication.SuspendLayout();
+            this.buttonTestPing = new System.Windows.Forms.Button();
+            this.groupBoxAuthorisation.SuspendLayout();
             this.groupBoxUrl.SuspendLayout();
             this.groupBoxMethod.SuspendLayout();
             this.groupBoxName.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonTestPing
+            // groupBoxAuthorisation
             // 
-            this.buttonTestPing.Location = new System.Drawing.Point(407, 192);
-            this.buttonTestPing.Name = "buttonTestPing";
-            this.buttonTestPing.Size = new System.Drawing.Size(84, 29);
-            this.buttonTestPing.TabIndex = 7;
-            this.buttonTestPing.Text = "Test ping";
-            this.buttonTestPing.UseVisualStyleBackColor = true;
-            this.buttonTestPing.Click += new System.EventHandler(this.buttonTestPing_Click);
+            this.groupBoxAuthorisation.Controls.Add(this.labelAuthToken);
+            this.groupBoxAuthorisation.Controls.Add(this.labelAuthName);
+            this.groupBoxAuthorisation.Controls.Add(this.textBoxAuthName);
+            this.groupBoxAuthorisation.Controls.Add(this.radioButtonUseNormalField);
+            this.groupBoxAuthorisation.Controls.Add(this.radioButtonUseAuthField);
+            this.groupBoxAuthorisation.Controls.Add(this.textBoxAuthToken);
+            this.groupBoxAuthorisation.Location = new System.Drawing.Point(12, 112);
+            this.groupBoxAuthorisation.Name = "groupBoxAuthorisation";
+            this.groupBoxAuthorisation.Size = new System.Drawing.Size(282, 109);
+            this.groupBoxAuthorisation.TabIndex = 5;
+            this.groupBoxAuthorisation.TabStop = false;
+            this.groupBoxAuthorisation.Text = "Authorisation";
             // 
-            // groupBoxAuthentication
+            // labelAuthToken
             // 
-            this.groupBoxAuthentication.Controls.Add(this.labelAuthToken);
-            this.groupBoxAuthentication.Controls.Add(this.labelAuthName);
-            this.groupBoxAuthentication.Controls.Add(this.textBoxAuthName);
-            this.groupBoxAuthentication.Controls.Add(this.radioButtonUseNormalField);
-            this.groupBoxAuthentication.Controls.Add(this.radioButtonUseAuthField);
-            this.groupBoxAuthentication.Controls.Add(this.textBoxAuthToken);
-            this.groupBoxAuthentication.Location = new System.Drawing.Point(12, 112);
-            this.groupBoxAuthentication.Name = "groupBoxAuthentication";
-            this.groupBoxAuthentication.Size = new System.Drawing.Size(282, 109);
-            this.groupBoxAuthentication.TabIndex = 5;
-            this.groupBoxAuthentication.TabStop = false;
-            this.groupBoxAuthentication.Text = "Authentication";
+            this.labelAuthToken.AutoSize = true;
+            this.labelAuthToken.Location = new System.Drawing.Point(3, 61);
+            this.labelAuthToken.Name = "labelAuthToken";
+            this.labelAuthToken.Size = new System.Drawing.Size(62, 13);
+            this.labelAuthToken.TabIndex = 5;
+            this.labelAuthToken.Text = "Auth token:";
+            // 
+            // labelAuthName
+            // 
+            this.labelAuthName.AutoSize = true;
+            this.labelAuthName.Location = new System.Drawing.Point(3, 19);
+            this.labelAuthName.Name = "labelAuthName";
+            this.labelAuthName.Size = new System.Drawing.Size(101, 13);
+            this.labelAuthName.TabIndex = 4;
+            this.labelAuthName.Text = "Auth scheme name:";
+            // 
+            // textBoxAuthName
+            // 
+            this.textBoxAuthName.Location = new System.Drawing.Point(6, 35);
+            this.textBoxAuthName.Name = "textBoxAuthName";
+            this.textBoxAuthName.Size = new System.Drawing.Size(139, 20);
+            this.textBoxAuthName.TabIndex = 3;
             // 
             // radioButtonUseNormalField
             // 
@@ -92,10 +107,10 @@
             this.radioButtonUseAuthField.Checked = true;
             this.radioButtonUseAuthField.Location = new System.Drawing.Point(151, 35);
             this.radioButtonUseAuthField.Name = "radioButtonUseAuthField";
-            this.radioButtonUseAuthField.Size = new System.Drawing.Size(129, 17);
+            this.radioButtonUseAuthField.Size = new System.Drawing.Size(122, 17);
             this.radioButtonUseAuthField.TabIndex = 1;
             this.radioButtonUseAuthField.TabStop = true;
-            this.radioButtonUseAuthField.Text = "Use as Authentication";
+            this.radioButtonUseAuthField.Text = "Use as Authorisation";
             this.radioButtonUseAuthField.UseVisualStyleBackColor = true;
             // 
             // textBoxAuthToken
@@ -197,39 +212,24 @@
             this.textBoxName.Size = new System.Drawing.Size(460, 20);
             this.textBoxName.TabIndex = 0;
             // 
-            // textBoxAuthName
+            // buttonTestPing
             // 
-            this.textBoxAuthName.Location = new System.Drawing.Point(6, 35);
-            this.textBoxAuthName.Name = "textBoxAuthName";
-            this.textBoxAuthName.Size = new System.Drawing.Size(139, 20);
-            this.textBoxAuthName.TabIndex = 3;
-            // 
-            // labelAuthName
-            // 
-            this.labelAuthName.AutoSize = true;
-            this.labelAuthName.Location = new System.Drawing.Point(3, 19);
-            this.labelAuthName.Name = "labelAuthName";
-            this.labelAuthName.Size = new System.Drawing.Size(61, 13);
-            this.labelAuthName.TabIndex = 4;
-            this.labelAuthName.Text = "Auth name:";
-            // 
-            // labelAuthToken
-            // 
-            this.labelAuthToken.AutoSize = true;
-            this.labelAuthToken.Location = new System.Drawing.Point(3, 61);
-            this.labelAuthToken.Name = "labelAuthToken";
-            this.labelAuthToken.Size = new System.Drawing.Size(62, 13);
-            this.labelAuthToken.TabIndex = 5;
-            this.labelAuthToken.Text = "Auth token:";
+            this.buttonTestPing.Location = new System.Drawing.Point(416, 198);
+            this.buttonTestPing.Name = "buttonTestPing";
+            this.buttonTestPing.Size = new System.Drawing.Size(75, 23);
+            this.buttonTestPing.TabIndex = 10;
+            this.buttonTestPing.Text = "Test Ping";
+            this.buttonTestPing.UseVisualStyleBackColor = true;
+            this.buttonTestPing.Click += new System.EventHandler(this.buttonTestPing_Click);
             // 
             // FormEditPing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 230);
-            this.Controls.Add(this.groupBoxName);
             this.Controls.Add(this.buttonTestPing);
-            this.Controls.Add(this.groupBoxAuthentication);
+            this.Controls.Add(this.groupBoxName);
+            this.Controls.Add(this.groupBoxAuthorisation);
             this.Controls.Add(this.groupBoxMethod);
             this.Controls.Add(this.groupBoxUrl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -239,8 +239,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit remote ping settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPing_FormClosing);
-            this.groupBoxAuthentication.ResumeLayout(false);
-            this.groupBoxAuthentication.PerformLayout();
+            this.groupBoxAuthorisation.ResumeLayout(false);
+            this.groupBoxAuthorisation.PerformLayout();
             this.groupBoxUrl.ResumeLayout(false);
             this.groupBoxUrl.PerformLayout();
             this.groupBoxMethod.ResumeLayout(false);
@@ -254,8 +254,7 @@
         #endregion
         private System.Windows.Forms.GroupBox groupBoxMethod;
         private System.Windows.Forms.GroupBox groupBoxUrl;
-        private System.Windows.Forms.GroupBox groupBoxAuthentication;
-        private System.Windows.Forms.Button buttonTestPing;
+        private System.Windows.Forms.GroupBox groupBoxAuthorisation;
         private System.Windows.Forms.RadioButton radioButtonUseNormalField;
         private System.Windows.Forms.RadioButton radioButtonUseAuthField;
         private System.Windows.Forms.RadioButton radioButtonMethodDelete;
@@ -269,5 +268,6 @@
         private System.Windows.Forms.Label labelAuthToken;
         private System.Windows.Forms.Label labelAuthName;
         private System.Windows.Forms.TextBox textBoxAuthName;
+        private System.Windows.Forms.Button buttonTestPing;
     }
 }

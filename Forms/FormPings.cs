@@ -160,14 +160,14 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewPings.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                var result = await AllPings[reservedId].TestPingAsync();
-                if (result.Success)
+                var result = await AllPings[reservedId].PingServerAsync(null, null);
+                if (result)
                 {
-                    MessageBox.Show(result.Message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Ping test successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show(result.Message, "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
             }
         }

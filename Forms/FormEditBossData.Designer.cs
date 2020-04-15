@@ -41,13 +41,13 @@
             this.groupBoxCrucial = new System.Windows.Forms.GroupBox();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.groupBoxBossType = new System.Windows.Forms.GroupBox();
-            this.radioButtonTypeNone = new System.Windows.Forms.RadioButton();
-            this.radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
-            this.radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
-            this.radioButtonTypeStrike = new System.Windows.Forms.RadioButton();
-            this.radioButtonTypeWvW = new System.Windows.Forms.RadioButton();
-            this.radioButtonTypeGolem = new System.Windows.Forms.RadioButton();
             this.checkBoxEvent = new System.Windows.Forms.CheckBox();
+            this.radioButtonTypeGolem = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeWvW = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeStrike = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
+            this.radioButtonTypeNone = new System.Windows.Forms.RadioButton();
             this.groupBoxCrucial.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.groupBoxBossType.SuspendLayout();
@@ -159,7 +159,7 @@
             this.groupBoxOtherSettings.Size = new System.Drawing.Size(379, 139);
             this.groupBoxOtherSettings.TabIndex = 11;
             this.groupBoxOtherSettings.TabStop = false;
-            this.groupBoxOtherSettings.Text = "Uploader settings for the boss";
+            this.groupBoxOtherSettings.Text = "Uploader settings for the boss (empty messages are not sent to Twitch)";
             // 
             // groupBoxBossType
             // 
@@ -177,58 +177,15 @@
             this.groupBoxBossType.TabStop = false;
             this.groupBoxBossType.Text = "Boss type";
             // 
-            // radioButtonTypeNone
+            // checkBoxEvent
             // 
-            this.radioButtonTypeNone.AutoSize = true;
-            this.radioButtonTypeNone.Checked = true;
-            this.radioButtonTypeNone.Location = new System.Drawing.Point(7, 19);
-            this.radioButtonTypeNone.Name = "radioButtonTypeNone";
-            this.radioButtonTypeNone.Size = new System.Drawing.Size(51, 17);
-            this.radioButtonTypeNone.TabIndex = 0;
-            this.radioButtonTypeNone.TabStop = true;
-            this.radioButtonTypeNone.Text = "None";
-            this.radioButtonTypeNone.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonTypeRaid
-            // 
-            this.radioButtonTypeRaid.AutoSize = true;
-            this.radioButtonTypeRaid.Location = new System.Drawing.Point(64, 19);
-            this.radioButtonTypeRaid.Name = "radioButtonTypeRaid";
-            this.radioButtonTypeRaid.Size = new System.Drawing.Size(47, 17);
-            this.radioButtonTypeRaid.TabIndex = 1;
-            this.radioButtonTypeRaid.Text = "Raid";
-            this.radioButtonTypeRaid.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonTypeFractal
-            // 
-            this.radioButtonTypeFractal.AutoSize = true;
-            this.radioButtonTypeFractal.Location = new System.Drawing.Point(117, 19);
-            this.radioButtonTypeFractal.Name = "radioButtonTypeFractal";
-            this.radioButtonTypeFractal.Size = new System.Drawing.Size(57, 17);
-            this.radioButtonTypeFractal.TabIndex = 2;
-            this.radioButtonTypeFractal.Text = "Fractal";
-            this.radioButtonTypeFractal.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonTypeStrike
-            // 
-            this.radioButtonTypeStrike.AutoSize = true;
-            this.radioButtonTypeStrike.Location = new System.Drawing.Point(180, 19);
-            this.radioButtonTypeStrike.Name = "radioButtonTypeStrike";
-            this.radioButtonTypeStrike.Size = new System.Drawing.Size(52, 17);
-            this.radioButtonTypeStrike.TabIndex = 3;
-            this.radioButtonTypeStrike.Text = "Strike";
-            this.radioButtonTypeStrike.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonTypeWvW
-            // 
-            this.radioButtonTypeWvW.AutoSize = true;
-            this.radioButtonTypeWvW.Location = new System.Drawing.Point(299, 19);
-            this.radioButtonTypeWvW.Name = "radioButtonTypeWvW";
-            this.radioButtonTypeWvW.Size = new System.Drawing.Size(53, 17);
-            this.radioButtonTypeWvW.TabIndex = 4;
-            this.radioButtonTypeWvW.TabStop = true;
-            this.radioButtonTypeWvW.Text = "WvW";
-            this.radioButtonTypeWvW.UseVisualStyleBackColor = true;
+            this.checkBoxEvent.AutoSize = true;
+            this.checkBoxEvent.Location = new System.Drawing.Point(7, 43);
+            this.checkBoxEvent.Name = "checkBoxEvent";
+            this.checkBoxEvent.Size = new System.Drawing.Size(54, 17);
+            this.checkBoxEvent.TabIndex = 6;
+            this.checkBoxEvent.Text = "Event";
+            this.checkBoxEvent.UseVisualStyleBackColor = true;
             // 
             // radioButtonTypeGolem
             // 
@@ -241,15 +198,58 @@
             this.radioButtonTypeGolem.Text = "Golem";
             this.radioButtonTypeGolem.UseVisualStyleBackColor = true;
             // 
-            // checkBoxEvent
+            // radioButtonTypeWvW
             // 
-            this.checkBoxEvent.AutoSize = true;
-            this.checkBoxEvent.Location = new System.Drawing.Point(7, 43);
-            this.checkBoxEvent.Name = "checkBoxEvent";
-            this.checkBoxEvent.Size = new System.Drawing.Size(54, 17);
-            this.checkBoxEvent.TabIndex = 6;
-            this.checkBoxEvent.Text = "Event";
-            this.checkBoxEvent.UseVisualStyleBackColor = true;
+            this.radioButtonTypeWvW.AutoSize = true;
+            this.radioButtonTypeWvW.Location = new System.Drawing.Point(299, 19);
+            this.radioButtonTypeWvW.Name = "radioButtonTypeWvW";
+            this.radioButtonTypeWvW.Size = new System.Drawing.Size(53, 17);
+            this.radioButtonTypeWvW.TabIndex = 4;
+            this.radioButtonTypeWvW.TabStop = true;
+            this.radioButtonTypeWvW.Text = "WvW";
+            this.radioButtonTypeWvW.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeStrike
+            // 
+            this.radioButtonTypeStrike.AutoSize = true;
+            this.radioButtonTypeStrike.Location = new System.Drawing.Point(180, 19);
+            this.radioButtonTypeStrike.Name = "radioButtonTypeStrike";
+            this.radioButtonTypeStrike.Size = new System.Drawing.Size(52, 17);
+            this.radioButtonTypeStrike.TabIndex = 3;
+            this.radioButtonTypeStrike.Text = "Strike";
+            this.radioButtonTypeStrike.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeFractal
+            // 
+            this.radioButtonTypeFractal.AutoSize = true;
+            this.radioButtonTypeFractal.Location = new System.Drawing.Point(117, 19);
+            this.radioButtonTypeFractal.Name = "radioButtonTypeFractal";
+            this.radioButtonTypeFractal.Size = new System.Drawing.Size(57, 17);
+            this.radioButtonTypeFractal.TabIndex = 2;
+            this.radioButtonTypeFractal.Text = "Fractal";
+            this.radioButtonTypeFractal.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeRaid
+            // 
+            this.radioButtonTypeRaid.AutoSize = true;
+            this.radioButtonTypeRaid.Location = new System.Drawing.Point(64, 19);
+            this.radioButtonTypeRaid.Name = "radioButtonTypeRaid";
+            this.radioButtonTypeRaid.Size = new System.Drawing.Size(47, 17);
+            this.radioButtonTypeRaid.TabIndex = 1;
+            this.radioButtonTypeRaid.Text = "Raid";
+            this.radioButtonTypeRaid.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTypeNone
+            // 
+            this.radioButtonTypeNone.AutoSize = true;
+            this.radioButtonTypeNone.Checked = true;
+            this.radioButtonTypeNone.Location = new System.Drawing.Point(7, 19);
+            this.radioButtonTypeNone.Name = "radioButtonTypeNone";
+            this.radioButtonTypeNone.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonTypeNone.TabIndex = 0;
+            this.radioButtonTypeNone.TabStop = true;
+            this.radioButtonTypeNone.Text = "None";
+            this.radioButtonTypeNone.UseVisualStyleBackColor = true;
             // 
             // FormEditBossData
             // 

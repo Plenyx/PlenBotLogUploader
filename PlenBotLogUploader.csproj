@@ -194,12 +194,9 @@
       <DependentUpon>FormTwitchCommands.cs</DependentUpon>
     </Compile>
     <Compile Include="PlenyxAPI\PlenyxAPIPingResponse.cs" />
-    <Compile Include="PlenyxAPI\PlenyxAPIPingTest.cs" />
-    <Compile Include="PlenyxAPI\PlenyxAPIStatus.cs" />
     <Compile Include="RemotePing\PingAuthentication.cs" />
     <Compile Include="RemotePing\PingConfiguration.cs" />
     <Compile Include="RemotePing\PingMethod.cs" />
-    <Compile Include="RemotePing\TestPingResult.cs" />
     <Compile Include="Tools\BossesDisableHelperClass.cs" />
     <Compile Include="Tools\CompatibilityUpdate.cs" />
     <Compile Include="Tools\Gw2APIHelper.cs" />

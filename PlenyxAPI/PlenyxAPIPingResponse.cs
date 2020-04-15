@@ -4,11 +4,8 @@ namespace PlenBotLogUploader.PlenyxAPI
 {
     public class PlenyxAPIPingResponse
     {
-        [JsonProperty("status")]
-        public PlenyxAPIStatus Status { get; set; }
-
-        [JsonProperty("error")]
-        public PlenyxAPIStatus Error { get; set; }
+        [JsonProperty("msg")]
+        public string Message { get; set; }
 
         [JsonProperty("user_id")]
         public int? UserId { get; set; }

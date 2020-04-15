@@ -16,71 +16,32 @@ namespace PlenBotLogUploader.RemotePing
         public PingMethod Method { get; set; } = PingMethod.Post;
         public PingAuthentication Authentication { get; set; }
 
-        public async Task<TestPingResult> TestPingAsync()
-        {
-            try
-            {
-                using (HttpClientController controller = new HttpClientController())
-                {
-                    string auth = "";
-                    if (Authentication.Active)
-                    {
-                        if (Authentication.UseAsAuth)
-                        {
-                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
-                        }
-                        else
-                        {
-                            auth = $"?{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
-                        }
-                    }
-                    string response = await controller.DownloadFileToStringAsync($"{URL}pingtest/{auth}");
-                    try
-                    {
-                        var pingTest = JsonConvert.DeserializeObject<PlenyxAPIPingTest>(response);
-                        if (pingTest.IsValid())
-                        {
-                            return new TestPingResult(true, "Ping settings are valid.");
-                        }
-                        else
-                        {
-                            return new TestPingResult(false, "Sign is not valid.");
-                        }
-                    }
-                    catch
-                    {
-                        return new TestPingResult(false, "There has been an error checking the server settings.\nIs the server correctly set?");
-                    }
-                }
-            }
-            catch
-            {
-                return new TestPingResult(false, "There has been an error pinging the server.\nCheck your settings.");
-            }
-        }
+        public async Task<bool> PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON) => await PingConfiguration.PingServerAsync(this, mainLink, reportJSON);
 
-        public async Task PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON)
+        public static async Task<bool> PingServerAsync(PingConfiguration configuration, FormMain mainLink, DPSReportJSON reportJSON)
         {
+            bool result = false;
             using (HttpClientController controller = new HttpClientController())
             {
-                if (Method.Equals(PingMethod.Post) || Method.Equals(PingMethod.Put))
+                if (configuration.Method.Equals(PingMethod.Post) || configuration.Method.Equals(PingMethod.Put))
                 {
-                    Dictionary<string, string> fields = new Dictionary<string, string>
+                    var fields = new Dictionary<string, string>();
+                    if (reportJSON != null)
                     {
-                        { "permalink", reportJSON.Permalink },
-                        { "bossId", reportJSON.Encounter.BossId.ToString() },
-                        { "success", (reportJSON.Encounter.Success ?? false) ? "1" : "0" },
-                        { "arcversion", $"{reportJSON.EVTC.Type}{reportJSON.EVTC.Version}" }
-                    };
-                    if (Authentication.Active)
+                        fields.Add("permalink", reportJSON.Permalink);
+                        fields.Add("bossId", reportJSON.Encounter.BossId.ToString());
+                        fields.Add("success", (reportJSON.Encounter.Success ?? false) ? "1" : "0");
+                        fields.Add("arcversion", $"{reportJSON.EVTC.Type}{reportJSON.EVTC.Version}");
+                    }
+                    if (configuration.Authentication.Active)
                     {
-                        if (!Authentication.UseAsAuth)
+                        if (!configuration.Authentication.UseAsAuth)
                         {
-                            fields.Add(Authentication.AuthName, Authentication.AuthToken);
+                            fields.Add(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
                         }
                         else
                         {
-                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
                         }
                     }
                     using (FormUrlEncodedContent content = new FormUrlEncodedContent(fields))
@@ -88,28 +49,29 @@ namespace PlenBotLogUploader.RemotePing
                         HttpResponseMessage responseMessage = null;
                         try
                         {
-                            if (Method.Equals(PingMethod.Put))
+                            if (configuration.Method.Equals(PingMethod.Put))
                             {
-                                responseMessage = await controller.PutAsync(URL, content);
+                                responseMessage = await controller.PutAsync(configuration.URL, content);
                             }
                             else
                             {
-                                responseMessage = await controller.PostAsync(URL, content);
+                                responseMessage = await controller.PostAsync(configuration.URL, content);
                             }
                             string response = await responseMessage.Content.ReadAsStringAsync();
                             var statusJSON = JsonConvert.DeserializeObject<PlenyxAPIPingResponse>(response);
-                            if (statusJSON.Status?.IsSuccess() ?? false)
+                            if (responseMessage.IsSuccessStatusCode)
                             {
-                                mainLink.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
+                                mainLink?.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
+                                result = true;
                             }
                             else
                             {
-                                mainLink.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
+                                mainLink?.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
                             }
                         }
                         catch
                         {
-                            mainLink.AddToText($">:> Unable to ping the server \"{Name}\", check the settings or the server is not responding.");
+                            mainLink?.AddToText($">:> Unable to ping the server \"{configuration.Name}\", check the settings or the server is not responding.");
                         }
                         finally
                         {
@@ -117,30 +79,34 @@ namespace PlenBotLogUploader.RemotePing
                         }
                     }
                 }
-                else if (Method.Equals(PingMethod.Get) || Method.Equals(PingMethod.Delete))
+                else if (configuration.Method.Equals(PingMethod.Get) || configuration.Method.Equals(PingMethod.Delete))
                 {
-                    string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
-                    string encounterInfo = $"bossId={reportJSON.Encounter.BossId.ToString()}&success={success}&arcversion={reportJSON.EVTC.Type}{reportJSON.EVTC.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
-                    string fullLink = $"{URL}?{encounterInfo}";
-                    if (URL.Contains("?"))
+                    string fullLink = $"{configuration.URL}?";
+                    if (reportJSON != null)
                     {
-                        fullLink = $"{URL}&{encounterInfo}";
-                    }
-                    if (Authentication.Active)
-                    {
-                        if (!Authentication.UseAsAuth)
+                        string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
+                        string encounterInfo = $"bossId={reportJSON.Encounter.BossId}&success={success}&arcversion={reportJSON.EVTC.Type}{reportJSON.EVTC.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
+                        fullLink = $"{fullLink}{encounterInfo}";
+                        if (configuration.URL.Contains("?"))
                         {
-                            fullLink = $"{fullLink}&{Authentication.AuthName.ToLower()}={Authentication.AuthToken}";
+                            fullLink = $"{configuration.URL}&{encounterInfo}";
+                        }
+                    }
+                    if (configuration.Authentication.Active)
+                    {
+                        if (!configuration.Authentication.UseAsAuth)
+                        {
+                            fullLink = $"{fullLink}&{configuration.Authentication.AuthName.ToLower()}={configuration.Authentication.AuthToken}";
                         }
                         else
                         {
-                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(Authentication.AuthName, Authentication.AuthToken);
+                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
                         }
                     }
                     HttpResponseMessage responseMessage = null;
                     try
                     {
-                        if (Method.Equals(PingMethod.Delete))
+                        if (configuration.Method.Equals(PingMethod.Delete))
                         {
                             responseMessage = await controller.DeleteAsync(fullLink);
                         }
@@ -150,24 +116,26 @@ namespace PlenBotLogUploader.RemotePing
                         }
                         string response = await responseMessage.Content.ReadAsStringAsync();
                         var statusJSON = JsonConvert.DeserializeObject<PlenyxAPIPingResponse>(response);
-                        if (statusJSON.Status?.IsSuccess() ?? false)
+                        if (responseMessage.IsSuccessStatusCode)
                         {
-                            mainLink.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Status.Msg} (code: {statusJSON.Status.Code})");
+                            mainLink?.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
+                            result = true;
                         }
                         else
                         {
-                            mainLink.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Error.Msg} (code: {statusJSON.Error.Code})");
+                            mainLink?.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
                         }
                     }
                     catch
                     {
-                        mainLink.AddToText($">:> Unable to ping the server \"{Name}\", check the settings or the server is not responding.");
+                        mainLink?.AddToText($">:> Unable to ping the server \"{configuration.Name}\", check the settings or the server is not responding.");
                     }
                     finally
                     {
                         responseMessage?.Dispose();
                     }
                 }
+                return result;
             }
         }
     }
