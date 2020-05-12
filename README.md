@@ -62,7 +62,7 @@ I plan to finish the following features:
 ## Remote server ping
 Remote server ping allows you to send log data to a custom server.
 
-If you wish to create your own server, follow the [MAKE-CUSTOM-REMOTE-SERVER-README](https://github.com/Plenyx/PlenBotLogUploader/blob/master/remote-server/README.md) readme.
+If you wish to create your own server, follow the [remote server readme](https://github.com/Plenyx/PlenBotLogUploader/blob/master/remote-server/README.md).
 
 ## TwitchIrcClient
 A client I developed for Irc which Twitch uses.
