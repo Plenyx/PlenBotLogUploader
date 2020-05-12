@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using PlenBotLogUploader.GW2API;
 using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.Tools
@@ -15,30 +16,40 @@ namespace PlenBotLogUploader.Tools
             this.apiKey = apiKey;
         }
 
-        public async Task<string> GetUserServerAsync()
+        public async Task<GW2Account> GetUserInfoAsync()
         {
             try
             {
-                var anonDef = new { World = 0 };
-                var anonDef2 = new { Name = "" };
                 using (var accountResponse = await HttpClientController.GetAsync($"{gw2api}v2/account?access_token={apiKey}"))
                 {
                     var accountContent = await accountResponse.Content.ReadAsStringAsync();
-                    var accountServer = JsonConvert.DeserializeAnonymousType(accountContent, anonDef);
-                    using (var worldResponse = await HttpClientController.GetAsync($"{gw2api}v2/worlds?id={accountServer.World}"))
-                    {
-                        var worldContent = await worldResponse.Content.ReadAsStringAsync();
-                        var serverName = JsonConvert.DeserializeAnonymousType(worldContent, anonDef2);
-                        return serverName.Name;
-                    }
+                    var accountInfo = JsonConvert.DeserializeObject<GW2Account>(accountContent);
+                    return accountInfo;
                 }
             }
             catch
             {
-                return "Unknown server";
+                return null;
             }
         }
 
-        public void Dispose() => HttpClientController.Dispose();
+        public async Task<GW2Server> GetUserServerAsync()
+        {
+            try
+            {
+                using (var accountResponse = await HttpClientController.GetAsync($"{gw2api}v2/account?access_token={apiKey}"))
+                {
+                    var accountContent = await accountResponse.Content.ReadAsStringAsync();
+                    var accountInfo = JsonConvert.DeserializeObject<GW2Account>(accountContent);
+                    return GW2.GW2Servers[accountInfo.World];
+                }
+            }
+            catch
+            {
+                return new GW2Server() { ID = 0, Name = "Unknown server" };
+            }
+        }
+
+        public void Dispose() => HttpClientController?.Dispose();
     }
 }

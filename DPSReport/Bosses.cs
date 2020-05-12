@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace PlenBotLogUploader.DPSReport
@@ -36,8 +37,31 @@ namespace PlenBotLogUploader.DPSReport
             }
             using (StreamReader reader = new StreamReader(file))
             {
-                string line = reader.ReadLine();
+                string line = reader.ReadLine(); // skip the first line
                 while ((line = reader.ReadLine()) != null)
+                {
+                    allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
+                }
+            }
+            return allBosses;
+        }
+
+        /// <summary>
+        /// Loads all bosses' data from a specified file asynchronously.
+        /// </summary>
+        /// <param name="file">The file from which the bosses are loaded from</param>
+        /// <returns>A dictionary with all encounters</returns>
+        public static async Task<Dictionary<int, BossData>> FromFileAsync(string file)
+        {
+            var allBosses = GetAllBosses();
+            if (allBosses.Count > 0)
+            {
+                allBosses.Clear();
+            }
+            using (StreamReader reader = new StreamReader(file))
+            {
+                string line = await reader.ReadLineAsync(); // skip the first line
+                while ((line = await reader.ReadLineAsync()) != null)
                 {
                     allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
                 }

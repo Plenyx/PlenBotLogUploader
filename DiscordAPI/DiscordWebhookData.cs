@@ -32,7 +32,7 @@ namespace PlenBotLogUploader.DiscordAPI
         public bool ShowPlayers { get; set; } = true;
 
         /// <summary>
-        /// A list containing boss ids which indicate, that the bosses with the ids shouldn't be posted via webhook
+        /// A list containing boss ids which are omitted to be posted via webhook
         /// </summary>
         public List<int> BossesDisable { get; set; } = new List<int>();
 
@@ -60,13 +60,6 @@ namespace PlenBotLogUploader.DiscordAPI
         /// </summary>
         /// <param name="bossId">Queried boss ID</param>
         /// <returns></returns>
-        public bool IsBossEnabled(int bossId)
-        {
-            if (BossesDisable.Contains(bossId))
-            {
-                return false;
-            }
-            return true;
-        }
+        public bool IsBossEnabled(int bossId) => !BossesDisable.Contains(bossId);
     }
 }

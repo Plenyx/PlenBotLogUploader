@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using PlenBotLogUploader.DPSReport;
@@ -68,7 +67,7 @@ namespace PlenBotLogUploader
             new FormEditBossData(this, allBosses[reservedId], reservedId).Show();
         }
 
-        private async void FormTwitchLogMessages_FormClosing(object sender, FormClosingEventArgs e)
+        private async void FormBossData_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();

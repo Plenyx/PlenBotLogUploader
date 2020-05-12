@@ -140,7 +140,7 @@
             this.Name = "FormBossData";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit boss data";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTwitchLogMessages_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormBossData_FormClosing);
             this.contextMenuStripInteract.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

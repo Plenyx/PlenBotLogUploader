@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.DPSReport;
-using PlenBotLogUploader.PlenyxAPI;
 using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.RemotePing
@@ -16,7 +15,7 @@ namespace PlenBotLogUploader.RemotePing
         public PingMethod Method { get; set; } = PingMethod.Post;
         public PingAuthentication Authentication { get; set; }
 
-        public async Task<bool> PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON) => await PingConfiguration.PingServerAsync(this, mainLink, reportJSON);
+        public async Task<bool> PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON) => await PingServerAsync(this, mainLink, reportJSON);
 
         public static async Task<bool> PingServerAsync(PingConfiguration configuration, FormMain mainLink, DPSReportJSON reportJSON)
         {
@@ -58,7 +57,7 @@ namespace PlenBotLogUploader.RemotePing
                                 responseMessage = await controller.PostAsync(configuration.URL, content);
                             }
                             string response = await responseMessage.Content.ReadAsStringAsync();
-                            var statusJSON = JsonConvert.DeserializeObject<PlenyxAPIPingResponse>(response);
+                            var statusJSON = JsonConvert.DeserializeObject<PingResponse>(response);
                             if (responseMessage.IsSuccessStatusCode)
                             {
                                 mainLink?.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
@@ -115,7 +114,7 @@ namespace PlenBotLogUploader.RemotePing
                             responseMessage = await controller.GetAsync(fullLink);
                         }
                         string response = await responseMessage.Content.ReadAsStringAsync();
-                        var statusJSON = JsonConvert.DeserializeObject<PlenyxAPIPingResponse>(response);
+                        var statusJSON = JsonConvert.DeserializeObject<PingResponse>(response);
                         if (responseMessage.IsSuccessStatusCode)
                         {
                             mainLink?.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");

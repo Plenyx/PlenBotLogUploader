@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.PlenyxAPI
+namespace PlenBotLogUploader.RemotePing
 {
-    public class PlenyxAPIPingResponse
+    public class PingResponse
     {
         [JsonProperty("msg")]
         public string Message { get; set; }

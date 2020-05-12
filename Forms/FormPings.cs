@@ -116,7 +116,7 @@ namespace PlenBotLogUploader
         private void toolStripMenuItemAdd_Click(object sender, EventArgs e)
         {
             settingsIdsKey++;
-            new FormEditPing(mainLink, this, settingsIdsKey, true, null).Show();
+            new FormEditPing(this, settingsIdsKey, true, null).Show();
         }
 
         private void toolStripMenuItemEdit_Click(object sender, EventArgs e)
@@ -125,7 +125,7 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewPings.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                new FormEditPing(mainLink, this, reservedId, false, AllPings[reservedId]).Show();
+                new FormEditPing(this, reservedId, false, AllPings[reservedId]).Show();
             }
         }
 
@@ -175,7 +175,7 @@ namespace PlenBotLogUploader
         private void ButtonAddNew_Click(object sender, EventArgs e)
         {
             settingsIdsKey++;
-            new FormEditPing(mainLink, this, settingsIdsKey, true, null).Show();
+            new FormEditPing(this, settingsIdsKey, true, null).Show();
         }
     }
 }

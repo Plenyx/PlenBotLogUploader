@@ -8,16 +8,14 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private FormMain mainLink;
         private FormPings pingLink;
         private PingConfiguration config;
         private int reservedId;
         private bool addNew;
         #endregion
 
-        public FormEditPing(FormMain mainLink, FormPings pingLink, int reservedId, bool addNew, PingConfiguration config)
+        public FormEditPing(FormPings pingLink, int reservedId, bool addNew, PingConfiguration config)
         {
-            this.mainLink = mainLink;
             this.pingLink = pingLink;
             this.config = config;
             this.reservedId = reservedId;
@@ -114,7 +112,7 @@ namespace PlenBotLogUploader
                         {
                             pingLink.AllPings[reservedId].Method = PingMethod.Post;
                         }
-                        pingLink.AllPings[reservedId].Authentication.Active = (textBoxAuthToken.Text == "") ? false : true;
+                        pingLink.AllPings[reservedId].Authentication.Active = (textBoxAuthToken.Text.Trim() == "") ? false : true;
                         pingLink.AllPings[reservedId].Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
                         pingLink.AllPings[reservedId].Authentication.AuthName = textBoxAuthName.Text;
                         pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxAuthToken.Text;
@@ -141,7 +139,7 @@ namespace PlenBotLogUploader
             }
             var auth = new PingAuthentication()
             {
-                Active = (textBoxAuthToken.Text == "") ? false : true,
+                Active = (textBoxAuthToken.Text.Trim() == "") ? false : true,
                 UseAsAuth = radioButtonUseAuthField.Checked,
                 AuthName = textBoxAuthName.Text,
                 AuthToken = textBoxAuthToken.Text
