@@ -1,6 +1,6 @@
 <?php
 /*
- * Author: Plenyx
+ * Author: Plenyx (2020)
  *
  * This php template shows a possible implementation of a remote ping functionality within PlenBotLogUploader.
  *
@@ -42,7 +42,7 @@ if(isPost())
                     $_POST["permalink"] - contains a direct link to a processed log on dps.report
                     $_POST["bossId"] - contains the encounter id
                     $_POST["success"] - contains "1" if the encounter was a success, "0" otherwise
-                    $_POST["arcversion"] - contains the arcdps version used to create the original log
+                    $_POST["arcVersion"] - contains the arcdps version used to create the original log
                 */
             }
             else

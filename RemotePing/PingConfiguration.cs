@@ -30,7 +30,7 @@ namespace PlenBotLogUploader.RemotePing
                         fields.Add("permalink", reportJSON.Permalink);
                         fields.Add("bossId", reportJSON.Encounter.BossId.ToString());
                         fields.Add("success", (reportJSON.Encounter.Success ?? false) ? "1" : "0");
-                        fields.Add("arcversion", $"{reportJSON.EVTC.Type}{reportJSON.EVTC.Version}");
+                        fields.Add("arcVersion", $"{reportJSON.EVTC.Type}{reportJSON.EVTC.Version}");
                     }
                     if (configuration.Authentication.Active)
                     {
@@ -84,7 +84,7 @@ namespace PlenBotLogUploader.RemotePing
                     if (reportJSON != null)
                     {
                         string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
-                        string encounterInfo = $"bossId={reportJSON.Encounter.BossId}&success={success}&arcversion={reportJSON.EVTC.Type}{reportJSON.EVTC.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
+                        string encounterInfo = $"bossId={reportJSON.Encounter.BossId}&success={success}&arcVersion={reportJSON.EVTC.Type}{reportJSON.EVTC.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
                         fullLink = $"{fullLink}{encounterInfo}";
                         if (configuration.URL.Contains("?"))
                         {

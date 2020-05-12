@@ -25,7 +25,7 @@ When you start the executable, it will check for a new version. If update is ava
 To update the bot you need to overwrite the previous executable.
 
 ## Uninstall/Reinstall
-To remove all application settings, remove the "PlenBotLogUploader.exe.config" file located in the directory of the executable or use "Reset all settings" button inside the application.
+To remove all application settings, remove the "PlenBotLogUploader.exe_Url_xxx" folders located in the "%AppData%\Plenyx's_Bad_Software", use "Reset all settings" button inside the application or launch the application with -resetsettings flag.
 
 To remove all the saved logs, remove the "uploaded_logs.csv" file located in the directory of the executable.
 
@@ -47,10 +47,11 @@ To fully remove all the saved settings in the registry, use the enclosed "ResetS
   * pinging log data to remote servers (via Remote server pings)
   * organise logs in log sessions
     * record all logs under one session and unleash one message with all log links to Discord channels
+    * every log session has a dedicated csv file to record the session
 * Twitch integration
   * pinging links to Twitch chat with customisable messages
   * custom name for the Twitch chat bot, otherwise "gw2loguploader" is being used
-* update reminder
+* update reminder & automatic update install
 * arcdps auto-updater
 
 ## Future updates
@@ -61,7 +62,7 @@ I plan to finish the following features:
 ## Remote server ping
 Remote server ping allows you to send log data to a custom server.
 
-If you wish to create your own server, follow the [MAKE-CUSTOM-REMOTE-SERVER-README](https://github.com/Plenyx/PlenBotLogUploader/blob/master/MAKE-CUSTOM-REMOTE-SERVER-README.md) readme.
+If you wish to create your own server, follow the [MAKE-CUSTOM-REMOTE-SERVER-README](https://github.com/Plenyx/PlenBotLogUploader/blob/master/remote-server/README.md) readme.
 
 ## TwitchIrcClient
 A client I developed for Irc which Twitch uses.

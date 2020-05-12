@@ -1,4 +1,4 @@
-# How to create your own ping server
+# How to create your own remote ping server
 
 ## General rules
 * your server must respond in JSON with utf-8 encoding
@@ -27,16 +27,16 @@ These are the fields being sent:
       "permalink": (string),
       "bossId": (int),
       "success": (string),
-      "arcversion": (string)
+      "arcVersion": (string)
     }
 
 * "**permalink**" contains a direct link to a processed log on dps.report *as a string*
 * "**bossId**" contains the encounter (boss) id *as an integer*
 * "**success**" contains "1" if the encounter was a success, "0" otherwise *as a string*
-* "**arcversion**" contains the arcdps version used to create the original log *as a string*
+* "**arcVersion**" contains the arcdps version used to create the original log *as a string*
 
 ## Remote server examples
-[PHP example with post request and Authorisation header](https://github.com/Plenyx/PlenBotLogUploader/blob/master/php-remote-template.php)
+[PHP example with post request and Authorisation header](https://github.com/Plenyx/PlenBotLogUploader/blob/master/remote-server/php-remote-template.php)
 
 ## Other links
 [HTTP Status Codes list](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
