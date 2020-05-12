@@ -20,14 +20,20 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            Properties.Settings.Default.DPSReportServer = radioButtonA.Checked ? 1 : 0;
-            if (radioButtonA.Checked)
+            if (radioButtonB.Checked)
+            {
+                mainLink.DPSReportServer = "b.dps.report";
+                Properties.Settings.Default.DPSReportServer = 2;
+            }
+            else if (radioButtonA.Checked)
             {
                 mainLink.DPSReportServer = "a.dps.report";
+                Properties.Settings.Default.DPSReportServer = 1;
             }
             else
             {
                 mainLink.DPSReportServer = "dps.report";
+                Properties.Settings.Default.DPSReportServer = 0;
             }
         }
     }

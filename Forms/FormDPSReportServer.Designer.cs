@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBoxAroundRadio = new System.Windows.Forms.GroupBox();
+            this.radioButtonB = new System.Windows.Forms.RadioButton();
             this.radioButtonA = new System.Windows.Forms.RadioButton();
             this.radioButtonNormal = new System.Windows.Forms.RadioButton();
             this.groupBoxAroundRadio.SuspendLayout();
@@ -36,19 +37,31 @@
             // 
             // groupBoxAroundRadio
             // 
+            this.groupBoxAroundRadio.Controls.Add(this.radioButtonB);
             this.groupBoxAroundRadio.Controls.Add(this.radioButtonA);
             this.groupBoxAroundRadio.Controls.Add(this.radioButtonNormal);
             this.groupBoxAroundRadio.Location = new System.Drawing.Point(13, 13);
             this.groupBoxAroundRadio.Name = "groupBoxAroundRadio";
-            this.groupBoxAroundRadio.Size = new System.Drawing.Size(259, 62);
+            this.groupBoxAroundRadio.Size = new System.Drawing.Size(276, 62);
             this.groupBoxAroundRadio.TabIndex = 0;
             this.groupBoxAroundRadio.TabStop = false;
             this.groupBoxAroundRadio.Text = "DPS.report servers";
             // 
+            // radioButtonB
+            // 
+            this.radioButtonB.AutoSize = true;
+            this.radioButtonB.Location = new System.Drawing.Point(184, 29);
+            this.radioButtonB.Name = "radioButtonB";
+            this.radioButtonB.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonB.TabIndex = 2;
+            this.radioButtonB.TabStop = true;
+            this.radioButtonB.Text = "b.dps.report";
+            this.radioButtonB.UseVisualStyleBackColor = true;
+            // 
             // radioButtonA
             // 
             this.radioButtonA.AutoSize = true;
-            this.radioButtonA.Location = new System.Drawing.Point(159, 29);
+            this.radioButtonA.Location = new System.Drawing.Point(97, 29);
             this.radioButtonA.Name = "radioButtonA";
             this.radioButtonA.Size = new System.Drawing.Size(81, 17);
             this.radioButtonA.TabIndex = 1;
@@ -71,7 +84,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 87);
+            this.ClientSize = new System.Drawing.Size(302, 87);
             this.Controls.Add(this.groupBoxAroundRadio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -91,5 +104,6 @@
         private System.Windows.Forms.GroupBox groupBoxAroundRadio;
         public System.Windows.Forms.RadioButton radioButtonA;
         public System.Windows.Forms.RadioButton radioButtonNormal;
+        public System.Windows.Forms.RadioButton radioButtonB;
     }
 }

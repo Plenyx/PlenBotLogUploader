@@ -113,10 +113,15 @@ namespace PlenBotLogUploader
                 {
                     DPSReportServer = "dps.report";
                 }
-                else
+                else if (Properties.Settings.Default.DPSReportServer == 1)
                 {
                     DPSReportServer = "a.dps.report";
                     dpsReportServerLink.radioButtonA.Checked = true;
+                }
+                else
+                {
+                    DPSReportServer = "b.dps.report";
+                    dpsReportServerLink.radioButtonB.Checked = true;
                 }
                 if (Properties.Settings.Default.UploadLogs)
                 {
