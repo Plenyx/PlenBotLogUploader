@@ -54,8 +54,8 @@ namespace PlenBotLogUploader
             {
                 if (addNew)
                 {
-                    discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData() { Active = false, Name = textBoxName.Text, URL = textBoxUrl.Text, OnlySuccess = checkBoxOnlySuccess.Checked, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList() };
-                    discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
+                    discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, OnlySuccess = checkBoxOnlySuccess.Checked, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList() };
+                    discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
                 }
                 else
                 {
