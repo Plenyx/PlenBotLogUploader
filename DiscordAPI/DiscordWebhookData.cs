@@ -24,7 +24,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// <summary>
         /// Indicates whether the webhook is executed only if the ecounter is a success
         /// </summary>
-        public bool OnlySuccess { get; set; } = false;
+        public DiscordWebhookDataSuccessToggle SuccessFailToggle { get; set; } = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
 
         /// <summary>
         /// Indicates whether players are showed in the webhook

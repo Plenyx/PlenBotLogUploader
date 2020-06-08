@@ -45,7 +45,7 @@ namespace PlenBotLogUploader
                         {
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int active);
-                            int.TryParse(values[3], out int onlySuccess);
+                            int.TryParse(values[3], out int successFailToggle);
                             int.TryParse(values[4], out int showPlayers);
                             var bossesDisableList = new List<int>();
                             if (values.Count() > 5)
@@ -65,7 +65,7 @@ namespace PlenBotLogUploader
                                 Active = active == 1,
                                 Name = values[1],
                                 URL = values[2],
-                                OnlySuccess = onlySuccess == 1,
+                                SuccessFailToggle = (DiscordWebhookDataSuccessToggle)successFailToggle,
                                 ShowPlayers = showPlayers == 1,
                                 BossesDisable = bossesDisableList
                             });
@@ -98,9 +98,9 @@ namespace PlenBotLogUploader
                 {
                     var webhook = AllWebhooks[key];
                     string active = webhook.Active ? "1" : "0";
-                    string onlySuccess = webhook.OnlySuccess ? "1" : "0";
+                    string successFailToggle = ((int)webhook.SuccessFailToggle).ToString();
                     string showPlayers = webhook.ShowPlayers ? "1" : "0";
-                    await writer.WriteLineAsync($"{active}<;>{webhook.Name}<;>{webhook.URL}<;>{onlySuccess}<;>{showPlayers}<;>{string.Join(";", webhook.BossesDisable.Select(anon => anon.ToString()).ToArray())}");
+                    await writer.WriteLineAsync($"{active}<;>{webhook.Name}<;>{webhook.URL}<;>{successFailToggle}<;>{showPlayers}<;>{string.Join(";", webhook.BossesDisable.Select(anon => anon.ToString()).ToArray())}");
                 }
             }
         }
@@ -170,7 +170,10 @@ namespace PlenBotLogUploader
                 foreach (var key in AllWebhooks.Keys)
                 {
                     var webhook = AllWebhooks[key];
-                    if (!webhook.Active || (webhook.OnlySuccess && !(reportJSON.Encounter.Success ?? false)) || webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
+                    if (!webhook.Active
+                        || (webhook.SuccessFailToggle == DiscordWebhookDataSuccessToggle.OnSuccessOnly && !(reportJSON.Encounter.Success ?? false))
+                        || (webhook.SuccessFailToggle == DiscordWebhookDataSuccessToggle.OnFailOnly && (reportJSON.Encounter.Success ?? false))
+                        || webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
                     {
                         continue;
                     }

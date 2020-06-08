@@ -91,6 +91,7 @@
     <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbedThumbnail.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONWebhookResponse.cs" />
     <Compile Include="DiscordAPI\DiscordWebhookData.cs" />
+    <Compile Include="DiscordAPI\DiscordWebhookDataSuccessToggle.cs" />
     <Compile Include="DPSReport\BossData.cs" />
     <Compile Include="DPSReport\Bosses.cs" />
     <Compile Include="DPSReport\BossIds.cs" />

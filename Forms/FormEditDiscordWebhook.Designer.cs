@@ -32,13 +32,17 @@
             this.labelUrl = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.textBoxUrl = new System.Windows.Forms.TextBox();
-            this.checkBoxOnlySuccess = new System.Windows.Forms.CheckBox();
             this.checkBoxPlayers = new System.Windows.Forms.CheckBox();
             this.checkedListBoxBossesEnable = new System.Windows.Forms.CheckedListBox();
             this.groupBoxWebhookInfo = new System.Windows.Forms.GroupBox();
             this.groupBoxBossesEnable = new System.Windows.Forms.GroupBox();
+            this.groupBoxConditionalPost = new System.Windows.Forms.GroupBox();
+            this.radioButtonOnlySuccess = new System.Windows.Forms.RadioButton();
+            this.radioButtonOnlyFail = new System.Windows.Forms.RadioButton();
+            this.radioButtonOnlySuccessAndFail = new System.Windows.Forms.RadioButton();
             this.groupBoxWebhookInfo.SuspendLayout();
             this.groupBoxBossesEnable.SuspendLayout();
+            this.groupBoxConditionalPost.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelName
@@ -73,20 +77,10 @@
             this.textBoxUrl.Size = new System.Drawing.Size(377, 20);
             this.textBoxUrl.TabIndex = 3;
             // 
-            // checkBoxOnlySuccess
-            // 
-            this.checkBoxOnlySuccess.AutoSize = true;
-            this.checkBoxOnlySuccess.Location = new System.Drawing.Point(9, 97);
-            this.checkBoxOnlySuccess.Name = "checkBoxOnlySuccess";
-            this.checkBoxOnlySuccess.Size = new System.Drawing.Size(157, 17);
-            this.checkBoxOnlySuccess.TabIndex = 4;
-            this.checkBoxOnlySuccess.Text = "Upload only successful logs";
-            this.checkBoxOnlySuccess.UseVisualStyleBackColor = true;
-            // 
             // checkBoxPlayers
             // 
             this.checkBoxPlayers.AutoSize = true;
-            this.checkBoxPlayers.Location = new System.Drawing.Point(9, 120);
+            this.checkBoxPlayers.Location = new System.Drawing.Point(9, 97);
             this.checkBoxPlayers.Name = "checkBoxPlayers";
             this.checkBoxPlayers.Size = new System.Drawing.Size(349, 17);
             this.checkBoxPlayers.TabIndex = 5;
@@ -108,10 +102,9 @@
             this.groupBoxWebhookInfo.Controls.Add(this.labelUrl);
             this.groupBoxWebhookInfo.Controls.Add(this.checkBoxPlayers);
             this.groupBoxWebhookInfo.Controls.Add(this.textBoxUrl);
-            this.groupBoxWebhookInfo.Controls.Add(this.checkBoxOnlySuccess);
             this.groupBoxWebhookInfo.Location = new System.Drawing.Point(12, 12);
             this.groupBoxWebhookInfo.Name = "groupBoxWebhookInfo";
-            this.groupBoxWebhookInfo.Size = new System.Drawing.Size(392, 141);
+            this.groupBoxWebhookInfo.Size = new System.Drawing.Size(392, 121);
             this.groupBoxWebhookInfo.TabIndex = 7;
             this.groupBoxWebhookInfo.TabStop = false;
             this.groupBoxWebhookInfo.Text = "Webhook info";
@@ -119,18 +112,64 @@
             // groupBoxBossesEnable
             // 
             this.groupBoxBossesEnable.Controls.Add(this.checkedListBoxBossesEnable);
-            this.groupBoxBossesEnable.Location = new System.Drawing.Point(12, 159);
+            this.groupBoxBossesEnable.Location = new System.Drawing.Point(12, 216);
             this.groupBoxBossesEnable.Name = "groupBoxBossesEnable";
             this.groupBoxBossesEnable.Size = new System.Drawing.Size(392, 195);
             this.groupBoxBossesEnable.TabIndex = 8;
             this.groupBoxBossesEnable.TabStop = false;
             this.groupBoxBossesEnable.Text = "Only upload for selected bosses";
             // 
+            // groupBoxConditionalPost
+            // 
+            this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlySuccessAndFail);
+            this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlyFail);
+            this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlySuccess);
+            this.groupBoxConditionalPost.Location = new System.Drawing.Point(12, 139);
+            this.groupBoxConditionalPost.Name = "groupBoxConditionalPost";
+            this.groupBoxConditionalPost.Size = new System.Drawing.Size(392, 71);
+            this.groupBoxConditionalPost.TabIndex = 9;
+            this.groupBoxConditionalPost.TabStop = false;
+            this.groupBoxConditionalPost.Text = "Use this Webhook if...";
+            // 
+            // radioButtonOnlySuccess
+            // 
+            this.radioButtonOnlySuccess.AutoSize = true;
+            this.radioButtonOnlySuccess.Location = new System.Drawing.Point(9, 20);
+            this.radioButtonOnlySuccess.Name = "radioButtonOnlySuccess";
+            this.radioButtonOnlySuccess.Size = new System.Drawing.Size(152, 17);
+            this.radioButtonOnlySuccess.TabIndex = 0;
+            this.radioButtonOnlySuccess.TabStop = true;
+            this.radioButtonOnlySuccess.Text = "the encounter is a success";
+            this.radioButtonOnlySuccess.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonOnlyFail
+            // 
+            this.radioButtonOnlyFail.AutoSize = true;
+            this.radioButtonOnlyFail.Location = new System.Drawing.Point(245, 19);
+            this.radioButtonOnlyFail.Name = "radioButtonOnlyFail";
+            this.radioButtonOnlyFail.Size = new System.Drawing.Size(141, 17);
+            this.radioButtonOnlyFail.TabIndex = 1;
+            this.radioButtonOnlyFail.TabStop = true;
+            this.radioButtonOnlyFail.Text = "the encounter is a failure";
+            this.radioButtonOnlyFail.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonOnlySuccessAndFail
+            // 
+            this.radioButtonOnlySuccessAndFail.AutoSize = true;
+            this.radioButtonOnlySuccessAndFail.Location = new System.Drawing.Point(9, 43);
+            this.radioButtonOnlySuccessAndFail.Name = "radioButtonOnlySuccessAndFail";
+            this.radioButtonOnlySuccessAndFail.Size = new System.Drawing.Size(215, 17);
+            this.radioButtonOnlySuccessAndFail.TabIndex = 2;
+            this.radioButtonOnlySuccessAndFail.TabStop = true;
+            this.radioButtonOnlySuccessAndFail.Text = "the encounter is either success or failure";
+            this.radioButtonOnlySuccessAndFail.UseVisualStyleBackColor = true;
+            // 
             // FormEditDiscordWebhook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(419, 366);
+            this.ClientSize = new System.Drawing.Size(416, 415);
+            this.Controls.Add(this.groupBoxConditionalPost);
             this.Controls.Add(this.groupBoxBossesEnable);
             this.Controls.Add(this.groupBoxWebhookInfo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -143,6 +182,8 @@
             this.groupBoxWebhookInfo.ResumeLayout(false);
             this.groupBoxWebhookInfo.PerformLayout();
             this.groupBoxBossesEnable.ResumeLayout(false);
+            this.groupBoxConditionalPost.ResumeLayout(false);
+            this.groupBoxConditionalPost.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -153,10 +194,13 @@
         private System.Windows.Forms.Label labelUrl;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.TextBox textBoxUrl;
-        private System.Windows.Forms.CheckBox checkBoxOnlySuccess;
         private System.Windows.Forms.CheckBox checkBoxPlayers;
         private System.Windows.Forms.CheckedListBox checkedListBoxBossesEnable;
         private System.Windows.Forms.GroupBox groupBoxWebhookInfo;
         private System.Windows.Forms.GroupBox groupBoxBossesEnable;
+        private System.Windows.Forms.GroupBox groupBoxConditionalPost;
+        private System.Windows.Forms.RadioButton radioButtonOnlySuccessAndFail;
+        private System.Windows.Forms.RadioButton radioButtonOnlyFail;
+        private System.Windows.Forms.RadioButton radioButtonOnlySuccess;
     }
 }

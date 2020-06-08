@@ -25,17 +25,21 @@ namespace PlenBotLogUploader
             this.addNew = addNew;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (addNew)
-            {
-                Text = "Add a new webhook";
-            }
-            else
-            {
-                Text = "Edit an existing webhook";
-            }
+            Text = (addNew) ? "Add a new webhook" : "Edit an existing webhook";
             textBoxName.Text = data?.Name ?? "";
             textBoxUrl.Text = data?.URL ?? "";
-            checkBoxOnlySuccess.Checked = data?.OnlySuccess ?? false;
+            switch(data?.SuccessFailToggle ?? DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)
+            {
+                case DiscordWebhookDataSuccessToggle.OnSuccessOnly:
+                    radioButtonOnlySuccess.Checked = true;
+                    break;
+                case DiscordWebhookDataSuccessToggle.OnFailOnly:
+                    radioButtonOnlyFail.Checked = true;
+                    break;
+                default:
+                    radioButtonOnlySuccessAndFail.Checked = true;
+                    break;
+            }
             checkBoxPlayers.Checked = data?.ShowPlayers ?? false;
             var bosses = Bosses.GetAllBosses();
             bosses = bosses
@@ -50,11 +54,20 @@ namespace PlenBotLogUploader
 
         private void FormEditDiscordWebhook_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (textBoxName.Text != "")
+            if (textBoxName.Text.Trim() != "")
             {
+                var successFailToggle = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
+                if (radioButtonOnlySuccess.Checked)
+                {
+                    successFailToggle = DiscordWebhookDataSuccessToggle.OnSuccessOnly;
+                }
+                else if (radioButtonOnlyFail.Checked)
+                {
+                    successFailToggle = DiscordWebhookDataSuccessToggle.OnFailOnly;
+                }
                 if (addNew)
                 {
-                    discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, OnlySuccess = checkBoxOnlySuccess.Checked, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList() };
+                    discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList() };
                     discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
                 }
                 else
@@ -65,7 +78,7 @@ namespace PlenBotLogUploader
                         webhook.Active = data.Active;
                         webhook.Name = textBoxName.Text;
                         webhook.URL = textBoxUrl.Text;
-                        webhook.OnlySuccess = checkBoxOnlySuccess.Checked;
+                        webhook.SuccessFailToggle = successFailToggle;
                         webhook.ShowPlayers = checkBoxPlayers.Checked;
                         webhook.BossesDisable = ConvertCheckboxListToList();
                         discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
