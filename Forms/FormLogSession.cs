@@ -45,6 +45,7 @@ namespace PlenBotLogUploader
                 sessionPaused = false;
                 stopWatch.Stop();
                 string elapsedTime = NiceTime.ParseTimeSpanHMS(stopWatch.Elapsed);
+                stopWatch.Reset();
                 int sortBy = radioButtonSortByUpload.Checked ? 1 : 0;
                 var logSessionSettings = new LogSessionSettings()
                 {
