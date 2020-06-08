@@ -112,7 +112,7 @@
             // groupBoxBossesEnable
             // 
             this.groupBoxBossesEnable.Controls.Add(this.checkedListBoxBossesEnable);
-            this.groupBoxBossesEnable.Location = new System.Drawing.Point(12, 216);
+            this.groupBoxBossesEnable.Location = new System.Drawing.Point(12, 211);
             this.groupBoxBossesEnable.Name = "groupBoxBossesEnable";
             this.groupBoxBossesEnable.Size = new System.Drawing.Size(392, 195);
             this.groupBoxBossesEnable.TabIndex = 8;
@@ -126,7 +126,7 @@
             this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlySuccess);
             this.groupBoxConditionalPost.Location = new System.Drawing.Point(12, 139);
             this.groupBoxConditionalPost.Name = "groupBoxConditionalPost";
-            this.groupBoxConditionalPost.Size = new System.Drawing.Size(392, 71);
+            this.groupBoxConditionalPost.Size = new System.Drawing.Size(392, 66);
             this.groupBoxConditionalPost.TabIndex = 9;
             this.groupBoxConditionalPost.TabStop = false;
             this.groupBoxConditionalPost.Text = "Use this Webhook if...";
