@@ -8,10 +8,10 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private FormBossData editLink;
-        private BossData data;
-        private int reservedId;
-        private Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
+        private readonly FormBossData editLink;
+        private readonly BossData data;
+        private readonly int reservedId;
+        private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         #endregion
 
         public FormEditBossData(FormBossData editLink, BossData data, int reservedId)
@@ -21,14 +21,7 @@ namespace PlenBotLogUploader
             this.data = data;
             this.reservedId = reservedId;
             Icon = Properties.Resources.AppIcon;
-            if (data == null)
-            {
-                Text = "Add a new boss";
-            }
-            else
-            {
-                Text = $"{data.Name} ({data.BossId})";
-            }
+            Text = (data == null) ? "Add a new boss" : $"{data.Name} ({data.BossId})";
             textBoxBossID.Text = data?.BossId.ToString() ?? "";
             textBoxBossName.Text = data?.Name ?? "";
             textBoxSuccessMsg.Text = data?.SuccessMsg ?? Properties.Settings.Default.BossTemplateSuccess;
@@ -62,7 +55,7 @@ namespace PlenBotLogUploader
         {
             if (int.TryParse(textBoxBossID.Text, out int bossId))
             {
-                if (textBoxBossName.Text != "")
+                if (textBoxBossName.Text.Trim() != "")
                 {
                     if (data == null)
                     {

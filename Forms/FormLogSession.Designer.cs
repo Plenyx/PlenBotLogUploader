@@ -35,14 +35,22 @@
             this.textBoxSessionName = new System.Windows.Forms.TextBox();
             this.labelSessionName = new System.Windows.Forms.Label();
             this.groupBoxSessionSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxSaveToFile = new System.Windows.Forms.CheckBox();
             this.groupBoxDiscordWebhooks = new System.Windows.Forms.GroupBox();
             this.radioButtonSortByUpload = new System.Windows.Forms.RadioButton();
-            this.radioButtonSortByWing = new System.Windows.Forms.RadioButton();
-            this.textBoxSessionContent = new System.Windows.Forms.TextBox();
             this.labelSessionContent = new System.Windows.Forms.Label();
-            this.checkBoxSaveToFile = new System.Windows.Forms.CheckBox();
+            this.textBoxSessionContent = new System.Windows.Forms.TextBox();
+            this.radioButtonSortByWing = new System.Windows.Forms.RadioButton();
+            this.groupBoxWebhookTypeSelection = new System.Windows.Forms.GroupBox();
+            this.radioButtonAllActive = new System.Windows.Forms.RadioButton();
+            this.radioButtonOnlySelectedWebhooks = new System.Windows.Forms.RadioButton();
+            this.checkedListBoxSelectedWebhooks = new System.Windows.Forms.CheckedListBox();
+            this.groupBoxSelectedWebhooks = new System.Windows.Forms.GroupBox();
+            this.buttonReloadWebhooks = new System.Windows.Forms.Button();
             this.groupBoxSessionSettings.SuspendLayout();
             this.groupBoxDiscordWebhooks.SuspendLayout();
+            this.groupBoxWebhookTypeSelection.SuspendLayout();
+            this.groupBoxSelectedWebhooks.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonSessionStarter
@@ -116,6 +124,16 @@
             this.groupBoxSessionSettings.TabStop = false;
             this.groupBoxSessionSettings.Text = "Session settings";
             // 
+            // checkBoxSaveToFile
+            // 
+            this.checkBoxSaveToFile.AutoSize = true;
+            this.checkBoxSaveToFile.Location = new System.Drawing.Point(9, 81);
+            this.checkBoxSaveToFile.Name = "checkBoxSaveToFile";
+            this.checkBoxSaveToFile.Size = new System.Drawing.Size(124, 17);
+            this.checkBoxSaveToFile.TabIndex = 9;
+            this.checkBoxSaveToFile.Text = "save session to a file";
+            this.checkBoxSaveToFile.UseVisualStyleBackColor = true;
+            // 
             // groupBoxDiscordWebhooks
             // 
             this.groupBoxDiscordWebhooks.Controls.Add(this.radioButtonSortByUpload);
@@ -142,6 +160,22 @@
             this.radioButtonSortByUpload.UseVisualStyleBackColor = true;
             this.radioButtonSortByUpload.CheckedChanged += new System.EventHandler(this.RadioButtonSortByUpload_CheckedChanged);
             // 
+            // labelSessionContent
+            // 
+            this.labelSessionContent.AutoSize = true;
+            this.labelSessionContent.Location = new System.Drawing.Point(6, 39);
+            this.labelSessionContent.Name = "labelSessionContent";
+            this.labelSessionContent.Size = new System.Drawing.Size(91, 13);
+            this.labelSessionContent.TabIndex = 6;
+            this.labelSessionContent.Text = "Discord message:";
+            // 
+            // textBoxSessionContent
+            // 
+            this.textBoxSessionContent.Location = new System.Drawing.Point(6, 55);
+            this.textBoxSessionContent.Name = "textBoxSessionContent";
+            this.textBoxSessionContent.Size = new System.Drawing.Size(258, 20);
+            this.textBoxSessionContent.TabIndex = 7;
+            // 
             // radioButtonSortByWing
             // 
             this.radioButtonSortByWing.AutoSize = true;
@@ -155,37 +189,77 @@
             this.radioButtonSortByWing.UseVisualStyleBackColor = true;
             this.radioButtonSortByWing.CheckedChanged += new System.EventHandler(this.RadioButtonSortByWing_CheckedChanged);
             // 
-            // textBoxSessionContent
+            // groupBoxWebhookTypeSelection
             // 
-            this.textBoxSessionContent.Location = new System.Drawing.Point(6, 55);
-            this.textBoxSessionContent.Name = "textBoxSessionContent";
-            this.textBoxSessionContent.Size = new System.Drawing.Size(258, 20);
-            this.textBoxSessionContent.TabIndex = 7;
+            this.groupBoxWebhookTypeSelection.Controls.Add(this.groupBoxSelectedWebhooks);
+            this.groupBoxWebhookTypeSelection.Controls.Add(this.radioButtonOnlySelectedWebhooks);
+            this.groupBoxWebhookTypeSelection.Controls.Add(this.radioButtonAllActive);
+            this.groupBoxWebhookTypeSelection.Location = new System.Drawing.Point(303, 12);
+            this.groupBoxWebhookTypeSelection.Name = "groupBoxWebhookTypeSelection";
+            this.groupBoxWebhookTypeSelection.Size = new System.Drawing.Size(234, 266);
+            this.groupBoxWebhookTypeSelection.TabIndex = 7;
+            this.groupBoxWebhookTypeSelection.TabStop = false;
+            this.groupBoxWebhookTypeSelection.Text = "Select which Webhooks to execute";
             // 
-            // labelSessionContent
+            // radioButtonAllActive
             // 
-            this.labelSessionContent.AutoSize = true;
-            this.labelSessionContent.Location = new System.Drawing.Point(6, 39);
-            this.labelSessionContent.Name = "labelSessionContent";
-            this.labelSessionContent.Size = new System.Drawing.Size(91, 13);
-            this.labelSessionContent.TabIndex = 6;
-            this.labelSessionContent.Text = "Discord message:";
+            this.radioButtonAllActive.AutoSize = true;
+            this.radioButtonAllActive.Checked = true;
+            this.radioButtonAllActive.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonAllActive.Name = "radioButtonAllActive";
+            this.radioButtonAllActive.Size = new System.Drawing.Size(123, 17);
+            this.radioButtonAllActive.TabIndex = 0;
+            this.radioButtonAllActive.TabStop = true;
+            this.radioButtonAllActive.Text = "All active Webhooks";
+            this.radioButtonAllActive.UseVisualStyleBackColor = true;
             // 
-            // checkBoxSaveToFile
+            // radioButtonOnlySelectedWebhooks
             // 
-            this.checkBoxSaveToFile.AutoSize = true;
-            this.checkBoxSaveToFile.Location = new System.Drawing.Point(9, 81);
-            this.checkBoxSaveToFile.Name = "checkBoxSaveToFile";
-            this.checkBoxSaveToFile.Size = new System.Drawing.Size(115, 17);
-            this.checkBoxSaveToFile.TabIndex = 9;
-            this.checkBoxSaveToFile.Text = "save session to file";
-            this.checkBoxSaveToFile.UseVisualStyleBackColor = true;
+            this.radioButtonOnlySelectedWebhooks.AutoSize = true;
+            this.radioButtonOnlySelectedWebhooks.Location = new System.Drawing.Point(7, 41);
+            this.radioButtonOnlySelectedWebhooks.Name = "radioButtonOnlySelectedWebhooks";
+            this.radioButtonOnlySelectedWebhooks.Size = new System.Drawing.Size(144, 17);
+            this.radioButtonOnlySelectedWebhooks.TabIndex = 1;
+            this.radioButtonOnlySelectedWebhooks.Text = "Only selected Webhooks";
+            this.radioButtonOnlySelectedWebhooks.UseVisualStyleBackColor = true;
+            this.radioButtonOnlySelectedWebhooks.CheckedChanged += new System.EventHandler(this.radioButtonOnlySelectedWebhooks_CheckedChanged);
+            // 
+            // checkedListBoxSelectedWebhooks
+            // 
+            this.checkedListBoxSelectedWebhooks.FormattingEnabled = true;
+            this.checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(6, 47);
+            this.checkedListBoxSelectedWebhooks.Name = "checkedListBoxSelectedWebhooks";
+            this.checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(209, 139);
+            this.checkedListBoxSelectedWebhooks.TabIndex = 2;
+            // 
+            // groupBoxSelectedWebhooks
+            // 
+            this.groupBoxSelectedWebhooks.Controls.Add(this.buttonReloadWebhooks);
+            this.groupBoxSelectedWebhooks.Controls.Add(this.checkedListBoxSelectedWebhooks);
+            this.groupBoxSelectedWebhooks.Enabled = false;
+            this.groupBoxSelectedWebhooks.Location = new System.Drawing.Point(7, 69);
+            this.groupBoxSelectedWebhooks.Name = "groupBoxSelectedWebhooks";
+            this.groupBoxSelectedWebhooks.Size = new System.Drawing.Size(221, 191);
+            this.groupBoxSelectedWebhooks.TabIndex = 3;
+            this.groupBoxSelectedWebhooks.TabStop = false;
+            this.groupBoxSelectedWebhooks.Text = "Selected Webhooks";
+            // 
+            // buttonReloadWebhooks
+            // 
+            this.buttonReloadWebhooks.Location = new System.Drawing.Point(6, 18);
+            this.buttonReloadWebhooks.Name = "buttonReloadWebhooks";
+            this.buttonReloadWebhooks.Size = new System.Drawing.Size(209, 23);
+            this.buttonReloadWebhooks.TabIndex = 3;
+            this.buttonReloadWebhooks.Text = "Reload possible Webhooks";
+            this.buttonReloadWebhooks.UseVisualStyleBackColor = true;
+            this.buttonReloadWebhooks.Click += new System.EventHandler(this.buttonReloadWebhooks_Click);
             // 
             // FormLogSession
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 286);
+            this.ClientSize = new System.Drawing.Size(549, 287);
+            this.Controls.Add(this.groupBoxWebhookTypeSelection);
             this.Controls.Add(this.groupBoxSessionSettings);
             this.Controls.Add(this.buttonUnPauseSession);
             this.Controls.Add(this.buttonSessionStarter);
@@ -200,6 +274,9 @@
             this.groupBoxSessionSettings.PerformLayout();
             this.groupBoxDiscordWebhooks.ResumeLayout(false);
             this.groupBoxDiscordWebhooks.PerformLayout();
+            this.groupBoxWebhookTypeSelection.ResumeLayout(false);
+            this.groupBoxWebhookTypeSelection.PerformLayout();
+            this.groupBoxSelectedWebhooks.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -219,5 +296,11 @@
         public System.Windows.Forms.RadioButton radioButtonSortByUpload;
         public System.Windows.Forms.RadioButton radioButtonSortByWing;
         public System.Windows.Forms.CheckBox checkBoxSaveToFile;
+        private System.Windows.Forms.GroupBox groupBoxWebhookTypeSelection;
+        private System.Windows.Forms.GroupBox groupBoxSelectedWebhooks;
+        private System.Windows.Forms.Button buttonReloadWebhooks;
+        private System.Windows.Forms.CheckedListBox checkedListBoxSelectedWebhooks;
+        private System.Windows.Forms.RadioButton radioButtonOnlySelectedWebhooks;
+        private System.Windows.Forms.RadioButton radioButtonAllActive;
     }
 }

@@ -92,6 +92,7 @@
     <Compile Include="DiscordAPI\DiscordAPIJSONWebhookResponse.cs" />
     <Compile Include="DiscordAPI\DiscordWebhookData.cs" />
     <Compile Include="DiscordAPI\DiscordWebhookDataSuccessToggle.cs" />
+    <Compile Include="DiscordAPI\DiscordWebhooks.cs" />
     <Compile Include="DPSReport\BossData.cs" />
     <Compile Include="DPSReport\Bosses.cs" />
     <Compile Include="DPSReport\BossIds.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="RemotePing\PingMethod.cs" />
     <Compile Include="Tools\BossesDisableHelperClass.cs" />
     <Compile Include="Tools\CompatibilityUpdate.cs" />
+    <Compile Include="Tools\DiscordWebhooksHelperClass.cs" />
     <Compile Include="Tools\Gw2APIHelper.cs" />
     <Compile Include="Tools\HttpClientController.cs" />
     <Compile Include="Tools\LogSessionSettings.cs" />

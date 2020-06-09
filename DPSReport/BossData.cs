@@ -70,15 +70,15 @@ namespace PlenBotLogUploader.DPSReport
         }
 
         /// <summary>
-        /// Creates an BossData object from saved format.
+        /// Creates an BossData object from a serialised format.
         /// </summary>
         /// <param name="savedFormat">string representing the object</param>
         /// <returns>deserilised object of BossData type</returns>
-        public static BossData FromSavedFormat(string savedFormat)
+        public static BossData FromSavedFormat(string serialisedFormat)
         {
             try
             {
-                string[] values = savedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
+                string[] values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
                 int.TryParse(values[0], out int bossId);
                 int.TryParse(values[5], out int type);
                 int.TryParse(values[6], out int isEvent);

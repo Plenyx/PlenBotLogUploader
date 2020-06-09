@@ -2,7 +2,9 @@
 using System.IO;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using PlenBotLogUploader.Tools;
+using PlenBotLogUploader.DiscordAPI;
 
 namespace PlenBotLogUploader
 {
@@ -53,7 +55,9 @@ namespace PlenBotLogUploader
                     ContentText = textBoxSessionContent.Text,
                     ShowSuccess = !checkBoxOnlySuccess.Checked,
                     ElapsedTime = elapsedTime,
-                    SortBy = (LogSessionSortBy)sortBy
+                    SortBy = (LogSessionSortBy)sortBy,
+                    UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
+                    SelectedWebhooks = ConvertCheckboxListToList()
                 };
                 var fileName = $"{textBoxSessionName.Text.ToLower().Replace(" ", "")} {sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
                 File.AppendAllText($"{mainLink.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
@@ -103,5 +107,52 @@ namespace PlenBotLogUploader
         private void RadioButtonSortByWing_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSort = 0;
 
         private void RadioButtonSortByUpload_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSort = 1;
+
+        private List<DiscordWebhookData> ConvertCheckboxListToList()
+        {
+            var allWebhooks = DiscordWebhooks.GetAllWebhooks();
+            var list = new List<DiscordWebhookData>();
+            for (int i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
+            {
+                var item = checkedListBoxSelectedWebhooks.Items[i];
+                if (item.GetType() == typeof(DiscordWebhooksHelperClass))
+                {
+                    var discordWebhookHelper = (DiscordWebhooksHelperClass)item;
+                    var checkedState = checkedListBoxSelectedWebhooks.GetItemChecked(i);
+                    if (checkedState)
+                    {
+                        if (allWebhooks.ContainsKey(discordWebhookHelper.WebhookID))
+                        {
+                            list.Add(allWebhooks[discordWebhookHelper.WebhookID]);
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+
+        private void ReloadWebhooks()
+        {
+            checkedListBoxSelectedWebhooks.Items.Clear();
+            var allWebhooks = DiscordWebhooks.GetAllWebhooks();
+            foreach (var webhookNumber in allWebhooks.Keys)
+            {
+                checkedListBoxSelectedWebhooks.Items.Add(new DiscordWebhooksHelperClass() { WebhookID = webhookNumber, Text = $"{allWebhooks[webhookNumber].Name}" }, allWebhooks[webhookNumber].Active);
+            }
+        }
+
+        private void radioButtonOnlySelectedWebhooks_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBoxSelectedWebhooks.Enabled = radioButtonOnlySelectedWebhooks.Checked;
+            if (groupBoxSelectedWebhooks.Enabled)
+            {
+                ReloadWebhooks();
+            }
+        }
+
+        private void buttonReloadWebhooks_Click(object sender, EventArgs e)
+        {
+            ReloadWebhooks();
+        }
     }
 }

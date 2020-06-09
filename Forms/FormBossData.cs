@@ -10,10 +10,10 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private FormMain mainLink;
-        private FormTemplateBossData templateLink;
+        private readonly FormMain mainLink;
+        private readonly FormTemplateBossData templateLink;
         private int bossesIdsKey = 0;
-        private Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
+        private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         #endregion
 
         public FormBossData(FormMain mainLink)
@@ -52,12 +52,6 @@ namespace PlenBotLogUploader
             {
                 listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = allBosses[key].Name });
             }
-        }
-
-        public void AddBoss(BossData data)
-        {
-            bossesIdsKey++;
-            allBosses.Add(bossesIdsKey, data);
         }
 
         private void listViewBosses_DoubleClick(object sender, EventArgs e)
