@@ -16,13 +16,11 @@ namespace PlenBotLogUploader
     public partial class FormDiscordWebhooks : Form
     {
         #region definitions
-        // properties
-        public Dictionary<int, DiscordWebhookData> AllWebhooks { get; set; }
-
         // fields
         private readonly FormMain mainLink;
         private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         private int webhookIdsKey = 0;
+        private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.GetAllWebhooks();
 
         // consts
         private const int maxAllowedMessageSize = 1800;
@@ -35,55 +33,24 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             if (File.Exists($@"{mainLink.LocalDir}\discord_webhooks.txt"))
             {
-                AllWebhooks = new Dictionary<int, DiscordWebhookData>();
                 try
                 {
-                    using (StreamReader reader = new StreamReader($@"{mainLink.LocalDir}\discord_webhooks.txt"))
-                    {
-                        string line = reader.ReadLine();
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
-                            int.TryParse(values[0], out int active);
-                            int.TryParse(values[3], out int successFailToggle);
-                            int.TryParse(values[4], out int showPlayers);
-                            var bossesDisableList = new List<int>();
-                            if (values.Count() > 5)
-                            {
-                                var bossesDisable = values[5];
-                                var bossesDisableSplit = bossesDisable.Split(';');
-                                foreach (var bossIdString in bossesDisableSplit)
-                                {
-                                    if (int.TryParse(bossIdString, out int bossId))
-                                    {
-                                        bossesDisableList.Add(bossId);
-                                    }
-                                }
-                            }
-                            AddWebhook(new DiscordWebhookData()
-                            {
-                                Active = active == 1,
-                                Name = values[1],
-                                URL = values[2],
-                                SuccessFailToggle = (DiscordWebhookDataSuccessToggle)successFailToggle,
-                                ShowPlayers = showPlayers == 1,
-                                BossesDisable = bossesDisableList
-                            });
-                        }
-                    }
+                    allWebhooks = DiscordWebhooks.FromFile($@"{mainLink.LocalDir}\discord_webhooks.txt");
+                    webhookIdsKey = allWebhooks.Count();
                 }
                 catch
                 {
-                    AllWebhooks = new Dictionary<int, DiscordWebhookData>();
+                    allWebhooks.Clear();
+                    webhookIdsKey = 0;
                 }
             }
             else
             {
-                AllWebhooks = new Dictionary<int, DiscordWebhookData>();
+                allWebhooks.Clear();
             }
-            foreach (int key in AllWebhooks.Keys)
+            foreach (int key in allWebhooks.Keys)
             {
-                listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllWebhooks[key].Name, Checked = AllWebhooks[key].Active});
+                listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = key.ToString(), Text = allWebhooks[key].Name, Checked = allWebhooks[key].Active});
             }
         }
 
@@ -94,21 +61,11 @@ namespace PlenBotLogUploader
             using (StreamWriter writer = new StreamWriter($@"{mainLink.LocalDir}\discord_webhooks.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
-                foreach (int key in AllWebhooks.Keys)
+                foreach (int key in allWebhooks.Keys)
                 {
-                    var webhook = AllWebhooks[key];
-                    string active = webhook.Active ? "1" : "0";
-                    string successFailToggle = ((int)webhook.SuccessFailToggle).ToString();
-                    string showPlayers = webhook.ShowPlayers ? "1" : "0";
-                    await writer.WriteLineAsync($"{active}<;>{webhook.Name}<;>{webhook.URL}<;>{successFailToggle}<;>{showPlayers}<;>{string.Join(";", webhook.BossesDisable.Select(anon => anon.ToString()).ToArray())}");
+                    await writer.WriteLineAsync(allWebhooks[key].ToString(true));
                 }
             }
-        }
-
-        public void AddWebhook(DiscordWebhookData data)
-        {
-            webhookIdsKey++;
-            AllWebhooks.Add(webhookIdsKey, data);
         }
 
         public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON)
@@ -167,9 +124,9 @@ namespace PlenBotLogUploader
             {
                 string jsonContentWithoutPlayers = JsonConvert.SerializeObject(discordContentWithoutPlayers);
                 string jsonContentWithPlayers = JsonConvert.SerializeObject(discordContentWithPlayers);
-                foreach (var key in AllWebhooks.Keys)
+                foreach (var key in allWebhooks.Keys)
                 {
-                    var webhook = AllWebhooks[key];
+                    var webhook = allWebhooks[key];
                     if (!webhook.Active
                         || (webhook.SuccessFailToggle == DiscordWebhookDataSuccessToggle.OnSuccessOnly && !(reportJSON.Encounter.Success ?? false))
                         || (webhook.SuccessFailToggle == DiscordWebhookDataSuccessToggle.OnFailOnly && (reportJSON.Encounter.Success ?? false))
@@ -193,7 +150,7 @@ namespace PlenBotLogUploader
                         }
                     }
                 }
-                if (AllWebhooks.Count > 0)
+                if (allWebhooks.Count > 0)
                 {
                     mainLink.AddToText(">:> All active webhooks successfully executed.");
                 }
@@ -204,7 +161,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionAllActiveWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
+        public async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
             var RaidLogs = reportsJSON
                     .Where(anon => Bosses.GetWingForBoss(anon.EVTC.BossId) > 0)
@@ -265,7 +222,14 @@ namespace PlenBotLogUploader
                         if (builder.Length >= maxAllowedMessageSize)
                         {
                             messageCount++;
-                            await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                            if (logSessionSettings.UseSelectedWebhooksInstead)
+                            {
+                                await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                            }
+                            else
+                            {
+                                await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                            }
                             builder.Clear();
                             builder.Append("***Raid logs:***\n");
                         }
@@ -295,7 +259,14 @@ namespace PlenBotLogUploader
                         if (builder.Length >= maxAllowedMessageSize)
                         {
                             messageCount++;
-                            await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                            if (logSessionSettings.UseSelectedWebhooksInstead)
+                            {
+                                await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                            }
+                            else
+                            {
+                                await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                            }
                             builder.Clear();
                             builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                         }
@@ -325,7 +296,14 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        if (logSessionSettings.UseSelectedWebhooksInstead)
+                        {
+                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
+                        else
+                        {
+                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
                         builder.Clear();
                         builder.Append("***Fractal logs:***\n");
                     }
@@ -354,7 +332,14 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        if (logSessionSettings.UseSelectedWebhooksInstead)
+                        {
+                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
+                        else
+                        {
+                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
                         builder.Clear();
                         builder.Append("***Strike mission logs:***\n");
                     }
@@ -373,7 +358,14 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        if (logSessionSettings.UseSelectedWebhooksInstead)
+                        {
+                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
+                        else
+                        {
+                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
                         builder.Clear();
                         builder.Append("***Golem logs:***\n");
                     }
@@ -392,7 +384,14 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        if (logSessionSettings.UseSelectedWebhooksInstead)
+                        {
+                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
+                        else
+                        {
+                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
                         builder.Clear();
                         builder.Append("***WvW logs:***\n");
                     }
@@ -401,15 +400,26 @@ namespace PlenBotLogUploader
             if (!builder.ToString().EndsWith("***\n"))
             {
                 messageCount++;
-                await SendDiscordMessage(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                if (logSessionSettings.UseSelectedWebhooksInstead)
+                {
+                    await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                }
+                else
+                {
+                    await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                }
             }
-            if (AllWebhooks.Count > 0)
+            if (logSessionSettings.UseSelectedWebhooksInstead && logSessionSettings.SelectedWebhooks.Count > 0)
+            {
+                mainLink.AddToText(">:> All selected webhooks successfully executed with finished log session.");
+            }
+            else if (allWebhooks.Count > 0)
             {
                 mainLink.AddToText(">:> All active webhooks successfully executed with finished log session.");
             }
         }
 
-        private async Task SendDiscordMessage(string title, string description, string contentText)
+        private async Task SendDiscordMessageToAllActiveWebhooksAsync(string title, string description, string contentText)
         {
             var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
             {
@@ -430,9 +440,9 @@ namespace PlenBotLogUploader
             try
             {
                 string jsonContent = JsonConvert.SerializeObject(discordContent);
-                foreach (var key in AllWebhooks.Keys)
+                foreach (var key in allWebhooks.Keys)
                 {
-                    var webhook = AllWebhooks[key];
+                    var webhook = allWebhooks[key];
                     if (!webhook.Active)
                     {
                         continue;
@@ -446,14 +456,50 @@ namespace PlenBotLogUploader
             }
             catch
             {
-                mainLink.AddToText(">:> Unable to execute active webhooks with finished log session.");
+                mainLink.AddToText(">:> Unable to execute active webhooks with a finished log session.");
+            }
+        }
+
+        private async Task SendDiscordMessageToSelectedWebhooksAsync(List<DiscordWebhookData> webhooks, string title, string description, string contentText)
+        {
+            var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
+            {
+                Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
+            };
+            var discordContentEmbed = new DiscordAPIJSONContentEmbed()
+            {
+                Title = title,
+                Description = description,
+                Color = 32768,
+                Thumbnail = discordContentEmbedThumbnail
+            };
+            var discordContent = new DiscordAPIJSONContent()
+            {
+                Content = contentText,
+                Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+            };
+            try
+            {
+                string jsonContent = JsonConvert.SerializeObject(discordContent);
+                foreach (var webhook in webhooks)
+                {
+                    var uri = new Uri(webhook.URL);
+                    using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
+                    {
+                        using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
+                    }
+                }
+            }
+            catch
+            {
+                mainLink.AddToText(">:> Unable to execute selected webhooks with a finished log session.");
             }
         }
 
         private void toolStripMenuItemAdd_Click(object sender, EventArgs e)
         {
             webhookIdsKey++;
-            new FormEditDiscordWebhook(this, webhookIdsKey, true, null).Show();
+            new FormEditDiscordWebhook(this, null, webhookIdsKey).Show();
         }
 
         private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
@@ -463,7 +509,7 @@ namespace PlenBotLogUploader
                 var selected = listViewDiscordWebhooks.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
                 listViewDiscordWebhooks.Items.RemoveByKey(reservedId.ToString());
-                AllWebhooks.Remove(reservedId);
+                allWebhooks.Remove(reservedId);
             }
         }
 
@@ -473,14 +519,14 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewDiscordWebhooks.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                new FormEditDiscordWebhook(this, reservedId, false, AllWebhooks[reservedId]).Show();
+                new FormEditDiscordWebhook(this, allWebhooks[reservedId], reservedId).Show();
             }
         }
 
         private void listViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             int.TryParse(e.Item.Name, out int reservedId);
-            AllWebhooks[reservedId].Active = e.Item.Checked;
+            allWebhooks[reservedId].Active = e.Item.Checked;
         }
 
         private void contextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -497,7 +543,7 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewDiscordWebhooks.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                if (await AllWebhooks[reservedId].TestWebhookAsync(mainLink.HttpClientController))
+                if (await allWebhooks[reservedId].TestWebhookAsync(mainLink.HttpClientController))
                 {
                     MessageBox.Show("Webhook is valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -511,7 +557,7 @@ namespace PlenBotLogUploader
         private void ButtonAddNew_Click(object sender, EventArgs e)
         {
             webhookIdsKey++;
-            new FormEditDiscordWebhook(this, webhookIdsKey, true, null).Show();
+            new FormEditDiscordWebhook(this, null, webhookIdsKey).Show();
         }
     }
 }

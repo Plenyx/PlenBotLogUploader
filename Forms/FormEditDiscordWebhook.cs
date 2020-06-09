@@ -14,18 +14,17 @@ namespace PlenBotLogUploader
         private readonly FormDiscordWebhooks discordPingLink;
         private readonly DiscordWebhookData data;
         private readonly int reservedId;
-        private readonly bool addNew;
+        private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.GetAllWebhooks();
         #endregion
 
-        public FormEditDiscordWebhook(FormDiscordWebhooks discordPingLink, int reservedId, bool addNew, DiscordWebhookData data)
+        public FormEditDiscordWebhook(FormDiscordWebhooks discordPingLink, DiscordWebhookData data, int reservedId)
         {
             this.discordPingLink = discordPingLink;
             this.data = data;
             this.reservedId = reservedId;
-            this.addNew = addNew;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            Text = (addNew) ? "Add a new webhook" : "Edit an existing webhook";
+            Text = (data == null) ? "Add a new webhook" : "Edit an existing webhook";
             textBoxName.Text = data?.Name ?? "";
             textBoxUrl.Text = data?.URL ?? "";
             switch(data?.SuccessFailToggle ?? DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)
@@ -65,24 +64,21 @@ namespace PlenBotLogUploader
                 {
                     successFailToggle = DiscordWebhookDataSuccessToggle.OnFailOnly;
                 }
-                if (addNew)
+                if (data == null)
                 {
-                    discordPingLink.AllWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList() };
+                    allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList() };
                     discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
                 }
                 else
                 {
-                    if (discordPingLink.AllWebhooks.ContainsKey(reservedId))
-                    {
-                        var webhook = discordPingLink.AllWebhooks[reservedId];
-                        webhook.Active = data.Active;
-                        webhook.Name = textBoxName.Text;
-                        webhook.URL = textBoxUrl.Text;
-                        webhook.SuccessFailToggle = successFailToggle;
-                        webhook.ShowPlayers = checkBoxPlayers.Checked;
-                        webhook.BossesDisable = ConvertCheckboxListToList();
-                        discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
-                    }
+                    var webhook = allWebhooks[reservedId];
+                    webhook.Active = data.Active;
+                    webhook.Name = textBoxName.Text;
+                    webhook.URL = textBoxUrl.Text;
+                    webhook.SuccessFailToggle = successFailToggle;
+                    webhook.ShowPlayers = checkBoxPlayers.Checked;
+                    webhook.BossesDisable = ConvertCheckboxListToList();
+                    discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
                 }
             }
         }

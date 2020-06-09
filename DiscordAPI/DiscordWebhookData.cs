@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -61,5 +63,64 @@ namespace PlenBotLogUploader.DiscordAPI
         /// <param name="bossId">Queried boss ID</param>
         /// <returns></returns>
         public bool IsBossEnabled(int bossId) => !BossesDisable.Contains(bossId);
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <param name="savableFormat">whether the text should be in savable format</param>
+        /// <returns>Returns a string that represents the current object.</returns>
+        public string ToString(bool savableFormat = false)
+        {
+            if (!savableFormat)
+            {
+                return base.ToString();
+            }
+            string active = Active ? "1" : "0";
+            string successFailToggle = ((int)SuccessFailToggle).ToString();
+            string showPlayers = ShowPlayers ? "1" : "0";
+            return $"{active}<;>{Name}<;>{URL}<;>{successFailToggle}<;>{showPlayers}<;>{string.Join(";", BossesDisable.Select(anon => anon.ToString()).ToArray())}";
+        }
+
+        /// <summary>
+        /// Creates an DiscordWebhookData object from a serialised format.
+        /// </summary>
+        /// <param name="savedFormat">string representing the object</param>
+        /// <returns>deserilised object of DiscordWebhookData type</returns>
+        public static DiscordWebhookData FromSavedFormat(string serialisedFormat)
+        {
+            try
+            {
+                string[] values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
+                int.TryParse(values[0], out int active);
+                int.TryParse(values[3], out int successFailToggle);
+                int.TryParse(values[4], out int showPlayers);
+                var bossesDisableList = new List<int>();
+                if (values.Count() > 5)
+                {
+                    var bossesDisable = values[5];
+                    var bossesDisableSplit = bossesDisable.Split(';');
+                    foreach (var bossIdString in bossesDisableSplit)
+                    {
+                        if (int.TryParse(bossIdString, out int bossId))
+                        {
+                            bossesDisableList.Add(bossId);
+                        }
+                    }
+                }
+                return new DiscordWebhookData()
+                {
+                    Active = active == 1,
+                    Name = values[1],
+                    URL = values[2],
+                    SuccessFailToggle = (DiscordWebhookDataSuccessToggle)successFailToggle,
+                    ShowPlayers = showPlayers == 1,
+                    BossesDisable = bossesDisableList
+                };
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
