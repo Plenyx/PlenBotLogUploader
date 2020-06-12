@@ -19,5 +19,11 @@ namespace PlenBotLogUploader.DiscordAPI
         /// </summary>
         [JsonProperty("embeds")]
         public List<DiscordAPIJSONContentEmbed> Embeds { get; set; }
+
+        /// <summary>
+        /// allowed mentions for the message (content)
+        /// </summary>
+        [JsonProperty("allowed_mentions")]
+        public DiscordAPIJSONContentAllowedMentions AllowedMentions { get; set; } = new DiscordAPIJSONContentAllowedMentions();
     }
 }
