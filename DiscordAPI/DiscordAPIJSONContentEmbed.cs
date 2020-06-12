@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.DiscordAPI
 {
@@ -32,6 +33,12 @@ namespace PlenBotLogUploader.DiscordAPI
         public int Color { get; set; }
 
         /// <summary>
+        /// timestamp of embed content (in ISO8601)
+        /// </summary>
+        [JsonProperty("timestamp")]
+        public string TimeStamp { get; set; }
+
+        /// <summary>
         /// thumbnail information
         /// </summary>
         [JsonProperty("thumbnail")]
@@ -47,6 +54,6 @@ namespace PlenBotLogUploader.DiscordAPI
         /// fields information
         /// </summary>
         [JsonProperty("fields")]
-        public DiscordAPIJSONContentEmbedField[] Fields { get; set; }
+        public List<DiscordAPIJSONContentEmbedField> Fields { get; set; }
     }
 }

@@ -19,6 +19,12 @@ namespace PlenBotLogUploader.DPSReport
         [JsonProperty("fightName")]
         public string FightName { get; set; }
 
+        [JsonProperty("timeStart")]
+        public string TimeStart { get; set; }
+
+        [JsonProperty("timeEnd")]
+        public string TimeEnd { get; set; }
+
         [JsonProperty("gw2Build")]
         public int GW2Build { get; set; }
 

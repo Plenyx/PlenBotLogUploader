@@ -87,12 +87,19 @@ namespace PlenBotLogUploader
             {
                 Url = icon
             };
+            DateTime timestampDateTime = DateTime.UtcNow;
+            if(DateTime.TryParse(reportJSON.ExtraJSON.TimeStart, out DateTime timeStart))
+            {
+                timestampDateTime = timeStart;
+            }
+            var timestamp = timestampDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
             var discordContentEmbed = new DiscordAPIJSONContentEmbed()
             {
                 Title = bossName,
                 Url = reportJSON.Permalink,
                 Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
                 Color = color,
+                TimeStamp = timestamp,
                 Thumbnail = discordContentEmbedThumbnail
             };
             var discordContentWithoutPlayers = new DiscordAPIJSONContent()
@@ -105,6 +112,7 @@ namespace PlenBotLogUploader
                 Url = reportJSON.Permalink,
                 Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
                 Color = color,
+                TimeStamp = timestamp,
                 Thumbnail = discordContentEmbedThumbnail
             };
             if (reportJSON.Players.Values.Count <= 10)
@@ -114,7 +122,7 @@ namespace PlenBotLogUploader
                 {
                     fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.CharacterName, Value = $"```\n{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.EliteSpec)}\n```", Inline = true });
                 }
-                discordContentEmbedForPlayers.Fields = fields.ToArray();
+                discordContentEmbedForPlayers.Fields = fields;
             }
             var discordContentWithPlayers = new DiscordAPIJSONContent()
             {
@@ -430,6 +438,7 @@ namespace PlenBotLogUploader
                 Title = title,
                 Description = description,
                 Color = 32768,
+                TimeStamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
                 Thumbnail = discordContentEmbedThumbnail
             };
             var discordContent = new DiscordAPIJSONContent()
@@ -471,6 +480,7 @@ namespace PlenBotLogUploader
                 Title = title,
                 Description = description,
                 Color = 32768,
+                TimeStamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
                 Thumbnail = discordContentEmbedThumbnail
             };
             var discordContent = new DiscordAPIJSONContent()
