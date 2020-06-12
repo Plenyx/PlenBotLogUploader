@@ -11,7 +11,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// footer text
         /// </summary>
         [JsonProperty("text")]
-        public string Text { get; set; } = $"PlenBot Log Uploader release {Properties.Settings.Default.ReleaseVersion}";
+        public string Text { get; set; } = $"PlenBot Log Uploader r.{Properties.Settings.Default.ReleaseVersion}";
 
         /// <summary>
         /// url of the footer icon (only supports http(s) and attachments)

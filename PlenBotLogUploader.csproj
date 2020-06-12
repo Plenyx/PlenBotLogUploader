@@ -87,6 +87,7 @@
     <Compile Include="DiscordAPI\DiscordAPIJSONContent.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentAllowedMentions.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbed.cs" />
+    <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbedAuthor.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbedField.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbedFooter.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbedThumbnail.cs" />

@@ -39,6 +39,12 @@ namespace PlenBotLogUploader.DiscordAPI
         public string TimeStamp { get; set; }
 
         /// <summary>
+        /// author information
+        /// </summary>
+        [JsonProperty("author")]
+        public DiscordAPIJSONContentEmbedAuthor Author { get; set; } = new DiscordAPIJSONContentEmbedAuthor();
+
+        /// <summary>
         /// thumbnail information
         /// </summary>
         [JsonProperty("thumbnail")]
