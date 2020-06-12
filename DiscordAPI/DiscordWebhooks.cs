@@ -11,7 +11,7 @@ namespace PlenBotLogUploader.DiscordAPI
     {
         private static Dictionary<int, DiscordWebhookData> instance = null;
         /// <summary>
-        /// Returns the main dictionary with all webhooks
+        /// Returns the main dictionary with all webhooks.
         /// </summary>
         /// <returns>A dictionary with all webhooks</returns>
         public static Dictionary<int, DiscordWebhookData> GetAllWebhooks()

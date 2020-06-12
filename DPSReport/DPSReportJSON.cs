@@ -34,7 +34,7 @@ namespace PlenBotLogUploader.DPSReport
         public int? EncounterTime { get; set; }
 
         /// <summary>
-        /// Tool which processed the log on DPSReport
+        /// Log tool used with processing the log on DPSReport
         /// </summary>
         [JsonProperty("generator")]
         public string Generator { get; set; }

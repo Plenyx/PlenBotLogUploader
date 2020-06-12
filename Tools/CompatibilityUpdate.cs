@@ -6,7 +6,7 @@ using PlenBotLogUploader.DPSReport;
 
 namespace PlenBotLogUploader.Tools
 {
-    static class CompatibilityUpdate
+    public static class CompatibilityUpdate
     {
         private static string localDir = "";
 

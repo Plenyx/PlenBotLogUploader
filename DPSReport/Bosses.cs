@@ -11,7 +11,7 @@ namespace PlenBotLogUploader.DPSReport
     {
         private static Dictionary<int, BossData> instance = null;
         /// <summary>
-        /// Returns the main dictionary with all encounters
+        /// Returns the main dictionary with all encounters.
         /// </summary>
         /// <returns>A dictionary with all encounters</returns>
         public static Dictionary<int, BossData> GetAllBosses()
@@ -70,7 +70,7 @@ namespace PlenBotLogUploader.DPSReport
         }
 
         /// <summary>
-        /// returns a dictionary with default BossData values
+        /// Returns a dictionary with default BossData values.
         /// </summary>
         /// <returns>Dictionary with default BossData values</returns>
         public static Dictionary<int, BossData> GetDefaultSettingsForBossesAsDictionary()
@@ -122,7 +122,7 @@ namespace PlenBotLogUploader.DPSReport
         }
 
         /// <summary>
-        /// returns a wing number based on a given encounter ID
+        /// Returns a wing number based on a given encounter ID.
         /// </summary>
         /// <param name="bossId">ID of the encounter</param>
         /// <returns>wing number</returns>
@@ -168,7 +168,7 @@ namespace PlenBotLogUploader.DPSReport
         }
 
         /// <summary>
-        /// returns the order of the encounter within a wing based on given encounter ID
+        /// Returns the order of the encounter within a wing based on given encounter ID.
         /// </summary>
         /// <param name="bossId">ID of the encounter</param>
         /// <returns>order of the encounter within a wing</returns>
@@ -213,7 +213,7 @@ namespace PlenBotLogUploader.DPSReport
         }
 
         /// <summary>
-        /// returns a wing name based on its number
+        /// Returns a wing name based on its number.
         /// </summary>
         /// <param name="wingNumber">number of the wing</param>
         /// <returns>wing name</returns>
