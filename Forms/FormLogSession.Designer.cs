@@ -42,11 +42,11 @@
             this.textBoxSessionContent = new System.Windows.Forms.TextBox();
             this.radioButtonSortByWing = new System.Windows.Forms.RadioButton();
             this.groupBoxWebhookTypeSelection = new System.Windows.Forms.GroupBox();
-            this.radioButtonAllActive = new System.Windows.Forms.RadioButton();
-            this.radioButtonOnlySelectedWebhooks = new System.Windows.Forms.RadioButton();
-            this.checkedListBoxSelectedWebhooks = new System.Windows.Forms.CheckedListBox();
             this.groupBoxSelectedWebhooks = new System.Windows.Forms.GroupBox();
             this.buttonReloadWebhooks = new System.Windows.Forms.Button();
+            this.checkedListBoxSelectedWebhooks = new System.Windows.Forms.CheckedListBox();
+            this.radioButtonOnlySelectedWebhooks = new System.Windows.Forms.RadioButton();
+            this.radioButtonAllActive = new System.Windows.Forms.RadioButton();
             this.groupBoxSessionSettings.SuspendLayout();
             this.groupBoxDiscordWebhooks.SuspendLayout();
             this.groupBoxWebhookTypeSelection.SuspendLayout();
@@ -201,37 +201,6 @@
             this.groupBoxWebhookTypeSelection.TabStop = false;
             this.groupBoxWebhookTypeSelection.Text = "Select which Webhooks to execute";
             // 
-            // radioButtonAllActive
-            // 
-            this.radioButtonAllActive.AutoSize = true;
-            this.radioButtonAllActive.Checked = true;
-            this.radioButtonAllActive.Location = new System.Drawing.Point(7, 20);
-            this.radioButtonAllActive.Name = "radioButtonAllActive";
-            this.radioButtonAllActive.Size = new System.Drawing.Size(123, 17);
-            this.radioButtonAllActive.TabIndex = 0;
-            this.radioButtonAllActive.TabStop = true;
-            this.radioButtonAllActive.Text = "All active Webhooks";
-            this.radioButtonAllActive.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonOnlySelectedWebhooks
-            // 
-            this.radioButtonOnlySelectedWebhooks.AutoSize = true;
-            this.radioButtonOnlySelectedWebhooks.Location = new System.Drawing.Point(7, 41);
-            this.radioButtonOnlySelectedWebhooks.Name = "radioButtonOnlySelectedWebhooks";
-            this.radioButtonOnlySelectedWebhooks.Size = new System.Drawing.Size(144, 17);
-            this.radioButtonOnlySelectedWebhooks.TabIndex = 1;
-            this.radioButtonOnlySelectedWebhooks.Text = "Only selected Webhooks";
-            this.radioButtonOnlySelectedWebhooks.UseVisualStyleBackColor = true;
-            this.radioButtonOnlySelectedWebhooks.CheckedChanged += new System.EventHandler(this.radioButtonOnlySelectedWebhooks_CheckedChanged);
-            // 
-            // checkedListBoxSelectedWebhooks
-            // 
-            this.checkedListBoxSelectedWebhooks.FormattingEnabled = true;
-            this.checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(6, 47);
-            this.checkedListBoxSelectedWebhooks.Name = "checkedListBoxSelectedWebhooks";
-            this.checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(209, 139);
-            this.checkedListBoxSelectedWebhooks.TabIndex = 2;
-            // 
             // groupBoxSelectedWebhooks
             // 
             this.groupBoxSelectedWebhooks.Controls.Add(this.buttonReloadWebhooks);
@@ -253,6 +222,37 @@
             this.buttonReloadWebhooks.Text = "Reload possible Webhooks";
             this.buttonReloadWebhooks.UseVisualStyleBackColor = true;
             this.buttonReloadWebhooks.Click += new System.EventHandler(this.buttonReloadWebhooks_Click);
+            // 
+            // checkedListBoxSelectedWebhooks
+            // 
+            this.checkedListBoxSelectedWebhooks.FormattingEnabled = true;
+            this.checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(6, 47);
+            this.checkedListBoxSelectedWebhooks.Name = "checkedListBoxSelectedWebhooks";
+            this.checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(209, 139);
+            this.checkedListBoxSelectedWebhooks.TabIndex = 2;
+            // 
+            // radioButtonOnlySelectedWebhooks
+            // 
+            this.radioButtonOnlySelectedWebhooks.AutoSize = true;
+            this.radioButtonOnlySelectedWebhooks.Location = new System.Drawing.Point(7, 41);
+            this.radioButtonOnlySelectedWebhooks.Name = "radioButtonOnlySelectedWebhooks";
+            this.radioButtonOnlySelectedWebhooks.Size = new System.Drawing.Size(200, 17);
+            this.radioButtonOnlySelectedWebhooks.TabIndex = 1;
+            this.radioButtonOnlySelectedWebhooks.Text = "Only selected Webhooks from the list";
+            this.radioButtonOnlySelectedWebhooks.UseVisualStyleBackColor = true;
+            this.radioButtonOnlySelectedWebhooks.CheckedChanged += new System.EventHandler(this.radioButtonOnlySelectedWebhooks_CheckedChanged);
+            // 
+            // radioButtonAllActive
+            // 
+            this.radioButtonAllActive.AutoSize = true;
+            this.radioButtonAllActive.Checked = true;
+            this.radioButtonAllActive.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonAllActive.Name = "radioButtonAllActive";
+            this.radioButtonAllActive.Size = new System.Drawing.Size(166, 17);
+            this.radioButtonAllActive.TabIndex = 0;
+            this.radioButtonAllActive.TabStop = true;
+            this.radioButtonAllActive.Text = "All currently active Webhooks";
+            this.radioButtonAllActive.UseVisualStyleBackColor = true;
             // 
             // FormLogSession
             // 

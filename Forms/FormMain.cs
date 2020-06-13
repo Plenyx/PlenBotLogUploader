@@ -908,7 +908,7 @@ namespace PlenBotLogUploader
                         {
                             var userInfo = await gw2Api.GetUserInfoAsync();
                             var playerWorld = GW2.GW2Servers[userInfo.World];
-                            await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
+                            await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
                         }
                     }
                 }
