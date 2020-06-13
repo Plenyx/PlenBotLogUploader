@@ -8,10 +8,10 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private FormPings pingLink;
-        private PingConfiguration config;
-        private int reservedId;
-        private bool addNew;
+        private readonly FormPings pingLink;
+        private readonly PingConfiguration config;
+        private readonly int reservedId;
+        private readonly bool addNew;
         #endregion
 
         public FormEditPing(FormPings pingLink, int reservedId, bool addNew, PingConfiguration config)
@@ -22,14 +22,7 @@ namespace PlenBotLogUploader
             this.addNew = addNew;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (addNew)
-            {
-                Text = "Add a new ping configuration";
-            }
-            else
-            {
-                Text = "Edit an existing ping configuration";
-            }
+            Text = (addNew) ? "Add a new ping configuration" : "Edit an existing ping configuration";
             textBoxName.Text = config?.Name ?? "";
             textBoxURL.Text = config?.URL ?? "";
             textBoxAuthName.Text = config?.Authentication.AuthName ?? "Bearer";

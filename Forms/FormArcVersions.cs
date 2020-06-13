@@ -15,7 +15,7 @@ namespace PlenBotLogUploader
         public string GW2Location { get; set; } = "";
 
         // fields
-        private FormMain mainLink;
+        private readonly FormMain mainLink;
         private int gw2Instances = 0;
         #endregion
 

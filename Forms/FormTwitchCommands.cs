@@ -6,7 +6,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private FormMain mainLink;
+        private readonly FormMain mainLink;
         #endregion
 
         public FormTwitchCommands(FormMain mainLink)

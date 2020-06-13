@@ -16,7 +16,7 @@ namespace PlenBotLogUploader
         public Dictionary<int, PingConfiguration> AllPings { get; set; }
 
         // fields
-        private FormMain mainLink;
+        private readonly FormMain mainLink;
         private int settingsIdsKey = 0;
         #endregion
 

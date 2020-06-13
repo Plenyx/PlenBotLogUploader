@@ -15,7 +15,7 @@ namespace PlenBotLogUploader
         public bool SessionRunning { get; private set; } = false;
 
         // fields
-        private FormMain mainLink;
+        private readonly FormMain mainLink;
         private bool sessionPaused = false;
         private readonly Stopwatch stopWatch = new Stopwatch();
         private DateTime sessionTimeStarted;
