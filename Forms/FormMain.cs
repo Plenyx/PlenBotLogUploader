@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Win32;
 using PlenBotLogUploader.Tools;
+using PlenBotLogUploader.GW2API;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.TwitchIRCClient;
 using Newtonsoft.Json;
@@ -179,6 +180,8 @@ namespace PlenBotLogUploader
                 twitchCommandsLink.textBoxLastLogCommand.Text = Properties.Settings.Default.TwitchCommandLastLog;
                 twitchCommandsLink.checkBoxSongEnable.Checked = Properties.Settings.Default.TwitchCommandSongEnabled;
                 twitchCommandsLink.textBoxSongCommand.Text = Properties.Settings.Default.TwitchCommandSong;
+                twitchCommandsLink.checkBoxGW2Ign.Checked = Properties.Settings.Default.TwitchCommandGW2IgnEnabled;
+                twitchCommandsLink.textBoxGW2Ign.Text = Properties.Settings.Default.TwitchCommandGW2Ign;
                 logSessionLink.textBoxSessionName.Text = Properties.Settings.Default.SessionName;
                 logSessionLink.checkBoxSupressWebhooks.Checked = Properties.Settings.Default.SessionSuppressWebhooks;
                 logSessionLink.checkBoxOnlySuccess.Checked = Properties.Settings.Default.SessionOnlySuccess;
@@ -894,6 +897,19 @@ namespace PlenBotLogUploader
                     catch
                     {
                         await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "Spotify is not running.");
+                    }
+                }
+                else if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2Ign.Checked)
+                {
+                    AddToText("> (GW2) IGN COMMAND USED");
+                    if (Properties.Settings.Default.GW2APIKey != "")
+                    {
+                        using (Gw2APIHelper gw2Api = new Gw2APIHelper(Properties.Settings.Default.GW2APIKey))
+                        {
+                            var userInfo = await gw2Api.GetUserInfoAsync();
+                            var playerWorld = GW2.GW2Servers[userInfo.World];
+                            await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
+                        }
                     }
                 }
             }

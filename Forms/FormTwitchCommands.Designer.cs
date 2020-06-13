@@ -35,11 +35,15 @@
             this.groupBoxLastLog = new System.Windows.Forms.GroupBox();
             this.textBoxLastLogCommand = new System.Windows.Forms.TextBox();
             this.groupBoxSong = new System.Windows.Forms.GroupBox();
-            this.checkBoxSongEnable = new System.Windows.Forms.CheckBox();
             this.textBoxSongCommand = new System.Windows.Forms.TextBox();
+            this.checkBoxSongEnable = new System.Windows.Forms.CheckBox();
+            this.groupBoxGW2IGN = new System.Windows.Forms.GroupBox();
+            this.checkBoxGW2Ign = new System.Windows.Forms.CheckBox();
+            this.textBoxGW2Ign = new System.Windows.Forms.TextBox();
             this.groupBoxUploader.SuspendLayout();
             this.groupBoxLastLog.SuspendLayout();
             this.groupBoxSong.SuspendLayout();
+            this.groupBoxGW2IGN.SuspendLayout();
             this.SuspendLayout();
             // 
             // checkBoxUploaderEnable
@@ -109,6 +113,13 @@
             this.groupBoxSong.TabStop = false;
             this.groupBoxSong.Text = "(Spotify) !song";
             // 
+            // textBoxSongCommand
+            // 
+            this.textBoxSongCommand.Location = new System.Drawing.Point(7, 42);
+            this.textBoxSongCommand.Name = "textBoxSongCommand";
+            this.textBoxSongCommand.Size = new System.Drawing.Size(164, 20);
+            this.textBoxSongCommand.TabIndex = 1;
+            // 
             // checkBoxSongEnable
             // 
             this.checkBoxSongEnable.AutoSize = true;
@@ -119,18 +130,40 @@
             this.checkBoxSongEnable.Text = "enable command";
             this.checkBoxSongEnable.UseVisualStyleBackColor = true;
             // 
-            // textBoxSongCommand
+            // groupBoxGW2IGN
             // 
-            this.textBoxSongCommand.Location = new System.Drawing.Point(7, 42);
-            this.textBoxSongCommand.Name = "textBoxSongCommand";
-            this.textBoxSongCommand.Size = new System.Drawing.Size(164, 20);
-            this.textBoxSongCommand.TabIndex = 1;
+            this.groupBoxGW2IGN.Controls.Add(this.textBoxGW2Ign);
+            this.groupBoxGW2IGN.Controls.Add(this.checkBoxGW2Ign);
+            this.groupBoxGW2IGN.Location = new System.Drawing.Point(12, 244);
+            this.groupBoxGW2IGN.Name = "groupBoxGW2IGN";
+            this.groupBoxGW2IGN.Size = new System.Drawing.Size(179, 72);
+            this.groupBoxGW2IGN.TabIndex = 5;
+            this.groupBoxGW2IGN.TabStop = false;
+            this.groupBoxGW2IGN.Text = "(GW2) !ign";
+            // 
+            // checkBoxGW2Ign
+            // 
+            this.checkBoxGW2Ign.AutoSize = true;
+            this.checkBoxGW2Ign.Location = new System.Drawing.Point(7, 20);
+            this.checkBoxGW2Ign.Name = "checkBoxGW2Ign";
+            this.checkBoxGW2Ign.Size = new System.Drawing.Size(107, 17);
+            this.checkBoxGW2Ign.TabIndex = 0;
+            this.checkBoxGW2Ign.Text = "enable command";
+            this.checkBoxGW2Ign.UseVisualStyleBackColor = true;
+            // 
+            // textBoxGW2Ign
+            // 
+            this.textBoxGW2Ign.Location = new System.Drawing.Point(7, 44);
+            this.textBoxGW2Ign.Name = "textBoxGW2Ign";
+            this.textBoxGW2Ign.Size = new System.Drawing.Size(164, 20);
+            this.textBoxGW2Ign.TabIndex = 1;
             // 
             // FormTwitchCommands
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(199, 239);
+            this.ClientSize = new System.Drawing.Size(199, 322);
+            this.Controls.Add(this.groupBoxGW2IGN);
             this.Controls.Add(this.groupBoxSong);
             this.Controls.Add(this.groupBoxLastLog);
             this.Controls.Add(this.groupBoxUploader);
@@ -147,6 +180,8 @@
             this.groupBoxLastLog.PerformLayout();
             this.groupBoxSong.ResumeLayout(false);
             this.groupBoxSong.PerformLayout();
+            this.groupBoxGW2IGN.ResumeLayout(false);
+            this.groupBoxGW2IGN.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -162,5 +197,8 @@
         private System.Windows.Forms.GroupBox groupBoxSong;
         public System.Windows.Forms.CheckBox checkBoxSongEnable;
         public System.Windows.Forms.TextBox textBoxSongCommand;
+        private System.Windows.Forms.GroupBox groupBoxGW2IGN;
+        public System.Windows.Forms.TextBox textBoxGW2Ign;
+        public System.Windows.Forms.CheckBox checkBoxGW2Ign;
     }
 }

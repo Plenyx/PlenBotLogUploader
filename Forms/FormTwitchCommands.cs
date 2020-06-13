@@ -26,6 +26,8 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.TwitchCommandLastLog = textBoxLastLogCommand.Text;
             Properties.Settings.Default.TwitchCommandSongEnabled = checkBoxSongEnable.Checked;
             Properties.Settings.Default.TwitchCommandSong = textBoxSongCommand.Text;
+            Properties.Settings.Default.TwitchCommandGW2IgnEnabled = checkBoxGW2Ign.Checked;
+            Properties.Settings.Default.TwitchCommandGW2Ign = textBoxGW2Ign.Text;
         }
     }
 }

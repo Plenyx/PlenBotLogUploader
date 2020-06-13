@@ -12,7 +12,7 @@ namespace PlenBotLogUploader.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -425,6 +425,30 @@ namespace PlenBotLogUploader.Properties {
             }
             set {
                 this["GW2APIKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TwitchCommandGW2IgnEnabled {
+            get {
+                return ((bool)(this["TwitchCommandGW2IgnEnabled"]));
+            }
+            set {
+                this["TwitchCommandGW2IgnEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("!ign")]
+        public string TwitchCommandGW2Ign {
+            get {
+                return ((string)(this["TwitchCommandGW2Ign"]));
+            }
+            set {
+                this["TwitchCommandGW2Ign"] = value;
             }
         }
     }
