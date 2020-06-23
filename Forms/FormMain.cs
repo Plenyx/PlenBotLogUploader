@@ -46,6 +46,7 @@ namespace PlenBotLogUploader
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
+        private int recentUploadFailCounter = 0;
         private int logsCount = 0;
         private int lastBossId = 0;
         private int pullCounter = 0;
@@ -706,6 +707,34 @@ namespace PlenBotLogUploader
                             catch
                             {
                                 AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
+                                Interlocked.Increment(ref recentUploadFailCounter);
+                                if (recentUploadFailCounter > 3)
+                                {
+                                    Interlocked.Exchange(ref recentUploadFailCounter, 0);
+                                    AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}");
+                                }
+                                else
+                                {
+                                    await Task.Run(async () =>
+                                    {
+                                        int delay = 0;
+                                        switch (recentUploadFailCounter)
+                                        {
+                                            case 3:
+                                                delay = 45000;
+                                                break;
+                                            case 2:
+                                                delay = 15000;
+                                                break;
+                                            default:
+                                                delay = 3000;
+                                                break;
+                                        }
+                                        AddToText($">:> Retrying in {(int)(delay/1000)}s...");
+                                        await Task.Delay(delay);
+                                        await HttpUploadLogAsync(file, postData, bypassMessage);
+                                    });
+                                }
                             }
                         }
                     }
