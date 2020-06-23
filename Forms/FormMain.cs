@@ -47,6 +47,7 @@ namespace PlenBotLogUploader
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
         private int logsCount = 0;
+        private int pullCounter = 0;
 
         // constants
         private const int minFileSize = 12288;
@@ -180,8 +181,10 @@ namespace PlenBotLogUploader
                 twitchCommandsLink.textBoxLastLogCommand.Text = Properties.Settings.Default.TwitchCommandLastLog;
                 twitchCommandsLink.checkBoxSongEnable.Checked = Properties.Settings.Default.TwitchCommandSongEnabled;
                 twitchCommandsLink.textBoxSongCommand.Text = Properties.Settings.Default.TwitchCommandSong;
-                twitchCommandsLink.checkBoxGW2Ign.Checked = Properties.Settings.Default.TwitchCommandGW2IgnEnabled;
+                twitchCommandsLink.checkBoxGW2IgnEnable.Checked = Properties.Settings.Default.TwitchCommandGW2IgnEnabled;
                 twitchCommandsLink.textBoxGW2Ign.Text = Properties.Settings.Default.TwitchCommandGW2Ign;
+                twitchCommandsLink.checkBoxPullCounterEnable.Checked = Properties.Settings.Default.TwitchCommandPullCounterEnabled;
+                twitchCommandsLink.textBoxPullCounter.Text = Properties.Settings.Default.TwitchCommandPullCounter;
                 logSessionLink.textBoxSessionName.Text = Properties.Settings.Default.SessionName;
                 logSessionLink.checkBoxSupressWebhooks.Checked = Properties.Settings.Default.SessionSuppressWebhooks;
                 logSessionLink.checkBoxOnlySuccess.Checked = Properties.Settings.Default.SessionOnlySuccess;
@@ -636,6 +639,14 @@ namespace PlenBotLogUploader
                                                 $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
                                             // Twitch chat
                                             LastLogLocation = reportJSON.Permalink;
+                                            if (reportJSON.Encounter.Success ?? false)
+                                            {
+                                                pullCounter = 0;
+                                            }
+                                            else
+                                            {
+                                                pullCounter++;
+                                            }
                                             if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                             {
                                                 await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
@@ -670,7 +681,6 @@ namespace PlenBotLogUploader
                                             }
                                             // remote server ping
                                             await pingsLink.ExecuteAllPingsAsync(reportJSON);
-                                            // dispose
                                         }
                                         else if(reportJSON.Error.Length > 0)
                                         {
@@ -879,6 +889,14 @@ namespace PlenBotLogUploader
                         await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Link to the last log: {LastLogLocation}");
                     }
                 }
+                else if (command.Equals(twitchCommandsLink.textBoxPullCounter.Text.ToLower()) && twitchCommandsLink.checkBoxPullCounterEnable.Checked)
+                {
+                    if (LastLogLocation != "")
+                    {
+                        AddToText("> PULLS COMMAND USED");
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Current pull: {pullCounter}");
+                    }
+                }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
                 {
                     AddToText("> (Spotify) SONG COMMAND USED");
@@ -899,7 +917,7 @@ namespace PlenBotLogUploader
                         await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "Spotify is not running.");
                     }
                 }
-                else if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2Ign.Checked)
+                else if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2IgnEnable.Checked)
                 {
                     AddToText("> (GW2) IGN COMMAND USED");
                     if (Properties.Settings.Default.GW2APIKey != "")

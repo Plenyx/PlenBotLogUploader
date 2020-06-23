@@ -451,5 +451,29 @@ namespace PlenBotLogUploader.Properties {
                 this["TwitchCommandGW2Ign"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TwitchCommandPullCounterEnabled {
+            get {
+                return ((bool)(this["TwitchCommandPullCounterEnabled"]));
+            }
+            set {
+                this["TwitchCommandPullCounterEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("!pulls")]
+        public string TwitchCommandPullCounter {
+            get {
+                return ((string)(this["TwitchCommandPullCounter"]));
+            }
+            set {
+                this["TwitchCommandPullCounter"] = value;
+            }
+        }
     }
 }

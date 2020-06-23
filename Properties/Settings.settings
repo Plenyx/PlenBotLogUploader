@@ -110,5 +110,11 @@
     <Setting Name="TwitchCommandGW2Ign" Type="System.String" Scope="User">
       <Value Profile="(Default)">!ign</Value>
     </Setting>
+    <Setting Name="TwitchCommandPullCounterEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TwitchCommandPullCounter" Type="System.String" Scope="User">
+      <Value Profile="(Default)">!pulls</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
