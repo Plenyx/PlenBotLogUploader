@@ -897,10 +897,13 @@ namespace PlenBotLogUploader
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxPullCounter.Text.ToLower()) && twitchCommandsLink.checkBoxPullCounterEnable.Checked)
                 {
-                    if (LastLogLocation != "")
+                    if (lastBossId > 0)
                     {
                         AddToText("> PULLS COMMAND USED");
-                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Current pull: {pullCounter}");
+                        var bossDataRef = allBosses
+                            .Where(anon => anon.Value.BossId.Equals(lastBossId))
+                            .Select(anon => anon.Value);
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $" | Current pull: {pullCounter}");
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
