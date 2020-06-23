@@ -50,7 +50,7 @@ namespace PlenBotLogUploader
         private int pullCounter = 0;
 
         // constants
-        private const int minFileSize = 12288;
+        private const int minFileSize = 8192;
         #endregion
 
         #region constructor
@@ -78,7 +78,7 @@ namespace PlenBotLogUploader
             gw2APILink = new FormGW2API(this);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
-            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 12 kB filesize will not be uploaded.");
+            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 8 kB filesize will not be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it and OBS is running.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");

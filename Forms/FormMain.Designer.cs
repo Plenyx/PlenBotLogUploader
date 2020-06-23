@@ -60,6 +60,7 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.buttonGW2API = new System.Windows.Forms.Button();
             this.comboBoxMaxUploads = new System.Windows.Forms.ComboBox();
             this.labelMaximumUploads = new System.Windows.Forms.Label();
             this.buttonReset = new System.Windows.Forms.Button();
@@ -71,7 +72,6 @@
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.richTextBoxUploadInfo = new System.Windows.Forms.RichTextBox();
-            this.buttonGW2API = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -181,9 +181,9 @@
             this.checkBoxFileSizeIgnore.AutoSize = true;
             this.checkBoxFileSizeIgnore.Location = new System.Drawing.Point(9, 42);
             this.checkBoxFileSizeIgnore.Name = "checkBoxFileSizeIgnore";
-            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(155, 17);
+            this.checkBoxFileSizeIgnore.Size = new System.Drawing.Size(149, 17);
             this.checkBoxFileSizeIgnore.TabIndex = 7;
-            this.checkBoxFileSizeIgnore.Text = "ignore file size limit of 12 kB";
+            this.checkBoxFileSizeIgnore.Text = "ignore file size limit of 8 kB";
             this.checkBoxFileSizeIgnore.UseVisualStyleBackColor = true;
             // 
             // checkBoxUploadLogs
@@ -395,6 +395,16 @@
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
+            // buttonGW2API
+            // 
+            this.buttonGW2API.Location = new System.Drawing.Point(6, 121);
+            this.buttonGW2API.Name = "buttonGW2API";
+            this.buttonGW2API.Size = new System.Drawing.Size(188, 23);
+            this.buttonGW2API.TabIndex = 12;
+            this.buttonGW2API.Text = "GW2 API settings";
+            this.buttonGW2API.UseVisualStyleBackColor = true;
+            this.buttonGW2API.Click += new System.EventHandler(this.buttonGW2API_Click);
+            // 
             // comboBoxMaxUploads
             // 
             this.comboBoxMaxUploads.FormattingEnabled = true;
@@ -505,16 +515,6 @@
             this.richTextBoxUploadInfo.TabIndex = 9;
             this.richTextBoxUploadInfo.Text = "";
             this.richTextBoxUploadInfo.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
-            // 
-            // buttonGW2API
-            // 
-            this.buttonGW2API.Location = new System.Drawing.Point(6, 121);
-            this.buttonGW2API.Name = "buttonGW2API";
-            this.buttonGW2API.Size = new System.Drawing.Size(188, 23);
-            this.buttonGW2API.TabIndex = 12;
-            this.buttonGW2API.Text = "GW2 API settings";
-            this.buttonGW2API.UseVisualStyleBackColor = true;
-            this.buttonGW2API.Click += new System.EventHandler(this.buttonGW2API_Click);
             // 
             // FormMain
             // 
