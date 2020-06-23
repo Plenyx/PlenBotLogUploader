@@ -47,6 +47,7 @@ namespace PlenBotLogUploader
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
         private int logsCount = 0;
+        private int lastBossId = 0;
         private int pullCounter = 0;
 
         // constants
@@ -572,7 +573,7 @@ namespace PlenBotLogUploader
                     .Select(anon => anon.Value);
                 if (bossDataRef.Count() == 1)
                 {
-                    var format = bossDataRef.First().TwitchMessageFormat(reportJSON);
+                    var format = bossDataRef.First().TwitchMessageFormat(reportJSON, pullCounter);
                     if (!string.IsNullOrWhiteSpace(format))
                     {
                         await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, format);
@@ -639,6 +640,11 @@ namespace PlenBotLogUploader
                                                 $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
                                             // Twitch chat
                                             LastLogLocation = reportJSON.Permalink;
+                                            if (lastBossId != bossId)
+                                            {
+                                                pullCounter = 0;
+                                            }
+                                            lastBossId = bossId;
                                             if (reportJSON.Encounter.Success ?? false)
                                             {
                                                 pullCounter = 0;

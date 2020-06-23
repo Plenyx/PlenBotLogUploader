@@ -78,7 +78,7 @@
       <Value Profile="(Default)">&lt;boss&gt; kill: &lt;log&gt;</Value>
     </Setting>
     <Setting Name="BossTemplateFail" Type="System.String" Scope="User">
-      <Value Profile="(Default)">&lt;boss&gt; pull: &lt;log&gt;</Value>
+      <Value Profile="(Default)">&lt;boss&gt; pull: &lt;log&gt; |  Wipe counter: &lt;pulls&gt;</Value>
     </Setting>
     <Setting Name="MaxConcurrentUploads" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4</Value>

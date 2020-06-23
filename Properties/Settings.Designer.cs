@@ -325,7 +325,7 @@ namespace PlenBotLogUploader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<boss> pull: <log>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("<boss> pull: <log> |  Wipe counter: <pulls>")]
         public string BossTemplateFail {
             get {
                 return ((string)(this["BossTemplateFail"]));

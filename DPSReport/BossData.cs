@@ -61,11 +61,12 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="reportJSON">DPSReport's JSON response</param>
         /// <returns>Formatted string</returns>
-        public string TwitchMessageFormat(DPSReportJSON reportJSON)
+        public string TwitchMessageFormat(DPSReportJSON reportJSON, int pullCounter)
         {
             string format = (reportJSON.Encounter.Success ?? false) ? SuccessMsg : FailMsg;
             format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);
             format = format.Replace("<log>", reportJSON.Permalink);
+            format = format.Replace("<pulls>", pullCounter.ToString());
             return format;
         }
 
