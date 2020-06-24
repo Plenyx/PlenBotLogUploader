@@ -20,7 +20,7 @@ namespace PlenBotLogUploader.Tools
                 return;
             }
             /// start of updates
-            // Release 55
+            #region Release 55
             if (Properties.Settings.Default.SavedVersion < 55)
             {
                 /// add Freezie
@@ -38,7 +38,8 @@ namespace PlenBotLogUploader.Tools
                     // do nothing, since the file does not exist, or is corrupted (data does not line up)
                 }
             }
-            // Release 56
+            #endregion
+            #region Release 56
             if (Properties.Settings.Default.SavedVersion < 56)
             {
                 /// add Voice & Claw Kodas, Boneskinner, Fraenir and Whisper strike missions
@@ -71,7 +72,8 @@ namespace PlenBotLogUploader.Tools
                     // do nothing, since the file does not exist, or is corrupted (data does not line up)
                 }
             }
-            // Release 57
+            #endregion
+            #region Release 57
             if (Properties.Settings.Default.SavedVersion < 57)
             {
                 /// add another parameter for webhook txt file
@@ -94,7 +96,8 @@ namespace PlenBotLogUploader.Tools
                     // do nothing, since the file does not exist, or is corrupted (data does not line up)
                 }
             }
-            // end of updates
+            #endregion
+            /// end of release specific updates
             Properties.Settings.Default.SavedVersion = Properties.Settings.Default.ReleaseVersion;
             Properties.Settings.Default.Save();
             Properties.Settings.Default.Upgrade();
