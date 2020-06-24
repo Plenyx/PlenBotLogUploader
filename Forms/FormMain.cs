@@ -88,6 +88,18 @@ namespace PlenBotLogUploader
             #endregion
             try
             {
+                if (Properties.Settings.Default.FirstRun)
+                {
+                    MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var arcFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\";
+                    if (Directory.Exists(arcFolder))
+                    {
+                        Properties.Settings.Default.LogsLocation = arcFolder;
+                        MessageBox.Show($"arcdps log folder has been automatically set to\n{arcFolder}", "arcdps log folder automatically set", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    twitchNameLink.Show();
+                    Properties.Settings.Default.FirstRun = false;
+                }
                 if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
@@ -195,13 +207,7 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSaveToFile.Checked = Properties.Settings.Default.SessionSaveToFile;
                 arcVersionsLink.checkBoxAutoUpdateArc.Checked = Properties.Settings.Default.ArcAutoUpdate;
                 gw2APILink.textBoxAPIKey.Text = Properties.Settings.Default.GW2APIKey;
-                if (Properties.Settings.Default.FirstRun)
-                {
-                    MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    twitchNameLink.Show();
-                    Properties.Settings.Default.FirstRun = false;
-                }
-                else if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
+                if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     MessageBox.Show("Path to arcdps logs is not set.\nDo not forget to set it up so the logs can be auto-uploaded.", "Just a reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
