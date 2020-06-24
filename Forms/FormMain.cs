@@ -932,7 +932,7 @@ namespace PlenBotLogUploader
                         var bossDataRef = allBosses
                             .Where(anon => anon.Value.BossId.Equals(lastBossId))
                             .Select(anon => anon.Value);
-                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $" | Current pull: {pullCounter}");
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{bossDataRef.First().Name} | Current pull: {pullCounter}");
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
