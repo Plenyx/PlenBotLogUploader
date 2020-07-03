@@ -48,6 +48,10 @@
             this.radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeNone = new System.Windows.Forms.RadioButton();
+            this.labelWPulls = new System.Windows.Forms.Label();
+            this.labelWLog = new System.Windows.Forms.Label();
+            this.labelWBoss = new System.Windows.Forms.Label();
+            this.labelAvailableWildcards = new System.Windows.Forms.Label();
             this.groupBoxCrucial.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.groupBoxBossType.SuspendLayout();
@@ -87,7 +91,7 @@
             // 
             // textBoxIcon
             // 
-            this.textBoxIcon.Location = new System.Drawing.Point(6, 112);
+            this.textBoxIcon.Location = new System.Drawing.Point(6, 160);
             this.textBoxIcon.Name = "textBoxIcon";
             this.textBoxIcon.Size = new System.Drawing.Size(364, 20);
             this.textBoxIcon.TabIndex = 4;
@@ -95,7 +99,7 @@
             // labelIcon
             // 
             this.labelIcon.AutoSize = true;
-            this.labelIcon.Location = new System.Drawing.Point(3, 96);
+            this.labelIcon.Location = new System.Drawing.Point(3, 144);
             this.labelIcon.Name = "labelIcon";
             this.labelIcon.Size = new System.Drawing.Size(162, 13);
             this.labelIcon.TabIndex = 5;
@@ -148,6 +152,10 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.labelWPulls);
+            this.groupBoxOtherSettings.Controls.Add(this.labelWLog);
+            this.groupBoxOtherSettings.Controls.Add(this.labelWBoss);
+            this.groupBoxOtherSettings.Controls.Add(this.labelAvailableWildcards);
             this.groupBoxOtherSettings.Controls.Add(this.textBoxSuccessMsg);
             this.groupBoxOtherSettings.Controls.Add(this.labelSuccessMsg);
             this.groupBoxOtherSettings.Controls.Add(this.labelIcon);
@@ -156,10 +164,10 @@
             this.groupBoxOtherSettings.Controls.Add(this.textBoxFailMsg);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(12, 189);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(379, 139);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(379, 186);
             this.groupBoxOtherSettings.TabIndex = 11;
             this.groupBoxOtherSettings.TabStop = false;
-            this.groupBoxOtherSettings.Text = "Uploader settings for the boss (empty messages are not sent to Twitch)";
+            this.groupBoxOtherSettings.Text = "Uploader specific settings for the boss (empty messages are not sent)";
             // 
             // groupBoxBossType
             // 
@@ -251,11 +259,47 @@
             this.radioButtonTypeNone.Text = "None";
             this.radioButtonTypeNone.UseVisualStyleBackColor = true;
             // 
+            // labelWPulls
+            // 
+            this.labelWPulls.AutoSize = true;
+            this.labelWPulls.Location = new System.Drawing.Point(138, 122);
+            this.labelWPulls.Name = "labelWPulls";
+            this.labelWPulls.Size = new System.Drawing.Size(164, 13);
+            this.labelWPulls.TabIndex = 9;
+            this.labelWPulls.Text = "<pulls> - the current wipe counter";
+            // 
+            // labelWLog
+            // 
+            this.labelWLog.AutoSize = true;
+            this.labelWLog.Location = new System.Drawing.Point(138, 109);
+            this.labelWLog.Name = "labelWLog";
+            this.labelWLog.Size = new System.Drawing.Size(155, 13);
+            this.labelWLog.TabIndex = 8;
+            this.labelWLog.Text = "<log> - link to the dps.report log";
+            // 
+            // labelWBoss
+            // 
+            this.labelWBoss.AutoSize = true;
+            this.labelWBoss.Location = new System.Drawing.Point(138, 96);
+            this.labelWBoss.Name = "labelWBoss";
+            this.labelWBoss.Size = new System.Drawing.Size(127, 13);
+            this.labelWBoss.TabIndex = 7;
+            this.labelWBoss.Text = "<boss> - encounter name";
+            // 
+            // labelAvailableWildcards
+            // 
+            this.labelAvailableWildcards.AutoSize = true;
+            this.labelAvailableWildcards.Location = new System.Drawing.Point(3, 96);
+            this.labelAvailableWildcards.Name = "labelAvailableWildcards";
+            this.labelAvailableWildcards.Size = new System.Drawing.Size(138, 13);
+            this.labelAvailableWildcards.TabIndex = 6;
+            this.labelAvailableWildcards.Text = "Available variables for texts:";
+            // 
             // FormEditBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(403, 338);
+            this.ClientSize = new System.Drawing.Size(403, 384);
             this.Controls.Add(this.groupBoxBossType);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxCrucial);
@@ -298,5 +342,9 @@
         private System.Windows.Forms.RadioButton radioButtonTypeNone;
         private System.Windows.Forms.CheckBox checkBoxEvent;
         private System.Windows.Forms.RadioButton radioButtonTypeGolem;
+        private System.Windows.Forms.Label labelWPulls;
+        private System.Windows.Forms.Label labelWLog;
+        private System.Windows.Forms.Label labelWBoss;
+        private System.Windows.Forms.Label labelAvailableWildcards;
     }
 }
