@@ -1012,29 +1012,22 @@ namespace PlenBotLogUploader
                 DialogResult result = dialog.ShowDialog();
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
                 {
-                    if (dialog.SelectedPath.Contains("arcdps.cbtlogs"))
+                    Properties.Settings.Default.LogsLocation = dialog.SelectedPath;
+                    logsCount = 0;
+                    LogsScan(Properties.Settings.Default.LogsLocation);
+                    watcher.Renamed -= OnLogCreated;
+                    watcher.Dispose();
+                    watcher = null;
+                    watcher = new FileSystemWatcher()
                     {
-                        Properties.Settings.Default.LogsLocation = dialog.SelectedPath;
-                        logsCount = 0;
-                        LogsScan(Properties.Settings.Default.LogsLocation);
-                        watcher.Renamed -= OnLogCreated;
-                        watcher.Dispose();
-                        watcher = null;
-                        watcher = new FileSystemWatcher()
-                        {
-                            Path = Properties.Settings.Default.LogsLocation,
-                            Filter = "*.*",
-                            IncludeSubdirectories = true,
-                            NotifyFilter = NotifyFilters.FileName
-                        };
-                        watcher.Renamed += OnLogCreated;
-                        watcher.EnableRaisingEvents = true;
-                        buttonOpenLogs.Enabled = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("The specified location does not appear to be an arcdps folder.\nCheck your directory and try again.", "An error has occurred");
-                    }
+                        Path = Properties.Settings.Default.LogsLocation,
+                        Filter = "*.*",
+                        IncludeSubdirectories = true,
+                        NotifyFilter = NotifyFilters.FileName
+                    };
+                    watcher.Renamed += OnLogCreated;
+                    watcher.EnableRaisingEvents = true;
+                    buttonOpenLogs.Enabled = true;
                 }
             }
         }
