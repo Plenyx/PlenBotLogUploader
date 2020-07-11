@@ -50,6 +50,7 @@ namespace PlenBotLogUploader
         private int logsCount = 0;
         private int lastBossId = 0;
         private int pullCounter = 0;
+        private bool lastBossCM = false;
 
         // constants
         private const int minFileSize = 8192;
@@ -636,6 +637,7 @@ namespace PlenBotLogUploader
                                                     var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
                                                     reportJSON.ExtraJSON = extraJSON;
                                                     bossId = reportJSON.ExtraJSON.TriggerID;
+                                                    lastBossCM = reportJSON.ExtraJSON.IsCM;
                                                 }
                                                 catch
                                                 {
@@ -938,7 +940,7 @@ namespace PlenBotLogUploader
                         var bossDataRef = allBosses
                             .Where(anon => anon.Value.BossId.Equals(lastBossId))
                             .Select(anon => anon.Value);
-                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{bossDataRef.First().Name} | Current pull: {pullCounter}");
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{bossDataRef.First().Name}{((lastBossCM) ? " CM" : "")} | Current pull: {pullCounter}");
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
