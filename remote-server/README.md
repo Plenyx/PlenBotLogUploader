@@ -36,7 +36,7 @@ These are the fields being sent:
 * "**arcVersion**" contains the arcdps version used to create the original log *as a string*
 
 ## Remote server examples
-[PHP example with post request and Authorisation header](https://github.com/Plenyx/PlenBotLogUploader/blob/master/remote-server/php-remote-template.php)
+[PHP example with post request and Authorisation header](https://github.com/DelusionalElitists/PlenBotLogUploader/blob/master/remote-server/php-remote-template.php)
 
 ## Other links
 [HTTP Status Codes list](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
