@@ -91,7 +91,7 @@ namespace PlenBotLogUploader
             {
                 if (Properties.Settings.Default.FirstRun)
                 {
-                    MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or on GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or via GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     var arcFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\";
                     if (Directory.Exists(arcFolder))
                     {
@@ -429,7 +429,7 @@ namespace PlenBotLogUploader
         {
             try
             {
-                string response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION");
+                string response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/DelusionalElitists/PlenBotLogUploader/master/VERSION");
                 if (int.TryParse(response, out int currentversion))
                 {
                     if (currentversion > Properties.Settings.Default.ReleaseVersion)
@@ -444,7 +444,7 @@ namespace PlenBotLogUploader
                         }
                         var notes = await HttpClientController.DownloadFileToStringAsync("https://plenbot.net/uploader/release-info/");
                         AddToText($">>> New release available (r{response})");
-                        AddToText(">>> https://github.com/Plenyx/PlenBotLogUploader/releases/");
+                        AddToText(">>> https://github.com/DelusionalElitists/PlenBotLogUploader/releases/");
                         AddToText(notes);
                         ShowBalloon("New release available for the uploader", $"If you want to update immediately, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
                         Properties.Settings.Default.SavedVersion = Properties.Settings.Default.SavedVersion;
