@@ -53,7 +53,7 @@
             this.listViewDiscordWebhooks.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewDiscordWebhooks.TabIndex = 0;
             this.listViewDiscordWebhooks.UseCompatibleStateImageBehavior = false;
-            this.listViewDiscordWebhooks.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listViewDiscordWebhooks_ItemChecked);
+            this.listViewDiscordWebhooks.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewDiscordWebhooks_ItemChecked);
             // 
             // contextMenuStripInteract
             // 
@@ -65,28 +65,28 @@
             this.toolStripMenuItemAdd});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
             this.contextMenuStripInteract.Size = new System.Drawing.Size(206, 98);
-            this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripInteract_Opening);
+            this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEdit
             // 
             this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
             this.toolStripMenuItemEdit.Size = new System.Drawing.Size(205, 22);
             this.toolStripMenuItemEdit.Text = "Edit selected webhook";
-            this.toolStripMenuItemEdit.Click += new System.EventHandler(this.toolStripMenuItemEdit_Click);
+            this.toolStripMenuItemEdit.Click += new System.EventHandler(this.ToolStripMenuItemEdit_Click);
             // 
             // toolStripMenuItemTest
             // 
             this.toolStripMenuItemTest.Name = "toolStripMenuItemTest";
             this.toolStripMenuItemTest.Size = new System.Drawing.Size(205, 22);
             this.toolStripMenuItemTest.Text = "Test selected webhook";
-            this.toolStripMenuItemTest.Click += new System.EventHandler(this.toolStripMenuItemTest_Click);
+            this.toolStripMenuItemTest.Click += new System.EventHandler(this.ToolStripMenuItemTest_Click);
             // 
             // toolStripMenuItemDelete
             // 
             this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
             this.toolStripMenuItemDelete.Size = new System.Drawing.Size(205, 22);
             this.toolStripMenuItemDelete.Text = "Delete selected webhook";
-            this.toolStripMenuItemDelete.Click += new System.EventHandler(this.toolStripMenuItemDelete_Click);
+            this.toolStripMenuItemDelete.Click += new System.EventHandler(this.ToolStripMenuItemDelete_Click);
             // 
             // toolStripSeparator1
             // 
@@ -98,7 +98,7 @@
             this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
             this.toolStripMenuItemAdd.Size = new System.Drawing.Size(205, 22);
             this.toolStripMenuItemAdd.Text = "Add new webhook";
-            this.toolStripMenuItemAdd.Click += new System.EventHandler(this.toolStripMenuItemAdd_Click);
+            this.toolStripMenuItemAdd.Click += new System.EventHandler(this.ToolStripMenuItemAdd_Click);
             // 
             // buttonAddNew
             // 

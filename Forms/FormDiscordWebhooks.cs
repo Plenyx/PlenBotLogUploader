@@ -506,13 +506,13 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void toolStripMenuItemAdd_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e)
         {
             webhookIdsKey++;
             new FormEditDiscordWebhook(this, null, webhookIdsKey).Show();
         }
 
-        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
             if (listViewDiscordWebhooks.SelectedItems.Count > 0)
             {
@@ -523,7 +523,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void toolStripMenuItemEdit_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
         {
             if (listViewDiscordWebhooks.SelectedItems.Count > 0)
             {
@@ -533,13 +533,13 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void listViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
+        private void ListViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             int.TryParse(e.Item.Name, out int reservedId);
             allWebhooks[reservedId].Active = e.Item.Checked;
         }
 
-        private void contextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var toggle = listViewDiscordWebhooks.SelectedItems.Count > 0;
             toolStripMenuItemEdit.Enabled = toggle;
@@ -547,7 +547,7 @@ namespace PlenBotLogUploader
             toolStripMenuItemTest.Enabled = toggle;
         }
 
-        private async void toolStripMenuItemTest_Click(object sender, EventArgs e)
+        private async void ToolStripMenuItemTest_Click(object sender, EventArgs e)
         {
             if (listViewDiscordWebhooks.SelectedItems.Count > 0)
             {

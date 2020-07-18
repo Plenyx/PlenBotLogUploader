@@ -113,13 +113,13 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void toolStripMenuItemAdd_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e)
         {
             settingsIdsKey++;
             new FormEditPing(this, settingsIdsKey, true, null).Show();
         }
 
-        private void toolStripMenuItemEdit_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
         {
             if (listViewPings.SelectedItems.Count > 0)
             {
@@ -129,7 +129,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
             if (listViewPings.SelectedItems.Count > 0)
             {
@@ -140,7 +140,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void contextMenuStripInteract_Opening(object sender, CancelEventArgs e)
+        private void ContextMenuStripInteract_Opening(object sender, CancelEventArgs e)
         {
             var toggle = listViewPings.SelectedItems.Count > 0;
             toolStripMenuItemEdit.Enabled = toggle;
@@ -148,13 +148,13 @@ namespace PlenBotLogUploader
             toolStripMenuItemTest.Enabled = toggle;
         }
 
-        private void listViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
+        private void ListViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             int.TryParse(e.Item.Name, out int reservedId);
             AllPings[reservedId].Active = e.Item.Checked;
         }
 
-        private async void toolStripMenuItemTest_Click(object sender, EventArgs e)
+        private async void ToolStripMenuItemTest_Click(object sender, EventArgs e)
         {
             if (listViewPings.SelectedItems.Count > 0)
             {

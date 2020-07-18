@@ -5,13 +5,10 @@ namespace PlenBotLogUploader
     public partial class FormTwitchCommands : Form
     {
         #region definitions
-        // fields
-        private readonly FormMain mainLink;
         #endregion
 
-        public FormTwitchCommands(FormMain mainLink)
+        public FormTwitchCommands()
         {
-            this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
         }

@@ -220,7 +220,7 @@
             this.buttonTestPing.TabIndex = 10;
             this.buttonTestPing.Text = "Test Ping";
             this.buttonTestPing.UseVisualStyleBackColor = true;
-            this.buttonTestPing.Click += new System.EventHandler(this.buttonTestPing_Click);
+            this.buttonTestPing.Click += new System.EventHandler(this.ButtonTestPing_Click);
             // 
             // FormEditPing
             // 

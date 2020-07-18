@@ -53,8 +53,8 @@
             this.buttonShowAPIKey.TabIndex = 3;
             this.buttonShowAPIKey.Text = "Show key";
             this.buttonShowAPIKey.UseVisualStyleBackColor = true;
-            this.buttonShowAPIKey.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonShowAPIKey_MouseDown);
-            this.buttonShowAPIKey.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonShowAPIKey_MouseUp);
+            this.buttonShowAPIKey.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ButtonShowAPIKey_MouseDown);
+            this.buttonShowAPIKey.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonShowAPIKey_MouseUp);
             // 
             // textBoxAPIKey
             // 

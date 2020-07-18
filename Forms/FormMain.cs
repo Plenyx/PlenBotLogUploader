@@ -76,9 +76,9 @@ namespace PlenBotLogUploader
             arcVersionsLink = new FormArcVersions(this);
             bossDataLink = new FormBossData(this);
             discordWebhooksLink = new FormDiscordWebhooks(this);
-            twitchCommandsLink = new FormTwitchCommands(this);
+            twitchCommandsLink = new FormTwitchCommands();
             logSessionLink = new FormLogSession(this);
-            gw2APILink = new FormGW2API(this);
+            gw2APILink = new FormGW2API();
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 8 kB filesize will not be uploaded.");
@@ -249,17 +249,17 @@ namespace PlenBotLogUploader
                     }
                 }
                 /* Subscribe to field changes events, otherwise they would trigger on load */
-                checkBoxPostToTwitch.CheckedChanged += new EventHandler(checkBoxPostToTwitch_CheckedChanged);
-                checkBoxUploadLogs.CheckedChanged += new EventHandler(checkBoxUploadAll_CheckedChanged);
-                checkBoxFileSizeIgnore.CheckedChanged += new EventHandler(checkBoxFileSizeIgnore_CheckedChanged);
-                checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(checkBoxTrayMinimiseToIcon_CheckedChanged);
-                checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(checkBoxTwitchOnlySuccess_CheckedChanged);
-                checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(checkBoxStartWhenWindowsStarts_CheckedChanged);
+                checkBoxPostToTwitch.CheckedChanged += new EventHandler(CheckBoxPostToTwitch_CheckedChanged);
+                checkBoxUploadLogs.CheckedChanged += new EventHandler(CheckBoxUploadAll_CheckedChanged);
+                checkBoxFileSizeIgnore.CheckedChanged += new EventHandler(CheckBoxFileSizeIgnore_CheckedChanged);
+                checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(CheckBoxTrayMinimiseToIcon_CheckedChanged);
+                checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(CheckBoxTwitchOnlySuccess_CheckedChanged);
+                checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(CheckBoxStartWhenWindowsStarts_CheckedChanged);
                 comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
-                arcVersionsLink.checkBoxAutoUpdateArc.CheckedChanged += new EventHandler(arcVersionsLink.checkBoxAutoUpdateArc_CheckedChanged);
+                arcVersionsLink.checkBoxAutoUpdateArc.CheckedChanged += new EventHandler(arcVersionsLink.CheckBoxAutoUpdateArc_CheckedChanged);
             }
             catch
             {
@@ -981,7 +981,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region buttons & checks, events
-        private void checkBoxUploadAll_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxUploadAll_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxUploadLogs.Checked)
             {
@@ -1001,13 +1001,13 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void buttonReconnectBot_Click(object sender, EventArgs e)
+        private void ButtonReconnectBot_Click(object sender, EventArgs e)
         {
             reconnectedFailCounter = 0;
             ReconnectTwitchBot();
         }
 
-        private void buttonLogsLocation_Click(object sender, EventArgs e)
+        private void ButtonLogsLocation_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog dialog = new FolderBrowserDialog() { Description = "Select the arcdps folder containing the combat logs.\nThe default location is in \"My Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\\"" })
             {
@@ -1034,9 +1034,9 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void checkBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.TrayMinimise = checkBoxTrayMinimiseToIcon.Checked;
+        private void CheckBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.TrayMinimise = checkBoxTrayMinimiseToIcon.Checked;
 
-        private void checkBoxPostToTwitch_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxPostToTwitch_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.UploadToTwitch = checkBoxPostToTwitch.Checked;
             toolStripMenuItemPostToTwitch.Checked = checkBoxPostToTwitch.Checked;
@@ -1047,11 +1047,11 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void checkBoxTwitchOnlySuccess_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.UploadToTwitchOnlySuccess = checkBoxTwitchOnlySuccess.Checked;
+        private void CheckBoxTwitchOnlySuccess_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.UploadToTwitchOnlySuccess = checkBoxTwitchOnlySuccess.Checked;
 
-        private void checkBoxFileSizeIgnore_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.UploadIgnoreFileSize = checkBoxFileSizeIgnore.Checked;
+        private void CheckBoxFileSizeIgnore_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.UploadIgnoreFileSize = checkBoxFileSizeIgnore.Checked;
 
-        private void notifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void NotifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (ShowInTaskbar)
             {
@@ -1070,47 +1070,47 @@ namespace PlenBotLogUploader
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e) => Properties.Settings.Default.Save();
 
-        private void buttonChangeTwitchChannel_Click(object sender, EventArgs e) => twitchNameLink.Show();
+        private void ButtonChangeTwitchChannel_Click(object sender, EventArgs e) => twitchNameLink.Show();
 
-        private void toolStripMenuItemUploadLogs_CheckedChanged(object sender, EventArgs e) => checkBoxUploadLogs.Checked = toolStripMenuItemUploadLogs.Checked;
+        private void ToolStripMenuItemUploadLogs_CheckedChanged(object sender, EventArgs e) => checkBoxUploadLogs.Checked = toolStripMenuItemUploadLogs.Checked;
 
-        private void toolStripMenuItemExit_Click(object sender, EventArgs e) => Close();
+        private void ToolStripMenuItemExit_Click(object sender, EventArgs e) => Close();
 
-        private void toolStripMenuItemPostToTwitch_CheckedChanged(object sender, EventArgs e) => checkBoxPostToTwitch.Checked = toolStripMenuItemPostToTwitch.Checked;
+        private void ToolStripMenuItemPostToTwitch_CheckedChanged(object sender, EventArgs e) => checkBoxPostToTwitch.Checked = toolStripMenuItemPostToTwitch.Checked;
 
-        private void buttonOpenLogs_Click(object sender, EventArgs e) => Process.Start(Properties.Settings.Default.LogsLocation);
+        private void ButtonOpenLogs_Click(object sender, EventArgs e) => Process.Start(Properties.Settings.Default.LogsLocation);
 
-        private void buttonDPSReportServer_Click(object sender, EventArgs e)
+        private void ButtonDPSReportServer_Click(object sender, EventArgs e)
         {
             dpsReportServerLink.Show();
             dpsReportServerLink.BringToFront();
         }
 
-        private void buttonCustomName_Click(object sender, EventArgs e)
+        private void ButtonCustomName_Click(object sender, EventArgs e)
         {
             customNameLink.Show();
             customNameLink.BringToFront();
         }
 
-        private void buttonPingSettings_Click(object sender, EventArgs e)
+        private void ButtonPingSettings_Click(object sender, EventArgs e)
         {
             pingsLink.Show();
             pingsLink.BringToFront();
         }
 
-        private void buttonArcVersionChecking_Click(object sender, EventArgs e)
+        private void ButtonArcVersionChecking_Click(object sender, EventArgs e)
         {
             arcVersionsLink.Show();
             arcVersionsLink.BringToFront();
         }
 
-        private void buttonBossData_Click(object sender, EventArgs e)
+        private void ButtonBossData_Click(object sender, EventArgs e)
         {
             bossDataLink.Show();
             bossDataLink.BringToFront();
         }
 
-        private void buttonDiscordWebhooks_Click(object sender, EventArgs e)
+        private void ButtonDiscordWebhooks_Click(object sender, EventArgs e)
         {
             discordWebhooksLink.Show();
             discordWebhooksLink.BringToFront();
@@ -1122,31 +1122,31 @@ namespace PlenBotLogUploader
             twitchCommandsLink.BringToFront();
         }
 
-        private void toolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
         {
             dpsReportServerLink.Show();
             dpsReportServerLink.BringToFront();
         }
 
-        private void toolStripMenuItemOpenCustomName_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemOpenCustomName_Click(object sender, EventArgs e)
         {
             customNameLink.Show();
             customNameLink.BringToFront();
         }
 
-        private void toolStripMenuItemOpenPingSettings_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemOpenPingSettings_Click(object sender, EventArgs e)
         {
             pingsLink.Show();
             pingsLink.BringToFront();
         }
 
-        private void toolStripMenuItemOpenArcVersionsSettings_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemOpenArcVersionsSettings_Click(object sender, EventArgs e)
         {
             arcVersionsLink.Show();
             arcVersionsLink.BringToFront();
         }
 
-        private void toolStripMenuItemDiscordWebhooks_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemDiscordWebhooks_Click(object sender, EventArgs e)
         {
             discordWebhooksLink.Show();
             discordWebhooksLink.BringToFront();
@@ -1158,7 +1158,7 @@ namespace PlenBotLogUploader
             twitchCommandsLink.BringToFront();
         }
 
-        private void buttonDisConnectTwitch_Click(object sender, EventArgs e)
+        private void ButtonDisConnectTwitch_Click(object sender, EventArgs e)
         {
             reconnectedFailCounter = 0;
             if (chatConnect == null)
@@ -1172,7 +1172,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async void buttonUpdateNow_Click(object sender, EventArgs e)
+        private async void ButtonUpdateNow_Click(object sender, EventArgs e)
         {
             buttonUpdateNow.Enabled = false;
             AddToText(">>> Downloading update...");
@@ -1203,7 +1203,7 @@ namespace PlenBotLogUploader
             logSessionLink.BringToFront();
         }
 
-        private void checkBoxStartWhenWindowsStarts_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxStartWhenWindowsStarts_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxStartWhenWindowsStarts.Checked)
             {
@@ -1249,7 +1249,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void buttonGW2API_Click(object sender, EventArgs e)
+        private void ButtonGW2API_Click(object sender, EventArgs e)
         {
             gw2APILink.Show();
             gw2APILink.BringToFront();

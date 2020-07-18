@@ -48,7 +48,7 @@
             this.checkBoxCustomNameEnable.TabIndex = 0;
             this.checkBoxCustomNameEnable.Text = "Enable using custom name for Twitch bot settings";
             this.checkBoxCustomNameEnable.UseVisualStyleBackColor = true;
-            this.checkBoxCustomNameEnable.CheckedChanged += new System.EventHandler(this.checkBoxCustomNameEnable_CheckedChanged);
+            this.checkBoxCustomNameEnable.CheckedChanged += new System.EventHandler(this.CheckBoxCustomNameEnable_CheckedChanged);
             // 
             // groupBoxCustomNameSettings
             // 
@@ -75,7 +75,7 @@
             this.linkLabelGetOAuth.TabStop = true;
             this.linkLabelGetOAuth.Text = "Generate OAuth2";
             this.linkLabelGetOAuth.VisitedLinkColor = System.Drawing.Color.Blue;
-            this.linkLabelGetOAuth.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelGetOAuth_LinkClicked);
+            this.linkLabelGetOAuth.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelGetOAuth_LinkClicked);
             // 
             // labelCustomOAuth
             // 

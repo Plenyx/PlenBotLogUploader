@@ -115,7 +115,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async void buttonTestPing_Click(object sender, EventArgs e)
+        private async void ButtonTestPing_Click(object sender, EventArgs e)
         {
             PingMethod chosenMethod = PingMethod.Post;
             if (radioButtonMethodPut.Checked)

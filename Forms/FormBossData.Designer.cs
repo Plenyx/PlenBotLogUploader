@@ -54,7 +54,7 @@
             this.listViewBosses.TabIndex = 0;
             this.listViewBosses.UseCompatibleStateImageBehavior = false;
             this.listViewBosses.View = System.Windows.Forms.View.Tile;
-            this.listViewBosses.DoubleClick += new System.EventHandler(this.listViewBosses_DoubleClick);
+            this.listViewBosses.DoubleClick += new System.EventHandler(this.ListViewBosses_DoubleClick);
             // 
             // contextMenuStripInteract
             // 

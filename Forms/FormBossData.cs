@@ -54,7 +54,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void listViewBosses_DoubleClick(object sender, EventArgs e)
+        private void ListViewBosses_DoubleClick(object sender, EventArgs e)
         {
             var selected = listViewBosses.SelectedItems[0];
             int.TryParse(selected.Name, out int reservedId);

@@ -221,7 +221,7 @@
             this.buttonReloadWebhooks.TabIndex = 3;
             this.buttonReloadWebhooks.Text = "Reload possible Webhooks";
             this.buttonReloadWebhooks.UseVisualStyleBackColor = true;
-            this.buttonReloadWebhooks.Click += new System.EventHandler(this.buttonReloadWebhooks_Click);
+            this.buttonReloadWebhooks.Click += new System.EventHandler(this.ButtonReloadWebhooks_Click);
             // 
             // checkedListBoxSelectedWebhooks
             // 
@@ -240,7 +240,7 @@
             this.radioButtonOnlySelectedWebhooks.TabIndex = 1;
             this.radioButtonOnlySelectedWebhooks.Text = "Only selected Webhooks from the list";
             this.radioButtonOnlySelectedWebhooks.UseVisualStyleBackColor = true;
-            this.radioButtonOnlySelectedWebhooks.CheckedChanged += new System.EventHandler(this.radioButtonOnlySelectedWebhooks_CheckedChanged);
+            this.radioButtonOnlySelectedWebhooks.CheckedChanged += new System.EventHandler(this.RadioButtonOnlySelectedWebhooks_CheckedChanged);
             // 
             // radioButtonAllActive
             // 

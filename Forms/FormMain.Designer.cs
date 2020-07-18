@@ -123,7 +123,7 @@
             this.buttonDisConnectTwitch.TabIndex = 10;
             this.buttonDisConnectTwitch.Text = "Disconnect from Twitch";
             this.buttonDisConnectTwitch.UseVisualStyleBackColor = true;
-            this.buttonDisConnectTwitch.Click += new System.EventHandler(this.buttonDisConnectTwitch_Click);
+            this.buttonDisConnectTwitch.Click += new System.EventHandler(this.ButtonDisConnectTwitch_Click);
             // 
             // buttonCustomName
             // 
@@ -133,7 +133,7 @@
             this.buttonCustomName.TabIndex = 9;
             this.buttonCustomName.Text = "Custom name";
             this.buttonCustomName.UseVisualStyleBackColor = true;
-            this.buttonCustomName.Click += new System.EventHandler(this.buttonCustomName_Click);
+            this.buttonCustomName.Click += new System.EventHandler(this.ButtonCustomName_Click);
             // 
             // buttonChangeTwitchChannel
             // 
@@ -143,7 +143,7 @@
             this.buttonChangeTwitchChannel.TabIndex = 8;
             this.buttonChangeTwitchChannel.Text = "Change Twitch channel";
             this.buttonChangeTwitchChannel.UseVisualStyleBackColor = true;
-            this.buttonChangeTwitchChannel.Click += new System.EventHandler(this.buttonChangeTwitchChannel_Click);
+            this.buttonChangeTwitchChannel.Click += new System.EventHandler(this.ButtonChangeTwitchChannel_Click);
             // 
             // checkBoxPostToTwitch
             // 
@@ -164,7 +164,7 @@
             this.buttonReconnectBot.TabIndex = 4;
             this.buttonReconnectBot.Text = "Reconnect bot";
             this.buttonReconnectBot.UseVisualStyleBackColor = true;
-            this.buttonReconnectBot.Click += new System.EventHandler(this.buttonReconnectBot_Click);
+            this.buttonReconnectBot.Click += new System.EventHandler(this.ButtonReconnectBot_Click);
             // 
             // buttonBossData
             // 
@@ -174,7 +174,7 @@
             this.buttonBossData.TabIndex = 12;
             this.buttonBossData.Text = "Edit boss data";
             this.buttonBossData.UseVisualStyleBackColor = true;
-            this.buttonBossData.Click += new System.EventHandler(this.buttonBossData_Click);
+            this.buttonBossData.Click += new System.EventHandler(this.ButtonBossData_Click);
             // 
             // checkBoxFileSizeIgnore
             // 
@@ -232,7 +232,7 @@
             this.buttonOpenLogs.TabIndex = 2;
             this.buttonOpenLogs.Text = "Open";
             this.buttonOpenLogs.UseVisualStyleBackColor = true;
-            this.buttonOpenLogs.Click += new System.EventHandler(this.buttonOpenLogs_Click);
+            this.buttonOpenLogs.Click += new System.EventHandler(this.ButtonOpenLogs_Click);
             // 
             // buttonDPSReportServer
             // 
@@ -242,7 +242,7 @@
             this.buttonDPSReportServer.TabIndex = 1;
             this.buttonDPSReportServer.Text = "DPS.report server";
             this.buttonDPSReportServer.UseVisualStyleBackColor = true;
-            this.buttonDPSReportServer.Click += new System.EventHandler(this.buttonDPSReportServer_Click);
+            this.buttonDPSReportServer.Click += new System.EventHandler(this.ButtonDPSReportServer_Click);
             // 
             // labelLocationInfo
             // 
@@ -260,7 +260,7 @@
             this.buttonLogsLocation.TabIndex = 0;
             this.buttonLogsLocation.Text = "Change logs directory";
             this.buttonLogsLocation.UseVisualStyleBackColor = true;
-            this.buttonLogsLocation.Click += new System.EventHandler(this.buttonLogsLocation_Click);
+            this.buttonLogsLocation.Click += new System.EventHandler(this.ButtonLogsLocation_Click);
             // 
             // checkBoxTrayMinimiseToIcon
             // 
@@ -277,7 +277,7 @@
             this.notifyIconTray.ContextMenuStrip = this.contextMenuStripIcon;
             this.notifyIconTray.Text = "PlenBot Log Uploader";
             this.notifyIconTray.Visible = true;
-            this.notifyIconTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconTray_MouseDoubleClick);
+            this.notifyIconTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIconTray_MouseDoubleClick);
             // 
             // contextMenuStripIcon
             // 
@@ -303,7 +303,7 @@
             this.toolStripMenuItemUploadLogs.Name = "toolStripMenuItemUploadLogs";
             this.toolStripMenuItemUploadLogs.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemUploadLogs.Text = "upload logs";
-            this.toolStripMenuItemUploadLogs.CheckedChanged += new System.EventHandler(this.toolStripMenuItemUploadLogs_CheckedChanged);
+            this.toolStripMenuItemUploadLogs.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemUploadLogs_CheckedChanged);
             // 
             // toolStripMenuItemPostToTwitch
             // 
@@ -311,7 +311,7 @@
             this.toolStripMenuItemPostToTwitch.Name = "toolStripMenuItemPostToTwitch";
             this.toolStripMenuItemPostToTwitch.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemPostToTwitch.Text = "post links to Twitch chat";
-            this.toolStripMenuItemPostToTwitch.CheckedChanged += new System.EventHandler(this.toolStripMenuItemPostToTwitch_CheckedChanged);
+            this.toolStripMenuItemPostToTwitch.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemPostToTwitch_CheckedChanged);
             // 
             // toolStripSeparatorFirst
             // 
@@ -323,14 +323,14 @@
             this.toolStripMenuItemOpenDPSReportServer.Name = "toolStripMenuItemOpenDPSReportServer";
             this.toolStripMenuItemOpenDPSReportServer.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemOpenDPSReportServer.Text = "Open DPS.report settings";
-            this.toolStripMenuItemOpenDPSReportServer.Click += new System.EventHandler(this.toolStripMenuItemOpenDPSReportServer_Click);
+            this.toolStripMenuItemOpenDPSReportServer.Click += new System.EventHandler(this.ToolStripMenuItemOpenDPSReportServer_Click);
             // 
             // toolStripMenuItemOpenCustomName
             // 
             this.toolStripMenuItemOpenCustomName.Name = "toolStripMenuItemOpenCustomName";
             this.toolStripMenuItemOpenCustomName.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemOpenCustomName.Text = "Open custom name settings";
-            this.toolStripMenuItemOpenCustomName.Click += new System.EventHandler(this.toolStripMenuItemOpenCustomName_Click);
+            this.toolStripMenuItemOpenCustomName.Click += new System.EventHandler(this.ToolStripMenuItemOpenCustomName_Click);
             // 
             // toolStripMenuItemOpenTwitchCommands
             // 
@@ -344,7 +344,7 @@
             this.toolStripMenuItemOpenArcVersionsSettings.Name = "toolStripMenuItemOpenArcVersionsSettings";
             this.toolStripMenuItemOpenArcVersionsSettings.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemOpenArcVersionsSettings.Text = "Open arcdps version checking settings";
-            this.toolStripMenuItemOpenArcVersionsSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenArcVersionsSettings_Click);
+            this.toolStripMenuItemOpenArcVersionsSettings.Click += new System.EventHandler(this.ToolStripMenuItemOpenArcVersionsSettings_Click);
             // 
             // toolStripSeparatorSecond
             // 
@@ -356,14 +356,14 @@
             this.toolStripMenuItemDiscordWebhooks.Name = "toolStripMenuItemDiscordWebhooks";
             this.toolStripMenuItemDiscordWebhooks.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemDiscordWebhooks.Text = "Discord webhooks";
-            this.toolStripMenuItemDiscordWebhooks.Click += new System.EventHandler(this.toolStripMenuItemDiscordWebhooks_Click);
+            this.toolStripMenuItemDiscordWebhooks.Click += new System.EventHandler(this.ToolStripMenuItemDiscordWebhooks_Click);
             // 
             // toolStripMenuItemOpenPingSettings
             // 
             this.toolStripMenuItemOpenPingSettings.Name = "toolStripMenuItemOpenPingSettings";
             this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemOpenPingSettings.Text = "Remote server pings";
-            this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.toolStripMenuItemOpenPingSettings_Click);
+            this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.ToolStripMenuItemOpenPingSettings_Click);
             // 
             // toolStripSeparatorThird
             // 
@@ -375,7 +375,7 @@
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
             this.toolStripMenuItemExit.Size = new System.Drawing.Size(277, 22);
             this.toolStripMenuItemExit.Text = "Shutdown";
-            this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
+            this.toolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
             // 
             // groupBoxOtherSettings
             // 
@@ -403,7 +403,7 @@
             this.buttonGW2API.TabIndex = 12;
             this.buttonGW2API.Text = "GW2 API settings";
             this.buttonGW2API.UseVisualStyleBackColor = true;
-            this.buttonGW2API.Click += new System.EventHandler(this.buttonGW2API_Click);
+            this.buttonGW2API.Click += new System.EventHandler(this.ButtonGW2API_Click);
             // 
             // comboBoxMaxUploads
             // 
@@ -461,7 +461,7 @@
             this.buttonDiscordWebhooks.TabIndex = 4;
             this.buttonDiscordWebhooks.Text = "Discord webhooks";
             this.buttonDiscordWebhooks.UseVisualStyleBackColor = true;
-            this.buttonDiscordWebhooks.Click += new System.EventHandler(this.buttonDiscordWebhooks_Click);
+            this.buttonDiscordWebhooks.Click += new System.EventHandler(this.ButtonDiscordWebhooks_Click);
             // 
             // buttonArcVersionChecking
             // 
@@ -471,7 +471,7 @@
             this.buttonArcVersionChecking.TabIndex = 3;
             this.buttonArcVersionChecking.Text = "arcdps version checking settings";
             this.buttonArcVersionChecking.UseVisualStyleBackColor = true;
-            this.buttonArcVersionChecking.Click += new System.EventHandler(this.buttonArcVersionChecking_Click);
+            this.buttonArcVersionChecking.Click += new System.EventHandler(this.ButtonArcVersionChecking_Click);
             // 
             // buttonPingSettings
             // 
@@ -481,7 +481,7 @@
             this.buttonPingSettings.TabIndex = 0;
             this.buttonPingSettings.Text = "Remote server pings";
             this.buttonPingSettings.UseVisualStyleBackColor = true;
-            this.buttonPingSettings.Click += new System.EventHandler(this.buttonPingSettings_Click);
+            this.buttonPingSettings.Click += new System.EventHandler(this.ButtonPingSettings_Click);
             // 
             // buttonUpdateNow
             // 
@@ -493,7 +493,7 @@
             this.buttonUpdateNow.Text = "Update the uploader";
             this.buttonUpdateNow.UseVisualStyleBackColor = true;
             this.buttonUpdateNow.Visible = false;
-            this.buttonUpdateNow.Click += new System.EventHandler(this.buttonUpdateNow_Click);
+            this.buttonUpdateNow.Click += new System.EventHandler(this.ButtonUpdateNow_Click);
             // 
             // timerCheckUpdate
             // 

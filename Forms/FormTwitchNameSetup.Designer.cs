@@ -59,7 +59,7 @@
             this.buttonNext.TabIndex = 3;
             this.buttonNext.Text = "Connect to Twitch";
             this.buttonNext.UseVisualStyleBackColor = true;
-            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            this.buttonNext.Click += new System.EventHandler(this.ButtonNext_Click);
             // 
             // buttonDoNotUseTwitch
             // 
@@ -69,7 +69,7 @@
             this.buttonDoNotUseTwitch.TabIndex = 4;
             this.buttonDoNotUseTwitch.Text = "I don\'t want to use Twitch to post logs";
             this.buttonDoNotUseTwitch.UseVisualStyleBackColor = true;
-            this.buttonDoNotUseTwitch.Click += new System.EventHandler(this.buttonDoNotUseTwitch_Click);
+            this.buttonDoNotUseTwitch.Click += new System.EventHandler(this.ButtonDoNotUseTwitch_Click);
             // 
             // FormTwitchNameSetup
             // 

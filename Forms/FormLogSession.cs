@@ -141,7 +141,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void radioButtonOnlySelectedWebhooks_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonOnlySelectedWebhooks_CheckedChanged(object sender, EventArgs e)
         {
             groupBoxSelectedWebhooks.Enabled = radioButtonOnlySelectedWebhooks.Checked;
             if (groupBoxSelectedWebhooks.Enabled)
@@ -150,7 +150,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void buttonReloadWebhooks_Click(object sender, EventArgs e)
+        private void ButtonReloadWebhooks_Click(object sender, EventArgs e)
         {
             ReloadWebhooks();
         }

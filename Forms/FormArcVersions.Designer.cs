@@ -51,12 +51,12 @@
             this.buttonChangeGWLocation.TabIndex = 0;
             this.buttonChangeGWLocation.Text = "Change GW location";
             this.buttonChangeGWLocation.UseVisualStyleBackColor = true;
-            this.buttonChangeGWLocation.Click += new System.EventHandler(this.buttonChangeGWLocation_Click);
+            this.buttonChangeGWLocation.Click += new System.EventHandler(this.ButtonChangeGWLocation_Click);
             // 
             // timerCheckNewArcversion
             // 
             this.timerCheckNewArcversion.Interval = 3600000;
-            this.timerCheckNewArcversion.Tick += new System.EventHandler(this.timerCheckNewArcversion_Tick);
+            this.timerCheckNewArcversion.Tick += new System.EventHandler(this.TimerCheckNewArcversion_Tick);
             // 
             // buttonCheckNow
             // 
@@ -67,7 +67,7 @@
             this.buttonCheckNow.TabIndex = 1;
             this.buttonCheckNow.Text = "Check now";
             this.buttonCheckNow.UseVisualStyleBackColor = true;
-            this.buttonCheckNow.Click += new System.EventHandler(this.buttonCheckNow_Click);
+            this.buttonCheckNow.Click += new System.EventHandler(this.ButtonCheckNow_Click);
             // 
             // groupBoxUpdating
             // 
@@ -98,7 +98,7 @@
             this.buttonUpdate.TabIndex = 0;
             this.buttonUpdate.Text = "Update now";
             this.buttonUpdate.UseVisualStyleBackColor = true;
-            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
+            this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpdate_Click);
             // 
             // groupBoxSettings
             // 
@@ -132,7 +132,7 @@
             this.buttonEnabler.TabIndex = 2;
             this.buttonEnabler.Text = "Disable checking";
             this.buttonEnabler.UseVisualStyleBackColor = true;
-            this.buttonEnabler.Click += new System.EventHandler(this.buttonEnabler_Click);
+            this.buttonEnabler.Click += new System.EventHandler(this.ButtonEnabler_Click);
             // 
             // labelIssues
             // 

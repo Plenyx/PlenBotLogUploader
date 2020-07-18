@@ -32,7 +32,7 @@ namespace PlenBotLogUploader
             Hide();
         }
 
-        private void buttonChangeGWLocation_Click(object sender, EventArgs e)
+        private void ButtonChangeGWLocation_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
@@ -209,11 +209,11 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async void buttonCheckNow_Click(object sender, EventArgs e) => await CheckNewVersionAsync(true);
+        private async void ButtonCheckNow_Click(object sender, EventArgs e) => await CheckNewVersionAsync(true);
 
-        private async void timerCheckNewArcversion_Tick(object sender, EventArgs e) => await CheckNewVersionAsync();
+        private async void TimerCheckNewArcversion_Tick(object sender, EventArgs e) => await CheckNewVersionAsync();
 
-        private void buttonEnabler_Click(object sender, EventArgs e)
+        private void ButtonEnabler_Click(object sender, EventArgs e)
         {
             StopTimerAsync();
             GW2Location = "";
@@ -221,9 +221,9 @@ namespace PlenBotLogUploader
             buttonEnabler.Enabled = false;
         }
 
-        private void linkLabelLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start("https://deltaconnected.com/arcdps/");
+        private void LinkLabelLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start("https://deltaconnected.com/arcdps/");
 
-        private async void buttonUpdate_Click(object sender, EventArgs e) => await UpdateArcAsync();
+        private async void ButtonUpdate_Click(object sender, EventArgs e) => await UpdateArcAsync();
 
         private void FormArcVersions_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -231,6 +231,6 @@ namespace PlenBotLogUploader
             Process.Start("https://deltaconnected.com/arcdps/");
         }
 
-        public void checkBoxAutoUpdateArc_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.ArcAutoUpdate = checkBoxAutoUpdateArc.Checked;
+        public void CheckBoxAutoUpdateArc_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.ArcAutoUpdate = checkBoxAutoUpdateArc.Checked;
     }
 }

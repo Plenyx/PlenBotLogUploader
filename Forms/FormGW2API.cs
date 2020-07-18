@@ -5,13 +5,10 @@ namespace PlenBotLogUploader
     public partial class FormGW2API : Form
     {
         #region definitions
-        // fields
-        private readonly FormMain mainLink;
         #endregion
 
-        public FormGW2API(FormMain mainLink)
+        public FormGW2API()
         {
-            this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
         }
@@ -23,12 +20,12 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.GW2APIKey = textBoxAPIKey.Text;
         }
 
-        private void buttonShowAPIKey_MouseDown(object sender, MouseEventArgs e)
+        private void ButtonShowAPIKey_MouseDown(object sender, MouseEventArgs e)
         {
             textBoxAPIKey.UseSystemPasswordChar = false;
         }
 
-        private void buttonShowAPIKey_MouseUp(object sender, MouseEventArgs e)
+        private void ButtonShowAPIKey_MouseUp(object sender, MouseEventArgs e)
         {
             textBoxAPIKey.UseSystemPasswordChar = true;
         }
