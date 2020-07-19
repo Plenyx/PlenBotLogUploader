@@ -922,7 +922,7 @@ namespace PlenBotLogUploader
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
                     AddToText("> UPLOADER COMMAND USED");
-                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"PlenBot Log Uploader r{Properties.Settings.Default.ReleaseVersion} | https://plenbot.net/uploader/");
+                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"PlenBot Log Uploader r{Properties.Settings.Default.ReleaseVersion} | https://plenbot.net/uploader/ | https://github.com/DelusionalElitists/PlenBotLogUploader/");
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {
