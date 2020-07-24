@@ -116,5 +116,11 @@
     <Setting Name="TwitchCommandPullCounter" Type="System.String" Scope="User">
       <Value Profile="(Default)">!pulls</Value>
     </Setting>
+    <Setting Name="DPSReportUsertokenEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DPSReportUsertoken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

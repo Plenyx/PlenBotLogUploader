@@ -168,7 +168,7 @@
             // 
             // buttonBossData
             // 
-            this.buttonBossData.Location = new System.Drawing.Point(111, 94);
+            this.buttonBossData.Location = new System.Drawing.Point(111, 65);
             this.buttonBossData.Name = "buttonBossData";
             this.buttonBossData.Size = new System.Drawing.Size(83, 23);
             this.buttonBossData.TabIndex = 12;
@@ -217,7 +217,7 @@
             // 
             this.buttonSession.Location = new System.Drawing.Point(6, 65);
             this.buttonSession.Name = "buttonSession";
-            this.buttonSession.Size = new System.Drawing.Size(188, 23);
+            this.buttonSession.Size = new System.Drawing.Size(99, 23);
             this.buttonSession.TabIndex = 13;
             this.buttonSession.Text = "Log sessions";
             this.buttonSession.UseVisualStyleBackColor = true;
@@ -238,9 +238,9 @@
             // 
             this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 94);
             this.buttonDPSReportServer.Name = "buttonDPSReportServer";
-            this.buttonDPSReportServer.Size = new System.Drawing.Size(99, 23);
+            this.buttonDPSReportServer.Size = new System.Drawing.Size(188, 23);
             this.buttonDPSReportServer.TabIndex = 1;
-            this.buttonDPSReportServer.Text = "DPS.report server";
+            this.buttonDPSReportServer.Text = "DPS.report settings";
             this.buttonDPSReportServer.UseVisualStyleBackColor = true;
             this.buttonDPSReportServer.Click += new System.EventHandler(this.ButtonDPSReportServer_Click);
             // 

@@ -475,5 +475,29 @@ namespace PlenBotLogUploader.Properties {
                 this["TwitchCommandPullCounter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DPSReportUsertokenEnabled {
+            get {
+                return ((bool)(this["DPSReportUsertokenEnabled"]));
+            }
+            set {
+                this["DPSReportUsertokenEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DPSReportUsertoken {
+            get {
+                return ((string)(this["DPSReportUsertoken"]));
+            }
+            set {
+                this["DPSReportUsertoken"] = value;
+            }
+        }
     }
 }

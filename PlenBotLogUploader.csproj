@@ -125,11 +125,11 @@
     <Compile Include="Forms\FormDiscordWebhooks.Designer.cs">
       <DependentUpon>FormDiscordWebhooks.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormDPSReportServer.cs">
+    <Compile Include="Forms\FormDPSReportSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormDPSReportServer.Designer.cs">
-      <DependentUpon>FormDPSReportServer.cs</DependentUpon>
+    <Compile Include="Forms\FormDPSReportSettings.Designer.cs">
+      <DependentUpon>FormDPSReportSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormEditBossData.cs">
       <SubType>Form</SubType>
@@ -227,8 +227,8 @@
     <EmbeddedResource Include="Forms\FormDiscordWebhooks.resx">
       <DependentUpon>FormDiscordWebhooks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormDPSReportServer.resx">
-      <DependentUpon>FormDPSReportServer.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FormDPSReportSettings.resx">
+      <DependentUpon>FormDPSReportSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditBossData.resx">
       <DependentUpon>FormEditBossData.cs</DependentUpon>

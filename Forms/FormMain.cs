@@ -32,7 +32,7 @@ namespace PlenBotLogUploader
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
-        private readonly FormDPSReportServer dpsReportServerLink;
+        private readonly FormDPSReportSettings dpsReportSettingsLink;
         private readonly FormCustomName customNameLink;
         private readonly FormArcVersions arcVersionsLink;
         private readonly FormBossData bossDataLink;
@@ -70,7 +70,7 @@ namespace PlenBotLogUploader
             semaphore = new SemaphoreSlim(Properties.Settings.Default.MaxConcurrentUploads, Properties.Settings.Default.MaxConcurrentUploads);
             comboBoxMaxUploads.Text = Properties.Settings.Default.MaxConcurrentUploads.ToString();
             twitchNameLink = new FormTwitchNameSetup(this);
-            dpsReportServerLink = new FormDPSReportServer(this);
+            dpsReportSettingsLink = new FormDPSReportSettings(this);
             customNameLink = new FormCustomName(this);
             pingsLink = new FormPings(this);
             arcVersionsLink = new FormArcVersions(this);
@@ -126,20 +126,25 @@ namespace PlenBotLogUploader
                 {
                     twitchNameLink.textBoxChannelUrl.Text = $"https://twitch.tv/{Properties.Settings.Default.TwitchChannelName}/";
                 }
-                if (Properties.Settings.Default.DPSReportServer == 0)
+                switch (Properties.Settings.Default.DPSReportServer)
                 {
-                    DPSReportServer = "dps.report";
+                    case 0:
+                        DPSReportServer = "https://dps.report";
+                        break;
+                    case 1:
+                        DPSReportServer = "http://a.dps.report";
+                        dpsReportSettingsLink.radioButtonA.Checked = true;
+                        break;
+                    default:
+                        DPSReportServer = "https://b.dps.report";
+                        dpsReportSettingsLink.radioButtonB.Checked = true;
+                        break;
                 }
-                else if (Properties.Settings.Default.DPSReportServer == 1)
+                if (Properties.Settings.Default.DPSReportUsertokenEnabled)
                 {
-                    DPSReportServer = "a.dps.report";
-                    dpsReportServerLink.radioButtonA.Checked = true;
+                    dpsReportSettingsLink.checkBoxDPSReportEnableUsertoken.Checked = true;
                 }
-                else
-                {
-                    DPSReportServer = "b.dps.report";
-                    dpsReportServerLink.radioButtonB.Checked = true;
-                }
+                dpsReportSettingsLink.textBoxDPSReportUsertoken.Text = Properties.Settings.Default.DPSReportUsertoken;
                 if (Properties.Settings.Default.UploadLogs)
                 {
                     checkBoxUploadLogs.Checked = true;
@@ -617,7 +622,7 @@ namespace PlenBotLogUploader
                             content.Add(contentStream, "file", Path.GetFileName(file));
                             try
                             {
-                                var uri = new Uri($"https://{DPSReportServer}/uploadContent");
+                                var uri = new Uri($"{DPSReportServer}/uploadContent{((Properties.Settings.Default.DPSReportUsertokenEnabled) ? $"?userToken={Properties.Settings.Default.DPSReportUsertoken}" : "")}");
                                 using (var responseMessage = await HttpClientController.PostAsync(uri, content))
                                 {
                                     string response = await responseMessage.Content.ReadAsStringAsync();
@@ -1082,8 +1087,8 @@ namespace PlenBotLogUploader
 
         private void ButtonDPSReportServer_Click(object sender, EventArgs e)
         {
-            dpsReportServerLink.Show();
-            dpsReportServerLink.BringToFront();
+            dpsReportSettingsLink.Show();
+            dpsReportSettingsLink.BringToFront();
         }
 
         private void ButtonCustomName_Click(object sender, EventArgs e)
@@ -1124,8 +1129,8 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
         {
-            dpsReportServerLink.Show();
-            dpsReportServerLink.BringToFront();
+            dpsReportSettingsLink.Show();
+            dpsReportSettingsLink.BringToFront();
         }
 
         private void ToolStripMenuItemOpenCustomName_Click(object sender, EventArgs e)

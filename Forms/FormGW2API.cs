@@ -20,14 +20,8 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.GW2APIKey = textBoxAPIKey.Text;
         }
 
-        private void ButtonShowAPIKey_MouseDown(object sender, MouseEventArgs e)
-        {
-            textBoxAPIKey.UseSystemPasswordChar = false;
-        }
+        private void ButtonShowAPIKey_MouseDown(object sender, MouseEventArgs e) => textBoxAPIKey.UseSystemPasswordChar = false;
 
-        private void ButtonShowAPIKey_MouseUp(object sender, MouseEventArgs e)
-        {
-            textBoxAPIKey.UseSystemPasswordChar = true;
-        }
+        private void ButtonShowAPIKey_MouseUp(object sender, MouseEventArgs e) => textBoxAPIKey.UseSystemPasswordChar = true;
     }
 }
