@@ -34,6 +34,7 @@
             this.radioButtonNormal = new System.Windows.Forms.RadioButton();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBoxDPSReportUsertoken = new System.Windows.Forms.GroupBox();
+            this.buttonDPSReportGetToken = new System.Windows.Forms.Button();
             this.buttonDPSReportShowUsertoken = new System.Windows.Forms.Button();
             this.textBoxDPSReportUsertoken = new System.Windows.Forms.TextBox();
             this.checkBoxDPSReportEnableUsertoken = new System.Windows.Forms.CheckBox();
@@ -88,34 +89,44 @@
             // 
             // groupBoxDPSReportUsertoken
             // 
+            this.groupBoxDPSReportUsertoken.Controls.Add(this.buttonDPSReportGetToken);
             this.groupBoxDPSReportUsertoken.Controls.Add(this.buttonDPSReportShowUsertoken);
             this.groupBoxDPSReportUsertoken.Controls.Add(this.textBoxDPSReportUsertoken);
             this.groupBoxDPSReportUsertoken.Controls.Add(this.checkBoxDPSReportEnableUsertoken);
             this.groupBoxDPSReportUsertoken.Location = new System.Drawing.Point(13, 82);
             this.groupBoxDPSReportUsertoken.Name = "groupBoxDPSReportUsertoken";
-            this.groupBoxDPSReportUsertoken.Size = new System.Drawing.Size(277, 70);
+            this.groupBoxDPSReportUsertoken.Size = new System.Drawing.Size(277, 73);
             this.groupBoxDPSReportUsertoken.TabIndex = 1;
             this.groupBoxDPSReportUsertoken.TabStop = false;
             this.groupBoxDPSReportUsertoken.Text = "DPS.report user token";
             // 
+            // buttonDPSReportGetToken
+            // 
+            this.buttonDPSReportGetToken.Location = new System.Drawing.Point(157, 15);
+            this.buttonDPSReportGetToken.Name = "buttonDPSReportGetToken";
+            this.buttonDPSReportGetToken.Size = new System.Drawing.Size(108, 23);
+            this.buttonDPSReportGetToken.TabIndex = 3;
+            this.buttonDPSReportGetToken.Text = "Get token from API";
+            this.buttonDPSReportGetToken.UseVisualStyleBackColor = true;
+            this.buttonDPSReportGetToken.Click += new System.EventHandler(this.ButtonDPSReportGetToken_Click);
+            // 
             // buttonDPSReportShowUsertoken
             // 
             this.buttonDPSReportShowUsertoken.Enabled = false;
-            this.buttonDPSReportShowUsertoken.Location = new System.Drawing.Point(198, 40);
+            this.buttonDPSReportShowUsertoken.Location = new System.Drawing.Point(192, 42);
             this.buttonDPSReportShowUsertoken.Name = "buttonDPSReportShowUsertoken";
             this.buttonDPSReportShowUsertoken.Size = new System.Drawing.Size(73, 23);
             this.buttonDPSReportShowUsertoken.TabIndex = 2;
             this.buttonDPSReportShowUsertoken.Text = "Show token";
             this.buttonDPSReportShowUsertoken.UseVisualStyleBackColor = true;
-            this.buttonDPSReportShowUsertoken.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ButtonDPSReportShowUsertoken_MouseDown);
-            this.buttonDPSReportShowUsertoken.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ButtonDPSReportShowUsertoken_MouseUp);
+            this.buttonDPSReportShowUsertoken.Click += new System.EventHandler(this.ButtonDPSReportShowUsertoken_Click);
             // 
             // textBoxDPSReportUsertoken
             // 
             this.textBoxDPSReportUsertoken.Enabled = false;
             this.textBoxDPSReportUsertoken.Location = new System.Drawing.Point(11, 42);
             this.textBoxDPSReportUsertoken.Name = "textBoxDPSReportUsertoken";
-            this.textBoxDPSReportUsertoken.Size = new System.Drawing.Size(181, 20);
+            this.textBoxDPSReportUsertoken.Size = new System.Drawing.Size(175, 20);
             this.textBoxDPSReportUsertoken.TabIndex = 1;
             this.textBoxDPSReportUsertoken.UseSystemPasswordChar = true;
             // 
@@ -134,7 +145,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 161);
+            this.ClientSize = new System.Drawing.Size(302, 166);
             this.Controls.Add(this.groupBoxDPSReportUsertoken);
             this.Controls.Add(this.groupBoxDPSReportServer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -163,5 +174,6 @@
         public System.Windows.Forms.TextBox textBoxDPSReportUsertoken;
         public System.Windows.Forms.CheckBox checkBoxDPSReportEnableUsertoken;
         public System.Windows.Forms.Button buttonDPSReportShowUsertoken;
+        private System.Windows.Forms.Button buttonDPSReportGetToken;
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
 {
@@ -39,15 +41,43 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.DPSReportUsertoken = textBoxDPSReportUsertoken.Text;
         }
 
-        private void ButtonDPSReportShowUsertoken_MouseDown(object sender, MouseEventArgs e) => textBoxDPSReportUsertoken.UseSystemPasswordChar = false;
-
-        private void ButtonDPSReportShowUsertoken_MouseUp(object sender, MouseEventArgs e) => textBoxDPSReportUsertoken.UseSystemPasswordChar = true;
-
-        private void CheckBoxDPSReportEnableUsertoken_CheckedChanged(object sender, System.EventArgs e)
+        private void CheckBoxDPSReportEnableUsertoken_CheckedChanged(object sender, EventArgs e)
         {
             var enable = checkBoxDPSReportEnableUsertoken.Checked;
             textBoxDPSReportUsertoken.Enabled = enable;
             buttonDPSReportShowUsertoken.Enabled = enable;
+        }
+
+        private async void ButtonDPSReportGetToken_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var uri = new Uri("https://dps.report/getUserToken");
+                using (var responseMessage = await mainLink.HttpClientController.GetAsync(uri))
+                {
+                    var response = await responseMessage.Content.ReadAsStringAsync();
+                    var anonObject = new { userToken = "" };
+                    var responseJson = JsonConvert.DeserializeAnonymousType(response, anonObject);
+                    textBoxDPSReportUsertoken.Text = responseJson.userToken;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"An error has occured while getting the user token from dps.report API.\n{ex.Message}", "An error has occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ButtonDPSReportShowUsertoken_Click(object sender, EventArgs e)
+        {
+            textBoxDPSReportUsertoken.UseSystemPasswordChar = !textBoxDPSReportUsertoken.UseSystemPasswordChar;
+            if (textBoxDPSReportUsertoken.UseSystemPasswordChar)
+            {
+                buttonDPSReportShowUsertoken.Text = "Show token";
+            }
+            else
+            {
+                buttonDPSReportShowUsertoken.Text = "Hide token";
+            }
         }
     }
 }
