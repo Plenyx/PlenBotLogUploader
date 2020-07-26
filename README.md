@@ -39,8 +39,7 @@ To fully remove all the saved settings in the registry, use the enclosed "ResetS
 
 ## Features
 * arcdps log uploads
-  * uploading arcdps logs to dps.report as soon as they are made
-  * uploading arcdps logs to GW2Raidar when set up
+  * uploading arcdps logs to dps.report as soon as they are made (with settable userToken)
   * drag & drop directly to the executable or to the running application itself to quickly upload a log
 * log processing
   * pinging links to Discord channels (via Discord webhooks)
@@ -63,12 +62,3 @@ I plan to finish the following features:
 Remote server ping allows you to send log data to a custom server.
 
 If you wish to create your own server, follow the [remote server readme](https://github.com/DelusionalElitists/PlenBotLogUploader/blob/master/remote-server/README.md).
-
-## TwitchIrcClient
-A client I developed for Irc which Twitch uses.
-
-Initially built on .NET Framework 4.7, but it also works on 4.8 and .NET Core 2.1, 3.0 & 3.1.
-
-*Maintained by Plenyx.*
-
-**Requires either .NET Framework 4.8 or .NET Core 3.0**
