@@ -22,7 +22,7 @@ I recommend using the compress feature in the arcdps log settings. Otherwise the
 The uploader keeps track of its version and the online available version.
 When you start the executable, it will check for a new version. If update is available a prompt will be displayed.
 
-To update the bot you need to overwrite the previous executable.
+To update the bot you either need to overwrite the previous executable with the new one under the Release tab or you need to press the big **Update Uploader** button within the application.
 
 ## Uninstall/Reinstall
 To remove all application settings, remove the "PlenBotLogUploader.exe_Url_xxx" folders located in the "%AppData%\Plenyx's_Bad_Software", use "Reset all settings" button inside the application or launch the application with -resetsettings flag.
