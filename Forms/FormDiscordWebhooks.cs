@@ -88,11 +88,11 @@ namespace PlenBotLogUploader
                 Url = icon
             };
             DateTime timestampDateTime = DateTime.UtcNow;
-            if(DateTime.TryParse(reportJSON.ExtraJSON.TimeStart, out DateTime timeStart))
+            if (DateTime.TryParse(reportJSON.ExtraJSON.TimeStart, out DateTime timeStart))
             {
                 timestampDateTime = timeStart;
             }
-            var timestamp = timestampDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            var timestamp = timestampDateTime.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ");
             var discordContentEmbed = new DiscordAPIJSONContentEmbed()
             {
                 Title = bossName,
@@ -438,7 +438,7 @@ namespace PlenBotLogUploader
                 Title = title,
                 Description = description,
                 Color = 32768,
-                TimeStamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                TimeStamp = DateTime.UtcNow.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ"),
                 Thumbnail = discordContentEmbedThumbnail
             };
             var discordContent = new DiscordAPIJSONContent()
@@ -480,7 +480,7 @@ namespace PlenBotLogUploader
                 Title = title,
                 Description = description,
                 Color = 32768,
-                TimeStamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                TimeStamp = DateTime.UtcNow.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ"),
                 Thumbnail = discordContentEmbedThumbnail
             };
             var discordContent = new DiscordAPIJSONContent()
