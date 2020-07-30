@@ -115,9 +115,10 @@ namespace PlenBotLogUploader.DPSReport
                 { 36, new BossData() { BossId = (int)BossIds.TwistedCastle, Name = "Twisted Castle", SuccessMsg = "Twisted Castle log: <log>", FailMsg = "Twisted Castle log: <log> | Wipe counter: <pulls>", Type = BossType.Raid, Event = true }  },
                 { 37, new BossData() { BossId = (int)BossIds.TheVoiceAndTheClawOfTheFallen, Name = "The Voice and the Claw of the Fallen", Icon = "https://i.imgur.com/lNXXbnC.png", Type = BossType.Strike } },
                 { 38, new BossData() { BossId = (int)BossIds.ValeGuardian, Name = "Vale Guardian", Icon = "https://wiki.guildwars2.com/images/f/fb/Mini_Vale_Guardian.png", Type = BossType.Raid } },
-                { 39, new BossData() { BossId = (int)BossIds.WvW, Name = "World vs World", SuccessMsg = "WvW log: <log>", FailMsg = "WvW log: <log>", Icon = "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png", Type = BossType.WvW } },
-                { 40, new BossData() { BossId = (int)BossIds.Xera, Name = "Xera", Icon = "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png", Type = BossType.Raid } },
-                { 41, new BossData() { BossId = (int)BossIds.WhisperOfJormag, Name = "Whisper of Jormag", Icon = "https://wiki.guildwars2.com/images/c/c0/Mini_Whisper_of_Jormag.png", Type = BossType.Strike } }
+                { 39, new BossData() { BossId = (int)BossIds.VariniaStormsounder, Name = "Varinia Stormsounder (Cold War)", Icon = "https://i.imgur.com/r9b2oww.png", Type = BossType.Strike } },
+                { 40, new BossData() { BossId = (int)BossIds.WvW, Name = "World vs World", SuccessMsg = "WvW log: <log>", FailMsg = "WvW log: <log>", Icon = "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png", Type = BossType.WvW } },
+                { 41, new BossData() { BossId = (int)BossIds.Xera, Name = "Xera", Icon = "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png", Type = BossType.Raid } },
+                { 42, new BossData() { BossId = (int)BossIds.WhisperOfJormag, Name = "Whisper of Jormag", Icon = "https://wiki.guildwars2.com/images/c/c0/Mini_Whisper_of_Jormag.png", Type = BossType.Strike } }
             };
         }
 

@@ -42,6 +42,7 @@
         FraenirOfJormag = 22492,
         Boneskinner = 22521,
         WhisperOfJormag = 22711,
+        VariniaStormsounder = 22836,
         ConjuredAmalgamate = 43974
     }
 }

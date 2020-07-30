@@ -97,6 +97,25 @@ namespace PlenBotLogUploader.Tools
                 }
             }
             #endregion
+            #region Release 62
+            if (Properties.Settings.Default.SavedVersion < 62)
+            {
+                /// add Freezie
+                try
+                {
+                    var bosses = Bosses.FromFile($@"{localDir}\boss_data.txt");
+                    if (bosses.Where(anon => anon.Value.BossId.Equals((int)BossIds.VariniaStormsounder)).Count() == 0)
+                    {
+                        var coldWar = new BossData() { BossId = (int)BossIds.VariniaStormsounder, Name = "Varinia Stormsounder (Cold War)", SuccessMsg = Properties.Settings.Default.BossTemplateSuccess, FailMsg = Properties.Settings.Default.BossTemplateFail, Icon = "https://i.imgur.com/r9b2oww.png", Type = BossType.Strike };
+                        File.AppendAllText($@"{localDir}\boss_data.txt", coldWar.ToString(true));
+                    }
+                }
+                catch
+                {
+                    // do nothing, since the file does not exist, or is corrupted (data does not line up)
+                }
+            }
+            #endregion
             /// end of release specific updates
             Properties.Settings.Default.SavedVersion = Properties.Settings.Default.ReleaseVersion;
             Properties.Settings.Default.Save();
