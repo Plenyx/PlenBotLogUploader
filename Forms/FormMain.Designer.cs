@@ -60,6 +60,7 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.buttonAleevaSettings = new System.Windows.Forms.Button();
             this.buttonGW2API = new System.Windows.Forms.Button();
             this.comboBoxMaxUploads = new System.Windows.Forms.ComboBox();
             this.labelMaximumUploads = new System.Windows.Forms.Label();
@@ -379,6 +380,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonAleevaSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonGW2API);
             this.groupBoxOtherSettings.Controls.Add(this.comboBoxMaxUploads);
             this.groupBoxOtherSettings.Controls.Add(this.labelMaximumUploads);
@@ -390,10 +392,22 @@
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 382);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 239);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 265);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
+            // 
+            // buttonAleevaSettings
+            // 
+            this.buttonAleevaSettings.Image = global::PlenBotLogUploader.Properties.Resources.aleeva_icon16;
+            this.buttonAleevaSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonAleevaSettings.Location = new System.Drawing.Point(6, 208);
+            this.buttonAleevaSettings.Name = "buttonAleevaSettings";
+            this.buttonAleevaSettings.Size = new System.Drawing.Size(188, 23);
+            this.buttonAleevaSettings.TabIndex = 13;
+            this.buttonAleevaSettings.Text = "Aleeva integration";
+            this.buttonAleevaSettings.UseVisualStyleBackColor = true;
+            this.buttonAleevaSettings.Click += new System.EventHandler(this.ButtonAleevaSettings_Click);
             // 
             // buttonGW2API
             // 
@@ -435,7 +449,7 @@
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(6, 208);
+            this.buttonReset.Location = new System.Drawing.Point(6, 237);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(188, 23);
             this.buttonReset.TabIndex = 9;
@@ -486,7 +500,7 @@
             // buttonUpdateNow
             // 
             this.buttonUpdateNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdateNow.Location = new System.Drawing.Point(280, 573);
+            this.buttonUpdateNow.Location = new System.Drawing.Point(281, 602);
             this.buttonUpdateNow.Name = "buttonUpdateNow";
             this.buttonUpdateNow.Size = new System.Drawing.Size(112, 40);
             this.buttonUpdateNow.TabIndex = 8;
@@ -511,7 +525,7 @@
             this.richTextBoxUploadInfo.Name = "richTextBoxUploadInfo";
             this.richTextBoxUploadInfo.ReadOnly = true;
             this.richTextBoxUploadInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBoxUploadInfo.Size = new System.Drawing.Size(408, 609);
+            this.richTextBoxUploadInfo.Size = new System.Drawing.Size(408, 635);
             this.richTextBoxUploadInfo.TabIndex = 9;
             this.richTextBoxUploadInfo.Text = "";
             this.richTextBoxUploadInfo.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
@@ -521,7 +535,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 629);
+            this.ClientSize = new System.Drawing.Size(633, 652);
             this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
@@ -595,6 +609,7 @@
         private System.Windows.Forms.Label labelMaximumUploads;
         private System.Windows.Forms.RichTextBox richTextBoxUploadInfo;
         private System.Windows.Forms.Button buttonGW2API;
+        private System.Windows.Forms.Button buttonAleevaSettings;
     }
 }
 

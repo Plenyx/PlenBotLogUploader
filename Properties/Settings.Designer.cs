@@ -12,7 +12,7 @@ namespace PlenBotLogUploader.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -497,6 +497,65 @@ namespace PlenBotLogUploader.Properties {
             }
             set {
                 this["DPSReportUsertoken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AleevaRefreshToken {
+            get {
+                return ((string)(this["AleevaRefreshToken"]));
+            }
+            set {
+                this["AleevaRefreshToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime AleevaRefreshTokenExpire {
+            get {
+                return ((global::System.DateTime)(this["AleevaRefreshTokenExpire"]));
+            }
+            set {
+                this["AleevaRefreshTokenExpire"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AleevaSelectedServer {
+            get {
+                return ((string)(this["AleevaSelectedServer"]));
+            }
+            set {
+                this["AleevaSelectedServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AleevaSelectedChannel {
+            get {
+                return ((string)(this["AleevaSelectedChannel"]));
+            }
+            set {
+                this["AleevaSelectedChannel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AleevaSendNotification {
+            get {
+                return ((bool)(this["AleevaSendNotification"]));
+            }
+            set {
+                this["AleevaSendNotification"] = value;
             }
         }
     }

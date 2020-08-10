@@ -84,6 +84,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aleeva\AleevaAddReport.cs" />
+    <Compile Include="Aleeva\AleevaAddReportResponse.cs" />
+    <Compile Include="Aleeva\AleevaAuthToken.cs" />
+    <Compile Include="Aleeva\AleevaAuthTokenResponse.cs" />
+    <Compile Include="Aleeva\AleevaChannel.cs" />
+    <Compile Include="Aleeva\AleevaServer.cs" />
+    <Compile Include="Aleeva\AleevaResponseStatus.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContent.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentAllowedMentions.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbed.cs" />
@@ -107,6 +114,12 @@
     <Compile Include="DPSReport\EliteSpecs.cs" />
     <Compile Include="DPSReport\Players.cs" />
     <Compile Include="DPSReport\Professions.cs" />
+    <Compile Include="Forms\FormAleeva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormAleeva.Designer.cs">
+      <DependentUpon>FormAleeva.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormArcVersions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -218,6 +231,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TwitchIRCClient\IrcStates.cs" />
     <Compile Include="TwitchIRCClient\TwitchIrcClient.cs" />
+    <EmbeddedResource Include="Forms\FormAleeva.resx">
+      <DependentUpon>FormAleeva.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormArcVersions.resx">
       <DependentUpon>FormArcVersions.cs</DependentUpon>
     </EmbeddedResource>
@@ -293,6 +309,8 @@
   <ItemGroup>
     <Content Include="Icon.ico" />
     <Content Include="IconAssembly.ico" />
+    <None Include="Resources\aleeva_icon.ico" />
+    <None Include="Resources\aleeva_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

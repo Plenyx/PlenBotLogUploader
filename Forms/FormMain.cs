@@ -41,6 +41,7 @@ namespace PlenBotLogUploader
         private readonly FormTwitchCommands twitchCommandsLink;
         private readonly FormLogSession logSessionLink;
         private readonly FormGW2API gw2APILink;
+        private readonly FormAleeva aleevaLink;
         private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
@@ -79,6 +80,7 @@ namespace PlenBotLogUploader
             twitchCommandsLink = new FormTwitchCommands();
             logSessionLink = new FormLogSession(this);
             gw2APILink = new FormGW2API();
+            aleevaLink = new FormAleeva(this);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 8 kB filesize will not be uploaded.");
@@ -213,6 +215,10 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSaveToFile.Checked = Properties.Settings.Default.SessionSaveToFile;
                 arcVersionsLink.checkBoxAutoUpdateArc.Checked = Properties.Settings.Default.ArcAutoUpdate;
                 gw2APILink.textBoxAPIKey.Text = Properties.Settings.Default.GW2APIKey;
+                if (DateTime.Now < Properties.Settings.Default.AleevaRefreshTokenExpire)
+                {
+                    Task.Run(() => aleevaLink.GetAleevaTokenFromRefreshToken());
+                }
                 if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     MessageBox.Show("Path to arcdps logs is not set.\nDo not forget to set it up so the logs can be auto-uploaded.", "Just a reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -701,6 +707,8 @@ namespace PlenBotLogUploader
                                             }
                                             // remote server ping
                                             await pingsLink.ExecuteAllPingsAsync(reportJSON);
+                                            // aleeva pings
+                                            await aleevaLink.PostLogToAleeva(reportJSON);
                                         }
                                         else if(reportJSON.Error.Length > 0)
                                         {
@@ -1258,6 +1266,12 @@ namespace PlenBotLogUploader
         {
             gw2APILink.Show();
             gw2APILink.BringToFront();
+        }
+
+        private void ButtonAleevaSettings_Click(object sender, EventArgs e)
+        {
+            aleevaLink.Show();
+            aleevaLink.BringToFront();
         }
         #endregion
     }
