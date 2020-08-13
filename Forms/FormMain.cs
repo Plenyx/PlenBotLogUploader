@@ -215,7 +215,7 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSaveToFile.Checked = Properties.Settings.Default.SessionSaveToFile;
                 arcVersionsLink.checkBoxAutoUpdateArc.Checked = Properties.Settings.Default.ArcAutoUpdate;
                 gw2APILink.textBoxAPIKey.Text = Properties.Settings.Default.GW2APIKey;
-                if (DateTime.Now < Properties.Settings.Default.AleevaRefreshTokenExpire)
+                if ((Properties.Settings.Default.AleevaRefreshToken != "") && (Properties.Settings.Default.AleevaRefreshTokenExpire != null) && (DateTime.Now < Properties.Settings.Default.AleevaRefreshTokenExpire))
                 {
                     Task.Run(() => aleevaLink.GetAleevaTokenFromRefreshToken());
                 }
@@ -272,9 +272,9 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
                 arcVersionsLink.checkBoxAutoUpdateArc.CheckedChanged += new EventHandler(arcVersionsLink.CheckBoxAutoUpdateArc_CheckedChanged);
             }
-            catch
+            catch(Exception e)
             {
-                MessageBox.Show("An error has been encountered in the configuration file.\nTry deleting the configuration file and try again.", "An error has occurred");
+                MessageBox.Show("An error has been encountered in the configuration.\nTry deleting the configuration file and try again.", "An error has occurred");
                 ExitApp();
             }
         }
