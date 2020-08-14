@@ -558,5 +558,17 @@ namespace PlenBotLogUploader.Properties {
                 this["AleevaSendNotification"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TwitchCommandSongSmartRecognition {
+            get {
+                return ((bool)(this["TwitchCommandSongSmartRecognition"]));
+            }
+            set {
+                this["TwitchCommandSongSmartRecognition"] = value;
+            }
+        }
     }
 }

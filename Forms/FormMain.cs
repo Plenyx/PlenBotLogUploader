@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.GW2API;
@@ -203,6 +204,7 @@ namespace PlenBotLogUploader
                 twitchCommandsLink.textBoxLastLogCommand.Text = Properties.Settings.Default.TwitchCommandLastLog;
                 twitchCommandsLink.checkBoxSongEnable.Checked = Properties.Settings.Default.TwitchCommandSongEnabled;
                 twitchCommandsLink.textBoxSongCommand.Text = Properties.Settings.Default.TwitchCommandSong;
+                twitchCommandsLink.checkBoxSongSmartRecognition.Checked = Properties.Settings.Default.TwitchCommandSongSmartRecognition;
                 twitchCommandsLink.checkBoxGW2IgnEnable.Checked = Properties.Settings.Default.TwitchCommandGW2IgnEnabled;
                 twitchCommandsLink.textBoxGW2Ign.Text = Properties.Settings.Default.TwitchCommandGW2Ign;
                 twitchCommandsLink.checkBoxPullCounterEnable.Checked = Properties.Settings.Default.TwitchCommandPullCounterEnabled;
@@ -274,7 +276,7 @@ namespace PlenBotLogUploader
             }
             catch(Exception e)
             {
-                MessageBox.Show("An error has been encountered in the configuration.\nTry deleting the configuration file and try again.", "An error has occurred");
+                MessageBox.Show($"An error has been encountered in the configuration.\n\n{e.Message}\n\nIf the problem persists, try deleting the configuration file and try again.", "An error has occurred");
                 ExitApp();
             }
         }
@@ -931,6 +933,26 @@ namespace PlenBotLogUploader
             string[] messageSplit = e.Message.Split(new string[] { $"#{Properties.Settings.Default.TwitchChannelName} :" }, StringSplitOptions.None);
             if (messageSplit.Length > 1)
             {
+                if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && Regex.IsMatch(messageSplit[1], @"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
+                {
+                    AddToText("> (Spotify) SMART SONG RECOGNITION USED");
+                    try
+                    {
+                        Process process = Process.GetProcessesByName("Spotify").FirstOrDefault(anon => !string.IsNullOrWhiteSpace(anon.MainWindowTitle));
+                        if (process.MainWindowTitle.Contains("Spotify"))
+                        {
+                            await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "No song is being played.");
+                        }
+                        else
+                        {
+                            await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, process.MainWindowTitle);
+                        }
+                    }
+                    catch
+                    {
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "Spotify is not running.");
+                    }
+                }
                 string command = messageSplit[1].Split(' ')[0].ToLower();
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
