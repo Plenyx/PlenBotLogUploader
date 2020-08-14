@@ -54,7 +54,7 @@
             this.groupBoxAccessCode.Size = new System.Drawing.Size(474, 47);
             this.groupBoxAccessCode.TabIndex = 0;
             this.groupBoxAccessCode.TabStop = false;
-            this.groupBoxAccessCode.Text = "Authorise with Aleeva using a generated access code";
+            this.groupBoxAccessCode.Text = "Authorise with Aleeva using a generated access code from her";
             // 
             // textBoxAccessCode
             // 
