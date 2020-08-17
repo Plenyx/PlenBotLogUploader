@@ -72,7 +72,7 @@
             this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.richTextBoxUploadInfo = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -518,17 +518,17 @@
             // 
             this.toolTip.ShowAlways = true;
             // 
-            // richTextBoxUploadInfo
+            // richTextBoxMainConsole
             // 
-            this.richTextBoxUploadInfo.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.richTextBoxUploadInfo.Location = new System.Drawing.Point(12, 12);
-            this.richTextBoxUploadInfo.Name = "richTextBoxUploadInfo";
-            this.richTextBoxUploadInfo.ReadOnly = true;
-            this.richTextBoxUploadInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBoxUploadInfo.Size = new System.Drawing.Size(408, 635);
-            this.richTextBoxUploadInfo.TabIndex = 9;
-            this.richTextBoxUploadInfo.Text = "";
-            this.richTextBoxUploadInfo.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
+            this.richTextBoxMainConsole.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.richTextBoxMainConsole.Location = new System.Drawing.Point(12, 12);
+            this.richTextBoxMainConsole.Name = "richTextBoxMainConsole";
+            this.richTextBoxMainConsole.ReadOnly = true;
+            this.richTextBoxMainConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.richTextBoxMainConsole.Size = new System.Drawing.Size(408, 635);
+            this.richTextBoxMainConsole.TabIndex = 9;
+            this.richTextBoxMainConsole.Text = "";
+            this.richTextBoxMainConsole.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
             // 
             // FormMain
             // 
@@ -540,7 +540,7 @@
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxArcdpsLogs);
             this.Controls.Add(this.groupBoxTwitchSettings);
-            this.Controls.Add(this.richTextBoxUploadInfo);
+            this.Controls.Add(this.richTextBoxMainConsole);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "FormMain";
@@ -607,7 +607,7 @@
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.ComboBox comboBoxMaxUploads;
         private System.Windows.Forms.Label labelMaximumUploads;
-        private System.Windows.Forms.RichTextBox richTextBoxUploadInfo;
+        private System.Windows.Forms.RichTextBox richTextBoxMainConsole;
         private System.Windows.Forms.Button buttonGW2API;
         private System.Windows.Forms.Button buttonAleevaSettings;
     }

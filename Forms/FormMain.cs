@@ -544,27 +544,27 @@ namespace PlenBotLogUploader
         #region self-invocable functions
         public void AddToText(string s)
         {
-            if (richTextBoxUploadInfo.InvokeRequired)
+            if (richTextBoxMainConsole.InvokeRequired)
             {
                 // invokes the same function on the main thread
-                richTextBoxUploadInfo.Invoke((Action<string>)delegate (string text) { AddToText(text); }, s);
+                richTextBoxMainConsole.Invoke((Action<string>)delegate (string text) { AddToText(text); }, s);
             }
             else
             {
                 var messagePre = s.IndexOf(' ');
                 if (messagePre != -1)
                 {
-                    richTextBoxUploadInfo.SelectionColor = Color.Blue;
-                    richTextBoxUploadInfo.AppendText(s.Substring(0, messagePre + 1));
-                    richTextBoxUploadInfo.SelectionColor = Color.Black;
-                    richTextBoxUploadInfo.AppendText($"{s.Substring(messagePre)}{Environment.NewLine}");
+                    richTextBoxMainConsole.SelectionColor = Color.Blue;
+                    richTextBoxMainConsole.AppendText(s.Substring(0, messagePre + 1));
+                    richTextBoxMainConsole.SelectionColor = Color.Black;
+                    richTextBoxMainConsole.AppendText($"{s.Substring(messagePre)}{Environment.NewLine}");
                 }
                 else
                 {
-                    richTextBoxUploadInfo.AppendText($"{s}{Environment.NewLine}");
+                    richTextBoxMainConsole.AppendText($"{s}{Environment.NewLine}");
                 }
-                richTextBoxUploadInfo.SelectionStart = richTextBoxUploadInfo.TextLength;
-                richTextBoxUploadInfo.ScrollToCaret();
+                richTextBoxMainConsole.SelectionStart = richTextBoxMainConsole.TextLength;
+                richTextBoxMainConsole.ScrollToCaret();
             }
             
         }
