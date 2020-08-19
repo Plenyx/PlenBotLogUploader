@@ -189,22 +189,34 @@ namespace PlenBotLogUploader
             var FractalLogs = reportsJSON
                 .Where(anon => allBosses
                     .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .First().Value.Type.Equals(BossType.Fractal))
+                    .Where(anon2 => anon2.Value.Type.Equals(BossType.Fractal))
+                    .Count() > 0)
                 .ToList();
             var StrikeLogs = reportsJSON
                 .Where(anon => allBosses
                     .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .First().Value.Type.Equals(BossType.Strike))
+                    .Where(anon2 => anon2.Value.Type.Equals(BossType.Strike))
+                    .Count() > 0)
                 .ToList();
             var GolemLogs = reportsJSON
                 .Where(anon => allBosses
                     .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .First().Value.Type.Equals(BossType.Golem))
+                    .Where(anon2 => anon2.Value.Type.Equals(BossType.Golem))
+                    .Count() > 0)
                 .ToList();
             var WvWLogs = reportsJSON
                 .Where(anon => allBosses
                     .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .First().Value.Type.Equals(BossType.WvW))
+                    .Where(anon2 => anon2.Value.Type.Equals(BossType.WvW))
+                    .Count() > 0)
+                .ToList();
+            var OtherLogs = reportsJSON
+                .Where(anon => allBosses
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
+                    .Where(anon2 => anon2.Value.Type.Equals(BossType.None))
+                    .Count() > 0 || allBosses
+                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
+                    .Count() == 0)
                 .ToList();
             StringBuilder builder = new StringBuilder();
             builder.Append($"Session duration: {logSessionSettings.ElapsedTime}\n\n");
@@ -402,6 +414,42 @@ namespace PlenBotLogUploader
                         }
                         builder.Clear();
                         builder.Append("***WvW logs:***\n");
+                    }
+                }
+            }
+            if (OtherLogs.Count > 0)
+            {
+                if (!builder.ToString().EndsWith("***\n"))
+                {
+                    builder.Append("\n\n");
+                }
+                builder.Append("***Other logs:***\n");
+                foreach (var log in OtherLogs)
+                {
+                    string bossName = log.Encounter.Boss;
+                    var bossDataRef = allBosses
+                        .Where(anon => anon.Value.BossId.Equals(log.Encounter.BossId))
+                        .Select(anon => anon.Value);
+                    if (bossDataRef.Count() == 1)
+                    {
+                        bossName = bossDataRef.First().Name;
+                    }
+                    string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                    builder.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                    if (builder.Length >= maxAllowedMessageSize)
+                    {
+                        messageCount++;
+                        if (logSessionSettings.UseSelectedWebhooksInstead)
+                        {
+                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
+                        else
+                        {
+                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
+                        }
+                        builder.Clear();
+                        builder.Append("***Other logs:***\n");
                     }
                 }
             }
