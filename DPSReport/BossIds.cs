@@ -44,6 +44,7 @@
         Boneskinner = 22521,
         WhisperOfJormag = 22711,
         VariniaStormsounder = 22836,
+        AiKeeperOfThePeak = 23254,
         ConjuredAmalgamate = 43974
     }
 }
