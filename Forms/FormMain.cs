@@ -942,7 +942,7 @@ namespace PlenBotLogUploader
             string[] messageSplit = e.Message.Split(new string[] { $"#{Properties.Settings.Default.TwitchChannelName} :" }, StringSplitOptions.None);
             if (messageSplit.Length > 1)
             {
-                if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && Regex.IsMatch(messageSplit[1], @"(?:(?:(?:song)|(?:music)){1}(?:(?:(?: is(?:[\w,\s]+)+)|(?: name))?\??)$)|(?:(?:(?:song)|(?:music))$)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
+                if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && Regex.IsMatch(messageSplit[1], @"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
                 {
                     AddToText("> (Spotify) SMART SONG RECOGNITION USED");
                     try
