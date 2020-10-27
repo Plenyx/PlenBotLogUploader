@@ -12,12 +12,7 @@ namespace PlenBotLogUploader.GW2API
 
         public string Region
         {
-            get
-            {
-                if (ID < 2000)
-                    return "NA";
-                return "EU";
-            }
+            get => (ID < 2000) ? "NA" : "EU";
         }
     }
 }

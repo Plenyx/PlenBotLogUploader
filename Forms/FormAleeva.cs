@@ -22,10 +22,7 @@ namespace PlenBotLogUploader
         public DateTime AleevaAccessTokenExpires { get; set; }
         public bool AleevaAuthorised
         {
-            get
-            {
-                return _authorised;
-            }
+            get => _authorised;
             set
             {
                 _authorised = value;

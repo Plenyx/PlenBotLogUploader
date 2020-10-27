@@ -548,25 +548,22 @@ namespace PlenBotLogUploader
             {
                 // invokes the same function on the main thread
                 richTextBoxMainConsole.Invoke((Action<string>)delegate (string text) { AddToText(text); }, s);
+                return;
+            }
+            var messagePre = s.IndexOf(' ');
+            if (messagePre != -1)
+            {
+                richTextBoxMainConsole.SelectionColor = Color.Blue;
+                richTextBoxMainConsole.AppendText(s.Substring(0, messagePre + 1));
+                richTextBoxMainConsole.SelectionColor = Color.Black;
+                richTextBoxMainConsole.AppendText($"{s.Substring(messagePre)}{Environment.NewLine}");
             }
             else
             {
-                var messagePre = s.IndexOf(' ');
-                if (messagePre != -1)
-                {
-                    richTextBoxMainConsole.SelectionColor = Color.Blue;
-                    richTextBoxMainConsole.AppendText(s.Substring(0, messagePre + 1));
-                    richTextBoxMainConsole.SelectionColor = Color.Black;
-                    richTextBoxMainConsole.AppendText($"{s.Substring(messagePre)}{Environment.NewLine}");
-                }
-                else
-                {
-                    richTextBoxMainConsole.AppendText($"{s}{Environment.NewLine}");
-                }
-                richTextBoxMainConsole.SelectionStart = richTextBoxMainConsole.TextLength;
-                richTextBoxMainConsole.ScrollToCaret();
+                richTextBoxMainConsole.AppendText($"{s}{Environment.NewLine}");
             }
-            
+            richTextBoxMainConsole.SelectionStart = richTextBoxMainConsole.TextLength;
+            richTextBoxMainConsole.ScrollToCaret();
         }
 
         private void UpdateLogCount()
@@ -575,11 +572,9 @@ namespace PlenBotLogUploader
             {
                 // invokes the same function on the main thread
                 labelLocationInfo.Invoke((Action)delegate () { UpdateLogCount(); });
+                return;
             }
-            else
-            {
-                labelLocationInfo.Text = $"Logs in the directory: {logsCount}";
-            }
+            labelLocationInfo.Text = $"Logs in the directory: {logsCount}";
         }
         #endregion
 
@@ -755,7 +750,7 @@ namespace PlenBotLogUploader
                                                 delay = 3000;
                                                 break;
                                         }
-                                        AddToText($">:> Retrying in {(int)(delay/1000)}s...");
+                                        AddToText($">:> Retrying in {(delay/1000)}s...");
                                         await Task.Delay(delay);
                                         await HttpUploadLogAsync(file, postData, bypassMessage);
                                     });
@@ -1244,16 +1239,13 @@ namespace PlenBotLogUploader
 
         private void CheckBoxStartWhenWindowsStarts_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxStartWhenWindowsStarts.Checked)
+            using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
             {
-                using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                if (checkBoxStartWhenWindowsStarts.Checked)
                 {
                     registryRun.SetValue("PlenBot Log Uploader", $"\"{Application.ExecutablePath.Replace('/', '\\')}\" -m");
                 }
-            }
-            else
-            {
-                using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                else
                 {
                     registryRun.DeleteValue("PlenBot Log Uploader");
                 }

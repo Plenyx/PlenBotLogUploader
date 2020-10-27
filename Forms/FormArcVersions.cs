@@ -76,11 +76,9 @@ namespace PlenBotLogUploader
             if (labelInformation.InvokeRequired)
             {
                 labelInformation.Invoke((Action<string>)delegate (string newText) { SetInformationText(newText); }, text);
+                return;
             }
-            else
-            {
-                labelInformation.Text = text;
-            }
+            labelInformation.Text = text;
         }
 
         private async Task UpdateArcAsync()

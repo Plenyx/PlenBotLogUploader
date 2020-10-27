@@ -84,18 +84,9 @@ namespace PlenBotLogUploader
 
         private void ButtonUnPauseSession_Click(object sender, EventArgs e)
         {
-            if (!sessionPaused)
-            {
-                SessionRunning = false;
-                sessionPaused = true;
-                buttonUnPauseSession.Text = "Unpause session";
-            }
-            else
-            {
-                SessionRunning = true;
-                sessionPaused = false;
-                buttonUnPauseSession.Text = "Pause session";
-            }
+            sessionPaused = !sessionPaused;
+            SessionRunning = !sessionPaused;
+            buttonUnPauseSession.Text = (!sessionPaused) ? "Pause session" : "Unpause session";
         }
 
         public void CheckBoxSupressWebhooks_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSuppressWebhooks = checkBoxSupressWebhooks.Checked;

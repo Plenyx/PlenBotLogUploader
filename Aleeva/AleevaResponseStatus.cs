@@ -9,10 +9,7 @@ namespace PlenBotLogUploader.Aleeva
 
         public bool IsSuccess
         {
-            get
-            {
-                return ((Status ?? "successful") != "failed");
-            }
+            get => (Status ?? "successful") != "failed";
         }
     }
 }

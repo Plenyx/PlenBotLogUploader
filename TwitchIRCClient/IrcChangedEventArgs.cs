@@ -5,6 +5,7 @@ namespace PlenBotLogUploader.TwitchIRCClient
     public class IrcChangedEventArgs : EventArgs
     {
         public IrcStates NewState { get; }
+
         public string Channel { get; }
 
         public IrcChangedEventArgs(IrcStates newState)
