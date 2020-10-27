@@ -23,7 +23,6 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        public string LastLogLocation { get; set; } = "";
         public List<DPSReportJSON> SessionLogs { get; } = new List<DPSReportJSON>();
         public bool ChannelJoined { get; set; } = false;
         public string DPSReportServer { get; set; } = "";
@@ -50,9 +49,10 @@ namespace PlenBotLogUploader
         private int reconnectedFailCounter = 0;
         private int recentUploadFailCounter = 0;
         private int logsCount = 0;
-        private int lastBossId = 0;
-        private int pullCounter = 0;
-        private bool lastBossCM = false;
+        private string lastLogMessage = "";
+        private int lastLogBossId = 0;
+        private int lastLogPullCounter = 0;
+        private bool lastLogBossCM = false;
 
         // constants
         private const int minFileSize = 8192;
@@ -594,15 +594,17 @@ namespace PlenBotLogUploader
                     .Select(anon => anon.Value);
                 if (bossDataRef.Count() == 1)
                 {
-                    var format = bossDataRef.First().TwitchMessageFormat(reportJSON, pullCounter);
+                    var format = bossDataRef.First().TwitchMessageFormat(reportJSON, lastLogPullCounter);
                     if (!string.IsNullOrWhiteSpace(format))
                     {
-                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, format);
+                        lastLogMessage = format;
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, lastLogMessage);
                     }
                 }
                 else
                 {
-                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Link to the log: {reportJSON.Permalink}");
+                    lastLogMessage = $"Link to the last log: {reportJSON.Permalink}";
+                    await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, lastLogMessage);
                 }
             }
             else
@@ -650,7 +652,7 @@ namespace PlenBotLogUploader
                                                     var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
                                                     reportJSON.ExtraJSON = extraJSON;
                                                     bossId = reportJSON.ExtraJSON.TriggerID;
-                                                    lastBossCM = reportJSON.ExtraJSON.IsCM;
+                                                    lastLogBossCM = reportJSON.ExtraJSON.IsCM;
                                                 }
                                                 catch
                                                 {
@@ -661,19 +663,19 @@ namespace PlenBotLogUploader
                                             File.AppendAllText($"{LocalDir}uploaded_logs.csv",
                                                 $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
                                             // Twitch chat
-                                            LastLogLocation = reportJSON.Permalink;
-                                            if (lastBossId != bossId)
+                                            lastLogMessage = $"Link to the last log: {reportJSON.Permalink}";
+                                            if (lastLogBossId != bossId)
                                             {
-                                                pullCounter = 0;
+                                                lastLogPullCounter = 0;
                                             }
-                                            lastBossId = bossId;
+                                            lastLogBossId = bossId;
                                             if (reportJSON.Encounter.Success ?? false)
                                             {
-                                                pullCounter = 0;
+                                                lastLogPullCounter = 0;
                                             }
                                             else
                                             {
-                                                pullCounter++;
+                                                lastLogPullCounter++;
                                             }
                                             if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                             {
@@ -970,21 +972,21 @@ namespace PlenBotLogUploader
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {
-                    if (LastLogLocation != "")
+                    if (lastLogMessage != "")
                     {
                         AddToText("> LAST LOG COMMAND USED");
-                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"Link to the last log: {LastLogLocation}");
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, lastLogMessage);
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxPullCounter.Text.ToLower()) && twitchCommandsLink.checkBoxPullCounterEnable.Checked)
                 {
-                    if (lastBossId > 0)
+                    if (lastLogBossId > 0)
                     {
                         AddToText("> PULLS COMMAND USED");
                         var bossDataRef = allBosses
-                            .Where(anon => anon.Value.BossId.Equals(lastBossId))
+                            .Where(anon => anon.Value.BossId.Equals(lastLogBossId))
                             .Select(anon => anon.Value);
-                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{bossDataRef.First().Name}{((lastBossCM) ? " CM" : "")} | Current pull: {pullCounter}");
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{bossDataRef.First().Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
@@ -1027,20 +1029,13 @@ namespace PlenBotLogUploader
         #region buttons & checks, events
         private void CheckBoxUploadAll_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxUploadLogs.Checked)
+            Properties.Settings.Default.UploadLogs = checkBoxUploadLogs.Checked;
+            toolStripMenuItemUploadLogs.Checked = checkBoxUploadLogs.Checked;
+            checkBoxPostToTwitch.Enabled = checkBoxUploadLogs.Checked;
+            toolStripMenuItemPostToTwitch.Enabled = checkBoxUploadLogs.Checked;
+            if (!checkBoxUploadLogs.Checked)
             {
-                Properties.Settings.Default.UploadLogs = true;
-                toolStripMenuItemUploadLogs.Checked = true;
-                checkBoxPostToTwitch.Enabled = true;
-                toolStripMenuItemPostToTwitch.Enabled = true;
-            }
-            else
-            {
-                Properties.Settings.Default.UploadLogs = false;
-                toolStripMenuItemUploadLogs.Checked = false;
-                checkBoxPostToTwitch.Enabled = false;
                 checkBoxPostToTwitch.Checked = false;
-                toolStripMenuItemPostToTwitch.Enabled = false;
                 toolStripMenuItemPostToTwitch.Checked = false;
             }
         }
