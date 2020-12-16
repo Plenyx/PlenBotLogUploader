@@ -1012,8 +1012,15 @@ namespace PlenBotLogUploader
                         using (Gw2APIHelper gw2Api = new Gw2APIHelper(Properties.Settings.Default.GW2APIKey))
                         {
                             var userInfo = await gw2Api.GetUserInfoAsync();
-                            var playerWorld = GW2.GW2Servers[userInfo.World];
-                            await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
+                            if (userInfo != null)
+                            {
+                                var playerWorld = GW2.GW2Servers[userInfo.World];
+                                await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
+                            }
+                            else
+                            {
+                                await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "An error has occured while getting the user name from an API key.");
+                            }
                         }
                     }
                 }
