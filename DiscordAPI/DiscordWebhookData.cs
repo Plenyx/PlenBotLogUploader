@@ -75,10 +75,7 @@ namespace PlenBotLogUploader.DiscordAPI
             {
                 return base.ToString();
             }
-            string active = Active ? "1" : "0";
-            string successFailToggle = ((int)SuccessFailToggle).ToString();
-            string showPlayers = ShowPlayers ? "1" : "0";
-            return $"{active}<;>{Name}<;>{URL}<;>{successFailToggle}<;>{showPlayers}<;>{string.Join(";", BossesDisable.Select(anon => anon.ToString()).ToArray())}";
+            return $"{(Active ? "1" : "0")}<;>{Name}<;>{URL}<;>{(int)SuccessFailToggle}<;>{(ShowPlayers ? "1" : "0")}<;>{string.Join("; ", BossesDisable.Select(anon => anon.ToString()).ToArray())}";
         }
 
         /// <summary>
