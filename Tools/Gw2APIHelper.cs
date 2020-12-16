@@ -33,23 +33,6 @@ namespace PlenBotLogUploader.Tools
             }
         }
 
-        public async Task<GW2Server> GetUserServerAsync()
-        {
-            try
-            {
-                using (var accountResponse = await HttpClientController.GetAsync($"{gw2api}v2/account?access_token={apiKey}"))
-                {
-                    var accountContent = await accountResponse.Content.ReadAsStringAsync();
-                    var accountInfo = JsonConvert.DeserializeObject<GW2Account>(accountContent);
-                    return GW2.GW2Servers[accountInfo.World];
-                }
-            }
-            catch
-            {
-                return new GW2Server() { ID = 0, Name = "Unknown server" };
-            }
-        }
-
         public void Dispose() => HttpClientController?.Dispose();
     }
 }
