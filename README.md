@@ -7,7 +7,7 @@ If you need any help to set-up the bot, be up-to-date with latest features or ha
 
 **Requires .NET Framework 4.8 ([link](https://dotnet.microsoft.com/download/thank-you/net48))**
 
-## Installation ([download](https://github.com/DelusionalElitists/PlenBotLogUploader/releases))
+## Installation ([download](https://github.com/HardstuckGuild/PlenBotLogUploader/releases))
 To install the uploader, I recommend creating a new folder and putting the executable in.
 
 The uploader will create a file called "uploaded_logs.csv" which will contain all previous and latest upload links with additional data.
@@ -61,4 +61,4 @@ I plan to finish the following features:
 ## Remote server ping
 Remote server ping allows you to send log data to a custom server.
 
-If you wish to create your own server, follow the [remote server readme](https://github.com/DelusionalElitists/PlenBotLogUploader/blob/master/remote-server/README.md).
+If you wish to create your own server, follow the [remote server readme](https://github.com/HardstuckGuild/PlenBotLogUploader/blob/master/remote-server/README.md).
