@@ -106,6 +106,16 @@ namespace PlenBotLogUploader
             new FormEditBossData(this, null, bossesIdsKey).Show();
         }
 
+        private void ToolStripMenuItemEditBoss_Click(object sender, EventArgs e)
+        {
+            if (listViewBosses.SelectedItems.Count > 0)
+            {
+                var selected = listViewBosses.SelectedItems[0];
+                int.TryParse(selected.Name, out int reservedId);
+                new FormEditBossData(this, allBosses[reservedId], reservedId).Show();
+            }
+        }
+
         private void ToolStripMenuItemDeleteBoss_Click(object sender, EventArgs e)
         {
             if (listViewBosses.SelectedItems.Count > 0)
@@ -123,6 +133,7 @@ namespace PlenBotLogUploader
 
         private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            toolStripMenuItemEditBoss.Enabled = listViewBosses.SelectedItems.Count > 0;
             toolStripMenuItemDeleteBoss.Enabled = listViewBosses.SelectedItems.Count > 0;
         }
 

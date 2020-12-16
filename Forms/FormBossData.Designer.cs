@@ -38,6 +38,7 @@
             this.buttonResetSettings = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
             this.buttonOpenTemplate = new System.Windows.Forms.Button();
+            this.toolStripMenuItemEditBoss = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,11 +60,12 @@
             // contextMenuStripInteract
             // 
             this.contextMenuStripInteract.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemEditBoss,
             this.toolStripMenuItemDeleteBoss,
             this.toolStripSeparatorOne,
             this.toolStripMenuItemAddNew});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(181, 54);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(181, 98);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemDeleteBoss
@@ -124,6 +126,13 @@
             this.buttonOpenTemplate.UseVisualStyleBackColor = true;
             this.buttonOpenTemplate.Click += new System.EventHandler(this.ButtonOpenTemplate_Click);
             // 
+            // toolStripMenuItemEditBoss
+            // 
+            this.toolStripMenuItemEditBoss.Name = "toolStripMenuItemEditBoss";
+            this.toolStripMenuItemEditBoss.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemEditBoss.Text = "Edit selected boss";
+            this.toolStripMenuItemEditBoss.Click += new System.EventHandler(this.ToolStripMenuItemEditBoss_Click);
+            // 
             // FormBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -157,5 +166,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddNew;
         private System.Windows.Forms.Label labelInformation;
         private System.Windows.Forms.Button buttonOpenTemplate;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditBoss;
     }
 }
