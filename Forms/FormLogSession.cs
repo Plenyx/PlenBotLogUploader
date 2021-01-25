@@ -106,7 +106,7 @@ namespace PlenBotLogUploader
             for (int i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
             {
                 var item = checkedListBoxSelectedWebhooks.Items[i];
-                if (item.GetType() == typeof(DiscordWebhooksHelperClass))
+                if (item.GetType().Equals(typeof(DiscordWebhooksHelperClass)))
                 {
                     var discordWebhookHelper = (DiscordWebhooksHelperClass)item;
                     var checkedState = checkedListBoxSelectedWebhooks.GetItemChecked(i);
