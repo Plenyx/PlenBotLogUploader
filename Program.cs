@@ -23,12 +23,12 @@ namespace PlenBotLogUploader
             var localDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
             if (args.Count == 3)
             {
-                if(args[1].ToLower() == "-update")
+                if(args[1].ToLower().Equals("-update"))
                 {
                     if (otherProcesses.Count == 0)
                     {
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + $"{args[2]}", true);
-                        Process.Start(localDir + args[2], "-finishupdate");
+                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), $"{localDir}{args[2]}", true);
+                        Process.Start($"{localDir}{args[2]}", "-finishupdate");
                         return;
                     }
                     else
@@ -46,18 +46,18 @@ namespace PlenBotLogUploader
                             }
                         }
                         File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(localDir + args[2], "-finishupdate");
+                        Process.Start($"{localDir}{args[2]}", "-finishupdate");
                         return;
                     }
                 }
             }
             else if (args.Count == 2)
             {
-                if (args[1].ToLower() == "-finishupdate")
+                if (args[1].ToLower().Equals("-finishupdate"))
                 {
                     File.Delete(localDir + "PlenBotLogUploader_Update.exe");
                 }
-                else if (args[1].ToLower() == "-resetsettings")
+                else if (args[1].ToLower().Equals("-resetsettings"))
                 {
                     using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                     {
