@@ -38,7 +38,7 @@ namespace PlenBotLogUploader
             {
                 dialog.Filter = "Guild Wars 2|Gw2-64.exe";
                 DialogResult result = dialog.ShowDialog();
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.FileName))
+                if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
                 {
                     string location = Path.GetDirectoryName(dialog.FileName);
                     if (File.Exists($@"{location}\bin64\d3d9.dll"))
@@ -140,7 +140,7 @@ namespace PlenBotLogUploader
                                 if (manual)
                                 {
                                     DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                                    if (result == DialogResult.Yes)
+                                    if (result.Equals(DialogResult.Yes))
                                     {
                                         await UpdateArcAsync();
                                     }
@@ -172,7 +172,7 @@ namespace PlenBotLogUploader
                             if (manual)
                             {
                                 DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                                if (result == DialogResult.Yes)
+                                if (result.Equals(DialogResult.Yes))
                                 {
                                     await UpdateArcAsync();
                                 }
@@ -199,7 +199,7 @@ namespace PlenBotLogUploader
                 if (manual)
                 {
                     DialogResult result = MessageBox.Show("New arcdps version available\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                    if (result == DialogResult.Yes)
+                    if (result.Equals(DialogResult.Yes))
                     {
                         await UpdateArcAsync();
                     }

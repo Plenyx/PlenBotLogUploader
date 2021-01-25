@@ -278,7 +278,7 @@ namespace PlenBotLogUploader
 
         private async void ComboBoxServer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxServer.SelectedItem.GetType() == typeof(AleevaServer))
+            if (comboBoxServer.SelectedItem.GetType().Equals(typeof(AleevaServer)))
             {
                 var server = (AleevaServer)comboBoxServer.SelectedItem;
                 Properties.Settings.Default.AleevaSelectedServer = server.ID;
@@ -330,7 +330,7 @@ namespace PlenBotLogUploader
 
         private void ComboBoxChannel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxChannel.SelectedItem.GetType() == typeof(AleevaChannel))
+            if (comboBoxChannel.SelectedItem.GetType().Equals(typeof(AleevaChannel)))
             {
                 var channel = (AleevaChannel)comboBoxChannel.SelectedItem;
                 Properties.Settings.Default.AleevaSelectedChannel = channel.ID;

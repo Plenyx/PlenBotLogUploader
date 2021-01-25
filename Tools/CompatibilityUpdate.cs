@@ -15,7 +15,7 @@ namespace PlenBotLogUploader.Tools
         public static void DoUpdate()
         {
             // current version check
-            if (Properties.Settings.Default.SavedVersion == Properties.Settings.Default.ReleaseVersion)
+            if (Properties.Settings.Default.SavedVersion.Equals(Properties.Settings.Default.ReleaseVersion))
             {
                 return;
             }

@@ -26,7 +26,7 @@ namespace PlenBotLogUploader
             {
                 string channelName = channelUrlSplit[1].Split('/')[0];
                 DialogResult result = MessageBox.Show($"Is this your channel name?\n\n{channelName}", "Channel name confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (result == DialogResult.Yes)
+                if (result.Equals(DialogResult.Yes))
                 {
                     Properties.Settings.Default.TwitchChannelName = channelName;
                     if (mainLink.IsTwitchConnectionNull())

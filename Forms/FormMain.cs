@@ -104,7 +104,7 @@ namespace PlenBotLogUploader
                     twitchNameLink.Show();
                     Properties.Settings.Default.FirstRun = false;
                 }
-                if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
+                if (Properties.Settings.Default.LogsLocation.Equals("") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
                 }
@@ -221,7 +221,7 @@ namespace PlenBotLogUploader
                 {
                     Task.Run(() => aleevaLink.GetAleevaTokenFromRefreshToken());
                 }
-                if ((Properties.Settings.Default.LogsLocation == "") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
+                if (Properties.Settings.Default.LogsLocation.Equals("") || !Directory.Exists(Properties.Settings.Default.LogsLocation))
                 {
                     MessageBox.Show("Path to arcdps logs is not set.\nDo not forget to set it up so the logs can be auto-uploaded.", "Just a reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -299,7 +299,7 @@ namespace PlenBotLogUploader
 
         private void FormMain_Resize(object sender, EventArgs e)
         {
-            if ((WindowState == FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
+            if (WindowState.Equals(FormWindowState.Minimized) && checkBoxTrayMinimiseToIcon.Checked)
             {
                 ShowInTaskbar = false;
                 Hide();
@@ -505,7 +505,7 @@ namespace PlenBotLogUploader
                     };
                     foreach (string arg in args)
                     {
-                        if (arg == Application.ExecutablePath)
+                        if (arg.Equals(Application.ExecutablePath))
                         {
                             continue;
                         }
@@ -787,7 +787,9 @@ namespace PlenBotLogUploader
             var processes = Process.GetProcesses();
             foreach (var process in processes)
             {
-                if ((process.ProcessName.ToLower() == "obs") || (process.ProcessName.ToLower() == "obs64") || (process.ProcessName.ToLower() == "streamlabs obs"))
+                if ((process.ProcessName.ToLower().Equals("obs"))
+                    || (process.ProcessName.ToLower().Equals("obs64"))
+                    || (process.ProcessName.ToLower().Equals("streamlabs obs")))
                 {
                     return true;
                 }
@@ -1053,7 +1055,7 @@ namespace PlenBotLogUploader
             using (FolderBrowserDialog dialog = new FolderBrowserDialog() { Description = "Select the arcdps folder containing the combat logs.\nThe default location is in \"My Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\\"" })
             {
                 DialogResult result = dialog.ShowDialog();
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+                if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
                 {
                     Properties.Settings.Default.LogsLocation = dialog.SelectedPath;
                     logsCount = 0;
@@ -1262,7 +1264,7 @@ namespace PlenBotLogUploader
         private void ButtonReset_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Are you sure you want to do this?\nThis resets all your settings but not boss data, webhooks and ping configurations.\nIf you click yes the application will close itself.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.Yes)
+            if (result.Equals(DialogResult.Yes))
             {
                 Process.Start(LocalDir);
                 Properties.Settings.Default.Reset();

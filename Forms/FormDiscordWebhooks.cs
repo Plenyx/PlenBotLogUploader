@@ -136,8 +136,8 @@ namespace PlenBotLogUploader
                 {
                     var webhook = allWebhooks[key];
                     if (!webhook.Active
-                        || (webhook.SuccessFailToggle == DiscordWebhookDataSuccessToggle.OnSuccessOnly && !(reportJSON.Encounter.Success ?? false))
-                        || (webhook.SuccessFailToggle == DiscordWebhookDataSuccessToggle.OnFailOnly && (reportJSON.Encounter.Success ?? false))
+                        || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
+                        || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                         || webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
                     {
                         continue;
