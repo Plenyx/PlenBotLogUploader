@@ -39,6 +39,7 @@
             this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
             this.groupBoxArcdpsLogs = new System.Windows.Forms.GroupBox();
+            this.buttonCopyApplicationSession = new System.Windows.Forms.Button();
             this.buttonSession = new System.Windows.Forms.Button();
             this.buttonOpenLogs = new System.Windows.Forms.Button();
             this.buttonDPSReportServer = new System.Windows.Forms.Button();
@@ -199,6 +200,7 @@
             // 
             // groupBoxArcdpsLogs
             // 
+            this.groupBoxArcdpsLogs.Controls.Add(this.buttonCopyApplicationSession);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonSession);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonBossData);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonOpenLogs);
@@ -213,6 +215,16 @@
             this.groupBoxArcdpsLogs.TabIndex = 5;
             this.groupBoxArcdpsLogs.TabStop = false;
             this.groupBoxArcdpsLogs.Text = "arcdps logs and DPS.report";
+            // 
+            // buttonCopyApplicationSession
+            // 
+            this.buttonCopyApplicationSession.Location = new System.Drawing.Point(121, 94);
+            this.buttonCopyApplicationSession.Name = "buttonCopyApplicationSession";
+            this.buttonCopyApplicationSession.Size = new System.Drawing.Size(73, 23);
+            this.buttonCopyApplicationSession.TabIndex = 14;
+            this.buttonCopyApplicationSession.Text = "Copy to clip.";
+            this.buttonCopyApplicationSession.UseVisualStyleBackColor = true;
+            this.buttonCopyApplicationSession.Click += new System.EventHandler(this.ButtonCopyApplicationSession_Click);
             // 
             // buttonSession
             // 
@@ -239,7 +251,7 @@
             // 
             this.buttonDPSReportServer.Location = new System.Drawing.Point(6, 94);
             this.buttonDPSReportServer.Name = "buttonDPSReportServer";
-            this.buttonDPSReportServer.Size = new System.Drawing.Size(188, 23);
+            this.buttonDPSReportServer.Size = new System.Drawing.Size(109, 23);
             this.buttonDPSReportServer.TabIndex = 1;
             this.buttonDPSReportServer.Text = "DPS.report settings";
             this.buttonDPSReportServer.UseVisualStyleBackColor = true;
@@ -610,6 +622,7 @@
         private System.Windows.Forms.RichTextBox richTextBoxMainConsole;
         private System.Windows.Forms.Button buttonGW2API;
         private System.Windows.Forms.Button buttonAleevaSettings;
+        private System.Windows.Forms.Button buttonCopyApplicationSession;
     }
 }
 

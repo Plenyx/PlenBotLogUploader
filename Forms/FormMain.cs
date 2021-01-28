@@ -43,6 +43,7 @@ namespace PlenBotLogUploader
         private readonly FormGW2API gw2APILink;
         private readonly FormAleeva aleevaLink;
         private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
+        private readonly List<string> allSessionLogs = new List<string>();
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
@@ -88,6 +89,7 @@ namespace PlenBotLogUploader
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it and OBS is running.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
+            toolTip.SetToolTip(buttonCopyApplicationSession, "Copies all the logs uploaded during the application session into the clipboard.");
             toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
             #endregion
             try
@@ -657,6 +659,8 @@ namespace PlenBotLogUploader
                                             // log file
                                             File.AppendAllText($"{LocalDir}uploaded_logs.csv",
                                                 $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
+                                            // save to clipboard list
+                                            allSessionLogs.Add(reportJSON.Permalink);
                                             // Twitch chat
                                             lastLogMessage = $"Link to the last log: {reportJSON.Permalink}";
                                             if (lastLogBossId != bossId)
@@ -1299,6 +1303,14 @@ namespace PlenBotLogUploader
         {
             aleevaLink.Show();
             aleevaLink.BringToFront();
+        }
+
+        private void ButtonCopyApplicationSession_Click(object sender, EventArgs e)
+        {
+            if (allSessionLogs.Count > 0)
+            {
+                Clipboard.SetText(allSessionLogs.Aggregate((a, b) => a + "\n" + b));
+            }
         }
         #endregion
     }
