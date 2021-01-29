@@ -196,10 +196,10 @@
             this.groupBoxWebhookTypeSelection.Controls.Add(this.radioButtonAllActive);
             this.groupBoxWebhookTypeSelection.Location = new System.Drawing.Point(303, 12);
             this.groupBoxWebhookTypeSelection.Name = "groupBoxWebhookTypeSelection";
-            this.groupBoxWebhookTypeSelection.Size = new System.Drawing.Size(234, 266);
+            this.groupBoxWebhookTypeSelection.Size = new System.Drawing.Size(246, 266);
             this.groupBoxWebhookTypeSelection.TabIndex = 7;
             this.groupBoxWebhookTypeSelection.TabStop = false;
-            this.groupBoxWebhookTypeSelection.Text = "Select which Webhooks to execute";
+            this.groupBoxWebhookTypeSelection.Text = "Select which Webhooks to execute for session";
             // 
             // groupBoxSelectedWebhooks
             // 
@@ -208,7 +208,7 @@
             this.groupBoxSelectedWebhooks.Enabled = false;
             this.groupBoxSelectedWebhooks.Location = new System.Drawing.Point(7, 69);
             this.groupBoxSelectedWebhooks.Name = "groupBoxSelectedWebhooks";
-            this.groupBoxSelectedWebhooks.Size = new System.Drawing.Size(221, 191);
+            this.groupBoxSelectedWebhooks.Size = new System.Drawing.Size(233, 191);
             this.groupBoxSelectedWebhooks.TabIndex = 3;
             this.groupBoxSelectedWebhooks.TabStop = false;
             this.groupBoxSelectedWebhooks.Text = "Selected Webhooks";
@@ -217,7 +217,7 @@
             // 
             this.buttonReloadWebhooks.Location = new System.Drawing.Point(6, 18);
             this.buttonReloadWebhooks.Name = "buttonReloadWebhooks";
-            this.buttonReloadWebhooks.Size = new System.Drawing.Size(209, 23);
+            this.buttonReloadWebhooks.Size = new System.Drawing.Size(221, 23);
             this.buttonReloadWebhooks.TabIndex = 3;
             this.buttonReloadWebhooks.Text = "Reload possible Webhooks";
             this.buttonReloadWebhooks.UseVisualStyleBackColor = true;
@@ -228,7 +228,7 @@
             this.checkedListBoxSelectedWebhooks.FormattingEnabled = true;
             this.checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(6, 47);
             this.checkedListBoxSelectedWebhooks.Name = "checkedListBoxSelectedWebhooks";
-            this.checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(209, 139);
+            this.checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(221, 139);
             this.checkedListBoxSelectedWebhooks.TabIndex = 2;
             // 
             // radioButtonOnlySelectedWebhooks
@@ -258,7 +258,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(549, 287);
+            this.ClientSize = new System.Drawing.Size(558, 287);
             this.Controls.Add(this.groupBoxWebhookTypeSelection);
             this.Controls.Add(this.groupBoxSessionSettings);
             this.Controls.Add(this.buttonUnPauseSession);
