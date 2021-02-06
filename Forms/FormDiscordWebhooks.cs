@@ -169,7 +169,8 @@ namespace PlenBotLogUploader
 
         public async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
-            var discordEmbeds = new List<DiscordAPIJSONContentEmbed>();
+            var discordEmbedsSuccessFailure = new List<DiscordAPIJSONContentEmbed>();
+
             var RaidLogs = reportsJSON
                 .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
                 .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
@@ -227,12 +228,10 @@ namespace PlenBotLogUploader
                     foreach (var data in RaidLogs)
                     {
                         string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
-                        var bossDataRef = allBosses
-                            .Where(x => x.Value.BossId.Equals(data.LogData.Encounter.BossId))
-                            .Select(x => x.Value);
-                        if (bossDataRef.Count() == 1)
+                        var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
+                        if (bossData != null)
                         {
-                            bossName = bossDataRef.First().Name + (data.LogData.ChallengeMode ? " CM" : "");
+                            bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : "");
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
@@ -240,7 +239,7 @@ namespace PlenBotLogUploader
                         if (builder.Length >= maxAllowedMessageSize)
                         {
                             messageCount++;
-                            discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                            discordEmbedsSuccessFailure.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                             builder.Clear();
                             builder.Append("***Raid logs:***\n");
                         }
@@ -257,12 +256,10 @@ namespace PlenBotLogUploader
                             lastWing = Bosses.GetWingForBoss(data.LogData.EVTC.BossId);
                         }
                         string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
-                        var bossDataRef = allBosses
-                            .Where(x => x.Value.BossId.Equals(data.LogData.Encounter.BossId))
-                            .Select(x => x.Value);
-                        if (bossDataRef.Count() == 1)
+                        var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
+                        if (bossData != null)
                         {
-                            bossName = bossDataRef.First().Name + (data.LogData.ChallengeMode ? " CM" : "");
+                            bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : "");
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
@@ -270,7 +267,7 @@ namespace PlenBotLogUploader
                         if (builder.Length >= maxAllowedMessageSize)
                         {
                             messageCount++;
-                            discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                            discordEmbedsSuccessFailure.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                             builder.Clear();
                             builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                         }
@@ -287,12 +284,10 @@ namespace PlenBotLogUploader
                 foreach (var log in FractalLogs)
                 {
                     string bossName = log.Encounter.Boss;
-                    var bossDataRef = allBosses
-                        .Where(x => x.Value.BossId.Equals(log.Encounter.BossId))
-                        .Select(x => x.Value);
-                    if (bossDataRef.Count() == 1)
+                    var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
+                    if (bossData != null)
                     {
-                        bossName = bossDataRef.First().Name;
+                        bossName = bossData.Name + (log.ChallengeMode ? " CM" : "");
                     }
                     string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
                     string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
@@ -300,7 +295,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                        discordEmbedsSuccessFailure.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***Fractal logs:***\n");
                     }
@@ -316,12 +311,10 @@ namespace PlenBotLogUploader
                 foreach (var log in StrikeLogs)
                 {
                     string bossName = log.Encounter.Boss;
-                    var bossDataRef = allBosses
-                        .Where(x => x.Value.BossId.Equals(log.Encounter.BossId))
-                        .Select(x => x.Value);
-                    if (bossDataRef.Count() == 1)
+                    var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
+                    if (bossData != null)
                     {
-                        bossName = bossDataRef.First().Name;
+                        bossName = bossData.Name;
                     }
                     string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
                     string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
@@ -329,7 +322,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                        discordEmbedsSuccessFailure.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***Strike mission logs:***\n");
                     }
@@ -348,7 +341,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                        discordEmbedsSuccessFailure.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***Golem logs:***\n");
                     }
@@ -367,7 +360,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                        discordEmbedsSuccessFailure.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***WvW logs:***\n");
                     }
@@ -383,12 +376,10 @@ namespace PlenBotLogUploader
                 foreach (var log in OtherLogs)
                 {
                     string bossName = log.Encounter.Boss;
-                    var bossDataRef = allBosses
-                        .Where(x => x.Value.BossId.Equals(log.Encounter.BossId))
-                        .Select(x => x.Value);
-                    if (bossDataRef.Count() == 1)
+                    var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
+                    if (bossData != null)
                     {
-                        bossName = bossDataRef.First().Name;
+                        bossName = bossData.Name;
                     }
                     string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
                     string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
@@ -396,7 +387,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                        discordEmbedsSuccessFailure.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***Other logs:***\n");
                     }
@@ -405,15 +396,15 @@ namespace PlenBotLogUploader
             if (!builder.ToString().EndsWith("***\n"))
             {
                 messageCount++;
-                discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                discordEmbedsSuccessFailure.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
             }
             if (logSessionSettings.UseSelectedWebhooksInstead)
             {
-                await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, discordEmbeds, logSessionSettings.ContentText);
+                await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, discordEmbedsSuccessFailure, logSessionSettings.ContentText);
             }
             else
             {
-                await SendDiscordMessageToAllActiveWebhooksAsync(discordEmbeds, logSessionSettings.ContentText);
+                await SendDiscordMessageToAllActiveWebhooksAsync(discordEmbedsSuccessFailure, logSessionSettings.ContentText);
             }
             if (logSessionSettings.UseSelectedWebhooksInstead && logSessionSettings.SelectedWebhooks.Count > 0)
             {
