@@ -74,13 +74,11 @@ namespace PlenBotLogUploader
             string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
             string extraJSON = (reportJSON.ExtraJSON == null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
             string icon = "";
-            var bossDataRef = allBosses
-                .Where(x => x.Value.BossId.Equals(reportJSON.Encounter.BossId))
-                .Select(x => x.Value);
-            if (bossDataRef.Count() == 1)
+            var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
+            if (bossData != null)
             {
-                bossName = bossDataRef.First().Name + (reportJSON.ChallengeMode ? " CM" : "");
-                icon = bossDataRef.First().Icon;
+                bossName = bossData.Name + (reportJSON.ChallengeMode ? " CM" : "");
+                icon = bossData.Icon;
             }
             int colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
             var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()

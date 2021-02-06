@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -122,6 +123,19 @@ namespace PlenBotLogUploader.DPSReport
                 { 43, new BossData() { BossId = (int)BossIds.WvW, Name = "World vs World", SuccessMsg = "WvW log: <log>", FailMsg = "WvW log: <log>", Icon = "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png", Type = BossType.WvW } },
                 { 44, new BossData() { BossId = (int)BossIds.Xera, Name = "Xera", Icon = "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png", Type = BossType.Raid } }
             };
+        }
+
+        public static BossData GetBossDataFromId(int bossId)
+        {
+            var allBosses = GetAllBosses();
+            var bossDataRef = allBosses
+                .Where(x => x.Value.BossId.Equals(bossId))
+                .Select(x => x.Value);
+            if (bossDataRef.Count() == 1)
+            {
+                return bossDataRef.First();
+            }
+            return null;
         }
 
         /// <summary>

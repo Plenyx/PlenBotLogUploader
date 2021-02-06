@@ -586,12 +586,10 @@ namespace PlenBotLogUploader
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage && IsOBSRunning())
             {
                 AddToText($">:> {reportJSON.Permalink}");
-                var bossDataRef = allBosses
-                    .Where(x => x.Value.BossId.Equals(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId))
-                    .Select(x => x.Value);
-                if (bossDataRef.Count() == 1)
+                var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId);
+                if (bossData != null)
                 {
-                    var format = bossDataRef.First().TwitchMessageFormat(reportJSON, lastLogPullCounter);
+                    var format = bossData.TwitchMessageFormat(reportJSON, lastLogPullCounter);
                     if (!string.IsNullOrWhiteSpace(format))
                     {
                         lastLogMessage = format;
@@ -984,10 +982,8 @@ namespace PlenBotLogUploader
                     if (lastLogBossId > 0)
                     {
                         AddToText("> PULLS COMMAND USED");
-                        var bossDataRef = allBosses
-                            .Where(x => x.Value.BossId.Equals(lastLogBossId))
-                            .Select(x => x.Value);
-                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{bossDataRef.First().Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
+                        var bossData = Bosses.GetBossDataFromId(lastLogBossId);
+                        await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{bossData.Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
