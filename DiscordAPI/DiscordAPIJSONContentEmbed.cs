@@ -30,7 +30,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// color code of the embed
         /// </summary>
         [JsonProperty("color")]
-        public int Color { get; set; }
+        public int Colour { get; set; }
 
         /// <summary>
         /// timestamp of embed content (in ISO8601)

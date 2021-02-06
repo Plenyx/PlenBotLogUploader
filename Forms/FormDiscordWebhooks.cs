@@ -82,7 +82,7 @@ namespace PlenBotLogUploader
                 bossName = bossDataRef.First().Name + (reportJSON.ChallengeMode ? " CM" : "");
                 icon = bossDataRef.First().Icon;
             }
-            int color = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
+            int colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
             var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
             {
                 Url = icon
@@ -98,7 +98,7 @@ namespace PlenBotLogUploader
                 Title = bossName,
                 Url = reportJSON.Permalink,
                 Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
-                Color = color,
+                Colour = colour,
                 TimeStamp = timestamp,
                 Thumbnail = discordContentEmbedThumbnail
             };
@@ -111,7 +111,7 @@ namespace PlenBotLogUploader
                 Title = bossName,
                 Url = reportJSON.Permalink,
                 Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
-                Color = color,
+                Colour = colour,
                 TimeStamp = timestamp,
                 Thumbnail = discordContentEmbedThumbnail
             };
@@ -485,7 +485,7 @@ namespace PlenBotLogUploader
             {
                 Title = title,
                 Description = description,
-                Color = 32768,
+                Colour = 32768,
                 TimeStamp = DateTime.UtcNow.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ"),
                 Thumbnail = discordContentEmbedThumbnail
             };
@@ -527,7 +527,7 @@ namespace PlenBotLogUploader
             {
                 Title = title,
                 Description = description,
-                Color = 32768,
+                Colour = 32768,
                 TimeStamp = DateTime.UtcNow.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ"),
                 Thumbnail = discordContentEmbedThumbnail
             };
