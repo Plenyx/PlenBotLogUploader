@@ -75,8 +75,8 @@ namespace PlenBotLogUploader
             string extraJSON = (reportJSON.ExtraJSON == null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
             string icon = "";
             var bossDataRef = allBosses
-                .Where(anon => anon.Value.BossId.Equals(reportJSON.Encounter.BossId))
-                .Select(anon => anon.Value);
+                .Where(x => x.Value.BossId.Equals(reportJSON.Encounter.BossId))
+                .Select(x => x.Value);
             if (bossDataRef.Count() == 1)
             {
                 bossName = bossDataRef.First().Name + (reportJSON.ChallengeMode ? " CM" : "");
@@ -172,50 +172,50 @@ namespace PlenBotLogUploader
         public async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
             var RaidLogs = reportsJSON
-                    .Where(anon => Bosses.GetWingForBoss(anon.EVTC.BossId) > 0)
-                    .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.EVTC.BossId) })
-                    .OrderBy(anon => anon.LogData.UploadTime)
+                    .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
+                    .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
+                    .OrderBy(x => x.LogData.UploadTime)
                     .ToList();
             if (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing))
             {
                 RaidLogs = reportsJSON
-                    .Where(anon => Bosses.GetWingForBoss(anon.EVTC.BossId) > 0)
-                    .Select(anon => new { LogData = anon, RaidWing = Bosses.GetWingForBoss(anon.EVTC.BossId) })
-                    .OrderBy(anon => Bosses.GetWingForBoss(anon.LogData.EVTC.BossId))
-                    .ThenBy(anon => Bosses.GetBossOrder(anon.LogData.Encounter.BossId))
-                    .ThenBy(anon => anon.LogData.UploadTime)
+                    .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
+                    .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
+                    .OrderBy(x => Bosses.GetWingForBoss(x.LogData.EVTC.BossId))
+                    .ThenBy(x => Bosses.GetBossOrder(x.LogData.Encounter.BossId))
+                    .ThenBy(x => x.LogData.UploadTime)
                     .ToList();
             }
             var FractalLogs = reportsJSON
-                .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .Where(anon2 => anon2.Value.Type.Equals(BossType.Fractal))
+                .Where(x => allBosses
+                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
+                    .Where(y => y.Value.Type.Equals(BossType.Fractal))
                     .Count() > 0)
                 .ToList();
             var StrikeLogs = reportsJSON
-                .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .Where(anon2 => anon2.Value.Type.Equals(BossType.Strike))
+                .Where(x => allBosses
+                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
+                    .Where(y => y.Value.Type.Equals(BossType.Strike))
                     .Count() > 0)
                 .ToList();
             var GolemLogs = reportsJSON
-                .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .Where(anon2 => anon2.Value.Type.Equals(BossType.Golem))
+                .Where(x => allBosses
+                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
+                    .Where(y => y.Value.Type.Equals(BossType.Golem))
                     .Count() > 0)
                 .ToList();
             var WvWLogs = reportsJSON
-                .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .Where(anon2 => anon2.Value.Type.Equals(BossType.WvW))
+                .Where(x => allBosses
+                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
+                    .Where(y => y.Value.Type.Equals(BossType.WvW))
                     .Count() > 0)
                 .ToList();
             var OtherLogs = reportsJSON
-                .Where(anon => allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
-                    .Where(anon2 => anon2.Value.Type.Equals(BossType.None))
+                .Where(x => allBosses
+                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
+                    .Where(y => y.Value.Type.Equals(BossType.None))
                     .Count() > 0 || allBosses
-                    .Where(anon2 => anon2.Value.BossId.Equals(anon.EVTC.BossId))
+                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
                     .Count() == 0)
                 .ToList();
             StringBuilder builder = new StringBuilder();
@@ -230,8 +230,8 @@ namespace PlenBotLogUploader
                     {
                         string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossDataRef = allBosses
-                            .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
-                            .Select(anon => anon.Value);
+                            .Where(x => x.Value.BossId.Equals(data.LogData.Encounter.BossId))
+                            .Select(x => x.Value);
                         if (bossDataRef.Count() == 1)
                         {
                             bossName = bossDataRef.First().Name + (data.LogData.ChallengeMode ? " CM" : "");
@@ -267,8 +267,8 @@ namespace PlenBotLogUploader
                         }
                         string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossDataRef = allBosses
-                            .Where(anon => anon.Value.BossId.Equals(data.LogData.Encounter.BossId))
-                            .Select(anon => anon.Value);
+                            .Where(x => x.Value.BossId.Equals(data.LogData.Encounter.BossId))
+                            .Select(x => x.Value);
                         if (bossDataRef.Count() == 1)
                         {
                             bossName = bossDataRef.First().Name + (data.LogData.ChallengeMode ? " CM" : "");
@@ -304,8 +304,8 @@ namespace PlenBotLogUploader
                 {
                     string bossName = log.Encounter.Boss;
                     var bossDataRef = allBosses
-                        .Where(anon => anon.Value.BossId.Equals(log.Encounter.BossId))
-                        .Select(anon => anon.Value);
+                        .Where(x => x.Value.BossId.Equals(log.Encounter.BossId))
+                        .Select(x => x.Value);
                     if (bossDataRef.Count() == 1)
                     {
                         bossName = bossDataRef.First().Name;
@@ -340,8 +340,8 @@ namespace PlenBotLogUploader
                 {
                     string bossName = log.Encounter.Boss;
                     var bossDataRef = allBosses
-                        .Where(anon => anon.Value.BossId.Equals(log.Encounter.BossId))
-                        .Select(anon => anon.Value);
+                        .Where(x => x.Value.BossId.Equals(log.Encounter.BossId))
+                        .Select(x => x.Value);
                     if (bossDataRef.Count() == 1)
                     {
                         bossName = bossDataRef.First().Name;
@@ -428,8 +428,8 @@ namespace PlenBotLogUploader
                 {
                     string bossName = log.Encounter.Boss;
                     var bossDataRef = allBosses
-                        .Where(anon => anon.Value.BossId.Equals(log.Encounter.BossId))
-                        .Select(anon => anon.Value);
+                        .Where(x => x.Value.BossId.Equals(log.Encounter.BossId))
+                        .Select(x => x.Value);
                     if (bossDataRef.Count() == 1)
                     {
                         bossName = bossDataRef.First().Name;

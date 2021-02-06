@@ -17,7 +17,7 @@ namespace PlenBotLogUploader
         {
             var currProcess = Process.GetCurrentProcess();
             var otherProcesses = Process.GetProcessesByName("PlenBotLogUploader")
-                .Where(anon => !anon.Id.Equals(currProcess.Id))
+                .Where(x => !x.Id.Equals(currProcess.Id))
                 .ToList();
             var args = Environment.GetCommandLineArgs().ToList();
             var localDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";

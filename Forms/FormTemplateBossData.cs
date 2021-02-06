@@ -35,10 +35,10 @@ namespace PlenBotLogUploader
             if (result.Equals(DialogResult.Yes))
             {
                 var BossesToChange = allBosses
-                    .Where(anon => !anon.Value.Type.Equals(BossType.Golem))
-                    .Where(anon => !anon.Value.Type.Equals(BossType.WvW))
-                    .Where(anon => !anon.Value.Event)
-                    .ToDictionary(anon => anon.Key, anon => anon.Value);
+                    .Where(x => !x.Value.Type.Equals(BossType.Golem))
+                    .Where(x => !x.Value.Type.Equals(BossType.WvW))
+                    .Where(x => !x.Value.Event)
+                    .ToDictionary(x => x.Key, x => x.Value);
                 foreach (var key in BossesToChange.Keys)
                 {
                     var boss = allBosses[key];
@@ -54,10 +54,10 @@ namespace PlenBotLogUploader
             if (result.Equals(DialogResult.Yes))
             {
                 var BossesToChange = allBosses
-                    .Where(anon => !anon.Value.Type.Equals(BossType.Golem))
-                    .Where(anon => !anon.Value.Type.Equals(BossType.WvW))
-                    .Where(anon => !anon.Value.Event)
-                    .ToDictionary(anon => anon.Key, anon => anon.Value);
+                    .Where(x => !x.Value.Type.Equals(BossType.Golem))
+                    .Where(x => !x.Value.Type.Equals(BossType.WvW))
+                    .Where(x => !x.Value.Event)
+                    .ToDictionary(x => x.Key, x => x.Value);
                 foreach (var key in BossesToChange.Keys)
                 {
                     var boss = allBosses[key];

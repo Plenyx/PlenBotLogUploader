@@ -42,9 +42,9 @@ namespace PlenBotLogUploader
             checkBoxPlayers.Checked = data?.ShowPlayers ?? false;
             var bosses = Bosses.GetAllBosses();
             bosses = bosses
-                .OrderBy(anon => anon.Value.Type)
-                .ThenBy(anon => anon.Value.Name)
-                .ToDictionary(anon => anon.Key, anon => anon.Value);
+                .OrderBy(x => x.Value.Type)
+                .ThenBy(x => x.Value.Name)
+                .ToDictionary(x => x.Key, x => x.Value);
             foreach (var bossNumber in bosses.Keys)
             {
                 checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass() { BossID = bosses[bossNumber].BossId, Text = $"{bosses[bossNumber].Type}: {bosses[bossNumber].Name} ({bosses[bossNumber].BossId})" }, data?.IsBossEnabled(bosses[bossNumber].BossId) ?? true);

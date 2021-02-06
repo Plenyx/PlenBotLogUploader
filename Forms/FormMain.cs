@@ -587,8 +587,8 @@ namespace PlenBotLogUploader
             {
                 AddToText($">:> {reportJSON.Permalink}");
                 var bossDataRef = allBosses
-                    .Where(anon => anon.Value.BossId.Equals(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId))
-                    .Select(anon => anon.Value);
+                    .Where(x => x.Value.BossId.Equals(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId))
+                    .Select(x => x.Value);
                 if (bossDataRef.Count() == 1)
                 {
                     var format = bossDataRef.First().TwitchMessageFormat(reportJSON, lastLogPullCounter);
@@ -950,7 +950,7 @@ namespace PlenBotLogUploader
                     AddToText("> (Spotify) SMART SONG RECOGNITION USED");
                     try
                     {
-                        Process process = Process.GetProcessesByName("Spotify").FirstOrDefault(anon => !string.IsNullOrWhiteSpace(anon.MainWindowTitle));
+                        Process process = Process.GetProcessesByName("Spotify").FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
                         if (process.MainWindowTitle.Contains("Spotify"))
                         {
                             await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "No song is being played.");
@@ -985,8 +985,8 @@ namespace PlenBotLogUploader
                     {
                         AddToText("> PULLS COMMAND USED");
                         var bossDataRef = allBosses
-                            .Where(anon => anon.Value.BossId.Equals(lastLogBossId))
-                            .Select(anon => anon.Value);
+                            .Where(x => x.Value.BossId.Equals(lastLogBossId))
+                            .Select(x => x.Value);
                         await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"{bossDataRef.First().Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
                     }
                 }
@@ -995,7 +995,7 @@ namespace PlenBotLogUploader
                     AddToText("> (Spotify) SONG COMMAND USED");
                     try
                     {
-                        Process process = Process.GetProcessesByName("Spotify").FirstOrDefault(anon => !string.IsNullOrWhiteSpace(anon.MainWindowTitle));
+                        Process process = Process.GetProcessesByName("Spotify").FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
                         if (process.MainWindowTitle.Contains("Spotify"))
                         {
                             await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "No song is being played.");

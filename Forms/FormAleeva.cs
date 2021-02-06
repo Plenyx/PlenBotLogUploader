@@ -190,12 +190,12 @@ namespace PlenBotLogUploader
                             Properties.Settings.Default.AleevaRefreshToken = responseToken.RefreshToken;
                             Properties.Settings.Default.AleevaRefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
                             await AleevaLoadServers();
-                            var selectedServer = aleevaServers.Where(anon => anon.ID.Equals(Properties.Settings.Default.AleevaSelectedServer)).First();
+                            var selectedServer = aleevaServers.Where(x => x.ID.Equals(Properties.Settings.Default.AleevaSelectedServer)).First();
                             if (selectedServer != null)
                             {
                                 comboBoxServer.SelectedItem = selectedServer;
                                 await AleevaLoadChannels(selectedServer.ID);
-                                var selectedChannel = aleevaServerChannels.Where(anon => anon.ID.Equals(Properties.Settings.Default.AleevaSelectedChannel)).First();
+                                var selectedChannel = aleevaServerChannels.Where(x => x.ID.Equals(Properties.Settings.Default.AleevaSelectedChannel)).First();
                                 if (selectedChannel != null)
                                 {
                                     comboBoxChannel.SelectedItem = selectedChannel;
