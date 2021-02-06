@@ -127,8 +127,7 @@ namespace PlenBotLogUploader.DPSReport
 
         public static BossData GetBossDataFromId(int bossId)
         {
-            var allBosses = GetAllBosses();
-            var bossDataRef = allBosses
+            var bossDataRef = GetAllBosses()
                 .Where(x => x.Value.BossId.Equals(bossId))
                 .Select(x => x.Value);
             if (bossDataRef.Count() == 1)
