@@ -169,11 +169,12 @@ namespace PlenBotLogUploader
 
         public async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
+            var discordEmbeds = new List<DiscordAPIJSONContentEmbed>();
             var RaidLogs = reportsJSON
-                    .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
-                    .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
-                    .OrderBy(x => x.LogData.UploadTime)
-                    .ToList();
+                .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
+                .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
+                .OrderBy(x => x.LogData.UploadTime)
+                .ToList();
             if (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing))
             {
                 RaidLogs = reportsJSON
@@ -239,14 +240,7 @@ namespace PlenBotLogUploader
                         if (builder.Length >= maxAllowedMessageSize)
                         {
                             messageCount++;
-                            if (logSessionSettings.UseSelectedWebhooksInstead)
-                            {
-                                await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                            }
-                            else
-                            {
-                                await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                            }
+                            discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                             builder.Clear();
                             builder.Append("***Raid logs:***\n");
                         }
@@ -276,14 +270,7 @@ namespace PlenBotLogUploader
                         if (builder.Length >= maxAllowedMessageSize)
                         {
                             messageCount++;
-                            if (logSessionSettings.UseSelectedWebhooksInstead)
-                            {
-                                await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                            }
-                            else
-                            {
-                                await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                            }
+                            discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                             builder.Clear();
                             builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                         }
@@ -313,14 +300,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        if (logSessionSettings.UseSelectedWebhooksInstead)
-                        {
-                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
-                        else
-                        {
-                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
+                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***Fractal logs:***\n");
                     }
@@ -349,14 +329,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        if (logSessionSettings.UseSelectedWebhooksInstead)
-                        {
-                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
-                        else
-                        {
-                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
+                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***Strike mission logs:***\n");
                     }
@@ -375,14 +348,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        if (logSessionSettings.UseSelectedWebhooksInstead)
-                        {
-                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
-                        else
-                        {
-                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
+                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***Golem logs:***\n");
                     }
@@ -401,14 +367,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        if (logSessionSettings.UseSelectedWebhooksInstead)
-                        {
-                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
-                        else
-                        {
-                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
+                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***WvW logs:***\n");
                     }
@@ -437,14 +396,7 @@ namespace PlenBotLogUploader
                     if (builder.Length >= maxAllowedMessageSize)
                     {
                         messageCount++;
-                        if (logSessionSettings.UseSelectedWebhooksInstead)
-                        {
-                            await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
-                        else
-                        {
-                            await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                        }
+                        discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
                         builder.Clear();
                         builder.Append("***Other logs:***\n");
                     }
@@ -453,14 +405,15 @@ namespace PlenBotLogUploader
             if (!builder.ToString().EndsWith("***\n"))
             {
                 messageCount++;
-                if (logSessionSettings.UseSelectedWebhooksInstead)
-                {
-                    await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                }
-                else
-                {
-                    await SendDiscordMessageToAllActiveWebhooksAsync(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString(), logSessionSettings.ContentText);
-                }
+                discordEmbeds.Add(SessionTextConstructor.MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+            }
+            if (logSessionSettings.UseSelectedWebhooksInstead)
+            {
+                await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, discordEmbeds, logSessionSettings.ContentText);
+            }
+            else
+            {
+                await SendDiscordMessageToAllActiveWebhooksAsync(discordEmbeds, logSessionSettings.ContentText);
             }
             if (logSessionSettings.UseSelectedWebhooksInstead && logSessionSettings.SelectedWebhooks.Count > 0)
             {
@@ -472,24 +425,12 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async Task SendDiscordMessageToAllActiveWebhooksAsync(string title, string description, string contentText)
+        private async Task SendDiscordMessageToAllActiveWebhooksAsync(List<DiscordAPIJSONContentEmbed> embeds, string contentText)
         {
-            var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
-            {
-                Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
-            };
-            var discordContentEmbed = new DiscordAPIJSONContentEmbed()
-            {
-                Title = title,
-                Description = description,
-                Colour = 32768,
-                TimeStamp = DateTime.UtcNow.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ"),
-                Thumbnail = discordContentEmbedThumbnail
-            };
             var discordContent = new DiscordAPIJSONContent()
             {
                 Content = contentText,
-                Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+                Embeds = embeds
             };
             try
             {
@@ -514,24 +455,12 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async Task SendDiscordMessageToSelectedWebhooksAsync(List<DiscordWebhookData> webhooks, string title, string description, string contentText)
+        private async Task SendDiscordMessageToSelectedWebhooksAsync(List<DiscordWebhookData> webhooks, List<DiscordAPIJSONContentEmbed> embeds, string contentText)
         {
-            var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
-            {
-                Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
-            };
-            var discordContentEmbed = new DiscordAPIJSONContentEmbed()
-            {
-                Title = title,
-                Description = description,
-                Colour = 32768,
-                TimeStamp = DateTime.UtcNow.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ"),
-                Thumbnail = discordContentEmbedThumbnail
-            };
             var discordContent = new DiscordAPIJSONContent()
             {
                 Content = contentText,
-                Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+                Embeds = embeds
             };
             try
             {
