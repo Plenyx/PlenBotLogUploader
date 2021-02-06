@@ -4,15 +4,15 @@ namespace PlenBotLogUploader.GW2API
 {
     public static class GW2
     {
-        private static Dictionary<int, GW2Server> _GW2Servers;
+        private static Dictionary<int, GW2Server> _AllServers;
 
-        public static Dictionary<int, GW2Server> GW2Servers
+        public static Dictionary<int, GW2Server> AllServers
         {
             get
             {
-                if (_GW2Servers == null)
+                if (_AllServers == null)
                 {
-                    _GW2Servers = new Dictionary<int, GW2Server>()
+                    _AllServers = new Dictionary<int, GW2Server>()
                     {
                         {1001, new GW2Server() { ID = 1001, Name = "Anvil Rock" } },
                         {1002, new GW2Server() { ID = 1002, Name = "Borlis Pass" } },
@@ -67,7 +67,7 @@ namespace PlenBotLogUploader.GW2API
                         {2301, new GW2Server() { ID = 2301, Name = "Baruch Bay [SP]" } }
                     };
                 }
-                return _GW2Servers;
+                return _AllServers;
             }
         }
     }

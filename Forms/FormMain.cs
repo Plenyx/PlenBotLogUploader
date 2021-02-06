@@ -1020,7 +1020,7 @@ namespace PlenBotLogUploader
                             var userInfo = await gw2Api.GetUserInfoAsync();
                             if (userInfo != null)
                             {
-                                var playerWorld = GW2.GW2Servers[userInfo.World];
+                                var playerWorld = GW2.AllServers[userInfo.World];
                                 await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
                             }
                             else
