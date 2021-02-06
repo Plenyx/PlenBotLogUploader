@@ -85,11 +85,16 @@ namespace PlenBotLogUploader.Tools
                     .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
                     .Count() == 0)
                 .ToList();
-            var builder = new StringBuilder($"Session duration: {logSessionSettings.ElapsedTime}\n\n");
-            int messageCount = 0;
+
+            var durationText = $"Session duration: {logSessionSettings.ElapsedTime}\n\n";
+            var builderSuccessFailure = new StringBuilder(durationText);
+            var builderSuccess = new StringBuilder(durationText);
+            var builderFailure = new StringBuilder(durationText);
+            int messageSuccessFailureCount = 0, messageSuccessCount = 0, messageFailureCount = 0;
+
             if (RaidLogs.Count > 0)
             {
-                builder.Append("***Raid logs:***\n");
+                builderSuccessFailure.Append("***Raid logs:***\n");
                 if (logSessionSettings.SortBy.Equals(LogSessionSortBy.UploadTime))
                 {
                     foreach (var data in RaidLogs)
@@ -102,13 +107,35 @@ namespace PlenBotLogUploader.Tools
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
-                        builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
-                        if (builder.Length >= maxAllowedMessageSize)
+                        builderSuccessFailure.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
+                        if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
-                            messageCount++;
-                            discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
-                            builder.Clear();
-                            builder.Append("***Raid logs:***\n");
+                            messageSuccessFailureCount++;
+                            discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                            builderSuccessFailure.Clear();
+                            builderSuccessFailure.Append("***Raid logs:***\n");
+                        }
+                        if (data.LogData.Encounter.Success ?? false)
+                        {
+                            builderSuccess.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
+                            if (builderSuccess.Length >= maxAllowedMessageSize)
+                            {
+                                messageSuccessCount++;
+                                discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                                builderSuccess.Clear();
+                                builderSuccess.Append("***Raid logs:***\n");
+                            }
+                        }
+                        else
+                        {
+                            builderFailure.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
+                            if (builderFailure.Length >= maxAllowedMessageSize)
+                            {
+                                messageFailureCount++;
+                                discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                                builderFailure.Clear();
+                                builderFailure.Append("***Raid logs:***\n");
+                            }
                         }
                     }
                 }
@@ -119,7 +146,7 @@ namespace PlenBotLogUploader.Tools
                     {
                         if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.EVTC.BossId)))
                         {
-                            builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                            builderSuccessFailure.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                             lastWing = Bosses.GetWingForBoss(data.LogData.EVTC.BossId);
                         }
                         string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
@@ -130,24 +157,46 @@ namespace PlenBotLogUploader.Tools
                         }
                         string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
-                        builder.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
-                        if (builder.Length >= maxAllowedMessageSize)
+                        builderSuccessFailure.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
+                        if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
-                            messageCount++;
-                            discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
-                            builder.Clear();
-                            builder.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                            messageSuccessFailureCount++;
+                            discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                            builderSuccessFailure.Clear();
+                            builderSuccessFailure.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                        }
+                        if (data.LogData.Encounter.Success ?? false)
+                        {
+                            builderSuccess.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
+                            if (builderSuccess.Length >= maxAllowedMessageSize)
+                            {
+                                messageSuccessCount++;
+                                discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                                builderSuccess.Clear();
+                                builderSuccess.Append("***Raid logs:***\n");
+                            }
+                        }
+                        else
+                        {
+                            builderFailure.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
+                            if (builderFailure.Length >= maxAllowedMessageSize)
+                            {
+                                messageFailureCount++;
+                                discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                                builderFailure.Clear();
+                                builderFailure.Append("***Raid logs:***\n");
+                            }
                         }
                     }
                 }
             }
             if (FractalLogs.Count > 0)
             {
-                if (!builder.ToString().EndsWith("***\n"))
+                if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
-                    builder.Append("\n\n");
+                    builderSuccessFailure.Append("\n\n");
                 }
-                builder.Append("***Fractal logs:***\n");
+                builderSuccessFailure.Append("***Fractal logs:***\n");
                 foreach (var log in FractalLogs)
                 {
                     string bossName = log.Encounter.Boss;
@@ -158,23 +207,45 @@ namespace PlenBotLogUploader.Tools
                     }
                     string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
                     string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
-                    builder.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
-                    if (builder.Length >= maxAllowedMessageSize)
+                    builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                    if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
-                        messageCount++;
-                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
-                        builder.Clear();
-                        builder.Append("***Fractal logs:***\n");
+                        messageSuccessFailureCount++;
+                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                        builderSuccessFailure.Clear();
+                        builderSuccessFailure.Append("***Fractal logs:***\n");
+                    }
+                    if (log.Encounter.Success ?? false)
+                    {
+                        builderSuccess.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                        if (builderSuccess.Length >= maxAllowedMessageSize)
+                        {
+                            messageSuccessCount++;
+                            discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                            builderSuccess.Clear();
+                            builderSuccess.Append("***Fractal logs:***\n");
+                        }
+                    }
+                    else
+                    {
+                        builderFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                        if (builderFailure.Length >= maxAllowedMessageSize)
+                        {
+                            messageFailureCount++;
+                            discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                            builderFailure.Clear();
+                            builderFailure.Append("***Fractal logs:***\n");
+                        }
                     }
                 }
             }
             if (StrikeLogs.Count > 0)
             {
-                if (!builder.ToString().EndsWith("***\n"))
+                if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
-                    builder.Append("\n\n");
+                    builderSuccessFailure.Append("\n\n");
                 }
-                builder.Append("***Strike mission logs:***\n");
+                builderSuccessFailure.Append("***Strike mission logs:***\n");
                 foreach (var log in StrikeLogs)
                 {
                     string bossName = log.Encounter.Boss;
@@ -185,61 +256,127 @@ namespace PlenBotLogUploader.Tools
                     }
                     string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
                     string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
-                    builder.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
-                    if (builder.Length >= maxAllowedMessageSize)
+                    builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                    if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
-                        messageCount++;
-                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
-                        builder.Clear();
-                        builder.Append("***Strike mission logs:***\n");
+                        messageSuccessFailureCount++;
+                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                        builderSuccessFailure.Clear();
+                        builderSuccessFailure.Append("***Strike mission logs:***\n");
+                    }
+                    if (log.Encounter.Success ?? false)
+                    {
+                        builderSuccess.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                        if (builderSuccess.Length >= maxAllowedMessageSize)
+                        {
+                            messageSuccessCount++;
+                            discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                            builderSuccess.Clear();
+                            builderSuccess.Append("***Strike mission logs:***\n");
+                        }
+                    }
+                    else
+                    {
+                        builderFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                        if (builderFailure.Length >= maxAllowedMessageSize)
+                        {
+                            messageFailureCount++;
+                            discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                            builderFailure.Clear();
+                            builderFailure.Append("***Strike mission logs:***\n");
+                        }
                     }
                 }
             }
             if (GolemLogs.Count > 0)
             {
-                if (!builder.ToString().EndsWith("***\n"))
+                if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
-                    builder.Append("\n\n");
+                    builderSuccessFailure.Append("\n\n");
                 }
-                builder.Append("***Golem logs:***\n");
+                builderSuccessFailure.Append("***Golem logs:***\n");
                 foreach (var log in GolemLogs)
                 {
-                    builder.Append($"{log.Permalink}\n");
-                    if (builder.Length >= maxAllowedMessageSize)
+                    builderSuccessFailure.Append($"{log.Permalink}\n");
+                    if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
-                        messageCount++;
-                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
-                        builder.Clear();
-                        builder.Append("***Golem logs:***\n");
+                        messageSuccessFailureCount++;
+                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                        builderSuccessFailure.Clear();
+                        builderSuccessFailure.Append("***Golem logs:***\n");
+                    }
+                    if (log.Encounter.Success ?? false)
+                    {
+                        builderSuccess.Append($"{log.Permalink}\n");
+                        if (builderSuccess.Length >= maxAllowedMessageSize)
+                        {
+                            messageSuccessCount++;
+                            discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                            builderSuccess.Clear();
+                            builderSuccess.Append("***Golem logs:***\n");
+                        }
+                    }
+                    else
+                    {
+                        builderFailure.Append($"{log.Permalink}\n");
+                        if (builderFailure.Length >= maxAllowedMessageSize)
+                        {
+                            messageFailureCount++;
+                            discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                            builderFailure.Clear();
+                            builderFailure.Append("***Golem logs:***\n");
+                        }
                     }
                 }
             }
             if (WvWLogs.Count > 0)
             {
-                if (!builder.ToString().EndsWith("***\n"))
+                if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
-                    builder.Append("\n\n");
+                    builderSuccessFailure.Append("\n\n");
                 }
-                builder.Append("***WvW logs:***\n");
+                builderSuccessFailure.Append("***WvW logs:***\n");
                 foreach (var log in WvWLogs)
                 {
-                    builder.Append($"{log.Permalink}\n");
-                    if (builder.Length >= maxAllowedMessageSize)
+                    builderSuccessFailure.Append($"{log.Permalink}\n");
+                    if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
-                        messageCount++;
-                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
-                        builder.Clear();
-                        builder.Append("***WvW logs:***\n");
+                        messageSuccessFailureCount++;
+                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                        builderSuccessFailure.Clear();
+                        builderSuccessFailure.Append("***WvW logs:***\n");
+                    }
+                    if (log.Encounter.Success ?? false)
+                    {
+                        builderSuccess.Append($"{log.Permalink}\n");
+                        if (builderSuccess.Length >= maxAllowedMessageSize)
+                        {
+                            messageSuccessCount++;
+                            discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                            builderSuccess.Clear();
+                            builderSuccess.Append("***WvW logs:***\n");
+                        }
+                    }
+                    else
+                    {
+                        builderFailure.Append($"{log.Permalink}\n");
+                        if (builderFailure.Length >= maxAllowedMessageSize)
+                        {
+                            messageFailureCount++;
+                            discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                            builderFailure.Clear();
+                            builderFailure.Append("***WvW logs:***\n");
+                        }
                     }
                 }
             }
             if (OtherLogs.Count > 0)
             {
-                if (!builder.ToString().EndsWith("***\n"))
+                if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
-                    builder.Append("\n\n");
+                    builderSuccessFailure.Append("\n\n");
                 }
-                builder.Append("***Other logs:***\n");
+                builderSuccessFailure.Append("***Other logs:***\n");
                 foreach (var log in OtherLogs)
                 {
                     string bossName = log.Encounter.Boss;
@@ -250,20 +387,52 @@ namespace PlenBotLogUploader.Tools
                     }
                     string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
                     string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
-                    builder.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
-                    if (builder.Length >= maxAllowedMessageSize)
+                    builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                    if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
-                        messageCount++;
-                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
-                        builder.Clear();
-                        builder.Append("***Other logs:***\n");
+                        messageSuccessFailureCount++;
+                        discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                        builderSuccessFailure.Clear();
+                        builderSuccessFailure.Append("***Other logs:***\n");
+                    }
+                    if (log.Encounter.Success ?? false)
+                    {
+                        builderSuccess.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                        if (builderSuccess.Length >= maxAllowedMessageSize)
+                        {
+                            messageSuccessCount++;
+                            discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                            builderSuccess.Clear();
+                            builderSuccess.Append("***Other logs:***\n");
+                        }
+                    }
+                    else
+                    {
+                        builderFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
+                        if (builderFailure.Length >= maxAllowedMessageSize)
+                        {
+                            messageFailureCount++;
+                            discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                            builderFailure.Clear();
+                            builderFailure.Append("***Other logs:***\n");
+                        }
                     }
                 }
             }
-            if (!builder.ToString().EndsWith("***\n"))
+            if (!builderSuccessFailure.ToString().EndsWith("***\n"))
             {
-                messageCount++;
-                discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageCount > 1) ? $" part {messageCount}" : ""), builder.ToString()));
+                messageSuccessFailureCount++;
+                discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+            }
+            if (!builderSuccess.ToString().EndsWith("***\n"))
+            {
+                messageSuccessCount++;
+                discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+            }
+            if (!builderFailure.ToString().EndsWith("***\n"))
+            {
+                messageFailureCount++;
+                discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
             }
             return new DiscordEmbeds() { SuccessFailure = discordEmbedsSuccessFailure, Success = discordEmbedsSuccess, Failure = discordEmbedsFailure };
         }
