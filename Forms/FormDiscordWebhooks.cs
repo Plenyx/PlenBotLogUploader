@@ -87,7 +87,7 @@ namespace PlenBotLogUploader
             {
                 Url = icon
             };
-            DateTime timestampDateTime = DateTime.UtcNow;
+            var timestampDateTime = DateTime.UtcNow;
             if (DateTime.TryParse(reportJSON.ExtraJSON.TimeStart, out DateTime timeStart))
             {
                 timestampDateTime = timeStart;
@@ -218,8 +218,7 @@ namespace PlenBotLogUploader
                     .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
                     .Count() == 0)
                 .ToList();
-            StringBuilder builder = new StringBuilder();
-            builder.Append($"Session duration: {logSessionSettings.ElapsedTime}\n\n");
+            var builder = new StringBuilder($"Session duration: {logSessionSettings.ElapsedTime}\n\n");
             int messageCount = 0;
             if (RaidLogs.Count > 0)
             {
