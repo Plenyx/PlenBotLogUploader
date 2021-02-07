@@ -34,10 +34,10 @@ namespace PlenBotLogUploader
 
         private void ButtonChangeGWLocation_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog dialog = new OpenFileDialog())
+            using (var dialog = new OpenFileDialog())
             {
                 dialog.Filter = "Guild Wars 2|Gw2-64.exe";
-                DialogResult result = dialog.ShowDialog();
+                var result = dialog.ShowDialog();
                 if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
                 {
                     string location = Path.GetDirectoryName(dialog.FileName);
@@ -139,7 +139,7 @@ namespace PlenBotLogUploader
                                 groupBoxUpdating.Enabled = true;
                                 if (manual)
                                 {
-                                    DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                    var result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                     if (result.Equals(DialogResult.Yes))
                                     {
                                         await UpdateArcAsync();
@@ -171,7 +171,7 @@ namespace PlenBotLogUploader
                             groupBoxUpdating.Enabled = true;
                             if (manual)
                             {
-                                DialogResult result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                                var result = MessageBox.Show("New arcdps version available.\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                                 if (result.Equals(DialogResult.Yes))
                                 {
                                     await UpdateArcAsync();
@@ -198,7 +198,7 @@ namespace PlenBotLogUploader
                 groupBoxUpdating.Enabled = true;
                 if (manual)
                 {
-                    DialogResult result = MessageBox.Show("New arcdps version available\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    var result = MessageBox.Show("New arcdps version available\nDo you want to download the new version?", "arcdps version checker", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                     if (result.Equals(DialogResult.Yes))
                     {
                         await UpdateArcAsync();

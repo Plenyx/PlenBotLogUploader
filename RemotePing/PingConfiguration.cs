@@ -24,7 +24,7 @@ namespace PlenBotLogUploader.RemotePing
         public static async Task<bool> PingServerAsync(PingConfiguration configuration, FormMain mainLink, DPSReportJSON reportJSON)
         {
             bool result = false;
-            using (HttpClientController controller = new HttpClientController())
+            using (var controller = new HttpClientController())
             {
                 if (configuration.Method.Equals(PingMethod.Post) || configuration.Method.Equals(PingMethod.Put))
                 {
@@ -47,7 +47,7 @@ namespace PlenBotLogUploader.RemotePing
                             controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
                         }
                     }
-                    using (FormUrlEncodedContent content = new FormUrlEncodedContent(fields))
+                    using (var content = new FormUrlEncodedContent(fields))
                     {
                         HttpResponseMessage responseMessage = null;
                         try

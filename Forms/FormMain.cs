@@ -948,7 +948,7 @@ namespace PlenBotLogUploader
                     AddToText("> (Spotify) SMART SONG RECOGNITION USED");
                     try
                     {
-                        Process process = Process.GetProcessesByName("Spotify").FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
+                        var process = Process.GetProcessesByName("Spotify").FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
                         if (process.MainWindowTitle.Contains("Spotify"))
                         {
                             await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "No song is being played.");

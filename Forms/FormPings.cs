@@ -30,7 +30,7 @@ namespace PlenBotLogUploader
                 AllPings = new Dictionary<int, PingConfiguration>();
                 try
                 {
-                    using (StreamReader reader = new StreamReader($@"{mainLink.LocalDir}\remote_pings.txt"))
+                    using (var reader = new StreamReader($@"{mainLink.LocalDir}\remote_pings.txt"))
                     {
                         string line = reader.ReadLine();
                         while ((line = reader.ReadLine()) != null)
@@ -81,7 +81,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            using (StreamWriter writer = new StreamWriter($@"{mainLink.LocalDir}\remote_pings.txt"))
+            using (var writer = new StreamWriter($@"{mainLink.LocalDir}\remote_pings.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in AllPings.Keys)

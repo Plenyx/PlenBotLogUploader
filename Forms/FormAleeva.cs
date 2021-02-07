@@ -151,7 +151,7 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            catch (Newtonsoft.Json.JsonReaderException)
+            catch (JsonReaderException)
             {
                 mainLink.AddToText($"??>> There was an error authenticating with Aleeva.");
             }

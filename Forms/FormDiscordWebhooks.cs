@@ -55,7 +55,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            using (StreamWriter writer = new StreamWriter($@"{mainLink.LocalDir}\discord_webhooks.txt"))
+            using (var writer = new StreamWriter($@"{mainLink.LocalDir}\discord_webhooks.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in allWebhooks.Keys)
@@ -112,7 +112,7 @@ namespace PlenBotLogUploader
             };
             if (reportJSON.Players.Values.Count <= 10)
             {
-                List<DiscordAPIJSONContentEmbedField> fields = new List<DiscordAPIJSONContentEmbedField>();
+                var fields = new List<DiscordAPIJSONContentEmbedField>();
                 foreach (var player in reportJSON.Players.Values)
                 {
                     fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.CharacterName, Value = $"```\n{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.EliteSpec)}\n```", Inline = true });

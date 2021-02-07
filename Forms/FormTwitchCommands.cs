@@ -4,9 +4,6 @@ namespace PlenBotLogUploader
 {
     public partial class FormTwitchCommands : Form
     {
-        #region definitions
-        #endregion
-
         public FormTwitchCommands()
         {
             InitializeComponent();

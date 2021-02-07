@@ -77,7 +77,7 @@ namespace PlenBotLogUploader
 
         private void ButtonResetSettings_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to reset all the bosses?\nThis will undo all Discord webhook icon and Twitch messages settings and reset them to their default state.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var result = MessageBox.Show("Are you sure you want to reset all the bosses?\nThis will undo all Discord webhook icon and Twitch messages settings and reset them to their default state.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result.Equals(DialogResult.Yes))
             {
                 listViewBosses.Items.Clear();
@@ -122,7 +122,7 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewBosses.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                DialogResult result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result.Equals(DialogResult.Yes))
                 {
                     listViewBosses.Items.RemoveByKey(reservedId.ToString());

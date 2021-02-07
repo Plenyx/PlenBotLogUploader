@@ -31,7 +31,7 @@ namespace PlenBotLogUploader
 
         private void ButtonSuccessSave_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on success to \"{textBoxSuccessMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on success to \"{textBoxSuccessMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
                 var BossesToChange = allBosses
@@ -50,7 +50,7 @@ namespace PlenBotLogUploader
 
         private void ButtonFailSave_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on fail to \"{textBoxFailMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on fail to \"{textBoxFailMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
                 var BossesToChange = allBosses
