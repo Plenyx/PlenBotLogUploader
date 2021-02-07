@@ -888,7 +888,7 @@ namespace PlenBotLogUploader
                     {
                         reconnectedFailCounter++;
                     }
-                    if (reconnectedFailCounter <= 3)
+                    if (reconnectedFailCounter <= 4)
                     {
                         AddToText($"<-?-> TRYING TO RECONNECT TO TWITCH IN {reconnectedFailCounter*15}s");
                         await Task.Run(async () =>
@@ -899,7 +899,7 @@ namespace PlenBotLogUploader
                     }
                     else
                     {
-                        AddToText("<-?-> FAILED TO RECONNECT TO TWITCH AFTER 3 ATTEMPTS, TRY TO CONNECT MANUALLY");
+                        AddToText("<-?-> FAILED TO RECONNECT TO TWITCH AFTER 4 ATTEMPTS, TRY TO CONNECT MANUALLY");
                         DisconnectTwitchBot();
                     }
                     break;
