@@ -891,9 +891,9 @@ namespace PlenBotLogUploader
                     if (reconnectedFailCounter <= 3)
                     {
                         AddToText($"<-?-> TRYING TO RECONNECT TO TWITCH IN {reconnectedFailCounter*10}s");
-                        await Task.Run(() =>
+                        await Task.Run(async () =>
                         {
-                            Thread.Sleep(reconnectedFailCounter * 10000);
+                            await Task.Delay(reconnectedFailCounter * 10000);
                             ReconnectTwitchBot();
                         });
                     }
