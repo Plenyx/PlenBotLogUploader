@@ -59,7 +59,7 @@ namespace PlenBotLogUploader
                 }
                 else if (args[1].ToLower().Equals("-resetsettings"))
                 {
-                    using (RegistryKey registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                    using (var registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                     {
                         if (registryRun.GetValue("PlenBot Log Uploader") != null)
                         {
