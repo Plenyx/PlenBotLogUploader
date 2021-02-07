@@ -125,6 +125,11 @@ namespace PlenBotLogUploader.DPSReport
             };
         }
 
+        /// <summary>
+        /// Returns a BossData object based on its boss id, null if no object has been found.
+        /// </summary>
+        /// <param name="bossId">The boss id to query for</param>
+        /// <returns>BossData object or null</returns>
         public static BossData GetBossDataFromId(int bossId)
         {
             var bossDataRef = GetAllBosses()
