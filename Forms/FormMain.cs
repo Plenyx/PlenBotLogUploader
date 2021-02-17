@@ -14,7 +14,7 @@ using Microsoft.Win32;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.GW2API;
 using PlenBotLogUploader.DPSReport;
-using PlenBotLogUploader.TwitchIRCClient;
+using TwitchIRCClient;
 using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
