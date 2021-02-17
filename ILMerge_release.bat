@@ -1,1 +1,1 @@
-packages\ILMerge.3.0.41\tools\net452\ILMerge.exe /target:winexe /out:PlenBotLogUploader.exe bin\Release\PlenBotLogUploader.exe bin\Release\Newtonsoft.Json.dll
+packages\ILMerge.3.0.41\tools\net452\ILMerge.exe /target:winexe /out:PlenBotLogUploader.exe bin\Release\PlenBotLogUploader.exe bin\Release\Newtonsoft.Json.dll bin\Release\TwitchIrcClient.dll
