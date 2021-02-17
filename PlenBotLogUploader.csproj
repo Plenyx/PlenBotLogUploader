@@ -249,12 +249,8 @@
     <Compile Include="Tools\LogSessionSortBy.cs" />
     <Compile Include="Tools\NiceTime.cs" />
     <Compile Include="Tools\SessionTextConstructor.cs" />
-    <Compile Include="TwitchIRCClient\IrcChangedEventArgs.cs" />
-    <Compile Include="TwitchIRCClient\IrcMessageEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwitchIRCClient\IrcStates.cs" />
-    <Compile Include="TwitchIRCClient\TwitchIrcClient.cs" />
     <EmbeddedResource Include="Forms\FormAleeva.resx">
       <DependentUpon>FormAleeva.cs</DependentUpon>
     </EmbeddedResource>
