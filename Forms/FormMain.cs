@@ -799,11 +799,11 @@ namespace PlenBotLogUploader
             return false;
         }
 
-        public void ConnectTwitchBot()
+        public async Task ConnectTwitchBot()
         {
             if (InvokeRequired)
             {
-                Invoke((Action)delegate { ConnectTwitchBot(); });
+                Invoke((Action) async delegate { await ConnectTwitchBot(); });
                 return;
             }
             buttonDisConnectTwitch.Text = "Disconnect from Twitch";
@@ -824,7 +824,7 @@ namespace PlenBotLogUploader
             }
             chatConnect.ReceiveMessage += ReadMessagesAsync;
             chatConnect.StateChange += OnIrcStateChanged;
-            chatConnect.BeginConnection();
+            await chatConnect.BeginConnectionAsync();
             Properties.Settings.Default.ConnectToTwitch = true;
         }
 
@@ -850,11 +850,11 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.ConnectToTwitch = false;
         }
 
-        public void ReconnectTwitchBot()
+        public async Task ReconnectTwitchBot()
         {
             if (InvokeRequired)
             {
-                Invoke((Action)delegate { ReconnectTwitchBot(); });
+                Invoke((Action) async delegate { await ReconnectTwitchBot(); });
                 return;
             }
             chatConnect.ReceiveMessage -= ReadMessagesAsync;
@@ -871,7 +871,7 @@ namespace PlenBotLogUploader
             }
             chatConnect.ReceiveMessage += ReadMessagesAsync;
             chatConnect.StateChange += OnIrcStateChanged;
-            chatConnect.BeginConnection();
+            await chatConnect.BeginConnectionAsync();
         }
 
         protected async void OnIrcStateChanged(object sender, IrcChangedEventArgs e)
@@ -895,7 +895,7 @@ namespace PlenBotLogUploader
                         await Task.Run(async () =>
                         {
                             await Task.Delay(reconnectedFailCounter * 15000);
-                            ReconnectTwitchBot();
+                            await ReconnectTwitchBot();
                         });
                     }
                     else
@@ -941,10 +941,9 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            string[] messageSplit = e.Message.Split(new string[] { $"#{Properties.Settings.Default.TwitchChannelName} :" }, StringSplitOptions.None);
-            if (messageSplit.Length > 1)
+            if (e.Message.IsChannelMessage)
             {
-                if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && Regex.IsMatch(messageSplit[1], @"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
+                if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && Regex.IsMatch(e.Message.ChannelMessage, @"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
                 {
                     AddToText("> (Spotify) SMART SONG RECOGNITION USED");
                     try
@@ -964,7 +963,7 @@ namespace PlenBotLogUploader
                         await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, "Spotify is not running.");
                     }
                 }
-                string command = messageSplit[1].Split(' ')[0].ToLower();
+                string command = e.Message.ChannelMessage.Split(' ')[0].ToLower();
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
                     AddToText("> UPLOADER COMMAND USED");
@@ -1045,10 +1044,10 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ButtonReconnectBot_Click(object sender, EventArgs e)
+        private async void ButtonReconnectBot_Click(object sender, EventArgs e)
         {
             reconnectedFailCounter = 0;
-            ReconnectTwitchBot();
+            await ReconnectTwitchBot();
         }
 
         private void ButtonLogsLocation_Click(object sender, EventArgs e)
@@ -1202,12 +1201,12 @@ namespace PlenBotLogUploader
             twitchCommandsLink.BringToFront();
         }
 
-        private void ButtonDisConnectTwitch_Click(object sender, EventArgs e)
+        private async void ButtonDisConnectTwitch_Click(object sender, EventArgs e)
         {
             reconnectedFailCounter = 0;
             if (chatConnect == null)
             {
-                ConnectTwitchBot();
+                await ConnectTwitchBot();
             }
             else
             {

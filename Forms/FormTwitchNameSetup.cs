@@ -18,7 +18,7 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
         }
 
-        private void ButtonNext_Click(object sender, EventArgs e)
+        private async void ButtonNext_Click(object sender, EventArgs e)
         {
             string channelUrl = textBoxChannelUrl.Text.ToLower();
             string[] channelUrlSplit = channelUrl.Split(new string[] { "twitch.tv/" }, StringSplitOptions.None);
@@ -31,11 +31,11 @@ namespace PlenBotLogUploader
                     Properties.Settings.Default.TwitchChannelName = channelName;
                     if (mainLink.IsTwitchConnectionNull())
                     {
-                        mainLink.ConnectTwitchBot();
+                        await mainLink.ConnectTwitchBot();
                     }
                     else
                     {
-                        mainLink.ReconnectTwitchBot();
+                        await mainLink.ReconnectTwitchBot();
                     }
                     Hide();
                 }

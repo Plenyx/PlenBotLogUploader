@@ -18,7 +18,7 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
         }
 
-        private void FormCustomName_FormClosing(object sender, FormClosingEventArgs e)
+        private async void FormCustomName_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
@@ -26,7 +26,7 @@ namespace PlenBotLogUploader
             Properties.Settings.Default.CustomTwitchOAuthPassword = textBoxCustomOAuth.Text;
             if (!mainLink.IsTwitchConnectionNull())
             {
-                mainLink.ReconnectTwitchBot();
+                await mainLink.ReconnectTwitchBot();
             }
         }
 

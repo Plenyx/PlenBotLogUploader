@@ -102,8 +102,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TwitchIrcClient, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\TwitchIrcClient.1.0.3\lib\netstandard2.0\TwitchIrcClient.dll</HintPath>
+    <Reference Include="TwitchIrcClient, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\TwitchIrcClient.1.0.5\lib\netstandard2.0\TwitchIrcClient.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
