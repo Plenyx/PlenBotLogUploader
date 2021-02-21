@@ -807,6 +807,7 @@ namespace PlenBotLogUploader
                 return;
             }
             buttonDisConnectTwitch.Text = "Disconnect from Twitch";
+            buttonReconnectBot.Enabled = true;
             buttonChangeTwitchChannel.Enabled = true;
             toolStripMenuItemPostToTwitch.Enabled = true;
             toolStripMenuItemOpenTwitchCommands.Enabled = true;
