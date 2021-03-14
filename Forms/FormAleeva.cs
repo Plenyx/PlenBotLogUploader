@@ -153,7 +153,7 @@ namespace PlenBotLogUploader
             }
             catch (JsonReaderException)
             {
-                mainLink.AddToText($"??>> There was an error authenticating with Aleeva while trying to exchange the access code.");
+                mainLink.AddToText($"??>> There was an error authenticating with Aleeva while trying to exchange the access code. Is your access code correct? Make sure you select the PlenBotLogUploader when creating the access code.");
             }
             catch (Exception e)
             {
