@@ -153,7 +153,7 @@ namespace PlenBotLogUploader
             }
             catch (JsonReaderException)
             {
-                mainLink.AddToText($"??>> There was an error authenticating with Aleeva.");
+                mainLink.AddToText($"??>> There was an error authenticating with Aleeva while trying to exchange the access code.");
             }
             catch (Exception e)
             {
@@ -207,7 +207,7 @@ namespace PlenBotLogUploader
             }
             catch (Newtonsoft.Json.JsonReaderException)
             {
-                mainLink.AddToText($"??>> There was an error authenticating with Aleeva.");
+                mainLink.AddToText($"??>> There was an error authenticating with Aleeva while trying to refresh refresh token.");
             }
             catch (Exception e)
             {
