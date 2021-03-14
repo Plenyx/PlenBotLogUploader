@@ -217,7 +217,18 @@ namespace PlenBotLogUploader
 
         private async void ButtonGetBearerFromAccess_Click(object sender, EventArgs e)
         {
-            await GetAleevaTokenFromAccessCode(textBoxAccessCode.Text);
+            if (string.IsNullOrEmpty(AleevaAccessToken))
+            {
+                await GetAleevaTokenFromAccessCode(textBoxAccessCode.Text);
+            }
+            else
+            {
+                AleevaAccessToken = "";
+                AleevaAccessTokenExpires = DateTime.Now;
+                AleevaAuthorised = false;
+                Properties.Settings.Default.AleevaRefreshToken = "";
+                Properties.Settings.Default.AleevaRefreshTokenExpire = DateTime.Now;
+            }
         }
 
         private async Task AleevaLoadServers()
