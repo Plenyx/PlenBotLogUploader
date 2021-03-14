@@ -223,12 +223,22 @@ namespace PlenBotLogUploader
             }
             else
             {
-                AleevaAccessToken = "";
-                AleevaAccessTokenExpires = DateTime.Now;
-                AleevaAuthorised = false;
-                Properties.Settings.Default.AleevaRefreshToken = "";
-                Properties.Settings.Default.AleevaRefreshTokenExpire = DateTime.Now;
+                DeauthoriseAleeva();
             }
+        }
+
+        private void DeauthoriseAleeva()
+        {
+            if (InvokeRequired)
+            {
+                Invoke((Action)delegate () { DeauthoriseAleeva(); });
+                return;
+            }
+            AleevaAccessToken = "";
+            AleevaAccessTokenExpires = DateTime.Now;
+            AleevaAuthorised = false;
+            Properties.Settings.Default.AleevaRefreshToken = "";
+            Properties.Settings.Default.AleevaRefreshTokenExpire = DateTime.Now;
         }
 
         private async Task AleevaLoadServers()
