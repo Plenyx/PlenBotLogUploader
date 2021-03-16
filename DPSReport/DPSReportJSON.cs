@@ -77,23 +77,11 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// the URL ID used in dps.report
         /// </summary>
-        public string UrlId
-        {
-            get
-            {
-                return Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
-            }
-        }
+        public string UrlId => Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
 
         /// <summary>
         /// whether the enouncter was in challenge mode
         /// </summary>
-        public bool ChallengeMode
-        {
-            get
-            {
-                return ExtraJSON?.IsCM ?? false;
-            }
-        }
+        public bool ChallengeMode => ExtraJSON?.IsCM ?? false;
     }
 }

@@ -33,11 +33,6 @@ namespace PlenBotLogUploader.DiscordAPI
         [JsonProperty("message")]
         public string Message { get; set; }
 
-        public bool Success {
-            get
-            {
-                return Code == null;
-            }
-        }
+        public bool Success => Code == null;
     }
 }
