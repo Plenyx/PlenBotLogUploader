@@ -189,7 +189,7 @@ namespace PlenBotLogUploader
                 {
                     if (File.Exists($@"{arcVersionsLink.GW2Location}\Gw2-64.exe") || File.Exists($@"{arcVersionsLink.GW2Location}\Gw2.exe"))
                     {
-                        Task.Run(() => { arcVersionsLink.StartTimerAsync(true); });
+                        Task.Run(async() => { await arcVersionsLink.StartTimerAsync(true); });
                         arcVersionsLink.buttonEnabler.Enabled = true;
                         arcVersionsLink.buttonCheckNow.Enabled = true;
                     }

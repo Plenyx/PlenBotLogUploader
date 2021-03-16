@@ -52,7 +52,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async void StartTimerAsync(bool checkNow = false)
+        public async Task StartTimerAsync(bool checkNow = false)
         {
             timerCheckNewArcversion.Stop();
             if (checkNow)
@@ -62,7 +62,7 @@ namespace PlenBotLogUploader
             timerCheckNewArcversion.Start();
         }
 
-        public async void StopTimerAsync(bool checkNow = false)
+        public async Task StopTimerAsync(bool checkNow = false)
         {
             timerCheckNewArcversion.Stop();
             if (checkNow)
@@ -93,7 +93,7 @@ namespace PlenBotLogUploader
                 groupBoxUpdating.Enabled = false;
                 buttonCheckNow.Enabled = true;
                 buttonUpdate.Enabled = true;
-                StartTimerAsync();
+                await StartTimerAsync();
             }
             else
             {
@@ -211,9 +211,9 @@ namespace PlenBotLogUploader
 
         private async void TimerCheckNewArcversion_Tick(object sender, EventArgs e) => await CheckNewVersionAsync();
 
-        private void ButtonEnabler_Click(object sender, EventArgs e)
+        private async void ButtonEnabler_Click(object sender, EventArgs e)
         {
-            StopTimerAsync();
+            await StopTimerAsync();
             GW2Location = "";
             Properties.Settings.Default.GW2Location = "";
             buttonEnabler.Enabled = false;
