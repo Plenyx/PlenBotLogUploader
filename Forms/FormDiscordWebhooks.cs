@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PlenBotLogUploader.DiscordAPI;
+using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.Tools;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Net.Http;
-using System.Windows.Forms;
+using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using PlenBotLogUploader.Tools;
-using PlenBotLogUploader.DPSReport;
-using PlenBotLogUploader.DiscordAPI;
-using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {

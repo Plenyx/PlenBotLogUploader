@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Collections.Generic;
+﻿using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.Tools;
-using PlenBotLogUploader.DiscordAPI;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {

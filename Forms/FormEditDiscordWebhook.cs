@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using PlenBotLogUploader.Tools;
+﻿using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.DPSReport;
-using PlenBotLogUploader.DiscordAPI;
+using PlenBotLogUploader.Tools;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using PlenBotLogUploader.DPSReport;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using PlenBotLogUploader.DPSReport;
 
 namespace PlenBotLogUploader
 {
