@@ -570,5 +570,17 @@ namespace PlenBotLogUploader.Properties {
                 this["TwitchCommandSongSmartRecognition"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AleevaSendOnSuccessOnly {
+            get {
+                return ((bool)(this["AleevaSendOnSuccessOnly"]));
+            }
+            set {
+                this["AleevaSendOnSuccessOnly"] = value;
+            }
+        }
     }
 }

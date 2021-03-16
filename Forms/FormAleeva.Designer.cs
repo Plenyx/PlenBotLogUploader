@@ -32,15 +32,16 @@
             this.textBoxAccessCode = new System.Windows.Forms.TextBox();
             this.buttonGetBearerFromAccess = new System.Windows.Forms.Button();
             this.groupBoxAleevaStatus = new System.Windows.Forms.GroupBox();
-            this.groupBoxSendNotification = new System.Windows.Forms.GroupBox();
+            this.groupBoxUploadSettings = new System.Windows.Forms.GroupBox();
             this.checkBoxSendNotification = new System.Windows.Forms.CheckBox();
             this.groupBoxChannel = new System.Windows.Forms.GroupBox();
             this.comboBoxChannel = new System.Windows.Forms.ComboBox();
             this.groupBoxServer = new System.Windows.Forms.GroupBox();
             this.comboBoxServer = new System.Windows.Forms.ComboBox();
+            this.checkBoxOnlySuccessful = new System.Windows.Forms.CheckBox();
             this.groupBoxAccessCode.SuspendLayout();
             this.groupBoxAleevaStatus.SuspendLayout();
-            this.groupBoxSendNotification.SuspendLayout();
+            this.groupBoxUploadSettings.SuspendLayout();
             this.groupBoxChannel.SuspendLayout();
             this.groupBoxServer.SuspendLayout();
             this.SuspendLayout();
@@ -75,7 +76,7 @@
             // 
             // groupBoxAleevaStatus
             // 
-            this.groupBoxAleevaStatus.Controls.Add(this.groupBoxSendNotification);
+            this.groupBoxAleevaStatus.Controls.Add(this.groupBoxUploadSettings);
             this.groupBoxAleevaStatus.Controls.Add(this.groupBoxChannel);
             this.groupBoxAleevaStatus.Controls.Add(this.groupBoxServer);
             this.groupBoxAleevaStatus.Controls.Add(this.groupBoxAccessCode);
@@ -86,16 +87,17 @@
             this.groupBoxAleevaStatus.TabStop = false;
             this.groupBoxAleevaStatus.Text = "Status: Not authorised";
             // 
-            // groupBoxSendNotification
+            // groupBoxUploadSettings
             // 
-            this.groupBoxSendNotification.Controls.Add(this.checkBoxSendNotification);
-            this.groupBoxSendNotification.Enabled = false;
-            this.groupBoxSendNotification.Location = new System.Drawing.Point(6, 180);
-            this.groupBoxSendNotification.Name = "groupBoxSendNotification";
-            this.groupBoxSendNotification.Size = new System.Drawing.Size(474, 41);
-            this.groupBoxSendNotification.TabIndex = 5;
-            this.groupBoxSendNotification.TabStop = false;
-            this.groupBoxSendNotification.Text = "Send notification";
+            this.groupBoxUploadSettings.Controls.Add(this.checkBoxOnlySuccessful);
+            this.groupBoxUploadSettings.Controls.Add(this.checkBoxSendNotification);
+            this.groupBoxUploadSettings.Enabled = false;
+            this.groupBoxUploadSettings.Location = new System.Drawing.Point(6, 180);
+            this.groupBoxUploadSettings.Name = "groupBoxUploadSettings";
+            this.groupBoxUploadSettings.Size = new System.Drawing.Size(474, 41);
+            this.groupBoxUploadSettings.TabIndex = 5;
+            this.groupBoxUploadSettings.TabStop = false;
+            this.groupBoxUploadSettings.Text = "Upload settings";
             // 
             // checkBoxSendNotification
             // 
@@ -149,6 +151,17 @@
             this.comboBoxServer.DropDown += new System.EventHandler(this.ComboBoxServer_DropDown);
             this.comboBoxServer.SelectedIndexChanged += new System.EventHandler(this.ComboBoxServer_SelectedIndexChanged);
             // 
+            // checkBoxOnlySuccessful
+            // 
+            this.checkBoxOnlySuccessful.AutoSize = true;
+            this.checkBoxOnlySuccessful.Location = new System.Drawing.Point(117, 18);
+            this.checkBoxOnlySuccessful.Name = "checkBoxOnlySuccessful";
+            this.checkBoxOnlySuccessful.Size = new System.Drawing.Size(157, 17);
+            this.checkBoxOnlySuccessful.TabIndex = 1;
+            this.checkBoxOnlySuccessful.Text = "Upload only successful logs";
+            this.checkBoxOnlySuccessful.UseVisualStyleBackColor = true;
+            this.checkBoxOnlySuccessful.CheckedChanged += new System.EventHandler(this.CheckBoxOnlySuccessful_CheckedChanged);
+            // 
             // FormAleeva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,8 +181,8 @@
             this.groupBoxAccessCode.ResumeLayout(false);
             this.groupBoxAccessCode.PerformLayout();
             this.groupBoxAleevaStatus.ResumeLayout(false);
-            this.groupBoxSendNotification.ResumeLayout(false);
-            this.groupBoxSendNotification.PerformLayout();
+            this.groupBoxUploadSettings.ResumeLayout(false);
+            this.groupBoxUploadSettings.PerformLayout();
             this.groupBoxChannel.ResumeLayout(false);
             this.groupBoxServer.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -186,7 +199,8 @@
         private System.Windows.Forms.ComboBox comboBoxChannel;
         private System.Windows.Forms.GroupBox groupBoxChannel;
         private System.Windows.Forms.GroupBox groupBoxServer;
-        private System.Windows.Forms.GroupBox groupBoxSendNotification;
+        private System.Windows.Forms.GroupBox groupBoxUploadSettings;
         private System.Windows.Forms.CheckBox checkBoxSendNotification;
+        private System.Windows.Forms.CheckBox checkBoxOnlySuccessful;
     }
 }

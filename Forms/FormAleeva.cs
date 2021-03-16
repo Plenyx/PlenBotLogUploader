@@ -28,7 +28,7 @@ namespace PlenBotLogUploader
                 _authorised = value;
                 groupBoxServer.Enabled = value;
                 groupBoxChannel.Enabled = value;
-                groupBoxSendNotification.Enabled = value;
+                groupBoxUploadSettings.Enabled = value;
                 if (groupBoxAleevaStatus.InvokeRequired)
                 {
                     groupBoxAleevaStatus.Invoke((Action) delegate() { groupBoxAleevaStatus.Text = (value) ? "Status: Aleeva successfully authorised" : "Status: Not authorised"; });
@@ -71,6 +71,7 @@ namespace PlenBotLogUploader
             InitializeComponent();
             Icon = Properties.Resources.aleeva_icon;
             checkBoxSendNotification.Checked = Properties.Settings.Default.AleevaSendNotification;
+            checkBoxOnlySuccessful.Checked = Properties.Settings.Default.AleevaSendOnSuccessOnly;
         }
 
         private void FormAleeva_FormClosing(object sender, FormClosingEventArgs e)
@@ -88,6 +89,10 @@ namespace PlenBotLogUploader
                 if (AleevaAccessTokenExpires <= DateTime.Now)
                 {
                     await GetAleevaTokenFromRefreshToken();
+                }
+                if (checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
+                {
+                    return;
                 }
                 try
                 {
@@ -359,6 +364,8 @@ namespace PlenBotLogUploader
         }
 
         private void CheckBoxSendNotification_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.AleevaSendNotification = checkBoxSendNotification.Checked;
+
+        private void CheckBoxOnlySuccessful_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.AleevaSendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
 
         private void FormAleeva_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {
