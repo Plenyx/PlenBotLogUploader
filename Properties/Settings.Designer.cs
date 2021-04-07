@@ -582,5 +582,29 @@ namespace PlenBotLogUploader.Properties {
                 this["AleevaSendOnSuccessOnly"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UploadAnonymous {
+            get {
+                return ((bool)(this["UploadAnonymous"]));
+            }
+            set {
+                this["UploadAnonymous"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UploadDetailedWvW {
+            get {
+                return ((bool)(this["UploadDetailedWvW"]));
+            }
+            set {
+                this["UploadDetailedWvW"] = value;
+            }
+        }
     }
 }

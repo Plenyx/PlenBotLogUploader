@@ -88,6 +88,8 @@ namespace PlenBotLogUploader
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 8 kB filesize will not be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it and OBS is running.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
+            toolTip.SetToolTip(checkBoxAnonymiseReports, "If checked, the log will be generated with fake names and accounts.");
+            toolTip.SetToolTip(checkBoxDetailedWvW, "If checked, extended per-target reports will be generated. (might cause some issues)");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             toolTip.SetToolTip(buttonCopyApplicationSession, "Copies all the logs uploaded during the application session into the clipboard.");
             toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
@@ -176,6 +178,14 @@ namespace PlenBotLogUploader
                 if (Properties.Settings.Default.TrayMinimise)
                 {
                     checkBoxTrayMinimiseToIcon.Checked = true;
+                }
+                if (Properties.Settings.Default.UploadAnonymous)
+                {
+                    checkBoxAnonymiseReports.Checked = true;
+                }
+                if (Properties.Settings.Default.UploadDetailedWvW)
+                {
+                    checkBoxDetailedWvW.Checked = true;
                 }
                 if (Properties.Settings.Default.CustomTwitchNameEnabled)
                 {
@@ -270,6 +280,8 @@ namespace PlenBotLogUploader
                 checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(CheckBoxTrayMinimiseToIcon_CheckedChanged);
                 checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(CheckBoxTwitchOnlySuccess_CheckedChanged);
                 checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(CheckBoxStartWhenWindowsStarts_CheckedChanged);
+                checkBoxAnonymiseReports.CheckedChanged += new EventHandler(CheckBoxAnonymiseReports_CheckedChanged);
+                checkBoxDetailedWvW.CheckedChanged += new EventHandler(CheckBoxDetailedWvW_CheckedChanged);
                 comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
@@ -627,7 +639,7 @@ namespace PlenBotLogUploader
                             content.Add(contentStream, "file", Path.GetFileName(file));
                             try
                             {
-                                var uri = new Uri($"{DPSReportServer}/uploadContent{((Properties.Settings.Default.DPSReportUsertokenEnabled) ? $"?userToken={Properties.Settings.Default.DPSReportUsertoken}" : "")}");
+                                var uri = new Uri(CreateDPSReportLink());
                                 using (var responseMessage = await HttpClientController.PostAsync(uri, content))
                                 {
                                     string response = await responseMessage.Content.ReadAsStringAsync();
@@ -778,6 +790,29 @@ namespace PlenBotLogUploader
             }
             AddToText(builder.ToString());
             await discordWebhooksLink.ExecuteSessionWebhooksAsync(SessionLogs, logSessionSettings);
+        }
+
+        private string CreateDPSReportLink()
+        {
+            var baseUrl = $"{DPSReportServer}/uploadContent";
+            var urlParameters = new List<string>()
+            {
+                "json=1",
+                "generator=ei"
+            };
+            if (Properties.Settings.Default.DPSReportUsertokenEnabled)
+            {
+                urlParameters.Add($"userToken={Properties.Settings.Default.DPSReportUsertoken}");
+            }
+            if (Properties.Settings.Default.UploadAnonymous)
+            {
+                urlParameters.Add("anonymous=true");
+            }
+            if (Properties.Settings.Default.UploadDetailedWvW)
+            {
+                urlParameters.Add("detailedwvw=true");
+            }
+            return $"{baseUrl}?{urlParameters.Aggregate((x, y) => $"{x}&{y}")}";
         }
         #endregion
 
@@ -1308,6 +1343,10 @@ namespace PlenBotLogUploader
                 Clipboard.SetText(allSessionLogs.Aggregate((a, b) => a + "\n" + b));
             }
         }
+
+        private void CheckBoxAnonymiseReports_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.UploadAnonymous = checkBoxAnonymiseReports.Checked;
+        
+        private void CheckBoxDetailedWvW_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.UploadDetailedWvW = checkBoxDetailedWvW.Checked;
         #endregion
     }
 }
