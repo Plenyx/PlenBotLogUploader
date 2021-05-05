@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using PlenBotLogUploader.DiscordAPI;
+﻿using PlenBotLogUploader.DiscordAPI;
+using System.Collections.Generic;
 
 namespace PlenBotLogUploader.Tools
 {
