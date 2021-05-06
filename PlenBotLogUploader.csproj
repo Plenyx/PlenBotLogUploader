@@ -135,6 +135,12 @@
     <Compile Include="DPSReport\DPSReportJSONExtraJSON.cs" />
     <Compile Include="DPSReport\DPSReportJSONPlayers.cs" />
     <Compile Include="DPSReport\EliteSpecs.cs" />
+    <Compile Include="DPSReport\ExtraJSON\Player.cs" />
+    <Compile Include="DPSReport\ExtraJSON\Defenses.cs" />
+    <Compile Include="DPSReport\ExtraJSON\DpsAll.cs" />
+    <Compile Include="DPSReport\ExtraJSON\StatsAll.cs" />
+    <Compile Include="DPSReport\ExtraJSON\PlayerSupport.cs" />
+    <Compile Include="DPSReport\ExtraJSON\Target.cs" />
     <Compile Include="DPSReport\Players.cs" />
     <Compile Include="DPSReport\Professions.cs" />
     <Compile Include="Forms\FormAleeva.cs">
