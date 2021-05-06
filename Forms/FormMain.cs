@@ -42,7 +42,6 @@ namespace PlenBotLogUploader
         private readonly FormLogSession logSessionLink;
         private readonly FormGW2API gw2APILink;
         private readonly FormAleeva aleevaLink;
-        private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         private readonly List<string> allSessionLogs = new List<string>();
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
@@ -597,7 +596,6 @@ namespace PlenBotLogUploader
         {
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage && IsOBSRunning())
             {
-                AddToText($">:> {reportJSON.Permalink}");
                 var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId);
                 if (bossData != null)
                 {
@@ -613,10 +611,6 @@ namespace PlenBotLogUploader
                     lastLogMessage = $"Link to the last log: {reportJSON.Permalink}";
                     await chatConnect.SendChatMessageAsync(Properties.Settings.Default.TwitchChannelName, lastLogMessage);
                 }
-            }
-            else
-            {
-                AddToText($">:> {reportJSON.Permalink}");
             }
         }
 
@@ -650,6 +644,7 @@ namespace PlenBotLogUploader
                                         {
                                             bossId = reportJSON.Encounter.BossId;
                                             string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                                            lastLogBossCM = reportJSON.Encounter.IsCM ?? false;
                                             // extra JSON from Elite Insights
                                             if (reportJSON.Encounter.JsonAvailable ?? false)
                                             {
@@ -678,14 +673,8 @@ namespace PlenBotLogUploader
                                                 lastLogPullCounter = 0;
                                             }
                                             lastLogBossId = bossId;
-                                            if (reportJSON.Encounter.Success ?? false)
-                                            {
-                                                lastLogPullCounter = 0;
-                                            }
-                                            else
-                                            {
-                                                lastLogPullCounter++;
-                                            }
+                                            lastLogPullCounter = (reportJSON.Encounter.Success ?? false) ? 0 : lastLogPullCounter + 1;
+                                            AddToText($">:> {reportJSON.Permalink}");
                                             if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                             {
                                                 await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
@@ -732,9 +721,9 @@ namespace PlenBotLogUploader
                                             AddToText($">:> Unable to process file {Path.GetFileName(file)}, error while deserilising the response.");
                                         }
                                     }
-                                    catch
+                                    catch(Exception e)
                                     {
-                                        AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with invalid permanent link");
+                                        AddToText($">:> There has been an error processing file {Path.GetFileName(file)}: {e.Message}");
                                     }
                                 }
                             }
