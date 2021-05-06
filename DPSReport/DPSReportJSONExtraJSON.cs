@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.DPSReport.ExtraJSON;
+using System.Collections.Generic;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -33,5 +35,11 @@ namespace PlenBotLogUploader.DPSReport
 
         [JsonProperty("isCM")]
         public bool IsCM { get; set; }
+
+        [JsonProperty("targets")]
+        public List<Target> Targets { get; set; }
+
+        [JsonProperty("players")]
+        public List<Player> Players { get; set; }
     }
 }
