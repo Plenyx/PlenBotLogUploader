@@ -15,6 +15,12 @@ namespace PlenBotLogUploader.DiscordAPI
         public string Title { get; set; }
 
         /// <summary>
+        /// type of the embed
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type { get; set; } = "rich";
+
+        /// <summary>
         /// description of the embed
         /// </summary>
         [JsonProperty("description")]

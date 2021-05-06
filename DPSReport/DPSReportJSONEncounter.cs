@@ -25,6 +25,9 @@ namespace PlenBotLogUploader.DPSReport
         [JsonProperty("boss")]
         public string Boss { get; set; }
 
+        [JsonProperty("isCm")]
+        public bool? IsCM { get; set; }
+
         [JsonProperty("gw2Build")]
         public int? Gw2Build { get; set; }
 
