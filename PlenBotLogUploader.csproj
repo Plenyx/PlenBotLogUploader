@@ -336,8 +336,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon.ico" />
-    <Content Include="IconAssembly.ico" />
+    <Content Include="Resources\Icon.ico" />
+    <Content Include="Resources\IconAssembly.ico" />
     <None Include="Resources\aleeva_icon.ico" />
     <None Include="Resources\aleeva_icon.png" />
   </ItemGroup>
