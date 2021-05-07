@@ -10,18 +10,21 @@ namespace PlenBotLogUploader.DPSReport
     /// </summary>
     public static class Bosses
     {
-        private static Dictionary<int, BossData> instance = null;
+        private static Dictionary<int, BossData> _all = null;
         /// <summary>
         /// Returns the main dictionary with all encounters.
         /// </summary>
         /// <returns>A dictionary with all encounters</returns>
-        public static Dictionary<int, BossData> GetAllBosses()
+        public static Dictionary<int, BossData> All
         {
-            if (instance == null)
+            get
             {
-                instance = new Dictionary<int, BossData>();
+                if (_all == null)
+                {
+                    _all = new Dictionary<int, BossData>();
+                }
+                return _all;
             }
-            return instance;
         }
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>A dictionary with all encounters</returns>
         public static Dictionary<int, BossData> FromFile(string file)
         {
-            var allBosses = GetAllBosses();
+            var allBosses = All;
             if (allBosses.Count > 0)
             {
                 allBosses.Clear();
@@ -54,7 +57,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>A dictionary with all encounters</returns>
         public static async Task<Dictionary<int, BossData>> FromFileAsync(string file)
         {
-            var allBosses = GetAllBosses();
+            var allBosses = All;
             if (allBosses.Count > 0)
             {
                 allBosses.Clear();
@@ -132,7 +135,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>BossData object or null</returns>
         public static BossData GetBossDataFromId(int bossId)
         {
-            var bossDataRef = GetAllBosses()
+            var bossDataRef = All
                 .Where(x => x.Value.BossId.Equals(bossId))
                 .Select(x => x.Value);
             if (bossDataRef.Count() == 1)

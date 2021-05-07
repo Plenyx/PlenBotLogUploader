@@ -11,7 +11,7 @@ namespace PlenBotLogUploader
         private readonly FormBossData editLink;
         private readonly BossData data;
         private readonly int reservedId;
-        private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
+        private readonly Dictionary<int, BossData> allBosses = Bosses.All;
         #endregion
 
         public FormEditBossData(FormBossData editLink, BossData data, int reservedId)

@@ -40,7 +40,7 @@ namespace PlenBotLogUploader
                     break;
             }
             checkBoxPlayers.Checked = data?.ShowPlayers ?? false;
-            var bosses = Bosses.GetAllBosses();
+            var bosses = Bosses.All;
             bosses = bosses
                 .OrderBy(x => x.Value.Type)
                 .ThenBy(x => x.Value.Name)

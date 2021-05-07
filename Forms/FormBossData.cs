@@ -13,7 +13,7 @@ namespace PlenBotLogUploader
         private readonly FormMain mainLink;
         private readonly FormTemplateBossData templateLink;
         private int bossesIdsKey = 0;
-        private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
+        private readonly Dictionary<int, BossData> allBosses = Bosses.All;
         #endregion
 
         public FormBossData(FormMain mainLink)
