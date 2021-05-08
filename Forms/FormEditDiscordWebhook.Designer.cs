@@ -37,9 +37,9 @@
             this.groupBoxWebhookInfo = new System.Windows.Forms.GroupBox();
             this.groupBoxBossesEnable = new System.Windows.Forms.GroupBox();
             this.groupBoxConditionalPost = new System.Windows.Forms.GroupBox();
-            this.radioButtonOnlySuccess = new System.Windows.Forms.RadioButton();
-            this.radioButtonOnlyFail = new System.Windows.Forms.RadioButton();
             this.radioButtonOnlySuccessAndFail = new System.Windows.Forms.RadioButton();
+            this.radioButtonOnlyFail = new System.Windows.Forms.RadioButton();
+            this.radioButtonOnlySuccess = new System.Windows.Forms.RadioButton();
             this.groupBoxWebhookInfo.SuspendLayout();
             this.groupBoxBossesEnable.SuspendLayout();
             this.groupBoxConditionalPost.SuspendLayout();
@@ -82,9 +82,9 @@
             this.checkBoxPlayers.AutoSize = true;
             this.checkBoxPlayers.Location = new System.Drawing.Point(9, 97);
             this.checkBoxPlayers.Name = "checkBoxPlayers";
-            this.checkBoxPlayers.Size = new System.Drawing.Size(349, 17);
+            this.checkBoxPlayers.Size = new System.Drawing.Size(354, 17);
             this.checkBoxPlayers.TabIndex = 5;
-            this.checkBoxPlayers.Text = "Show players and played professions with elite specs in the message";
+            this.checkBoxPlayers.Text = "Show players and specs in the message (up to ten players, not WvW)";
             this.checkBoxPlayers.UseVisualStyleBackColor = true;
             // 
             // checkedListBoxBossesEnable
@@ -131,16 +131,16 @@
             this.groupBoxConditionalPost.TabStop = false;
             this.groupBoxConditionalPost.Text = "Use this Webhook if...";
             // 
-            // radioButtonOnlySuccess
+            // radioButtonOnlySuccessAndFail
             // 
-            this.radioButtonOnlySuccess.AutoSize = true;
-            this.radioButtonOnlySuccess.Location = new System.Drawing.Point(9, 20);
-            this.radioButtonOnlySuccess.Name = "radioButtonOnlySuccess";
-            this.radioButtonOnlySuccess.Size = new System.Drawing.Size(152, 17);
-            this.radioButtonOnlySuccess.TabIndex = 0;
-            this.radioButtonOnlySuccess.TabStop = true;
-            this.radioButtonOnlySuccess.Text = "the encounter is a success";
-            this.radioButtonOnlySuccess.UseVisualStyleBackColor = true;
+            this.radioButtonOnlySuccessAndFail.AutoSize = true;
+            this.radioButtonOnlySuccessAndFail.Location = new System.Drawing.Point(9, 43);
+            this.radioButtonOnlySuccessAndFail.Name = "radioButtonOnlySuccessAndFail";
+            this.radioButtonOnlySuccessAndFail.Size = new System.Drawing.Size(215, 17);
+            this.radioButtonOnlySuccessAndFail.TabIndex = 2;
+            this.radioButtonOnlySuccessAndFail.TabStop = true;
+            this.radioButtonOnlySuccessAndFail.Text = "the encounter is either success or failure";
+            this.radioButtonOnlySuccessAndFail.UseVisualStyleBackColor = true;
             // 
             // radioButtonOnlyFail
             // 
@@ -153,16 +153,16 @@
             this.radioButtonOnlyFail.Text = "the encounter is a failure";
             this.radioButtonOnlyFail.UseVisualStyleBackColor = true;
             // 
-            // radioButtonOnlySuccessAndFail
+            // radioButtonOnlySuccess
             // 
-            this.radioButtonOnlySuccessAndFail.AutoSize = true;
-            this.radioButtonOnlySuccessAndFail.Location = new System.Drawing.Point(9, 43);
-            this.radioButtonOnlySuccessAndFail.Name = "radioButtonOnlySuccessAndFail";
-            this.radioButtonOnlySuccessAndFail.Size = new System.Drawing.Size(215, 17);
-            this.radioButtonOnlySuccessAndFail.TabIndex = 2;
-            this.radioButtonOnlySuccessAndFail.TabStop = true;
-            this.radioButtonOnlySuccessAndFail.Text = "the encounter is either success or failure";
-            this.radioButtonOnlySuccessAndFail.UseVisualStyleBackColor = true;
+            this.radioButtonOnlySuccess.AutoSize = true;
+            this.radioButtonOnlySuccess.Location = new System.Drawing.Point(9, 20);
+            this.radioButtonOnlySuccess.Name = "radioButtonOnlySuccess";
+            this.radioButtonOnlySuccess.Size = new System.Drawing.Size(152, 17);
+            this.radioButtonOnlySuccess.TabIndex = 0;
+            this.radioButtonOnlySuccess.TabStop = true;
+            this.radioButtonOnlySuccess.Text = "the encounter is a success";
+            this.radioButtonOnlySuccess.UseVisualStyleBackColor = true;
             // 
             // FormEditDiscordWebhook
             // 

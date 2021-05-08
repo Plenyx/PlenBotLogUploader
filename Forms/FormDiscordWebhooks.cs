@@ -19,9 +19,12 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormMain mainLink;
-        private readonly Dictionary<int, BossData> allBosses = Bosses.GetAllBosses();
         private int webhookIdsKey = 0;
         private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.GetAllWebhooks();
+        private readonly CellStyle tableCellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
+        private readonly CellStyle tableCellCenterAlign = new CellStyle(CellHorizontalAlignment.Center);
+        private readonly TableBordersStyle tableStyle = TableBordersStyle.HORIZONTAL_ONLY;
+        private readonly TableVisibleBorders tableBorders = TableVisibleBorders.HEADER_ONLY;
         #endregion
 
         public FormDiscordWebhooks(FormMain mainLink)
@@ -101,10 +104,6 @@ namespace PlenBotLogUploader
                 // fields
                 if (reportJSON.ExtraJSON != null)
                 {
-                    var cellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
-                    var cellCenterAlign = new CellStyle(CellHorizontalAlignment.Center);
-                    var tableStyle = TableBordersStyle.HORIZONTAL_ONLY;
-                    var tableBorders = TableVisibleBorders.HEADER_ONLY;
                     // squad summary
                     var squadPlayers = reportJSON.ExtraJSON.Players
                         .Where(x => !x.FriendNPC)
@@ -131,67 +130,67 @@ namespace PlenBotLogUploader
                     squadSummary.SetColumnWidthRange(2, 10, 10);
                     squadSummary.SetColumnWidthRange(3, 8, 8);
                     squadSummary.SetColumnWidthRange(4, 8, 8);
-                    squadSummary.AddCell("#", cellCenterAlign);
-                    squadSummary.AddCell("DMG", cellCenterAlign);
-                    squadSummary.AddCell("DPS", cellCenterAlign);
-                    squadSummary.AddCell("Downs", cellCenterAlign);
-                    squadSummary.AddCell("Deaths", cellCenterAlign);
-                    squadSummary.AddCell($"{squadPlayers}", cellCenterAlign);
-                    squadSummary.AddCell($"{squadDamage}", cellCenterAlign);
-                    squadSummary.AddCell($"{squadDps}", cellCenterAlign);
-                    squadSummary.AddCell($"{squadDowns}", cellCenterAlign);
-                    squadSummary.AddCell($"{squadDeaths}", cellCenterAlign);
+                    squadSummary.AddCell("#", tableCellCenterAlign);
+                    squadSummary.AddCell("DMG", tableCellCenterAlign);
+                    squadSummary.AddCell("DPS", tableCellCenterAlign);
+                    squadSummary.AddCell("Downs", tableCellCenterAlign);
+                    squadSummary.AddCell("Deaths", tableCellCenterAlign);
+                    squadSummary.AddCell($"{squadPlayers}", tableCellCenterAlign);
+                    squadSummary.AddCell($"{squadDamage}", tableCellCenterAlign);
+                    squadSummary.AddCell($"{squadDps}", tableCellCenterAlign);
+                    squadSummary.AddCell($"{squadDowns}", tableCellCenterAlign);
+                    squadSummary.AddCell($"{squadDeaths}", tableCellCenterAlign);
                     var squadField = new DiscordAPIJSONContentEmbedField()
                     {
                         Name = "Squad summary:",
                         Value = $"```{squadSummary.Render()}```"
                     };
                     // enemy squad field
-                    DiscordAPIJSONContentEmbedField enemySquadField = new DiscordAPIJSONContentEmbedField()
+                    var enemySquadField = new DiscordAPIJSONContentEmbedField()
                     {
                         Name = "Enemy squad summary:",
                         Value = $"```Summary could not have been generated.\nToggle detailed WvW to enable this feature.```"
                     };
                     if (reportJSON.ExtraJSON.Targets.Count > 1)
                     {
-                        var enemySquadPlayers = reportJSON.ExtraJSON.Targets
+                        var enemyPlayers = reportJSON.ExtraJSON.Targets
                             .Count() - 1;
-                        var enemySquadDamage = reportJSON.ExtraJSON.Targets
+                        var enemyDamage = reportJSON.ExtraJSON.Targets
                             .Where(x => !x.Name.Equals("Dummy WvW Agent"))
                             .Select(x => x.DpsAll.First().Damage)
                             .Sum();
-                        var enemySquadDps = reportJSON.ExtraJSON.Targets
+                        var enemyDps = reportJSON.ExtraJSON.Targets
                             .Where(x => !x.Name.Equals("Dummy WvW Agent"))
                             .Select(x => x.DpsAll.First().DPS)
                             .Sum();
-                        var enemySquadDowns = reportJSON.ExtraJSON.Targets
+                        var enemyDowns = reportJSON.ExtraJSON.Targets
                             .Where(x => !x.Name.Equals("Dummy WvW Agent"))
                             .Select(x => x.Defenses.First().DownCount)
                             .Sum();
-                        var enemySquadDeaths = reportJSON.ExtraJSON.Targets
+                        var enemyDeaths = reportJSON.ExtraJSON.Targets
                             .Where(x => !x.Name.Equals("Dummy WvW Agent"))
                             .Select(x => x.Defenses.First().DeadCount)
                             .Sum();
-                        var enemySquadSummary = new TextTable(5, tableStyle, tableBorders);
-                        enemySquadSummary.SetColumnWidthRange(0, 3, 3);
-                        enemySquadSummary.SetColumnWidthRange(1, 10, 10);
-                        enemySquadSummary.SetColumnWidthRange(2, 10, 10);
-                        enemySquadSummary.SetColumnWidthRange(3, 8, 8);
-                        enemySquadSummary.SetColumnWidthRange(4, 8, 8);
-                        enemySquadSummary.AddCell("#", cellCenterAlign);
-                        enemySquadSummary.AddCell("DMG", cellCenterAlign);
-                        enemySquadSummary.AddCell("DPS", cellCenterAlign);
-                        enemySquadSummary.AddCell("Downs", cellCenterAlign);
-                        enemySquadSummary.AddCell("Deaths", cellCenterAlign);
-                        enemySquadSummary.AddCell($"{enemySquadPlayers}", cellCenterAlign);
-                        enemySquadSummary.AddCell($"{enemySquadDamage}", cellCenterAlign);
-                        enemySquadSummary.AddCell($"{enemySquadDps}", cellCenterAlign);
-                        enemySquadSummary.AddCell($"{enemySquadDowns}", cellCenterAlign);
-                        enemySquadSummary.AddCell($"{enemySquadDeaths}", cellCenterAlign);
+                        var enemySummary = new TextTable(5, tableStyle, tableBorders);
+                        enemySummary.SetColumnWidthRange(0, 3, 3);
+                        enemySummary.SetColumnWidthRange(1, 10, 10);
+                        enemySummary.SetColumnWidthRange(2, 10, 10);
+                        enemySummary.SetColumnWidthRange(3, 8, 8);
+                        enemySummary.SetColumnWidthRange(4, 8, 8);
+                        enemySummary.AddCell("#", tableCellCenterAlign);
+                        enemySummary.AddCell("DMG", tableCellCenterAlign);
+                        enemySummary.AddCell("DPS", tableCellCenterAlign);
+                        enemySummary.AddCell("Downs", tableCellCenterAlign);
+                        enemySummary.AddCell("Deaths", tableCellCenterAlign);
+                        enemySummary.AddCell($"{enemyPlayers}", tableCellCenterAlign);
+                        enemySummary.AddCell($"{enemyDamage}", tableCellCenterAlign);
+                        enemySummary.AddCell($"{enemyDps}", tableCellCenterAlign);
+                        enemySummary.AddCell($"{enemyDowns}", tableCellCenterAlign);
+                        enemySummary.AddCell($"{enemyDeaths}", tableCellCenterAlign);
                         enemySquadField = new DiscordAPIJSONContentEmbedField()
                         {
-                            Name = "Enemy squad summary:",
-                            Value = $"```{enemySquadSummary.Render()}```"
+                            Name = "Enemy summary:",
+                            Value = $"```{enemySummary.Render()}```"
                         };
                     }
                     // damage summary
@@ -205,18 +204,18 @@ namespace PlenBotLogUploader
                     damageSummary.SetColumnWidthRange(1, 25, 25);
                     damageSummary.SetColumnWidthRange(2, 7, 7);
                     damageSummary.SetColumnWidthRange(3, 6, 6);
-                    damageSummary.AddCell("#", cellCenterAlign);
+                    damageSummary.AddCell("#", tableCellCenterAlign);
                     damageSummary.AddCell("Name");
-                    damageSummary.AddCell("DMG", cellRightAlign);
-                    damageSummary.AddCell("DPS", cellRightAlign);
+                    damageSummary.AddCell("DMG", tableCellRightAlign);
+                    damageSummary.AddCell("DPS", tableCellRightAlign);
                     var rank = 0;
                     foreach(var player in damageStats)
                     {
                         rank++;
-                        damageSummary.AddCell($"{rank}", cellCenterAlign);
+                        damageSummary.AddCell($"{rank}", tableCellCenterAlign);
                         damageSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                        damageSummary.AddCell($"{player.DpsAll.First().Damage}", cellRightAlign);
-                        damageSummary.AddCell($"{player.DpsAll.First().DPS}", cellRightAlign);
+                        damageSummary.AddCell($"{player.DpsAll.First().Damage}", tableCellRightAlign);
+                        damageSummary.AddCell($"{player.DpsAll.First().DPS}", tableCellRightAlign);
                     }
                     var damageField = new DiscordAPIJSONContentEmbedField()
                     {
@@ -234,16 +233,16 @@ namespace PlenBotLogUploader
                     cleansesSummary.SetColumnWidthRange(0, 3, 3);
                     cleansesSummary.SetColumnWidthRange(1, 27, 27);
                     cleansesSummary.SetColumnWidthRange(2, 12, 12);
-                    cleansesSummary.AddCell("#", cellCenterAlign);
+                    cleansesSummary.AddCell("#", tableCellCenterAlign);
                     cleansesSummary.AddCell("Name");
-                    cleansesSummary.AddCell("Cleanses", cellRightAlign);
+                    cleansesSummary.AddCell("Cleanses", tableCellRightAlign);
                     rank = 0;
                     foreach (var player in cleansesStats)
                     {
                         rank++;
-                        cleansesSummary.AddCell($"{rank}", cellCenterAlign);
+                        cleansesSummary.AddCell($"{rank}", tableCellCenterAlign);
                         cleansesSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                        cleansesSummary.AddCell($"{player.Support.First().CondiCleanse}", cellRightAlign);
+                        cleansesSummary.AddCell($"{player.Support.First().CondiCleanse}", tableCellRightAlign);
                     }
                     var cleansesField = new DiscordAPIJSONContentEmbedField()
                     {
@@ -261,16 +260,16 @@ namespace PlenBotLogUploader
                     boonStripsSummary.SetColumnWidthRange(0, 3, 3);
                     boonStripsSummary.SetColumnWidthRange(1, 27, 27);
                     boonStripsSummary.SetColumnWidthRange(2, 12, 12);
-                    boonStripsSummary.AddCell("#", cellCenterAlign);
+                    boonStripsSummary.AddCell("#", tableCellCenterAlign);
                     boonStripsSummary.AddCell("Name");
-                    boonStripsSummary.AddCell("Strips", cellRightAlign);
+                    boonStripsSummary.AddCell("Strips", tableCellRightAlign);
                     rank = 0;
                     foreach (var player in boonStripsStats)
                     {
                         rank++;
-                        boonStripsSummary.AddCell($"{rank}", cellCenterAlign);
+                        boonStripsSummary.AddCell($"{rank}", tableCellCenterAlign);
                         boonStripsSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                        boonStripsSummary.AddCell($"{player.Support.First().BoonStrips}", cellRightAlign);
+                        boonStripsSummary.AddCell($"{player.Support.First().BoonStrips}", tableCellRightAlign);
                     }
                     var boonStripsField = new DiscordAPIJSONContentEmbedField()
                     {
@@ -369,9 +368,63 @@ namespace PlenBotLogUploader
                 if (reportJSON.Players.Values.Count <= 10)
                 {
                     var fields = new List<DiscordAPIJSONContentEmbedField>();
-                    foreach (var player in reportJSON.Players.Values)
+                    if (reportJSON.ExtraJSON == null)
                     {
-                        fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.CharacterName, Value = $"```\n{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.EliteSpec)}\n```", Inline = true });
+                        foreach (var player in reportJSON.Players.Values)
+                        {
+                            fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.CharacterName, Value = $"```\n{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.EliteSpec)}\n```", Inline = true });
+                        }
+                    }
+                    else
+                    {
+                        // player list
+                        var playerNames = new TextTable(2, tableStyle, tableBorders);
+                        playerNames.SetColumnWidthRange(0, 21, 21);
+                        playerNames.SetColumnWidthRange(1, 20, 20);
+                        playerNames.AddCell("Character");
+                        playerNames.AddCell("Account name");
+                        foreach (var player in reportJSON.ExtraJSON.Players.Where(x => !x.FriendNPC).OrderBy(x => x.Name))
+                        {
+                            playerNames.AddCell($"{player.Name}");
+                            playerNames.AddCell($"{player.Account}");
+                        }
+                        fields.Add(new DiscordAPIJSONContentEmbedField()
+                        {
+                            Name = "Players in squad:",
+                            Value = $"```{playerNames.Render()}```"
+                        });
+                        // damage summary
+                        var damageStats = reportJSON.ExtraJSON.Players
+                            .Where(x => !x.FriendNPC)
+                            .OrderByDescending(x => x.DpsAll.First().DPS)
+                            .Take(10)
+                            .ToList();
+                        var dpsCleaveSummary = new TextTable(3, tableStyle, TableVisibleBorders.HEADER_AND_FOOTER);
+                        dpsCleaveSummary.SetColumnWidthRange(0, 5, 5);
+                        dpsCleaveSummary.SetColumnWidthRange(1, 27, 27);
+                        dpsCleaveSummary.SetColumnWidthRange(2, 8, 8);
+                        dpsCleaveSummary.AddCell("#", tableCellCenterAlign);
+                        dpsCleaveSummary.AddCell("Name");
+                        dpsCleaveSummary.AddCell("DPS", tableCellRightAlign);
+                        var rank = 0;
+                        foreach (var player in damageStats)
+                        {
+                            rank++;
+                            dpsCleaveSummary.AddCell($"{rank}", tableCellCenterAlign);
+                            dpsCleaveSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
+                            dpsCleaveSummary.AddCell($"{player.DpsAll.First().DPS}", tableCellRightAlign);
+                        }
+                        dpsCleaveSummary.AddCell("");
+                        dpsCleaveSummary.AddCell("Total");
+                        var totalCleave = damageStats
+                            .Select(x => x.DpsAll.First().DPS)
+                            .Sum();
+                        dpsCleaveSummary.AddCell($"{totalCleave}", tableCellRightAlign);
+                        fields.Add(new DiscordAPIJSONContentEmbedField()
+                        {
+                            Name = "DPS cleave summary:",
+                            Value = $"```{dpsCleaveSummary.Render()}```"
+                        });
                     }
                     discordContentEmbedForPlayers.Fields = fields;
                 }
