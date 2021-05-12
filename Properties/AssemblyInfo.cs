@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PlenBotLogUploader")]
-[assembly: AssemblyDescription("A GW2 arcdps log uploader.")]
+[assembly: AssemblyDescription("A GW2 arcdps log uploader with some additional features.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Plenyx's Bad Software")]
 [assembly: AssemblyProduct("PlenBotLogUploader")]
-[assembly: AssemblyCopyright("Copyright © 2020")]
+[assembly: AssemblyCopyright("Copyright © 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

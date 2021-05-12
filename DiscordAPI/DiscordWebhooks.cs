@@ -5,7 +5,7 @@ namespace PlenBotLogUploader.DiscordAPI
 {
     class DiscordWebhooks
     {
-        private static Dictionary<int, DiscordWebhookData> instance = null;
+        private static Dictionary<int, DiscordWebhookData> _all = null;
         /// <summary>
         /// Returns the main dictionary with all webhooks.
         /// </summary>
@@ -14,11 +14,11 @@ namespace PlenBotLogUploader.DiscordAPI
         {
             get
             {
-                if (instance == null)
+                if (_all == null)
                 {
-                    instance = new Dictionary<int, DiscordWebhookData>();
+                    _all = new Dictionary<int, DiscordWebhookData>();
                 }
-                return instance;
+                return _all;
             }
         }
 
