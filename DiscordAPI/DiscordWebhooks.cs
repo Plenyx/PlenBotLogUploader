@@ -10,13 +10,16 @@ namespace PlenBotLogUploader.DiscordAPI
         /// Returns the main dictionary with all webhooks.
         /// </summary>
         /// <returns>A dictionary with all webhooks</returns>
-        public static Dictionary<int, DiscordWebhookData> GetAllWebhooks()
+        public static Dictionary<int, DiscordWebhookData> All
         {
-            if (instance == null)
+            get
             {
-                instance = new Dictionary<int, DiscordWebhookData>();
+                if (instance == null)
+                {
+                    instance = new Dictionary<int, DiscordWebhookData>();
+                }
+                return instance;
             }
-            return instance;
         }
 
         /// <summary>
@@ -26,7 +29,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// <returns>A dictionary with all webhooks</returns>
         public static Dictionary<int, DiscordWebhookData> FromFile(string file)
         {
-            var allWebhooks = GetAllWebhooks();
+            var allWebhooks = All;
             if (allWebhooks.Count > 0)
             {
                 allWebhooks.Clear();

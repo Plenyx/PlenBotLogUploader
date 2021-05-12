@@ -20,7 +20,7 @@ namespace PlenBotLogUploader
         // fields
         private readonly FormMain mainLink;
         private int webhookIdsKey = 0;
-        private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.GetAllWebhooks();
+        private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         private readonly CellStyle tableCellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
         private readonly CellStyle tableCellCenterAlign = new CellStyle(CellHorizontalAlignment.Center);
         private readonly TableBordersStyle tableStyle = TableBordersStyle.HORIZONTAL_ONLY;

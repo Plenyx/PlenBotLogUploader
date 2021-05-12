@@ -101,7 +101,7 @@ namespace PlenBotLogUploader
 
         private List<DiscordWebhookData> ConvertCheckboxListToList()
         {
-            var allWebhooks = DiscordWebhooks.GetAllWebhooks();
+            var allWebhooks = DiscordWebhooks.All;
             var list = new List<DiscordWebhookData>();
             for (int i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
             {
@@ -125,7 +125,7 @@ namespace PlenBotLogUploader
         private void ReloadWebhooks()
         {
             checkedListBoxSelectedWebhooks.Items.Clear();
-            var allWebhooks = DiscordWebhooks.GetAllWebhooks();
+            var allWebhooks = DiscordWebhooks.All;
             foreach (var webhookNumber in allWebhooks.Keys)
             {
                 checkedListBoxSelectedWebhooks.Items.Add(new DiscordWebhooksHelperClass() { WebhookID = webhookNumber, Text = $"{allWebhooks[webhookNumber].Name}" }, allWebhooks[webhookNumber].Active);
