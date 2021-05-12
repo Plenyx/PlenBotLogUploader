@@ -134,16 +134,16 @@ namespace PlenBotLogUploader
                 }
                 switch (Properties.Settings.Default.DPSReportServer)
                 {
-                    case 0:
-                        DPSReportServer = "https://dps.report";
-                        break;
                     case 1:
                         DPSReportServer = "http://a.dps.report";
                         dpsReportSettingsLink.radioButtonA.Checked = true;
                         break;
-                    default:
+                    case 2:
                         DPSReportServer = "https://b.dps.report";
                         dpsReportSettingsLink.radioButtonB.Checked = true;
+                        break;
+                    default:
+                        DPSReportServer = "https://dps.report";
                         break;
                 }
                 if (Properties.Settings.Default.DPSReportUsertokenEnabled)
