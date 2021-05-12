@@ -22,6 +22,9 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
         [JsonProperty("friendlyNPC")]
         public bool FriendNPC { get; set; }
 
+        [JsonProperty("notInSquad")]
+        public bool NotInSquad { get; set; }
+
         [JsonProperty("support")]
         public List<PlayerSupport> Support { get; set; }
 

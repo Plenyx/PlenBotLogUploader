@@ -106,22 +106,22 @@ namespace PlenBotLogUploader
                 {
                     // squad summary
                     var squadPlayers = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC)
+                        .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Count();
                     var squadDamage = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC)
+                        .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.DpsAll.First().Damage)
                         .Sum();
                     var squadDps = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC)
+                        .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.DpsAll.First().DPS)
                         .Sum();
                     var squadDowns = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC)
+                        .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.Defenses.First().DownCount)
                         .Sum();
                     var squadDeaths = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC)
+                        .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.Defenses.First().DeadCount)
                         .Sum();
                     var squadSummary = new TextTable(5, tableStyle, tableBorders);
@@ -145,10 +145,10 @@ namespace PlenBotLogUploader
                         Name = "Squad summary:",
                         Value = $"```{squadSummary.Render()}```"
                     };
-                    // enemy squad field
-                    var enemySquadField = new DiscordAPIJSONContentEmbedField()
+                    // enemy summary field
+                    var enemyField = new DiscordAPIJSONContentEmbedField()
                     {
-                        Name = "Enemy squad summary:",
+                        Name = "Enemy summary:",
                         Value = $"```Summary could not have been generated.\nToggle detailed WvW to enable this feature.```"
                     };
                     if (reportJSON.ExtraJSON.Targets.Count > 1)
@@ -163,13 +163,13 @@ namespace PlenBotLogUploader
                             .Where(x => !x.Name.Equals("Dummy WvW Agent"))
                             .Select(x => x.DpsAll.First().DPS)
                             .Sum();
-                        var enemyDowns = reportJSON.ExtraJSON.Targets
-                            .Where(x => !x.Name.Equals("Dummy WvW Agent"))
-                            .Select(x => x.Defenses.First().DownCount)
+                        var enemyDowns = reportJSON.ExtraJSON.Players
+                            .Where(x => !x.FriendNPC && !x.NotInSquad)
+                            .Select(x => x.StatsAll.First().Downed)
                             .Sum();
-                        var enemyDeaths = reportJSON.ExtraJSON.Targets
-                            .Where(x => !x.Name.Equals("Dummy WvW Agent"))
-                            .Select(x => x.Defenses.First().DeadCount)
+                        var enemyDeaths = reportJSON.ExtraJSON.Players
+                            .Where(x => !x.FriendNPC && !x.NotInSquad)
+                            .Select(x => x.StatsAll.First().Killed)
                             .Sum();
                         var enemySummary = new TextTable(5, tableStyle, tableBorders);
                         enemySummary.SetColumnWidthRange(0, 3, 3);
@@ -187,7 +187,7 @@ namespace PlenBotLogUploader
                         enemySummary.AddCell($"{enemyDps}", tableCellCenterAlign);
                         enemySummary.AddCell($"{enemyDowns}", tableCellCenterAlign);
                         enemySummary.AddCell($"{enemyDeaths}", tableCellCenterAlign);
-                        enemySquadField = new DiscordAPIJSONContentEmbedField()
+                        enemyField = new DiscordAPIJSONContentEmbedField()
                         {
                             Name = "Enemy summary:",
                             Value = $"```{enemySummary.Render()}```"
@@ -195,7 +195,7 @@ namespace PlenBotLogUploader
                     }
                     // damage summary
                     var damageStats = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC)
+                        .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .OrderByDescending(x => x.DpsAll.First().Damage)
                         .Take(10)
                         .ToList();
@@ -224,7 +224,7 @@ namespace PlenBotLogUploader
                     };
                     // cleanses summary
                     var cleansesStats = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC)
+                        .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Where(x => x.Support.First().CondiCleanse > 0)
                         .OrderByDescending(x => x.Support.First().CondiCleanse)
                         .Take(10)
@@ -251,7 +251,7 @@ namespace PlenBotLogUploader
                     };
                     // boon strips summary
                     var boonStripsStats = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC)
+                        .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Where(x => x.Support.First().BoonStrips > 0)
                         .OrderByDescending(x => x.Support.First().BoonStrips)
                         .Take(10)
@@ -280,7 +280,7 @@ namespace PlenBotLogUploader
                     discordContentEmbed.Fields = new List<DiscordAPIJSONContentEmbedField>()
                     {
                         squadField,
-                        enemySquadField,
+                        enemyField,
                         damageField,
                         cleansesField,
                         boonStripsField
