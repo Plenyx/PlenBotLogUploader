@@ -32,8 +32,8 @@ namespace PlenBotLogUploader
             this.groupBoxTeamName = new System.Windows.Forms.GroupBox();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.groupBoxLimiter = new System.Windows.Forms.GroupBox();
-            this.radioButtonLimiterMin = new System.Windows.Forms.RadioButton();
             this.textBoxLimiterValue = new System.Windows.Forms.TextBox();
+            this.radioButtonLimiterMin = new System.Windows.Forms.RadioButton();
             this.textBoxAccountNames = new System.Windows.Forms.TextBox();
             this.groupBoxAccountNames = new System.Windows.Forms.GroupBox();
             this.groupBoxTeamName.SuspendLayout();
@@ -69,6 +69,14 @@ namespace PlenBotLogUploader
             this.groupBoxLimiter.TabStop = false;
             this.groupBoxLimiter.Text = "Limiter settings";
             // 
+            // textBoxLimiterValue
+            // 
+            this.textBoxLimiterValue.Location = new System.Drawing.Point(116, 18);
+            this.textBoxLimiterValue.Name = "textBoxLimiterValue";
+            this.textBoxLimiterValue.Size = new System.Drawing.Size(154, 20);
+            this.textBoxLimiterValue.TabIndex = 1;
+            this.textBoxLimiterValue.Text = "1";
+            // 
             // radioButtonLimiterMin
             // 
             this.radioButtonLimiterMin.AutoSize = true;
@@ -80,14 +88,6 @@ namespace PlenBotLogUploader
             this.radioButtonLimiterMin.TabStop = true;
             this.radioButtonLimiterMin.Text = "At least x players";
             this.radioButtonLimiterMin.UseVisualStyleBackColor = true;
-            // 
-            // textBoxLimiterValue
-            // 
-            this.textBoxLimiterValue.Location = new System.Drawing.Point(116, 18);
-            this.textBoxLimiterValue.Name = "textBoxLimiterValue";
-            this.textBoxLimiterValue.Size = new System.Drawing.Size(154, 20);
-            this.textBoxLimiterValue.TabIndex = 1;
-            this.textBoxLimiterValue.Text = "1";
             // 
             // textBoxAccountNames
             // 
@@ -116,6 +116,8 @@ namespace PlenBotLogUploader
             this.Controls.Add(this.groupBoxAccountNames);
             this.Controls.Add(this.groupBoxLimiter);
             this.Controls.Add(this.groupBoxTeamName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "FormEditTeam";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormEditTeam";
