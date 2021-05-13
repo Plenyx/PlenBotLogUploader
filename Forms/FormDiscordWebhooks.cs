@@ -19,6 +19,7 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormMain mainLink;
+        private readonly FormWebhookTeams teamsLink;
         private int webhookIdsKey = 0;
         private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         private readonly CellStyle tableCellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
@@ -31,6 +32,7 @@ namespace PlenBotLogUploader
         {
             this.mainLink = mainLink;
             InitializeComponent();
+            teamsLink = new FormWebhookTeams(mainLink);
             Icon = Properties.Resources.AppIcon;
             if (File.Exists($@"{mainLink.LocalDir}\discord_webhooks.txt"))
             {
@@ -300,7 +302,8 @@ namespace PlenBotLogUploader
                         if (!webhook.Active
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
-                            || webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
+                            || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
+                            || (!webhook.Team.IsTeamSatisfied(reportJSON.Players)))
                         {
                             continue;
                         }
@@ -390,7 +393,7 @@ namespace PlenBotLogUploader
                         }
                         fields.Add(new DiscordAPIJSONContentEmbedField()
                         {
-                            Name = "Players in squad:",
+                            Name = "Players in squad/group:",
                             Value = $"```{playerNames.Render()}```"
                         });
                         // damage summary
@@ -442,7 +445,8 @@ namespace PlenBotLogUploader
                         if (!webhook.Active
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
-                            || webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
+                            || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
+                            || (!webhook.Team.IsTeamSatisfied(reportJSON.Players)))
                         {
                             continue;
                         }
@@ -636,6 +640,11 @@ namespace PlenBotLogUploader
         {
             webhookIdsKey++;
             new FormEditDiscordWebhook(this, null, webhookIdsKey).Show();
+        }
+
+        private void ButtonConfigureTeams_Click(object sender, EventArgs e)
+        {
+            teamsLink.Show();
         }
     }
 }

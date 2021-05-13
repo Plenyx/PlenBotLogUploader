@@ -40,9 +40,12 @@
             this.radioButtonOnlySuccessAndFail = new System.Windows.Forms.RadioButton();
             this.radioButtonOnlyFail = new System.Windows.Forms.RadioButton();
             this.radioButtonOnlySuccess = new System.Windows.Forms.RadioButton();
+            this.groupBoxWebhookTeam = new System.Windows.Forms.GroupBox();
+            this.comboBoxWebhookTeam = new System.Windows.Forms.ComboBox();
             this.groupBoxWebhookInfo.SuspendLayout();
             this.groupBoxBossesEnable.SuspendLayout();
             this.groupBoxConditionalPost.SuspendLayout();
+            this.groupBoxWebhookTeam.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelName
@@ -92,7 +95,7 @@
             this.checkedListBoxBossesEnable.FormattingEnabled = true;
             this.checkedListBoxBossesEnable.Location = new System.Drawing.Point(6, 19);
             this.checkedListBoxBossesEnable.Name = "checkedListBoxBossesEnable";
-            this.checkedListBoxBossesEnable.Size = new System.Drawing.Size(380, 169);
+            this.checkedListBoxBossesEnable.Size = new System.Drawing.Size(380, 244);
             this.checkedListBoxBossesEnable.TabIndex = 6;
             // 
             // groupBoxWebhookInfo
@@ -112,9 +115,9 @@
             // groupBoxBossesEnable
             // 
             this.groupBoxBossesEnable.Controls.Add(this.checkedListBoxBossesEnable);
-            this.groupBoxBossesEnable.Location = new System.Drawing.Point(12, 211);
+            this.groupBoxBossesEnable.Location = new System.Drawing.Point(410, 12);
             this.groupBoxBossesEnable.Name = "groupBoxBossesEnable";
-            this.groupBoxBossesEnable.Size = new System.Drawing.Size(392, 195);
+            this.groupBoxBossesEnable.Size = new System.Drawing.Size(392, 271);
             this.groupBoxBossesEnable.TabIndex = 8;
             this.groupBoxBossesEnable.TabStop = false;
             this.groupBoxBossesEnable.Text = "Only upload for selected bosses";
@@ -124,7 +127,7 @@
             this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlySuccessAndFail);
             this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlyFail);
             this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlySuccess);
-            this.groupBoxConditionalPost.Location = new System.Drawing.Point(12, 139);
+            this.groupBoxConditionalPost.Location = new System.Drawing.Point(12, 150);
             this.groupBoxConditionalPost.Name = "groupBoxConditionalPost";
             this.groupBoxConditionalPost.Size = new System.Drawing.Size(392, 66);
             this.groupBoxConditionalPost.TabIndex = 9;
@@ -164,11 +167,32 @@
             this.radioButtonOnlySuccess.Text = "the encounter is a success";
             this.radioButtonOnlySuccess.UseVisualStyleBackColor = true;
             // 
+            // groupBoxWebhookTeam
+            // 
+            this.groupBoxWebhookTeam.Controls.Add(this.comboBoxWebhookTeam);
+            this.groupBoxWebhookTeam.Location = new System.Drawing.Point(12, 235);
+            this.groupBoxWebhookTeam.Name = "groupBoxWebhookTeam";
+            this.groupBoxWebhookTeam.Size = new System.Drawing.Size(392, 48);
+            this.groupBoxWebhookTeam.TabIndex = 7;
+            this.groupBoxWebhookTeam.TabStop = false;
+            this.groupBoxWebhookTeam.Text = "Associate with a player team";
+            // 
+            // comboBoxWebhookTeam
+            // 
+            this.comboBoxWebhookTeam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxWebhookTeam.FormattingEnabled = true;
+            this.comboBoxWebhookTeam.Location = new System.Drawing.Point(9, 19);
+            this.comboBoxWebhookTeam.MaxDropDownItems = 100;
+            this.comboBoxWebhookTeam.Name = "comboBoxWebhookTeam";
+            this.comboBoxWebhookTeam.Size = new System.Drawing.Size(377, 21);
+            this.comboBoxWebhookTeam.TabIndex = 0;
+            // 
             // FormEditDiscordWebhook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(416, 415);
+            this.ClientSize = new System.Drawing.Size(813, 291);
+            this.Controls.Add(this.groupBoxWebhookTeam);
             this.Controls.Add(this.groupBoxConditionalPost);
             this.Controls.Add(this.groupBoxBossesEnable);
             this.Controls.Add(this.groupBoxWebhookInfo);
@@ -184,6 +208,7 @@
             this.groupBoxBossesEnable.ResumeLayout(false);
             this.groupBoxConditionalPost.ResumeLayout(false);
             this.groupBoxConditionalPost.PerformLayout();
+            this.groupBoxWebhookTeam.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -202,5 +227,7 @@
         private System.Windows.Forms.RadioButton radioButtonOnlySuccessAndFail;
         private System.Windows.Forms.RadioButton radioButtonOnlyFail;
         private System.Windows.Forms.RadioButton radioButtonOnlySuccess;
+        private System.Windows.Forms.GroupBox groupBoxWebhookTeam;
+        private System.Windows.Forms.ComboBox comboBoxWebhookTeam;
     }
 }

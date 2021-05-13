@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.Teams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,11 @@ namespace PlenBotLogUploader.DiscordAPI
         public List<int> BossesDisable { get; set; } = new List<int>();
 
         /// <summary>
+        /// A selected webhook team, with which the webhook should evaluate itself
+        /// </summary>
+        public WebhookTeam Team { get; set; }
+
+        /// <summary>
         /// Tests whether webhook is valid
         /// </summary>
         /// <param name="httpController">HttpClientController class used for using http connection</param>
@@ -75,7 +81,7 @@ namespace PlenBotLogUploader.DiscordAPI
             {
                 return base.ToString();
             }
-            return $"{(Active ? "1" : "0")}<;>{Name}<;>{URL}<;>{(int)SuccessFailToggle}<;>{(ShowPlayers ? "1" : "0")}<;>{string.Join("; ", BossesDisable.Select(x => x.ToString()).ToArray())}";
+            return $"{(Active ? "1" : "0")}<;>{Name}<;>{URL}<;>{(int)SuccessFailToggle}<;>{(ShowPlayers ? "1" : "0")}<;>{string.Join("; ", BossesDisable.Select(x => x.ToString()).ToArray())}<;>{Team?.ID ?? 0}";
         }
 
         /// <summary>
@@ -92,6 +98,7 @@ namespace PlenBotLogUploader.DiscordAPI
                 int.TryParse(values[3], out int successFailToggle);
                 int.TryParse(values[4], out int showPlayers);
                 var bossesDisableList = new List<int>();
+                var team = WebhookTeams.All.Values.First();
                 if (values.Count() > 5)
                 {
                     var bossesDisable = values[5];
@@ -103,6 +110,15 @@ namespace PlenBotLogUploader.DiscordAPI
                             bossesDisableList.Add(bossId);
                         }
                     }
+                    if (values.Count() > 6)
+                    {
+                        int.TryParse(values[6], out int teamId);
+                        var allTeams = WebhookTeams.All;
+                        if (allTeams.TryGetValue(teamId, out WebhookTeam newTeam))
+                        {
+                            team = newTeam;
+                        }
+                    }
                 }
                 return new DiscordWebhookData()
                 {
@@ -111,7 +127,8 @@ namespace PlenBotLogUploader.DiscordAPI
                     URL = values[2],
                     SuccessFailToggle = (DiscordWebhookDataSuccessToggle)successFailToggle,
                     ShowPlayers = showPlayers == 1,
-                    BossesDisable = bossesDisableList
+                    BossesDisable = bossesDisableList,
+                    Team = team
                 };
             }
             catch (Exception e)

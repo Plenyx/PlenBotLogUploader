@@ -1,5 +1,6 @@
 ﻿using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.Teams;
 using PlenBotLogUploader.Tools;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,12 @@ namespace PlenBotLogUploader
                 .OrderBy(x => x.Value.Type)
                 .ThenBy(x => x.Value.Name)
                 .ToDictionary(x => x.Key, x => x.Value);
+            var teams = WebhookTeams.All;
+            foreach (var team in teams.Values)
+            {
+                comboBoxWebhookTeam.Items.Add(team);
+            }
+            comboBoxWebhookTeam.SelectedItem = (data == null || data.Team == null) ? teams[0] : data.Team;
             foreach (var bossNumber in bosses.Keys)
             {
                 checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass() { BossID = bosses[bossNumber].BossId, Text = $"{bosses[bossNumber].Type}: {bosses[bossNumber].Name} ({bosses[bossNumber].BossId})" }, data?.IsBossEnabled(bosses[bossNumber].BossId) ?? true);
@@ -66,7 +73,7 @@ namespace PlenBotLogUploader
                 }
                 if (data == null)
                 {
-                    allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList() };
+                    allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList(), Team = (WebhookTeam)comboBoxWebhookTeam.SelectedItem };
                     discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
                 }
                 else
@@ -78,6 +85,7 @@ namespace PlenBotLogUploader
                     webhook.SuccessFailToggle = successFailToggle;
                     webhook.ShowPlayers = checkBoxPlayers.Checked;
                     webhook.BossesDisable = ConvertCheckboxListToList();
+                    webhook.Team = (WebhookTeam)comboBoxWebhookTeam.SelectedItem;
                     discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
                 }
             }

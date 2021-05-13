@@ -38,6 +38,7 @@
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddNew = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
+            this.buttonConfigureTeams = new System.Windows.Forms.Button();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -119,11 +120,22 @@
             this.labelInformation.TabIndex = 2;
             this.labelInformation.Text = "You can right click the box window to bring up context menu.";
             // 
+            // buttonConfigureTeams
+            // 
+            this.buttonConfigureTeams.Location = new System.Drawing.Point(360, 270);
+            this.buttonConfigureTeams.Name = "buttonConfigureTeams";
+            this.buttonConfigureTeams.Size = new System.Drawing.Size(98, 23);
+            this.buttonConfigureTeams.TabIndex = 3;
+            this.buttonConfigureTeams.Text = "Configure teams";
+            this.buttonConfigureTeams.UseVisualStyleBackColor = true;
+            this.buttonConfigureTeams.Click += new System.EventHandler(this.ButtonConfigureTeams_Click);
+            // 
             // FormDiscordWebhooks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(585, 301);
+            this.Controls.Add(this.buttonConfigureTeams);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewDiscordWebhooks);
@@ -150,5 +162,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTest;
         private System.Windows.Forms.Button buttonAddNew;
         private System.Windows.Forms.Label labelInformation;
+        private System.Windows.Forms.Button buttonConfigureTeams;
     }
 }

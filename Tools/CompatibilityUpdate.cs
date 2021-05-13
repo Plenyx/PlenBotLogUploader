@@ -99,7 +99,7 @@ namespace PlenBotLogUploader.Tools
             #region Release 62
             if (Properties.Settings.Default.SavedVersion < 62)
             {
-                /// add Freezie
+                /// add Cold War
                 try
                 {
                     var bosses = Bosses.FromFile($@"{localDir}\boss_data.txt");
@@ -118,7 +118,7 @@ namespace PlenBotLogUploader.Tools
             #region Release 63
             if (Properties.Settings.Default.SavedVersion < 63)
             {
-                /// add Freezie
+                /// add AI
                 try
                 {
                     var bosses = Bosses.FromFile($@"{localDir}\boss_data.txt");
@@ -127,6 +127,30 @@ namespace PlenBotLogUploader.Tools
                         var ai = new BossData() { BossId = (int)BossIds.AiKeeperOfThePeak, Name = "Ai, Keeper of the Peak", SuccessMsg = Properties.Settings.Default.BossTemplateSuccess, FailMsg = Properties.Settings.Default.BossTemplateFail, Icon = "https://plenbot.net/img/ai_icon.png", Type = BossType.Fractal };
                         File.AppendAllText($@"{localDir}\boss_data.txt", ai.ToString(true));
                     }
+                }
+                catch
+                {
+                    // do nothing, since the file does not exist, or is corrupted (data does not line up)
+                }
+            }
+            #endregion
+            #region Release 65
+            if (Properties.Settings.Default.SavedVersion < 65)
+            {
+                /// add basic support for webhook teams
+                try
+                {
+                    var lines = new List<string>();
+                    using (StreamReader reader = new StreamReader($@"{localDir}\discord_webhooks.txt"))
+                    {
+                        string line = reader.ReadLine();
+                        lines.Add(line);
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            lines.Add($"{line}<;>0");
+                        }
+                    }
+                    File.WriteAllLines($@"{localDir}\discord_webhooks.txt", lines);
                 }
                 catch
                 {

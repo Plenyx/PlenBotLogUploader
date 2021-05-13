@@ -188,6 +188,12 @@
     <Compile Include="Forms\FormEditDiscordWebhook.Designer.cs">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormEditWebhookTeam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEditWebhookTeam.Designer.cs">
+      <DependentUpon>FormEditWebhookTeam.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormGW2API.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -242,6 +248,12 @@
     <Compile Include="Forms\FormTwitchCommands.Designer.cs">
       <DependentUpon>FormTwitchCommands.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormWebhookTeams.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormWebhookTeams.Designer.cs">
+      <DependentUpon>FormWebhookTeams.cs</DependentUpon>
+    </Compile>
     <Compile Include="GW2API\GW2.cs" />
     <Compile Include="GW2API\GW2Account.cs" />
     <Compile Include="GW2API\GW2Server.cs" />
@@ -249,6 +261,9 @@
     <Compile Include="RemotePing\PingAuthentication.cs" />
     <Compile Include="RemotePing\PingConfiguration.cs" />
     <Compile Include="RemotePing\PingMethod.cs" />
+    <Compile Include="Teams\WebhookTeam.cs" />
+    <Compile Include="Teams\WebhookTeamLimiter.cs" />
+    <Compile Include="Teams\WebhookTeams.cs" />
     <Compile Include="Tools\BossesDisableHelperClass.cs" />
     <Compile Include="Tools\CompatibilityUpdate.cs" />
     <Compile Include="Tools\DiscordWebhooksHelperClass.cs" />
@@ -281,6 +296,9 @@
     <EmbeddedResource Include="Forms\FormEditDiscordWebhook.resx">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEditWebhookTeam.resx">
+      <DependentUpon>FormEditWebhookTeam.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormGW2API.resx">
       <DependentUpon>FormGW2API.cs</DependentUpon>
     </EmbeddedResource>
@@ -307,6 +325,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditPing.resx">
       <DependentUpon>FormEditPing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormWebhookTeams.resx">
+      <DependentUpon>FormWebhookTeams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
