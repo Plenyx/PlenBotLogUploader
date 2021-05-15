@@ -126,7 +126,7 @@
             this.buttonConfigureTeams.Name = "buttonConfigureTeams";
             this.buttonConfigureTeams.Size = new System.Drawing.Size(98, 23);
             this.buttonConfigureTeams.TabIndex = 3;
-            this.buttonConfigureTeams.Text = "Configure teams";
+            this.buttonConfigureTeams.Text = "Configure Teams";
             this.buttonConfigureTeams.UseVisualStyleBackColor = true;
             this.buttonConfigureTeams.Click += new System.EventHandler(this.ButtonConfigureTeams_Click);
             // 

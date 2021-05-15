@@ -35,6 +35,7 @@
             this.groupBoxLastLog = new System.Windows.Forms.GroupBox();
             this.textBoxLastLogCommand = new System.Windows.Forms.TextBox();
             this.groupBoxSong = new System.Windows.Forms.GroupBox();
+            this.checkBoxSongSmartRecognition = new System.Windows.Forms.CheckBox();
             this.textBoxSongCommand = new System.Windows.Forms.TextBox();
             this.checkBoxSongEnable = new System.Windows.Forms.CheckBox();
             this.groupBoxGW2IGN = new System.Windows.Forms.GroupBox();
@@ -43,7 +44,6 @@
             this.groupBoxPullCounter = new System.Windows.Forms.GroupBox();
             this.textBoxPullCounter = new System.Windows.Forms.TextBox();
             this.checkBoxPullCounterEnable = new System.Windows.Forms.CheckBox();
-            this.checkBoxSongSmartRecognition = new System.Windows.Forms.CheckBox();
             this.groupBoxUploader.SuspendLayout();
             this.groupBoxLastLog.SuspendLayout();
             this.groupBoxSong.SuspendLayout();
@@ -75,7 +75,7 @@
             // 
             this.groupBoxUploader.Controls.Add(this.textBoxUploaderCommand);
             this.groupBoxUploader.Controls.Add(this.checkBoxUploaderEnable);
-            this.groupBoxUploader.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxUploader.Location = new System.Drawing.Point(195, 12);
             this.groupBoxUploader.Name = "groupBoxUploader";
             this.groupBoxUploader.Size = new System.Drawing.Size(179, 70);
             this.groupBoxUploader.TabIndex = 2;
@@ -93,16 +93,16 @@
             // 
             this.groupBoxLastLog.Controls.Add(this.textBoxLastLogCommand);
             this.groupBoxLastLog.Controls.Add(this.checkBoxLastLogEnable);
-            this.groupBoxLastLog.Location = new System.Drawing.Point(12, 164);
+            this.groupBoxLastLog.Location = new System.Drawing.Point(10, 88);
             this.groupBoxLastLog.Name = "groupBoxLastLog";
-            this.groupBoxLastLog.Size = new System.Drawing.Size(179, 70);
+            this.groupBoxLastLog.Size = new System.Drawing.Size(179, 72);
             this.groupBoxLastLog.TabIndex = 3;
             this.groupBoxLastLog.TabStop = false;
             this.groupBoxLastLog.Text = "!lastlog";
             // 
             // textBoxLastLogCommand
             // 
-            this.textBoxLastLogCommand.Location = new System.Drawing.Point(6, 42);
+            this.textBoxLastLogCommand.Location = new System.Drawing.Point(6, 46);
             this.textBoxLastLogCommand.Name = "textBoxLastLogCommand";
             this.textBoxLastLogCommand.Size = new System.Drawing.Size(165, 20);
             this.textBoxLastLogCommand.TabIndex = 2;
@@ -112,12 +112,22 @@
             this.groupBoxSong.Controls.Add(this.checkBoxSongSmartRecognition);
             this.groupBoxSong.Controls.Add(this.textBoxSongCommand);
             this.groupBoxSong.Controls.Add(this.checkBoxSongEnable);
-            this.groupBoxSong.Location = new System.Drawing.Point(12, 240);
+            this.groupBoxSong.Location = new System.Drawing.Point(10, 164);
             this.groupBoxSong.Name = "groupBoxSong";
             this.groupBoxSong.Size = new System.Drawing.Size(179, 92);
             this.groupBoxSong.TabIndex = 4;
             this.groupBoxSong.TabStop = false;
             this.groupBoxSong.Text = "(Spotify) !song";
+            // 
+            // checkBoxSongSmartRecognition
+            // 
+            this.checkBoxSongSmartRecognition.AutoSize = true;
+            this.checkBoxSongSmartRecognition.Location = new System.Drawing.Point(7, 69);
+            this.checkBoxSongSmartRecognition.Name = "checkBoxSongSmartRecognition";
+            this.checkBoxSongSmartRecognition.Size = new System.Drawing.Size(137, 17);
+            this.checkBoxSongSmartRecognition.TabIndex = 2;
+            this.checkBoxSongSmartRecognition.Text = "Smart !song recognition";
+            this.checkBoxSongSmartRecognition.UseVisualStyleBackColor = true;
             // 
             // textBoxSongCommand
             // 
@@ -140,7 +150,7 @@
             // 
             this.groupBoxGW2IGN.Controls.Add(this.textBoxGW2Ign);
             this.groupBoxGW2IGN.Controls.Add(this.checkBoxGW2IgnEnable);
-            this.groupBoxGW2IGN.Location = new System.Drawing.Point(12, 338);
+            this.groupBoxGW2IGN.Location = new System.Drawing.Point(195, 88);
             this.groupBoxGW2IGN.Name = "groupBoxGW2IGN";
             this.groupBoxGW2IGN.Size = new System.Drawing.Size(179, 72);
             this.groupBoxGW2IGN.TabIndex = 5;
@@ -168,7 +178,7 @@
             // 
             this.groupBoxPullCounter.Controls.Add(this.textBoxPullCounter);
             this.groupBoxPullCounter.Controls.Add(this.checkBoxPullCounterEnable);
-            this.groupBoxPullCounter.Location = new System.Drawing.Point(12, 88);
+            this.groupBoxPullCounter.Location = new System.Drawing.Point(10, 12);
             this.groupBoxPullCounter.Name = "groupBoxPullCounter";
             this.groupBoxPullCounter.Size = new System.Drawing.Size(179, 70);
             this.groupBoxPullCounter.TabIndex = 6;
@@ -192,21 +202,11 @@
             this.checkBoxPullCounterEnable.Text = "enable command";
             this.checkBoxPullCounterEnable.UseVisualStyleBackColor = true;
             // 
-            // checkBoxSongSmartRecognition
-            // 
-            this.checkBoxSongSmartRecognition.AutoSize = true;
-            this.checkBoxSongSmartRecognition.Location = new System.Drawing.Point(7, 69);
-            this.checkBoxSongSmartRecognition.Name = "checkBoxSongSmartRecognition";
-            this.checkBoxSongSmartRecognition.Size = new System.Drawing.Size(137, 17);
-            this.checkBoxSongSmartRecognition.TabIndex = 2;
-            this.checkBoxSongSmartRecognition.Text = "Smart !song recognition";
-            this.checkBoxSongSmartRecognition.UseVisualStyleBackColor = true;
-            // 
             // FormTwitchCommands
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(199, 418);
+            this.ClientSize = new System.Drawing.Size(386, 268);
             this.Controls.Add(this.groupBoxPullCounter);
             this.Controls.Add(this.groupBoxGW2IGN);
             this.Controls.Add(this.groupBoxSong);

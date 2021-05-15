@@ -94,6 +94,7 @@ namespace PlenBotLogUploader
             this.Controls.Add(this.listBoxWebhookTeams);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormWebhookTeams";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Webhook teams";

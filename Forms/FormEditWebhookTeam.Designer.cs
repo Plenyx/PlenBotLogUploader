@@ -118,6 +118,7 @@ namespace PlenBotLogUploader
             this.Controls.Add(this.groupBoxTeamName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormEditTeam";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormEditTeam";
