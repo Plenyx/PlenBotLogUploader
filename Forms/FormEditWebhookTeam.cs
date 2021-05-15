@@ -1,4 +1,5 @@
 ﻿using PlenBotLogUploader.Teams;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -24,12 +25,24 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             Text = (data == null) ? "Add a new team" : "Edit an existing team";
             textBoxName.Text = data?.Name ?? "";
+            switch (data?.Limiter)
+            {
+                case WebhookTeamLimiter.Exact:
+                    radioButtonLimiterExact.Checked = true;
+                    break;
+                case WebhookTeamLimiter.Except:
+                    radioButtonLimiterExcept.Checked = true;
+                    break;
+                default:
+                    radioButtonLimiterMin.Checked = true;
+                    break;
+            }
             radioButtonLimiterMin.Checked = true;
             textBoxLimiterValue.Text = data?.LimiterValue.ToString() ?? "1";
             textBoxAccountNames.Clear();
             if (data != null)
             {
-                textBoxAccountNames.Text = data.AccountNames.Aggregate((x, y) => $"{x}{System.Environment.NewLine}{y}");
+                textBoxAccountNames.Text = data.AccountNames.Aggregate((x, y) => $"{x}{Environment.NewLine}{y}");
             }
         }
 
@@ -38,6 +51,14 @@ namespace PlenBotLogUploader
             if (textBoxName.Text.Trim() != "")
             {
                 var limiterToggle = WebhookTeamLimiter.Min;
+                if (radioButtonLimiterExact.Checked)
+                {
+                    limiterToggle = WebhookTeamLimiter.Exact;
+                }
+                else if (radioButtonLimiterExcept.Checked)
+                {
+                    limiterToggle = WebhookTeamLimiter.Except;
+                }
                 int.TryParse(textBoxLimiterValue.Text, out int limiterValue);
                 var accountNames = textBoxAccountNames.Lines.ToList();
                 if (data == null)
@@ -54,6 +75,21 @@ namespace PlenBotLogUploader
                     team.AccountNames = accountNames;
                 }
             }
+        }
+
+        private void RadioButtonLimiterMin_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxLimiterValue.Enabled = !radioButtonLimiterExcept.Checked;
+        }
+
+        private void RadioButtonLimiterExact_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxLimiterValue.Enabled = !radioButtonLimiterExcept.Checked;
+        }
+
+        private void RadioButtonLimiterExcept_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxLimiterValue.Enabled = !radioButtonLimiterExcept.Checked;
         }
     }
 }

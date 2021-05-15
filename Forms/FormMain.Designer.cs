@@ -457,6 +457,7 @@
             // 
             // comboBoxMaxUploads
             // 
+            this.comboBoxMaxUploads.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMaxUploads.FormattingEnabled = true;
             this.comboBoxMaxUploads.Items.AddRange(new object[] {
             "1",

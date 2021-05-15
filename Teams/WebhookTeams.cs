@@ -41,7 +41,7 @@ namespace PlenBotLogUploader.Teams
             {
                 ResetDictionary();
             }
-            using (StreamReader reader = new StreamReader(file))
+            using (var reader = new StreamReader(file))
             {
                 string line = reader.ReadLine(); // skip the first line
                 while ((line = reader.ReadLine()) != null)

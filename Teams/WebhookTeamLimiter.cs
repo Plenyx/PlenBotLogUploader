@@ -3,6 +3,7 @@
     public enum WebhookTeamLimiter
     {
         Min = 0,
-        Exact = 1
+        Exact = 1,
+        Except = 2
     }
 }

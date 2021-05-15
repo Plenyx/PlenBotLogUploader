@@ -102,5 +102,11 @@ namespace PlenBotLogUploader
                 new FormEditTeam(this, item, item.ID).Show();
             }
         }
+
+        private void ButtonAddTeam_Click(object sender, EventArgs e)
+        {
+            teamIdsKey++;
+            new FormEditTeam(this, null, teamIdsKey).Show();
+        }
     }
 }

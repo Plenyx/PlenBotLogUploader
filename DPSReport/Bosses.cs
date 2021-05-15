@@ -39,7 +39,7 @@ namespace PlenBotLogUploader.DPSReport
             {
                 allBosses.Clear();
             }
-            using (StreamReader reader = new StreamReader(file))
+            using (var reader = new StreamReader(file))
             {
                 string line = reader.ReadLine(); // skip the first line
                 while ((line = reader.ReadLine()) != null)
@@ -62,7 +62,7 @@ namespace PlenBotLogUploader.DPSReport
             {
                 allBosses.Clear();
             }
-            using (StreamReader reader = new StreamReader(file))
+            using (var reader = new StreamReader(file))
             {
                 string line = await reader.ReadLineAsync(); // skip the first line
                 while ((line = await reader.ReadLineAsync()) != null)

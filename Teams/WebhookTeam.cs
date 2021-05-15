@@ -54,6 +54,15 @@ namespace PlenBotLogUploader.Teams
         public bool IsTeamSatisfied(Dictionary<string, DPSReport.DPSReportJSONPlayers> players)
         {
             var sumOfTeamMembers = AccountNames.Select(x => players.Values.Where(y => y.DisplayName.Equals(x)).Count()).Sum();
+            if (Limiter.Equals(WebhookTeamLimiter.Exact))
+            {
+                return sumOfTeamMembers == LimiterValue;
+            }
+            else if (Limiter.Equals(WebhookTeamLimiter.Except))
+            {
+                return sumOfTeamMembers == 0;
+            }
+            // min
             return sumOfTeamMembers >= LimiterValue;
         }
 

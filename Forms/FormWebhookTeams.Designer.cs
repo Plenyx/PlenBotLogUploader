@@ -36,16 +36,19 @@ namespace PlenBotLogUploader
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonAddTeam = new System.Windows.Forms.Button();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBoxWebhookTeams
             // 
             this.listBoxWebhookTeams.ContextMenuStrip = this.contextMenuStripInteract;
+            this.listBoxWebhookTeams.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.listBoxWebhookTeams.FormattingEnabled = true;
+            this.listBoxWebhookTeams.ItemHeight = 16;
             this.listBoxWebhookTeams.Location = new System.Drawing.Point(12, 12);
             this.listBoxWebhookTeams.Name = "listBoxWebhookTeams";
-            this.listBoxWebhookTeams.Size = new System.Drawing.Size(337, 368);
+            this.listBoxWebhookTeams.Size = new System.Drawing.Size(337, 356);
             this.listBoxWebhookTeams.TabIndex = 0;
             this.listBoxWebhookTeams.DoubleClick += new System.EventHandler(this.ListBoxWebhookTeams_DoubleClick);
             // 
@@ -86,18 +89,29 @@ namespace PlenBotLogUploader
             this.toolStripMenuItemAdd.Text = "Add a new team";
             this.toolStripMenuItemAdd.Click += new System.EventHandler(this.ToolStripMenuItemAdd_Click);
             // 
+            // buttonAddTeam
+            // 
+            this.buttonAddTeam.Location = new System.Drawing.Point(250, 374);
+            this.buttonAddTeam.Name = "buttonAddTeam";
+            this.buttonAddTeam.Size = new System.Drawing.Size(98, 23);
+            this.buttonAddTeam.TabIndex = 1;
+            this.buttonAddTeam.Text = "Add a new team";
+            this.buttonAddTeam.UseVisualStyleBackColor = true;
+            this.buttonAddTeam.Click += new System.EventHandler(this.ButtonAddTeam_Click);
+            // 
             // FormWebhookTeams
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 392);
+            this.ClientSize = new System.Drawing.Size(360, 406);
+            this.Controls.Add(this.buttonAddTeam);
             this.Controls.Add(this.listBoxWebhookTeams);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormWebhookTeams";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Webhook teams";
+            this.Text = "Webhook Teams";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWebhookTeams_FormClosing);
             this.contextMenuStripInteract.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -111,5 +125,6 @@ namespace PlenBotLogUploader
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
         public System.Windows.Forms.ListBox listBoxWebhookTeams;
+        private System.Windows.Forms.Button buttonAddTeam;
     }
 }
