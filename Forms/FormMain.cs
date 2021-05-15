@@ -711,6 +711,8 @@ namespace PlenBotLogUploader
                                             await pingsLink.ExecuteAllPingsAsync(reportJSON);
                                             // aleeva pings
                                             await aleevaLink.PostLogToAleeva(reportJSON);
+                                            // report success
+                                            AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
                                         }
                                         else if(reportJSON.Error.Length > 0)
                                         {
@@ -1035,7 +1037,7 @@ namespace PlenBotLogUploader
                     AddToText("> (GW2) IGN COMMAND USED");
                     if (Properties.Settings.Default.GW2APIKey != "")
                     {
-                        using (Gw2APIHelper gw2Api = new Gw2APIHelper(Properties.Settings.Default.GW2APIKey))
+                        using (var gw2Api = new Gw2APIHelper(Properties.Settings.Default.GW2APIKey))
                         {
                             var userInfo = await gw2Api.GetUserInfoAsync();
                             if (userInfo != null)
@@ -1076,7 +1078,7 @@ namespace PlenBotLogUploader
 
         private void ButtonLogsLocation_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog dialog = new FolderBrowserDialog() { Description = "Select the arcdps folder containing the combat logs.\nThe default location is in \"My Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\\"" })
+            using (var dialog = new FolderBrowserDialog() { Description = "Select the arcdps folder containing the combat logs.\nThe default location is in \"My Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\\"" })
             {
                 var result = dialog.ShowDialog();
                 if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
