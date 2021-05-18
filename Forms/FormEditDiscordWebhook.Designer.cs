@@ -36,6 +36,12 @@
             this.checkedListBoxBossesEnable = new System.Windows.Forms.CheckedListBox();
             this.groupBoxWebhookInfo = new System.Windows.Forms.GroupBox();
             this.groupBoxBossesEnable = new System.Windows.Forms.GroupBox();
+            this.buttonUnSelectAllGolems = new System.Windows.Forms.Button();
+            this.buttonUnSelectWvW = new System.Windows.Forms.Button();
+            this.buttonUnSelectAllFractals = new System.Windows.Forms.Button();
+            this.buttonUnSelectAllStrikes = new System.Windows.Forms.Button();
+            this.buttonUnSelectAllRaids = new System.Windows.Forms.Button();
+            this.buttonUnSelectAll = new System.Windows.Forms.Button();
             this.groupBoxConditionalPost = new System.Windows.Forms.GroupBox();
             this.radioButtonOnlySuccessAndFail = new System.Windows.Forms.RadioButton();
             this.radioButtonOnlyFail = new System.Windows.Forms.RadioButton();
@@ -95,7 +101,7 @@
             this.checkedListBoxBossesEnable.FormattingEnabled = true;
             this.checkedListBoxBossesEnable.Location = new System.Drawing.Point(6, 19);
             this.checkedListBoxBossesEnable.Name = "checkedListBoxBossesEnable";
-            this.checkedListBoxBossesEnable.Size = new System.Drawing.Size(380, 244);
+            this.checkedListBoxBossesEnable.Size = new System.Drawing.Size(380, 214);
             this.checkedListBoxBossesEnable.TabIndex = 6;
             // 
             // groupBoxWebhookInfo
@@ -114,6 +120,12 @@
             // 
             // groupBoxBossesEnable
             // 
+            this.groupBoxBossesEnable.Controls.Add(this.buttonUnSelectAllGolems);
+            this.groupBoxBossesEnable.Controls.Add(this.buttonUnSelectWvW);
+            this.groupBoxBossesEnable.Controls.Add(this.buttonUnSelectAllFractals);
+            this.groupBoxBossesEnable.Controls.Add(this.buttonUnSelectAllStrikes);
+            this.groupBoxBossesEnable.Controls.Add(this.buttonUnSelectAllRaids);
+            this.groupBoxBossesEnable.Controls.Add(this.buttonUnSelectAll);
             this.groupBoxBossesEnable.Controls.Add(this.checkedListBoxBossesEnable);
             this.groupBoxBossesEnable.Location = new System.Drawing.Point(410, 12);
             this.groupBoxBossesEnable.Name = "groupBoxBossesEnable";
@@ -121,6 +133,66 @@
             this.groupBoxBossesEnable.TabIndex = 8;
             this.groupBoxBossesEnable.TabStop = false;
             this.groupBoxBossesEnable.Text = "Only upload for selected bosses";
+            // 
+            // buttonUnSelectAllGolems
+            // 
+            this.buttonUnSelectAllGolems.Location = new System.Drawing.Point(272, 242);
+            this.buttonUnSelectAllGolems.Name = "buttonUnSelectAllGolems";
+            this.buttonUnSelectAllGolems.Size = new System.Drawing.Size(54, 23);
+            this.buttonUnSelectAllGolems.TabIndex = 12;
+            this.buttonUnSelectAllGolems.Text = "Golems";
+            this.buttonUnSelectAllGolems.UseVisualStyleBackColor = true;
+            this.buttonUnSelectAllGolems.Click += new System.EventHandler(this.ButtonUnSelectAllGolems_Click);
+            // 
+            // buttonUnSelectWvW
+            // 
+            this.buttonUnSelectWvW.Location = new System.Drawing.Point(332, 242);
+            this.buttonUnSelectWvW.Name = "buttonUnSelectWvW";
+            this.buttonUnSelectWvW.Size = new System.Drawing.Size(54, 23);
+            this.buttonUnSelectWvW.TabIndex = 11;
+            this.buttonUnSelectWvW.Text = "WvW";
+            this.buttonUnSelectWvW.UseVisualStyleBackColor = true;
+            this.buttonUnSelectWvW.Click += new System.EventHandler(this.ButtonUnSelectWvW_Click);
+            // 
+            // buttonUnSelectAllFractals
+            // 
+            this.buttonUnSelectAllFractals.Location = new System.Drawing.Point(153, 242);
+            this.buttonUnSelectAllFractals.Name = "buttonUnSelectAllFractals";
+            this.buttonUnSelectAllFractals.Size = new System.Drawing.Size(54, 23);
+            this.buttonUnSelectAllFractals.TabIndex = 10;
+            this.buttonUnSelectAllFractals.Text = "Fractals";
+            this.buttonUnSelectAllFractals.UseVisualStyleBackColor = true;
+            this.buttonUnSelectAllFractals.Click += new System.EventHandler(this.ButtonUnSelectAllFractals_Click);
+            // 
+            // buttonUnSelectAllStrikes
+            // 
+            this.buttonUnSelectAllStrikes.Location = new System.Drawing.Point(212, 242);
+            this.buttonUnSelectAllStrikes.Name = "buttonUnSelectAllStrikes";
+            this.buttonUnSelectAllStrikes.Size = new System.Drawing.Size(54, 23);
+            this.buttonUnSelectAllStrikes.TabIndex = 9;
+            this.buttonUnSelectAllStrikes.Text = "Strikes";
+            this.buttonUnSelectAllStrikes.UseVisualStyleBackColor = true;
+            this.buttonUnSelectAllStrikes.Click += new System.EventHandler(this.ButtonUnSelectAllStrikes_Click);
+            // 
+            // buttonUnSelectAllRaids
+            // 
+            this.buttonUnSelectAllRaids.Location = new System.Drawing.Point(93, 242);
+            this.buttonUnSelectAllRaids.Name = "buttonUnSelectAllRaids";
+            this.buttonUnSelectAllRaids.Size = new System.Drawing.Size(54, 23);
+            this.buttonUnSelectAllRaids.TabIndex = 8;
+            this.buttonUnSelectAllRaids.Text = "Raids";
+            this.buttonUnSelectAllRaids.UseVisualStyleBackColor = true;
+            this.buttonUnSelectAllRaids.Click += new System.EventHandler(this.ButtonUnSelectAllRaids_Click);
+            // 
+            // buttonUnSelectAll
+            // 
+            this.buttonUnSelectAll.Location = new System.Drawing.Point(6, 242);
+            this.buttonUnSelectAll.Name = "buttonUnSelectAll";
+            this.buttonUnSelectAll.Size = new System.Drawing.Size(81, 23);
+            this.buttonUnSelectAll.TabIndex = 7;
+            this.buttonUnSelectAll.Text = "(Un)Select all";
+            this.buttonUnSelectAll.UseVisualStyleBackColor = true;
+            this.buttonUnSelectAll.Click += new System.EventHandler(this.ButtonUnSelectAll_Click);
             // 
             // groupBoxConditionalPost
             // 
@@ -229,5 +301,11 @@
         private System.Windows.Forms.RadioButton radioButtonOnlySuccess;
         private System.Windows.Forms.GroupBox groupBoxWebhookTeam;
         private System.Windows.Forms.ComboBox comboBoxWebhookTeam;
+        private System.Windows.Forms.Button buttonUnSelectAll;
+        private System.Windows.Forms.Button buttonUnSelectWvW;
+        private System.Windows.Forms.Button buttonUnSelectAllFractals;
+        private System.Windows.Forms.Button buttonUnSelectAllStrikes;
+        private System.Windows.Forms.Button buttonUnSelectAllRaids;
+        private System.Windows.Forms.Button buttonUnSelectAllGolems;
     }
 }

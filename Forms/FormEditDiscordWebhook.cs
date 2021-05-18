@@ -109,5 +109,206 @@ namespace PlenBotLogUploader
             }
             return list;
         }
+
+        private void ButtonUnSelectAll_Click(object sender, System.EventArgs e)
+        {
+            var allSelected = true;
+            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            {
+                var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
+                if (!checkedState)
+                {
+                    allSelected = false;
+                    break;
+                }
+            }
+            if (!allSelected)
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    checkedListBoxBossesEnable.SetItemChecked(i, true);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    checkedListBoxBossesEnable.SetItemChecked(i, false);
+                }
+            }
+        }
+
+        private void ButtonUnSelectAllRaids_Click(object sender, System.EventArgs e)
+        {
+            var allSelected = true;
+            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            {
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Raid) ?? false)
+                {
+                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
+                    if (!checkedState)
+                    {
+                        allSelected = false;
+                        break;
+                    }
+                }
+            }
+            if (!allSelected)
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                    if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Raid) ?? false)
+                    {
+                        checkedListBoxBossesEnable.SetItemChecked(i, true);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                    if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Raid) ?? false)
+                    {
+                        checkedListBoxBossesEnable.SetItemChecked(i, false);
+                    }
+                }
+            }
+        }
+
+        private void ButtonUnSelectAllFractals_Click(object sender, System.EventArgs e)
+        {
+            var allSelected = true;
+            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            {
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Fractal) ?? false)
+                {
+                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
+                    if (!checkedState)
+                    {
+                        allSelected = false;
+                        break;
+                    }
+                }
+            }
+            if (!allSelected)
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                    if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Fractal) ?? false)
+                    {
+                        checkedListBoxBossesEnable.SetItemChecked(i, true);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                    if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Fractal) ?? false)
+                    {
+                        checkedListBoxBossesEnable.SetItemChecked(i, false);
+                    }
+                }
+            }
+        }
+
+        private void ButtonUnSelectAllStrikes_Click(object sender, System.EventArgs e)
+        {
+            var allSelected = true;
+            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            {
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Strike) ?? false)
+                {
+                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
+                    if (!checkedState)
+                    {
+                        allSelected = false;
+                        break;
+                    }
+                }
+            }
+            if (!allSelected)
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                    if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Strike) ?? false)
+                    {
+                        checkedListBoxBossesEnable.SetItemChecked(i, true);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                    if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Strike) ?? false)
+                    {
+                        checkedListBoxBossesEnable.SetItemChecked(i, false);
+                    }
+                }
+            }
+        }
+
+        private void ButtonUnSelectAllGolems_Click(object sender, System.EventArgs e)
+        {
+            var allSelected = true;
+            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            {
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Golem) ?? false)
+                {
+                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
+                    if (!checkedState)
+                    {
+                        allSelected = false;
+                        break;
+                    }
+                }
+            }
+            if (!allSelected)
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                    if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Golem) ?? false)
+                    {
+                        checkedListBoxBossesEnable.SetItemChecked(i, true);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                {
+                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                    if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Golem) ?? false)
+                    {
+                        checkedListBoxBossesEnable.SetItemChecked(i, false);
+                    }
+                }
+            }
+        }
+
+        private void ButtonUnSelectWvW_Click(object sender, System.EventArgs e)
+        {
+            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            {
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (item.BossID.Equals(1))
+                {
+                    checkedListBoxBossesEnable.SetItemChecked(i, !checkedListBoxBossesEnable.GetItemChecked(i));
+                    break;
+                }
+            }
+        }
     }
 }
