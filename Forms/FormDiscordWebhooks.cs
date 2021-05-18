@@ -303,7 +303,7 @@ namespace PlenBotLogUploader
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                             || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                            || (!webhook.Team.IsTeamSatisfied(reportJSON.Players)))
+                            || (!webhook.Team.IsSatisfied(reportJSON.Players)))
                         {
                             continue;
                         }
@@ -446,7 +446,7 @@ namespace PlenBotLogUploader
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                             || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                            || (!webhook.Team.IsTeamSatisfied(reportJSON.Players)))
+                            || (!webhook.Team.IsSatisfied(reportJSON.Players)))
                         {
                             continue;
                         }
