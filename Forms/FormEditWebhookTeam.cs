@@ -73,6 +73,8 @@ namespace PlenBotLogUploader
                     team.Limiter = limiterToggle;
                     team.LimiterValue = limiterValue;
                     team.AccountNames = accountNames;
+                    teamsLink.listBoxWebhookTeams.DisplayMember = "";
+                    teamsLink.listBoxWebhookTeams.DisplayMember = "Name";
                 }
             }
         }

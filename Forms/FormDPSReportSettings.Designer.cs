@@ -49,7 +49,7 @@
             this.groupBoxDPSReportServer.Controls.Add(this.radioButtonNormal);
             this.groupBoxDPSReportServer.Location = new System.Drawing.Point(13, 13);
             this.groupBoxDPSReportServer.Name = "groupBoxDPSReportServer";
-            this.groupBoxDPSReportServer.Size = new System.Drawing.Size(276, 62);
+            this.groupBoxDPSReportServer.Size = new System.Drawing.Size(276, 53);
             this.groupBoxDPSReportServer.TabIndex = 0;
             this.groupBoxDPSReportServer.TabStop = false;
             this.groupBoxDPSReportServer.Text = "DPS.report servers";
@@ -57,34 +57,34 @@
             // radioButtonB
             // 
             this.radioButtonB.AutoSize = true;
-            this.radioButtonB.Location = new System.Drawing.Point(184, 29);
+            this.radioButtonB.Location = new System.Drawing.Point(98, 19);
             this.radioButtonB.Name = "radioButtonB";
-            this.radioButtonB.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonB.Size = new System.Drawing.Size(81, 30);
             this.radioButtonB.TabIndex = 2;
             this.radioButtonB.TabStop = true;
-            this.radioButtonB.Text = "b.dps.report";
+            this.radioButtonB.Text = "b.dps.report\r\n(Recom.)";
             this.radioButtonB.UseVisualStyleBackColor = true;
             // 
             // radioButtonA
             // 
             this.radioButtonA.AutoSize = true;
-            this.radioButtonA.Location = new System.Drawing.Point(97, 29);
+            this.radioButtonA.Location = new System.Drawing.Point(187, 19);
             this.radioButtonA.Name = "radioButtonA";
-            this.radioButtonA.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonA.Size = new System.Drawing.Size(83, 30);
             this.radioButtonA.TabIndex = 1;
-            this.radioButtonA.Text = "a.dps.report";
+            this.radioButtonA.Text = "a.dps.report\r\n(Not recom.)";
             this.radioButtonA.UseVisualStyleBackColor = true;
             // 
             // radioButtonNormal
             // 
             this.radioButtonNormal.AutoSize = true;
             this.radioButtonNormal.Checked = true;
-            this.radioButtonNormal.Location = new System.Drawing.Point(19, 29);
+            this.radioButtonNormal.Location = new System.Drawing.Point(11, 19);
             this.radioButtonNormal.Name = "radioButtonNormal";
-            this.radioButtonNormal.Size = new System.Drawing.Size(72, 17);
+            this.radioButtonNormal.Size = new System.Drawing.Size(72, 30);
             this.radioButtonNormal.TabIndex = 0;
             this.radioButtonNormal.TabStop = true;
-            this.radioButtonNormal.Text = "dps.report";
+            this.radioButtonNormal.Text = "dps.report\r\n(Recom.)";
             this.radioButtonNormal.UseVisualStyleBackColor = true;
             // 
             // groupBoxDPSReportUsertoken
@@ -93,7 +93,7 @@
             this.groupBoxDPSReportUsertoken.Controls.Add(this.buttonDPSReportShowUsertoken);
             this.groupBoxDPSReportUsertoken.Controls.Add(this.textBoxDPSReportUsertoken);
             this.groupBoxDPSReportUsertoken.Controls.Add(this.checkBoxDPSReportEnableUsertoken);
-            this.groupBoxDPSReportUsertoken.Location = new System.Drawing.Point(13, 82);
+            this.groupBoxDPSReportUsertoken.Location = new System.Drawing.Point(13, 72);
             this.groupBoxDPSReportUsertoken.Name = "groupBoxDPSReportUsertoken";
             this.groupBoxDPSReportUsertoken.Size = new System.Drawing.Size(277, 73);
             this.groupBoxDPSReportUsertoken.TabIndex = 1;
@@ -145,7 +145,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 166);
+            this.ClientSize = new System.Drawing.Size(302, 155);
             this.Controls.Add(this.groupBoxDPSReportUsertoken);
             this.Controls.Add(this.groupBoxDPSReportServer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
