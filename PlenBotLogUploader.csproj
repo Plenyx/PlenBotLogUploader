@@ -117,6 +117,9 @@
     <Compile Include="Aleeva\AleevaChannel.cs" />
     <Compile Include="Aleeva\AleevaServer.cs" />
     <Compile Include="Aleeva\AleevaResponseStatus.cs" />
+    <Compile Include="ArcDps\ArcDpsComponent.cs" />
+    <Compile Include="ArcDps\ArcDpsComponentHelperClass.cs" />
+    <Compile Include="ArcDps\ArcDpsComponentType.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContent.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentAllowedMentions.cs" />
     <Compile Include="DiscordAPI\DiscordAPIJSONContentEmbed.cs" />
@@ -151,6 +154,12 @@
     </Compile>
     <Compile Include="Forms\FormAleeva.Designer.cs">
       <DependentUpon>FormAleeva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormArcPluginManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormArcPluginManager.Designer.cs">
+      <DependentUpon>FormArcPluginManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormArcVersions.cs">
       <SubType>Form</SubType>
@@ -277,6 +286,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\FormAleeva.resx">
       <DependentUpon>FormAleeva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormArcPluginManager.resx">
+      <DependentUpon>FormArcPluginManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormArcVersions.resx">
       <DependentUpon>FormArcVersions.cs</DependentUpon>

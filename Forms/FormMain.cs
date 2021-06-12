@@ -34,7 +34,7 @@ namespace PlenBotLogUploader
         private readonly FormTwitchNameSetup twitchNameLink;
         private readonly FormDPSReportSettings dpsReportSettingsLink;
         private readonly FormCustomName customNameLink;
-        private readonly FormArcVersions arcVersionsLink;
+        private readonly FormArcPluginManager arcPluginManagerLink;
         private readonly FormBossData bossDataLink;
         private readonly FormDiscordWebhooks discordWebhooksLink;
         private readonly FormPings pingsLink;
@@ -75,7 +75,7 @@ namespace PlenBotLogUploader
             dpsReportSettingsLink = new FormDPSReportSettings(this);
             customNameLink = new FormCustomName(this);
             pingsLink = new FormPings(this);
-            arcVersionsLink = new FormArcVersions(this);
+            arcPluginManagerLink = new FormArcPluginManager(this, Properties.Settings.Default.GW2Location);
             bossDataLink = new FormBossData(this);
             discordWebhooksLink = new FormDiscordWebhooks(this);
             twitchCommandsLink = new FormTwitchCommands();
@@ -193,19 +193,21 @@ namespace PlenBotLogUploader
                     customNameLink.textBoxCustomName.Text = Properties.Settings.Default.CustomTwitchName;
                     customNameLink.textBoxCustomOAuth.Text = Properties.Settings.Default.CustomTwitchOAuthPassword;
                 }
-                arcVersionsLink.GW2Location = Properties.Settings.Default.GW2Location;
-                if (arcVersionsLink.GW2Location != "")
+                arcPluginManagerLink.checkBoxEnableNotifications.Checked = Properties.Settings.Default.ArcUpdateNotifications;
+                if (arcPluginManagerLink.GW2Location != "")
                 {
                     if (File.Exists($@"{arcPluginManagerLink.GW2Location}\Gw2-64.exe") || File.Exists($@"{arcPluginManagerLink.GW2Location}\Gw2.exe") || File.Exists($@"{arcPluginManagerLink.GW2Location}\Guild Wars 2.exe"))
                     {
-                        Task.Run(async() => { await arcVersionsLink.StartTimerAsync(true); });
-                        arcVersionsLink.buttonEnabler.Enabled = true;
-                        arcVersionsLink.buttonCheckNow.Enabled = true;
+                        if (Properties.Settings.Default.ArcAutoUpdate)
+                        {
+                            arcPluginManagerLink.checkBoxModuleEnabled.Checked = true;
+                            _ = arcPluginManagerLink.StartTimerAsync(true);
+                        }
                     }
                     else
                     {
-                        ShowBalloon("arcdps version checking", "There has been an error locating the main Guild Wars 2 folder, try changing the directory again.", 6500);
-                        arcVersionsLink.GW2Location = "";
+                        ShowBalloon("arcdps plugin manager", "There has been an error locating the main Guild Wars 2 folder, try changing the directory again.", 6500);
+                        arcPluginManagerLink.GW2Location = "";
                         Properties.Settings.Default.GW2Location = "";
                     }
                 }
@@ -226,7 +228,7 @@ namespace PlenBotLogUploader
                 logSessionLink.textBoxSessionContent.Text = Properties.Settings.Default.SessionMessage;
                 logSessionLink.radioButtonSortByUpload.Checked = Properties.Settings.Default.SessionSort == 1;
                 logSessionLink.checkBoxSaveToFile.Checked = Properties.Settings.Default.SessionSaveToFile;
-                arcVersionsLink.checkBoxAutoUpdateArc.Checked = Properties.Settings.Default.ArcAutoUpdate;
+                //arcVersionsLink.checkBoxAutoUpdateArc.Checked = Properties.Settings.Default.ArcAutoUpdate;
                 gw2APILink.textBoxAPIKey.Text = Properties.Settings.Default.GW2APIKey;
                 if ((Properties.Settings.Default.AleevaRefreshToken != "") && (Properties.Settings.Default.AleevaRefreshTokenExpire != null) && (DateTime.Now < Properties.Settings.Default.AleevaRefreshTokenExpire))
                 {
@@ -285,7 +287,6 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
-                arcVersionsLink.checkBoxAutoUpdateArc.CheckedChanged += new EventHandler(arcVersionsLink.CheckBoxAutoUpdateArc_CheckedChanged);
             }
             catch(Exception e)
             {
@@ -1167,10 +1168,10 @@ namespace PlenBotLogUploader
             pingsLink.BringToFront();
         }
 
-        private void ButtonArcVersionChecking_Click(object sender, EventArgs e)
+        private void ButtonArcDpsPluginManager_Click(object sender, EventArgs e)
         {
-            arcVersionsLink.Show();
-            arcVersionsLink.BringToFront();
+            arcPluginManagerLink.Show();
+            arcPluginManagerLink.BringToFront();
         }
 
         private void ButtonBossData_Click(object sender, EventArgs e)
@@ -1209,10 +1210,10 @@ namespace PlenBotLogUploader
             pingsLink.BringToFront();
         }
 
-        private void ToolStripMenuItemOpenArcVersionsSettings_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemOpenArcDpsPluginManager_Click(object sender, EventArgs e)
         {
-            arcVersionsLink.Show();
-            arcVersionsLink.BringToFront();
+            arcPluginManagerLink.Show();
+            arcPluginManagerLink.BringToFront();
         }
 
         private void ToolStripMenuItemDiscordWebhooks_Click(object sender, EventArgs e)

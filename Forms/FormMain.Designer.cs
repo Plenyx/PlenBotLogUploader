@@ -56,7 +56,7 @@
             this.toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenTwitchCommands = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemOpenArcVersionsSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemOpenArcDpsPluginManager = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemDiscordWebhooks = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenPingSettings = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +70,7 @@
             this.buttonReset = new System.Windows.Forms.Button();
             this.checkBoxStartWhenWindowsStarts = new System.Windows.Forms.CheckBox();
             this.buttonDiscordWebhooks = new System.Windows.Forms.Button();
-            this.buttonArcVersionChecking = new System.Windows.Forms.Button();
+            this.buttonArcDpsPluginManager = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
             this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
@@ -325,20 +325,20 @@
             this.toolStripMenuItemOpenDPSReportServer,
             this.toolStripMenuItemOpenCustomName,
             this.toolStripMenuItemOpenTwitchCommands,
-            this.toolStripMenuItemOpenArcVersionsSettings,
+            this.toolStripMenuItemOpenArcDpsPluginManager,
             this.toolStripSeparatorSecond,
             this.toolStripMenuItemDiscordWebhooks,
             this.toolStripMenuItemOpenPingSettings,
             this.toolStripSeparatorThird,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(278, 220);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(229, 220);
             // 
             // toolStripMenuItemUploadLogs
             // 
             this.toolStripMenuItemUploadLogs.CheckOnClick = true;
             this.toolStripMenuItemUploadLogs.Name = "toolStripMenuItemUploadLogs";
-            this.toolStripMenuItemUploadLogs.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemUploadLogs.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemUploadLogs.Text = "upload logs";
             this.toolStripMenuItemUploadLogs.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemUploadLogs_CheckedChanged);
             // 
@@ -346,71 +346,71 @@
             // 
             this.toolStripMenuItemPostToTwitch.CheckOnClick = true;
             this.toolStripMenuItemPostToTwitch.Name = "toolStripMenuItemPostToTwitch";
-            this.toolStripMenuItemPostToTwitch.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemPostToTwitch.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemPostToTwitch.Text = "post links to Twitch chat";
             this.toolStripMenuItemPostToTwitch.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemPostToTwitch_CheckedChanged);
             // 
             // toolStripSeparatorFirst
             // 
             this.toolStripSeparatorFirst.Name = "toolStripSeparatorFirst";
-            this.toolStripSeparatorFirst.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparatorFirst.Size = new System.Drawing.Size(225, 6);
             // 
             // toolStripMenuItemOpenDPSReportServer
             // 
             this.toolStripMenuItemOpenDPSReportServer.Name = "toolStripMenuItemOpenDPSReportServer";
-            this.toolStripMenuItemOpenDPSReportServer.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemOpenDPSReportServer.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemOpenDPSReportServer.Text = "Open DPS.report settings";
             this.toolStripMenuItemOpenDPSReportServer.Click += new System.EventHandler(this.ToolStripMenuItemOpenDPSReportServer_Click);
             // 
             // toolStripMenuItemOpenCustomName
             // 
             this.toolStripMenuItemOpenCustomName.Name = "toolStripMenuItemOpenCustomName";
-            this.toolStripMenuItemOpenCustomName.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemOpenCustomName.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemOpenCustomName.Text = "Open custom name settings";
             this.toolStripMenuItemOpenCustomName.Click += new System.EventHandler(this.ToolStripMenuItemOpenCustomName_Click);
             // 
             // toolStripMenuItemOpenTwitchCommands
             // 
             this.toolStripMenuItemOpenTwitchCommands.Name = "toolStripMenuItemOpenTwitchCommands";
-            this.toolStripMenuItemOpenTwitchCommands.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemOpenTwitchCommands.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemOpenTwitchCommands.Text = "Open Twitch commands";
             this.toolStripMenuItemOpenTwitchCommands.Click += new System.EventHandler(this.ToolStripMenuItemOpenTwitchCommands_Click);
             // 
-            // toolStripMenuItemOpenArcVersionsSettings
+            // toolStripMenuItemOpenArcDpsPluginManager
             // 
-            this.toolStripMenuItemOpenArcVersionsSettings.Name = "toolStripMenuItemOpenArcVersionsSettings";
-            this.toolStripMenuItemOpenArcVersionsSettings.Size = new System.Drawing.Size(277, 22);
-            this.toolStripMenuItemOpenArcVersionsSettings.Text = "Open arcdps version checking settings";
-            this.toolStripMenuItemOpenArcVersionsSettings.Click += new System.EventHandler(this.ToolStripMenuItemOpenArcVersionsSettings_Click);
+            this.toolStripMenuItemOpenArcDpsPluginManager.Name = "toolStripMenuItemOpenArcDpsPluginManager";
+            this.toolStripMenuItemOpenArcDpsPluginManager.Size = new System.Drawing.Size(228, 22);
+            this.toolStripMenuItemOpenArcDpsPluginManager.Text = "Open arcdps plugin manager";
+            this.toolStripMenuItemOpenArcDpsPluginManager.Click += new System.EventHandler(this.ToolStripMenuItemOpenArcDpsPluginManager_Click);
             // 
             // toolStripSeparatorSecond
             // 
             this.toolStripSeparatorSecond.Name = "toolStripSeparatorSecond";
-            this.toolStripSeparatorSecond.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparatorSecond.Size = new System.Drawing.Size(225, 6);
             // 
             // toolStripMenuItemDiscordWebhooks
             // 
             this.toolStripMenuItemDiscordWebhooks.Name = "toolStripMenuItemDiscordWebhooks";
-            this.toolStripMenuItemDiscordWebhooks.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemDiscordWebhooks.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemDiscordWebhooks.Text = "Discord webhooks";
             this.toolStripMenuItemDiscordWebhooks.Click += new System.EventHandler(this.ToolStripMenuItemDiscordWebhooks_Click);
             // 
             // toolStripMenuItemOpenPingSettings
             // 
             this.toolStripMenuItemOpenPingSettings.Name = "toolStripMenuItemOpenPingSettings";
-            this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemOpenPingSettings.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemOpenPingSettings.Text = "Remote server pings";
             this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.ToolStripMenuItemOpenPingSettings_Click);
             // 
             // toolStripSeparatorThird
             // 
             this.toolStripSeparatorThird.Name = "toolStripSeparatorThird";
-            this.toolStripSeparatorThird.Size = new System.Drawing.Size(274, 6);
+            this.toolStripSeparatorThird.Size = new System.Drawing.Size(225, 6);
             // 
             // toolStripMenuItemExit
             // 
             this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(277, 22);
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(228, 22);
             this.toolStripMenuItemExit.Text = "Shutdown";
             this.toolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
             // 
@@ -423,7 +423,7 @@
             this.groupBoxOtherSettings.Controls.Add(this.buttonReset);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxStartWhenWindowsStarts);
             this.groupBoxOtherSettings.Controls.Add(this.buttonDiscordWebhooks);
-            this.groupBoxOtherSettings.Controls.Add(this.buttonArcVersionChecking);
+            this.groupBoxOtherSettings.Controls.Add(this.buttonArcDpsPluginManager);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 429);
@@ -514,15 +514,15 @@
             this.buttonDiscordWebhooks.UseVisualStyleBackColor = true;
             this.buttonDiscordWebhooks.Click += new System.EventHandler(this.ButtonDiscordWebhooks_Click);
             // 
-            // buttonArcVersionChecking
+            // buttonArcDpsPluginManager
             // 
-            this.buttonArcVersionChecking.Location = new System.Drawing.Point(6, 150);
-            this.buttonArcVersionChecking.Name = "buttonArcVersionChecking";
-            this.buttonArcVersionChecking.Size = new System.Drawing.Size(188, 23);
-            this.buttonArcVersionChecking.TabIndex = 3;
-            this.buttonArcVersionChecking.Text = "arcdps version checking settings";
-            this.buttonArcVersionChecking.UseVisualStyleBackColor = true;
-            this.buttonArcVersionChecking.Click += new System.EventHandler(this.ButtonArcVersionChecking_Click);
+            this.buttonArcDpsPluginManager.Location = new System.Drawing.Point(6, 150);
+            this.buttonArcDpsPluginManager.Name = "buttonArcDpsPluginManager";
+            this.buttonArcDpsPluginManager.Size = new System.Drawing.Size(188, 23);
+            this.buttonArcDpsPluginManager.TabIndex = 3;
+            this.buttonArcDpsPluginManager.Text = "arcdps plugin manager";
+            this.buttonArcDpsPluginManager.UseVisualStyleBackColor = true;
+            this.buttonArcDpsPluginManager.Click += new System.EventHandler(this.ButtonArcDpsPluginManager_Click);
             // 
             // buttonPingSettings
             // 
@@ -628,8 +628,8 @@
         private System.Windows.Forms.Button buttonDisConnectTwitch;
         public System.Windows.Forms.CheckBox checkBoxPostToTwitch;
         private System.Windows.Forms.CheckBox checkBoxTwitchOnlySuccess;
-        private System.Windows.Forms.Button buttonArcVersionChecking;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenArcVersionsSettings;
+        private System.Windows.Forms.Button buttonArcDpsPluginManager;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenArcDpsPluginManager;
         private System.Windows.Forms.Button buttonBossData;
         private System.Windows.Forms.Button buttonDiscordWebhooks;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorThird;
