@@ -196,7 +196,7 @@ namespace PlenBotLogUploader
                 arcVersionsLink.GW2Location = Properties.Settings.Default.GW2Location;
                 if (arcVersionsLink.GW2Location != "")
                 {
-                    if (File.Exists($@"{arcVersionsLink.GW2Location}\Gw2-64.exe") || File.Exists($@"{arcVersionsLink.GW2Location}\Gw2.exe"))
+                    if (File.Exists($@"{arcPluginManagerLink.GW2Location}\Gw2-64.exe") || File.Exists($@"{arcPluginManagerLink.GW2Location}\Gw2.exe") || File.Exists($@"{arcPluginManagerLink.GW2Location}\Guild Wars 2.exe"))
                     {
                         Task.Run(async() => { await arcVersionsLink.StartTimerAsync(true); });
                         arcVersionsLink.buttonEnabler.Enabled = true;
