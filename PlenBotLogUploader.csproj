@@ -161,12 +161,6 @@
     <Compile Include="Forms\FormArcPluginManager.Designer.cs">
       <DependentUpon>FormArcPluginManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormArcVersions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormArcVersions.Designer.cs">
-      <DependentUpon>FormArcVersions.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FormCustomName.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,9 +283,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormArcPluginManager.resx">
       <DependentUpon>FormArcPluginManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormArcVersions.resx">
-      <DependentUpon>FormArcVersions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormCustomName.resx">
       <DependentUpon>FormCustomName.cs</DependentUpon>
