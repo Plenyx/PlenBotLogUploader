@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PlenBotLogUploader")]
 [assembly: AssemblyDescription("A GW2 arcdps log uploader with some additional features.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Plenyx's Bad Software")]
+[assembly: AssemblyCompany("HardstuckGuild")]
 [assembly: AssemblyProduct("PlenBotLogUploader")]
 [assembly: AssemblyCopyright("Copyright © 2021")]
 [assembly: AssemblyTrademark("")]
