@@ -17,17 +17,16 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormMain mainLink;
-        private readonly HttpClientController httpController;
+        private readonly HttpClientController httpController = new HttpClientController();
         private readonly List<ArcDpsComponent> componentsToUpdate = new List<ArcDpsComponent>();
         private int gw2Instances = 0;
         private bool updateManual = false;
         private bool updateRunning = false;
         #endregion
 
-        public FormArcPluginManager(FormMain mainLink, string gw2Location)
+        public FormArcPluginManager(FormMain mainLink)
         {
             this.mainLink = mainLink;
-            httpController = new HttpClientController();
             var installedComponents = ArcDpsComponent.DeserialiseAll(mainLink.LocalDir);
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;

@@ -77,7 +77,7 @@ namespace PlenBotLogUploader
             dpsReportSettingsLink = new FormDPSReportSettings(this);
             customNameLink = new FormCustomName(this);
             pingsLink = new FormPings(this);
-            arcPluginManagerLink = new FormArcPluginManager(this, ApplicationSettings.Current.GW2Location);
+            arcPluginManagerLink = new FormArcPluginManager(this);
             bossDataLink = new FormBossData(this);
             discordWebhooksLink = new FormDiscordWebhooks(this);
             twitchCommandsLink = new FormTwitchCommands();
