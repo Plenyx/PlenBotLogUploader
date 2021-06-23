@@ -12,8 +12,10 @@ namespace PlenBotLogUploader.AppSettings
 
         #region load & save functionality
         public static ApplicationSettings Current { get; private set; }
-        public static string LocalDir { get; set; }
+
         public static string FileName => "app_settings.json";
+
+        public static string LocalDir { get; set; }
 
         public ApplicationSettings()
         {
@@ -40,15 +42,6 @@ namespace PlenBotLogUploader.AppSettings
         #endregion
 
         #region public properties
-        [JsonProperty("logsLocation")]
-        public string LogsLocation { get; set; } = "";
-
-        [JsonProperty("upload")]
-        public ApplicationSettingsUpload Upload { get; set; } = new ApplicationSettingsUpload();
-
-        [JsonProperty("twitch")]
-        public ApplicationSettingsTwitch Twitch { get; set; } = new ApplicationSettingsTwitch();
-
         [JsonProperty("aleeva")]
         public ApplicationSettingsAleeva Aleeva { get; set; } = new ApplicationSettingsAleeva();
 
@@ -58,26 +51,35 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("bossTemplate")]
         public ApplicationSettingsBossTemplate BossTemplate { get; set; } = new ApplicationSettingsBossTemplate();
 
-        [JsonProperty("session")]
-        public ApplicationSettingsSession Session { get; set; } = new ApplicationSettingsSession();
-
         [JsonProperty("firstApplicationRun")]
         public bool FirstApplicationRun { get; set; } = false;
 
         [JsonProperty("firstTimeMinimised")]
         public bool FirstTimeMinimised { get; set; } = false;
 
-        [JsonProperty("minimiseToTry")]
-        public bool MinimiseToTray { get; set; } = true;
+        [JsonProperty("gw2APIKey")]
+        public string GW2APIKey { get; set; } = "";
 
         [JsonProperty("gw2Location")]
         public string GW2Location { get; set; } = "";
 
-        [JsonProperty("gw2APIKey")]
-        public string GW2APIKey { get; set; } = "";
+        [JsonProperty("logsLocation")]
+        public string LogsLocation { get; set; } = "";
 
         [JsonProperty("maxConcurrentUploads")]
         public int MaxConcurrentUploads { get; set; } = 4;
+
+        [JsonProperty("minimiseToTry")]
+        public bool MinimiseToTray { get; set; } = true;
+
+        [JsonProperty("session")]
+        public ApplicationSettingsSession Session { get; set; } = new ApplicationSettingsSession();
+
+        [JsonProperty("twitch")]
+        public ApplicationSettingsTwitch Twitch { get; set; } = new ApplicationSettingsTwitch();
+
+        [JsonProperty("upload")]
+        public ApplicationSettingsUpload Upload { get; set; } = new ApplicationSettingsUpload();
         #endregion
     }
 }

@@ -5,11 +5,11 @@ namespace PlenBotLogUploader.AppSettings
 {
     public class ApplicationSettingsSession
     {
-        [JsonProperty("name")]
-        public string Name { get; set; } = "Log session";
-
         [JsonProperty("message")]
         public string Message { get; set; } = "";
+
+        [JsonProperty("name")]
+        public string Name { get; set; } = "Log session";
 
         [JsonProperty("onlySuccess")]
         public bool OnlySuccess { get; set; } = true;
