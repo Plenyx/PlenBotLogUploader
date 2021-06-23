@@ -55,7 +55,7 @@ namespace PlenBotLogUploader
             // 
             // timerCheckUpdates
             // 
-            this.timerCheckUpdates.Interval = 7200000;
+            this.timerCheckUpdates.Interval = 9000000;
             this.timerCheckUpdates.Tick += new System.EventHandler(this.TimerCheckUpdates_Tick);
             // 
             // checkedListBoxArcDpsPlugins
