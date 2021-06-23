@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.ArcDps;
+﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.ArcDps;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
@@ -61,7 +62,8 @@ namespace PlenBotLogUploader
                     arcIsInstalled = false;
                     checkBoxModuleEnabled.Checked = false;
                     GW2Location = "";
-                    Properties.Settings.Default.GW2Location = "";
+                    ApplicationSettings.Current.GW2Location = "";
+                    ApplicationSettings.Current.Save();
                 }
             }
             else
@@ -69,7 +71,8 @@ namespace PlenBotLogUploader
                 arcIsInstalled = false;
                 checkBoxModuleEnabled.Checked = false;
                 GW2Location = "";
-                Properties.Settings.Default.GW2Location = "";
+                ApplicationSettings.Current.GW2Location = "";
+                ApplicationSettings.Current.Save();
             }
             foreach (var component in availableComponents)
             {
@@ -215,9 +218,10 @@ namespace PlenBotLogUploader
                 var result = dialog.ShowDialog();
                 if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
                 {
-                    string location = Path.GetDirectoryName(dialog.FileName);
+                    var location = Path.GetDirectoryName(dialog.FileName);
                     GW2Location = location;
-                    Properties.Settings.Default.GW2Location = location;
+                    ApplicationSettings.Current.GW2Location = location;
+                    ApplicationSettings.Current.Save();
                     if (ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps)).Any())
                     {
                         var component = ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps)).First();
@@ -286,7 +290,8 @@ namespace PlenBotLogUploader
         private void CheckBoxModuleEnabled_CheckedChanged(object sender, EventArgs e)
         {
             var toggle = checkBoxModuleEnabled.Checked;
-            Properties.Settings.Default.ArcAutoUpdate = toggle;
+            ApplicationSettings.Current.ArcUpdate.Enabled = toggle;
+            ApplicationSettings.Current.Save();
             groupBoxModuleControls.Enabled = toggle;
             checkedListBoxArcDpsPlugins.Enabled = toggle;
             if (Visible && toggle && (GW2Location == ""))
@@ -295,7 +300,11 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void CheckBoxEnableNotifications_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.ArcUpdateNotifications = checkBoxEnableNotifications.Checked;
+        private void CheckBoxEnableNotifications_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.ArcUpdate.Notifications = checkBoxEnableNotifications.Checked;
+            ApplicationSettings.Current.Save();
+        }
 
         private void FormArcPluginManager_FormClosing(object sender, FormClosingEventArgs e)
         {

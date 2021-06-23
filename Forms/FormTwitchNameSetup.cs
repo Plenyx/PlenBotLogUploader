@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlenBotLogUploader.AppSettings;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -28,7 +29,8 @@ namespace PlenBotLogUploader
                 var result = MessageBox.Show($"Is this your channel name?\n\n{channelName}", "Channel name confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
                 if (result.Equals(DialogResult.Yes))
                 {
-                    Properties.Settings.Default.TwitchChannelName = channelName;
+                    ApplicationSettings.Current.Twitch.ChannelName = channelName;
+                    ApplicationSettings.Current.Save();
                     if (mainLink.IsTwitchConnectionNull())
                     {
                         await mainLink.ConnectTwitchBot();
@@ -58,7 +60,8 @@ namespace PlenBotLogUploader
             {
                 mainLink.DisconnectTwitchBot();
             }
-            Properties.Settings.Default.ConnectToTwitch = false;
+            ApplicationSettings.Current.Twitch.ConnectToTwitch = false;
+            ApplicationSettings.Current.Save();
             mainLink.checkBoxPostToTwitch.Checked = false;
             Hide();
         }

@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using PlenBotLogUploader.AppSettings;
+using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
@@ -14,17 +15,18 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            Properties.Settings.Default.TwitchCommandUploaderEnabled = checkBoxUploaderEnable.Checked;
-            Properties.Settings.Default.TwitchCommandUploader = textBoxUploaderCommand.Text;
-            Properties.Settings.Default.TwitchCommandLastLogEnabled = checkBoxLastLogEnable.Checked;
-            Properties.Settings.Default.TwitchCommandLastLog = textBoxLastLogCommand.Text;
-            Properties.Settings.Default.TwitchCommandSongEnabled = checkBoxSongEnable.Checked;
-            Properties.Settings.Default.TwitchCommandSong = textBoxSongCommand.Text;
-            Properties.Settings.Default.TwitchCommandSongSmartRecognition = checkBoxSongSmartRecognition.Checked;
-            Properties.Settings.Default.TwitchCommandGW2IgnEnabled = checkBoxGW2IgnEnable.Checked;
-            Properties.Settings.Default.TwitchCommandGW2Ign = textBoxGW2Ign.Text;
-            Properties.Settings.Default.TwitchCommandPullCounterEnabled = checkBoxPullCounterEnable.Checked;
-            Properties.Settings.Default.TwitchCommandPullCounter = textBoxPullCounter.Text;
+            ApplicationSettings.Current.Twitch.Commands.UploaderEnabled = checkBoxUploaderEnable.Checked;
+            ApplicationSettings.Current.Twitch.Commands.UploaderCommand = textBoxUploaderCommand.Text;
+            ApplicationSettings.Current.Twitch.Commands.LastLogEnabled = checkBoxLastLogEnable.Checked;
+            ApplicationSettings.Current.Twitch.Commands.LastLogCommand = textBoxLastLogCommand.Text;
+            ApplicationSettings.Current.Twitch.Commands.SongEnabled = checkBoxSongEnable.Checked;
+            ApplicationSettings.Current.Twitch.Commands.SongCommand = textBoxSongCommand.Text;
+            ApplicationSettings.Current.Twitch.Commands.SmartRecognition = checkBoxSongSmartRecognition.Checked;
+            ApplicationSettings.Current.Twitch.Commands.IGNEnabled = checkBoxGW2IgnEnable.Checked;
+            ApplicationSettings.Current.Twitch.Commands.IGNCommand = textBoxGW2Ign.Text;
+            ApplicationSettings.Current.Twitch.Commands.PullCounterEnabled = checkBoxPullCounterEnable.Checked;
+            ApplicationSettings.Current.Twitch.Commands.PullCounterCommand = textBoxPullCounter.Text;
+            ApplicationSettings.Current.Save();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.DiscordAPI;
+﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,9 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            Properties.Settings.Default.SessionName = textBoxSessionName.Text;
-            Properties.Settings.Default.SessionMessage = textBoxSessionContent.Text;
+            ApplicationSettings.Current.Session.Name = textBoxSessionName.Text;
+            ApplicationSettings.Current.Session.Message = textBoxSessionContent.Text;
+            ApplicationSettings.Current.Save();
         }
 
         private async void ButtonSessionStarter_Click(object sender, EventArgs e)
@@ -89,15 +91,35 @@ namespace PlenBotLogUploader
             buttonUnPauseSession.Text = (!sessionPaused) ? "Pause session" : "Unpause session";
         }
 
-        public void CheckBoxSupressWebhooks_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSuppressWebhooks = checkBoxSupressWebhooks.Checked;
+        public void CheckBoxSupressWebhooks_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Session.SupressWebhooks = checkBoxSupressWebhooks.Checked;
+            ApplicationSettings.Current.Save();
+        }
 
-        public void CheckBoxOnlySuccess_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionOnlySuccess = checkBoxOnlySuccess.Checked;
+        public void CheckBoxOnlySuccess_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Session.OnlySuccess = checkBoxOnlySuccess.Checked;
+            ApplicationSettings.Current.Save();
+        }
 
-        public void CheckBoxSaveToFile_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSaveToFile = checkBoxSaveToFile.Checked;
+        public void CheckBoxSaveToFile_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Session.SaveToFile = checkBoxSaveToFile.Checked;
+            ApplicationSettings.Current.Save();
+        }
 
-        private void RadioButtonSortByWing_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSort = 0;
+        private void RadioButtonSortByWing_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Session.Sort = LogSessionSortBy.Wing;
+            ApplicationSettings.Current.Save();
+        }
 
-        private void RadioButtonSortByUpload_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.SessionSort = 1;
+        private void RadioButtonSortByUpload_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Session.Sort = LogSessionSortBy.UploadTime;
+            ApplicationSettings.Current.Save();
+        }
 
         private List<DiscordWebhookData> ConvertCheckboxListToList()
         {

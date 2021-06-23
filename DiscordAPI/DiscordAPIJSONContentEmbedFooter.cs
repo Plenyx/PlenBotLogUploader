@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 
 namespace PlenBotLogUploader.DiscordAPI
 {
@@ -11,7 +12,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// footer text
         /// </summary>
         [JsonProperty("text")]
-        public string Text { get; set; } = $"PlenBot Log Uploader r.{Properties.Settings.Default.ReleaseVersion}";
+        public string Text { get; set; } = $"PlenBot Log Uploader r.{ApplicationSettings.Version}";
 
         /// <summary>
         /// url of the footer icon (only supports http(s) and attachments)

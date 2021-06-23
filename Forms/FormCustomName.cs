@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlenBotLogUploader.AppSettings;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -22,8 +23,9 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            Properties.Settings.Default.CustomTwitchName = textBoxCustomName.Text.ToLower();
-            Properties.Settings.Default.CustomTwitchOAuthPassword = textBoxCustomOAuth.Text;
+            ApplicationSettings.Current.Twitch.Custom.Name = textBoxCustomName.Text.ToLower();
+            ApplicationSettings.Current.Twitch.Custom.OAuthPassword = textBoxCustomOAuth.Text;
+            ApplicationSettings.Current.Save();
             if (!mainLink.IsTwitchConnectionNull())
             {
                 await mainLink.ReconnectTwitchBot();
@@ -32,7 +34,8 @@ namespace PlenBotLogUploader
 
         private void CheckBoxCustomNameEnable_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.CustomTwitchNameEnabled = checkBoxCustomNameEnable.Checked;
+            ApplicationSettings.Current.Twitch.Custom.Enabled = checkBoxCustomNameEnable.Checked;
+            ApplicationSettings.Current.Save();
             groupBoxCustomNameSettings.Enabled = checkBoxCustomNameEnable.Checked;
         }
 

@@ -117,6 +117,14 @@
     <Compile Include="Aleeva\AleevaChannel.cs" />
     <Compile Include="Aleeva\AleevaServer.cs" />
     <Compile Include="Aleeva\AleevaResponseStatus.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsAleeva.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsArcUpdate.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsBossTemplate.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsSession.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsTwitchCommands.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsTwitchCustom.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsUpload.cs" />
+    <Compile Include="AppSettings\DPSReportServer.cs" />
     <Compile Include="ArcDps\ArcDpsComponent.cs" />
     <Compile Include="ArcDps\ArcDpsComponentHelperClass.cs" />
     <Compile Include="ArcDps\ArcDpsComponentType.cs" />
@@ -267,6 +275,8 @@
     <Compile Include="Teams\WebhookTeam.cs" />
     <Compile Include="Teams\WebhookTeamLimiter.cs" />
     <Compile Include="Teams\WebhookTeams.cs" />
+    <Compile Include="AppSettings\ApplicationSettings.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsTwitch.cs" />
     <Compile Include="Tools\BossesDisableHelperClass.cs" />
     <Compile Include="Tools\CompatibilityUpdate.cs" />
     <Compile Include="Tools\DiscordWebhooksHelperClass.cs" />

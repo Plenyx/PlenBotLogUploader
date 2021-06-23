@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlenBotLogUploader.AppSettings;
+using System;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -20,12 +21,12 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// Twitch message when encounter is a success
         /// </summary>
-        public string SuccessMsg { get; set; } = Properties.Settings.Default.BossTemplateSuccess;
+        public string SuccessMsg { get; set; } = ApplicationSettings.Current.BossTemplate.SuccessText;
 
         /// <summary>
         /// Twitch message when encounter is a failure
         /// </summary>
-        public string FailMsg { get; set; } = Properties.Settings.Default.BossTemplateFail;
+        public string FailMsg { get; set; } = ApplicationSettings.Current.BossTemplate.FailText;
 
         /// <summary>
         /// Icon used for Discord webhooks

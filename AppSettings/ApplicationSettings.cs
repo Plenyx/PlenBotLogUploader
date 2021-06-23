@@ -1,0 +1,83 @@
+﻿using Newtonsoft.Json;
+using System.IO;
+
+namespace PlenBotLogUploader.AppSettings
+{
+    [JsonObject(MemberSerialization.OptIn)]
+    public class ApplicationSettings
+    {
+        #region application version
+        public static int Version => 65;
+        #endregion
+
+        #region load & save functionality
+        public static ApplicationSettings Current { get; private set; }
+        public static string LocalDir { get; set; }
+        public static string FileName => "app_settings.json";
+
+        public ApplicationSettings()
+        {
+            Current = this;
+        }
+
+        private void SerialiseToFile(string saveLocation) => File.WriteAllText(saveLocation, JsonConvert.SerializeObject(this));
+
+        private static ApplicationSettings DeserialiseFromFile(string loadLocation)
+        {
+            if (File.Exists(loadLocation))
+            {
+                var json = File.ReadAllText(loadLocation);
+                return JsonConvert.DeserializeObject<ApplicationSettings>(json);
+            }
+            var sett = new ApplicationSettings();
+            sett.Save();
+            return sett;
+        }
+
+        public static bool Exists() => File.Exists($"{LocalDir}{FileName}");
+        public static ApplicationSettings Load() => DeserialiseFromFile($"{LocalDir}{FileName}");
+        public void Save() => SerialiseToFile($"{LocalDir}{FileName}");
+        #endregion
+
+        #region public properties
+        [JsonProperty("logsLocation")]
+        public string LogsLocation { get; set; } = "";
+
+        [JsonProperty("upload")]
+        public ApplicationSettingsUpload Upload { get; set; } = new ApplicationSettingsUpload();
+
+        [JsonProperty("twitch")]
+        public ApplicationSettingsTwitch Twitch { get; set; } = new ApplicationSettingsTwitch();
+
+        [JsonProperty("aleeva")]
+        public ApplicationSettingsAleeva Aleeva { get; set; } = new ApplicationSettingsAleeva();
+
+        [JsonProperty("arcUpdate")]
+        public ApplicationSettingsArcUpdate ArcUpdate { get; set; } = new ApplicationSettingsArcUpdate();
+
+        [JsonProperty("bossTemplate")]
+        public ApplicationSettingsBossTemplate BossTemplate { get; set; } = new ApplicationSettingsBossTemplate();
+
+        [JsonProperty("session")]
+        public ApplicationSettingsSession Session { get; set; } = new ApplicationSettingsSession();
+
+        [JsonProperty("firstApplicationRun")]
+        public bool FirstApplicationRun { get; set; } = false;
+
+        [JsonProperty("firstTimeMinimised")]
+        public bool FirstTimeMinimised { get; set; } = false;
+
+        [JsonProperty("minimiseToTry")]
+        public bool MinimiseToTray { get; set; } = true;
+
+        [JsonProperty("gw2Location")]
+        public string GW2Location { get; set; } = "";
+
+        [JsonProperty("gw2APIKey")]
+        public string GW2APIKey { get; set; } = "";
+
+        [JsonProperty("maxConcurrentUploads")]
+        public int MaxConcurrentUploads { get; set; } = 4;
+        #endregion
+    }
+}

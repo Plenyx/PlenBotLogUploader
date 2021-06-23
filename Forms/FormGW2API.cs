@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using PlenBotLogUploader.AppSettings;
+using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
@@ -17,7 +18,8 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            Properties.Settings.Default.GW2APIKey = textBoxAPIKey.Text;
+            ApplicationSettings.Current.GW2APIKey = textBoxAPIKey.Text;
+            ApplicationSettings.Current.Save();
         }
 
         private void ButtonShowAPIKey_MouseDown(object sender, MouseEventArgs e) => textBoxAPIKey.UseSystemPasswordChar = false;

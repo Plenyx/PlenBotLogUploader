@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.DPSReport;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -24,8 +25,8 @@ namespace PlenBotLogUploader
             Text = (data == null) ? "Add a new boss" : $"{data.Name} ({data.BossId})";
             textBoxBossID.Text = data?.BossId.ToString() ?? "";
             textBoxBossName.Text = data?.Name ?? "";
-            textBoxSuccessMsg.Text = data?.SuccessMsg ?? Properties.Settings.Default.BossTemplateSuccess;
-            textBoxFailMsg.Text = data?.FailMsg ?? Properties.Settings.Default.BossTemplateFail;
+            textBoxSuccessMsg.Text = data?.SuccessMsg ?? ApplicationSettings.Current.BossTemplate.SuccessText;
+            textBoxFailMsg.Text = data?.FailMsg ?? ApplicationSettings.Current.BossTemplate.FailText;
             textBoxIcon.Text = data?.Icon ?? "";
             switch(data?.Type ?? BossType.None)
             {

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using PlenBotLogUploader.AppSettings;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
 using System.Windows.Forms;
-using Microsoft.Win32;
 
 namespace PlenBotLogUploader
 {
@@ -66,7 +67,7 @@ namespace PlenBotLogUploader
                             registryRun.DeleteValue("PlenBot Log Uploader");
                         }
                     }
-                    Properties.Settings.Default.Reset();
+                    new ApplicationSettings().Save();
                 }
             }
             if (otherProcesses.Count == 0)

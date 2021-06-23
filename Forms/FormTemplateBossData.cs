@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.DPSReport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,17 @@ namespace PlenBotLogUploader
         {
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            textBoxSuccessMessage.Text = Properties.Settings.Default.BossTemplateSuccess;
-            textBoxFailMessage.Text = Properties.Settings.Default.BossTemplateFail;
+            textBoxSuccessMessage.Text = ApplicationSettings.Current.BossTemplate.SuccessText;
+            textBoxFailMessage.Text = ApplicationSettings.Current.BossTemplate.FailText;
         }
 
         private void FormTemplateBossData_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
-            Properties.Settings.Default.BossTemplateSuccess = textBoxSuccessMessage.Text;
-            Properties.Settings.Default.BossTemplateFail = textBoxFailMessage.Text;
+            ApplicationSettings.Current.BossTemplate.SuccessText = textBoxSuccessMessage.Text;
+            ApplicationSettings.Current.BossTemplate.FailText = textBoxFailMessage.Text;
+            ApplicationSettings.Current.Save();
         }
 
         private void ButtonSuccessSave_Click(object sender, EventArgs e)

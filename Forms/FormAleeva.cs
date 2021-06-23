@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PlenBotLogUploader.Aleeva;
+using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.Tools;
 using System;
@@ -70,8 +71,8 @@ namespace PlenBotLogUploader
             this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.aleeva_icon;
-            checkBoxSendNotification.Checked = Properties.Settings.Default.AleevaSendNotification;
-            checkBoxOnlySuccessful.Checked = Properties.Settings.Default.AleevaSendOnSuccessOnly;
+            checkBoxSendNotification.Checked = ApplicationSettings.Current.Aleeva.SendNotification;
+            checkBoxOnlySuccessful.Checked = ApplicationSettings.Current.Aleeva.SendOnSuccessOnly;
         }
 
         private void FormAleeva_FormClosing(object sender, FormClosingEventArgs e)
@@ -100,8 +101,8 @@ namespace PlenBotLogUploader
                     var logObject = new AleevaAddReport() { DPSReportPermalink = reportJSON.Permalink, SendNotification = checkBoxSendNotification.Checked };
                     if (checkBoxSendNotification.Checked)
                     {
-                        logObject.NotificationServerId = Properties.Settings.Default.AleevaSelectedServer;
-                        logObject.NotificationChannelId = Properties.Settings.Default.AleevaSelectedChannel;
+                        logObject.NotificationServerId = ApplicationSettings.Current.Aleeva.SelectedServer;
+                        logObject.NotificationChannelId = ApplicationSettings.Current.Aleeva.SelectedChannel;
                     }
                     var jsonLogObject = JsonConvert.SerializeObject(logObject);
                     using (var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json"))
@@ -142,16 +143,18 @@ namespace PlenBotLogUploader
                             AleevaAccessToken = responseToken.AccessToken;
                             controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AleevaAccessToken);
                             AleevaAccessTokenExpires = DateTime.Now.AddSeconds(responseToken.ExpiresIn);
-                            Properties.Settings.Default.AleevaRefreshToken = responseToken.RefreshToken;
-                            Properties.Settings.Default.AleevaRefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
+                            ApplicationSettings.Current.Aleeva.RefreshToken = responseToken.RefreshToken;
+                            ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
+                            ApplicationSettings.Current.Save();
                         }
                         else
                         {
                             AleevaAccessToken = "";
                             controller.DefaultRequestHeaders.Authorization = null;
                             AleevaAccessTokenExpires = DateTime.Now;
-                            Properties.Settings.Default.AleevaRefreshToken = "";
-                            Properties.Settings.Default.AleevaRefreshTokenExpire = DateTime.Now;
+                            ApplicationSettings.Current.Aleeva.RefreshToken = "";
+                            ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
+                            ApplicationSettings.Current.Save();
                         }
                     }
                 }
@@ -168,7 +171,7 @@ namespace PlenBotLogUploader
 
         public async Task GetAleevaTokenFromRefreshToken()
         {
-            var aleeva = new AleevaAuthToken() { RefreshToken = Properties.Settings.Default.AleevaRefreshToken, GrantType = "refresh_token" };
+            var aleeva = new AleevaAuthToken() { RefreshToken = ApplicationSettings.Current.Aleeva.RefreshToken, GrantType = "refresh_token" };
             var uri = new Uri($"{aleevaAPIBaseUrl}/auth/token");
             var aleevaKeyValues = new List<KeyValuePair<string, string>>
             {
@@ -192,15 +195,16 @@ namespace PlenBotLogUploader
                             AleevaAccessToken = responseToken.AccessToken;
                             controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AleevaAccessToken);
                             AleevaAccessTokenExpires = DateTime.Now.AddSeconds(responseToken.ExpiresIn);
-                            Properties.Settings.Default.AleevaRefreshToken = responseToken.RefreshToken;
-                            Properties.Settings.Default.AleevaRefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
+                            ApplicationSettings.Current.Aleeva.RefreshToken = responseToken.RefreshToken;
+                            ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
+                            ApplicationSettings.Current.Save();
                             await AleevaLoadServers();
-                            var selectedServer = aleevaServers.Where(x => x.ID.Equals(Properties.Settings.Default.AleevaSelectedServer)).FirstOrDefault();
+                            var selectedServer = aleevaServers.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer)).FirstOrDefault();
                             if (selectedServer != null)
                             {
                                 comboBoxServer.SelectedItem = selectedServer;
                                 await AleevaLoadChannels(selectedServer.ID);
-                                var selectedChannel = aleevaServerChannels.Where(x => x.ID.Equals(Properties.Settings.Default.AleevaSelectedChannel)).First();
+                                var selectedChannel = aleevaServerChannels.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel)).First();
                                 if (selectedChannel != null)
                                 {
                                     comboBoxChannel.SelectedItem = selectedChannel;
@@ -242,8 +246,9 @@ namespace PlenBotLogUploader
             AleevaAccessToken = "";
             AleevaAccessTokenExpires = DateTime.Now;
             AleevaAuthorised = false;
-            Properties.Settings.Default.AleevaRefreshToken = "";
-            Properties.Settings.Default.AleevaRefreshTokenExpire = DateTime.Now;
+            ApplicationSettings.Current.Aleeva.RefreshToken = "";
+            ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
+            ApplicationSettings.Current.Save();
         }
 
         private async Task AleevaLoadServers()
@@ -307,7 +312,8 @@ namespace PlenBotLogUploader
             if (comboBoxServer.SelectedItem.GetType().Equals(typeof(AleevaServer)))
             {
                 var server = (AleevaServer)comboBoxServer.SelectedItem;
-                Properties.Settings.Default.AleevaSelectedServer = server.ID;
+                ApplicationSettings.Current.Aleeva.SelectedServer = server.ID;
+                ApplicationSettings.Current.Save();
                 await AleevaLoadChannels(server.ID);
             }
         }
@@ -359,13 +365,22 @@ namespace PlenBotLogUploader
             if (comboBoxChannel.SelectedItem.GetType().Equals(typeof(AleevaChannel)))
             {
                 var channel = (AleevaChannel)comboBoxChannel.SelectedItem;
-                Properties.Settings.Default.AleevaSelectedChannel = channel.ID;
+                ApplicationSettings.Current.Aleeva.SelectedChannel = channel.ID;
+                ApplicationSettings.Current.Save();
             }
         }
 
-        private void CheckBoxSendNotification_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.AleevaSendNotification = checkBoxSendNotification.Checked;
+        private void CheckBoxSendNotification_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Aleeva.SendNotification = checkBoxSendNotification.Checked;
+            ApplicationSettings.Current.Save();
+        }
 
-        private void CheckBoxOnlySuccessful_CheckedChanged(object sender, EventArgs e) => Properties.Settings.Default.AleevaSendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
+        private void CheckBoxOnlySuccessful_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Aleeva.SendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
+            ApplicationSettings.Current.Save();
+        }
 
         private void FormAleeva_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {

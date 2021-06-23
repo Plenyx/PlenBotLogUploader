@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.DPSReport;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace PlenBotLogUploader.Tools
         public static void DoUpdate()
         {
             // current version check
-            if (Properties.Settings.Default.SavedVersion.Equals(Properties.Settings.Default.ReleaseVersion))
+            if (Properties.Settings.Default.SavedVersion.Equals(ApplicationSettings.Version))
             {
                 return;
             }
@@ -157,6 +158,8 @@ namespace PlenBotLogUploader.Tools
                     // do nothing, since the file does not exist, or is corrupted (data does not line up)
                 }
             }
+            #endregion
+            #region Release 66
             #endregion
             /// end of release specific updates
             Properties.Settings.Default.SavedVersion = Properties.Settings.Default.ReleaseVersion;

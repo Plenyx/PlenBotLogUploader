@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 using System;
 using System.Windows.Forms;
 
@@ -25,20 +26,21 @@ namespace PlenBotLogUploader
             if (radioButtonB.Checked)
             {
                 mainLink.DPSReportServer = "https://b.dps.report";
-                Properties.Settings.Default.DPSReportServer = 2;
+                ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.B;
             }
             else if (radioButtonA.Checked)
             {
                 mainLink.DPSReportServer = "http://a.dps.report";
-                Properties.Settings.Default.DPSReportServer = 1;
+                ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.A;
             }
             else
             {
                 mainLink.DPSReportServer = "https://dps.report";
-                Properties.Settings.Default.DPSReportServer = 0;
+                ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.Main;
             }
-            Properties.Settings.Default.DPSReportUsertokenEnabled = checkBoxDPSReportEnableUsertoken.Checked;
-            Properties.Settings.Default.DPSReportUsertoken = textBoxDPSReportUsertoken.Text;
+            ApplicationSettings.Current.Upload.DPSReportUsertokenEnabled = checkBoxDPSReportEnableUsertoken.Checked;
+            ApplicationSettings.Current.Upload.DPSReportUsertoken = textBoxDPSReportUsertoken.Text;
+            ApplicationSettings.Current.Save();
         }
 
         private void CheckBoxDPSReportEnableUsertoken_CheckedChanged(object sender, EventArgs e)
