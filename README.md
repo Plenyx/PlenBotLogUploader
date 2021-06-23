@@ -25,7 +25,7 @@ When you start the executable, it will check for a new version. If update is ava
 To update the bot you either need to overwrite the previous executable with the new one under the Release tab or you need to press the big **Update Uploader** button within the application.
 
 ## Uninstall/Reinstall
-To remove all application settings, remove the "PlenBotLogUploader.exe_Url_xxx" folders located in the "%AppData%\Plenyx's_Bad_Software", use "Reset all settings" button inside the application or launch the application with -resetsettings flag.
+To remove all application settings, remove the "PlenBotLogUploader.exe_Url_xxx" folders located in the "%AppData%\Plenyx's_Bad_Software" (for Releases < 66), delete app_settings.json (for Releases > 65), use "Reset all settings" button inside the application or launch the application with -resetsettings flag.
 
 To remove all the saved logs, remove the "uploaded_logs.csv" file located in the directory of the executable.
 
