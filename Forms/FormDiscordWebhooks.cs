@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.Tools;
@@ -32,13 +33,13 @@ namespace PlenBotLogUploader
         {
             this.mainLink = mainLink;
             InitializeComponent();
-            teamsLink = new FormWebhookTeams(mainLink);
+            teamsLink = new FormWebhookTeams();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{mainLink.LocalDir}\discord_webhooks.txt"))
+            if (File.Exists($@"{ApplicationSettings.LocalDir}\discord_webhooks.txt"))
             {
                 try
                 {
-                    allWebhooks = DiscordWebhooks.FromFile($@"{mainLink.LocalDir}\discord_webhooks.txt");
+                    allWebhooks = DiscordWebhooks.FromFile($@"{ApplicationSettings.LocalDir}\discord_webhooks.txt");
                     webhookIdsKey = allWebhooks.Count();
                 }
                 catch
@@ -61,7 +62,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            using (var writer = new StreamWriter($@"{mainLink.LocalDir}\discord_webhooks.txt"))
+            using (var writer = new StreamWriter($@"{ApplicationSettings.LocalDir}\discord_webhooks.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in allWebhooks.Keys)

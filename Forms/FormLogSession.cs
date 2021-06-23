@@ -62,11 +62,11 @@ namespace PlenBotLogUploader
                     SelectedWebhooks = ConvertCheckboxListToList()
                 };
                 var fileName = $"{textBoxSessionName.Text.ToLower().Replace(" ", "")} {sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
-                File.AppendAllText($"{mainLink.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
+                File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
                 foreach (var reportJSON in mainLink.SessionLogs)
                 {
                     string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
-                    File.AppendAllText($"{mainLink.LocalDir}{fileName}.csv",
+                    File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv",
                         $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
                 }
                 await mainLink.ExecuteSessionLogWebhooksAsync(logSessionSettings);

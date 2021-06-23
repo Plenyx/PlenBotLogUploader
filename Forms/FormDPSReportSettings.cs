@@ -25,17 +25,14 @@ namespace PlenBotLogUploader
             Hide();
             if (radioButtonB.Checked)
             {
-                mainLink.DPSReportServer = "https://b.dps.report";
                 ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.B;
             }
             else if (radioButtonA.Checked)
             {
-                mainLink.DPSReportServer = "http://a.dps.report";
                 ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.A;
             }
             else
             {
-                mainLink.DPSReportServer = "https://dps.report";
                 ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.Main;
             }
             ApplicationSettings.Current.Upload.DPSReportUsertokenEnabled = checkBoxDPSReportEnableUsertoken.Checked;

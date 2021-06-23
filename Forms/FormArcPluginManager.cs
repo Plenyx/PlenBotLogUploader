@@ -27,7 +27,7 @@ namespace PlenBotLogUploader
         public FormArcPluginManager(FormMain mainLink)
         {
             this.mainLink = mainLink;
-            var installedComponents = ArcDpsComponent.DeserialiseAll(mainLink.LocalDir);
+            var installedComponents = ArcDpsComponent.DeserialiseAll(ApplicationSettings.LocalDir);
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             var availableComponents = new List<ArcDpsComponentHelperClass>()
@@ -74,7 +74,7 @@ namespace PlenBotLogUploader
             }
             checkedListBoxArcDpsPlugins.ItemCheck += new ItemCheckEventHandler(CheckedListBoxArcDpsPlugins_ItemCheck);
             checkBoxEnableNotifications.CheckedChanged += new EventHandler(CheckBoxEnableNotifications_CheckedChanged);
-            ArcDpsComponent.SerialiseAll(mainLink.LocalDir);
+            ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
         }
 
         private void SetStatus(string status)
@@ -227,7 +227,7 @@ namespace PlenBotLogUploader
                             await component.DownloadComponent(httpController);
                         }
                         ArcDpsComponent.All.Add(component);
-                        ArcDpsComponent.SerialiseAll(mainLink.LocalDir);
+                        ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
                     }
                     await StartTimerAsync();
                 }
@@ -293,7 +293,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            ArcDpsComponent.SerialiseAll(mainLink.LocalDir);
+            ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
         }
 
         private void FormArcPluginManager_FormClosed(object sender, FormClosedEventArgs e)

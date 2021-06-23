@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.DiscordAPI;
+﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.Teams;
 using System;
 using System.Collections.Generic;
@@ -13,22 +14,20 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private readonly FormMain mainLink;
         private int teamIdsKey = 0;
         private readonly Dictionary<int, WebhookTeam> allTeams = WebhookTeams.All;
         private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         #endregion
 
-        public FormWebhookTeams(FormMain mainLink)
+        public FormWebhookTeams()
         {
-            this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{mainLink.LocalDir}\webhook_teams.txt"))
+            if (File.Exists($@"{ApplicationSettings.LocalDir}\webhook_teams.txt"))
             {
                 try
                 {
-                    allTeams = WebhookTeams.FromFile($@"{mainLink.LocalDir}\webhook_teams.txt");
+                    allTeams = WebhookTeams.FromFile($@"{ApplicationSettings.LocalDir}\webhook_teams.txt");
                     teamIdsKey = allTeams.Values.Select(x => x.ID).OrderByDescending(x => x).First() + 1;
                 }
                 catch
@@ -51,7 +50,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            using (var writer = new StreamWriter($@"{mainLink.LocalDir}\webhook_teams.txt"))
+            using (var writer = new StreamWriter($@"{ApplicationSettings.LocalDir}\webhook_teams.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in allTeams.Keys)

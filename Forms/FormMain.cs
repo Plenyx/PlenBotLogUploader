@@ -26,8 +26,6 @@ namespace PlenBotLogUploader
         // properties
         public List<DPSReportJSON> SessionLogs { get; } = new List<DPSReportJSON>();
         public bool ChannelJoined { get; set; } = false;
-        public string DPSReportServer { get; set; } = "";
-        public string LocalDir { get; } = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
         public HttpClientController HttpClientController { get; } = new HttpClientController();
         public bool StartedMinimised { get; private set; } = false;
 
@@ -64,7 +62,7 @@ namespace PlenBotLogUploader
         {
             ApplicationSettings.LocalDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
             ApplicationSettings.Load();
-            CompatibilityUpdate.SetLocalDir(LocalDir);
+            CompatibilityUpdate.SetLocalDir(ApplicationSettings.LocalDir);
             CompatibilityUpdate.DoUpdate();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
@@ -136,16 +134,13 @@ namespace PlenBotLogUploader
                 }
                 switch (ApplicationSettings.Current.Upload.DPSReportServer)
                 {
-                    case AppSettings.DPSReportServer.A:
-                        DPSReportServer = "http://a.dps.report";
+                    case DPSReportServer.A:
                         dpsReportSettingsLink.radioButtonA.Checked = true;
                         break;
-                    case AppSettings.DPSReportServer.B:
-                        DPSReportServer = "https://b.dps.report";
+                    case DPSReportServer.B:
                         dpsReportSettingsLink.radioButtonB.Checked = true;
                         break;
                     default:
-                        DPSReportServer = "https://dps.report";
                         break;
                 }
                 if (ApplicationSettings.Current.Upload.DPSReportUsertokenEnabled)
@@ -262,9 +257,9 @@ namespace PlenBotLogUploader
                     buttonTwitchCommands.Enabled = false;
                     checkBoxPostToTwitch.Enabled = false;
                 }
-                if (!File.Exists($"{LocalDir}uploaded_logs.csv"))
+                if (!File.Exists($"{ApplicationSettings.LocalDir}uploaded_logs.csv"))
                 {
-                    File.AppendAllText($"{LocalDir}uploaded_logs.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
+                    File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
                 }
                 // startup check
                 using (var registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
@@ -362,7 +357,7 @@ namespace PlenBotLogUploader
                 string zipfilelocation = file;
                 if (!file.EndsWith(".zevtc"))
                 {
-                    zipfilelocation = $"{LocalDir}{Path.GetFileName(file)}.zevtc";
+                    zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileName(file)}.zevtc";
                     using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@file, Path.GetFileName(file)); }
                     archived = true;
                 }
@@ -378,7 +373,7 @@ namespace PlenBotLogUploader
                 {
                     if (archived)
                     {
-                        File.Delete($"{LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
+                        File.Delete($"{ApplicationSettings.LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
                     }
                 }
             }
@@ -406,7 +401,7 @@ namespace PlenBotLogUploader
                             Thread.Sleep(650);
                             if (!e.FullPath.EndsWith(".zevtc"))
                             {
-                                zipfilelocation = $"{LocalDir}{Path.GetFileName(e.FullPath)}.zevtc";
+                                zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileName(e.FullPath)}.zevtc";
                                 using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@e.FullPath, Path.GetFileName(e.FullPath)); }
                                 archived = true;
                             }
@@ -427,7 +422,7 @@ namespace PlenBotLogUploader
                             {
                                 if (archived)
                                 {
-                                    File.Delete($"{LocalDir}{Path.GetFileName(e.FullPath)}.zevtc");
+                                    File.Delete($"{ApplicationSettings.LocalDir}{Path.GetFileName(e.FullPath)}.zevtc");
                                 }
                             }
                         }
@@ -531,7 +526,7 @@ namespace PlenBotLogUploader
                             string zipfilelocation = arg;
                             if (!arg.EndsWith(".zevtc"))
                             {
-                                zipfilelocation = $"{LocalDir}{Path.GetFileName(arg)}.zevtc";
+                                zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileName(arg)}.zevtc";
                                 using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@arg, Path.GetFileName(arg)); }
                                 archived = true;
                             }
@@ -547,7 +542,7 @@ namespace PlenBotLogUploader
                             {
                                 if (archived)
                                 {
-                                    File.Delete($"{LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
+                                    File.Delete($"{ApplicationSettings.LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
                                 }
                             }
                         }
@@ -665,7 +660,7 @@ namespace PlenBotLogUploader
                                                 }
                                             }
                                             // log file
-                                            File.AppendAllText($"{LocalDir}uploaded_logs.csv",
+                                            File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv",
                                                 $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
                                             // save to clipboard list
                                             allSessionLogs.Add(reportJSON.Permalink);
@@ -788,7 +783,7 @@ namespace PlenBotLogUploader
 
         private string CreateDPSReportLink()
         {
-            var baseUrl = $"{DPSReportServer}/uploadContent";
+            var baseUrl = $"{ApplicationSettings.Current.Upload.DPSReportServerLink}/uploadContent";
             var urlParameters = new List<string>()
             {
                 "json=1",
@@ -1265,10 +1260,10 @@ namespace PlenBotLogUploader
         {
             buttonUpdateNow.Enabled = false;
             AddToText(">>> Downloading update...");
-            var result = await HttpClientController.DownloadFileAsync("https://plenbot.net/uploader/update/", $"{LocalDir}PlenBotLogUploader_Update.exe");
+            var result = await HttpClientController.DownloadFileAsync("https://plenbot.net/uploader/update/", $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
             if (result)
             {
-                Process.Start($"{LocalDir}PlenBotLogUploader_Update.exe", "-update " + Path.GetFileName(Application.ExecutablePath.Replace('/', '\\')));
+                Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", "-update " + Path.GetFileName(Application.ExecutablePath.Replace('/', '\\')));
                 if (InvokeRequired)
                 {
                     // invokes the function on the main thread
@@ -1312,7 +1307,7 @@ namespace PlenBotLogUploader
             var result = MessageBox.Show("Are you sure you want to do this?\nThis resets all your settings but not boss data, webhooks and ping configurations.\nIf you click yes the application will close itself.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
-                Process.Start(LocalDir);
+                Process.Start(ApplicationSettings.LocalDir);
                 var reset = new ApplicationSettings();
                 reset.Save();
                 ExitApp();

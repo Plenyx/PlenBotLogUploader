@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.DPSReport;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,11 +23,11 @@ namespace PlenBotLogUploader
             templateLink = new FormTemplateBossData();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{mainLink.LocalDir}\boss_data.txt"))
+            if (File.Exists($@"{ApplicationSettings.LocalDir}\boss_data.txt"))
             {
                 try
                 {
-                    allBosses = Bosses.FromFile($@"{mainLink.LocalDir}\boss_data.txt");
+                    allBosses = Bosses.FromFile($@"{ApplicationSettings.LocalDir}\boss_data.txt");
                     bossesIdsKey = allBosses.Count;
                 }
                 catch
@@ -65,7 +66,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            using (StreamWriter writer = new StreamWriter($@"{mainLink.LocalDir}\boss_data.txt"))
+            using (StreamWriter writer = new StreamWriter($@"{ApplicationSettings.LocalDir}\boss_data.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in allBosses.Keys)

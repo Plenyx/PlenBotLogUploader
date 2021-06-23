@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.RemotePing;
 using System;
 using System.Collections.Generic;
@@ -25,12 +26,12 @@ namespace PlenBotLogUploader
             this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{mainLink.LocalDir}\remote_pings.txt"))
+            if (File.Exists($@"{ApplicationSettings.LocalDir}\remote_pings.txt"))
             {
                 AllPings = new Dictionary<int, PingConfiguration>();
                 try
                 {
-                    using (var reader = new StreamReader($@"{mainLink.LocalDir}\remote_pings.txt"))
+                    using (var reader = new StreamReader($@"{ApplicationSettings.LocalDir}\remote_pings.txt"))
                     {
                         string line = reader.ReadLine();
                         while ((line = reader.ReadLine()) != null)
@@ -81,7 +82,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            using (var writer = new StreamWriter($@"{mainLink.LocalDir}\remote_pings.txt"))
+            using (var writer = new StreamWriter($@"{ApplicationSettings.LocalDir}\remote_pings.txt"))
             {
                 await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
                 foreach (int key in AllPings.Keys)
