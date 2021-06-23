@@ -38,8 +38,10 @@ namespace PlenBotLogUploader
                         {
                             try
                             {
-                                process.WaitForExit(350);
-                                process.Kill();
+                                if (!process.WaitForExit(350))
+                                {
+                                    process.Kill();
+                                }
                             }
                             catch
                             {

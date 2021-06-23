@@ -86,7 +86,7 @@ namespace PlenBotLogUploader
             aleevaLink = new FormAleeva(this);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
-            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 8 kB filesize will not be uploaded.");
+            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 8 kB filesize will be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it and OBS is running.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
             toolTip.SetToolTip(checkBoxAnonymiseReports, "If checked, the log will be generated with fake names and accounts.");
@@ -196,9 +196,9 @@ namespace PlenBotLogUploader
                     customNameLink.textBoxCustomOAuth.Text = ApplicationSettings.Current.Twitch.Custom.OAuthPassword;
                 }
                 arcPluginManagerLink.checkBoxEnableNotifications.Checked = ApplicationSettings.Current.ArcUpdate.Notifications;
-                if (arcPluginManagerLink.GW2Location != "")
+                if (ApplicationSettings.Current.GW2Location != "")
                 {
-                    if (File.Exists($@"{arcPluginManagerLink.GW2Location}\Gw2-64.exe") || File.Exists($@"{arcPluginManagerLink.GW2Location}\Gw2.exe") || File.Exists($@"{arcPluginManagerLink.GW2Location}\Guild Wars 2.exe"))
+                    if (File.Exists($@"{ApplicationSettings.Current.GW2Location}\Gw2-64.exe") || File.Exists($@"{ApplicationSettings.Current.GW2Location}\Gw2.exe") || File.Exists($@"{ApplicationSettings.Current.GW2Location}\Guild Wars 2.exe"))
                     {
                         if (ApplicationSettings.Current.ArcUpdate.Enabled)
                         {
@@ -209,7 +209,6 @@ namespace PlenBotLogUploader
                     else
                     {
                         ShowBalloon("arcdps plugin manager", "There has been an error locating the main Guild Wars 2 folder, try changing the directory again.", 6500);
-                        arcPluginManagerLink.GW2Location = "";
                         ApplicationSettings.Current.GW2Location = "";
                     }
                 }

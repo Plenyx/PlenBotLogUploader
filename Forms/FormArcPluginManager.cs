@@ -15,18 +15,6 @@ namespace PlenBotLogUploader
     public partial class FormArcPluginManager : Form
     {
         #region definitions
-        // properties
-        private string _GW2Location;
-        public string GW2Location
-        {
-            get => _GW2Location;
-            set
-            {
-                _GW2Location = value;
-                ArcDpsComponent.GW2Location = value;
-            }
-        }
-
         // fields
         private readonly FormMain mainLink;
         private readonly HttpClientController httpController;
@@ -38,7 +26,6 @@ namespace PlenBotLogUploader
 
         public FormArcPluginManager(FormMain mainLink, string gw2Location)
         {
-            GW2Location = gw2Location;
             this.mainLink = mainLink;
             httpController = new HttpClientController();
             var installedComponents = ArcDpsComponent.DeserialiseAll(mainLink.LocalDir);
@@ -61,7 +48,6 @@ namespace PlenBotLogUploader
                 {
                     arcIsInstalled = false;
                     checkBoxModuleEnabled.Checked = false;
-                    GW2Location = "";
                     ApplicationSettings.Current.GW2Location = "";
                     ApplicationSettings.Current.Save();
                 }
@@ -70,7 +56,6 @@ namespace PlenBotLogUploader
             {
                 arcIsInstalled = false;
                 checkBoxModuleEnabled.Checked = false;
-                GW2Location = "";
                 ApplicationSettings.Current.GW2Location = "";
                 ApplicationSettings.Current.Save();
             }
@@ -219,7 +204,6 @@ namespace PlenBotLogUploader
                 if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
                 {
                     var location = Path.GetDirectoryName(dialog.FileName);
-                    GW2Location = location;
                     ApplicationSettings.Current.GW2Location = location;
                     ApplicationSettings.Current.Save();
                     if (ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps)).Any())
@@ -264,7 +248,7 @@ namespace PlenBotLogUploader
                 if (processes.Count == 0)
                 {
                     var component = ArcDpsComponent.All.Where(x => x.Type.Equals(item.Type)).FirstOrDefault();
-                    File.Delete($"{GW2Location}{component.RelativeLocation}");
+                    File.Delete($"{ApplicationSettings.Current.GW2Location}{component.RelativeLocation}");
                     ArcDpsComponent.All.RemoveAll(x => x.Type.Equals(component.Type));
                 }
                 else
@@ -294,7 +278,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
             groupBoxModuleControls.Enabled = toggle;
             checkedListBoxArcDpsPlugins.Enabled = toggle;
-            if (Visible && toggle && (GW2Location == ""))
+            if (Visible && toggle && (ApplicationSettings.Current.GW2Location == ""))
             {
                 ButtonChangeGW2Location_Click(this, new EventArgs());
             }

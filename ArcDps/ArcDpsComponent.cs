@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,8 +25,6 @@ namespace PlenBotLogUploader.ArcDps
                 return _All;
             }
         }
-
-        public static string GW2Location { get; set; }
 
         public static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All));
 
@@ -89,9 +88,9 @@ namespace PlenBotLogUploader.ArcDps
             }
         }
 
-        public async Task<bool> DownloadComponent(Tools.HttpClientController httpController) => await httpController.DownloadFileAsync(DownloadLink, $"{GW2Location}{RelativeLocation}");
+        public async Task<bool> DownloadComponent(Tools.HttpClientController httpController) => await httpController.DownloadFileAsync(DownloadLink, $"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
 
-        public bool IsInstalled() => File.Exists($@"{GW2Location}{RelativeLocation}");
+        public bool IsInstalled() => File.Exists($@"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
 
         public bool IsCurrentVersion(string version)
         {
@@ -101,7 +100,7 @@ namespace PlenBotLogUploader.ArcDps
             }
             if (Type == ArcDpsComponentType.Mechanics || Type == ArcDpsComponentType.BoonTable || Type == ArcDpsComponentType.KPme)
             {
-                var fileInfo = FileVersionInfo.GetVersionInfo($@"{GW2Location}{RelativeLocation}");
+                var fileInfo = FileVersionInfo.GetVersionInfo($@"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
                 var versionWithoutBuild = fileInfo.FileVersion?.Split('.').ToList().Take(3).Aggregate((x, y) => $"{x}.{y}") ?? "";
                 return string.IsNullOrWhiteSpace(version) || (versionWithoutBuild == version);
             }
@@ -122,7 +121,7 @@ namespace PlenBotLogUploader.ArcDps
                 try
                 {
                     byte[] hash = null;
-                    using (var stream = File.OpenRead($"{GW2Location}{RelativeLocation}"))
+                    using (var stream = File.OpenRead($"{ApplicationSettings.Current.GW2Location}{RelativeLocation}"))
                     {
                         hash = md5.ComputeHash(stream);
                     }
