@@ -23,39 +23,6 @@ namespace PlenBotLogUploader.DPSReport
         [JsonProperty("duration")]
         public string Duration { get; set; }
 
-        public double DurationDouble
-        {
-            get
-            {
-                var result = 0d;
-                var durationSplit = Duration.Split(' ');
-                foreach (var pieceOfDuration in durationSplit)
-                {
-                    if (pieceOfDuration.Contains('m') && !pieceOfDuration.Contains('s'))
-                    {
-                        var extraction = pieceOfDuration.Substring(0, pieceOfDuration.Length - 1);
-                        result += double.Parse(extraction) * 60;
-                    }
-                    else if (pieceOfDuration.Contains('m') && pieceOfDuration.Contains('s'))
-                    {
-                        var extraction = pieceOfDuration.Substring(0, pieceOfDuration.Length - 2);
-                        result += double.Parse(extraction) / 1000;
-                    }
-                    else if (!pieceOfDuration.Contains('m') && pieceOfDuration.Contains('s'))
-                    {
-                        var extraction = pieceOfDuration.Substring(0, pieceOfDuration.Length - 1);
-                        result += double.Parse(extraction);
-                    }
-                    else if (!pieceOfDuration.Contains('h'))
-                    {
-                        var extraction = pieceOfDuration.Substring(0, pieceOfDuration.Length - 1);
-                        result += double.Parse(extraction) * 3600;
-                    }
-                }
-                return result;
-            }
-        }
-
         [JsonProperty("triggerID")]
         public int TriggerID { get; set; }
 
@@ -77,14 +44,14 @@ namespace PlenBotLogUploader.DPSReport
         [JsonProperty("players")]
         public List<Player> Players { get; set; }
 
-        public Dictionary<Player, int> PlayerDamage
+        public Dictionary<Player, int> PlayerTargetDPS
         {
             get
             {
                 var dict = new Dictionary<Player, int>();
                 Players.ForEach(player => {
                     var damage = player.DpsTargets
-                        .Select(x => x.First().Damage)
+                        .Select(x => x.First().DPS)
                         .Sum();
                     dict.Add(player, damage);
                 });

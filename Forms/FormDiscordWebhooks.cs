@@ -398,13 +398,12 @@ namespace PlenBotLogUploader
                             Value = $"```{playerNames.Render()}```"
                         });
                         // damage summary
-                        var fightDuration = reportJSON.ExtraJSON.DurationDouble;
                         var damageStats = reportJSON.ExtraJSON.Players
                             .Where(x => !x.FriendNPC)
                             .Select(x => new
                             {
                                 Player = x,
-                                DPS = (int)Math.Round(reportJSON.ExtraJSON.PlayerDamage[x] / fightDuration, 0)
+                                DPS = reportJSON.ExtraJSON.PlayerTargetDPS[x]
                             })
                             .OrderByDescending(x => x.DPS)
                             .Take(10)

@@ -2,7 +2,7 @@
 
 namespace PlenBotLogUploader.DPSReport.ExtraJSON
 {
-    public class DpsTargets
+    public class DpsTarget
     {
         [JsonProperty("dps")]
         public int DPS { get; set; }
