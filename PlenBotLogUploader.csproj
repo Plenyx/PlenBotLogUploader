@@ -152,6 +152,7 @@
     <Compile Include="DPSReport\ExtraJSON\Player.cs" />
     <Compile Include="DPSReport\ExtraJSON\Defenses.cs" />
     <Compile Include="DPSReport\ExtraJSON\DpsAll.cs" />
+    <Compile Include="DPSReport\ExtraJSON\DpsTargets.cs" />
     <Compile Include="DPSReport\ExtraJSON\StatsAll.cs" />
     <Compile Include="DPSReport\ExtraJSON\PlayerSupport.cs" />
     <Compile Include="DPSReport\ExtraJSON\Target.cs" />

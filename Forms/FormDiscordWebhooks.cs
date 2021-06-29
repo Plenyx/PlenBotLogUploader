@@ -398,36 +398,42 @@ namespace PlenBotLogUploader
                             Value = $"```{playerNames.Render()}```"
                         });
                         // damage summary
+                        var fightDuration = reportJSON.ExtraJSON.DurationDouble;
                         var damageStats = reportJSON.ExtraJSON.Players
                             .Where(x => !x.FriendNPC)
-                            .OrderByDescending(x => x.DpsAll.First().DPS)
+                            .Select(x => new
+                            {
+                                Player = x,
+                                DPS = (int)Math.Round(reportJSON.ExtraJSON.PlayerDamage[x] / fightDuration, 0)
+                            })
+                            .OrderByDescending(x => x.DPS)
                             .Take(10)
                             .ToList();
-                        var dpsCleaveSummary = new TextTable(3, tableStyle, TableVisibleBorders.HEADER_AND_FOOTER);
-                        dpsCleaveSummary.SetColumnWidthRange(0, 5, 5);
-                        dpsCleaveSummary.SetColumnWidthRange(1, 27, 27);
-                        dpsCleaveSummary.SetColumnWidthRange(2, 8, 8);
-                        dpsCleaveSummary.AddCell("#", tableCellCenterAlign);
-                        dpsCleaveSummary.AddCell("Name");
-                        dpsCleaveSummary.AddCell("DPS", tableCellRightAlign);
+                        var dpsTargetSummary = new TextTable(3, tableStyle, TableVisibleBorders.HEADER_AND_FOOTER);
+                        dpsTargetSummary.SetColumnWidthRange(0, 5, 5);
+                        dpsTargetSummary.SetColumnWidthRange(1, 27, 27);
+                        dpsTargetSummary.SetColumnWidthRange(2, 8, 8);
+                        dpsTargetSummary.AddCell("#", tableCellCenterAlign);
+                        dpsTargetSummary.AddCell("Name");
+                        dpsTargetSummary.AddCell("DPS", tableCellRightAlign);
                         var rank = 0;
                         foreach (var player in damageStats)
                         {
                             rank++;
-                            dpsCleaveSummary.AddCell($"{rank}", tableCellCenterAlign);
-                            dpsCleaveSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                            dpsCleaveSummary.AddCell($"{player.DpsAll.First().DPS}", tableCellRightAlign);
+                            dpsTargetSummary.AddCell($"{rank}", tableCellCenterAlign);
+                            dpsTargetSummary.AddCell($"{player.Player.Name} ({player.Player.ProfessionShort})");
+                            dpsTargetSummary.AddCell($"{player.DPS}", tableCellRightAlign);
                         }
-                        dpsCleaveSummary.AddCell("");
-                        dpsCleaveSummary.AddCell("Total");
-                        var totalCleave = damageStats
-                            .Select(x => x.DpsAll.First().DPS)
+                        dpsTargetSummary.AddCell("");
+                        dpsTargetSummary.AddCell("Total");
+                        var totalDPS = damageStats
+                            .Select(x => x.DPS)
                             .Sum();
-                        dpsCleaveSummary.AddCell($"{totalCleave}", tableCellRightAlign);
+                        dpsTargetSummary.AddCell($"{totalDPS}", tableCellRightAlign);
                         fields.Add(new DiscordAPIJSONContentEmbedField()
                         {
-                            Name = "DPS cleave summary:",
-                            Value = $"```{dpsCleaveSummary.Render()}```"
+                            Name = "DPS target summary:",
+                            Value = $"```{dpsTargetSummary.Render()}```"
                         });
                     }
                     discordContentEmbedForPlayers.Fields = fields;
