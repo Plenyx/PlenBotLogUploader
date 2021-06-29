@@ -90,9 +90,9 @@ namespace PlenBotLogUploader
                     Url = icon
                 };
                 var timestampDateTime = DateTime.UtcNow;
-                if (DateTime.TryParse(reportJSON.ExtraJSON.TimeStart, out DateTime timeStart))
+                if (reportJSON.ExtraJSON != null)
                 {
-                    timestampDateTime = timeStart;
+                    timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
                 var timestamp = timestampDateTime.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ");
                 var discordContentEmbed = new DiscordAPIJSONContentEmbed()
@@ -342,9 +342,9 @@ namespace PlenBotLogUploader
                     Url = icon
                 };
                 var timestampDateTime = DateTime.UtcNow;
-                if (DateTime.TryParse(reportJSON.ExtraJSON.TimeStart, out DateTime timeStart))
+                if (reportJSON.ExtraJSON != null)
                 {
-                    timestampDateTime = timeStart;
+                    timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
                 var timestamp = timestampDateTime.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ");
                 var discordContentEmbed = new DiscordAPIJSONContentEmbed()
