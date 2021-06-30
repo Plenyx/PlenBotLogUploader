@@ -1045,6 +1045,10 @@ namespace PlenBotLogUploader
                                                 gameMode = GW2GameMode.PvE;
                                                 break;
                                         }
+                                        if ((gameMode == GW2GameMode.PvE) && (MumbleReader?.Data.Context.UIState.HasFlag(UIState.IsInCompetitiveGamemode) ?? false))
+                                        {
+                                            gameMode = GW2GameMode.PvP;
+                                        }
                                         var build = await parser.GetAPIBuildAsync(MumbleReader.Data.Identity.Name, gameMode);
                                         var buildLink = build.GetBuildLink();
                                         await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"Link to the build: {buildLink}");
