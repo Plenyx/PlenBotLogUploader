@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using Hardstuck.GuildWars2.Builds;
+using Hardstuck.GuildWars2.MumbleLink;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
@@ -12,6 +14,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +31,7 @@ namespace PlenBotLogUploader
         public bool ChannelJoined { get; set; } = false;
         public HttpClientController HttpClientController { get; } = new HttpClientController();
         public bool StartedMinimised { get; private set; } = false;
+        public MumbleReader MumbleReader { get; set; }
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
@@ -82,6 +86,7 @@ namespace PlenBotLogUploader
             logSessionLink = new FormLogSession(this);
             gw2APILink = new FormGW2API();
             aleevaLink = new FormAleeva(this);
+            MumbleReader = new MumbleReader(false);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
             toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 8 kB filesize will be uploaded.");
@@ -207,6 +212,8 @@ namespace PlenBotLogUploader
                         ApplicationSettings.Current.GW2Location = "";
                     }
                 }
+                twitchCommandsLink.checkBoxGW2BuildEnable.Checked = ApplicationSettings.Current.Twitch.Commands.BuildEnabled;
+                twitchCommandsLink.textBoxGW2Build.Text = ApplicationSettings.Current.Twitch.Commands.BuildCommand;
                 twitchCommandsLink.checkBoxUploaderEnable.Checked = ApplicationSettings.Current.Twitch.Commands.UploaderEnabled;
                 twitchCommandsLink.textBoxUploaderCommand.Text = ApplicationSettings.Current.Twitch.Commands.UploaderCommand;
                 twitchCommandsLink.checkBoxLastLogEnable.Checked = ApplicationSettings.Current.Twitch.Commands.LastLogEnabled;
@@ -306,6 +313,7 @@ namespace PlenBotLogUploader
             semaphore?.Dispose();
             HttpClientController?.Dispose();
             watcher?.Dispose();
+            MumbleReader?.Dispose();
         }
 
         private void FormMain_Resize(object sender, EventArgs e)
@@ -437,7 +445,22 @@ namespace PlenBotLogUploader
             }
         }
 
-        public void ShowBalloon(string title, string description, int ms) => notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.None);
+        public void ShowBalloon(string title, string description, int ms)
+        {
+            MumbleReader?.Update();
+            if (!MumbleReader?.Data.Context.UIState.HasFlag(UIState.IsInCombat) ?? true)
+            {
+                notifyIconTray.ShowBalloonTip(ms, title, description, ToolTipIcon.Info);
+            }
+            else
+            {
+                Task.Run(() =>
+                {
+                    Task.Delay(30000);
+                    ShowBalloon(title, description, ms);
+                });
+            }
+        }
 
         private void LogsScan(string directory)
         {
@@ -994,6 +1017,63 @@ namespace PlenBotLogUploader
                 {
                     AddToText("> UPLOADER COMMAND USED");
                     await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"PlenBot Log Uploader r{ApplicationSettings.Version} | https://hardstuck.gg/uploader/ | https://github.com/HardstuckGuild/PlenBotLogUploader/");
+                }
+                else if (command.Equals(twitchCommandsLink.textBoxGW2Build.Text.ToLower()) && twitchCommandsLink.checkBoxGW2BuildEnable.Checked)
+                {
+                    AddToText("> (GW2) BUILD COMMAND USED");
+                    if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2APIKey))
+                    {
+                        MumbleReader?.Update();
+                        if (!string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
+                        {
+                            _ = Task.Run(async () =>
+                            {
+                                try
+                                {
+                                    using (var parser = new GW2BuildParser(ApplicationSettings.Current.GW2APIKey))
+                                    {
+                                        var gameMode = GW2GameMode.PvE;
+                                        switch (MumbleReader.Data.Context.GameMode)
+                                        {
+                                            case MapGameMode.PvP:
+                                                gameMode = GW2GameMode.PvP;
+                                                break;
+                                            case MapGameMode.WvW:
+                                                gameMode = GW2GameMode.WvW;
+                                                break;
+                                            default:
+                                                gameMode = GW2GameMode.PvE;
+                                                break;
+                                        }
+                                        var build = await parser.GetAPIBuildAsync(MumbleReader.Data.Identity.Name, gameMode);
+                                        var buildLink = build.GetBuildLink();
+                                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"Link to the build: {buildLink}");
+                                    }
+                                }
+                                catch (NotEnoughPermissionsException ex)
+                                {
+                                    var response = new StringBuilder("The API request failed due to low API key permissions, main reason: ");
+                                    switch (ex.MissingPermission)
+                                    {
+                                        case NotEnoughPermissionsReason.Characters:
+                                            response.Append("the API key is missing \"characters\" permission");
+                                            break;
+                                        case NotEnoughPermissionsReason.Builds:
+                                            response.Append("the API key is missing \"builds\" permission");
+                                            break;
+                                        default:
+                                            response.Append("the API key is invalid");
+                                            break;
+                                    }
+                                    AddToText(response.ToString());
+                                }
+                            });
+                        }
+                    }
+                    else
+                    {
+                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "GW2 API key is not set for the streamer, although the command is enabled, curious.");
+                    }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {

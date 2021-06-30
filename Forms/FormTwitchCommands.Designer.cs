@@ -44,11 +44,16 @@
             this.groupBoxPullCounter = new System.Windows.Forms.GroupBox();
             this.textBoxPullCounter = new System.Windows.Forms.TextBox();
             this.checkBoxPullCounterEnable = new System.Windows.Forms.CheckBox();
+            this.groupBoxGW2Build = new System.Windows.Forms.GroupBox();
+            this.checkBoxGW2BuildEnable = new System.Windows.Forms.CheckBox();
+            this.textBoxGW2Build = new System.Windows.Forms.TextBox();
+            this.labelBuildInfo = new System.Windows.Forms.Label();
             this.groupBoxUploader.SuspendLayout();
             this.groupBoxLastLog.SuspendLayout();
             this.groupBoxSong.SuspendLayout();
             this.groupBoxGW2IGN.SuspendLayout();
             this.groupBoxPullCounter.SuspendLayout();
+            this.groupBoxGW2Build.SuspendLayout();
             this.SuspendLayout();
             // 
             // checkBoxUploaderEnable
@@ -202,11 +207,51 @@
             this.checkBoxPullCounterEnable.Text = "enable command";
             this.checkBoxPullCounterEnable.UseVisualStyleBackColor = true;
             // 
+            // groupBoxGW2Build
+            // 
+            this.groupBoxGW2Build.Controls.Add(this.labelBuildInfo);
+            this.groupBoxGW2Build.Controls.Add(this.textBoxGW2Build);
+            this.groupBoxGW2Build.Controls.Add(this.checkBoxGW2BuildEnable);
+            this.groupBoxGW2Build.Location = new System.Drawing.Point(195, 164);
+            this.groupBoxGW2Build.Name = "groupBoxGW2Build";
+            this.groupBoxGW2Build.Size = new System.Drawing.Size(179, 92);
+            this.groupBoxGW2Build.TabIndex = 7;
+            this.groupBoxGW2Build.TabStop = false;
+            this.groupBoxGW2Build.Text = "(GW2) !build";
+            // 
+            // checkBoxGW2BuildEnable
+            // 
+            this.checkBoxGW2BuildEnable.AutoSize = true;
+            this.checkBoxGW2BuildEnable.Location = new System.Drawing.Point(7, 19);
+            this.checkBoxGW2BuildEnable.Name = "checkBoxGW2BuildEnable";
+            this.checkBoxGW2BuildEnable.Size = new System.Drawing.Size(107, 17);
+            this.checkBoxGW2BuildEnable.TabIndex = 0;
+            this.checkBoxGW2BuildEnable.Text = "enable command";
+            this.checkBoxGW2BuildEnable.UseVisualStyleBackColor = true;
+            // 
+            // textBoxGW2Build
+            // 
+            this.textBoxGW2Build.Location = new System.Drawing.Point(6, 42);
+            this.textBoxGW2Build.Name = "textBoxGW2Build";
+            this.textBoxGW2Build.Size = new System.Drawing.Size(164, 20);
+            this.textBoxGW2Build.TabIndex = 2;
+            // 
+            // labelBuildInfo
+            // 
+            this.labelBuildInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelBuildInfo.Location = new System.Drawing.Point(6, 70);
+            this.labelBuildInfo.Name = "labelBuildInfo";
+            this.labelBuildInfo.Size = new System.Drawing.Size(164, 16);
+            this.labelBuildInfo.TabIndex = 3;
+            this.labelBuildInfo.Text = "Must have a GW2 API key set";
+            this.labelBuildInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormTwitchCommands
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 268);
+            this.Controls.Add(this.groupBoxGW2Build);
             this.Controls.Add(this.groupBoxPullCounter);
             this.Controls.Add(this.groupBoxGW2IGN);
             this.Controls.Add(this.groupBoxSong);
@@ -229,6 +274,8 @@
             this.groupBoxGW2IGN.PerformLayout();
             this.groupBoxPullCounter.ResumeLayout(false);
             this.groupBoxPullCounter.PerformLayout();
+            this.groupBoxGW2Build.ResumeLayout(false);
+            this.groupBoxGW2Build.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -251,5 +298,9 @@
         public System.Windows.Forms.TextBox textBoxPullCounter;
         public System.Windows.Forms.CheckBox checkBoxPullCounterEnable;
         public System.Windows.Forms.CheckBox checkBoxSongSmartRecognition;
+        private System.Windows.Forms.GroupBox groupBoxGW2Build;
+        public System.Windows.Forms.TextBox textBoxGW2Build;
+        public System.Windows.Forms.CheckBox checkBoxGW2BuildEnable;
+        private System.Windows.Forms.Label labelBuildInfo;
     }
 }

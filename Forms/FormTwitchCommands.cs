@@ -15,6 +15,8 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
+            ApplicationSettings.Current.Twitch.Commands.BuildEnabled = checkBoxGW2BuildEnable.Checked;
+            ApplicationSettings.Current.Twitch.Commands.BuildCommand = textBoxGW2Build.Text;
             ApplicationSettings.Current.Twitch.Commands.UploaderEnabled = checkBoxUploaderEnable.Checked;
             ApplicationSettings.Current.Twitch.Commands.UploaderCommand = textBoxUploaderCommand.Text;
             ApplicationSettings.Current.Twitch.Commands.LastLogEnabled = checkBoxLastLogEnable.Checked;

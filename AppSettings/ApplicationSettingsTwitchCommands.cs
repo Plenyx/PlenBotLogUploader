@@ -4,6 +4,12 @@ namespace PlenBotLogUploader.AppSettings
 {
     public class ApplicationSettingsTwitchCommands
     {
+        [JsonProperty("buildEnabled")]
+        public bool BuildEnabled { get; set; } = false;
+
+        [JsonProperty("buildCommand")]
+        public string BuildCommand { get; set; } = "!build";
+
         [JsonProperty("ignEnabled")]
         public bool IGNEnabled { get; set; } = false;
 
