@@ -67,14 +67,14 @@
             // 
             // labelAPIKeyInfo
             // 
-            this.labelAPIKeyInfo.AutoSize = true;
-            this.labelAPIKeyInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelAPIKeyInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelAPIKeyInfo.Location = new System.Drawing.Point(9, 62);
             this.labelAPIKeyInfo.Name = "labelAPIKeyInfo";
             this.labelAPIKeyInfo.Size = new System.Drawing.Size(733, 18);
             this.labelAPIKeyInfo.TabIndex = 1;
-            this.labelAPIKeyInfo.Text = "API key is used only with \"!ign\" Twitch command, you don\'t need to set it unless " +
-    "you want to use the command.";
+            this.labelAPIKeyInfo.Text = "API key is used with \"!ign\" and \"!build\" Twitch commands, you don\'t need to set i" +
+    "t unless you want to use the commands.";
+            this.labelAPIKeyInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormGW2API
             // 
@@ -93,7 +93,6 @@
             this.groupBoxAPIKey.ResumeLayout(false);
             this.groupBoxAPIKey.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
