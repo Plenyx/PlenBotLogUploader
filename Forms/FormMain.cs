@@ -795,7 +795,7 @@ namespace PlenBotLogUploader
 
         public async Task ExecuteSessionLogWebhooksAsync(LogSessionSettings logSessionSettings)
         {
-            var builder = new System.Text.StringBuilder($">:> Session summary:{Environment.NewLine}");
+            var builder = new StringBuilder($">:> Session summary:{Environment.NewLine}");
             foreach (var log in SessionLogs)
             {
                 builder.AppendLine($"{log?.ExtraJSON.FightName ?? log.Encounter.Boss}: {log.Permalink}");
@@ -1068,6 +1068,10 @@ namespace PlenBotLogUploader
                                     AddToText(response.ToString());
                                 }
                             });
+                        }
+                        else
+                        {
+                            AddToText("Read from Mumble Link has failed, is the game running?");
                         }
                     }
                     else
