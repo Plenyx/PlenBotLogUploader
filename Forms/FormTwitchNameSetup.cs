@@ -1,6 +1,7 @@
 ﻿using PlenBotLogUploader.AppSettings;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PlenBotLogUploader
@@ -21,30 +22,35 @@ namespace PlenBotLogUploader
 
         private async void ButtonNext_Click(object sender, EventArgs e)
         {
-            string channelUrl = textBoxChannelUrl.Text.ToLower();
-            string[] channelUrlSplit = channelUrl.Split(new string[] { "twitch.tv/" }, StringSplitOptions.None);
+            var channelInput = textBoxChannelUrl.Text.ToLower();
+            var channelUrlSplit = channelInput.Split(new string[] { "twitch.tv/" }, StringSplitOptions.None);
             if (channelUrlSplit.Count() > 1)
             {
-                string channelName = channelUrlSplit[1].Split('/')[0];
-                var result = MessageBox.Show($"Is this your channel name?\n\n{channelName}", "Channel name confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (result.Equals(DialogResult.Yes))
-                {
-                    ApplicationSettings.Current.Twitch.ChannelName = channelName;
-                    ApplicationSettings.Current.Save();
-                    if (mainLink.IsTwitchConnectionNull())
-                    {
-                        await mainLink.ConnectTwitchBot();
-                    }
-                    else
-                    {
-                        await mainLink.ReconnectTwitchBot();
-                    }
-                    Hide();
-                }
+                var channelName = channelUrlSplit[1].Split('/')[0];
+                await AskNameToConfirm(channelName);
             }
             else
             {
-                MessageBox.Show("The URL doesn't seem to be valid. Check your provided URL.", "An error has occurred");
+                await AskNameToConfirm(channelInput);
+            }
+        }
+
+        private async Task AskNameToConfirm(string input)
+        {
+            var result = MessageBox.Show($"Is this your channel name?\n\n{input}", "Channel name confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+            if (result.Equals(DialogResult.Yes))
+            {
+                ApplicationSettings.Current.Twitch.ChannelName = input;
+                ApplicationSettings.Current.Save();
+                if (mainLink.IsTwitchConnectionNull())
+                {
+                    await mainLink.ConnectTwitchBot();
+                }
+                else
+                {
+                    await mainLink.ReconnectTwitchBot();
+                }
+                Hide();
             }
         }
 
