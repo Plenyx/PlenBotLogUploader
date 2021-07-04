@@ -80,7 +80,7 @@ namespace PlenBotLogUploader
             customNameLink = new FormCustomName(this);
             pingsLink = new FormPings(this);
             arcPluginManagerLink = new FormArcPluginManager(this);
-            bossDataLink = new FormBossData(this);
+            bossDataLink = new FormBossData();
             discordWebhooksLink = new FormDiscordWebhooks(this);
             twitchCommandsLink = new FormTwitchCommands();
             logSessionLink = new FormLogSession(this);

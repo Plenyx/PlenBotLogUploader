@@ -11,15 +11,13 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private readonly FormMain mainLink;
         private readonly FormTemplateBossData templateLink;
         private int bossesIdsKey = 0;
         private readonly Dictionary<int, BossData> allBosses = Bosses.All;
         #endregion
 
-        public FormBossData(FormMain mainLink)
+        public FormBossData()
         {
-            this.mainLink = mainLink;
             templateLink = new FormTemplateBossData();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
