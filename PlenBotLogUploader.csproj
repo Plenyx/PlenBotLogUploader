@@ -286,7 +286,6 @@
     <Compile Include="AppSettings\ApplicationSettings.cs" />
     <Compile Include="AppSettings\ApplicationSettingsTwitch.cs" />
     <Compile Include="Tools\BossesDisableHelperClass.cs" />
-    <Compile Include="Tools\CompatibilityUpdate.cs" />
     <Compile Include="Tools\DiscordWebhooksHelperClass.cs" />
     <Compile Include="Tools\Gw2APIHelper.cs" />
     <Compile Include="Tools\HttpClientController.cs" />

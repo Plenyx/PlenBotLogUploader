@@ -66,8 +66,6 @@ namespace PlenBotLogUploader
         {
             ApplicationSettings.LocalDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
             ApplicationSettings.Load();
-            CompatibilityUpdate.SetLocalDir(ApplicationSettings.LocalDir);
-            CompatibilityUpdate.DoUpdate();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             notifyIconTray.Icon = Properties.Resources.AppIcon;
