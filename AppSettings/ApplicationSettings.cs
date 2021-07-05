@@ -52,7 +52,7 @@ namespace PlenBotLogUploader.AppSettings
         public ApplicationSettingsBossTemplate BossTemplate { get; set; } = new ApplicationSettingsBossTemplate();
 
         [JsonProperty("firstApplicationRun")]
-        public bool FirstApplicationRun { get; set; } = false;
+        public bool FirstApplicationRun { get; set; } = true;
 
         [JsonProperty("firstTimeMinimised")]
         public bool FirstTimeMinimised { get; set; } = false;
