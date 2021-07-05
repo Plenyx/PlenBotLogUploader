@@ -99,14 +99,14 @@ namespace PlenBotLogUploader.Tools
                 {
                     foreach (var data in RaidLogs)
                     {
-                        string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
+                        var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
                         if (bossData != null)
                         {
                             bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : "");
                         }
-                        string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
-                        string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                        var duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
+                        var successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                         builderSuccessFailure.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
@@ -141,7 +141,7 @@ namespace PlenBotLogUploader.Tools
                 }
                 else
                 {
-                    int lastWing = 0;
+                    var lastWing = 0;
                     foreach (var data in RaidLogs)
                     {
                         if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.EVTC.BossId)))
@@ -149,14 +149,14 @@ namespace PlenBotLogUploader.Tools
                             builderSuccessFailure.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                             lastWing = Bosses.GetWingForBoss(data.LogData.EVTC.BossId);
                         }
-                        string bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
+                        var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
                         if (bossData != null)
                         {
                             bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : "");
                         }
-                        string duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
-                        string successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                        var duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
+                        var successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                         builderSuccessFailure.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
@@ -199,14 +199,14 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***Fractal logs:***\n");
                 foreach (var log in FractalLogs)
                 {
-                    string bossName = log.Encounter.Boss;
+                    var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
                     if (bossData != null)
                     {
                         bossName = bossData.Name + (log.ChallengeMode ? " CM" : "");
                     }
-                    string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
-                    string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                    var duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                     builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
@@ -248,14 +248,14 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***Strike mission logs:***\n");
                 foreach (var log in StrikeLogs)
                 {
-                    string bossName = log.Encounter.Boss;
+                    var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
                     if (bossData != null)
                     {
                         bossName = bossData.Name;
                     }
-                    string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
-                    string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                    var duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                     builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
@@ -379,14 +379,14 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***Other logs:***\n");
                 foreach (var log in OtherLogs)
                 {
-                    string bossName = log.Encounter.Boss;
+                    var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
                     if (bossData != null)
                     {
                         bossName = bossData.Name;
                     }
-                    string duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
-                    string successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
+                    var duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                     builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
