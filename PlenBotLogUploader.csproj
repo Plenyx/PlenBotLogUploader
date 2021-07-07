@@ -85,11 +85,11 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hardstuck.GuildWars2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Hardstuck.GuildWars2.1.0.0\lib\netstandard2.0\Hardstuck.GuildWars2.dll</HintPath>
+    <Reference Include="Hardstuck.GuildWars2, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Hardstuck.GuildWars2.1.0.1\lib\netstandard2.0\Hardstuck.GuildWars2.dll</HintPath>
     </Reference>
-    <Reference Include="Hardstuck.GuildWars2.Builds, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Hardstuck.GuildWars2.Builds.1.0.8\lib\netstandard2.0\Hardstuck.GuildWars2.Builds.dll</HintPath>
+    <Reference Include="Hardstuck.GuildWars2.Builds, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Hardstuck.GuildWars2.Builds.1.0.9\lib\netstandard2.0\Hardstuck.GuildWars2.Builds.dll</HintPath>
     </Reference>
     <Reference Include="Hardstuck.GuildWars2.MumbleLink, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Hardstuck.GuildWars2.MumbleLink.1.0.5\lib\netstandard2.0\Hardstuck.GuildWars2.MumbleLink.dll</HintPath>
