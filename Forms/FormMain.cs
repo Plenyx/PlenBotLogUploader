@@ -71,8 +71,6 @@ namespace PlenBotLogUploader
             notifyIconTray.Icon = Properties.Resources.AppIcon;
             Text = $"{Text} r{ApplicationSettings.Version}";
             notifyIconTray.Text = $"{notifyIconTray.Text} r{ApplicationSettings.Version}";
-            semaphore = new SemaphoreSlim(ApplicationSettings.Current.MaxConcurrentUploads, ApplicationSettings.Current.MaxConcurrentUploads);
-            comboBoxMaxUploads.Text = ApplicationSettings.Current.MaxConcurrentUploads.ToString();
             twitchNameLink = new FormTwitchNameSetup(this);
             dpsReportSettingsLink = new FormDPSReportSettings(this);
             customNameLink = new FormCustomName(this);
@@ -98,6 +96,8 @@ namespace PlenBotLogUploader
             #endregion
             try
             {
+                semaphore = new SemaphoreSlim(ApplicationSettings.Current.MaxConcurrentUploads, ApplicationSettings.Current.MaxConcurrentUploads);
+                comboBoxMaxUploads.Text = ApplicationSettings.Current.MaxConcurrentUploads.ToString();
                 if (ApplicationSettings.Current.FirstApplicationRun)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or via GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -290,7 +290,7 @@ namespace PlenBotLogUploader
 
                 ApplicationSettings.Current.Save();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show($"An error has been encountered in the configuration.\n\n{e.Message}\n\nIf the problem persists, try deleting the configuration file and try again.", "An error has occurred");
                 ExitApp();
@@ -1220,8 +1220,6 @@ namespace PlenBotLogUploader
                 BringToFront();
             }
         }
-
-        private void FormMain_FormClosing(object sender, FormClosingEventArgs e) => ApplicationSettings.Current.Save();
 
         private void ButtonChangeTwitchChannel_Click(object sender, EventArgs e) => twitchNameLink.Show();
 

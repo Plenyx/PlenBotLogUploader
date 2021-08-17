@@ -86,7 +86,7 @@ namespace PlenBotLogUploader.DPSReport
                 int.TryParse(values[6], out int isEvent);
                 return new BossData() { BossId = bossId, Name = values[1], SuccessMsg = values[2], FailMsg = values[3], Icon = values[4], Type = (BossType)(type), Event = isEvent == 1 };
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }

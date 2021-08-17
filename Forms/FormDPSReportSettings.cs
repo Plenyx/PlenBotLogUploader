@@ -60,7 +60,7 @@ namespace PlenBotLogUploader
                     textBoxDPSReportUsertoken.Text = responseJson.userToken;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"An error has occured while getting the user token from dps.report API.\n{ex.Message}", "An error has occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
