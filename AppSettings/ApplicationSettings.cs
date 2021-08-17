@@ -29,7 +29,11 @@ namespace PlenBotLogUploader.AppSettings
             if (File.Exists(loadLocation))
             {
                 var json = File.ReadAllText(loadLocation);
-                return JsonConvert.DeserializeObject<ApplicationSettings>(json);
+                var settings = JsonConvert.DeserializeObject<ApplicationSettings>(json);
+                if (settings != null)
+                {
+                    return settings;
+                }
             }
             var sett = new ApplicationSettings();
             sett.Save();
