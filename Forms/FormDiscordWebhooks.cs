@@ -245,7 +245,7 @@ namespace PlenBotLogUploader
                         rank++;
                         cleansesSummary.AddCell($"{rank}", tableCellCenterAlign);
                         cleansesSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                        cleansesSummary.AddCell($"{player.Support.First().CondiCleanse}", tableCellRightAlign);
+                        cleansesSummary.AddCell($"{player.Support.First().CondiCleanseTotal}", tableCellRightAlign);
                     }
                     var cleansesField = new DiscordAPIJSONContentEmbedField()
                     {
