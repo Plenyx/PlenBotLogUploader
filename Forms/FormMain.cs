@@ -742,7 +742,7 @@ namespace PlenBotLogUploader
                                             AddToText($">:> Unable to process file {Path.GetFileName(file)}, error while deserilising the response.");
                                         }
                                     }
-                                    catch(Exception e)
+                                    catch (Exception e)
                                     {
                                         AddToText($">:> There has been an error processing file {Path.GetFileName(file)}: {e.Message}");
                                     }
