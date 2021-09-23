@@ -7,6 +7,7 @@
         BoonTable = 3,
         KPme = 4,
         HealStats = 5,
-        SCT = 6
+        SCT = 6,
+        UExtras = 7
     }
 }

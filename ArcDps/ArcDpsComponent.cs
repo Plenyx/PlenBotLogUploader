@@ -64,6 +64,8 @@ namespace PlenBotLogUploader.ArcDps
                         return "https://plenbot.net/uploader/update-healstats";
                     case ArcDpsComponentType.SCT:
                         return "https://plenbot.net/uploader/update-sct";
+                    case ArcDpsComponentType.UExtras:
+                        return "https://plenbot.net/uploader/update-uextras";
                     default:
                         return "https://deltaconnected.com/arcdps/x64/d3d9.dll";
                 }
@@ -86,6 +88,8 @@ namespace PlenBotLogUploader.ArcDps
                         return "https://plenbot.net/uploader/version-healstats";
                     case ArcDpsComponentType.SCT:
                         return "https://plenbot.net/uploader/version-sct";
+                    case ArcDpsComponentType.UExtras:
+                        return "https://plenbot.net/uploader/version-uextras";
                     default:
                         return "https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum";
                 }
@@ -102,13 +106,13 @@ namespace PlenBotLogUploader.ArcDps
             {
                 return false;
             }
-            if (Type == ArcDpsComponentType.Mechanics || Type == ArcDpsComponentType.BoonTable || Type == ArcDpsComponentType.KPme)
+            if ((Type == ArcDpsComponentType.Mechanics) || (Type == ArcDpsComponentType.BoonTable) || (Type == ArcDpsComponentType.KPme))
             {
                 var fileInfo = FileVersionInfo.GetVersionInfo($@"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
                 var versionWithoutBuild = fileInfo.FileVersion?.Split('.').ToList().Take(3).Aggregate((x, y) => $"{x}.{y}") ?? "";
                 return string.IsNullOrWhiteSpace(version) || (versionWithoutBuild == version);
             }
-            if (Type == ArcDpsComponentType.HealStats || Type == ArcDpsComponentType.SCT)
+            if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) || (Type == ArcDpsComponentType.UExtras))
             {
                 return string.IsNullOrWhiteSpace(version) || (MakeMD5Hash() == version);
             }
