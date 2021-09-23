@@ -39,8 +39,12 @@ namespace PlenBotLogUploader
             this.checkBoxEnableNotifications = new System.Windows.Forms.CheckBox();
             this.buttonCheckNow = new System.Windows.Forms.Button();
             this.labelStatusText = new System.Windows.Forms.Label();
+            this.groupBoxDXVersion = new System.Windows.Forms.GroupBox();
+            this.radioButtonDX11 = new System.Windows.Forms.RadioButton();
+            this.radioButtonDX9 = new System.Windows.Forms.RadioButton();
             this.groupBoxModuleEnabled.SuspendLayout();
             this.groupBoxModuleControls.SuspendLayout();
+            this.groupBoxDXVersion.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonChangeGW2Location
@@ -64,7 +68,7 @@ namespace PlenBotLogUploader
             this.checkedListBoxArcDpsPlugins.FormattingEnabled = true;
             this.checkedListBoxArcDpsPlugins.Location = new System.Drawing.Point(181, 12);
             this.checkedListBoxArcDpsPlugins.Name = "checkedListBoxArcDpsPlugins";
-            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(267, 184);
+            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(267, 199);
             this.checkedListBoxArcDpsPlugins.TabIndex = 2;
             // 
             // checkBoxModuleEnabled
@@ -94,9 +98,9 @@ namespace PlenBotLogUploader
             this.groupBoxModuleControls.Controls.Add(this.buttonCheckNow);
             this.groupBoxModuleControls.Controls.Add(this.buttonChangeGW2Location);
             this.groupBoxModuleControls.Enabled = false;
-            this.groupBoxModuleControls.Location = new System.Drawing.Point(12, 62);
+            this.groupBoxModuleControls.Location = new System.Drawing.Point(12, 110);
             this.groupBoxModuleControls.Name = "groupBoxModuleControls";
-            this.groupBoxModuleControls.Size = new System.Drawing.Size(163, 134);
+            this.groupBoxModuleControls.Size = new System.Drawing.Size(163, 101);
             this.groupBoxModuleControls.TabIndex = 5;
             this.groupBoxModuleControls.TabStop = false;
             this.groupBoxModuleControls.Text = "Module controls";
@@ -114,7 +118,7 @@ namespace PlenBotLogUploader
             // 
             // buttonCheckNow
             // 
-            this.buttonCheckNow.Location = new System.Drawing.Point(6, 105);
+            this.buttonCheckNow.Location = new System.Drawing.Point(6, 71);
             this.buttonCheckNow.Name = "buttonCheckNow";
             this.buttonCheckNow.Size = new System.Drawing.Size(151, 23);
             this.buttonCheckNow.TabIndex = 1;
@@ -125,18 +129,52 @@ namespace PlenBotLogUploader
             // labelStatusText
             // 
             this.labelStatusText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelStatusText.Location = new System.Drawing.Point(12, 202);
+            this.labelStatusText.Location = new System.Drawing.Point(12, 214);
             this.labelStatusText.Margin = new System.Windows.Forms.Padding(0);
             this.labelStatusText.Name = "labelStatusText";
             this.labelStatusText.Size = new System.Drawing.Size(436, 23);
             this.labelStatusText.TabIndex = 6;
             this.labelStatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // groupBoxDXVersion
+            // 
+            this.groupBoxDXVersion.Controls.Add(this.radioButtonDX11);
+            this.groupBoxDXVersion.Controls.Add(this.radioButtonDX9);
+            this.groupBoxDXVersion.Location = new System.Drawing.Point(12, 62);
+            this.groupBoxDXVersion.Name = "groupBoxDXVersion";
+            this.groupBoxDXVersion.Size = new System.Drawing.Size(163, 42);
+            this.groupBoxDXVersion.TabIndex = 7;
+            this.groupBoxDXVersion.TabStop = false;
+            this.groupBoxDXVersion.Text = "Game\'s DirectX version";
+            // 
+            // radioButtonDX11
+            // 
+            this.radioButtonDX11.AutoSize = true;
+            this.radioButtonDX11.Location = new System.Drawing.Point(84, 19);
+            this.radioButtonDX11.Name = "radioButtonDX11";
+            this.radioButtonDX11.Size = new System.Drawing.Size(75, 17);
+            this.radioButtonDX11.TabIndex = 1;
+            this.radioButtonDX11.Text = "DirectX 11";
+            this.radioButtonDX11.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDX9
+            // 
+            this.radioButtonDX9.AutoSize = true;
+            this.radioButtonDX9.Checked = true;
+            this.radioButtonDX9.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonDX9.Name = "radioButtonDX9";
+            this.radioButtonDX9.Size = new System.Drawing.Size(69, 17);
+            this.radioButtonDX9.TabIndex = 0;
+            this.radioButtonDX9.TabStop = true;
+            this.radioButtonDX9.Text = "DirectX 9";
+            this.radioButtonDX9.UseVisualStyleBackColor = true;
+            // 
             // FormArcPluginManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(459, 229);
+            this.ClientSize = new System.Drawing.Size(459, 243);
+            this.Controls.Add(this.groupBoxDXVersion);
             this.Controls.Add(this.labelStatusText);
             this.Controls.Add(this.groupBoxModuleControls);
             this.Controls.Add(this.groupBoxModuleEnabled);
@@ -153,6 +191,8 @@ namespace PlenBotLogUploader
             this.groupBoxModuleEnabled.PerformLayout();
             this.groupBoxModuleControls.ResumeLayout(false);
             this.groupBoxModuleControls.PerformLayout();
+            this.groupBoxDXVersion.ResumeLayout(false);
+            this.groupBoxDXVersion.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -168,5 +208,8 @@ namespace PlenBotLogUploader
         private System.Windows.Forms.Label labelStatusText;
         public System.Windows.Forms.CheckBox checkBoxModuleEnabled;
         public System.Windows.Forms.CheckBox checkBoxEnableNotifications;
+        private System.Windows.Forms.GroupBox groupBoxDXVersion;
+        private System.Windows.Forms.RadioButton radioButtonDX9;
+        internal System.Windows.Forms.RadioButton radioButtonDX11;
     }
 }

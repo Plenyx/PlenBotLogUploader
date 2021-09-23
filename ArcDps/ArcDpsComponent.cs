@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Hardstuck.GuildWars2;
+using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,9 @@ namespace PlenBotLogUploader.ArcDps
 
         [JsonProperty("type")]
         public ArcDpsComponentType Type { get; set; }
+
+        [JsonProperty("renderMode")]
+        public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX9;
 
         [JsonProperty("location")]
         public string RelativeLocation { get; set; }

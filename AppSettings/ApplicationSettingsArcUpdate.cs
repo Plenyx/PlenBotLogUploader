@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Hardstuck.GuildWars2;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.AppSettings
 {
@@ -9,5 +10,8 @@ namespace PlenBotLogUploader.AppSettings
 
         [JsonProperty("notifications")]
         public bool Notifications { get; set; } = true;
+
+        [JsonProperty("renderMode")]
+        public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX9;
     }
 }

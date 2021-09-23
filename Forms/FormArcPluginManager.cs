@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.AppSettings;
+﻿using Hardstuck.GuildWars2;
+using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.ArcDps;
 using PlenBotLogUploader.Tools;
 using System;
@@ -22,6 +23,8 @@ namespace PlenBotLogUploader
         private int gw2Instances = 0;
         private bool updateManual = false;
         private bool updateRunning = false;
+        private readonly ItemCheckEventHandler itemCheckHandler;
+        private readonly EventHandler checkChangedHandler;
         #endregion
 
         public FormArcPluginManager(FormMain mainLink)
@@ -30,19 +33,12 @@ namespace PlenBotLogUploader
             var installedComponents = ArcDpsComponent.DeserialiseAll(ApplicationSettings.LocalDir);
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            var availableComponents = new List<ArcDpsComponentHelperClass>()
-            {
-                new ArcDpsComponentHelperClass() { Name = "Mechanics", Author = "MarsEdge, modified by knoxfighter", Type = ArcDpsComponentType.Mechanics },
-                new ArcDpsComponentHelperClass() { Name = "Boon table", Author = "MarsEdge, modified by knoxfighter", Type = ArcDpsComponentType.BoonTable },
-                new ArcDpsComponentHelperClass() { Name = "Killproof.me", Author = "knoxfighter", Type = ArcDpsComponentType.KPme },
-                new ArcDpsComponentHelperClass() { Name = "Heal stats", Author = "Krappa322", Type = ArcDpsComponentType.HealStats },
-                new ArcDpsComponentHelperClass() { Name = "Scrolling combat text", Author = "Artenuvielle", Type = ArcDpsComponentType.SCT }
-            };
+            var availableComponents = ArcDpsComponentHelperClass.All;
             var arcIsInstalled = true;
-            var arcInstalledComponent = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps)).Any();
+            var arcInstalledComponent = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).Any();
             if (arcInstalledComponent)
             {
-                var arcdps = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps)).First();
+                var arcdps = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).First();
                 if (!arcdps.IsInstalled())
                 {
                     arcIsInstalled = false;
@@ -60,10 +56,10 @@ namespace PlenBotLogUploader
             }
             foreach (var component in availableComponents)
             {
-                var installed = arcIsInstalled && installedComponents.Where(x => x.Type.Equals(component.Type)).Any();
+                var installed = arcIsInstalled && installedComponents.Where(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).Any();
                 if (installed)
                 {
-                    var installedComponent = installedComponents.Where(x => x.Type.Equals(component.Type)).First();
+                    var installedComponent = installedComponents.Where(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).First();
                     if (!installedComponent.IsInstalled())
                     {
                         installed = false;
@@ -72,8 +68,11 @@ namespace PlenBotLogUploader
                 }
                 checkedListBoxArcDpsPlugins.Items.Add(component, installed);
             }
-            checkedListBoxArcDpsPlugins.ItemCheck += new ItemCheckEventHandler(CheckedListBoxArcDpsPlugins_ItemCheck);
-            checkBoxEnableNotifications.CheckedChanged += new EventHandler(CheckBoxEnableNotifications_CheckedChanged);
+            itemCheckHandler = new ItemCheckEventHandler(CheckedListBoxArcDpsPlugins_ItemCheck);
+            checkChangedHandler = new EventHandler(CheckBoxEnableNotifications_CheckedChanged);
+            checkedListBoxArcDpsPlugins.ItemCheck += itemCheckHandler;
+            checkBoxEnableNotifications.CheckedChanged += checkChangedHandler;
+            radioButtonDX11.CheckedChanged += new EventHandler(RadioButtonDX11_CheckedChanged);
             ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
         }
 
@@ -205,13 +204,13 @@ namespace PlenBotLogUploader
                     var location = Path.GetDirectoryName(dialog.FileName);
                     ApplicationSettings.Current.GW2Location = location;
                     ApplicationSettings.Current.Save();
-                    if (ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps)).Any())
+                    if (ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).Any())
                     {
-                        var component = ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps)).First();
+                        var component = ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).First();
                         if (!component.IsInstalled())
                         {
                             await component.DownloadComponent(httpController);
-                            ArcDpsComponent.All.ForEach(async comp => {
+                            ArcDpsComponent.All.Where(x => x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).ToList().ForEach(async comp => {
                                 if (!comp.IsInstalled())
                                 {
                                     await comp.DownloadComponent(httpController);
@@ -221,7 +220,7 @@ namespace PlenBotLogUploader
                     }
                     else
                     {
-                        var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RelativeLocation = @"\bin64\d3d9.dll" };
+                        var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = ApplicationSettings.Current.ArcUpdate.RenderMode.Equals(GameRenderMode.DX11) ? @"\d3d11.dll" : @"\bin64\d3d9.dll" };
                         if (!component.IsInstalled())
                         {
                             await component.DownloadComponent(httpController);
@@ -240,8 +239,9 @@ namespace PlenBotLogUploader
 
         private async void CheckedListBoxArcDpsPlugins_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            checkedListBoxArcDpsPlugins.ClearSelected();
             var item = (ArcDpsComponentHelperClass)checkedListBoxArcDpsPlugins.Items[e.Index];
-            if (e.NewValue == CheckState.Unchecked)
+            if (e.NewValue.Equals(CheckState.Unchecked))
             {
                 var processes = GetGW2Instances();
                 if (processes.Count == 0)
@@ -256,9 +256,9 @@ namespace PlenBotLogUploader
                     MessageBox.Show("You are unable to uninstall an arcdps plugin while GW2 is still running.", "GW2 is still running", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else if (e.NewValue == CheckState.Checked)
+            else if (e.NewValue.Equals(CheckState.Checked))
             {
-                var component = new ArcDpsComponent() { Type = item.Type, RelativeLocation = $@"\bin64\{item.DefaultFileName}" };
+                var component = new ArcDpsComponent() { Type = item.Type, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = ApplicationSettings.Current.ArcUpdate.RenderMode.Equals(GameRenderMode.DX11) ? $@"\{item.DefaultFileName}" : $@"\bin64\{item.DefaultFileName}" };
                 ArcDpsComponent.All.Add(component);
                 await component.DownloadComponent(httpController);
             }
@@ -275,6 +275,7 @@ namespace PlenBotLogUploader
             var toggle = checkBoxModuleEnabled.Checked;
             ApplicationSettings.Current.ArcUpdate.Enabled = toggle;
             ApplicationSettings.Current.Save();
+            groupBoxDXVersion.Enabled = toggle;
             groupBoxModuleControls.Enabled = toggle;
             checkedListBoxArcDpsPlugins.Enabled = toggle;
             if (Visible && toggle && (ApplicationSettings.Current.GW2Location == ""))
@@ -299,6 +300,59 @@ namespace PlenBotLogUploader
         private void FormArcPluginManager_FormClosed(object sender, FormClosedEventArgs e)
         {
             httpController?.Dispose();
+        }
+
+        private void RadioButtonDX11_CheckedChanged(object sender, EventArgs e)
+        {
+            var toggle = radioButtonDX11.Checked;
+            SwitchRenderMode((toggle) ? GameRenderMode.DX11 : GameRenderMode.DX9);
+        }
+
+        private void SwitchRenderMode(GameRenderMode mode)
+        {
+            ApplicationSettings.Current.ArcUpdate.RenderMode = mode;
+            checkedListBoxArcDpsPlugins.ItemCheck -= itemCheckHandler;
+            checkBoxEnableNotifications.CheckedChanged -= checkChangedHandler;
+            checkedListBoxArcDpsPlugins.Items.Clear();
+            var installedComponents = ArcDpsComponent.All;
+            var availableComponents = ArcDpsComponentHelperClass.All;
+            var arcIsInstalled = true;
+            var arcInstalledComponent = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(mode)).Any();
+            if (arcInstalledComponent)
+            {
+                var arcdps = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(mode)).First();
+                if (!arcdps.IsInstalled())
+                {
+                    arcIsInstalled = false;
+                    checkBoxModuleEnabled.Checked = false;
+                    ApplicationSettings.Current.GW2Location = "";
+                    ApplicationSettings.Current.Save();
+                }
+            }
+            else
+            {
+                arcIsInstalled = false;
+                checkBoxModuleEnabled.Checked = false;
+                ApplicationSettings.Current.GW2Location = "";
+                ApplicationSettings.Current.Save();
+            }
+            foreach (var component in availableComponents)
+            {
+                var installed = arcIsInstalled && installedComponents.Where(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(mode)).Any();
+                if (installed)
+                {
+                    var installedComponent = installedComponents.Where(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(mode)).First();
+                    if (!installedComponent.IsInstalled())
+                    {
+                        installed = false;
+                        installedComponents.RemoveAll(x => x.Type.Equals(component.Type));
+                    }
+                }
+                checkedListBoxArcDpsPlugins.Items.Add(component, installed);
+            }
+            checkedListBoxArcDpsPlugins.ItemCheck += itemCheckHandler;
+            checkBoxEnableNotifications.CheckedChanged += checkChangedHandler;
+            ApplicationSettings.Current.Save();
         }
     }
 }
