@@ -45,9 +45,9 @@
             this.textBoxPullCounter = new System.Windows.Forms.TextBox();
             this.checkBoxPullCounterEnable = new System.Windows.Forms.CheckBox();
             this.groupBoxGW2Build = new System.Windows.Forms.GroupBox();
-            this.checkBoxGW2BuildEnable = new System.Windows.Forms.CheckBox();
-            this.textBoxGW2Build = new System.Windows.Forms.TextBox();
             this.labelBuildInfo = new System.Windows.Forms.Label();
+            this.textBoxGW2Build = new System.Windows.Forms.TextBox();
+            this.checkBoxGW2BuildEnable = new System.Windows.Forms.CheckBox();
             this.groupBoxUploader.SuspendLayout();
             this.groupBoxLastLog.SuspendLayout();
             this.groupBoxSong.SuspendLayout();
@@ -219,23 +219,6 @@
             this.groupBoxGW2Build.TabStop = false;
             this.groupBoxGW2Build.Text = "(GW2) !build";
             // 
-            // checkBoxGW2BuildEnable
-            // 
-            this.checkBoxGW2BuildEnable.AutoSize = true;
-            this.checkBoxGW2BuildEnable.Location = new System.Drawing.Point(7, 19);
-            this.checkBoxGW2BuildEnable.Name = "checkBoxGW2BuildEnable";
-            this.checkBoxGW2BuildEnable.Size = new System.Drawing.Size(107, 17);
-            this.checkBoxGW2BuildEnable.TabIndex = 0;
-            this.checkBoxGW2BuildEnable.Text = "enable command";
-            this.checkBoxGW2BuildEnable.UseVisualStyleBackColor = true;
-            // 
-            // textBoxGW2Build
-            // 
-            this.textBoxGW2Build.Location = new System.Drawing.Point(6, 42);
-            this.textBoxGW2Build.Name = "textBoxGW2Build";
-            this.textBoxGW2Build.Size = new System.Drawing.Size(164, 20);
-            this.textBoxGW2Build.TabIndex = 2;
-            // 
             // labelBuildInfo
             // 
             this.labelBuildInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -246,10 +229,28 @@
             this.labelBuildInfo.Text = "Must have a GW2 API key set";
             this.labelBuildInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // textBoxGW2Build
+            // 
+            this.textBoxGW2Build.Location = new System.Drawing.Point(6, 42);
+            this.textBoxGW2Build.Name = "textBoxGW2Build";
+            this.textBoxGW2Build.Size = new System.Drawing.Size(164, 20);
+            this.textBoxGW2Build.TabIndex = 2;
+            // 
+            // checkBoxGW2BuildEnable
+            // 
+            this.checkBoxGW2BuildEnable.AutoSize = true;
+            this.checkBoxGW2BuildEnable.Location = new System.Drawing.Point(7, 19);
+            this.checkBoxGW2BuildEnable.Name = "checkBoxGW2BuildEnable";
+            this.checkBoxGW2BuildEnable.Size = new System.Drawing.Size(107, 17);
+            this.checkBoxGW2BuildEnable.TabIndex = 0;
+            this.checkBoxGW2BuildEnable.Text = "enable command";
+            this.checkBoxGW2BuildEnable.UseVisualStyleBackColor = true;
+            // 
             // FormTwitchCommands
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(386, 268);
             this.Controls.Add(this.groupBoxGW2Build);
             this.Controls.Add(this.groupBoxPullCounter);

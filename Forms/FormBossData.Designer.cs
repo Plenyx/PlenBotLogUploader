@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.listViewBosses = new System.Windows.Forms.ListView();
             this.contextMenuStripInteract = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemEditBoss = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDeleteBoss = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemAddNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,7 +39,6 @@
             this.buttonResetSettings = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
             this.buttonOpenTemplate = new System.Windows.Forms.Button();
-            this.toolStripMenuItemEditBoss = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,8 +65,15 @@
             this.toolStripSeparatorOne,
             this.toolStripMenuItemAddNew});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(181, 98);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(181, 76);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
+            // 
+            // toolStripMenuItemEditBoss
+            // 
+            this.toolStripMenuItemEditBoss.Name = "toolStripMenuItemEditBoss";
+            this.toolStripMenuItemEditBoss.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemEditBoss.Text = "Edit selected boss";
+            this.toolStripMenuItemEditBoss.Click += new System.EventHandler(this.ToolStripMenuItemEditBoss_Click);
             // 
             // toolStripMenuItemDeleteBoss
             // 
@@ -126,17 +133,11 @@
             this.buttonOpenTemplate.UseVisualStyleBackColor = true;
             this.buttonOpenTemplate.Click += new System.EventHandler(this.ButtonOpenTemplate_Click);
             // 
-            // toolStripMenuItemEditBoss
-            // 
-            this.toolStripMenuItemEditBoss.Name = "toolStripMenuItemEditBoss";
-            this.toolStripMenuItemEditBoss.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItemEditBoss.Text = "Edit selected boss";
-            this.toolStripMenuItemEditBoss.Click += new System.EventHandler(this.ToolStripMenuItemEditBoss_Click);
-            // 
             // FormBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(781, 375);
             this.Controls.Add(this.buttonOpenTemplate);
             this.Controls.Add(this.labelInformation);

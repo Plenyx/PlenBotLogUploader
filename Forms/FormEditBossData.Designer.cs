@@ -40,6 +40,10 @@
             this.labelBossName = new System.Windows.Forms.Label();
             this.groupBoxCrucial = new System.Windows.Forms.GroupBox();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.labelWPulls = new System.Windows.Forms.Label();
+            this.labelWLog = new System.Windows.Forms.Label();
+            this.labelWBoss = new System.Windows.Forms.Label();
+            this.labelAvailableWildcards = new System.Windows.Forms.Label();
             this.groupBoxBossType = new System.Windows.Forms.GroupBox();
             this.checkBoxEvent = new System.Windows.Forms.CheckBox();
             this.radioButtonTypeGolem = new System.Windows.Forms.RadioButton();
@@ -48,10 +52,6 @@
             this.radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeNone = new System.Windows.Forms.RadioButton();
-            this.labelWPulls = new System.Windows.Forms.Label();
-            this.labelWLog = new System.Windows.Forms.Label();
-            this.labelWBoss = new System.Windows.Forms.Label();
-            this.labelAvailableWildcards = new System.Windows.Forms.Label();
             this.groupBoxCrucial.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.groupBoxBossType.SuspendLayout();
@@ -169,6 +169,42 @@
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Uploader specific settings for the boss (empty messages are not sent)";
             // 
+            // labelWPulls
+            // 
+            this.labelWPulls.AutoSize = true;
+            this.labelWPulls.Location = new System.Drawing.Point(138, 122);
+            this.labelWPulls.Name = "labelWPulls";
+            this.labelWPulls.Size = new System.Drawing.Size(164, 13);
+            this.labelWPulls.TabIndex = 9;
+            this.labelWPulls.Text = "<pulls> - the current wipe counter";
+            // 
+            // labelWLog
+            // 
+            this.labelWLog.AutoSize = true;
+            this.labelWLog.Location = new System.Drawing.Point(138, 109);
+            this.labelWLog.Name = "labelWLog";
+            this.labelWLog.Size = new System.Drawing.Size(155, 13);
+            this.labelWLog.TabIndex = 8;
+            this.labelWLog.Text = "<log> - link to the dps.report log";
+            // 
+            // labelWBoss
+            // 
+            this.labelWBoss.AutoSize = true;
+            this.labelWBoss.Location = new System.Drawing.Point(138, 96);
+            this.labelWBoss.Name = "labelWBoss";
+            this.labelWBoss.Size = new System.Drawing.Size(127, 13);
+            this.labelWBoss.TabIndex = 7;
+            this.labelWBoss.Text = "<boss> - encounter name";
+            // 
+            // labelAvailableWildcards
+            // 
+            this.labelAvailableWildcards.AutoSize = true;
+            this.labelAvailableWildcards.Location = new System.Drawing.Point(3, 96);
+            this.labelAvailableWildcards.Name = "labelAvailableWildcards";
+            this.labelAvailableWildcards.Size = new System.Drawing.Size(138, 13);
+            this.labelAvailableWildcards.TabIndex = 6;
+            this.labelAvailableWildcards.Text = "Available variables for texts:";
+            // 
             // groupBoxBossType
             // 
             this.groupBoxBossType.Controls.Add(this.checkBoxEvent);
@@ -259,46 +295,11 @@
             this.radioButtonTypeNone.Text = "None";
             this.radioButtonTypeNone.UseVisualStyleBackColor = true;
             // 
-            // labelWPulls
-            // 
-            this.labelWPulls.AutoSize = true;
-            this.labelWPulls.Location = new System.Drawing.Point(138, 122);
-            this.labelWPulls.Name = "labelWPulls";
-            this.labelWPulls.Size = new System.Drawing.Size(164, 13);
-            this.labelWPulls.TabIndex = 9;
-            this.labelWPulls.Text = "<pulls> - the current wipe counter";
-            // 
-            // labelWLog
-            // 
-            this.labelWLog.AutoSize = true;
-            this.labelWLog.Location = new System.Drawing.Point(138, 109);
-            this.labelWLog.Name = "labelWLog";
-            this.labelWLog.Size = new System.Drawing.Size(155, 13);
-            this.labelWLog.TabIndex = 8;
-            this.labelWLog.Text = "<log> - link to the dps.report log";
-            // 
-            // labelWBoss
-            // 
-            this.labelWBoss.AutoSize = true;
-            this.labelWBoss.Location = new System.Drawing.Point(138, 96);
-            this.labelWBoss.Name = "labelWBoss";
-            this.labelWBoss.Size = new System.Drawing.Size(127, 13);
-            this.labelWBoss.TabIndex = 7;
-            this.labelWBoss.Text = "<boss> - encounter name";
-            // 
-            // labelAvailableWildcards
-            // 
-            this.labelAvailableWildcards.AutoSize = true;
-            this.labelAvailableWildcards.Location = new System.Drawing.Point(3, 96);
-            this.labelAvailableWildcards.Name = "labelAvailableWildcards";
-            this.labelAvailableWildcards.Size = new System.Drawing.Size(138, 13);
-            this.labelAvailableWildcards.TabIndex = 6;
-            this.labelAvailableWildcards.Text = "Available variables for texts:";
-            // 
             // FormEditBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(403, 384);
             this.Controls.Add(this.groupBoxBossType);
             this.Controls.Add(this.groupBoxOtherSettings);

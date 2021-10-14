@@ -32,12 +32,12 @@ namespace PlenBotLogUploader
             this.groupBoxTeamName = new System.Windows.Forms.GroupBox();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.groupBoxLimiter = new System.Windows.Forms.GroupBox();
+            this.radioButtonLimiterExcept = new System.Windows.Forms.RadioButton();
+            this.radioButtonLimiterExact = new System.Windows.Forms.RadioButton();
             this.textBoxLimiterValue = new System.Windows.Forms.TextBox();
             this.radioButtonLimiterMin = new System.Windows.Forms.RadioButton();
             this.textBoxAccountNames = new System.Windows.Forms.TextBox();
             this.groupBoxAccountNames = new System.Windows.Forms.GroupBox();
-            this.radioButtonLimiterExact = new System.Windows.Forms.RadioButton();
-            this.radioButtonLimiterExcept = new System.Windows.Forms.RadioButton();
             this.groupBoxTeamName.SuspendLayout();
             this.groupBoxLimiter.SuspendLayout();
             this.groupBoxAccountNames.SuspendLayout();
@@ -72,6 +72,30 @@ namespace PlenBotLogUploader
             this.groupBoxLimiter.TabIndex = 1;
             this.groupBoxLimiter.TabStop = false;
             this.groupBoxLimiter.Text = "Limiter settings";
+            // 
+            // radioButtonLimiterExcept
+            // 
+            this.radioButtonLimiterExcept.AutoSize = true;
+            this.radioButtonLimiterExcept.Location = new System.Drawing.Point(6, 65);
+            this.radioButtonLimiterExcept.Name = "radioButtonLimiterExcept";
+            this.radioButtonLimiterExcept.Size = new System.Drawing.Size(121, 17);
+            this.radioButtonLimiterExcept.TabIndex = 3;
+            this.radioButtonLimiterExcept.TabStop = true;
+            this.radioButtonLimiterExcept.Text = "Except listed players";
+            this.radioButtonLimiterExcept.UseVisualStyleBackColor = true;
+            this.radioButtonLimiterExcept.CheckedChanged += new System.EventHandler(this.RadioButtonLimiterExcept_CheckedChanged);
+            // 
+            // radioButtonLimiterExact
+            // 
+            this.radioButtonLimiterExact.AutoSize = true;
+            this.radioButtonLimiterExact.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonLimiterExact.Name = "radioButtonLimiterExact";
+            this.radioButtonLimiterExact.Size = new System.Drawing.Size(103, 17);
+            this.radioButtonLimiterExact.TabIndex = 2;
+            this.radioButtonLimiterExact.TabStop = true;
+            this.radioButtonLimiterExact.Text = "Exactly x players";
+            this.radioButtonLimiterExact.UseVisualStyleBackColor = true;
+            this.radioButtonLimiterExact.CheckedChanged += new System.EventHandler(this.RadioButtonLimiterExact_CheckedChanged);
             // 
             // textBoxLimiterValue
             // 
@@ -113,34 +137,11 @@ namespace PlenBotLogUploader
             this.groupBoxAccountNames.TabStop = false;
             this.groupBoxAccountNames.Text = "Account names (separate by new line)";
             // 
-            // radioButtonLimiterExact
-            // 
-            this.radioButtonLimiterExact.AutoSize = true;
-            this.radioButtonLimiterExact.Location = new System.Drawing.Point(6, 42);
-            this.radioButtonLimiterExact.Name = "radioButtonLimiterExact";
-            this.radioButtonLimiterExact.Size = new System.Drawing.Size(103, 17);
-            this.radioButtonLimiterExact.TabIndex = 2;
-            this.radioButtonLimiterExact.TabStop = true;
-            this.radioButtonLimiterExact.Text = "Exactly x players";
-            this.radioButtonLimiterExact.UseVisualStyleBackColor = true;
-            this.radioButtonLimiterExact.CheckedChanged += new System.EventHandler(this.RadioButtonLimiterExact_CheckedChanged);
-            // 
-            // radioButtonLimiterExcept
-            // 
-            this.radioButtonLimiterExcept.AutoSize = true;
-            this.radioButtonLimiterExcept.Location = new System.Drawing.Point(6, 65);
-            this.radioButtonLimiterExcept.Name = "radioButtonLimiterExcept";
-            this.radioButtonLimiterExcept.Size = new System.Drawing.Size(121, 17);
-            this.radioButtonLimiterExcept.TabIndex = 3;
-            this.radioButtonLimiterExcept.TabStop = true;
-            this.radioButtonLimiterExcept.Text = "Except listed players";
-            this.radioButtonLimiterExcept.UseVisualStyleBackColor = true;
-            this.radioButtonLimiterExcept.CheckedChanged += new System.EventHandler(this.RadioButtonLimiterExcept_CheckedChanged);
-            // 
             // FormEditTeam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(300, 417);
             this.Controls.Add(this.groupBoxAccountNames);
             this.Controls.Add(this.groupBoxLimiter);

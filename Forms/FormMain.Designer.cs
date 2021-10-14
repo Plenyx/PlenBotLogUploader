@@ -557,6 +557,7 @@
             // 
             // richTextBoxMainConsole
             // 
+            this.richTextBoxMainConsole.BackColor = System.Drawing.Color.White;
             this.richTextBoxMainConsole.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.richTextBoxMainConsole.Location = new System.Drawing.Point(12, 12);
             this.richTextBoxMainConsole.Name = "richTextBoxMainConsole";
@@ -572,6 +573,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(633, 699);
             this.Controls.Add(this.buttonUpdateNow);
             this.Controls.Add(this.groupBoxOtherSettings);

@@ -33,12 +33,12 @@
             this.buttonGetBearerFromAccess = new System.Windows.Forms.Button();
             this.groupBoxAleevaStatus = new System.Windows.Forms.GroupBox();
             this.groupBoxUploadSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxOnlySuccessful = new System.Windows.Forms.CheckBox();
             this.checkBoxSendNotification = new System.Windows.Forms.CheckBox();
             this.groupBoxChannel = new System.Windows.Forms.GroupBox();
             this.comboBoxChannel = new System.Windows.Forms.ComboBox();
             this.groupBoxServer = new System.Windows.Forms.GroupBox();
             this.comboBoxServer = new System.Windows.Forms.ComboBox();
-            this.checkBoxOnlySuccessful = new System.Windows.Forms.CheckBox();
             this.groupBoxAccessCode.SuspendLayout();
             this.groupBoxAleevaStatus.SuspendLayout();
             this.groupBoxUploadSettings.SuspendLayout();
@@ -99,6 +99,17 @@
             this.groupBoxUploadSettings.TabStop = false;
             this.groupBoxUploadSettings.Text = "Upload settings";
             // 
+            // checkBoxOnlySuccessful
+            // 
+            this.checkBoxOnlySuccessful.AutoSize = true;
+            this.checkBoxOnlySuccessful.Location = new System.Drawing.Point(117, 18);
+            this.checkBoxOnlySuccessful.Name = "checkBoxOnlySuccessful";
+            this.checkBoxOnlySuccessful.Size = new System.Drawing.Size(157, 17);
+            this.checkBoxOnlySuccessful.TabIndex = 1;
+            this.checkBoxOnlySuccessful.Text = "Upload only successful logs";
+            this.checkBoxOnlySuccessful.UseVisualStyleBackColor = true;
+            this.checkBoxOnlySuccessful.CheckedChanged += new System.EventHandler(this.CheckBoxOnlySuccessful_CheckedChanged);
+            // 
             // checkBoxSendNotification
             // 
             this.checkBoxSendNotification.AutoSize = true;
@@ -151,21 +162,11 @@
             this.comboBoxServer.DropDown += new System.EventHandler(this.ComboBoxServer_DropDown);
             this.comboBoxServer.SelectedIndexChanged += new System.EventHandler(this.ComboBoxServer_SelectedIndexChanged);
             // 
-            // checkBoxOnlySuccessful
-            // 
-            this.checkBoxOnlySuccessful.AutoSize = true;
-            this.checkBoxOnlySuccessful.Location = new System.Drawing.Point(117, 18);
-            this.checkBoxOnlySuccessful.Name = "checkBoxOnlySuccessful";
-            this.checkBoxOnlySuccessful.Size = new System.Drawing.Size(157, 17);
-            this.checkBoxOnlySuccessful.TabIndex = 1;
-            this.checkBoxOnlySuccessful.Text = "Upload only successful logs";
-            this.checkBoxOnlySuccessful.UseVisualStyleBackColor = true;
-            this.checkBoxOnlySuccessful.CheckedChanged += new System.EventHandler(this.CheckBoxOnlySuccessful_CheckedChanged);
-            // 
             // FormAleeva
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(509, 252);
             this.Controls.Add(this.groupBoxAleevaStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
