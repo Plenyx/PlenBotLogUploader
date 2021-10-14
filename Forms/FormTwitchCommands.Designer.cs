@@ -103,7 +103,7 @@
             this.groupBoxLastLog.Size = new System.Drawing.Size(179, 72);
             this.groupBoxLastLog.TabIndex = 3;
             this.groupBoxLastLog.TabStop = false;
-            this.groupBoxLastLog.Text = "!lastlog";
+            this.groupBoxLastLog.Text = "!log";
             // 
             // textBoxLastLogCommand
             // 

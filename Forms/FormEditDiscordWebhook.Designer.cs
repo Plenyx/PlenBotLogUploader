@@ -93,7 +93,7 @@
             this.checkBoxPlayers.Name = "checkBoxPlayers";
             this.checkBoxPlayers.Size = new System.Drawing.Size(354, 17);
             this.checkBoxPlayers.TabIndex = 5;
-            this.checkBoxPlayers.Text = "Show players and specs in the message (up to ten players, not WvW)";
+            this.checkBoxPlayers.Text = "Show detailed information about players and squad performance";
             this.checkBoxPlayers.UseVisualStyleBackColor = true;
             // 
             // checkedListBoxBossesEnable
