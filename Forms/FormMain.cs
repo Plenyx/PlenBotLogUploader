@@ -408,7 +408,7 @@ namespace PlenBotLogUploader
                             string zipfilelocation = e.FullPath;
                             bool archived = false;
                             // a workaround so arcdps can release the file for read access
-                            Thread.Sleep(650);
+                            Thread.Sleep(1000);
                             if (!e.FullPath.EndsWith(".zevtc"))
                             {
                                 zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileName(e.FullPath)}.zevtc";
@@ -789,7 +789,7 @@ namespace PlenBotLogUploader
                 }
                 catch
                 {
-                    Thread.Sleep(650);
+                    Thread.Sleep(1000);
                     await HttpUploadLogAsync(file, postData, bypassMessage);
                 }
             }
