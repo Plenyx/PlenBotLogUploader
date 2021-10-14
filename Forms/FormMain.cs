@@ -367,7 +367,7 @@ namespace PlenBotLogUploader
                 string zipfilelocation = file;
                 if (!file.EndsWith(".zevtc"))
                 {
-                    zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileName(file)}.zevtc";
+                    zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(file)}.zevtc";
                     using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@file, Path.GetFileName(file)); }
                     archived = true;
                 }
@@ -383,7 +383,7 @@ namespace PlenBotLogUploader
                 {
                     if (archived)
                     {
-                        File.Delete($"{ApplicationSettings.LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
+                        File.Delete(zipfilelocation);
                     }
                 }
             }
@@ -411,7 +411,7 @@ namespace PlenBotLogUploader
                             Thread.Sleep(1000);
                             if (!e.FullPath.EndsWith(".zevtc"))
                             {
-                                zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileName(e.FullPath)}.zevtc";
+                                zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(e.FullPath)}.zevtc";
                                 using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@e.FullPath, Path.GetFileName(e.FullPath)); }
                                 archived = true;
                             }
@@ -432,7 +432,7 @@ namespace PlenBotLogUploader
                             {
                                 if (archived)
                                 {
-                                    File.Delete($"{ApplicationSettings.LocalDir}{Path.GetFileName(e.FullPath)}.zevtc");
+                                    File.Delete(zipfilelocation);
                                 }
                             }
                         }
@@ -551,7 +551,7 @@ namespace PlenBotLogUploader
                             string zipfilelocation = arg;
                             if (!arg.EndsWith(".zevtc"))
                             {
-                                zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileName(arg)}.zevtc";
+                                zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(arg)}.zevtc";
                                 using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@arg, Path.GetFileName(arg)); }
                                 archived = true;
                             }
@@ -567,7 +567,7 @@ namespace PlenBotLogUploader
                             {
                                 if (archived)
                                 {
-                                    File.Delete($"{ApplicationSettings.LocalDir}{Path.GetFileName(zipfilelocation)}.zevtc");
+                                    File.Delete(zipfilelocation);
                                 }
                             }
                         }
