@@ -186,6 +186,10 @@ namespace PlenBotLogUploader
                 {
                     checkBoxDetailedWvW.Checked = true;
                 }
+                if (ApplicationSettings.Current.Upload.SaveToCSVEnabled)
+                {
+                    checkBoxSaveLogsToCSV.Checked = true;
+                }
                 if (ApplicationSettings.Current.Twitch.Custom.Enabled)
                 {
                     customNameLink.checkBoxCustomNameEnable.Checked = true;
@@ -287,6 +291,7 @@ namespace PlenBotLogUploader
                 checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(CheckBoxStartWhenWindowsStarts_CheckedChanged);
                 checkBoxAnonymiseReports.CheckedChanged += new EventHandler(CheckBoxAnonymiseReports_CheckedChanged);
                 checkBoxDetailedWvW.CheckedChanged += new EventHandler(CheckBoxDetailedWvW_CheckedChanged);
+                checkBoxSaveLogsToCSV.CheckedChanged += new EventHandler(CheckBoxSaveLogsToCSV_CheckedChanged);
                 comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
@@ -684,9 +689,18 @@ namespace PlenBotLogUploader
                                                     AddToText(">:> Extra JSON available but couldn't be obtained.");
                                                 }
                                             }
-                                            // log file
-                                            File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv",
-                                                $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
+                                            if (ApplicationSettings.Current.Upload.SaveToCSVEnabled)
+                                            {
+                                                try
+                                                {
+                                                    // log file
+                                                    File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
+                                                }
+                                                catch (Exception e)
+                                                {
+                                                    AddToText($">:> There has been an error saving file {Path.GetFileName(file)} to the main CSV: {e.Message}");
+                                                }
+                                            }
                                             // save to clipboard list
                                             allSessionLogs.Add(reportJSON.Permalink);
                                             // Twitch chat
@@ -1432,6 +1446,12 @@ namespace PlenBotLogUploader
         private void CheckBoxDetailedWvW_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.Upload.DetailedWvW = checkBoxDetailedWvW.Checked;
+            ApplicationSettings.Current.Save();
+        }
+
+        private void CheckBoxSaveLogsToCSV_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Upload.SaveToCSVEnabled = checkBoxSaveLogsToCSV.Checked;
             ApplicationSettings.Current.Save();
         }
         #endregion

@@ -46,5 +46,8 @@ namespace PlenBotLogUploader.AppSettings
 
         [JsonProperty("postLogsTwitchOnlySuccess")]
         public bool PostLogsToTwitchOnlySuccess { get; set; } = true;
+
+        [JsonProperty("saveToCSVEnabled")]
+        public bool SaveToCSVEnabled { get; set; } = true;
     }
 }
