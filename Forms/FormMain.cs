@@ -32,6 +32,27 @@ namespace PlenBotLogUploader
         public HttpClientController HttpClientController { get; } = new HttpClientController();
         public bool StartedMinimised { get; private set; } = false;
         public MumbleReader MumbleReader { get; set; }
+        public bool UpdateFound
+        {
+            get => _updateFound;
+            set
+            {
+                if (buttonUpdate.InvokeRequired)
+                {
+                    buttonUpdate.Invoke((Action)delegate ()
+                    {
+                        buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
+                        buttonUpdate.NotifyDefault(value);
+                    });
+                }
+                else
+                {
+                    buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
+                    buttonUpdate.NotifyDefault(value);
+                }
+                _updateFound = value;
+            }
+        }
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
@@ -56,6 +77,7 @@ namespace PlenBotLogUploader
         private int lastLogBossId = 0;
         private int lastLogPullCounter = 0;
         private bool lastLogBossCM = false;
+        private bool _updateFound = false;
 
         // constants
         private const int minFileSize = 8192;
@@ -96,6 +118,7 @@ namespace PlenBotLogUploader
             #endregion
             try
             {
+                Size = ApplicationSettings.Current.MainFormSize;
                 semaphore = new SemaphoreSlim(ApplicationSettings.Current.MaxConcurrentUploads, ApplicationSettings.Current.MaxConcurrentUploads);
                 comboBoxMaxUploads.Text = ApplicationSettings.Current.MaxConcurrentUploads.ToString();
                 if (ApplicationSettings.Current.FirstApplicationRun)
@@ -296,7 +319,6 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
-
                 ApplicationSettings.Current.Save();
             }
             catch (Exception e)
@@ -310,8 +332,9 @@ namespace PlenBotLogUploader
         #region form events
         private void FormMain_Load(object sender, EventArgs e)
         {
-            DoCommandArgs();
+            StartUpAndCommandArgs();
             Task.Run(() => NewReleaseCheckAsync());
+            Resize += new EventHandler(FormMain_Resize);
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -336,7 +359,25 @@ namespace PlenBotLogUploader
                     ApplicationSettings.Current.Save();
                 }
             }
+            if (WindowState.Equals(FormWindowState.Normal))
+            {
+                ApplicationSettings.Current.MainFormSize = Size;
+                ApplicationSettings.Current.MainFormState = WindowState;
+                if (!timerResizeSave.Enabled)
+                {
+                    timerResizeSave.Enabled = true;
+                }
+            }
+            if (WindowState.Equals(FormWindowState.Maximized))
+            {
+                ApplicationSettings.Current.MainFormState = WindowState;
+                if (!timerResizeSave.Enabled)
+                {
+                    timerResizeSave.Enabled = true;
+                }
+            }
         }
+
         private void FormMain_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -484,27 +525,29 @@ namespace PlenBotLogUploader
         {
             try
             {
+                if (buttonUpdate.InvokeRequired)
+                {
+                    buttonUpdate.Invoke((Action)delegate () { buttonUpdate.Enabled = false; });
+                }
+                else
+                {
+                    buttonUpdate.Enabled = false;
+                }
                 string response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/VERSION");
                 if (int.TryParse(response, out int currentversion))
                 {
                     if (currentversion > ApplicationSettings.Version)
                     {
-                        if (buttonUpdateNow.InvokeRequired)
-                        {
-                            buttonUpdateNow.Invoke((Action)delegate () { buttonUpdateNow.Visible = true; });
-                        }
-                        else
-                        {
-                            buttonUpdateNow.Visible = true;
-                        }
+                        UpdateFound = true;
                         var notes = await HttpClientController.DownloadFileToStringAsync("https://plenbot.net/uploader/release-info/");
                         AddToText($">>> New release available (r{response})");
                         AddToText(">>> https://github.com/HardstuckGuild/PlenBotLogUploader/releases/");
                         AddToText(notes);
-                        ShowBalloon("New release available for the uploader", $"If you want to update immediately, use the \"Update uploader\" button.\nThe latest release is n. {response}.", 8500);
+                        ShowBalloon("New release available for the uploader", $"If you want to update immediately, use the \"Update the uploader\" button.\nThe latest release is n. {response}.", 8500);
                     }
                     else
                     {
+                        AddToText(">>> The uploader is up to date.");
                         timerCheckUpdate.Enabled = true;
                         timerCheckUpdate.Start();
                     }
@@ -514,6 +557,17 @@ namespace PlenBotLogUploader
             {
                 AddToText(">>> Unable to check new release version.");
             }
+            finally
+            {
+                if (buttonUpdate.InvokeRequired)
+                {
+                    buttonUpdate.Invoke((Action)delegate () { buttonUpdate.Enabled = true; });
+                }
+                else
+                {
+                    buttonUpdate.Enabled = true;
+                }
+            }
         }
 
         private void ExitApp()
@@ -522,8 +576,9 @@ namespace PlenBotLogUploader
             Application.Exit();
         }
 
-        protected async void DoCommandArgs()
+        protected async void StartUpAndCommandArgs()
         {
+            WindowState = ApplicationSettings.Current.MainFormState;
             var args = Environment.GetCommandLineArgs().ToList();
             if (args.Count > 1)
             {
@@ -1343,26 +1398,33 @@ namespace PlenBotLogUploader
 
         private async void ButtonUpdateNow_Click(object sender, EventArgs e)
         {
-            buttonUpdateNow.Enabled = false;
-            AddToText(">>> Downloading update...");
-            var result = await HttpClientController.DownloadFileAsync("https://plenbot.net/uploader/update/", $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
-            if (result)
+            if (UpdateFound)
             {
-                Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", "-update " + Path.GetFileName(Application.ExecutablePath.Replace('/', '\\')));
-                if (InvokeRequired)
+                buttonUpdate.Enabled = false;
+                AddToText(">>> Downloading update...");
+                var result = await HttpClientController.DownloadFileAsync("https://plenbot.net/uploader/update/", $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
+                if (result)
                 {
-                    // invokes the function on the main thread
-                    Invoke((Action)delegate () { ExitApp(); });
+                    Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", "-update " + Path.GetFileName(Application.ExecutablePath.Replace('/', '\\')));
+                    if (InvokeRequired)
+                    {
+                        // invokes the function on the main thread
+                        Invoke((Action)delegate () { ExitApp(); });
+                    }
+                    else
+                    {
+                        ExitApp();
+                    }
                 }
                 else
                 {
-                    ExitApp();
+                    AddToText(">>> Something went wrong with the download. Please try again later.");
+                    buttonUpdate.Enabled = true;
                 }
             }
             else
             {
-                AddToText(">>> Something went wrong with the download. Please try again later.");
-                buttonUpdateNow.Enabled = true;
+                NewReleaseCheckAsync();
             }
         }
 
@@ -1453,6 +1515,13 @@ namespace PlenBotLogUploader
         {
             ApplicationSettings.Current.Upload.SaveToCSVEnabled = checkBoxSaveLogsToCSV.Checked;
             ApplicationSettings.Current.Save();
+        }
+
+        private void TimerResizeSave_Tick(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Save();
+            timerResizeSave.Stop();
+            timerResizeSave.Enabled = false;
         }
         #endregion
     }

@@ -39,6 +39,7 @@
             this.checkBoxFileSizeIgnore = new System.Windows.Forms.CheckBox();
             this.checkBoxUploadLogs = new System.Windows.Forms.CheckBox();
             this.groupBoxArcdpsLogs = new System.Windows.Forms.GroupBox();
+            this.checkBoxSaveLogsToCSV = new System.Windows.Forms.CheckBox();
             this.checkBoxDetailedWvW = new System.Windows.Forms.CheckBox();
             this.checkBoxAnonymiseReports = new System.Windows.Forms.CheckBox();
             this.buttonCopyApplicationSession = new System.Windows.Forms.Button();
@@ -47,6 +48,7 @@
             this.buttonDPSReportServer = new System.Windows.Forms.Button();
             this.labelLocationInfo = new System.Windows.Forms.Label();
             this.buttonLogsLocation = new System.Windows.Forms.Button();
+            this.buttonUpdate = new System.Windows.Forms.Button();
             this.checkBoxTrayMinimiseToIcon = new System.Windows.Forms.CheckBox();
             this.notifyIconTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStripIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -72,15 +74,16 @@
             this.buttonDiscordWebhooks = new System.Windows.Forms.Button();
             this.buttonArcDpsPluginManager = new System.Windows.Forms.Button();
             this.buttonPingSettings = new System.Windows.Forms.Button();
-            this.buttonUpdateNow = new System.Windows.Forms.Button();
             this.timerCheckUpdate = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
-            this.checkBoxSaveLogsToCSV = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
+            this.timerResizeSave = new System.Windows.Forms.Timer(this.components);
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
+            this.tableLayoutPanelMainForm.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxTwitchSettings
@@ -92,7 +95,8 @@
             this.groupBoxTwitchSettings.Controls.Add(this.buttonChangeTwitchChannel);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxPostToTwitch);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonReconnectBot);
-            this.groupBoxTwitchSettings.Location = new System.Drawing.Point(426, 12);
+            this.groupBoxTwitchSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxTwitchSettings.Location = new System.Drawing.Point(430, 3);
             this.groupBoxTwitchSettings.Name = "groupBoxTwitchSettings";
             this.groupBoxTwitchSettings.Size = new System.Drawing.Size(200, 179);
             this.groupBoxTwitchSettings.TabIndex = 4;
@@ -215,12 +219,23 @@
             this.groupBoxArcdpsLogs.Controls.Add(this.labelLocationInfo);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonLogsLocation);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxUploadLogs);
-            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(426, 197);
+            this.groupBoxArcdpsLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(430, 188);
             this.groupBoxArcdpsLogs.Name = "groupBoxArcdpsLogs";
             this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(200, 251);
             this.groupBoxArcdpsLogs.TabIndex = 5;
             this.groupBoxArcdpsLogs.TabStop = false;
             this.groupBoxArcdpsLogs.Text = "arcdps logs and DPS.report";
+            // 
+            // checkBoxSaveLogsToCSV
+            // 
+            this.checkBoxSaveLogsToCSV.AutoSize = true;
+            this.checkBoxSaveLogsToCSV.Location = new System.Drawing.Point(9, 111);
+            this.checkBoxSaveLogsToCSV.Name = "checkBoxSaveLogsToCSV";
+            this.checkBoxSaveLogsToCSV.Size = new System.Drawing.Size(132, 17);
+            this.checkBoxSaveLogsToCSV.TabIndex = 17;
+            this.checkBoxSaveLogsToCSV.Text = "save logs to a CSV file";
+            this.checkBoxSaveLogsToCSV.UseVisualStyleBackColor = true;
             // 
             // checkBoxDetailedWvW
             // 
@@ -300,6 +315,17 @@
             this.buttonLogsLocation.Text = "Change logs directory";
             this.buttonLogsLocation.UseVisualStyleBackColor = true;
             this.buttonLogsLocation.Click += new System.EventHandler(this.ButtonLogsLocation_Click);
+            // 
+            // buttonUpdate
+            // 
+            this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonUpdate.Location = new System.Drawing.Point(6, 266);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(188, 23);
+            this.buttonUpdate.TabIndex = 8;
+            this.buttonUpdate.Text = "Check for updates";
+            this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpdateNow_Click);
             // 
             // checkBoxTrayMinimiseToIcon
             // 
@@ -420,6 +446,7 @@
             // 
             this.groupBoxOtherSettings.Controls.Add(this.buttonAleevaSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonGW2API);
+            this.groupBoxOtherSettings.Controls.Add(this.buttonUpdate);
             this.groupBoxOtherSettings.Controls.Add(this.comboBoxMaxUploads);
             this.groupBoxOtherSettings.Controls.Add(this.labelMaximumUploads);
             this.groupBoxOtherSettings.Controls.Add(this.buttonReset);
@@ -428,9 +455,10 @@
             this.groupBoxOtherSettings.Controls.Add(this.buttonArcDpsPluginManager);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(426, 454);
+            this.groupBoxOtherSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(430, 445);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 265);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 297);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
@@ -536,18 +564,6 @@
             this.buttonPingSettings.UseVisualStyleBackColor = true;
             this.buttonPingSettings.Click += new System.EventHandler(this.ButtonPingSettings_Click);
             // 
-            // buttonUpdateNow
-            // 
-            this.buttonUpdateNow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdateNow.Location = new System.Drawing.Point(277, 674);
-            this.buttonUpdateNow.Name = "buttonUpdateNow";
-            this.buttonUpdateNow.Size = new System.Drawing.Size(112, 40);
-            this.buttonUpdateNow.TabIndex = 8;
-            this.buttonUpdateNow.Text = "Update the uploader";
-            this.buttonUpdateNow.UseVisualStyleBackColor = true;
-            this.buttonUpdateNow.Visible = false;
-            this.buttonUpdateNow.Click += new System.EventHandler(this.ButtonUpdateNow_Click);
-            // 
             // timerCheckUpdate
             // 
             this.timerCheckUpdate.Interval = 5400000;
@@ -560,25 +576,42 @@
             // richTextBoxMainConsole
             // 
             this.richTextBoxMainConsole.BackColor = System.Drawing.Color.White;
+            this.richTextBoxMainConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxMainConsole.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.richTextBoxMainConsole.Location = new System.Drawing.Point(12, 12);
+            this.richTextBoxMainConsole.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxMainConsole.Name = "richTextBoxMainConsole";
             this.richTextBoxMainConsole.ReadOnly = true;
+            this.tableLayoutPanelMainForm.SetRowSpan(this.richTextBoxMainConsole, 4);
             this.richTextBoxMainConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBoxMainConsole.Size = new System.Drawing.Size(408, 707);
+            this.richTextBoxMainConsole.Size = new System.Drawing.Size(421, 739);
             this.richTextBoxMainConsole.TabIndex = 9;
             this.richTextBoxMainConsole.Text = "";
             this.richTextBoxMainConsole.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
             // 
-            // checkBoxSaveLogsToCSV
+            // tableLayoutPanelMainForm
             // 
-            this.checkBoxSaveLogsToCSV.AutoSize = true;
-            this.checkBoxSaveLogsToCSV.Location = new System.Drawing.Point(9, 111);
-            this.checkBoxSaveLogsToCSV.Name = "checkBoxSaveLogsToCSV";
-            this.checkBoxSaveLogsToCSV.Size = new System.Drawing.Size(132, 17);
-            this.checkBoxSaveLogsToCSV.TabIndex = 17;
-            this.checkBoxSaveLogsToCSV.Text = "save logs to a CSV file";
-            this.checkBoxSaveLogsToCSV.UseVisualStyleBackColor = true;
+            this.tableLayoutPanelMainForm.ColumnCount = 2;
+            this.tableLayoutPanelMainForm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelMainForm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelMainForm.Controls.Add(this.richTextBoxMainConsole, 0, 0);
+            this.tableLayoutPanelMainForm.Controls.Add(this.groupBoxTwitchSettings, 1, 0);
+            this.tableLayoutPanelMainForm.Controls.Add(this.groupBoxArcdpsLogs, 1, 1);
+            this.tableLayoutPanelMainForm.Controls.Add(this.groupBoxOtherSettings, 1, 2);
+            this.tableLayoutPanelMainForm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelMainForm.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanelMainForm.Name = "tableLayoutPanelMainForm";
+            this.tableLayoutPanelMainForm.RowCount = 4;
+            this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
+            this.tableLayoutPanelMainForm.Size = new System.Drawing.Size(633, 745);
+            this.tableLayoutPanelMainForm.TabIndex = 10;
+            // 
+            // timerResizeSave
+            // 
+            this.timerResizeSave.Interval = 1500;
+            this.timerResizeSave.Tick += new System.EventHandler(this.TimerResizeSave_Tick);
             // 
             // FormMain
             // 
@@ -586,14 +619,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(633, 724);
-            this.Controls.Add(this.buttonUpdateNow);
-            this.Controls.Add(this.groupBoxOtherSettings);
-            this.Controls.Add(this.groupBoxArcdpsLogs);
-            this.Controls.Add(this.groupBoxTwitchSettings);
-            this.Controls.Add(this.richTextBoxMainConsole);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
+            this.ClientSize = new System.Drawing.Size(633, 745);
+            this.Controls.Add(this.tableLayoutPanelMainForm);
+            this.MinimumSize = new System.Drawing.Size(549, 784);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PlenBot Log Uploader";
@@ -601,7 +629,6 @@
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
-            this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.groupBoxTwitchSettings.ResumeLayout(false);
             this.groupBoxTwitchSettings.PerformLayout();
             this.groupBoxArcdpsLogs.ResumeLayout(false);
@@ -609,6 +636,7 @@
             this.contextMenuStripIcon.ResumeLayout(false);
             this.groupBoxOtherSettings.ResumeLayout(false);
             this.groupBoxOtherSettings.PerformLayout();
+            this.tableLayoutPanelMainForm.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -647,7 +675,7 @@
         private System.Windows.Forms.Button buttonDiscordWebhooks;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorThird;
         public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDiscordWebhooks;
-        private System.Windows.Forms.Button buttonUpdateNow;
+        private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.CheckBox checkBoxStartWhenWindowsStarts;
         private System.Windows.Forms.Timer timerCheckUpdate;
         private System.Windows.Forms.Button buttonTwitchCommands;
@@ -664,6 +692,8 @@
         private System.Windows.Forms.CheckBox checkBoxDetailedWvW;
         private System.Windows.Forms.CheckBox checkBoxAnonymiseReports;
         private System.Windows.Forms.CheckBox checkBoxSaveLogsToCSV;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMainForm;
+        private System.Windows.Forms.Timer timerResizeSave;
     }
 }
 

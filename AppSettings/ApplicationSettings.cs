@@ -58,6 +58,12 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("firstApplicationRun")]
         public bool FirstApplicationRun { get; set; } = true;
 
+        [JsonProperty("mainFormSize")]
+        public System.Drawing.Size MainFormSize { get; set; } = new System.Drawing.Size(649, 784);
+
+        [JsonProperty("mainFormState")]
+        public System.Windows.Forms.FormWindowState MainFormState { get; set; } = System.Windows.Forms.FormWindowState.Normal;
+
         [JsonProperty("firstTimeMinimised")]
         public bool FirstTimeMinimised { get; set; } = false;
 
