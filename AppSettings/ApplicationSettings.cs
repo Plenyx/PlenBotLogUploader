@@ -7,13 +7,13 @@ namespace PlenBotLogUploader.AppSettings
     public class ApplicationSettings
     {
         #region application version
-        public static int Version => 67;
+        public static int Version { get; } = 67;
         #endregion
 
         #region load & save functionality
         public static ApplicationSettings Current { get; private set; }
 
-        public static string FileName => "app_settings.json";
+        public static string FileName { get; } = "app_settings.json";
 
         public static string LocalDir { get; set; }
 

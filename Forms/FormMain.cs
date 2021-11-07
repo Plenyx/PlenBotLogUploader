@@ -34,7 +34,10 @@ namespace PlenBotLogUploader
         public MumbleReader MumbleReader { get; set; }
         public bool UpdateFound
         {
-            get => _updateFound;
+            get
+            {
+                return _updateFound;
+            }
             set
             {
                 if (buttonUpdate.InvokeRequired)
