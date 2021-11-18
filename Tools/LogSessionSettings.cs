@@ -1,4 +1,5 @@
 ﻿using PlenBotLogUploader.DiscordAPI;
+using System;
 using System.Collections.Generic;
 
 namespace PlenBotLogUploader.Tools
@@ -26,9 +27,19 @@ namespace PlenBotLogUploader.Tools
         public string ElapsedTime { get; set; }
 
         /// <summary>
+        /// Session elapsed timespan
+        /// </summary>
+        public TimeSpan ElapsedTimeSpan { get; set; }
+
+        /// <summary>
         /// Sort the logs by LogSessionSortBy
         /// </summary>
         public LogSessionSortBy SortBy { get; set; }
+
+        /// <summary>
+        /// Make the WvW summary embed appended to the beginning of the session texts
+        /// </summary>
+        public bool MakeWvWSummaryEmbed { get; set; }
 
         /// <summary>
         /// Whether to use SelectedWebhooks for the session ping instead of all active sessions

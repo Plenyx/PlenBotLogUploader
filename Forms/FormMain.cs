@@ -263,6 +263,7 @@ namespace PlenBotLogUploader
                 logSessionLink.textBoxSessionContent.Text = ApplicationSettings.Current.Session.Message;
                 logSessionLink.radioButtonSortByUpload.Checked = ApplicationSettings.Current.Session.Sort == LogSessionSortBy.UploadTime;
                 logSessionLink.checkBoxSaveToFile.Checked = ApplicationSettings.Current.Session.SaveToFile;
+                logSessionLink.checkBoxMakeWvWSummary.Checked = ApplicationSettings.Current.Session.MakeWvWSummaryEmbed;
                 gw2APILink.textBoxAPIKey.Text = ApplicationSettings.Current.GW2APIKey;
                 if ((ApplicationSettings.Current.Aleeva.RefreshToken != "") && (ApplicationSettings.Current.Aleeva.RefreshTokenExpire != null) && (DateTime.Now < ApplicationSettings.Current.Aleeva.RefreshTokenExpire))
                 {

@@ -7,7 +7,7 @@ If you need any help to set-up the bot, be up-to-date with latest features or ha
 
 **Requires .NET Framework 4.8 ([link](https://dotnet.microsoft.com/download/thank-you/net48))**
 
-## Installation ([download](https://github.com/HardstuckGuild/PlenBotLogUploader/releases))
+## Installation ([download](https://github.com/HardstuckGuild/PlenBotLogUploader/releases)) | [Screenshots](https://plenbot.net/uploader/?utm_source=github&utm_medium=referral&utm_campaign=readme)
 
 ### **Video tutorials:** [Quick setup with Discord webhooks](https://www.youtube.com/watch?v=EsMy0yKdjXk) | [Advanced setup, Twitch, log sessions, arcdps plugin manager](https://www.youtube.com/watch?v=plGFNL4kuZY)
 

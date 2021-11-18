@@ -35,6 +35,7 @@ namespace PlenBotLogUploader
             Hide();
             ApplicationSettings.Current.Session.Name = textBoxSessionName.Text;
             ApplicationSettings.Current.Session.Message = textBoxSessionContent.Text;
+            ApplicationSettings.Current.Session.MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked;
             ApplicationSettings.Current.Save();
         }
 
@@ -49,6 +50,7 @@ namespace PlenBotLogUploader
                 sessionPaused = false;
                 stopWatch.Stop();
                 string elapsedTime = NiceTime.ParseTimeSpanHMS(stopWatch.Elapsed);
+                var elapsedTimeSpan = stopWatch.Elapsed;
                 stopWatch.Reset();
                 int sortBy = radioButtonSortByUpload.Checked ? 1 : 0;
                 var logSessionSettings = new LogSessionSettings()
@@ -57,7 +59,9 @@ namespace PlenBotLogUploader
                     ContentText = textBoxSessionContent.Text,
                     ShowSuccess = !checkBoxOnlySuccess.Checked,
                     ElapsedTime = elapsedTime,
+                    ElapsedTimeSpan = elapsedTimeSpan,
                     SortBy = (LogSessionSortBy)sortBy,
+                    MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
                     UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
                     SelectedWebhooks = ConvertCheckboxListToList()
                 };

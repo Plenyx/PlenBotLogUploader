@@ -2,6 +2,7 @@
 using PlenBotLogUploader.DPSReport;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -16,8 +17,12 @@ namespace PlenBotLogUploader.Tools
         {
             Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
         };
+        private static readonly DiscordAPIJSONContentEmbedThumbnail defaultWvWSummaryThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
+        {
+            Url = "https://wiki.guildwars2.com/images/5/54/Commander_tag_(blue).png"
+        };
         // consts
-        private const int maxAllowedMessageSize = 1800;
+        private const int maxAllowedMessageSize = 1750;
         #endregion
 
         public static DiscordAPIJSONContentEmbed MakeEmbedFromText(string title, string text)
@@ -37,6 +42,7 @@ namespace PlenBotLogUploader.Tools
             var discordEmbedsSuccessFailure = new List<DiscordAPIJSONContentEmbed>();
             var discordEmbedsSuccess = new List<DiscordAPIJSONContentEmbed>();
             var discordEmbedsFailure = new List<DiscordAPIJSONContentEmbed>();
+            DiscordAPIJSONContentEmbed discordEmbedSummary = null;
 
             var RaidLogs = reportsJSON
                 .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
@@ -86,10 +92,10 @@ namespace PlenBotLogUploader.Tools
                     .Count() == 0)
                 .ToList();
 
-            var durationText = $"Session duration: {logSessionSettings.ElapsedTime}\n\n";
-            var builderSuccessFailure = new StringBuilder(durationText);
-            var builderSuccess = new StringBuilder(durationText);
-            var builderFailure = new StringBuilder(durationText);
+            var durationText = $"Session duration: **{logSessionSettings.ElapsedTime}**";
+            var builderSuccessFailure = ((WvWLogs.Count > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
+            var builderSuccess = ((WvWLogs.Count > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
+            var builderFailure = ((WvWLogs.Count > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
             int messageSuccessFailureCount = 0, messageSuccessCount = 0, messageFailureCount = 0;
 
             if (RaidLogs.Count > 0)
@@ -331,6 +337,27 @@ namespace PlenBotLogUploader.Tools
             }
             if (WvWLogs.Count > 0)
             {
+                if (logSessionSettings.MakeWvWSummaryEmbed)
+                {
+                    var totalEnemyKills = WvWLogs.Select(x =>
+                        x.ExtraJSON?.Players
+                            .Where(y => !y.FriendNPC && !y.NotInSquad)
+                            .Select(y => y.StatsAll.First().Killed)
+                            .Sum()
+                        ?? 0)
+                    .Sum();
+                    var totalSquadDeaths = WvWLogs.Select(x =>
+                        x.ExtraJSON?.Players
+                            .Where(y => !y.FriendNPC && !y.NotInSquad)
+                            .Select(y => y.Defenses.First().DeadCount)
+                            .Sum()
+                        ?? 0)
+                    .Sum();
+                    discordEmbedSummary = MakeEmbedFromText($"{logSessionSettings.Name} - WvW Summary", $"{durationText}\n\n" +
+                        $"Total kills: **{totalEnemyKills}**\nTotal kills per minute: **{Math.Round(totalEnemyKills / logSessionSettings.ElapsedTimeSpan.TotalMinutes, 3).ToString(CultureInfo.InvariantCulture.NumberFormat)}**\n\n" +
+                        $"Total squad deaths: **{totalSquadDeaths}**\nTotal squad deaths per minute: **{Math.Round(totalSquadDeaths / logSessionSettings.ElapsedTimeSpan.TotalMinutes, 3).ToString(CultureInfo.InvariantCulture.NumberFormat)}**");
+                    discordEmbedSummary.Thumbnail = defaultWvWSummaryThumbnail;
+                }
                 if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
                     builderSuccessFailure.Append("\n\n");
@@ -434,11 +461,19 @@ namespace PlenBotLogUploader.Tools
                 messageFailureCount++;
                 discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
             }
-            return new DiscordEmbeds() { SuccessFailure = discordEmbedsSuccessFailure, Success = discordEmbedsSuccess, Failure = discordEmbedsFailure };
+            if (!(discordEmbedSummary is null))
+            {
+                discordEmbedsSuccessFailure.Insert(0, discordEmbedSummary);
+                discordEmbedsSuccess.Insert(0, discordEmbedSummary);
+                discordEmbedsFailure.Insert(0, discordEmbedSummary);
+            }
+            return new DiscordEmbeds() { Summary = discordEmbedSummary, SuccessFailure = discordEmbedsSuccessFailure, Success = discordEmbedsSuccess, Failure = discordEmbedsFailure };
         }
 
         public class DiscordEmbeds
         {
+            public DiscordAPIJSONContentEmbed Summary { get; internal set; }
+
             public List<DiscordAPIJSONContentEmbed> SuccessFailure { get; internal set; }
 
             public List<DiscordAPIJSONContentEmbed> Success { get; internal set; }

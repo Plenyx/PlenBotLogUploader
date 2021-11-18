@@ -17,6 +17,9 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("saveToFile")]
         public bool SaveToFile { get; set; } = true;
 
+        [JsonProperty("makeWvWSummaryEmbed")]
+        public bool MakeWvWSummaryEmbed { get; set; } = true;
+
         [JsonProperty("sort")]
         public LogSessionSortBy Sort { get; set; } = LogSessionSortBy.Wing;
 
