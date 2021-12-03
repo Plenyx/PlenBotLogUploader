@@ -65,6 +65,7 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.buttonGW2BotSettings = new System.Windows.Forms.Button();
             this.buttonAleevaSettings = new System.Windows.Forms.Button();
             this.buttonGW2API = new System.Windows.Forms.Button();
             this.comboBoxMaxUploads = new System.Windows.Forms.ComboBox();
@@ -319,7 +320,7 @@
             // buttonUpdate
             // 
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonUpdate.Location = new System.Drawing.Point(6, 266);
+            this.buttonUpdate.Location = new System.Drawing.Point(6, 295);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(188, 23);
             this.buttonUpdate.TabIndex = 8;
@@ -444,6 +445,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonGW2BotSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonAleevaSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonGW2API);
             this.groupBoxOtherSettings.Controls.Add(this.buttonUpdate);
@@ -458,10 +460,23 @@
             this.groupBoxOtherSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(430, 445);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 297);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(200, 325);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
+            // 
+            // buttonGW2BotSettings
+            // 
+            this.buttonGW2BotSettings.Enabled = false;
+            this.buttonGW2BotSettings.Image = global::PlenBotLogUploader.Properties.Resources.gw2bot_icon16;
+            this.buttonGW2BotSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonGW2BotSettings.Location = new System.Drawing.Point(6, 237);
+            this.buttonGW2BotSettings.Name = "buttonGW2BotSettings";
+            this.buttonGW2BotSettings.Size = new System.Drawing.Size(188, 23);
+            this.buttonGW2BotSettings.TabIndex = 14;
+            this.buttonGW2BotSettings.Text = "GW2Bot integration";
+            this.buttonGW2BotSettings.UseVisualStyleBackColor = true;
+            this.buttonGW2BotSettings.Click += new System.EventHandler(this.ButtonGW2BotSettings_Click);
             // 
             // buttonAleevaSettings
             // 
@@ -516,7 +531,7 @@
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(6, 237);
+            this.buttonReset.Location = new System.Drawing.Point(6, 266);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(188, 23);
             this.buttonReset.TabIndex = 9;
@@ -583,7 +598,7 @@
             this.richTextBoxMainConsole.ReadOnly = true;
             this.tableLayoutPanelMainForm.SetRowSpan(this.richTextBoxMainConsole, 4);
             this.richTextBoxMainConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBoxMainConsole.Size = new System.Drawing.Size(421, 739);
+            this.richTextBoxMainConsole.Size = new System.Drawing.Size(421, 767);
             this.richTextBoxMainConsole.TabIndex = 9;
             this.richTextBoxMainConsole.Text = "";
             this.richTextBoxMainConsole.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
@@ -605,7 +620,7 @@
             this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tableLayoutPanelMainForm.Size = new System.Drawing.Size(633, 745);
+            this.tableLayoutPanelMainForm.Size = new System.Drawing.Size(633, 772);
             this.tableLayoutPanelMainForm.TabIndex = 10;
             // 
             // timerResizeSave
@@ -619,9 +634,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(633, 745);
+            this.ClientSize = new System.Drawing.Size(633, 772);
             this.Controls.Add(this.tableLayoutPanelMainForm);
-            this.MinimumSize = new System.Drawing.Size(549, 784);
+            this.MinimumSize = new System.Drawing.Size(549, 811);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PlenBot Log Uploader";
@@ -694,6 +709,7 @@
         private System.Windows.Forms.CheckBox checkBoxSaveLogsToCSV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMainForm;
         private System.Windows.Forms.Timer timerResizeSave;
+        private System.Windows.Forms.Button buttonGW2BotSettings;
     }
 }
 

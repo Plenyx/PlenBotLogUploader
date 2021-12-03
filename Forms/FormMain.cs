@@ -69,6 +69,7 @@ namespace PlenBotLogUploader
         private readonly FormLogSession logSessionLink;
         private readonly FormGW2API gw2APILink;
         private readonly FormAleeva aleevaLink;
+        private readonly FormGW2Bot gw2botLink;
         private readonly List<string> allSessionLogs = new List<string>();
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
@@ -107,6 +108,7 @@ namespace PlenBotLogUploader
             logSessionLink = new FormLogSession(this);
             gw2APILink = new FormGW2API();
             aleevaLink = new FormAleeva(this);
+            gw2botLink = new FormGW2Bot();
             MumbleReader = new MumbleReader(false);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
@@ -1348,6 +1350,12 @@ namespace PlenBotLogUploader
         {
             twitchCommandsLink.Show();
             twitchCommandsLink.BringToFront();
+        }
+
+        private void ButtonGW2BotSettings_Click(object sender, EventArgs e)
+        {
+            gw2botLink.Show();
+            gw2botLink.BringToFront();
         }
 
         private void ToolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
