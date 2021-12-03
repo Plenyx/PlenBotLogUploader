@@ -40,7 +40,7 @@ namespace PlenBotLogUploader
                     radioButtonOnlySuccessAndFail.Checked = true;
                     break;
             }
-            checkBoxPlayers.Checked = data?.ShowPlayers ?? false;
+            checkBoxPlayers.Checked = data?.ShowPlayers ?? true;
             var bosses = Bosses.All;
             bosses = bosses
                 .OrderBy(x => x.Value.Type)
