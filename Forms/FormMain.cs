@@ -1037,7 +1037,7 @@ namespace PlenBotLogUploader
                 case IrcStates.Connected:
                     AddToText("<-?-> CONNECTION ESTABILISHED");
                     reconnectedFailCounter = 0;
-                    if (ApplicationSettings.Current.Twitch.ChannelName != "")
+                    if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Twitch.ChannelName))
                     {
                         await chatConnect.JoinRoomAsync(ApplicationSettings.Current.Twitch.ChannelName);
                     }
