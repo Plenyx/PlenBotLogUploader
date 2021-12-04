@@ -1,5 +1,6 @@
 ﻿using Hardstuck.GuildWars2;
 using Newtonsoft.Json;
+using System;
 
 namespace PlenBotLogUploader.AppSettings
 {
@@ -13,5 +14,8 @@ namespace PlenBotLogUploader.AppSettings
 
         [JsonProperty("renderMode")]
         public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX9;
+
+        [JsonProperty("lastUpdateCheck")]
+        public DateTime LastUpdateCheck { get; set; } = DateTime.Now;
     }
 }

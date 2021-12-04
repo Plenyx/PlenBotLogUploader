@@ -97,12 +97,12 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task StartTimerAsync(bool checkNow = false)
+        public async Task StartTimerAsync(bool checkNow = false, bool applicationStart = false)
         {
             timerCheckUpdates.Stop();
             if (checkNow)
             {
-                await CheckUpdatesAsync();
+                await CheckUpdatesAsync(applicationStart);
             }
             timerCheckUpdates.Start();
         }
@@ -116,26 +116,30 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async Task CheckUpdatesAsync()
+        private async Task CheckUpdatesAsync(bool applicationStart = false)
         {
             if (updateRunning)
+            {
+                return;
+            }
+            if (applicationStart && (DateTime.Now.Subtract(ApplicationSettings.Current.ArcUpdate.LastUpdateCheck).TotalSeconds < 300))
             {
                 return;
             }
             SetCheckNowButton(false);
             componentsToUpdate.Clear();
             SetStatus($"{DateTime.Now}: Update check started.");
-            var updateNeded = false;
+            var updateNeeded = false;
             foreach (var component in ArcDpsComponent.All)
             {
                 var version = await httpController.DownloadFileToStringAsync(component.VersionLink);
                 if (!component.IsCurrentVersion(version))
                 {
                     componentsToUpdate.Add(component);
-                    updateNeded = true;
+                    updateNeeded = true;
                 }
             }
-            if (updateNeded)
+            if (updateNeeded)
             {
                 await UpdateArcAndPluginsAsync();
             }
@@ -144,6 +148,8 @@ namespace PlenBotLogUploader
                 SetStatus($"{DateTime.Now}: Update check ended, no updates found.");
                 SetCheckNowButton(true);
             }
+            ApplicationSettings.Current.ArcUpdate.LastUpdateCheck = DateTime.Now;
+            ApplicationSettings.Current.Save();
         }
 
         private void TimerCheckUpdates_Tick(object sender, EventArgs e) => _ = CheckUpdatesAsync();

@@ -237,7 +237,7 @@ namespace PlenBotLogUploader
                             {
                                 arcPluginManagerLink.radioButtonDX11.Checked = true;
                             }
-                            _ = arcPluginManagerLink.StartTimerAsync(true);
+                            _ = arcPluginManagerLink.StartTimerAsync(true, true);
                         }
                     }
                     else
