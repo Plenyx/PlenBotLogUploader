@@ -1395,6 +1395,24 @@ namespace PlenBotLogUploader
             twitchCommandsLink.BringToFront();
         }
 
+        private void ButtonSession_Click(object sender, EventArgs e)
+        {
+            logSessionLink.Show();
+            logSessionLink.BringToFront();
+        }
+
+        private void ButtonGW2API_Click(object sender, EventArgs e)
+        {
+            gw2APILink.Show();
+            gw2APILink.BringToFront();
+        }
+
+        private void ButtonAleevaSettings_Click(object sender, EventArgs e)
+        {
+            aleevaLink.Show();
+            aleevaLink.BringToFront();
+        }
+
         private async void ButtonDisConnectTwitch_Click(object sender, EventArgs e)
         {
             reconnectedFailCounter = 0;
@@ -1437,12 +1455,6 @@ namespace PlenBotLogUploader
                 AddToText(">>> Something went wrong with the download. Please try again later.");
                 buttonUpdate.Enabled = true;
             }
-        }
-
-        private void ButtonSession_Click(object sender, EventArgs e)
-        {
-            logSessionLink.Show();
-            logSessionLink.BringToFront();
         }
 
         private void CheckBoxStartWhenWindowsStarts_CheckedChanged(object sender, EventArgs e)
@@ -1488,18 +1500,6 @@ namespace PlenBotLogUploader
                 semaphore?.Dispose();
                 semaphore = new SemaphoreSlim(threads, threads);
             }
-        }
-
-        private void ButtonGW2API_Click(object sender, EventArgs e)
-        {
-            gw2APILink.Show();
-            gw2APILink.BringToFront();
-        }
-
-        private void ButtonAleevaSettings_Click(object sender, EventArgs e)
-        {
-            aleevaLink.Show();
-            aleevaLink.BringToFront();
         }
 
         private void ButtonCopyApplicationSession_Click(object sender, EventArgs e)
