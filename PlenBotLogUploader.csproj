@@ -279,6 +279,8 @@
     <Compile Include="Forms\FormWebhookTeams.Designer.cs">
       <DependentUpon>FormWebhookTeams.cs</DependentUpon>
     </Compile>
+    <Compile Include="GitHub\GitHubReleasesLatest.cs" />
+    <Compile Include="GitHub\GitHubReleasesLatestAsset.cs" />
     <Compile Include="GW2API\GW2.cs" />
     <Compile Include="GW2API\GW2Account.cs" />
     <Compile Include="GW2API\GW2Server.cs" />

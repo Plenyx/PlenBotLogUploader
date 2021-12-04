@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PlenBotLogUploader.GitHub;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -62,6 +64,29 @@ namespace PlenBotLogUploader.Tools
             catch
             {
                 return "";
+            }
+        }
+
+        /// <summary>
+        /// Gets latest release from a specified repository
+        /// </summary>
+        /// <param name="repository">specified repository</param>
+        /// <returns>latest release from a specified repository</returns>
+        public async Task<GitHubReleasesLatest> GetGitHubLatestReleaseAsync(string repository)
+        {
+            try
+            {
+                var uri = new Uri($"https://api.github.com/repos/{repository}/releases/latest");
+                using (var responseMessage = await GetAsync(uri))
+                {
+                    var response = await responseMessage.Content.ReadAsStringAsync();
+                    var release = JsonConvert.DeserializeObject<GitHubReleasesLatest>(response);
+                    return release;
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
     }
