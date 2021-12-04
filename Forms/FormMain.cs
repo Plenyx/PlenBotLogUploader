@@ -135,7 +135,7 @@ namespace PlenBotLogUploader
                         ApplicationSettings.Current.LogsLocation = arcFolder;
                         MessageBox.Show($"arcdps log folder has been automatically set to\n{arcFolder}", "arcdps log folder automatically set", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    twitchNameLink.Show();
+                    twitchNameLink.ShowDialog();
                     ApplicationSettings.Current.FirstApplicationRun = false;
                 }
                 if (ApplicationSettings.Current.LogsLocation.Equals("") || !Directory.Exists(ApplicationSettings.Current.LogsLocation))
