@@ -1146,19 +1146,18 @@ namespace PlenBotLogUploader
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
                 {
-                    if (lastLogMessage != "")
+                    AddToText("> LAST LOG COMMAND USED");
+                    if (!string.IsNullOrWhiteSpace(lastLogMessage))
                     {
-                        AddToText("> LAST LOG COMMAND USED");
                         await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxPullCounter.Text.ToLower()) && twitchCommandsLink.checkBoxPullCounterEnable.Checked)
                 {
+                    AddToText("> PULLS COMMAND USED");
                     if (lastLogBossId > 0)
                     {
-                        AddToText("> PULLS COMMAND USED");
-                        var bossData = Bosses.GetBossDataFromId(lastLogBossId);
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{bossData.Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
+                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{Bosses.GetBossDataFromId(lastLogBossId).Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
@@ -1184,7 +1183,7 @@ namespace PlenBotLogUploader
                 else if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2IgnEnable.Checked)
                 {
                     AddToText("> (GW2) IGN COMMAND USED");
-                    if (ApplicationSettings.Current.GW2APIKey != "")
+                    if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2APIKey))
                     {
                         using (var gw2Api = new Gw2APIHelper(ApplicationSettings.Current.GW2APIKey))
                         {
