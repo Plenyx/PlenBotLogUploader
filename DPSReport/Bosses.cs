@@ -10,7 +10,7 @@ namespace PlenBotLogUploader.DPSReport
     /// </summary>
     public static class Bosses
     {
-        private static Dictionary<int, BossData> _all = null;
+        private static Dictionary<int, BossData> _All = null;
         /// <summary>
         /// Returns the main dictionary with all encounters.
         /// </summary>
@@ -19,11 +19,11 @@ namespace PlenBotLogUploader.DPSReport
         {
             get
             {
-                if (_all == null)
+                if (_All is null)
                 {
-                    _all = new Dictionary<int, BossData>();
+                    _All = new Dictionary<int, BossData>();
                 }
-                return _all;
+                return _All;
             }
         }
 
@@ -42,7 +42,7 @@ namespace PlenBotLogUploader.DPSReport
             using (var reader = new StreamReader(file))
             {
                 string line = reader.ReadLine(); // skip the first line
-                while ((line = reader.ReadLine()) != null)
+                while (!((line = reader.ReadLine()) is null))
                 {
                     allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
                 }
@@ -65,7 +65,7 @@ namespace PlenBotLogUploader.DPSReport
             using (var reader = new StreamReader(file))
             {
                 string line = await reader.ReadLineAsync(); // skip the first line
-                while ((line = await reader.ReadLineAsync()) != null)
+                while (!((line = await reader.ReadLineAsync()) is null))
                 {
                     allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
                 }

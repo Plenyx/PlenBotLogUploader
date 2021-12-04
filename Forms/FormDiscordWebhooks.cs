@@ -76,11 +76,11 @@ namespace PlenBotLogUploader
         {
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
-                string extraJSONFightName = (reportJSON.ExtraJSON == null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJSON.FightName;
-                string extraJSON = (reportJSON.ExtraJSON == null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}";
+                string extraJSONFightName = (reportJSON.ExtraJSON is null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJSON.FightName;
+                string extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}";
                 string icon = "";
                 var bossData = Bosses.GetBossDataFromId(1);
-                if (bossData != null)
+                if (!(bossData is null))
                 {
                     icon = bossData.Icon;
                 }
@@ -90,7 +90,7 @@ namespace PlenBotLogUploader
                     Url = icon
                 };
                 var timestampDateTime = DateTime.UtcNow;
-                if (reportJSON.ExtraJSON != null)
+                if (!(reportJSON.ExtraJSON is null))
                 {
                     timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
@@ -105,7 +105,7 @@ namespace PlenBotLogUploader
                     Thumbnail = discordContentEmbedThumbnail
                 };
                 // fields
-                if (reportJSON.ExtraJSON != null)
+                if (!(reportJSON.ExtraJSON is null))
                 {
                     // squad summary
                     var squadPlayers = reportJSON.ExtraJSON.Players
@@ -212,7 +212,7 @@ namespace PlenBotLogUploader
                     damageSummary.AddCell("DMG", tableCellRightAlign);
                     damageSummary.AddCell("DPS", tableCellRightAlign);
                     var rank = 0;
-                    foreach(var player in damageStats)
+                    foreach (var player in damageStats)
                     {
                         rank++;
                         damageSummary.AddCell($"{rank}", tableCellCenterAlign);
@@ -328,10 +328,10 @@ namespace PlenBotLogUploader
             {
                 string bossName = reportJSON.Encounter.Boss + (reportJSON.ChallengeMode ? " CM" : "");
                 string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
-                string extraJSON = (reportJSON.ExtraJSON == null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
+                string extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
                 string icon = "";
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
-                if (bossData != null)
+                if (!(bossData is null))
                 {
                     bossName = bossData.Name + (reportJSON.ChallengeMode ? " CM" : "");
                     icon = bossData.Icon;
@@ -342,7 +342,7 @@ namespace PlenBotLogUploader
                     Url = icon
                 };
                 var timestampDateTime = DateTime.UtcNow;
-                if (reportJSON.ExtraJSON != null)
+                if (!(reportJSON.ExtraJSON is null))
                 {
                     timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
@@ -372,7 +372,7 @@ namespace PlenBotLogUploader
                 if (reportJSON.Players.Values.Count <= 10)
                 {
                     var fields = new List<DiscordAPIJSONContentEmbedField>();
-                    if (reportJSON.ExtraJSON == null)
+                    if (reportJSON.ExtraJSON is null)
                     {
                         foreach (var player in reportJSON.Players.Values)
                         {

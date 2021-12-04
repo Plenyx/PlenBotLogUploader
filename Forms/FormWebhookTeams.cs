@@ -95,7 +95,7 @@ namespace PlenBotLogUploader
 
         private void ListBoxWebhookTeams_DoubleClick(object sender, EventArgs e)
         {
-            if (listBoxWebhookTeams.SelectedItem != null)
+            if (!(listBoxWebhookTeams.SelectedItem is null))
             {
                 var item = (WebhookTeam)listBoxWebhookTeams.SelectedItem;
                 new FormEditTeam(this, item, item.ID).Show();

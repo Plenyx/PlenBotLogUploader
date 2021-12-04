@@ -34,7 +34,7 @@ namespace PlenBotLogUploader
                     using (var reader = new StreamReader($@"{ApplicationSettings.LocalDir}\remote_pings.txt"))
                     {
                         string line = reader.ReadLine();
-                        while ((line = reader.ReadLine()) != null)
+                        while (!((line = reader.ReadLine()) is null))
                         {
                             string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
                             int.TryParse(values[0], out int active);

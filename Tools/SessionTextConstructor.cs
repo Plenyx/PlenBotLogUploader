@@ -107,11 +107,11 @@ namespace PlenBotLogUploader.Tools
                     {
                         var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
-                        if (bossData != null)
+                        if (!(bossData is null))
                         {
                             bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : "");
                         }
-                        var duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
+                        var duration = (data.LogData.ExtraJSON is null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         var successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                         builderSuccessFailure.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
@@ -157,11 +157,11 @@ namespace PlenBotLogUploader.Tools
                         }
                         var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                         var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
-                        if (bossData != null)
+                        if (!(bossData is null))
                         {
                             bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : "");
                         }
-                        var duration = (data.LogData.ExtraJSON == null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
+                        var duration = (data.LogData.ExtraJSON is null) ? "" : $" {data.LogData.ExtraJSON.Duration}";
                         var successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                         builderSuccessFailure.Append($"[{bossName}]({data.LogData.Permalink}){duration}{successText}\n");
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
@@ -207,11 +207,11 @@ namespace PlenBotLogUploader.Tools
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
-                    if (bossData != null)
+                    if (!(bossData is null))
                     {
                         bossName = bossData.Name + (log.ChallengeMode ? " CM" : "");
                     }
-                    var duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    var duration = (log.ExtraJSON is null) ? "" : $" {log.ExtraJSON.Duration}";
                     var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                     builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
@@ -256,11 +256,11 @@ namespace PlenBotLogUploader.Tools
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
-                    if (bossData != null)
+                    if (!(bossData is null))
                     {
                         bossName = bossData.Name;
                     }
-                    var duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    var duration = (log.ExtraJSON is null) ? "" : $" {log.ExtraJSON.Duration}";
                     var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                     builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
@@ -408,11 +408,11 @@ namespace PlenBotLogUploader.Tools
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
-                    if (bossData != null)
+                    if (!(bossData is null))
                     {
                         bossName = bossData.Name;
                     }
-                    var duration = (log.ExtraJSON == null) ? "" : $" {log.ExtraJSON.Duration}";
+                    var duration = (log.ExtraJSON is null) ? "" : $" {log.ExtraJSON.Duration}";
                     var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : "";
                     builderSuccessFailure.Append($"[{bossName}]({log.Permalink}){duration}{successText}\n");
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)

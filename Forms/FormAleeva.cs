@@ -203,12 +203,12 @@ namespace PlenBotLogUploader
                             ApplicationSettings.Current.Save();
                             await AleevaLoadServers();
                             var selectedServer = aleevaServers.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer)).FirstOrDefault();
-                            if (selectedServer != null)
+                            if (!(selectedServer is null))
                             {
                                 comboBoxServer.SelectedItem = selectedServer;
                                 await AleevaLoadChannels(selectedServer.ID);
                                 var selectedChannel = aleevaServerChannels.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel)).First();
-                                if (selectedChannel != null)
+                                if (!(selectedChannel is null))
                                 {
                                     comboBoxChannel.SelectedItem = selectedChannel;
                                 }

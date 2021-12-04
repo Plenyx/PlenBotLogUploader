@@ -5,7 +5,7 @@ namespace PlenBotLogUploader.DiscordAPI
 {
     class DiscordWebhooks
     {
-        private static Dictionary<int, DiscordWebhookData> _all = null;
+        private static Dictionary<int, DiscordWebhookData> _All = null;
         /// <summary>
         /// Returns the main dictionary with all webhooks.
         /// </summary>
@@ -14,11 +14,11 @@ namespace PlenBotLogUploader.DiscordAPI
         {
             get
             {
-                if (_all == null)
+                if (_All is null)
                 {
-                    _all = new Dictionary<int, DiscordWebhookData>();
+                    _All = new Dictionary<int, DiscordWebhookData>();
                 }
-                return _all;
+                return _All;
             }
         }
 
@@ -37,7 +37,7 @@ namespace PlenBotLogUploader.DiscordAPI
             using (var reader = new StreamReader(file))
             {
                 string line = reader.ReadLine(); // skip the first line
-                while ((line = reader.ReadLine()) != null)
+                while (!((line = reader.ReadLine()) is null))
                 {
                     allWebhooks.Add(allWebhooks.Count + 1, DiscordWebhookData.FromSavedFormat(line));
                 }

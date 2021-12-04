@@ -30,7 +30,7 @@ namespace PlenBotLogUploader.AppSettings
             {
                 var json = File.ReadAllText(loadLocation);
                 var settings = JsonConvert.DeserializeObject<ApplicationSettings>(json);
-                if (settings != null)
+                if (!(settings is null))
                 {
                     return settings;
                 }

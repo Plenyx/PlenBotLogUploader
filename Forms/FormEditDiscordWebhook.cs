@@ -25,7 +25,7 @@ namespace PlenBotLogUploader
             this.reservedId = reservedId;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            Text = (data == null) ? "Add a new webhook" : "Edit an existing webhook";
+            Text = (data is null) ? "Add a new webhook" : "Edit an existing webhook";
             textBoxName.Text = data?.Name ?? "";
             textBoxUrl.Text = data?.URL ?? "";
             switch(data?.SuccessFailToggle ?? DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)
@@ -51,7 +51,7 @@ namespace PlenBotLogUploader
             {
                 comboBoxWebhookTeam.Items.Add(team);
             }
-            comboBoxWebhookTeam.SelectedItem = (data == null || data.Team == null) ? teams[0] : data.Team;
+            comboBoxWebhookTeam.SelectedItem = (data is null || data.Team is null) ? teams[0] : data.Team;
             foreach (var bossNumber in bosses.Keys)
             {
                 checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass() { BossID = bosses[bossNumber].BossId, Text = $"{bosses[bossNumber].Type}: {bosses[bossNumber].Name} ({bosses[bossNumber].BossId})" }, data?.IsBossEnabled(bosses[bossNumber].BossId) ?? true);
@@ -71,7 +71,7 @@ namespace PlenBotLogUploader
                 {
                     successFailToggle = DiscordWebhookDataSuccessToggle.OnFailOnly;
                 }
-                if (data == null)
+                if (data is null)
                 {
                     allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList(), Team = (WebhookTeam)comboBoxWebhookTeam.SelectedItem };
                     discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });

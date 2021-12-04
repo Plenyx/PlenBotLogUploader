@@ -62,11 +62,11 @@ namespace PlenBotLogUploader
                 }
                 else if (args[1].ToLower().Equals("-resetsettings"))
                 {
-                    using (var registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                    using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                     {
-                        if (registryRun.GetValue("PlenBot Log Uploader") != null)
+                        if (!(registrySubKey.GetValue("PlenBot Log Uploader") is null))
                         {
-                            registryRun.DeleteValue("PlenBot Log Uploader");
+                            registrySubKey.DeleteValue("PlenBot Log Uploader");
                         }
                     }
                     new ApplicationSettings().Save();

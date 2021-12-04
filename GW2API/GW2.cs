@@ -10,7 +10,7 @@ namespace PlenBotLogUploader.GW2API
         {
             get
             {
-                if (_AllServers == null)
+                if (_AllServers is null)
                 {
                     _AllServers = new Dictionary<int, GW2Server>()
                     {

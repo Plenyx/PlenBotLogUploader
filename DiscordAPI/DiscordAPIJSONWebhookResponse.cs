@@ -37,7 +37,7 @@ namespace PlenBotLogUploader.DiscordAPI
         {
             get
             {
-                return Code == null;
+                return Code is null;
             }
         }
     }

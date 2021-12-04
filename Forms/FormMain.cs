@@ -304,9 +304,10 @@ namespace PlenBotLogUploader
                     File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
                 }
                 // startup check
-                using (var registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                 {
-                    if (registryRun.GetValue("PlenBot Log Uploader") != null)
+                    var registryValue = registrySubKey.GetValue("PlenBot Log Uploader");
+                    if (!(registryValue is null) && ((string)registryValue).Contains(Application.ExecutablePath.Replace('/', '\\')))
                     {
                         checkBoxStartWhenWindowsStarts.Checked = true;
                     }
@@ -686,7 +687,7 @@ namespace PlenBotLogUploader
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage && IsOBSRunning())
             {
                 var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId);
-                if (bossData != null)
+                if (!(bossData is null))
                 {
                     var format = bossData.TwitchMessageFormat(reportJSON, lastLogPullCounter);
                     if (!string.IsNullOrWhiteSpace(format))
@@ -906,7 +907,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region Twitch bot methods
-        public bool IsTwitchConnectionNull() => chatConnect == null;
+        public bool IsTwitchConnectionNull() => chatConnect is null;
 
         public bool IsOBSRunning()
         {
@@ -1063,7 +1064,7 @@ namespace PlenBotLogUploader
 
         protected async void ReadMessagesAsync(object sender, IrcMessageEventArgs e)
         {
-            if ((e == null) || (e.Message == null))
+            if ((e is null) || (e.Message is null))
             {
                 return;
             }

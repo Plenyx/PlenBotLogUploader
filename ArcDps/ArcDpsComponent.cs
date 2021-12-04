@@ -19,7 +19,7 @@ namespace PlenBotLogUploader.ArcDps
         {
             get
             {
-                if (_All == null)
+                if (_All is null)
                 {
                     _All = new List<ArcDpsComponent>();
                 }

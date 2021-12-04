@@ -23,7 +23,7 @@ namespace PlenBotLogUploader
             this.reservedId = reservedId;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            Text = (data == null) ? "Add a new team" : "Edit an existing team";
+            Text = (data is null) ? "Add a new team" : "Edit an existing team";
             textBoxName.Text = data?.Name ?? "";
             switch (data?.Limiter)
             {
@@ -40,7 +40,7 @@ namespace PlenBotLogUploader
             radioButtonLimiterMin.Checked = true;
             textBoxLimiterValue.Text = data?.LimiterValue.ToString() ?? "1";
             textBoxAccountNames.Clear();
-            if (data != null)
+            if (!(data is null))
             {
                 textBoxAccountNames.Text = data.AccountNames.Aggregate((x, y) => $"{x}{Environment.NewLine}{y}");
             }
@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
 
         private void FormEditTeam_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (textBoxName.Text.Trim() != "")
+            if (!string.IsNullOrWhiteSpace(textBoxName.Text.Trim()))
             {
                 var limiterToggle = WebhookTeamLimiter.Min;
                 if (radioButtonLimiterExact.Checked)
@@ -61,7 +61,7 @@ namespace PlenBotLogUploader
                 }
                 int.TryParse(textBoxLimiterValue.Text, out int limiterValue);
                 var accountNames = textBoxAccountNames.Lines.ToList();
-                if (data == null)
+                if (data is null)
                 {
                     allTeams[reservedId] = new WebhookTeam() { ID = reservedId, Name = textBoxName.Text, Limiter = limiterToggle, LimiterValue = limiterValue, AccountNames = accountNames };
                     teamsLink.listBoxWebhookTeams.Items.Add(allTeams[reservedId]);

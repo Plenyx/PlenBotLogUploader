@@ -5,7 +5,7 @@ namespace PlenBotLogUploader.Teams
 {
     public static class WebhookTeams
     {
-        private static Dictionary<int, WebhookTeam> _all = null;
+        private static Dictionary<int, WebhookTeam> _All = null;
         /// <summary>
         /// Returns the main dictionary with all webhook teams.
         /// </summary>
@@ -14,11 +14,11 @@ namespace PlenBotLogUploader.Teams
         {
             get
             {
-                if (_all == null)
+                if (_All is null)
                 {
-                    _all = new Dictionary<int, WebhookTeam>();
+                    _All = new Dictionary<int, WebhookTeam>();
                 }
-                return _all;
+                return _All;
             }
         }
 
@@ -44,7 +44,7 @@ namespace PlenBotLogUploader.Teams
             using (var reader = new StreamReader(file))
             {
                 string line = reader.ReadLine(); // skip the first line
-                while ((line = reader.ReadLine()) != null)
+                while (!((line = reader.ReadLine()) is null))
                 {
                     var team = WebhookTeam.FromSavedFormat(line);
                     allTeams.Add(team.ID, team);

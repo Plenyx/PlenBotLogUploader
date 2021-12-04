@@ -22,7 +22,7 @@ namespace PlenBotLogUploader
             this.data = data;
             this.reservedId = reservedId;
             Icon = Properties.Resources.AppIcon;
-            Text = (data == null) ? "Add a new boss" : $"{data.Name} ({data.BossId})";
+            Text = (data is null) ? "Add a new boss" : $"{data.Name} ({data.BossId})";
             textBoxBossID.Text = data?.BossId.ToString() ?? "";
             textBoxBossName.Text = data?.Name ?? "";
             textBoxSuccessMsg.Text = data?.SuccessMsg ?? ApplicationSettings.Current.BossTemplate.SuccessText;
@@ -56,9 +56,9 @@ namespace PlenBotLogUploader
         {
             if (int.TryParse(textBoxBossID.Text, out int bossId))
             {
-                if (textBoxBossName.Text.Trim() != "")
+                if (!string.IsNullOrWhiteSpace(textBoxBossName.Text.Trim()))
                 {
-                    if (data == null)
+                    if (data is null)
                     {
                         BossType type = BossType.None;
                         if (radioButtonTypeRaid.Checked)
@@ -102,7 +102,7 @@ namespace PlenBotLogUploader
                         boss.FailMsg = textBoxFailMsg.Text;
                         boss.Icon = textBoxIcon.Text;
                         BossType type = BossType.None;
-                        if(radioButtonTypeRaid.Checked)
+                        if (radioButtonTypeRaid.Checked)
                         {
                             type = BossType.Raid;
                         }
