@@ -128,7 +128,7 @@ namespace PlenBotLogUploader
             }
             SetCheckNowButton(false);
             componentsToUpdate.Clear();
-            SetStatus($"{DateTime.Now}: Update check started.");
+            SetStatus($"{DateTime.Now.ToString(System.Globalization.CultureInfo.CurrentCulture)}: Update check started.");
             var updateNeeded = false;
             foreach (var component in ArcDpsComponent.All)
             {
@@ -145,7 +145,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                SetStatus($"{DateTime.Now}: Update check ended, no updates found.");
+                SetStatus($"{DateTime.Now.ToString(System.Globalization.CultureInfo.CurrentCulture)}: Update check ended, no updates found.");
                 SetCheckNowButton(true);
             }
             ApplicationSettings.Current.ArcUpdate.LastUpdateCheck = DateTime.Now;
@@ -161,7 +161,7 @@ namespace PlenBotLogUploader
             var processes = GetGW2Instances();
             if (processes.Count == 0)
             {
-                SetStatus($"{DateTime.Now}: Updates for installed plugins found, updating...");
+                SetStatus($"{DateTime.Now.ToString(System.Globalization.CultureInfo.CurrentCulture)}: Updates for installed plugins found, updating...");
                 foreach (var component in componentsToUpdate)
                 {
                     await component.DownloadComponent(httpController);
@@ -170,13 +170,13 @@ namespace PlenBotLogUploader
                 {
                     mainLink.ShowBalloon("arcdps plugin manager", "An update for an installed plugin has been found.\nPlease close GW2 to enable the update.", 7500);
                 }
-                SetStatus($"{DateTime.Now}: Updates successfully installed.");
+                SetStatus($"{DateTime.Now.ToString(System.Globalization.CultureInfo.CurrentCulture)}: Updates successfully installed.");
                 SetCheckNowButton(true);
                 updateRunning = false;
             }
             else
             {
-                SetStatus($"{DateTime.Now}: Updates for installed plugins found, waiting for GW2 to close...");
+                SetStatus($"{DateTime.Now.ToString(System.Globalization.CultureInfo.CurrentCulture)}: Updates for installed plugins found, waiting for GW2 to close...");
                 if (checkBoxEnableNotifications.Checked && !updateManual)
                 {
                     mainLink.ShowBalloon("arcdps plugin manager", "An updates for installed plugins has been found.\nPlease close GW2 to enable the update.", 7500);
