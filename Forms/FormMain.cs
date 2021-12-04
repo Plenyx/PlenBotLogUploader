@@ -1417,7 +1417,7 @@ namespace PlenBotLogUploader
                 var result = await HttpClientController.DownloadFileAsync("https://plenbot.net/uploader/update/", $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
                 if (result)
                 {
-                    Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", "-update " + Path.GetFileName(Application.ExecutablePath.Replace('/', '\\')));
+                    Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}");
                     if (InvokeRequired)
                     {
                         // invokes the function on the main thread
