@@ -67,6 +67,8 @@ namespace PlenBotLogUploader.ArcDps
                         return "Artenuvielle/GW2-SCT";
                     case ArcDpsComponentType.UExtras:
                         return "Krappa322/arcdps_unofficial_extras_releases";
+                    case ArcDpsComponentType.Clears:
+                        return "gw2scratch/arcdps-clears";
                     default:
                         return null;
                 }

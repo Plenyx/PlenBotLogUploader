@@ -17,7 +17,8 @@ namespace PlenBotLogUploader.ArcDps
                     new ArcDpsComponentHelperClass() { Name = "Killproof.me", Author = "knoxfighter", Type = ArcDpsComponentType.KPme },
                     new ArcDpsComponentHelperClass() { Name = "Heal stats", Author = "Krappa322", Type = ArcDpsComponentType.HealStats },
                     new ArcDpsComponentHelperClass() { Name = "Scrolling combat text", Author = "Artenuvielle", Type = ArcDpsComponentType.SCT },
-                    new ArcDpsComponentHelperClass() { Name = "Unofficial extras", Author = "Krappa322", Type = ArcDpsComponentType.UExtras }
+                    new ArcDpsComponentHelperClass() { Name = "Unofficial extras", Author = "Krappa322", Type = ArcDpsComponentType.UExtras },
+                    new ArcDpsComponentHelperClass() { Name = "Clears", Author = "Sejsel", Type = ArcDpsComponentType.Clears },
                 };
             }
         }
@@ -58,6 +59,8 @@ namespace PlenBotLogUploader.ArcDps
                         return $"{Prefix}_arcdps_sct.dll";
                     case ArcDpsComponentType.UExtras:
                         return $"{Prefix}_arcdps_unofficial_extras.dll";
+                    case ArcDpsComponentType.Clears:
+                        return $"{Prefix}_arcdps_clears.dll";
                     default: // arcdps
                         return $"{Prefix}.dll";
                 }
