@@ -1094,7 +1094,7 @@ namespace PlenBotLogUploader
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
                     AddToText("> UPLOADER COMMAND USED");
-                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"PlenBot Log Uploader r{ApplicationSettings.Version} | https://hardstuck.gg/uploader/ | https://github.com/HardstuckGuild/PlenBotLogUploader/");
+                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"PlenBot Log Uploader r{ApplicationSettings.Version} | https://plenbot.net/uploader/ | https://github.com/HardstuckGuild/PlenBotLogUploader/");
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxGW2Build.Text.ToLower()) && twitchCommandsLink.checkBoxGW2BuildEnable.Checked)
                 {

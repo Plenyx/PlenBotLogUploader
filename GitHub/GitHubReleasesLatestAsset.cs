@@ -8,7 +8,7 @@ namespace PlenBotLogUploader.GitHub
         public string Name { get; set; }
 
         [JsonProperty("size")]
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         [JsonProperty("browser_download_url")]
         public string DownloadURL { get; set; }

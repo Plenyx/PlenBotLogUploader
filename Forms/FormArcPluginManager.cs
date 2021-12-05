@@ -132,7 +132,7 @@ namespace PlenBotLogUploader
             var updateNeeded = false;
             foreach (var component in ArcDpsComponent.All)
             {
-                var version = await httpController.DownloadFileToStringAsync(component.VersionLink);
+                var version = await component.GetVersionStringAsync(httpController);
                 if (!component.IsCurrentVersion(version))
                 {
                     componentsToUpdate.Add(component);
@@ -168,7 +168,7 @@ namespace PlenBotLogUploader
                 }
                 if (checkBoxEnableNotifications.Checked && !updateManual)
                 {
-                    mainLink.ShowBalloon("arcdps plugin manager", "An update for an installed plugin has been found.\nPlease close GW2 to enable the update.", 7500);
+                    mainLink.ShowBalloon("arcdps plugin manager", "An update for an installed plugin has been found and has been updated.", 7500);
                 }
                 SetStatus($"{DateTime.Now.ToString(System.Globalization.CultureInfo.CurrentCulture)}: Updates successfully installed.");
                 SetCheckNowButton(true);
