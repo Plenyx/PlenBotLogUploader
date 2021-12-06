@@ -360,5 +360,23 @@ namespace PlenBotLogUploader
             checkBoxEnableNotifications.CheckedChanged += checkChangedHandler;
             ApplicationSettings.Current.Save();
         }
+
+        private void ButtonShowPluginInfo_Click(object sender, EventArgs e)
+        {
+            var item = checkedListBoxArcDpsPlugins.SelectedItem;
+            if (!(item is null))
+            {
+                if (item.GetType().Equals(typeof(ArcDpsComponentHelperClass)))
+                {
+                    (new FormArcPluginInfo(item as ArcDpsComponentHelperClass)).ShowDialog();
+                }
+            }
+            
+        }
+
+        private void CheckedListBoxArcDpsPlugins_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buttonShowPluginInfo.Enabled = checkedListBoxArcDpsPlugins.SelectedIndex > -1;
+        }
     }
 }

@@ -65,8 +65,6 @@ namespace PlenBotLogUploader.ArcDps
                         return "Krappa322/arcdps_healing_stats";
                     case ArcDpsComponentType.SCT:
                         return "Artenuvielle/GW2-SCT";
-                    case ArcDpsComponentType.UExtras:
-                        return "Krappa322/arcdps_unofficial_extras_releases";
                     case ArcDpsComponentType.Clears:
                         return "gw2scratch/arcdps-clears";
                     default:
@@ -140,7 +138,7 @@ namespace PlenBotLogUploader.ArcDps
             {
                 return false;
             }
-            if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) || (Type == ArcDpsComponentType.UExtras) ||
+            if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) ||
                 (Type == ArcDpsComponentType.Mechanics) || (Type == ArcDpsComponentType.BoonTable) || (Type == ArcDpsComponentType.KPme))
             {
                 return GetFileSize().ToString().Equals(version);

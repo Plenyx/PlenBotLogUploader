@@ -171,6 +171,12 @@
     <Compile Include="Forms\FormAleeva.Designer.cs">
       <DependentUpon>FormAleeva.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormArcPluginInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormArcPluginInfo.Designer.cs">
+      <DependentUpon>FormArcPluginInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormArcPluginManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -305,6 +311,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\FormAleeva.resx">
       <DependentUpon>FormAleeva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormArcPluginInfo.resx">
+      <DependentUpon>FormArcPluginInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormArcPluginManager.resx">
       <DependentUpon>FormArcPluginManager.cs</DependentUpon>

@@ -42,6 +42,7 @@ namespace PlenBotLogUploader
             this.groupBoxDXVersion = new System.Windows.Forms.GroupBox();
             this.radioButtonDX11 = new System.Windows.Forms.RadioButton();
             this.radioButtonDX9 = new System.Windows.Forms.RadioButton();
+            this.buttonShowPluginInfo = new System.Windows.Forms.Button();
             this.groupBoxModuleEnabled.SuspendLayout();
             this.groupBoxModuleControls.SuspendLayout();
             this.groupBoxDXVersion.SuspendLayout();
@@ -65,11 +66,12 @@ namespace PlenBotLogUploader
             // checkedListBoxArcDpsPlugins
             // 
             this.checkedListBoxArcDpsPlugins.Enabled = false;
-            this.checkedListBoxArcDpsPlugins.FormattingEnabled = true;
             this.checkedListBoxArcDpsPlugins.Location = new System.Drawing.Point(181, 12);
             this.checkedListBoxArcDpsPlugins.Name = "checkedListBoxArcDpsPlugins";
-            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(267, 199);
+            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(267, 169);
+            this.checkedListBoxArcDpsPlugins.Sorted = true;
             this.checkedListBoxArcDpsPlugins.TabIndex = 2;
+            this.checkedListBoxArcDpsPlugins.SelectedIndexChanged += new System.EventHandler(this.CheckedListBoxArcDpsPlugins_SelectedIndexChanged);
             // 
             // checkBoxModuleEnabled
             // 
@@ -169,12 +171,24 @@ namespace PlenBotLogUploader
             this.radioButtonDX9.Text = "DirectX 9";
             this.radioButtonDX9.UseVisualStyleBackColor = true;
             // 
+            // buttonShowPluginInfo
+            // 
+            this.buttonShowPluginInfo.Enabled = false;
+            this.buttonShowPluginInfo.Location = new System.Drawing.Point(181, 188);
+            this.buttonShowPluginInfo.Name = "buttonShowPluginInfo";
+            this.buttonShowPluginInfo.Size = new System.Drawing.Size(267, 23);
+            this.buttonShowPluginInfo.TabIndex = 8;
+            this.buttonShowPluginInfo.Text = "Show plugin information";
+            this.buttonShowPluginInfo.UseVisualStyleBackColor = true;
+            this.buttonShowPluginInfo.Click += new System.EventHandler(this.ButtonShowPluginInfo_Click);
+            // 
             // FormArcPluginManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(459, 243);
+            this.Controls.Add(this.buttonShowPluginInfo);
             this.Controls.Add(this.groupBoxDXVersion);
             this.Controls.Add(this.labelStatusText);
             this.Controls.Add(this.groupBoxModuleControls);
@@ -212,5 +226,6 @@ namespace PlenBotLogUploader
         private System.Windows.Forms.GroupBox groupBoxDXVersion;
         private System.Windows.Forms.RadioButton radioButtonDX9;
         internal System.Windows.Forms.RadioButton radioButtonDX11;
+        private System.Windows.Forms.Button buttonShowPluginInfo;
     }
 }

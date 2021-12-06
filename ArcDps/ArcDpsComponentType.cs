@@ -8,7 +8,6 @@
         KPme = 4,
         HealStats = 5,
         SCT = 6,
-        UExtras = 7,
         Clears = 8,
     }
 }
