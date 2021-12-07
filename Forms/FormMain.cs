@@ -110,7 +110,7 @@ namespace PlenBotLogUploader
             logSessionLink = new FormLogSession(this);
             gw2APILink = new FormGW2API();
             aleevaLink = new FormAleeva(this);
-            gw2botLink = new FormGW2Bot();
+            gw2botLink = new FormGW2Bot(this);
             MumbleReader = new MumbleReader(false);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
@@ -810,6 +810,8 @@ namespace PlenBotLogUploader
                                             await pingsLink.ExecuteAllPingsAsync(reportJSON);
                                             // aleeva pings
                                             await aleevaLink.PostLogToAleeva(reportJSON);
+                                            // gw2bot pings
+                                            await gw2botLink.PostLogToGW2Bot(reportJSON);
                                             // report success
                                             AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
                                         }

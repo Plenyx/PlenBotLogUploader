@@ -129,6 +129,7 @@
     <Compile Include="AppSettings\ApplicationSettingsAleeva.cs" />
     <Compile Include="AppSettings\ApplicationSettingsArcUpdate.cs" />
     <Compile Include="AppSettings\ApplicationSettingsBossTemplate.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsGW2Bot.cs" />
     <Compile Include="AppSettings\ApplicationSettingsSession.cs" />
     <Compile Include="AppSettings\ApplicationSettingsTwitchCommands.cs" />
     <Compile Include="AppSettings\ApplicationSettingsTwitchCustom.cs" />
@@ -290,6 +291,8 @@
     <Compile Include="GW2API\GW2.cs" />
     <Compile Include="GW2API\GW2Account.cs" />
     <Compile Include="GW2API\GW2Server.cs" />
+    <Compile Include="GW2Bot\GW2BotAddReport.cs" />
+    <Compile Include="GW2Bot\GW2BotAddReportResponse.cs" />
     <Compile Include="RemotePing\PlenyxAPIPingResponse.cs" />
     <Compile Include="RemotePing\PingAuthentication.cs" />
     <Compile Include="RemotePing\PingConfiguration.cs" />

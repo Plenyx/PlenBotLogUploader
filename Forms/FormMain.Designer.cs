@@ -467,7 +467,6 @@
             // 
             // buttonGW2BotSettings
             // 
-            this.buttonGW2BotSettings.Enabled = false;
             this.buttonGW2BotSettings.Image = global::PlenBotLogUploader.Properties.Resources.gw2bot_icon16;
             this.buttonGW2BotSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonGW2BotSettings.Location = new System.Drawing.Point(6, 237);

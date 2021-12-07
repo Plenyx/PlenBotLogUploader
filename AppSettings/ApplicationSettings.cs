@@ -58,23 +58,26 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("firstApplicationRun")]
         public bool FirstApplicationRun { get; set; } = true;
 
-        [JsonProperty("mainFormSize")]
-        public System.Drawing.Size MainFormSize { get; set; } = new System.Drawing.Size(649, 784);
-
-        [JsonProperty("mainFormState")]
-        public System.Windows.Forms.FormWindowState MainFormState { get; set; } = System.Windows.Forms.FormWindowState.Normal;
-
         [JsonProperty("firstTimeMinimised")]
         public bool FirstTimeMinimised { get; set; } = false;
 
         [JsonProperty("gw2APIKey")]
         public string GW2APIKey { get; set; } = "";
 
+        [JsonProperty("gw2Bot")]
+        public ApplicationSettingsGW2Bot GW2Bot { get; set; } = new ApplicationSettingsGW2Bot();
+
         [JsonProperty("gw2Location")]
         public string GW2Location { get; set; } = "";
 
         [JsonProperty("logsLocation")]
         public string LogsLocation { get; set; } = "";
+
+        [JsonProperty("mainFormSize")]
+        public System.Drawing.Size MainFormSize { get; set; } = new System.Drawing.Size(649, 784);
+
+        [JsonProperty("mainFormState")]
+        public System.Windows.Forms.FormWindowState MainFormState { get; set; } = System.Windows.Forms.FormWindowState.Normal;
 
         [JsonProperty("maxConcurrentUploads")]
         public int MaxConcurrentUploads { get; set; } = 4;
