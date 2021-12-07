@@ -24,6 +24,10 @@ namespace PlenBotLogUploader
             e.Cancel = true;
             Hide();
             ApplicationSettings.Current.Twitch.Custom.Name = textBoxCustomName.Text.ToLower();
+            if (!textBoxCustomOAuth.Text.StartsWith("oauth:"))
+            {
+                textBoxCustomOAuth.Text = $"oauth:{textBoxCustomOAuth.Text}";
+            }
             ApplicationSettings.Current.Twitch.Custom.OAuthPassword = textBoxCustomOAuth.Text;
             ApplicationSettings.Current.Save();
             if (!mainLink.IsTwitchConnectionNull())
