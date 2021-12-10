@@ -38,9 +38,6 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("enabled")]
         public bool Enabled { get; set; } = true;
 
-        [JsonProperty("ignoreFileSize")]
-        public bool IgnoreFileSize { get; set; } = false;
-
         [JsonProperty("postLogsToTwitch")]
         public bool PostLogsToTwitch { get; set; } = true;
 

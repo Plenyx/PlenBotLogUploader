@@ -114,13 +114,13 @@ namespace PlenBotLogUploader
             MumbleReader = new MumbleReader(false);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
-            toolTip.SetToolTip(checkBoxFileSizeIgnore, "If checked, logs with less than 8 kB filesize will be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it and OBS is running.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
             toolTip.SetToolTip(checkBoxAnonymiseReports, "If checked, the log will be generated with fake names and accounts.");
             toolTip.SetToolTip(checkBoxDetailedWvW, "If checked, extended per-target reports will be generated. (might cause some issues)");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             toolTip.SetToolTip(buttonCopyApplicationSession, "Copies all the logs uploaded during the application session into the clipboard.");
+            toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the app.");
             toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
             #endregion
             try
@@ -131,7 +131,7 @@ namespace PlenBotLogUploader
                 if (ApplicationSettings.Current.FirstApplicationRun)
                 {
                     MessageBox.Show("It looks like this is the first time you are running this program.\nIf you have any issues feel free to contact me directly via Twitch, Discord (@Plenyx#1029) or via GitHub!\n\nPlenyx", "Thank you for using PlenBotLogUploader", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    var arcFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\";
+                    var arcFolder = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\";
                     if (Directory.Exists(arcFolder))
                     {
                         ApplicationSettings.Current.LogsLocation = arcFolder;
@@ -200,13 +200,13 @@ namespace PlenBotLogUploader
                         checkBoxTwitchOnlySuccess.Checked = true;
                     }
                 }
-                if (ApplicationSettings.Current.Upload.IgnoreFileSize)
-                {
-                    checkBoxFileSizeIgnore.Checked = true;
-                }
                 if (ApplicationSettings.Current.MinimiseToTray)
                 {
                     checkBoxTrayMinimiseToIcon.Checked = true;
+                }
+                if (ApplicationSettings.Current.AutoUpdate)
+                {
+                    checkBoxAutoUpdate.Checked = true;
                 }
                 if (ApplicationSettings.Current.Upload.Anonymous)
                 {
@@ -317,7 +317,6 @@ namespace PlenBotLogUploader
                 /* Subscribe to field changes events, otherwise they would trigger on load */
                 checkBoxPostToTwitch.CheckedChanged += new EventHandler(CheckBoxPostToTwitch_CheckedChanged);
                 checkBoxUploadLogs.CheckedChanged += new EventHandler(CheckBoxUploadAll_CheckedChanged);
-                checkBoxFileSizeIgnore.CheckedChanged += new EventHandler(CheckBoxFileSizeIgnore_CheckedChanged);
                 checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(CheckBoxTrayMinimiseToIcon_CheckedChanged);
                 checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(CheckBoxTwitchOnlySuccess_CheckedChanged);
                 checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(CheckBoxStartWhenWindowsStarts_CheckedChanged);
@@ -325,6 +324,7 @@ namespace PlenBotLogUploader
                 checkBoxDetailedWvW.CheckedChanged += new EventHandler(CheckBoxDetailedWvW_CheckedChanged);
                 checkBoxSaveLogsToCSV.CheckedChanged += new EventHandler(CheckBoxSaveLogsToCSV_CheckedChanged);
                 comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
+                checkBoxAutoUpdate.CheckedChanged += new EventHandler(CheckBoxAutoUpdate_CheckedChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
@@ -342,7 +342,7 @@ namespace PlenBotLogUploader
         private void FormMain_Load(object sender, EventArgs e)
         {
             StartUpAndCommandArgs();
-            Task.Run(() => NewReleaseCheckAsync());
+            Task.Run(async () => await NewReleaseCheckAsync(true));
             Resize += new EventHandler(FormMain_Resize);
         }
 
@@ -458,10 +458,10 @@ namespace PlenBotLogUploader
                 {
                     try
                     {
-                        if (checkBoxFileSizeIgnore.Checked || new FileInfo(e.FullPath).Length >= minFileSize)
+                        if (new FileInfo(e.FullPath).Length >= minFileSize)
                         {
-                            string zipfilelocation = e.FullPath;
-                            bool archived = false;
+                            var zipfilelocation = e.FullPath;
+                            var archived = false;
                             // a workaround so arcdps can release the file for read access
                             Thread.Sleep(1000);
                             if (!e.FullPath.EndsWith(".zevtc"))
@@ -530,7 +530,7 @@ namespace PlenBotLogUploader
             UpdateLogCount();
         }
 
-        protected async void NewReleaseCheckAsync()
+        protected async Task NewReleaseCheckAsync(bool appStartup = false)
         {
             try
             {
@@ -549,10 +549,17 @@ namespace PlenBotLogUploader
                     {
                         UpdateFound = true;
                         latestRelease = await HttpClientController.GetGitHubLatestReleaseAsync("HardstuckGuild/PlenBotLogUploader");
-                        AddToText($">>> New release available (r{response})");
-                        AddToText(">>> https://github.com/HardstuckGuild/PlenBotLogUploader/releases/");
-                        AddToText(latestRelease.Body);
-                        ShowBalloon("New release available for the uploader", $"If you want to update immediately, use the \"Update the uploader\" button.\nThe latest release is n. {response}.", 8500);
+                        if (appStartup && ApplicationSettings.Current.AutoUpdate)
+                        {
+                            await PerformUpdate(appStartup);
+                        }
+                        else
+                        {
+                            AddToText($">>> New release available (r{response})");
+                            AddToText(">>> https://github.com/HardstuckGuild/PlenBotLogUploader/releases/");
+                            AddToText(latestRelease.Body);
+                            ShowBalloon("New release available for the uploader", $"If you want to update immediately, use the \"Update the uploader\" button.\nThe latest release is n. {response}.", 8500);
+                        }
                     }
                     else
                     {
@@ -591,7 +598,7 @@ namespace PlenBotLogUploader
             var args = Environment.GetCommandLineArgs().ToList();
             if (args.Count > 1)
             {
-                if ((args.Count == 2) && (args[1].Equals("-m")))
+                if (((args.Count == 2) || (args.Count == 3)) && (args[1].Equals("-m")))
                 {
                     StartedMinimised = true;
                     WindowState = FormWindowState.Minimized;
@@ -608,7 +615,7 @@ namespace PlenBotLogUploader
                         { "generator", "ei" },
                         { "json", "1" }
                     };
-                    foreach (string arg in args)
+                    foreach (var arg in args)
                     {
                         if (arg.Equals(Application.ExecutablePath))
                         {
@@ -815,7 +822,7 @@ namespace PlenBotLogUploader
                                             // report success
                                             AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
                                         }
-                                        else if(reportJSON.Error.Length > 0)
+                                        else if (reportJSON.Error.Length > 0)
                                         {
                                             AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJSON.Error}");
                                         }
@@ -856,7 +863,7 @@ namespace PlenBotLogUploader
                                                 delay = 3000;
                                                 break;
                                         }
-                                        AddToText($">:> Retrying in {(delay/1000)}s...");
+                                        AddToText($">:> Retrying in {(delay / 1000)}s...");
                                         await Task.Delay(delay);
                                         await HttpUploadLogAsync(file, postData, bypassMessage);
                                     });
@@ -930,7 +937,7 @@ namespace PlenBotLogUploader
         {
             if (InvokeRequired)
             {
-                Invoke((Action) async delegate { await ConnectTwitchBot(); });
+                Invoke((Action)async delegate { await ConnectTwitchBot(); });
                 return;
             }
             buttonDisConnectTwitch.Text = "Disconnect from Twitch";
@@ -983,7 +990,7 @@ namespace PlenBotLogUploader
         {
             if (InvokeRequired)
             {
-                Invoke((Action) async delegate { await ReconnectTwitchBot(); });
+                Invoke((Action)async delegate { await ReconnectTwitchBot(); });
                 return;
             }
             chatConnect.ReceiveMessage -= ReadMessagesAsync;
@@ -1020,7 +1027,7 @@ namespace PlenBotLogUploader
                     }
                     if (reconnectedFailCounter <= 4)
                     {
-                        AddToText($"<-?-> TRYING TO RECONNECT TO TWITCH IN {reconnectedFailCounter*15}s");
+                        AddToText($"<-?-> TRYING TO RECONNECT TO TWITCH IN {reconnectedFailCounter * 15}s");
                         await Task.Run(async () =>
                         {
                             await Task.Delay(reconnectedFailCounter * 15000);
@@ -1279,9 +1286,9 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
         }
 
-        private void CheckBoxFileSizeIgnore_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxAutoUpdate_CheckedChanged(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.Upload.IgnoreFileSize = checkBoxFileSizeIgnore.Checked;
+            ApplicationSettings.Current.AutoUpdate = checkBoxAutoUpdate.Checked;
             ApplicationSettings.Current.Save();
         }
 
@@ -1430,9 +1437,14 @@ namespace PlenBotLogUploader
 
         private async void ButtonUpdateNow_Click(object sender, EventArgs e)
         {
+            await PerformUpdate();
+        }
+
+        private async Task PerformUpdate(bool appStartup = false)
+        {
             if (!UpdateFound)
             {
-                NewReleaseCheckAsync();
+                await NewReleaseCheckAsync();
                 return;
             }
             buttonUpdate.Enabled = false;
@@ -1441,7 +1453,7 @@ namespace PlenBotLogUploader
             var result = await HttpClientController.DownloadFileAsync(downloadUrl, $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
             if (result)
             {
-                Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}");
+                Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{((appStartup && StartedMinimised) ? " -m" : "")}");
                 if (InvokeRequired)
                 {
                     Invoke((Action)delegate () { ExitApp(); });

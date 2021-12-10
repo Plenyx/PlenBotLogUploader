@@ -85,6 +85,9 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("minimiseToTry")]
         public bool MinimiseToTray { get; set; } = true;
 
+        [JsonProperty("autoUpdate")]
+        public bool AutoUpdate { get; set; } = false;
+
         [JsonProperty("session")]
         public ApplicationSettingsSession Session { get; set; } = new ApplicationSettingsSession();
 
