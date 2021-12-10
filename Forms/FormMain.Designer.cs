@@ -64,6 +64,7 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxAutoUpdate = new System.Windows.Forms.CheckBox();
             this.buttonGW2BotSettings = new System.Windows.Forms.Button();
             this.buttonAleevaSettings = new System.Windows.Forms.Button();
             this.buttonGW2API = new System.Windows.Forms.Button();
@@ -79,7 +80,6 @@
             this.richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
             this.timerResizeSave = new System.Windows.Forms.Timer(this.components);
-            this.checkBoxAutoUpdate = new System.Windows.Forms.CheckBox();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -454,6 +454,16 @@
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
+            // checkBoxAutoUpdate
+            // 
+            this.checkBoxAutoUpdate.AutoSize = true;
+            this.checkBoxAutoUpdate.Location = new System.Drawing.Point(6, 298);
+            this.checkBoxAutoUpdate.Name = "checkBoxAutoUpdate";
+            this.checkBoxAutoUpdate.Size = new System.Drawing.Size(185, 17);
+            this.checkBoxAutoUpdate.TabIndex = 15;
+            this.checkBoxAutoUpdate.Text = "automatically update the uploader";
+            this.checkBoxAutoUpdate.UseVisualStyleBackColor = true;
+            // 
             // buttonGW2BotSettings
             // 
             this.buttonGW2BotSettings.Image = global::PlenBotLogUploader.Properties.Resources.gw2bot_icon16;
@@ -586,7 +596,7 @@
             this.richTextBoxMainConsole.ReadOnly = true;
             this.tableLayoutPanelMainForm.SetRowSpan(this.richTextBoxMainConsole, 4);
             this.richTextBoxMainConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBoxMainConsole.Size = new System.Drawing.Size(421, 767);
+            this.richTextBoxMainConsole.Size = new System.Drawing.Size(421, 762);
             this.richTextBoxMainConsole.TabIndex = 9;
             this.richTextBoxMainConsole.Text = "";
             this.richTextBoxMainConsole.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
@@ -615,16 +625,6 @@
             // 
             this.timerResizeSave.Interval = 1500;
             this.timerResizeSave.Tick += new System.EventHandler(this.TimerResizeSave_Tick);
-            // 
-            // checkBoxAutoUpdate
-            // 
-            this.checkBoxAutoUpdate.AutoSize = true;
-            this.checkBoxAutoUpdate.Location = new System.Drawing.Point(6, 298);
-            this.checkBoxAutoUpdate.Name = "checkBoxAutoUpdate";
-            this.checkBoxAutoUpdate.Size = new System.Drawing.Size(185, 17);
-            this.checkBoxAutoUpdate.TabIndex = 15;
-            this.checkBoxAutoUpdate.Text = "automatically update the uploader";
-            this.checkBoxAutoUpdate.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
