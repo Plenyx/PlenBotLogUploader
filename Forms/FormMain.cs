@@ -691,7 +691,7 @@ namespace PlenBotLogUploader
         #region log upload and processing
         public async Task SendLogToTwitchChatAsync(DPSReportJSON reportJSON, bool bypassMessage = false)
         {
-            if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage && IsOBSRunning())
+            if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage && IsStreamingSoftwareRunning())
             {
                 var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId);
                 if (!(bossData is null))
@@ -918,14 +918,15 @@ namespace PlenBotLogUploader
         #region Twitch bot methods
         public bool IsTwitchConnectionNull() => chatConnect is null;
 
-        public bool IsOBSRunning()
+        public bool IsStreamingSoftwareRunning()
         {
             var processes = Process.GetProcesses();
             foreach (var process in processes)
             {
-                if ((process.ProcessName.ToLower().Equals("obs"))
-                    || (process.ProcessName.ToLower().Equals("obs64"))
-                    || (process.ProcessName.ToLower().Equals("streamlabs obs")))
+                var processLower = process.ProcessName.ToLower();
+                if ((processLower.StartsWith("obs"))
+                    || (processLower.StartsWith("streamlabs obs"))
+                    || (processLower.StartsWith("twitchstudio")))
                 {
                     return true;
                 }
