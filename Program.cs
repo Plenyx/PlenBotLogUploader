@@ -58,7 +58,7 @@ namespace PlenBotLogUploader
             {
                 if (args[2].ToLower().Equals("-finishupdate"))
                 {
-                    File.Delete(localDir + "PlenBotLogUploader_Update.exe");
+                    File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
                 }
                 else if (args[1].ToLower().Equals("-update"))
                 {
@@ -94,7 +94,7 @@ namespace PlenBotLogUploader
             {
                 if (args[1].ToLower().Equals("-finishupdate"))
                 {
-                    File.Delete(localDir + "PlenBotLogUploader_Update.exe");
+                    File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
                 }
                 else if (args[1].ToLower().Equals("-resetsettings"))
                 {

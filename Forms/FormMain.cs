@@ -269,7 +269,7 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSaveToFile.Checked = ApplicationSettings.Current.Session.SaveToFile;
                 logSessionLink.checkBoxMakeWvWSummary.Checked = ApplicationSettings.Current.Session.MakeWvWSummaryEmbed;
                 gw2APILink.textBoxAPIKey.Text = ApplicationSettings.Current.GW2APIKey;
-                if ((ApplicationSettings.Current.Aleeva.RefreshToken != "") && (ApplicationSettings.Current.Aleeva.RefreshTokenExpire != null) && (DateTime.Now < ApplicationSettings.Current.Aleeva.RefreshTokenExpire))
+                if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.RefreshToken) && (DateTime.Now < ApplicationSettings.Current.Aleeva.RefreshTokenExpire))
                 {
                     Task.Run(() => aleevaLink.GetAleevaTokenFromRefreshToken());
                 }
@@ -1082,23 +1082,7 @@ namespace PlenBotLogUploader
             {
                 if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && Regex.IsMatch(e.Message.ChannelMessage, @"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
                 {
-                    AddToText("> (Spotify) SMART SONG RECOGNITION USED");
-                    try
-                    {
-                        var process = Process.GetProcessesByName("Spotify").FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
-                        if (process.MainWindowTitle.Contains("Spotify"))
-                        {
-                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "No song is being played.");
-                        }
-                        else
-                        {
-                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, process.MainWindowTitle);
-                        }
-                    }
-                    catch
-                    {
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "Spotify is not running.");
-                    }
+                    await SpotifySongCheck();
                 }
                 string command = e.Message.ChannelMessage.Split(' ')[0].ToLower();
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
@@ -1172,23 +1156,7 @@ namespace PlenBotLogUploader
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
                 {
-                    AddToText("> (Spotify) SONG COMMAND USED");
-                    try
-                    {
-                        var process = Process.GetProcessesByName("Spotify").FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
-                        if (process.MainWindowTitle.Contains("Spotify"))
-                        {
-                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "No song is being played.");
-                        }
-                        else
-                        {
-                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, process.MainWindowTitle);
-                        }
-                    }
-                    catch
-                    {
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "Spotify is not running.");
-                    }
+                    await SpotifySongCheck();
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2IgnEnable.Checked)
                 {
@@ -1198,7 +1166,7 @@ namespace PlenBotLogUploader
                         using (var gw2Api = new Gw2APIHelper(ApplicationSettings.Current.GW2APIKey))
                         {
                             var userInfo = await gw2Api.GetUserInfoAsync();
-                            if (userInfo != null)
+                            if (!(userInfo is null))
                             {
                                 var playerWorld = GW2.AllServers[userInfo.World];
                                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
@@ -1210,6 +1178,27 @@ namespace PlenBotLogUploader
                         }
                     }
                 }
+            }
+        }
+
+        private async Task SpotifySongCheck()
+        {
+            AddToText("> (Spotify) SONG COMMAND USED");
+            try
+            {
+                var process = Process.GetProcessesByName("Spotify").FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
+                if (process.MainWindowTitle.Contains("Spotify"))
+                {
+                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "No song is being played.");
+                }
+                else
+                {
+                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, process.MainWindowTitle);
+                }
+            }
+            catch
+            {
+                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "Spotify is not running.");
             }
         }
         #endregion
@@ -1425,7 +1414,7 @@ namespace PlenBotLogUploader
         private async void ButtonDisConnectTwitch_Click(object sender, EventArgs e)
         {
             reconnectedFailCounter = 0;
-            if (chatConnect == null)
+            if (chatConnect is null)
             {
                 await ConnectTwitchBot();
             }
@@ -1520,7 +1509,7 @@ namespace PlenBotLogUploader
         {
             if (allSessionLogs.Count > 0)
             {
-                Clipboard.SetText(allSessionLogs.Aggregate((a, b) => a + "\n" + b));
+                Clipboard.SetText(allSessionLogs.Aggregate((a, b) => $"{a}\n{b}"));
             }
         }
 

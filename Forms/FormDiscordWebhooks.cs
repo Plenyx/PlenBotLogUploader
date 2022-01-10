@@ -326,14 +326,14 @@ namespace PlenBotLogUploader
             }
             else
             {
-                string bossName = reportJSON.Encounter.Boss + (reportJSON.ChallengeMode ? " CM" : "");
+                string bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : "")}";
                 string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
                 string extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
                 string icon = "";
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
                 if (!(bossData is null))
                 {
-                    bossName = bossData.Name + (reportJSON.ChallengeMode ? " CM" : "");
+                    bossName = $"{bossData.Name}{(reportJSON.ChallengeMode ? " CM" : "")}";
                     icon = bossData.Icon;
                 }
                 int colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
