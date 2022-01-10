@@ -22,5 +22,12 @@ namespace PlenBotLogUploader.Tools
             }
             return elapsedTime;
         }
+
+        /// <summary>
+        /// Outputs TimeSpan as Hh Mm Ss.
+        /// </summary>
+        /// <param name="span">TimeSpan in question</param>
+        /// <returns>TimeSpan as Hh Mm Ss</returns>
+        public static string ParseHMS(this TimeSpan span) => ParseTimeSpanHMS(span);
     }
 }

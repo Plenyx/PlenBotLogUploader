@@ -49,7 +49,7 @@ namespace PlenBotLogUploader
                 SessionRunning = false;
                 sessionPaused = false;
                 stopWatch.Stop();
-                string elapsedTime = NiceTime.ParseTimeSpanHMS(stopWatch.Elapsed);
+                string elapsedTime = stopWatch.Elapsed.ParseHMS();
                 var elapsedTimeSpan = stopWatch.Elapsed;
                 stopWatch.Reset();
                 int sortBy = radioButtonSortByUpload.Checked ? 1 : 0;
