@@ -8,6 +8,9 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("isFake")]
+        public bool IsFake { get; set; }
+
         [JsonProperty("dpsAll")]
         public List<DpsAll> DpsAll { get; set; }
 

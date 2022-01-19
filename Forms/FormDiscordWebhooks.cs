@@ -139,8 +139,8 @@ namespace PlenBotLogUploader
                     squadSummary.AddCell("Downs", tableCellCenterAlign);
                     squadSummary.AddCell("Deaths", tableCellCenterAlign);
                     squadSummary.AddCell($"{squadPlayers}", tableCellCenterAlign);
-                    squadSummary.AddCell($"{squadDamage}", tableCellCenterAlign);
-                    squadSummary.AddCell($"{squadDps}", tableCellCenterAlign);
+                    squadSummary.AddCell($"{squadDamage.ParseAsK()}", tableCellCenterAlign);
+                    squadSummary.AddCell($"{squadDps.ParseAsK()}", tableCellCenterAlign);
                     squadSummary.AddCell($"{squadDowns}", tableCellCenterAlign);
                     squadSummary.AddCell($"{squadDeaths}", tableCellCenterAlign);
                     var squadField = new DiscordAPIJSONContentEmbedField()
@@ -186,8 +186,8 @@ namespace PlenBotLogUploader
                         enemySummary.AddCell("Downs", tableCellCenterAlign);
                         enemySummary.AddCell("Deaths", tableCellCenterAlign);
                         enemySummary.AddCell($"{enemyPlayers}", tableCellCenterAlign);
-                        enemySummary.AddCell($"{enemyDamage}", tableCellCenterAlign);
-                        enemySummary.AddCell($"{enemyDps}", tableCellCenterAlign);
+                        enemySummary.AddCell($"{enemyDamage.ParseAsK()}", tableCellCenterAlign);
+                        enemySummary.AddCell($"{enemyDps.ParseAsK()}", tableCellCenterAlign);
                         enemySummary.AddCell($"{enemyDowns}", tableCellCenterAlign);
                         enemySummary.AddCell($"{enemyDeaths}", tableCellCenterAlign);
                         enemyField = new DiscordAPIJSONContentEmbedField()
@@ -217,8 +217,8 @@ namespace PlenBotLogUploader
                         rank++;
                         damageSummary.AddCell($"{rank}", tableCellCenterAlign);
                         damageSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                        damageSummary.AddCell($"{player.DpsAll.First().Damage}", tableCellRightAlign);
-                        damageSummary.AddCell($"{player.DpsAll.First().DPS}", tableCellRightAlign);
+                        damageSummary.AddCell($"{player.DpsAll.First().Damage.ParseAsK()}", tableCellRightAlign);
+                        damageSummary.AddCell($"{player.DpsAll.First().DPS.ParseAsK()}", tableCellRightAlign);
                     }
                     var damageField = new DiscordAPIJSONContentEmbedField()
                     {
@@ -324,7 +324,7 @@ namespace PlenBotLogUploader
                     mainLink.AddToText(">:> Unable to execute active webhooks.");
                 }
             }
-            else
+            else // not WvW
             {
                 string bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : "")}";
                 string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
@@ -397,13 +397,16 @@ namespace PlenBotLogUploader
                             Name = "Players in squad/group:",
                             Value = $"```{playerNames.Render()}```"
                         });
+                        var numberOfRealTargers = reportJSON.ExtraJSON.Targets
+                            .Where(x => !x.IsFake)
+                            .Count();
                         // damage summary
                         var damageStats = reportJSON.ExtraJSON.Players
                             .Where(x => !x.FriendNPC)
                             .Select(x => new
                             {
                                 Player = x,
-                                DPS = reportJSON.ExtraJSON.PlayerTargetDPS[x]
+                                DPS = numberOfRealTargers > 0 ? reportJSON.ExtraJSON.PlayerTargetDPS[x] : x.DpsAll.First().DPS
                             })
                             .OrderByDescending(x => x.DPS)
                             .Take(10)
@@ -421,14 +424,14 @@ namespace PlenBotLogUploader
                             rank++;
                             dpsTargetSummary.AddCell($"{rank}", tableCellCenterAlign);
                             dpsTargetSummary.AddCell($"{player.Player.Name} ({player.Player.ProfessionShort})");
-                            dpsTargetSummary.AddCell($"{player.DPS}", tableCellRightAlign);
+                            dpsTargetSummary.AddCell($"{player.DPS.ParseAsK()}", tableCellRightAlign);
                         }
                         dpsTargetSummary.AddCell("");
                         dpsTargetSummary.AddCell("Total");
                         var totalDPS = damageStats
                             .Select(x => x.DPS)
                             .Sum();
-                        dpsTargetSummary.AddCell($"{totalDPS}", tableCellRightAlign);
+                        dpsTargetSummary.AddCell($"{totalDPS.ParseAsK()}", tableCellRightAlign);
                         fields.Add(new DiscordAPIJSONContentEmbedField()
                         {
                             Name = "DPS target summary:",
