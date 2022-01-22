@@ -94,7 +94,7 @@ namespace PlenBotLogUploader
                 {
                     timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
-                var timestamp = timestampDateTime.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ");
+                var timestamp = timestampDateTime.ToString("o");
                 var discordContentEmbed = new DiscordAPIJSONContentEmbed()
                 {
                     Title = extraJSONFightName,
@@ -346,7 +346,7 @@ namespace PlenBotLogUploader
                 {
                     timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
-                var timestamp = timestampDateTime.ToString("yyyy'-'MM'-'ddTHH':'mm':'ssZ");
+                var timestamp = timestampDateTime.ToString("o");
                 var discordContentEmbed = new DiscordAPIJSONContentEmbed()
                 {
                     Title = bossName,
