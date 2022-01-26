@@ -241,6 +241,7 @@
             this.radioButtonTypeGolem.TabStop = true;
             this.radioButtonTypeGolem.Text = "Golem";
             this.radioButtonTypeGolem.UseVisualStyleBackColor = true;
+            this.radioButtonTypeGolem.CheckedChanged += new System.EventHandler(this.RadioButtonTypeGolem_CheckedChanged);
             // 
             // radioButtonTypeWvW
             // 
@@ -252,6 +253,7 @@
             this.radioButtonTypeWvW.TabStop = true;
             this.radioButtonTypeWvW.Text = "WvW";
             this.radioButtonTypeWvW.UseVisualStyleBackColor = true;
+            this.radioButtonTypeWvW.CheckedChanged += new System.EventHandler(this.RadioButtonTypeWvW_CheckedChanged);
             // 
             // radioButtonTypeStrike
             // 
@@ -262,6 +264,7 @@
             this.radioButtonTypeStrike.TabIndex = 3;
             this.radioButtonTypeStrike.Text = "Strike";
             this.radioButtonTypeStrike.UseVisualStyleBackColor = true;
+            this.radioButtonTypeStrike.CheckedChanged += new System.EventHandler(this.RadioButtonTypeStrike_CheckedChanged);
             // 
             // radioButtonTypeFractal
             // 
@@ -272,6 +275,7 @@
             this.radioButtonTypeFractal.TabIndex = 2;
             this.radioButtonTypeFractal.Text = "Fractal";
             this.radioButtonTypeFractal.UseVisualStyleBackColor = true;
+            this.radioButtonTypeFractal.CheckedChanged += new System.EventHandler(this.RadioButtonTypeFractal_CheckedChanged);
             // 
             // radioButtonTypeRaid
             // 
@@ -282,6 +286,7 @@
             this.radioButtonTypeRaid.TabIndex = 1;
             this.radioButtonTypeRaid.Text = "Raid";
             this.radioButtonTypeRaid.UseVisualStyleBackColor = true;
+            this.radioButtonTypeRaid.CheckedChanged += new System.EventHandler(this.RadioButtonTypeRaid_CheckedChanged);
             // 
             // radioButtonTypeNone
             // 
@@ -294,6 +299,7 @@
             this.radioButtonTypeNone.TabStop = true;
             this.radioButtonTypeNone.Text = "None";
             this.radioButtonTypeNone.UseVisualStyleBackColor = true;
+            this.radioButtonTypeNone.CheckedChanged += new System.EventHandler(this.RadioButtonTypeNone_CheckedChanged);
             // 
             // FormEditBossData
             // 
