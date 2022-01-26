@@ -933,7 +933,7 @@ namespace PlenBotLogUploader
                 var processLower = process.ProcessName.ToLower();
                 if ((processLower.StartsWith("obs"))
                     || (processLower.StartsWith("streamlabs obs"))
-                    || (processLower.StartsWith("twitchstudio")))
+                    || (processLower.Equals("twitchstudio")))
                 {
                     return true;
                 }
