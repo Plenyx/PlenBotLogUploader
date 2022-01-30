@@ -2,6 +2,7 @@
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.GW2Bot;
+using PlenBotLogUploader.Teams;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Net.Http;
@@ -40,6 +41,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.GW2Bot.Enabled = checkBoxModuleEnabled.Checked;
             ApplicationSettings.Current.GW2Bot.APIKey = textBoxAPIKey.Text;
             ApplicationSettings.Current.GW2Bot.SendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
+            ApplicationSettings.Current.GW2Bot.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as WebhookTeam).ID;
             ApplicationSettings.Current.Save();
             controller.DefaultRequestHeaders.Authorization = (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Bot.APIKey)) ? new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApplicationSettings.Current.GW2Bot.APIKey) : null;
         }
@@ -50,6 +52,16 @@ namespace PlenBotLogUploader
         {
             if (checkBoxModuleEnabled.Checked)
             {
+                if (ApplicationSettings.Current.GW2Bot.SelectedTeamId > 0)
+                {
+                    if (WebhookTeams.All.ContainsKey(ApplicationSettings.Current.GW2Bot.SelectedTeamId))
+                    {
+                        if (!WebhookTeams.All[ApplicationSettings.Current.GW2Bot.SelectedTeamId].IsSatisfied(reportJSON.Players))
+                        {
+                            return true;
+                        }
+                    }
+                }
                 if (checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
                 {
                     return true;
@@ -86,6 +98,16 @@ namespace PlenBotLogUploader
             var toggle = checkBoxModuleEnabled.Checked;
             groupBoxAPIKey.Enabled = toggle;
             groupBoxUploadSettings.Enabled = toggle;
+        }
+
+        private void FormGW2Bot_Shown(object sender, EventArgs e)
+        {
+            var teams = WebhookTeams.All;
+            foreach (var team in teams.Values)
+            {
+                comboBoxSelectedTeam.Items.Add(team);
+            }
+            comboBoxSelectedTeam.SelectedItem = (ApplicationSettings.Current.GW2Bot.SelectedTeamId > 0) ? teams[ApplicationSettings.Current.GW2Bot.SelectedTeamId] : teams[0];
         }
     }
 }

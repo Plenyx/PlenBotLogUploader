@@ -30,6 +30,8 @@
         {
             this.checkBoxOnlySuccessful = new System.Windows.Forms.CheckBox();
             this.groupBoxUploadSettings = new System.Windows.Forms.GroupBox();
+            this.labelSelectedTeam = new System.Windows.Forms.Label();
+            this.comboBoxSelectedTeam = new System.Windows.Forms.ComboBox();
             this.groupBoxModuleEnabled = new System.Windows.Forms.GroupBox();
             this.checkBoxModuleEnabled = new System.Windows.Forms.CheckBox();
             this.groupBoxAPIKey = new System.Windows.Forms.GroupBox();
@@ -51,14 +53,34 @@
             // 
             // groupBoxUploadSettings
             // 
+            this.groupBoxUploadSettings.Controls.Add(this.labelSelectedTeam);
+            this.groupBoxUploadSettings.Controls.Add(this.comboBoxSelectedTeam);
             this.groupBoxUploadSettings.Controls.Add(this.checkBoxOnlySuccessful);
             this.groupBoxUploadSettings.Enabled = false;
             this.groupBoxUploadSettings.Location = new System.Drawing.Point(12, 115);
             this.groupBoxUploadSettings.Name = "groupBoxUploadSettings";
-            this.groupBoxUploadSettings.Size = new System.Drawing.Size(265, 41);
+            this.groupBoxUploadSettings.Size = new System.Drawing.Size(265, 88);
             this.groupBoxUploadSettings.TabIndex = 6;
             this.groupBoxUploadSettings.TabStop = false;
             this.groupBoxUploadSettings.Text = "Upload settings";
+            // 
+            // labelSelectedTeam
+            // 
+            this.labelSelectedTeam.AutoSize = true;
+            this.labelSelectedTeam.Location = new System.Drawing.Point(6, 42);
+            this.labelSelectedTeam.Name = "labelSelectedTeam";
+            this.labelSelectedTeam.Size = new System.Drawing.Size(34, 13);
+            this.labelSelectedTeam.TabIndex = 3;
+            this.labelSelectedTeam.Text = "Team";
+            // 
+            // comboBoxSelectedTeam
+            // 
+            this.comboBoxSelectedTeam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSelectedTeam.FormattingEnabled = true;
+            this.comboBoxSelectedTeam.Location = new System.Drawing.Point(6, 58);
+            this.comboBoxSelectedTeam.Name = "comboBoxSelectedTeam";
+            this.comboBoxSelectedTeam.Size = new System.Drawing.Size(253, 21);
+            this.comboBoxSelectedTeam.TabIndex = 2;
             // 
             // groupBoxModuleEnabled
             // 
@@ -104,7 +126,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(289, 166);
+            this.ClientSize = new System.Drawing.Size(289, 212);
             this.Controls.Add(this.groupBoxAPIKey);
             this.Controls.Add(this.groupBoxModuleEnabled);
             this.Controls.Add(this.groupBoxUploadSettings);
@@ -116,6 +138,7 @@
             this.Text = "GW2Bot integration";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGW2Bot_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormGW2Bot_FormClosed);
+            this.Shown += new System.EventHandler(this.FormGW2Bot_Shown);
             this.groupBoxUploadSettings.ResumeLayout(false);
             this.groupBoxUploadSettings.PerformLayout();
             this.groupBoxModuleEnabled.ResumeLayout(false);
@@ -133,5 +156,7 @@
         private System.Windows.Forms.GroupBox groupBoxAPIKey;
         public System.Windows.Forms.TextBox textBoxAPIKey;
         public System.Windows.Forms.CheckBox checkBoxOnlySuccessful;
+        private System.Windows.Forms.Label labelSelectedTeam;
+        private System.Windows.Forms.ComboBox comboBoxSelectedTeam;
     }
 }

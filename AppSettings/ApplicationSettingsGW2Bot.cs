@@ -12,5 +12,8 @@ namespace PlenBotLogUploader.AppSettings
 
         [JsonProperty("sendOnSuccessOnly")]
         public bool SendOnSuccessOnly { get; set; } = false;
+
+        [JsonProperty("selectedTeamId")]
+        public int SelectedTeamId { get; set; } = 0;
     }
 }
