@@ -33,6 +33,8 @@
             this.buttonGetBearerFromAccess = new System.Windows.Forms.Button();
             this.groupBoxAleevaStatus = new System.Windows.Forms.GroupBox();
             this.groupBoxUploadSettings = new System.Windows.Forms.GroupBox();
+            this.labelAleevaTeam = new System.Windows.Forms.Label();
+            this.comboBoxSelectedTeam = new System.Windows.Forms.ComboBox();
             this.checkBoxOnlySuccessful = new System.Windows.Forms.CheckBox();
             this.checkBoxSendNotification = new System.Windows.Forms.CheckBox();
             this.groupBoxChannel = new System.Windows.Forms.GroupBox();
@@ -82,22 +84,43 @@
             this.groupBoxAleevaStatus.Controls.Add(this.groupBoxAccessCode);
             this.groupBoxAleevaStatus.Location = new System.Drawing.Point(12, 12);
             this.groupBoxAleevaStatus.Name = "groupBoxAleevaStatus";
-            this.groupBoxAleevaStatus.Size = new System.Drawing.Size(487, 229);
+            this.groupBoxAleevaStatus.Size = new System.Drawing.Size(487, 271);
             this.groupBoxAleevaStatus.TabIndex = 1;
             this.groupBoxAleevaStatus.TabStop = false;
             this.groupBoxAleevaStatus.Text = "Status: Not authorised";
             // 
             // groupBoxUploadSettings
             // 
+            this.groupBoxUploadSettings.Controls.Add(this.labelAleevaTeam);
+            this.groupBoxUploadSettings.Controls.Add(this.comboBoxSelectedTeam);
             this.groupBoxUploadSettings.Controls.Add(this.checkBoxOnlySuccessful);
             this.groupBoxUploadSettings.Controls.Add(this.checkBoxSendNotification);
             this.groupBoxUploadSettings.Enabled = false;
             this.groupBoxUploadSettings.Location = new System.Drawing.Point(6, 180);
             this.groupBoxUploadSettings.Name = "groupBoxUploadSettings";
-            this.groupBoxUploadSettings.Size = new System.Drawing.Size(474, 41);
+            this.groupBoxUploadSettings.Size = new System.Drawing.Size(474, 83);
             this.groupBoxUploadSettings.TabIndex = 5;
             this.groupBoxUploadSettings.TabStop = false;
             this.groupBoxUploadSettings.Text = "Upload settings";
+            // 
+            // labelAleevaTeam
+            // 
+            this.labelAleevaTeam.AutoSize = true;
+            this.labelAleevaTeam.Location = new System.Drawing.Point(3, 39);
+            this.labelAleevaTeam.Name = "labelAleevaTeam";
+            this.labelAleevaTeam.Size = new System.Drawing.Size(34, 13);
+            this.labelAleevaTeam.TabIndex = 3;
+            this.labelAleevaTeam.Text = "Team";
+            // 
+            // comboBoxSelectedTeam
+            // 
+            this.comboBoxSelectedTeam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSelectedTeam.FormattingEnabled = true;
+            this.comboBoxSelectedTeam.Location = new System.Drawing.Point(6, 55);
+            this.comboBoxSelectedTeam.Name = "comboBoxSelectedTeam";
+            this.comboBoxSelectedTeam.Size = new System.Drawing.Size(462, 21);
+            this.comboBoxSelectedTeam.TabIndex = 2;
+            this.comboBoxSelectedTeam.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSelectedTeam_SelectedIndexChanged);
             // 
             // checkBoxOnlySuccessful
             // 
@@ -167,7 +190,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(509, 252);
+            this.ClientSize = new System.Drawing.Size(509, 293);
             this.Controls.Add(this.groupBoxAleevaStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.HelpButton = true;
@@ -179,6 +202,7 @@
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.FormAleeva_HelpButtonClicked);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAleeva_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormAleeva_FormClosed);
+            this.Shown += new System.EventHandler(this.FormAleeva_Shown);
             this.groupBoxAccessCode.ResumeLayout(false);
             this.groupBoxAccessCode.PerformLayout();
             this.groupBoxAleevaStatus.ResumeLayout(false);
@@ -203,5 +227,7 @@
         private System.Windows.Forms.GroupBox groupBoxUploadSettings;
         private System.Windows.Forms.CheckBox checkBoxSendNotification;
         private System.Windows.Forms.CheckBox checkBoxOnlySuccessful;
+        private System.Windows.Forms.Label labelAleevaTeam;
+        private System.Windows.Forms.ComboBox comboBoxSelectedTeam;
     }
 }

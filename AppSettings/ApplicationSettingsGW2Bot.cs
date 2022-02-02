@@ -10,10 +10,10 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("apiKey")]
         public string APIKey { get; set; } = "";
 
-        [JsonProperty("sendOnSuccessOnly")]
-        public bool SendOnSuccessOnly { get; set; } = false;
-
         [JsonProperty("selectedTeamId")]
         public int SelectedTeamId { get; set; } = 0;
+
+        [JsonProperty("sendOnSuccessOnly")]
+        public bool SendOnSuccessOnly { get; set; } = false;
     }
 }

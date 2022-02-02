@@ -102,6 +102,7 @@ namespace PlenBotLogUploader
 
         private void FormGW2Bot_Shown(object sender, EventArgs e)
         {
+            comboBoxSelectedTeam.Items.Clear();
             var teams = WebhookTeams.All;
             foreach (var team in teams.Values)
             {

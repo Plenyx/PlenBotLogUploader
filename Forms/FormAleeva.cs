@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using PlenBotLogUploader.Aleeva;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.Teams;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
@@ -93,6 +94,16 @@ namespace PlenBotLogUploader
                 if (AleevaAccessTokenExpires <= DateTime.Now)
                 {
                     await GetAleevaTokenFromRefreshToken();
+                }
+                if (ApplicationSettings.Current.Aleeva.SelectedTeamId > 0)
+                {
+                    if (WebhookTeams.All.ContainsKey(ApplicationSettings.Current.Aleeva.SelectedTeamId))
+                    {
+                        if (!WebhookTeams.All[ApplicationSettings.Current.Aleeva.SelectedTeamId].IsSatisfied(reportJSON.Players))
+                        {
+                            return;
+                        }
+                    }
                 }
                 if (checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
                 {
@@ -389,6 +400,23 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Process.Start("https://www.aleeva.io/");
+        }
+
+        private void FormAleeva_Shown(object sender, EventArgs e)
+        {
+            comboBoxSelectedTeam.Items.Clear();
+            var teams = WebhookTeams.All;
+            foreach (var team in teams.Values)
+            {
+                comboBoxSelectedTeam.Items.Add(team);
+            }
+            comboBoxSelectedTeam.SelectedItem = (ApplicationSettings.Current.Aleeva.SelectedTeamId > 0) ? teams[ApplicationSettings.Current.Aleeva.SelectedTeamId] : teams[0];
+        }
+
+        private void ComboBoxSelectedTeam_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Aleeva.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as WebhookTeam).ID;
+            ApplicationSettings.Current.Save();
         }
     }
 }
