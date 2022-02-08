@@ -542,7 +542,7 @@ namespace PlenBotLogUploader
                 {
                     buttonUpdate.Enabled = false;
                 }
-                string response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/VERSION");
+                var response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/VERSION");
                 if (int.TryParse(response, out int currentversion))
                 {
                     if (currentversion > ApplicationSettings.Version)
@@ -623,8 +623,8 @@ namespace PlenBotLogUploader
                         }
                         if (File.Exists(arg) && (arg.EndsWith(".evtc") || arg.EndsWith(".zevtc")))
                         {
-                            bool archived = false;
-                            string zipfilelocation = arg;
+                            var archived = false;
+                            var zipfilelocation = arg;
                             if (!arg.EndsWith(".zevtc"))
                             {
                                 zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(arg)}.zevtc";
@@ -715,12 +715,12 @@ namespace PlenBotLogUploader
         {
             using (var content = new MultipartFormDataContent())
             {
-                foreach (string key in postData.Keys)
+                foreach (var key in postData.Keys)
                 {
                     content.Add(new StringContent(postData[key]), key);
                 }
                 AddToText($">:> Uploading {Path.GetFileName(file)}");
-                int bossId = 1;
+                var bossId = 1;
                 try
                 {
                     using (var inputStream = File.OpenRead(file))
@@ -857,7 +857,7 @@ namespace PlenBotLogUploader
                                 {
                                     await Task.Run(async () =>
                                     {
-                                        int delay = 0;
+                                        var delay = 0;
                                         switch (recentUploadFailCounter)
                                         {
                                             case 3:
@@ -1091,7 +1091,7 @@ namespace PlenBotLogUploader
                 {
                     await SpotifySongCheck();
                 }
-                string command = e.Message.ChannelMessage.Split(' ')[0].ToLower();
+                var command = e.Message.ChannelMessage.Split(' ')[0].ToLower();
                 if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
                 {
                     AddToText("> UPLOADER COMMAND USED");
