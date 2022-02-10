@@ -52,9 +52,14 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>A Dictionary containing the loaded BossData.</returns>
         public static IDictionary<int, BossData> FromJsonFile(string filePath)
         {
+            var bossCount = 1;
             var jsonData = File.ReadAllText(filePath);
 
-            _All = JsonConvert.DeserializeObject<IDictionary<int, BossData>>(jsonData);
+            var parsedJson = JsonConvert.DeserializeObject<IEnumerable<BossData>>(jsonData)
+                             ?? throw new JsonException("Could not parse boss_data.json");
+
+            _All = parsedJson.Select(x => (Key: bossCount++, BossData: x))
+                .ToDictionary(x => x.Key, x => x.BossData);
 
             return _All;
         }
@@ -66,7 +71,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <param name="filePath">File to be saved to.</param>
         public static void SaveToJson(IDictionary<int, BossData> bossDataToSave, string filePath)
         {
-            var jsonString = JsonConvert.SerializeObject(bossDataToSave, Formatting.Indented);
+            var jsonString = JsonConvert.SerializeObject(bossDataToSave.Values, Formatting.Indented);
 
             File.WriteAllText(filePath, jsonString, Encoding.UTF8);
         }

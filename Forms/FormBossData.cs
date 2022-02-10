@@ -23,7 +23,21 @@ namespace PlenBotLogUploader
             templateLink = new FormTemplateBossData();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{ApplicationSettings.LocalDir}\boss_data.json"))
+
+            if (File.Exists($@"{ApplicationSettings.LocalDir}\boss_data.txt"))
+            {
+                try
+                {
+                    allBosses = Bosses.FromFile($@"{ApplicationSettings.LocalDir}\boss_data.txt");
+                    Bosses.SaveToJson(allBosses, $@"{ApplicationSettings.LocalDir}\boss_data.json");
+                    File.Move($@"{ApplicationSettings.LocalDir}\boss_data.txt",$@"{ApplicationSettings.LocalDir}\boss_data_migrated.txt");
+                }
+                catch
+                {
+                    allBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
+                }
+            }
+            else if (File.Exists($@"{ApplicationSettings.LocalDir}\boss_data.json"))
             {
                 try
                 {
@@ -33,24 +47,14 @@ namespace PlenBotLogUploader
                 {
                     allBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
                 }
-            }
-            else if (File.Exists($@"{ApplicationSettings.LocalDir}\boss_data.txt"))
-            {
-                try
-                {
-                    allBosses = Bosses.FromFile($@"{ApplicationSettings.LocalDir}\boss_data.txt");
-                }
-                catch
-                {
-                    allBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
-                }
-            }
+            } 
             else
             {
                 allBosses = Bosses.GetDefaultSettingsForBossesAsDictionary();
             }
 
             bossesIdsKey = allBosses.Count;
+            
             foreach (var key in allBosses.Keys)
             {
                 listViewBosses.Items.Add(new ListViewItem { Name = key.ToString(), Text = allBosses[key].Name });
@@ -83,9 +87,9 @@ namespace PlenBotLogUploader
                     allBosses.Add(keyPair.Key, keyPair.Value);
                 }
                 bossesIdsKey = allBosses.Count;
-                foreach (int key in allBosses.Keys)
+                foreach (var bossEntry in allBosses)
                 {
-                    listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = allBosses[key].Name });
+                    listViewBosses.Items.Add(new ListViewItem() { Name = bossEntry.Key.ToString(), Text = bossEntry.Value.Name });
                 }
             }
         }
