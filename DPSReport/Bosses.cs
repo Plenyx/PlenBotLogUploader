@@ -100,9 +100,9 @@ namespace PlenBotLogUploader.DPSReport
         /// Returns a dictionary with default BossData values.
         /// </summary>
         /// <returns>Dictionary with default BossData values</returns>
-        public static Dictionary<int, BossData> GetDefaultSettingsForBossesAsDictionary()
+        public static IDictionary<int, BossData> GetDefaultSettingsForBossesAsDictionary()
         {
-            return new Dictionary<int, BossData>()
+            return new Dictionary<int, BossData>
             {
                 { 1, new BossData() { BossId = (int)BossIds.AiKeeperOfThePeak, Name = "Ai, Keeper of the Peak", Icon = "https://plenbot.net/img/ai_icon.png", Type = BossType.Fractal } },
                 { 2, new BossData() { BossId = (int)BossIds.Arkk, Name = "Arkk", Icon = "https://i.imgur.com/u6vv8cW.png", Type = BossType.Fractal } },
