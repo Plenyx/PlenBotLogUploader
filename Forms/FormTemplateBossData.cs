@@ -11,7 +11,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private readonly Dictionary<int, BossData> allBosses = Bosses.All;
+        private readonly IDictionary<int, BossData> allBosses = Bosses.All;
         #endregion
 
         public FormTemplateBossData()

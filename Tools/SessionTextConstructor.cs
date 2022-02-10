@@ -12,7 +12,7 @@ namespace PlenBotLogUploader.Tools
     {
         #region definitions
         // fields
-        private static readonly Dictionary<int, BossData> allBosses = Bosses.All;
+        private static readonly IDictionary<int, BossData> allBosses = Bosses.All;
         private static readonly DiscordAPIJSONContentEmbedThumbnail defaultThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
         {
             Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"

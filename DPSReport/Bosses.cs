@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -10,35 +12,27 @@ namespace PlenBotLogUploader.DPSReport
     /// </summary>
     public static class Bosses
     {
-        private static Dictionary<int, BossData> _All = null;
+        private static IDictionary<int, BossData> _All { get; set; }
+
         /// <summary>
         /// Returns the main dictionary with all encounters.
         /// </summary>
         /// <returns>A dictionary with all encounters</returns>
-        public static Dictionary<int, BossData> All
-        {
-            get
-            {
-                if (_All is null)
-                {
-                    _All = new Dictionary<int, BossData>();
-                }
-                return _All;
-            }
-        }
+        public static IDictionary<int, BossData> All => _All ?? (_All = new Dictionary<int, BossData>());
 
         /// <summary>
         /// Loads all bosses' data from a specified file.
         /// </summary>
         /// <param name="file">The file from which the bosses are loaded from</param>
         /// <returns>A dictionary with all encounters</returns>
-        public static Dictionary<int, BossData> FromFile(string file)
+        public static IDictionary<int, BossData> FromFile(string file)
         {
             var allBosses = All;
             if (allBosses.Count > 0)
             {
                 allBosses.Clear();
             }
+
             using (var reader = new StreamReader(file))
             {
                 string line = reader.ReadLine(); // skip the first line
@@ -47,7 +41,34 @@ namespace PlenBotLogUploader.DPSReport
                     allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
                 }
             }
+
             return allBosses;
+        }
+
+        /// <summary>
+        /// Loads BossData from specified json file.
+        /// </summary>
+        /// <param name="filePath">The json file form which the data is loaded.</param>
+        /// <returns>A Dictionary containing the loaded BossData.</returns>
+        public static IDictionary<int, BossData> FromJsonFile(string filePath)
+        {
+            var jsonData = File.ReadAllText(filePath);
+
+            _All = JsonConvert.DeserializeObject<IDictionary<int, BossData>>(jsonData);
+
+            return _All;
+        }
+
+        /// <summary>
+        /// Saves BossData to specified json file.
+        /// </summary>
+        /// <param name="bossDataToSave">BossData to persist.</param>
+        /// <param name="filePath">File to be saved to.</param>
+        public static void SaveToJson(IDictionary<int, BossData> bossDataToSave, string filePath)
+        {
+            var jsonString = JsonConvert.SerializeObject(bossDataToSave, Formatting.Indented);
+
+            File.WriteAllText(filePath, jsonString, Encoding.UTF8);
         }
 
         /// <summary>
@@ -55,13 +76,14 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="file">The file from which the bosses are loaded from</param>
         /// <returns>A dictionary with all encounters</returns>
-        public static async Task<Dictionary<int, BossData>> FromFileAsync(string file)
+        public static async Task<IDictionary<int, BossData>> FromFileAsync(string file)
         {
             var allBosses = All;
             if (allBosses.Count > 0)
             {
                 allBosses.Clear();
             }
+
             using (var reader = new StreamReader(file))
             {
                 string line = await reader.ReadLineAsync(); // skip the first line
@@ -70,6 +92,7 @@ namespace PlenBotLogUploader.DPSReport
                     allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
                 }
             }
+
             return allBosses;
         }
 
