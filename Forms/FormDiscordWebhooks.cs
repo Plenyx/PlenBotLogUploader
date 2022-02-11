@@ -21,8 +21,8 @@ namespace PlenBotLogUploader
         // fields
         private readonly FormMain mainLink;
         private readonly FormWebhookTeams teamsLink;
-        private int webhookIdsKey = 0;
-        private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
+        private int webhookIdsKey;
+        private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         private readonly CellStyle tableCellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
         private readonly CellStyle tableCellCenterAlign = new CellStyle(CellHorizontalAlignment.Center);
         private readonly TableBordersStyle tableStyle = TableBordersStyle.HORIZONTAL_ONLY;
@@ -35,41 +35,40 @@ namespace PlenBotLogUploader
             InitializeComponent();
             teamsLink = new FormWebhookTeams();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{ApplicationSettings.LocalDir}\discord_webhooks.txt"))
+
+            try
             {
-                try
+                if (File.Exists(DiscordWebhooks.TxtFileLocation))
                 {
-                    allWebhooks = DiscordWebhooks.FromFile($@"{ApplicationSettings.LocalDir}\discord_webhooks.txt");
-                    webhookIdsKey = allWebhooks.Count();
+                    allWebhooks = DiscordWebhooks.FromTxtFile(DiscordWebhooks.TxtFileLocation);
+                    DiscordWebhooks.SaveToJson(allWebhooks, DiscordWebhooks.JsonFileLocation);
+                    File.Move(DiscordWebhooks.TxtFileLocation, DiscordWebhooks.MigratedTxtFileLocation);
                 }
-                catch
+                else if (File.Exists(DiscordWebhooks.JsonFileLocation))
                 {
-                    allWebhooks.Clear();
-                    webhookIdsKey = 0;
+                    allWebhooks =
+                        DiscordWebhooks.FromJsonFile(DiscordWebhooks.JsonFileLocation);
                 }
             }
-            else
+            catch
             {
-                allWebhooks.Clear();
+                // There are no webhooks defined
             }
-            foreach (int key in allWebhooks.Keys)
+
+            webhookIdsKey = allWebhooks.Count;
+
+            foreach (var key in allWebhooks.Keys)
             {
-                listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = key.ToString(), Text = allWebhooks[key].Name, Checked = allWebhooks[key].Active});
+                listViewDiscordWebhooks.Items.Add(new ListViewItem()
+                    { Name = key.ToString(), Text = allWebhooks[key].Name, Checked = allWebhooks[key].Active });
             }
         }
 
-        private async void FormDiscordPings_FormClosing(object sender, FormClosingEventArgs e)
+        private void FormDiscordPings_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
-            using (var writer = new StreamWriter($@"{ApplicationSettings.LocalDir}\discord_webhooks.txt"))
-            {
-                await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
-                foreach (int key in allWebhooks.Keys)
-                {
-                    await writer.WriteLineAsync(allWebhooks[key].ToString(true));
-                }
-            }
+            DiscordWebhooks.SaveToJson(allWebhooks,DiscordWebhooks.JsonFileLocation);
         }
 
         public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON)

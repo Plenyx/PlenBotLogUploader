@@ -16,7 +16,7 @@ namespace PlenBotLogUploader
         // fields
         private int teamIdsKey = 0;
         private readonly Dictionary<int, WebhookTeam> allTeams = WebhookTeams.All;
-        private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
+        private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         #endregion
 
         public FormWebhookTeams()

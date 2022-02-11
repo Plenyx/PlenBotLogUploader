@@ -71,20 +71,6 @@ namespace PlenBotLogUploader.DiscordAPI
         public bool IsBossEnabled(int bossId) => !BossesDisable.Contains(bossId);
 
         /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        /// <param name="savableFormat">whether the text should be in savable format</param>
-        /// <returns>Returns a string that represents the current object.</returns>
-        public string ToString(bool savableFormat = false)
-        {
-            if (!savableFormat)
-            {
-                return base.ToString();
-            }
-            return $"{(Active ? "1" : "0")}<;>{Name}<;>{URL}<;>{(int)SuccessFailToggle}<;>{(ShowPlayers ? "1" : "0")}<;>{string.Join("; ", BossesDisable.Select(x => x.ToString()).ToArray())}<;>{Team?.ID ?? 0}";
-        }
-
-        /// <summary>
         /// Creates an DiscordWebhookData object from a serialised format.
         /// </summary>
         /// <param name="savedFormat">string representing the object</param>
@@ -135,6 +121,19 @@ namespace PlenBotLogUploader.DiscordAPI
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        public static IDictionary<int, DiscordWebhookData> FromJsonString(string jsonString)
+        {
+            var webhookId = 1;
+
+            var parsedData = JsonConvert.DeserializeObject<IEnumerable<DiscordWebhookData>>(jsonString)
+                             ?? throw new JsonException("Could not parse json to WebhookData");
+
+            var result = parsedData.Select(x => (Key: webhookId++, DiscordWebhookData: x))
+                .ToDictionary(x => x.Key, x => x.DiscordWebhookData);
+
+            return result;
         }
     }
 }
