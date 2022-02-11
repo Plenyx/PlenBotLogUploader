@@ -1,28 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 
 namespace PlenBotLogUploader.Teams
 {
     public static class WebhookTeams
     {
-        private static Dictionary<int, WebhookTeam> _All = null;
+        public static string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\webhook_teams.json";
+        public static string TxtFileLocation = $@"{ApplicationSettings.LocalDir}\webhook_teams.txt";
+        public static string MigratedTxtFileLocation = $@"{ApplicationSettings.LocalDir}\webhook_teams-migrated.txt";
+
+        private static IDictionary<int, WebhookTeam> _All;
+
         /// <summary>
         /// Returns the main dictionary with all webhook teams.
         /// </summary>
         /// <returns>A dictionary with all webhook teams</returns>
-        public static Dictionary<int, WebhookTeam> All
-        {
-            get
-            {
-                if (_All is null)
-                {
-                    _All = new Dictionary<int, WebhookTeam>();
-                }
-                return _All;
-            }
-        }
+        public static IDictionary<int, WebhookTeam> All => _All ??= new Dictionary<int, WebhookTeam>();
 
-        public static Dictionary<int, WebhookTeam> ResetDictionary()
+        public static IDictionary<int, WebhookTeam> ResetDictionary()
         {
             All.Clear();
             All.Add(0, new WebhookTeam() { Name = "No team selected" });
@@ -34,13 +32,14 @@ namespace PlenBotLogUploader.Teams
         /// </summary>
         /// <param name="file">The file from which the webhook teams are loaded from</param>
         /// <returns>A dictionary with all webhook teams</returns>
-        public static Dictionary<int, WebhookTeam> FromFile(string file)
+        public static IDictionary<int, WebhookTeam> FromFile(string file)
         {
             var allTeams = All;
             if (allTeams.Count > 0)
             {
                 ResetDictionary();
             }
+
             using (var reader = new StreamReader(file))
             {
                 string line = reader.ReadLine(); // skip the first line
@@ -50,7 +49,24 @@ namespace PlenBotLogUploader.Teams
                     allTeams.Add(team.ID, team);
                 }
             }
+
             return allTeams;
+        }
+
+        public static void SaveToJson(IDictionary<int, WebhookTeam> weebhookData)
+        {
+            var jsonString = JsonConvert.SerializeObject(weebhookData.Values, Formatting.Indented);
+
+            File.WriteAllText(JsonFileLocation, jsonString, Encoding.UTF8);
+        }
+
+        public static IDictionary<int, WebhookTeam> FromJsonFile(string filePath)
+        {
+            var jsonData = File.ReadAllText(filePath);
+
+            _All = WebhookTeam.FromJsonString(jsonData);
+
+            return All;
         }
     }
 }
