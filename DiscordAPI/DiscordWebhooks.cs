@@ -31,14 +31,14 @@ namespace PlenBotLogUploader.DiscordAPI
             {
                 allWebhooks.Clear();
             }
-            using (var reader = new StreamReader(file))
+
+            using var reader = new StreamReader(file);
+            var line = reader.ReadLine(); // skip the first line
+            while (!((line = reader.ReadLine()) is null))
             {
-                string line = reader.ReadLine(); // skip the first line
-                while (!((line = reader.ReadLine()) is null))
-                {
-                    allWebhooks.Add(allWebhooks.Count + 1, DiscordWebhookData.FromSavedFormat(line));
-                }
+                allWebhooks.Add(allWebhooks.Count + 1, DiscordWebhookData.FromSavedFormat(line));
             }
+
             return allWebhooks;
         }
 

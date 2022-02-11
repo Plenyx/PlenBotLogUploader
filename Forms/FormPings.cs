@@ -5,8 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
 {
@@ -14,11 +17,14 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        public Dictionary<int, PingConfiguration> AllPings { get; set; }
+        private static string PingTxtFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.txt";
+        private static string MigratedPingTxtFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings-migrated.txt";
+        private static string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
+        public IDictionary<int, PingConfiguration> AllPings { get; set; }
 
         // fields
         private readonly FormMain mainLink;
-        private int settingsIdsKey = 0;
+        private int settingsIdsKey;
         #endregion
 
         public FormPings(FormMain mainLink)
@@ -26,75 +32,102 @@ namespace PlenBotLogUploader
             this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{ApplicationSettings.LocalDir}\remote_pings.txt"))
+            AllPings = new Dictionary<int, PingConfiguration>();
+            try
             {
-                AllPings = new Dictionary<int, PingConfiguration>();
-                try
+                if (File.Exists(PingTxtFileLocation))
                 {
-                    using (var reader = new StreamReader($@"{ApplicationSettings.LocalDir}\remote_pings.txt"))
-                    {
-                        string line = reader.ReadLine();
-                        while (!((line = reader.ReadLine()) is null))
-                        {
-                            string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
-                            int.TryParse(values[0], out int active);
-                            int.TryParse(values[3], out int method);
-                            int.TryParse(values[4], out int authActive);
-                            int.TryParse(values[5], out int useAsAuth);
-                            if (method > 3 || method < 0)
-                            {
-                                method = 0;
-                            }
-                            var auth = new PingAuthentication()
-                            {
-                                Active = authActive == 1,
-                                UseAsAuth = useAsAuth == 1,
-                                AuthName = values[6],
-                                AuthToken = values[7]
-                            };
-                            AddPing(new PingConfiguration()
-                            {
-                                Active = active == 1,
-                                Name = values[1],
-                                URL = values[2],
-                                Method = (PingMethod)method,
-                                Authentication = auth
-                            });
-                        }
-                    }
+                    LoadFromTxtFile();
+                    SaveToJson(AllPings.Values);
+                    File.Move(PingTxtFileLocation, MigratedPingTxtFileLocation);
                 }
-                catch
+                else if(File.Exists(PingJsonFileLocation))
                 {
-                    AllPings = new Dictionary<int, PingConfiguration>();
+                    AllPings = LoadFromJsonFile(PingJsonFileLocation);
                 }
             }
-            else
+            catch
             {
-                AllPings = new Dictionary<int, PingConfiguration>();
+                // No remote pings configured
             }
-            foreach (int key in AllPings.Keys)
+
+            settingsIdsKey = AllPings.Count;
+            
+            foreach (var key in AllPings.Keys)
             {
                 listViewPings.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllPings[key].Name, Checked = AllPings[key].Active });
             }
         }
 
-        private async void FormPings_FormClosing(object sender, FormClosingEventArgs e)
+        private void LoadFromTxtFile()
+        {
+            try
+            {
+                using (var reader = new StreamReader(PingTxtFileLocation))
+                {
+                    string line = reader.ReadLine();
+                    while (!((line = reader.ReadLine()) is null))
+                    {
+                        string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
+                        int.TryParse(values[0], out int active);
+                        int.TryParse(values[3], out int method);
+                        int.TryParse(values[4], out int authActive);
+                        int.TryParse(values[5], out int useAsAuth);
+                        if (method > 3 || method < 0)
+                        {
+                            method = 0;
+                        }
+
+                        var auth = new PingAuthentication()
+                        {
+                            Active = authActive == 1,
+                            UseAsAuth = useAsAuth == 1,
+                            AuthName = values[6],
+                            AuthToken = values[7]
+                        };
+                        AddPing(new PingConfiguration()
+                        {
+                            Active = active == 1,
+                            Name = values[1],
+                            URL = values[2],
+                            Method = (PingMethod) method,
+                            Authentication = auth
+                        });
+                    }
+                }
+            }
+            catch
+            {
+                AllPings = new Dictionary<int, PingConfiguration>();
+            }
+        }
+
+        private static IDictionary<int, PingConfiguration> LoadFromJsonFile(string filePath)
+        {
+            var jsonData = File.ReadAllText(filePath);
+            var remotePingId = 1;
+
+            var parsedData = JsonConvert.DeserializeObject<IEnumerable<PingConfiguration>>(jsonData) ??
+                             throw new JsonException("Could not parse json to PingConfiguration");
+            
+            var result = parsedData.Select(x => (Key: remotePingId++, PinConfiguration: x))
+                .ToDictionary(x => x.Key, x => x.PinConfiguration);
+
+            return result;
+        }
+
+        private static void SaveToJson(IEnumerable<PingConfiguration> pingConfigurations)
+        {
+            var jsonString = JsonConvert.SerializeObject(pingConfigurations, Formatting.Indented);
+            
+            File.WriteAllText(PingJsonFileLocation, jsonString, Encoding.UTF8);
+        }
+
+        private void FormPings_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
-            using (var writer = new StreamWriter($@"{ApplicationSettings.LocalDir}\remote_pings.txt"))
-            {
-                await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
-                foreach (int key in AllPings.Keys)
-                {
-                    var ping = AllPings[key];
-                    string active = ping.Active ? "1" : "0";
-                    string method = ((int)ping.Method).ToString();
-                    string authActive = ping.Authentication.Active ? "1" : "0";
-                    string useAsAuth = ping.Authentication.UseAsAuth ? "1" : "0";
-                    await writer.WriteLineAsync($"{active}<;>{ping.Name}<;>{ping.URL}<;>{method}<;>{authActive}<;>{useAsAuth}<;>{ping.Authentication.AuthName}<;>{ping.Authentication.AuthToken}");
-                }
-            }
+            SaveToJson(AllPings.Values);
         }
 
         public void AddPing(PingConfiguration config)

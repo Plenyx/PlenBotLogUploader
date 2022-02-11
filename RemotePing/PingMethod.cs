@@ -2,9 +2,9 @@
 {
     public enum PingMethod
     {
-        Get,
-        Post,
-        Put,
-        Delete
+        Get = 0,
+        Post = 1,
+        Put = 2,
+        Delete = 3
     }
 }
