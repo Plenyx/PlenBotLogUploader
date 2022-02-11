@@ -1,5 +1,8 @@
 ﻿using PlenBotLogUploader.AppSettings;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -44,20 +47,6 @@ namespace PlenBotLogUploader.DPSReport
         public bool Event { get; set; } = false;
 
         /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        /// <param name="savableFormat">whether the text should be in savable format</param>
-        /// <returns>Returns a string that represents the current object.</returns>
-        public string ToString(bool savableFormat = false)
-        {
-            if(!savableFormat)
-            {
-                return base.ToString();
-            }
-            return $"{BossId}<;>{Name}<;>{SuccessMsg}<;>{FailMsg}<;>{Icon}<;>{(int)Type}<;>{(Event ? "1" : "0")}";
-        }
-
-        /// <summary>
         /// Formats Twitch message based on the DPSReport's JSON response.
         /// </summary>
         /// <param name="reportJSON">DPSReport's JSON response</param>
@@ -90,6 +79,25 @@ namespace PlenBotLogUploader.DPSReport
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Deserializes a json string to BossData
+        /// </summary>
+        /// <param name="jsonString">The json to parse</param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static IDictionary<int, BossData> ParseJsonString(string jsonString)
+        {
+            var bossCount = 1;
+
+            var parsedJson = JsonConvert.DeserializeObject<IEnumerable<BossData>>(jsonString)
+                             ?? throw new JsonException("Could not parse json to BossData");
+
+            var result = parsedJson.Select(x => (Key: bossCount++, BossData: x))
+                .ToDictionary(x => x.Key, x => x.BossData);
+
+            return result;
         }
     }
 }

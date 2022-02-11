@@ -28,7 +28,7 @@ namespace PlenBotLogUploader
             {
                 try
                 {
-                    allBosses = Bosses.FromFile($@"{ApplicationSettings.LocalDir}\boss_data.txt");
+                    allBosses = Bosses.FromTxtFile($@"{ApplicationSettings.LocalDir}\boss_data.txt");
                     Bosses.SaveToJson(allBosses, $@"{ApplicationSettings.LocalDir}\boss_data.json");
                     File.Move($@"{ApplicationSettings.LocalDir}\boss_data.txt",$@"{ApplicationSettings.LocalDir}\boss_data_migrated.txt");
                 }
