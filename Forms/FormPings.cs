@@ -32,30 +32,18 @@ namespace PlenBotLogUploader
             this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            AllPings = new Dictionary<int, PingConfiguration>();
-            try
-            {
-                if (File.Exists(PingTxtFileLocation))
-                {
-                    LoadFromTxtFile();
-                    SaveToJson(AllPings.Values);
-                    File.Move(PingTxtFileLocation, MigratedPingTxtFileLocation);
-                }
-                else if(File.Exists(PingJsonFileLocation))
-                {
-                    AllPings = LoadFromJsonFile(PingJsonFileLocation);
-                }
-            }
-            catch
-            {
-                // No remote pings configured
-            }
+            AllPings = LoadPings();
 
             settingsIdsKey = AllPings.Count;
-            
-            foreach (var key in AllPings.Keys)
+
+            foreach (var ping in AllPings)
             {
-                listViewPings.Items.Add(new ListViewItem() { Name = key.ToString(), Text = AllPings[key].Name, Checked = AllPings[key].Active });
+                listViewPings.Items.Add(new ListViewItem
+                {
+                    Name = ping.Key.ToString(),
+                    Text = ping.Value.Name,
+                    Checked = ping.Value.Active
+                });
             }
         }
 
@@ -210,6 +198,31 @@ namespace PlenBotLogUploader
         {
             settingsIdsKey++;
             new FormEditPing(this, settingsIdsKey, true, null).Show();
+        }
+
+        private IDictionary<int, PingConfiguration> LoadPings()
+        {
+            IDictionary<int, PingConfiguration> pings = new Dictionary<int, PingConfiguration>();
+            try
+            {
+                if (File.Exists(PingTxtFileLocation))
+                {
+                    LoadFromTxtFile();
+                    pings = AllPings;
+                    SaveToJson(pings.Values);
+                    File.Move(PingTxtFileLocation, MigratedPingTxtFileLocation);
+                }
+                else if (File.Exists(PingJsonFileLocation))
+                {
+                    pings = LoadFromJsonFile(PingJsonFileLocation);
+                }
+            }
+            catch
+            {
+                // No remote pings configured
+            }
+
+            return pings;
         }
     }
 }

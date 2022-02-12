@@ -14,13 +14,17 @@ namespace PlenBotLogUploader.DPSReport
     /// </summary>
     public static class Bosses
     {
+        public static string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.json";
+        public static string TxtFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.txt";
+        public static string MigratedTxtFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data-migrated.txt";
+        
         private static IDictionary<int, BossData> _All { get; set; }
 
         /// <summary>
         /// Returns the main dictionary with all encounters.
         /// </summary>
         /// <returns>A dictionary with all encounters</returns>
-        public static IDictionary<int, BossData> All => _All ?? (_All = new Dictionary<int, BossData>());
+        public static IDictionary<int, BossData> All => _All ??= new Dictionary<int, BossData>();
 
         /// <summary>
         /// Loads all bosses' data from a specified file.
@@ -66,11 +70,11 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="bossDataToSave">BossData to persist.</param>
         /// <param name="filePath">File to be saved to.</param>
-        public static void SaveToJson(IDictionary<int, BossData> bossDataToSave, string filePath)
+        public static void SaveToJson(IDictionary<int, BossData> bossDataToSave)
         {
             var jsonString = JsonConvert.SerializeObject(bossDataToSave.Values, Formatting.Indented);
 
-            File.WriteAllText(filePath, jsonString, Encoding.UTF8);
+            File.WriteAllText(JsonFileLocation, jsonString, Encoding.UTF8);
         }
 
         /// <summary>
@@ -87,7 +91,7 @@ namespace PlenBotLogUploader.DPSReport
             var jsonString = reader.ReadToEnd();
 
             _All = BossData.ParseJsonString(jsonString);
-            Bosses.SaveToJson(_All, $@"{ApplicationSettings.LocalDir}\boss_data.json");
+            SaveToJson(_All);
 
             return _All;
         }

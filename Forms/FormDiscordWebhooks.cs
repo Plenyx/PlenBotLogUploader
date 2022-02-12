@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.Tools;
@@ -22,7 +21,7 @@ namespace PlenBotLogUploader
         private readonly FormMain mainLink;
         private readonly FormWebhookTeams teamsLink;
         private int webhookIdsKey;
-        private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
+        private readonly IDictionary<int, DiscordWebhookData> allWebhooks;
         private readonly CellStyle tableCellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
         private readonly CellStyle tableCellCenterAlign = new CellStyle(CellHorizontalAlignment.Center);
         private readonly TableBordersStyle tableStyle = TableBordersStyle.HORIZONTAL_ONLY;
@@ -36,31 +35,18 @@ namespace PlenBotLogUploader
             teamsLink = new FormWebhookTeams();
             Icon = Properties.Resources.AppIcon;
 
-            try
-            {
-                if (File.Exists(DiscordWebhooks.TxtFileLocation))
-                {
-                    allWebhooks = DiscordWebhooks.FromTxtFile(DiscordWebhooks.TxtFileLocation);
-                    DiscordWebhooks.SaveToJson(allWebhooks, DiscordWebhooks.JsonFileLocation);
-                    File.Move(DiscordWebhooks.TxtFileLocation, DiscordWebhooks.MigratedTxtFileLocation);
-                }
-                else if (File.Exists(DiscordWebhooks.JsonFileLocation))
-                {
-                    allWebhooks =
-                        DiscordWebhooks.FromJsonFile(DiscordWebhooks.JsonFileLocation);
-                }
-            }
-            catch
-            {
-                // There are no webhooks defined
-            }
+            allWebhooks = LoadDiscordWebhooks();
 
             webhookIdsKey = allWebhooks.Count;
 
-            foreach (var key in allWebhooks.Keys)
+            foreach (var webHook in allWebhooks)
             {
-                listViewDiscordWebhooks.Items.Add(new ListViewItem()
-                    { Name = key.ToString(), Text = allWebhooks[key].Name, Checked = allWebhooks[key].Active });
+                listViewDiscordWebhooks.Items.Add(new ListViewItem
+                {
+                    Name = webHook.Key.ToString(),
+                    Text = webHook.Value.Name,
+                    Checked = webHook.Value.Active
+                });
             }
         }
 
@@ -484,6 +470,30 @@ namespace PlenBotLogUploader
                     mainLink.AddToText(">:> Unable to execute active webhooks.");
                 }
             }
+        }
+
+        private IDictionary<int, DiscordWebhookData> LoadDiscordWebhooks()
+        {
+            IDictionary<int, DiscordWebhookData> webhooks = new Dictionary<int, DiscordWebhookData>();
+            try
+            {
+                if (File.Exists(DiscordWebhooks.TxtFileLocation))
+                {
+                    webhooks = DiscordWebhooks.FromTxtFile(DiscordWebhooks.TxtFileLocation);
+                    DiscordWebhooks.SaveToJson(allWebhooks, DiscordWebhooks.JsonFileLocation);
+                    File.Move(DiscordWebhooks.TxtFileLocation, DiscordWebhooks.MigratedTxtFileLocation);
+                }
+                else if (File.Exists(DiscordWebhooks.JsonFileLocation))
+                {
+                    webhooks =
+                        DiscordWebhooks.FromJsonFile(DiscordWebhooks.JsonFileLocation);
+                }
+            }
+            catch
+            {
+                // No Webhooks were saved
+            }
+            return webhooks;
         }
 
         public async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
