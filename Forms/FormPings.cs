@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.AppSettings;
+﻿using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.RemotePing;
 using System;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 
 namespace PlenBotLogUploader
 {

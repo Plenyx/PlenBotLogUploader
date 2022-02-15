@@ -1,8 +1,8 @@
-﻿using PlenBotLogUploader.AppSettings;
+﻿using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace PlenBotLogUploader.DPSReport
 {
