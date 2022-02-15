@@ -34,7 +34,7 @@ namespace PlenBotLogUploader.Teams
         /// <returns>A dictionary with all webhook teams</returns>
         public static IDictionary<int, WebhookTeam> FromFile(string file)
         {
-            var allTeams = All;
+            var allTeams = new Dictionary<int, WebhookTeam>();
             if (allTeams.Count > 0)
             {
                 ResetDictionary();
@@ -50,6 +50,7 @@ namespace PlenBotLogUploader.Teams
                 }
             }
 
+            _All = allTeams;
             return allTeams;
         }
 

@@ -49,6 +49,7 @@ namespace PlenBotLogUploader
 
         private void LoadFromTxtFile()
         {
+            AllPings = new Dictionary<int, PingConfiguration>();
             try
             {
                 using (var reader = new StreamReader(PingTxtFileLocation))

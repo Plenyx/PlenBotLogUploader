@@ -33,11 +33,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>A dictionary with all encounters</returns>
         public static IDictionary<int, BossData> FromTxtFile(string file)
         {
-            var allBosses = All;
-            if (allBosses.Count > 0)
-            {
-                allBosses.Clear();
-            }
+            var allBosses = new Dictionary<int, BossData>();
 
             using (var reader = new StreamReader(file))
             {
@@ -48,6 +44,7 @@ namespace PlenBotLogUploader.DPSReport
                 }
             }
 
+            _All = allBosses;
             return allBosses;
         }
 

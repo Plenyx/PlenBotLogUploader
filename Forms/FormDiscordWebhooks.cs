@@ -480,7 +480,7 @@ namespace PlenBotLogUploader
                 if (File.Exists(DiscordWebhooks.TxtFileLocation))
                 {
                     webhooks = DiscordWebhooks.FromTxtFile(DiscordWebhooks.TxtFileLocation);
-                    DiscordWebhooks.SaveToJson(allWebhooks, DiscordWebhooks.JsonFileLocation);
+                    DiscordWebhooks.SaveToJson(webhooks, DiscordWebhooks.JsonFileLocation);
                     File.Move(DiscordWebhooks.TxtFileLocation, DiscordWebhooks.MigratedTxtFileLocation);
                 }
                 else if (File.Exists(DiscordWebhooks.JsonFileLocation))

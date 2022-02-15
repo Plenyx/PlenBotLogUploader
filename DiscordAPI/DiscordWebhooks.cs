@@ -26,7 +26,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// <returns>A dictionary with all webhooks</returns>
         public static IDictionary<int, DiscordWebhookData> FromTxtFile(string file)
         {
-            var allWebhooks = All;
+            var allWebhooks = new Dictionary<int, DiscordWebhookData>();
             if (allWebhooks.Count > 0)
             {
                 allWebhooks.Clear();
@@ -39,6 +39,7 @@ namespace PlenBotLogUploader.DiscordAPI
                 allWebhooks.Add(allWebhooks.Count + 1, DiscordWebhookData.FromSavedFormat(line));
             }
 
+            _All = allWebhooks;
             return allWebhooks;
         }
 
@@ -51,9 +52,9 @@ namespace PlenBotLogUploader.DiscordAPI
             return All;
         }
         
-        public static void SaveToJson(IDictionary<int, DiscordWebhookData> bossDataToSave, string filePath)
+        public static void SaveToJson(IDictionary<int, DiscordWebhookData> webhookData, string filePath)
         {
-            var jsonString = JsonConvert.SerializeObject(bossDataToSave.Values, Formatting.Indented);
+            var jsonString = JsonConvert.SerializeObject(webhookData.Values, Formatting.Indented);
 
             File.WriteAllText(filePath, jsonString, Encoding.UTF8);
         }

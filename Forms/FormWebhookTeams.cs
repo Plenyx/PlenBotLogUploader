@@ -40,7 +40,7 @@ namespace PlenBotLogUploader
                 if (File.Exists(WebhookTeams.TxtFileLocation))
                 {
                     webhookTeams = WebhookTeams.FromFile(WebhookTeams.TxtFileLocation);
-                    WebhookTeams.SaveToJson(allTeams);
+                    WebhookTeams.SaveToJson(webhookTeams);
                     File.Move(WebhookTeams.TxtFileLocation, WebhookTeams.MigratedTxtFileLocation);
                 }
                 else if (File.Exists(WebhookTeams.JsonFileLocation))
