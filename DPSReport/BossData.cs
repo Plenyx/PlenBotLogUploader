@@ -14,36 +14,43 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// ID of the encounter
         /// </summary>
+        [JsonProperty("bossId")]
         public int BossId { get; set; }
 
         /// <summary>
         /// Name of the encounter
         /// </summary>
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Twitch message when encounter is a success
         /// </summary>
+        [JsonProperty("successMsg")]
         public string SuccessMsg { get; set; } = ApplicationSettings.Current.BossTemplate.SuccessText;
 
         /// <summary>
         /// Twitch message when encounter is a failure
         /// </summary>
+        [JsonProperty("failMsg")]
         public string FailMsg { get; set; } = ApplicationSettings.Current.BossTemplate.FailText;
 
         /// <summary>
         /// Icon used for Discord webhooks
         /// </summary>
+        [JsonProperty("icon")]
         public string Icon { get; set; } = "";
 
         /// <summary>
         /// Type of the boss
         /// </summary>
+        [JsonProperty("type")]
         public BossType Type { get; set; } = BossType.None;
 
         /// <summary>
         /// Indication if the encounter is an event
         /// </summary>
+        [JsonProperty("isEvent")]
         public bool Event { get; set; } = false;
 
         /// <summary>

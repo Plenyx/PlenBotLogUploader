@@ -12,36 +12,43 @@ namespace PlenBotLogUploader.DiscordAPI
         /// <summary>
         /// Indicates whether the webhook is currently active
         /// </summary>
+        [JsonProperty("isActive")]
         public bool Active { get; set; } = false;
 
         /// <summary>
         /// Name of the webhook
         /// </summary>
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// URL of the webhook
         /// </summary>
+        [JsonProperty("url")]
         public string URL { get; set; }
 
         /// <summary>
         /// Indicates whether the webhook is executed only if the ecounter is a success
         /// </summary>
+        [JsonProperty("successFailToggle")]
         public DiscordWebhookDataSuccessToggle SuccessFailToggle { get; set; } = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
 
         /// <summary>
         /// Indicates whether players are showed in the webhook
         /// </summary>
+        [JsonProperty("showPlayers")]
         public bool ShowPlayers { get; set; } = true;
 
         /// <summary>
         /// A list containing boss ids which are omitted to be posted via webhook
         /// </summary>
+        [JsonProperty("disabledBosses")]
         public List<int> BossesDisable { get; set; } = new List<int>();
 
         /// <summary>
         /// A selected webhook team, with which the webhook should evaluate itself
         /// </summary>
+        [JsonProperty("team")]
         public WebhookTeam Team { get; set; }
 
         /// <summary>

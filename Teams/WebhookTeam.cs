@@ -10,26 +10,31 @@ namespace PlenBotLogUploader.Teams
         /// <summary>
         /// ID of the team, for internal use
         /// </summary>
+        [JsonProperty("id")]
         public int ID { get; set; }
 
         /// <summary>
         /// Name of the webhook team
         /// </summary>
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// What limiter to the team should be applied
         /// </summary>
+        [JsonProperty("limiter")]
         public WebhookTeamLimiter Limiter { get; set; }
 
         /// <summary>
         /// What value for the limiter should be applied
         /// </summary>
+        [JsonProperty("limiterValue")]
         public int LimiterValue { get; set; }
 
         /// <summary>
         /// List of account names in the given team
         /// </summary>
+        [JsonProperty("accountNames")]
         public List<string> AccountNames { get; set; } = new List<string>();
 
         /// <summary>
