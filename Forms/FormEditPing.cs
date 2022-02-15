@@ -39,6 +39,9 @@ namespace PlenBotLogUploader
                 case PingMethod.Delete:
                     radioButtonMethodDelete.Checked = true;
                     break;
+                case PingMethod.Put:
+                    radioButtonMethodPut.Checked = true;
+                    break;
                 default:
                     radioButtonMethodPost.Checked = true;
                     break;

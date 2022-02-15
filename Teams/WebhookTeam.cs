@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,26 +10,31 @@ namespace PlenBotLogUploader.Teams
         /// <summary>
         /// ID of the team, for internal use
         /// </summary>
+        [JsonProperty("id")]
         public int ID { get; set; }
 
         /// <summary>
         /// Name of the webhook team
         /// </summary>
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// What limiter to the team should be applied
         /// </summary>
+        [JsonProperty("limiter")]
         public WebhookTeamLimiter Limiter { get; set; }
 
         /// <summary>
         /// What value for the limiter should be applied
         /// </summary>
+        [JsonProperty("limiterValue")]
         public int LimiterValue { get; set; }
 
         /// <summary>
         /// List of account names in the given team
         /// </summary>
+        [JsonProperty("accountNames")]
         public List<string> AccountNames { get; set; } = new List<string>();
 
         /// <summary>
@@ -36,20 +42,6 @@ namespace PlenBotLogUploader.Teams
         /// </summary>
         /// <returns>A string that represents the current object.</returns>
         public override string ToString() => Name;
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        /// <param name="savableFormat">whether the text should be in savable format</param>
-        /// <returns>Returns a string that represents the current object.</returns>
-        public string ToString(bool savableFormat = false)
-        {
-            if (!savableFormat)
-            {
-                return base.ToString();
-            }
-            return $"{ID}<;>{Name}<;>{(int)Limiter}<;>{LimiterValue}<;>{string.Join(";", AccountNames.ToArray())}";
-        }
 
         public bool IsSatisfied(Dictionary<string, DPSReport.DPSReportJSONPlayers> players)
         {
@@ -92,6 +84,38 @@ namespace PlenBotLogUploader.Teams
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+        }
+
+        public static IDictionary<int, WebhookTeam> FromJsonString(string jsonData)
+        {
+            var parsedData = JsonConvert.DeserializeObject<IEnumerable<WebhookTeam>>(jsonData)
+                             ?? throw new JsonException("Could not parse json to WebhookData");
+            
+            var result = parsedData.Select(x => (Key: x.ID, TeamWebhookData: x))
+                .ToDictionary(x => x.Key, x => x.TeamWebhookData);
+
+            return result;
+        }
+        
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((WebhookTeam) obj);
+        }
+
+        protected bool Equals(WebhookTeam other)
+        {
+            return ID == other.ID && Name == other.Name;
+        }
+        
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (ID * 397) ^ (Name != null ? Name.GetHashCode() : 0);
             }
         }
     }

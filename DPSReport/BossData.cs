@@ -1,5 +1,8 @@
-﻿using PlenBotLogUploader.AppSettings;
+﻿using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -11,51 +14,44 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// ID of the encounter
         /// </summary>
+        [JsonProperty("bossId")]
         public int BossId { get; set; }
 
         /// <summary>
         /// Name of the encounter
         /// </summary>
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Twitch message when encounter is a success
         /// </summary>
+        [JsonProperty("successMsg")]
         public string SuccessMsg { get; set; } = ApplicationSettings.Current.BossTemplate.SuccessText;
 
         /// <summary>
         /// Twitch message when encounter is a failure
         /// </summary>
+        [JsonProperty("failMsg")]
         public string FailMsg { get; set; } = ApplicationSettings.Current.BossTemplate.FailText;
 
         /// <summary>
         /// Icon used for Discord webhooks
         /// </summary>
+        [JsonProperty("icon")]
         public string Icon { get; set; } = "";
 
         /// <summary>
         /// Type of the boss
         /// </summary>
+        [JsonProperty("type")]
         public BossType Type { get; set; } = BossType.None;
 
         /// <summary>
         /// Indication if the encounter is an event
         /// </summary>
+        [JsonProperty("isEvent")]
         public bool Event { get; set; } = false;
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        /// <param name="savableFormat">whether the text should be in savable format</param>
-        /// <returns>Returns a string that represents the current object.</returns>
-        public string ToString(bool savableFormat = false)
-        {
-            if(!savableFormat)
-            {
-                return base.ToString();
-            }
-            return $"{BossId}<;>{Name}<;>{SuccessMsg}<;>{FailMsg}<;>{Icon}<;>{(int)Type}<;>{(Event ? "1" : "0")}";
-        }
 
         /// <summary>
         /// Formats Twitch message based on the DPSReport's JSON response.
@@ -90,6 +86,25 @@ namespace PlenBotLogUploader.DPSReport
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Deserializes a json string to BossData
+        /// </summary>
+        /// <param name="jsonString">The json to parse</param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static IDictionary<int, BossData> ParseJsonString(string jsonString)
+        {
+            var bossCount = 1;
+
+            var parsedJson = JsonConvert.DeserializeObject<IEnumerable<BossData>>(jsonString)
+                             ?? throw new JsonException("Could not parse json to BossData");
+
+            var result = parsedJson.Select(x => (Key: bossCount++, BossData: x))
+                .ToDictionary(x => x.Key, x => x.BossData);
+
+            return result;
         }
     }
 }

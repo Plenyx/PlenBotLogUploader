@@ -13,7 +13,7 @@ namespace PlenBotLogUploader
         private readonly FormWebhookTeams teamsLink;
         private readonly WebhookTeam data;
         private readonly int reservedId;
-        private readonly Dictionary<int, WebhookTeam> allTeams = WebhookTeams.All;
+        private readonly IDictionary<int, WebhookTeam> allTeams = WebhookTeams.All;
         #endregion
 
         public FormEditTeam(FormWebhookTeams teamsLink, WebhookTeam data, int reservedId)

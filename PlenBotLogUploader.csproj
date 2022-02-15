@@ -10,6 +10,7 @@
     <RootNamespace>PlenBotLogUploader</RootNamespace>
     <AssemblyName>PlenBotLogUploader</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -70,7 +71,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
@@ -80,7 +80,6 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
@@ -403,6 +402,7 @@
     <Content Include="IconAssembly.ico" />
     <None Include="Resources\gw2bot_icon.png" />
     <None Include="Resources\gw2bot_icon.ico" />
+    <EmbeddedResource Include="Resources\boss_data.default.json" />
     <Content Include="Resources\Icon.ico" />
     <None Include="Resources\aleeva_icon.ico" />
     <None Include="Resources\aleeva_icon.png" />

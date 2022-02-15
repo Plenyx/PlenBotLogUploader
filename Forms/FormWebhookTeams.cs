@@ -1,5 +1,4 @@
-﻿using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DiscordAPI;
+﻿using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.Teams;
 using System;
 using System.Collections.Generic;
@@ -14,50 +13,58 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private int teamIdsKey = 0;
-        private readonly Dictionary<int, WebhookTeam> allTeams = WebhookTeams.All;
-        private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
+        private int teamIdsKey;
+        private readonly IDictionary<int, WebhookTeam> allTeams;
+        private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         #endregion
 
         public FormWebhookTeams()
         {
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{ApplicationSettings.LocalDir}\webhook_teams.txt"))
-            {
-                try
-                {
-                    allTeams = WebhookTeams.FromFile($@"{ApplicationSettings.LocalDir}\webhook_teams.txt");
-                    teamIdsKey = allTeams.Values.Select(x => x.ID).OrderByDescending(x => x).First() + 1;
-                }
-                catch
-                {
-                    WebhookTeams.ResetDictionary();
-                    teamIdsKey = 1;
-                }
-            }
-            else
-            {
-                WebhookTeams.ResetDictionary();
-            }
-            foreach (int key in allTeams.Keys.Skip(1))
+            allTeams = LoadWebhookTeams();
+
+            teamIdsKey = allTeams.Values.Select(x => x.ID).OrderByDescending(x => x).First() + 1;
+
+            foreach (var key in allTeams.Keys.Skip(1))
             {
                 listBoxWebhookTeams.Items.Add(allTeams[key]);
             }
         }
 
-        private async void FormWebhookTeams_FormClosing(object sender, FormClosingEventArgs e)
+        private IDictionary<int, WebhookTeam> LoadWebhookTeams()
+        {
+            IDictionary<int, WebhookTeam> webhookTeams = new Dictionary<int, WebhookTeam>();
+            try
+            {
+                if (File.Exists(WebhookTeams.TxtFileLocation))
+                {
+                    webhookTeams = WebhookTeams.FromFile(WebhookTeams.TxtFileLocation);
+                    WebhookTeams.SaveToJson(webhookTeams);
+                    File.Move(WebhookTeams.TxtFileLocation, WebhookTeams.MigratedTxtFileLocation);
+                }
+                else if (File.Exists(WebhookTeams.JsonFileLocation))
+                {
+                    webhookTeams = WebhookTeams.FromJsonFile(WebhookTeams.JsonFileLocation);
+                }
+                else
+                {
+                    webhookTeams.Add(0, new WebhookTeam {Name = "No team selected"});
+                }
+            }
+            catch
+            {
+                webhookTeams = new Dictionary<int, WebhookTeam>();
+                webhookTeams.Add(0, new WebhookTeam {Name = "No team selected"});
+            }
+            return webhookTeams;
+        }
+
+        private void FormWebhookTeams_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
-            using (var writer = new StreamWriter($@"{ApplicationSettings.LocalDir}\webhook_teams.txt"))
-            {
-                await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
-                foreach (int key in allTeams.Keys)
-                {
-                    await writer.WriteLineAsync(allTeams[key].ToString(true));
-                }
-            }
+            WebhookTeams.SaveToJson(allTeams);
         }
 
         private void ContextMenuStripInteract_Opening(object sender, CancelEventArgs e)

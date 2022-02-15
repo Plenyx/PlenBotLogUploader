@@ -15,7 +15,7 @@ namespace PlenBotLogUploader
         private readonly FormDiscordWebhooks discordPingLink;
         private readonly DiscordWebhookData data;
         private readonly int reservedId;
-        private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
+        private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         #endregion
 
         public FormEditDiscordWebhook(FormDiscordWebhooks discordPingLink, DiscordWebhookData data, int reservedId)
@@ -51,7 +51,7 @@ namespace PlenBotLogUploader
             {
                 comboBoxWebhookTeam.Items.Add(team);
             }
-            comboBoxWebhookTeam.SelectedItem = (data is null || data.Team is null) ? teams[0] : data.Team;
+            comboBoxWebhookTeam.SelectedItem = data?.Team ?? teams[0];
             foreach (var bossNumber in bosses.Keys)
             {
                 checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass() { BossID = bosses[bossNumber].BossId, Text = $"{bosses[bossNumber].Type}: {bosses[bossNumber].Name} ({bosses[bossNumber].BossId})" }, data?.IsBossEnabled(bosses[bossNumber].BossId) ?? true);

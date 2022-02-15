@@ -10,10 +10,12 @@ namespace PlenBotLogUploader
     public partial class FormBossData : Form
     {
         #region definitions
+
         // fields
         private readonly FormTemplateBossData templateLink;
-        private int bossesIdsKey = 0;
-        private readonly Dictionary<int, BossData> allBosses = Bosses.All;
+        private int bossesIdsKey;
+        private readonly IDictionary<int, BossData> allBosses;
+
         #endregion
 
         public FormBossData()
@@ -21,35 +23,14 @@ namespace PlenBotLogUploader
             templateLink = new FormTemplateBossData();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (File.Exists($@"{ApplicationSettings.LocalDir}\boss_data.txt"))
+
+            allBosses = LoadBossData();
+
+            bossesIdsKey = allBosses.Count;
+            
+            foreach (var boss in allBosses)
             {
-                try
-                {
-                    allBosses = Bosses.FromFile($@"{ApplicationSettings.LocalDir}\boss_data.txt");
-                    bossesIdsKey = allBosses.Count;
-                }
-                catch
-                {
-                    allBosses.Clear();
-                    foreach (var keyPair in Bosses.GetDefaultSettingsForBossesAsDictionary())
-                    {
-                        allBosses.Add(keyPair.Key, keyPair.Value);
-                    }
-                    bossesIdsKey = allBosses.Count;
-                }
-            }
-            else
-            {
-                allBosses.Clear();
-                foreach (var keyPair in Bosses.GetDefaultSettingsForBossesAsDictionary())
-                {
-                    allBosses.Add(keyPair.Key, keyPair.Value);
-                }
-                bossesIdsKey = allBosses.Count;
-            }
-            foreach (int key in allBosses.Keys)
-            {
-                listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = allBosses[key].Name });
+                listViewBosses.Items.Add(new ListViewItem { Name = boss.Key.ToString(), Text = boss.Value.Name });
             }
         }
 
@@ -60,18 +41,11 @@ namespace PlenBotLogUploader
             new FormEditBossData(this, allBosses[reservedId], reservedId).Show();
         }
 
-        private async void FormBossData_FormClosing(object sender, FormClosingEventArgs e)
+        private void FormBossData_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
-            using (StreamWriter writer = new StreamWriter($@"{ApplicationSettings.LocalDir}\boss_data.txt"))
-            {
-                await writer.WriteLineAsync("## Edit the contents of this file at your own risk, use the application interface instead.");
-                foreach (int key in allBosses.Keys)
-                {
-                    await writer.WriteLineAsync(allBosses[key].ToString(true));
-                }
-            }
+            Bosses.SaveToJson(allBosses);
         }
 
         private void ButtonResetSettings_Click(object sender, EventArgs e)
@@ -86,9 +60,9 @@ namespace PlenBotLogUploader
                     allBosses.Add(keyPair.Key, keyPair.Value);
                 }
                 bossesIdsKey = allBosses.Count;
-                foreach (int key in allBosses.Keys)
+                foreach (var bossEntry in allBosses)
                 {
-                    listViewBosses.Items.Add(new ListViewItem() { Name = key.ToString(), Text = allBosses[key].Name });
+                    listViewBosses.Items.Add(new ListViewItem() { Name = bossEntry.Key.ToString(), Text = bossEntry.Value.Name });
                 }
             }
         }
@@ -140,6 +114,34 @@ namespace PlenBotLogUploader
         {
             templateLink.Show();
             templateLink.BringToFront();
+        }
+
+        private IDictionary<int, BossData> LoadBossData()
+        {
+            IDictionary<int, BossData> bossData = new Dictionary<int, BossData>();
+            try
+            {
+                if (File.Exists(Bosses.TxtFileLocation))
+                {
+                    bossData = Bosses.FromTxtFile(Bosses.TxtFileLocation);
+                    Bosses.SaveToJson(bossData);
+                    File.Move(Bosses.TxtFileLocation,Bosses.MigratedTxtFileLocation);
+                } else if (File.Exists(Bosses.JsonFileLocation))
+                {
+                    bossData = Bosses.FromJsonFile($@"{ApplicationSettings.LocalDir}\boss_data.json");
+                }
+                else
+                {
+                    bossData = Bosses.GetDefaultSettingsForBossesAsDictionary();
+                }
+                
+            }
+            catch
+            {
+                // What do we do in this case.
+            }
+
+            return bossData;
         }
     }
 }

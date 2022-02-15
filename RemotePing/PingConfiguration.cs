@@ -9,14 +9,19 @@ namespace PlenBotLogUploader.RemotePing
 {
     public class PingConfiguration
     {
+        [JsonProperty("isActive")]
         public bool Active { get; set; } = false;
 
+        [JsonProperty("name")]
         public string Name { get; set; } = "";
 
+        [JsonProperty("url")]
         public string URL { get; set; } = "";
 
+        [JsonProperty("method")]
         public PingMethod Method { get; set; } = PingMethod.Post;
 
+        [JsonProperty("authentication")]
         public PingAuthentication Authentication { get; set; }
 
         public async Task<bool> PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON) => await PingServerAsync(this, mainLink, reportJSON);
