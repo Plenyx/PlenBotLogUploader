@@ -8,7 +8,7 @@ namespace PlenBotLogUploader.DPSReport
         public bool? Success { get; set; }
 
         [JsonProperty("duration")]
-        public int? Duration { get; set; }
+        public float? Duration { get; set; }
 
         [JsonProperty("compDps")]
         public int? CompDps { get; set; }
