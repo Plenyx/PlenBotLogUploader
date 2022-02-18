@@ -49,13 +49,12 @@ namespace PlenBotLogUploader
                 }
                 else
                 {
-                    webhookTeams.Add(0, new WebhookTeam {Name = "No team selected"});
+                    webhookTeams = WebhookTeams.ResetDictionary();
                 }
             }
             catch
             {
-                webhookTeams = new Dictionary<int, WebhookTeam>();
-                webhookTeams.Add(0, new WebhookTeam {Name = "No team selected"});
+                webhookTeams = WebhookTeams.ResetDictionary();
             }
             return webhookTeams;
         }
