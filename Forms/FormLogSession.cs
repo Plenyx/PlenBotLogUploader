@@ -49,10 +49,10 @@ namespace PlenBotLogUploader
                 SessionRunning = false;
                 sessionPaused = false;
                 stopWatch.Stop();
-                string elapsedTime = stopWatch.Elapsed.ParseHMS();
+                var elapsedTime = stopWatch.Elapsed.ParseHMS();
                 var elapsedTimeSpan = stopWatch.Elapsed;
                 stopWatch.Reset();
-                int sortBy = radioButtonSortByUpload.Checked ? 1 : 0;
+                var sortBy = radioButtonSortByUpload.Checked ? 1 : 0;
                 var logSessionSettings = new LogSessionSettings()
                 {
                     Name = textBoxSessionName.Text,
@@ -69,7 +69,7 @@ namespace PlenBotLogUploader
                 File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
                 foreach (var reportJSON in mainLink.SessionLogs)
                 {
-                    string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                    var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
                     File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv",
                         $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
                 }
@@ -129,7 +129,7 @@ namespace PlenBotLogUploader
         {
             var allWebhooks = DiscordWebhooks.All;
             var list = new List<DiscordWebhookData>();
-            for (int i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
+            for (var i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
             {
                 var item = checkedListBoxSelectedWebhooks.Items[i];
                 if (item.GetType().Equals(typeof(DiscordWebhooksHelperClass)))

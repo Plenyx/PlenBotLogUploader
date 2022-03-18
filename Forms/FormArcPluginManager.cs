@@ -201,45 +201,44 @@ namespace PlenBotLogUploader
 
         private async void ButtonChangeGW2Location_Click(object sender, EventArgs e)
         {
-            using (var dialog = new OpenFileDialog())
+            using var dialog = new OpenFileDialog();
+            dialog.Filter = "Guild Wars 2|Gw2-64.exe;Gw2.exe;Guild Wars 2.exe";
+            var result = dialog.ShowDialog();
+            if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
             {
-                dialog.Filter = "Guild Wars 2|Gw2-64.exe;Gw2.exe;Guild Wars 2.exe";
-                var result = dialog.ShowDialog();
-                if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
+                var location = Path.GetDirectoryName(dialog.FileName);
+                ApplicationSettings.Current.GW2Location = location;
+                ApplicationSettings.Current.Save();
+                if (ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).Any())
                 {
-                    var location = Path.GetDirectoryName(dialog.FileName);
-                    ApplicationSettings.Current.GW2Location = location;
-                    ApplicationSettings.Current.Save();
-                    if (ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).Any())
+                    var component = ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).First();
+                    if (!component.IsInstalled())
                     {
-                        var component = ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).First();
-                        if (!component.IsInstalled())
+                        await component.DownloadComponent(httpController);
+                        ArcDpsComponent.All.Where(x => x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).ToList().ForEach(async comp =>
                         {
-                            await component.DownloadComponent(httpController);
-                            ArcDpsComponent.All.Where(x => x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).ToList().ForEach(async comp => {
-                                if (!comp.IsInstalled())
-                                {
-                                    await comp.DownloadComponent(httpController);
-                                }
-                            });
-                        }
+                            if (!comp.IsInstalled())
+                            {
+                                await comp.DownloadComponent(httpController);
+                            }
+                        });
                     }
-                    else
-                    {
-                        var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = ApplicationSettings.Current.ArcUpdate.RenderMode.Equals(GameRenderMode.DX11) ? @"\d3d11.dll" : @"\bin64\d3d9.dll" };
-                        if (!component.IsInstalled())
-                        {
-                            await component.DownloadComponent(httpController);
-                        }
-                        ArcDpsComponent.All.Add(component);
-                        ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
-                    }
-                    await StartTimerAsync();
                 }
                 else
                 {
-                    await StopTimerAsync();
+                    var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = ApplicationSettings.Current.ArcUpdate.RenderMode.Equals(GameRenderMode.DX11) ? @"\d3d11.dll" : @"\bin64\d3d9.dll" };
+                    if (!component.IsInstalled())
+                    {
+                        await component.DownloadComponent(httpController);
+                    }
+                    ArcDpsComponent.All.Add(component);
+                    ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
                 }
+                await StartTimerAsync();
+            }
+            else
+            {
+                await StopTimerAsync();
             }
         }
 

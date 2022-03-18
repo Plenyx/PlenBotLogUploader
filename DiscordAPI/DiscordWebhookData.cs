@@ -60,7 +60,7 @@ namespace PlenBotLogUploader.DiscordAPI
         {
             try
             {
-                string response = await httpController.DownloadFileToStringAsync(URL);
+                var response = await httpController.DownloadFileToStringAsync(URL);
                 var pingTest = JsonConvert.DeserializeObject<DiscordAPIJSONWebhookResponse>(response);
                 return pingTest.Success;
             }
@@ -86,7 +86,7 @@ namespace PlenBotLogUploader.DiscordAPI
         {
             try
             {
-                string[] values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
+                var values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
                 int.TryParse(values[0], out int active);
                 int.TryParse(values[3], out int successFailToggle);
                 int.TryParse(values[4], out int showPlayers);

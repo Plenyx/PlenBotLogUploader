@@ -418,12 +418,13 @@ namespace PlenBotLogUploader
             };
             if (File.Exists(file) && (file.EndsWith(".evtc") || file.EndsWith(".zevtc")))
             {
-                bool archived = false;
-                string zipfilelocation = file;
+                var archived = false;
+                var zipfilelocation = file;
                 if (!file.EndsWith(".zevtc"))
                 {
                     zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(file)}.zevtc";
-                    using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@file, Path.GetFileName(file)); }
+                    using var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create);
+                    zipfile.CreateEntryFromFile(@file, Path.GetFileName(file));
                     archived = true;
                 }
                 try
@@ -467,7 +468,8 @@ namespace PlenBotLogUploader
                             if (!e.FullPath.EndsWith(".zevtc"))
                             {
                                 zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(e.FullPath)}.zevtc";
-                                using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@e.FullPath, Path.GetFileName(e.FullPath)); }
+                                using var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create);
+                                zipfile.CreateEntryFromFile(@e.FullPath, Path.GetFileName(e.FullPath));
                                 archived = true;
                             }
                             try
@@ -628,7 +630,8 @@ namespace PlenBotLogUploader
                             if (!arg.EndsWith(".zevtc"))
                             {
                                 zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(arg)}.zevtc";
-                                using (var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create)) { zipfile.CreateEntryFromFile(@arg, Path.GetFileName(arg)); }
+                                using var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create);
+                                zipfile.CreateEntryFromFile(@arg, Path.GetFileName(arg));
                                 archived = true;
                             }
                             try
@@ -713,177 +716,169 @@ namespace PlenBotLogUploader
 
         public async Task HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
-            using (var content = new MultipartFormDataContent())
+            using var content = new MultipartFormDataContent();
+            foreach (var key in postData.Keys)
             {
-                foreach (var key in postData.Keys)
-                {
-                    content.Add(new StringContent(postData[key]), key);
-                }
-                AddToText($">:> Uploading {Path.GetFileName(file)}");
-                var bossId = 1;
+                content.Add(new StringContent(postData[key]), key);
+            }
+            AddToText($">:> Uploading {Path.GetFileName(file)}");
+            var bossId = 1;
+            try
+            {
+                using var inputStream = File.OpenRead(file);
+                using var contentStream = new StreamContent(inputStream);
+                content.Add(contentStream, "file", Path.GetFileName(file));
                 try
                 {
-                    using (var inputStream = File.OpenRead(file))
+                    var uri = new Uri(CreateDPSReportLink());
+                    using var responseMessage = await HttpClientController.PostAsync(uri, content);
+                    if (responseMessage.IsSuccessStatusCode)
                     {
-                        using (var contentStream = new StreamContent(inputStream))
+                        var response = await responseMessage.Content.ReadAsStringAsync();
+                        try
                         {
-                            content.Add(contentStream, "file", Path.GetFileName(file));
-                            try
+                            var reportJSON = JsonConvert.DeserializeObject<DPSReportJSON>(response);
+                            if (string.IsNullOrEmpty(reportJSON.Error))
                             {
-                                var uri = new Uri(CreateDPSReportLink());
-                                using (var responseMessage = await HttpClientController.PostAsync(uri, content))
+                                bossId = reportJSON.Encounter.BossId;
+                                var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                                lastLogBossCM = reportJSON.Encounter.IsCM ?? false;
+                                // extra JSON from Elite Insights
+                                if (reportJSON.Encounter.JsonAvailable ?? false)
                                 {
-                                    if (responseMessage.IsSuccessStatusCode)
+                                    try
                                     {
-                                        string response = await responseMessage.Content.ReadAsStringAsync();
-                                        try
-                                        {
-                                            var reportJSON = JsonConvert.DeserializeObject<DPSReportJSON>(response);
-                                            if (string.IsNullOrEmpty(reportJSON.Error))
-                                            {
-                                                bossId = reportJSON.Encounter.BossId;
-                                                string success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
-                                                lastLogBossCM = reportJSON.Encounter.IsCM ?? false;
-                                                // extra JSON from Elite Insights
-                                                if (reportJSON.Encounter.JsonAvailable ?? false)
-                                                {
-                                                    try
-                                                    {
-                                                        string jsonString = await HttpClientController.DownloadFileToStringAsync($"https://dps.report/getJson?permalink={reportJSON.Permalink}");
-                                                        var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
-                                                        reportJSON.ExtraJSON = extraJSON;
-                                                        bossId = reportJSON.ExtraJSON.TriggerID;
-                                                        lastLogBossCM = reportJSON.ExtraJSON.IsCM;
-                                                    }
-                                                    catch
-                                                    {
-                                                        AddToText(">:> Extra JSON available but couldn't be obtained.");
-                                                    }
-                                                }
-                                                if (ApplicationSettings.Current.Upload.SaveToCSVEnabled)
-                                                {
-                                                    try
-                                                    {
-                                                        // log file
-                                                        File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
-                                                    }
-                                                    catch (Exception e)
-                                                    {
-                                                        AddToText($">:> There has been an error saving file {Path.GetFileName(file)} to the main CSV: {e.Message}");
-                                                    }
-                                                }
-                                                // save to clipboard list
-                                                allSessionLogs.Add(reportJSON.Permalink);
-                                                // Twitch chat
-                                                lastLogMessage = $"Link to the last log: {reportJSON.Permalink}";
-                                                if (lastLogBossId != bossId)
-                                                {
-                                                    lastLogPullCounter = 0;
-                                                }
-                                                lastLogBossId = bossId;
-                                                lastLogPullCounter = (reportJSON.Encounter.Success ?? false) ? 0 : lastLogPullCounter + 1;
-                                                AddToText($">:> {reportJSON.Permalink}");
-                                                if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
-                                                {
-                                                    await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
-                                                }
-                                                else if (checkBoxTwitchOnlySuccess.Checked)
-                                                {
-                                                    await SendLogToTwitchChatAsync(reportJSON, true);
-                                                }
-                                                else
-                                                {
-                                                    await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
-                                                }
-                                                // Discord webhooks & log sessions
-                                                if (logSessionLink.SessionRunning)
-                                                {
-                                                    if (logSessionLink.checkBoxOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
-                                                    {
-                                                        SessionLogs.Add(reportJSON);
-                                                    }
-                                                    else if (!logSessionLink.checkBoxOnlySuccess.Checked)
-                                                    {
-                                                        SessionLogs.Add(reportJSON);
-                                                    }
-                                                    if (!logSessionLink.checkBoxSupressWebhooks.Checked)
-                                                    {
-                                                        await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON);
-                                                }
-                                                // remote server ping
-                                                await pingsLink.ExecuteAllPingsAsync(reportJSON);
-                                                // aleeva pings
-                                                await aleevaLink.PostLogToAleeva(reportJSON);
-                                                // gw2bot pings
-                                                await gw2botLink.PostLogToGW2Bot(reportJSON);
-                                                // report success
-                                                AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
-                                            }
-                                            else if (reportJSON.Error.Length > 0)
-                                            {
-                                                AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJSON.Error}");
-                                            }
-                                            else
-                                            {
-                                                AddToText($">:> Unable to process file {Path.GetFileName(file)}, error while deserilising the response.");
-                                            }
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            AddToText($">:> There has been an error processing file {Path.GetFileName(file)}: {e.Message}");
-                                        }
+                                        var jsonString = await HttpClientController.DownloadFileToStringAsync($"https://dps.report/getJson?permalink={reportJSON.Permalink}");
+                                        var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
+                                        reportJSON.ExtraJSON = extraJSON;
+                                        bossId = reportJSON.ExtraJSON.TriggerID;
+                                        lastLogBossCM = reportJSON.ExtraJSON.IsCM;
                                     }
-                                    else
+                                    catch
                                     {
-                                        AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with an non-ok status code ({(int)responseMessage.StatusCode})");
+                                        AddToText(">:> Extra JSON available but couldn't be obtained.");
                                     }
                                 }
-                            }
-                            catch
-                            {
-                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
-                                Interlocked.Increment(ref recentUploadFailCounter);
-                                if (recentUploadFailCounter > 3)
+                                if (ApplicationSettings.Current.Upload.SaveToCSVEnabled)
                                 {
-                                    Interlocked.Exchange(ref recentUploadFailCounter, 0);
-                                    AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}");
+                                    try
+                                    {
+                                        // log file
+                                        File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        AddToText($">:> There has been an error saving file {Path.GetFileName(file)} to the main CSV: {e.Message}");
+                                    }
+                                }
+                                // save to clipboard list
+                                allSessionLogs.Add(reportJSON.Permalink);
+                                // Twitch chat
+                                lastLogMessage = $"Link to the last log: {reportJSON.Permalink}";
+                                if (lastLogBossId != bossId)
+                                {
+                                    lastLogPullCounter = 0;
+                                }
+                                lastLogBossId = bossId;
+                                lastLogPullCounter = (reportJSON.Encounter.Success ?? false) ? 0 : lastLogPullCounter + 1;
+                                AddToText($">:> {reportJSON.Permalink}");
+                                if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
+                                {
+                                    await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
+                                }
+                                else if (checkBoxTwitchOnlySuccess.Checked)
+                                {
+                                    await SendLogToTwitchChatAsync(reportJSON, true);
                                 }
                                 else
                                 {
-                                    await Task.Run(async () =>
-                                    {
-                                        var delay = 0;
-                                        switch (recentUploadFailCounter)
-                                        {
-                                            case 3:
-                                                delay = 45000;
-                                                break;
-                                            case 2:
-                                                delay = 15000;
-                                                break;
-                                            default:
-                                                delay = 3000;
-                                                break;
-                                        }
-                                        AddToText($">:> Retrying in {(delay / 1000)}s...");
-                                        await Task.Delay(delay);
-                                        await HttpUploadLogAsync(file, postData, bypassMessage);
-                                    });
+                                    await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
                                 }
+                                // Discord webhooks & log sessions
+                                if (logSessionLink.SessionRunning)
+                                {
+                                    if (logSessionLink.checkBoxOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
+                                    {
+                                        SessionLogs.Add(reportJSON);
+                                    }
+                                    else if (!logSessionLink.checkBoxOnlySuccess.Checked)
+                                    {
+                                        SessionLogs.Add(reportJSON);
+                                    }
+                                    if (!logSessionLink.checkBoxSupressWebhooks.Checked)
+                                    {
+                                        await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON);
+                                    }
+                                }
+                                else
+                                {
+                                    await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJSON);
+                                }
+                                // remote server ping
+                                await pingsLink.ExecuteAllPingsAsync(reportJSON);
+                                // aleeva pings
+                                await aleevaLink.PostLogToAleeva(reportJSON);
+                                // gw2bot pings
+                                await gw2botLink.PostLogToGW2Bot(reportJSON);
+                                // report success
+                                AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
+                            }
+                            else if (reportJSON.Error.Length > 0)
+                            {
+                                AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJSON.Error}");
+                            }
+                            else
+                            {
+                                AddToText($">:> Unable to process file {Path.GetFileName(file)}, error while deserilising the response.");
                             }
                         }
+                        catch (Exception e)
+                        {
+                            AddToText($">:> There has been an error processing file {Path.GetFileName(file)}: {e.Message}");
+                        }
+                    }
+                    else
+                    {
+                        AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with an non-ok status code ({(int)responseMessage.StatusCode})");
                     }
                 }
                 catch
                 {
-                    Thread.Sleep(1000);
-                    await HttpUploadLogAsync(file, postData, bypassMessage);
+                    AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
+                    Interlocked.Increment(ref recentUploadFailCounter);
+                    if (recentUploadFailCounter > 3)
+                    {
+                        Interlocked.Exchange(ref recentUploadFailCounter, 0);
+                        AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}");
+                    }
+                    else
+                    {
+                        await Task.Run(async () =>
+                        {
+                            var delay = 0;
+                            switch (recentUploadFailCounter)
+                            {
+                                case 3:
+                                    delay = 45000;
+                                    break;
+                                case 2:
+                                    delay = 15000;
+                                    break;
+                                default:
+                                    delay = 3000;
+                                    break;
+                            }
+                            AddToText($">:> Retrying in {(delay / 1000)}s...");
+                            await Task.Delay(delay);
+                            await HttpUploadLogAsync(file, postData, bypassMessage);
+                        });
+                    }
                 }
+            }
+            catch
+            {
+                Thread.Sleep(1000);
+                await HttpUploadLogAsync(file, postData, bypassMessage);
             }
         }
 
@@ -1109,12 +1104,10 @@ namespace PlenBotLogUploader
                             {
                                 try
                                 {
-                                    using (var parser = new GW2BuildParser(ApplicationSettings.Current.GW2APIKey))
-                                    {
-                                        var build = await parser.GetAPIBuildAsync(MumbleReader.Data.Identity.Name, MumbleReader.Data.Context.GameMode);
-                                        var buildLink = build.GetBuildLink();
-                                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"Link to the build: {buildLink}");
-                                    }
+                                    using var parser = new GW2BuildParser(ApplicationSettings.Current.GW2APIKey);
+                                    var build = await parser.GetAPIBuildAsync(MumbleReader.Data.Identity.Name, MumbleReader.Data.Context.GameMode);
+                                    var buildLink = build.GetBuildLink();
+                                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"Link to the build: {buildLink}");
                                 }
                                 catch (NotEnoughPermissionsException ex)
                                 {
@@ -1170,18 +1163,16 @@ namespace PlenBotLogUploader
                     AddToText("> (GW2) IGN COMMAND USED");
                     if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2APIKey))
                     {
-                        using (var gw2Api = new Gw2APIHelper(ApplicationSettings.Current.GW2APIKey))
+                        using var gw2Api = new Gw2APIHelper(ApplicationSettings.Current.GW2APIKey);
+                        var userInfo = await gw2Api.GetUserInfoAsync();
+                        if (!(userInfo is null))
                         {
-                            var userInfo = await gw2Api.GetUserInfoAsync();
-                            if (!(userInfo is null))
-                            {
-                                var playerWorld = GW2.AllServers[userInfo.World];
-                                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
-                            }
-                            else
-                            {
-                                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "An error has occured while getting the user name from an API key.");
-                            }
+                            var playerWorld = GW2.AllServers[userInfo.World];
+                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
+                        }
+                        else
+                        {
+                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "An error has occured while getting the user name from an API key.");
                         }
                     }
                 }
@@ -1233,29 +1224,27 @@ namespace PlenBotLogUploader
 
         private void ButtonLogsLocation_Click(object sender, EventArgs e)
         {
-            using (var dialog = new FolderBrowserDialog() { Description = "Select the arcdps folder containing the combat logs.\nThe default location is in \"My Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\\"" })
+            using var dialog = new FolderBrowserDialog() { Description = "Select the arcdps folder containing the combat logs.\nThe default location is in \"My Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\\"" };
+            var result = dialog.ShowDialog();
+            if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
             {
-                var result = dialog.ShowDialog();
-                if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
+                ApplicationSettings.Current.LogsLocation = dialog.SelectedPath;
+                ApplicationSettings.Current.Save();
+                logsCount = 0;
+                LogsScan(ApplicationSettings.Current.LogsLocation);
+                watcher.Renamed -= OnLogCreated;
+                watcher.Dispose();
+                watcher = null;
+                watcher = new FileSystemWatcher()
                 {
-                    ApplicationSettings.Current.LogsLocation = dialog.SelectedPath;
-                    ApplicationSettings.Current.Save();
-                    logsCount = 0;
-                    LogsScan(ApplicationSettings.Current.LogsLocation);
-                    watcher.Renamed -= OnLogCreated;
-                    watcher.Dispose();
-                    watcher = null;
-                    watcher = new FileSystemWatcher()
-                    {
-                        Path = ApplicationSettings.Current.LogsLocation,
-                        Filter = "*.*",
-                        IncludeSubdirectories = true,
-                        NotifyFilter = NotifyFilters.FileName
-                    };
-                    watcher.Renamed += OnLogCreated;
-                    watcher.EnableRaisingEvents = true;
-                    buttonOpenLogs.Enabled = true;
-                }
+                    Path = ApplicationSettings.Current.LogsLocation,
+                    Filter = "*.*",
+                    IncludeSubdirectories = true,
+                    NotifyFilter = NotifyFilters.FileName
+                };
+                watcher.Renamed += OnLogCreated;
+                watcher.EnableRaisingEvents = true;
+                buttonOpenLogs.Enabled = true;
             }
         }
 
@@ -1469,16 +1458,14 @@ namespace PlenBotLogUploader
 
         private void CheckBoxStartWhenWindowsStarts_CheckedChanged(object sender, EventArgs e)
         {
-            using (var registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+            using var registryRun = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+            if (checkBoxStartWhenWindowsStarts.Checked)
             {
-                if (checkBoxStartWhenWindowsStarts.Checked)
-                {
-                    registryRun.SetValue("PlenBot Log Uploader", $"\"{Application.ExecutablePath.Replace('/', '\\')}\" -m");
-                }
-                else
-                {
-                    registryRun.DeleteValue("PlenBot Log Uploader");
-                }
+                registryRun.SetValue("PlenBot Log Uploader", $"\"{Application.ExecutablePath.Replace('/', '\\')}\" -m");
+            }
+            else
+            {
+                registryRun.DeleteValue("PlenBot Log Uploader");
             }
         }
 

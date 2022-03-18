@@ -34,13 +34,11 @@ namespace PlenBotLogUploader.DPSReport
         {
             var allBosses = new Dictionary<int, BossData>();
 
-            using (var reader = new StreamReader(file))
+            using var reader = new StreamReader(file);
+            var line = reader.ReadLine(); // skip the first line
+            while (!((line = reader.ReadLine()) is null))
             {
-                string line = reader.ReadLine(); // skip the first line
-                while (!((line = reader.ReadLine()) is null))
-                {
-                    allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
-                }
+                allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
             }
 
             _All = allBosses;

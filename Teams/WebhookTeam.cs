@@ -67,7 +67,7 @@ namespace PlenBotLogUploader.Teams
         {
             try
             {
-                string[] values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
+                var values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
                 int.TryParse(values[0], out int id);
                 int.TryParse(values[2], out int limiter);
                 int.TryParse(values[3], out int limiterValue);
@@ -102,13 +102,13 @@ namespace PlenBotLogUploader.Teams
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((WebhookTeam) obj);
         }
 
         protected bool Equals(WebhookTeam other)
         {
-            return ID == other.ID && Name == other.Name;
+            return (ID == other.ID) && (Name == other.Name);
         }
         
         public override int GetHashCode()

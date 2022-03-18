@@ -52,13 +52,11 @@ namespace PlenBotLogUploader
             try
             {
                 var uri = new Uri("https://dps.report/getUserToken");
-                using (var responseMessage = await mainLink.HttpClientController.GetAsync(uri))
-                {
-                    var response = await responseMessage.Content.ReadAsStringAsync();
-                    var anonObject = new { userToken = "" };
-                    var responseJson = JsonConvert.DeserializeAnonymousType(response, anonObject);
-                    textBoxDPSReportUsertoken.Text = responseJson.userToken;
-                }
+                using var responseMessage = await mainLink.HttpClientController.GetAsync(uri);
+                var response = await responseMessage.Content.ReadAsStringAsync();
+                var anonObject = new { userToken = "" };
+                var responseJson = JsonConvert.DeserializeAnonymousType(response, anonObject);
+                textBoxDPSReportUsertoken.Text = responseJson.userToken;
             }
             catch (Exception ex)
             {

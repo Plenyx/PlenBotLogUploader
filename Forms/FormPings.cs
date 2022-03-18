@@ -52,37 +52,35 @@ namespace PlenBotLogUploader
             AllPings = new Dictionary<int, PingConfiguration>();
             try
             {
-                using (var reader = new StreamReader(PingTxtFileLocation))
+                using var reader = new StreamReader(PingTxtFileLocation);
+                var line = reader.ReadLine();
+                while (!((line = reader.ReadLine()) is null))
                 {
-                    string line = reader.ReadLine();
-                    while (!((line = reader.ReadLine()) is null))
+                    var values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
+                    int.TryParse(values[0], out int active);
+                    int.TryParse(values[3], out int method);
+                    int.TryParse(values[4], out int authActive);
+                    int.TryParse(values[5], out int useAsAuth);
+                    if (method > 3 || method < 0)
                     {
-                        string[] values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
-                        int.TryParse(values[0], out int active);
-                        int.TryParse(values[3], out int method);
-                        int.TryParse(values[4], out int authActive);
-                        int.TryParse(values[5], out int useAsAuth);
-                        if (method > 3 || method < 0)
-                        {
-                            method = 0;
-                        }
-
-                        var auth = new PingAuthentication()
-                        {
-                            Active = authActive == 1,
-                            UseAsAuth = useAsAuth == 1,
-                            AuthName = values[6],
-                            AuthToken = values[7]
-                        };
-                        AddPing(new PingConfiguration()
-                        {
-                            Active = active == 1,
-                            Name = values[1],
-                            URL = values[2],
-                            Method = (PingMethod) method,
-                            Authentication = auth
-                        });
+                        method = 0;
                     }
+
+                    var auth = new PingAuthentication()
+                    {
+                        Active = authActive == 1,
+                        UseAsAuth = useAsAuth == 1,
+                        AuthName = values[6],
+                        AuthToken = values[7]
+                    };
+                    AddPing(new PingConfiguration()
+                    {
+                        Active = active == 1,
+                        Name = values[1],
+                        URL = values[2],
+                        Method = (PingMethod)method,
+                        Authentication = auth
+                    });
                 }
             }
             catch
@@ -127,7 +125,7 @@ namespace PlenBotLogUploader
 
         public async Task ExecuteAllPingsAsync(DPSReportJSON reportJSON)
         {
-            foreach (int key in AllPings.Keys)
+            foreach (var key in AllPings.Keys)
             {
                 if (AllPings[key].Active)
                 {
@@ -203,27 +201,26 @@ namespace PlenBotLogUploader
 
         private IDictionary<int, PingConfiguration> LoadPings()
         {
-            IDictionary<int, PingConfiguration> pings = new Dictionary<int, PingConfiguration>();
             try
             {
                 if (File.Exists(PingTxtFileLocation))
                 {
                     LoadFromTxtFile();
-                    pings = AllPings;
+                    var pings = AllPings;
                     SaveToJson(pings.Values);
                     File.Move(PingTxtFileLocation, MigratedPingTxtFileLocation);
+                    return pings;
                 }
                 else if (File.Exists(PingJsonFileLocation))
                 {
-                    pings = LoadFromJsonFile(PingJsonFileLocation);
+                    return LoadFromJsonFile(PingJsonFileLocation);
                 }
+                return new Dictionary<int, PingConfiguration>();
             }
             catch
             {
-                // No remote pings configured
+                return new Dictionary<int, PingConfiguration>();
             }
-
-            return pings;
         }
     }
 }

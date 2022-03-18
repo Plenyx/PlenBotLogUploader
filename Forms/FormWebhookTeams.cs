@@ -34,29 +34,25 @@ namespace PlenBotLogUploader
 
         private IDictionary<int, WebhookTeam> LoadWebhookTeams()
         {
-            IDictionary<int, WebhookTeam> webhookTeams = new Dictionary<int, WebhookTeam>();
             try
             {
                 if (File.Exists(WebhookTeams.TxtFileLocation))
                 {
-                    webhookTeams = WebhookTeams.FromFile(WebhookTeams.TxtFileLocation);
+                    var webhookTeams = WebhookTeams.FromFile(WebhookTeams.TxtFileLocation);
                     WebhookTeams.SaveToJson(webhookTeams);
                     File.Move(WebhookTeams.TxtFileLocation, WebhookTeams.MigratedTxtFileLocation);
+                    return webhookTeams;
                 }
                 else if (File.Exists(WebhookTeams.JsonFileLocation))
                 {
-                    webhookTeams = WebhookTeams.FromJsonFile(WebhookTeams.JsonFileLocation);
+                    return WebhookTeams.FromJsonFile(WebhookTeams.JsonFileLocation);
                 }
-                else
-                {
-                    webhookTeams = WebhookTeams.ResetDictionary();
-                }
+                return WebhookTeams.ResetDictionary();
             }
             catch
             {
-                webhookTeams = WebhookTeams.ResetDictionary();
+                return WebhookTeams.ResetDictionary();
             }
-            return webhookTeams;
         }
 
         private void FormWebhookTeams_FormClosing(object sender, FormClosingEventArgs e)

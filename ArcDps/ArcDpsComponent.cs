@@ -184,21 +184,17 @@ namespace PlenBotLogUploader.ArcDps
 
         private string MakeMD5Hash()
         {
-            using (var md5 = System.Security.Cryptography.MD5.Create())
+            using var md5 = System.Security.Cryptography.MD5.Create();
+            try
             {
-                try
-                {
-                    byte[] hash = null;
-                    using (var stream = File.OpenRead($"{ApplicationSettings.Current.GW2Location}{RelativeLocation}"))
-                    {
-                        hash = md5.ComputeHash(stream);
-                    }
-                    return BitConverter.ToString(hash).Replace("-", "").ToLower();
-                }
-                catch
-                {
-                    return "";
-                }
+                byte[] hash = null;
+                using var stream = File.OpenRead($"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
+                hash = md5.ComputeHash(stream);
+                return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            }
+            catch
+            {
+                return "";
             }
         }
     }

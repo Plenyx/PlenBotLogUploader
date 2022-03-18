@@ -13,7 +13,7 @@ namespace PlenBotLogUploader.Tools
         /// <returns>TimeSpan as Hh Mm Ss</returns>
         public static string ParseHMS(this TimeSpan span)
         {
-            string elapsedTime = $"{span.Seconds}s";
+            var elapsedTime = $"{span.Seconds}s";
             if (span.Hours > 0 || span.Days > 0)
             {
                 elapsedTime = $"{span.Days * 24 + span.Hours}h {span.Minutes}m {span.Seconds}s";

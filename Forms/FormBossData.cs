@@ -118,30 +118,26 @@ namespace PlenBotLogUploader
 
         private IDictionary<int, BossData> LoadBossData()
         {
-            IDictionary<int, BossData> bossData = new Dictionary<int, BossData>();
             try
             {
                 if (File.Exists(Bosses.TxtFileLocation))
                 {
-                    bossData = Bosses.FromTxtFile(Bosses.TxtFileLocation);
+                    var bossData = Bosses.FromTxtFile(Bosses.TxtFileLocation);
                     Bosses.SaveToJson(bossData);
-                    File.Move(Bosses.TxtFileLocation,Bosses.MigratedTxtFileLocation);
-                } else if (File.Exists(Bosses.JsonFileLocation))
-                {
-                    bossData = Bosses.FromJsonFile($@"{ApplicationSettings.LocalDir}\boss_data.json");
+                    File.Move(Bosses.TxtFileLocation, Bosses.MigratedTxtFileLocation);
+                    return bossData;
                 }
-                else
+                else if (File.Exists(Bosses.JsonFileLocation))
                 {
-                    bossData = Bosses.GetDefaultSettingsForBossesAsDictionary();
+                    return Bosses.FromJsonFile($@"{ApplicationSettings.LocalDir}\boss_data.json");
                 }
+                return Bosses.GetDefaultSettingsForBossesAsDictionary();
                 
             }
             catch
             {
-                // What do we do in this case.
+                return Bosses.GetDefaultSettingsForBossesAsDictionary();
             }
-
-            return bossData;
         }
     }
 }

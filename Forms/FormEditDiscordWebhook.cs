@@ -60,7 +60,7 @@ namespace PlenBotLogUploader
 
         private void FormEditDiscordWebhook_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (textBoxName.Text.Trim() != "")
+            if (!string.IsNullOrWhiteSpace(textBoxName.Text.Trim()))
             {
                 var successFailToggle = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
                 if (radioButtonOnlySuccess.Checked)
@@ -94,7 +94,7 @@ namespace PlenBotLogUploader
         private List<int> ConvertCheckboxListToList()
         {
             var list = new List<int>();
-            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = checkedListBoxBossesEnable.Items[i];
                 if (item.GetType().Equals(typeof(BossesDisableHelperClass)))
@@ -113,7 +113,7 @@ namespace PlenBotLogUploader
         private void ButtonUnSelectAll_Click(object sender, System.EventArgs e)
         {
             var allSelected = true;
-            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
                 if (!checkedState)
@@ -124,14 +124,14 @@ namespace PlenBotLogUploader
             }
             if (!allSelected)
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     checkedListBoxBossesEnable.SetItemChecked(i, true);
                 }
             }
             else
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     checkedListBoxBossesEnable.SetItemChecked(i, false);
                 }
@@ -141,7 +141,7 @@ namespace PlenBotLogUploader
         private void ButtonUnSelectAllRaids_Click(object sender, System.EventArgs e)
         {
             var allSelected = true;
-            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                 if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Raid) ?? false)
@@ -156,7 +156,7 @@ namespace PlenBotLogUploader
             }
             if (!allSelected)
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                     if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Raid) ?? false)
@@ -167,7 +167,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                     if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Raid) ?? false)
@@ -181,7 +181,7 @@ namespace PlenBotLogUploader
         private void ButtonUnSelectAllFractals_Click(object sender, System.EventArgs e)
         {
             var allSelected = true;
-            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                 if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Fractal) ?? false)
@@ -196,7 +196,7 @@ namespace PlenBotLogUploader
             }
             if (!allSelected)
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                     if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Fractal) ?? false)
@@ -207,7 +207,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                     if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Fractal) ?? false)
@@ -221,7 +221,7 @@ namespace PlenBotLogUploader
         private void ButtonUnSelectAllStrikes_Click(object sender, System.EventArgs e)
         {
             var allSelected = true;
-            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                 if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Strike) ?? false)
@@ -236,7 +236,7 @@ namespace PlenBotLogUploader
             }
             if (!allSelected)
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                     if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Strike) ?? false)
@@ -247,7 +247,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                     if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Strike) ?? false)
@@ -261,7 +261,7 @@ namespace PlenBotLogUploader
         private void ButtonUnSelectAllGolems_Click(object sender, System.EventArgs e)
         {
             var allSelected = true;
-            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                 if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Golem) ?? false)
@@ -276,7 +276,7 @@ namespace PlenBotLogUploader
             }
             if (!allSelected)
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                     if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Golem) ?? false)
@@ -287,7 +287,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
                 {
                     var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                     if (Bosses.All.Values.Where(x => x.BossId.Equals(item.BossID)).FirstOrDefault()?.Type.Equals(BossType.Golem) ?? false)
@@ -300,7 +300,7 @@ namespace PlenBotLogUploader
 
         private void ButtonUnSelectWvW_Click(object sender, System.EventArgs e)
         {
-            for (int i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
                 if (item.BossID.Equals(1))

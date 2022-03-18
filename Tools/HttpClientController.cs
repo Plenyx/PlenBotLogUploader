@@ -31,13 +31,9 @@ namespace PlenBotLogUploader.Tools
                 var uri = new Uri(url);
                 using (var responseMessage = await GetAsync(uri))
                 {
-                    using (var response = await responseMessage.Content.ReadAsStreamAsync())
-                    {
-                        using (var stream = File.Create(@destination))
-                        {
-                            await response.CopyToAsync(stream);
-                        }
-                    }
+                    using var response = await responseMessage.Content.ReadAsStreamAsync();
+                    using var stream = File.Create(@destination);
+                    await response.CopyToAsync(stream);
                 }
                 return true;
             }
@@ -55,11 +51,9 @@ namespace PlenBotLogUploader.Tools
             try
             {
                 var uri = new Uri(url);
-                using (var responseMessage = await GetAsync(uri))
-                {
-                    var response = await responseMessage.Content.ReadAsStringAsync();
-                    return response;
-                }
+                using var responseMessage = await GetAsync(uri);
+                var response = await responseMessage.Content.ReadAsStringAsync();
+                return response;
             }
             catch
             {
@@ -77,12 +71,10 @@ namespace PlenBotLogUploader.Tools
             try
             {
                 var uri = new Uri($"https://api.github.com/repos/{repository}/releases/latest");
-                using (var responseMessage = await GetAsync(uri))
-                {
-                    var response = await responseMessage.Content.ReadAsStringAsync();
-                    var release = JsonConvert.DeserializeObject<GitHubReleasesLatest>(response);
-                    return release;
-                }
+                using var responseMessage = await GetAsync(uri);
+                var response = await responseMessage.Content.ReadAsStringAsync();
+                var release = JsonConvert.DeserializeObject<GitHubReleasesLatest>(response);
+                return release;
             }
             catch
             {

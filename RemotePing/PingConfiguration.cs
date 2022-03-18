@@ -28,123 +28,99 @@ namespace PlenBotLogUploader.RemotePing
 
         public static async Task<bool> PingServerAsync(PingConfiguration configuration, FormMain mainLink, DPSReportJSON reportJSON)
         {
-            bool result = false;
-            using (var controller = new HttpClientController())
+            var result = false;
+            using var controller = new HttpClientController();
+            if (configuration.Method.Equals(PingMethod.Post) || configuration.Method.Equals(PingMethod.Put))
             {
-                if (configuration.Method.Equals(PingMethod.Post) || configuration.Method.Equals(PingMethod.Put))
+                var fields = new Dictionary<string, string>();
+                if (!(reportJSON is null))
                 {
-                    var fields = new Dictionary<string, string>();
-                    if (!(reportJSON is null))
+                    fields.Add("permalink", reportJSON.Permalink);
+                    fields.Add("bossId", reportJSON.Encounter.BossId.ToString());
+                    fields.Add("success", (reportJSON.Encounter.Success ?? false) ? "1" : "0");
+                    fields.Add("arcVersion", $"{reportJSON.EVTC.Type}{reportJSON.EVTC.Version}");
+                }
+                if (configuration.Authentication.Active)
+                {
+                    if (!configuration.Authentication.UseAsAuth)
                     {
-                        fields.Add("permalink", reportJSON.Permalink);
-                        fields.Add("bossId", reportJSON.Encounter.BossId.ToString());
-                        fields.Add("success", (reportJSON.Encounter.Success ?? false) ? "1" : "0");
-                        fields.Add("arcVersion", $"{reportJSON.EVTC.Type}{reportJSON.EVTC.Version}");
+                        fields.Add(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
                     }
-                    if (configuration.Authentication.Active)
+                    else
                     {
-                        if (!configuration.Authentication.UseAsAuth)
-                        {
-                            fields.Add(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
-                        }
-                        else
-                        {
-                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
-                        }
-                    }
-                    using (var content = new FormUrlEncodedContent(fields))
-                    {
-                        HttpResponseMessage responseMessage = null;
-                        try
-                        {
-                            if (configuration.Method.Equals(PingMethod.Put))
-                            {
-                                responseMessage = await controller.PutAsync(configuration.URL, content);
-                            }
-                            else
-                            {
-                                responseMessage = await controller.PostAsync(configuration.URL, content);
-                            }
-                            string response = await responseMessage.Content.ReadAsStringAsync();
-                            var statusJSON = JsonConvert.DeserializeObject<PingResponse>(response);
-                            if (responseMessage.IsSuccessStatusCode)
-                            {
-                                mainLink?.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
-                                result = true;
-                            }
-                            else
-                            {
-                                mainLink?.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
-                            }
-                        }
-                        catch
-                        {
-                            mainLink?.AddToText($">:> Unable to ping the server \"{configuration.Name}\", check the settings or the server is not responding.");
-                        }
-                        finally
-                        {
-                            responseMessage?.Dispose();
-                        }
+                        controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
                     }
                 }
-                else if (configuration.Method.Equals(PingMethod.Get) || configuration.Method.Equals(PingMethod.Delete))
+                using var content = new FormUrlEncodedContent(fields);
+                try
                 {
-                    string fullLink = $"{configuration.URL}?";
-                    if (!(reportJSON is null))
+                    using var responseMessage = (configuration.Method.Equals(PingMethod.Put)) ?
+                        await controller.PutAsync(configuration.URL, content) :
+                        await controller.PostAsync(configuration.URL, content);
+                    var response = await responseMessage.Content.ReadAsStringAsync();
+                    var statusJSON = JsonConvert.DeserializeObject<PingResponse>(response);
+                    if (responseMessage.IsSuccessStatusCode)
                     {
-                        string success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
-                        string encounterInfo = $"bossId={reportJSON.Encounter.BossId}&success={success}&arcVersion={reportJSON.EVTC.Type}{reportJSON.EVTC.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
-                        fullLink = $"{fullLink}{encounterInfo}";
-                        if (configuration.URL.Contains("?"))
-                        {
-                            fullLink = $"{configuration.URL}&{encounterInfo}";
-                        }
+                        mainLink?.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
+                        result = true;
                     }
-                    if (configuration.Authentication.Active)
+                    else
                     {
-                        if (!configuration.Authentication.UseAsAuth)
-                        {
-                            fullLink = $"{fullLink}&{configuration.Authentication.AuthName.ToLower()}={configuration.Authentication.AuthToken}";
-                        }
-                        else
-                        {
-                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
-                        }
-                    }
-                    HttpResponseMessage responseMessage = null;
-                    try
-                    {
-                        if (configuration.Method.Equals(PingMethod.Delete))
-                        {
-                            responseMessage = await controller.DeleteAsync(fullLink);
-                        }
-                        else
-                        {
-                            responseMessage = await controller.GetAsync(fullLink);
-                        }
-                        string response = await responseMessage.Content.ReadAsStringAsync();
-                        var statusJSON = JsonConvert.DeserializeObject<PingResponse>(response);
-                        if (responseMessage.IsSuccessStatusCode)
-                        {
-                            mainLink?.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
-                            result = true;
-                        }
-                        else
-                        {
-                            mainLink?.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
-                        }
-                    }
-                    catch
-                    {
-                        mainLink?.AddToText($">:> Unable to ping the server \"{configuration.Name}\", check the settings or the server is not responding.");
-                    }
-                    finally
-                    {
-                        responseMessage?.Dispose();
+                        mainLink?.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
                     }
                 }
-                return result;
+                catch
+                {
+                    mainLink?.AddToText($">:> Unable to ping the server \"{configuration.Name}\", check the settings or the server is not responding.");
+                }
             }
+            else if (configuration.Method.Equals(PingMethod.Get) || configuration.Method.Equals(PingMethod.Delete))
+            {
+                var fullLink = $"{configuration.URL}?";
+                if (!(reportJSON is null))
+                {
+                    var success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
+                    var encounterInfo = $"bossId={reportJSON.Encounter.BossId}&success={success}&arcVersion={reportJSON.EVTC.Type}{reportJSON.EVTC.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.Permalink)}";
+                    fullLink = $"{fullLink}{encounterInfo}";
+                    if (configuration.URL.Contains("?"))
+                    {
+                        fullLink = $"{configuration.URL}&{encounterInfo}";
+                    }
+                }
+                if (configuration.Authentication.Active)
+                {
+                    if (!configuration.Authentication.UseAsAuth)
+                    {
+                        fullLink = $"{fullLink}&{configuration.Authentication.AuthName.ToLower()}={configuration.Authentication.AuthToken}";
+                    }
+                    else
+                    {
+                        controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(configuration.Authentication.AuthName, configuration.Authentication.AuthToken);
+                    }
+                }
+                try
+                {
+                    using var responseMessage = (configuration.Method.Equals(PingMethod.Delete)) ?
+                        await controller.DeleteAsync(fullLink) :
+                        await controller.GetAsync(fullLink);
+                    var response = await responseMessage.Content.ReadAsStringAsync();
+                    var statusJSON = JsonConvert.DeserializeObject<PingResponse>(response);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        mainLink?.AddToText($">:> Log {reportJSON.UrlId} pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
+                        result = true;
+                    }
+                    else
+                    {
+                        mainLink?.AddToText($">:> Log {reportJSON.UrlId} couldn't be pinged. {statusJSON.Message} (code: {responseMessage.StatusCode})");
+                    }
+                }
+                catch
+                {
+                    mainLink?.AddToText($">:> Unable to ping the server \"{configuration.Name}\", check the settings or the server is not responding.");
+                }
+            }
+            return result;
         }
     }
 }

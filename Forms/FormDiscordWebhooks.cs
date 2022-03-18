@@ -61,15 +61,15 @@ namespace PlenBotLogUploader
         {
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
-                string extraJSONFightName = (reportJSON.ExtraJSON is null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJSON.FightName;
-                string extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}";
-                string icon = "";
+                var extraJSONFightName = (reportJSON.ExtraJSON is null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJSON.FightName;
+                var extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}";
+                var icon = "";
                 var bossData = Bosses.GetBossDataFromId(1);
                 if (!(bossData is null))
                 {
                     icon = bossData.Icon;
                 }
-                int colour = 16752238;
+                var colour = 16752238;
                 var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
                 {
                     Url = icon
@@ -281,7 +281,7 @@ namespace PlenBotLogUploader
                 };
                 try
                 {
-                    string jsonContentWvW = JsonConvert.SerializeObject(discordContentWvW);
+                    var jsonContentWvW = JsonConvert.SerializeObject(discordContentWvW);
                     foreach (var key in allWebhooks.Keys)
                     {
                         var webhook = allWebhooks[key];
@@ -294,10 +294,8 @@ namespace PlenBotLogUploader
                             continue;
                         }
                         var uri = new Uri(webhook.URL);
-                        using (var content = new StringContent(jsonContentWvW, Encoding.UTF8, "application/json"))
-                        {
-                            using (var response = await mainLink.HttpClientController.PostAsync(uri, content)) { }
-                        }
+                        using var content = new StringContent(jsonContentWvW, Encoding.UTF8, "application/json");
+                        using var response = await mainLink.HttpClientController.PostAsync(uri, content);
                     }
                     if (allWebhooks.Count > 0)
                     {
@@ -311,17 +309,17 @@ namespace PlenBotLogUploader
             }
             else // not WvW
             {
-                string bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : "")}";
-                string successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
-                string extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
-                string icon = "";
+                var bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : "")}";
+                var successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
+                var extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
+                var icon = "";
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
                 if (!(bossData is null))
                 {
                     bossName = $"{bossData.Name}{(reportJSON.ChallengeMode ? " CM" : "")}";
                     icon = bossData.Icon;
                 }
-                int colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
+                var colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
                 var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
                 {
                     Url = icon
@@ -431,8 +429,8 @@ namespace PlenBotLogUploader
                 };
                 try
                 {
-                    string jsonContentWithoutPlayers = JsonConvert.SerializeObject(discordContentWithoutPlayers);
-                    string jsonContentWithPlayers = JsonConvert.SerializeObject(discordContentWithPlayers);
+                    var jsonContentWithoutPlayers = JsonConvert.SerializeObject(discordContentWithoutPlayers);
+                    var jsonContentWithPlayers = JsonConvert.SerializeObject(discordContentWithPlayers);
                     foreach (var key in allWebhooks.Keys)
                     {
                         var webhook = allWebhooks[key];
@@ -447,17 +445,13 @@ namespace PlenBotLogUploader
                         var uri = new Uri(webhook.URL);
                         if (webhook.ShowPlayers)
                         {
-                            using (var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json"))
-                            {
-                                using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
-                            }
+                            using var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json");
+                            using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
                         }
                         else
                         {
-                            using (var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json"))
-                            {
-                                using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
-                            }
+                            using var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json");
+                            using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
                         }
                     }
                     if (allWebhooks.Count > 0)
@@ -474,26 +468,25 @@ namespace PlenBotLogUploader
 
         private IDictionary<int, DiscordWebhookData> LoadDiscordWebhooks()
         {
-            IDictionary<int, DiscordWebhookData> webhooks = new Dictionary<int, DiscordWebhookData>();
             try
             {
                 if (File.Exists(DiscordWebhooks.TxtFileLocation))
                 {
-                    webhooks = DiscordWebhooks.FromTxtFile(DiscordWebhooks.TxtFileLocation);
+                    var webhooks = DiscordWebhooks.FromTxtFile(DiscordWebhooks.TxtFileLocation);
                     DiscordWebhooks.SaveToJson(webhooks, DiscordWebhooks.JsonFileLocation);
                     File.Move(DiscordWebhooks.TxtFileLocation, DiscordWebhooks.MigratedTxtFileLocation);
+                    return webhooks;
                 }
                 else if (File.Exists(DiscordWebhooks.JsonFileLocation))
                 {
-                    webhooks =
-                        DiscordWebhooks.FromJsonFile(DiscordWebhooks.JsonFileLocation);
+                    return DiscordWebhooks.FromJsonFile(DiscordWebhooks.JsonFileLocation);
                 }
+                return new Dictionary<int, DiscordWebhookData>();
             }
             catch
             {
-                // No Webhooks were saved
+                return new Dictionary<int, DiscordWebhookData>();
             }
-            return webhooks;
         }
 
         public async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
@@ -519,17 +512,17 @@ namespace PlenBotLogUploader
 
         private async Task SendDiscordMessageToAllActiveWebhooksAsync(SessionTextConstructor.DiscordEmbeds discordEmbeds, string contentText)
         {
-            string jsonContentSuccessFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentSuccessFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.SuccessFailure
             });
-            string jsonContentSuccess = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentSuccess = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.Success
             });
-            string jsonContentFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.Failure
@@ -547,10 +540,8 @@ namespace PlenBotLogUploader
                         (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)) ? jsonContentSuccessFailure :
                         ((webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) ? jsonContentSuccess : jsonContentFailure));
                     var uri = new Uri(webhook.URL);
-                    using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
-                    {
-                        using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
-                    }
+                    using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
                 }
             }
             catch
@@ -561,17 +552,17 @@ namespace PlenBotLogUploader
 
         private async Task SendDiscordMessageToSelectedWebhooksAsync(List<DiscordWebhookData> webhooks, SessionTextConstructor.DiscordEmbeds discordEmbeds, string contentText)
         {
-            string jsonContentSuccessFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentSuccessFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.SuccessFailure
             });
-            string jsonContentSuccess = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentSuccess = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.Success
             });
-            string jsonContentFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.Failure
@@ -584,10 +575,8 @@ namespace PlenBotLogUploader
                         (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)) ? jsonContentSuccessFailure :
                         ((webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) ? jsonContentSuccess : jsonContentFailure));
                     var uri = new Uri(webhook.URL);
-                    using (var content = new StringContent(jsonContent, Encoding.UTF8, "application/json"))
-                    {
-                        using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
-                    }
+                    using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
                 }
             }
             catch

@@ -40,14 +40,12 @@ namespace PlenBotLogUploader.Teams
                 ResetDictionary();
             }
 
-            using (var reader = new StreamReader(file))
+            using var reader = new StreamReader(file);
+            var line = reader.ReadLine(); // skip the first line
+            while (!((line = reader.ReadLine()) is null))
             {
-                string line = reader.ReadLine(); // skip the first line
-                while (!((line = reader.ReadLine()) is null))
-                {
-                    var team = WebhookTeam.FromSavedFormat(line);
-                    allTeams.Add(team.ID, team);
-                }
+                var team = WebhookTeam.FromSavedFormat(line);
+                allTeams.Add(team.ID, team);
             }
 
             _All = allTeams;

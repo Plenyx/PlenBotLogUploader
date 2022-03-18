@@ -3,6 +3,7 @@
     public enum BossIds
     {
         WvW = 1,
+        TheDragonvoid = 1378,
         Sabetha = 15375,
         Gorseval = 15429,
         ValeGuardian = 15438,
@@ -45,6 +46,10 @@
         WhisperOfJormag = 22711,
         VariniaStormsounder = 22836,
         AiKeeperOfThePeak = 23254,
+        Ankka = 23957,
+        AetherbladeHideout = 24033,
+        MinisterLi = 24485,
+        TheDragonvoidTrigger = 24375,
         ConjuredAmalgamate = 43974
     }
 }

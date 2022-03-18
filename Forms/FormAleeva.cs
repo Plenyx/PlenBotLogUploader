@@ -119,10 +119,8 @@ namespace PlenBotLogUploader
                         logObject.NotificationChannelId = ApplicationSettings.Current.Aleeva.SelectedChannel;
                     }
                     var jsonLogObject = JsonConvert.SerializeObject(logObject);
-                    using (var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json"))
-                    {
-                        using (await controller.PostAsync(uri, content)) { }
-                    }
+                    using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
+                    using (await controller.PostAsync(uri, content)) { }
                 }
                 catch
                 {
@@ -145,32 +143,28 @@ namespace PlenBotLogUploader
             };
             try
             {
-                using (var content = new FormUrlEncodedContent(aleevaKeyValues))
+                using var content = new FormUrlEncodedContent(aleevaKeyValues);
+                using var response = await mainLink.HttpClientController.PostAsync(uri, content);
+                var responseMessage = await response.Content.ReadAsStringAsync();
+                var responseToken = JsonConvert.DeserializeObject<AleevaAuthTokenResponse>(responseMessage);
+                AleevaAuthorised = responseToken.IsSuccess;
+                if (responseToken.IsSuccess)
                 {
-                    using (var response = await mainLink.HttpClientController.PostAsync(uri, content))
-                    {
-                        var responseMessage = await response.Content.ReadAsStringAsync();
-                        var responseToken = JsonConvert.DeserializeObject<AleevaAuthTokenResponse>(responseMessage);
-                        AleevaAuthorised = responseToken.IsSuccess;
-                        if (responseToken.IsSuccess)
-                        {
-                            AleevaAccessToken = responseToken.AccessToken;
-                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AleevaAccessToken);
-                            AleevaAccessTokenExpires = DateTime.Now.AddSeconds(responseToken.ExpiresIn);
-                            ApplicationSettings.Current.Aleeva.RefreshToken = responseToken.RefreshToken;
-                            ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
-                            ApplicationSettings.Current.Save();
-                        }
-                        else
-                        {
-                            AleevaAccessToken = "";
-                            controller.DefaultRequestHeaders.Authorization = null;
-                            AleevaAccessTokenExpires = DateTime.Now;
-                            ApplicationSettings.Current.Aleeva.RefreshToken = "";
-                            ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
-                            ApplicationSettings.Current.Save();
-                        }
-                    }
+                    AleevaAccessToken = responseToken.AccessToken;
+                    controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AleevaAccessToken);
+                    AleevaAccessTokenExpires = DateTime.Now.AddSeconds(responseToken.ExpiresIn);
+                    ApplicationSettings.Current.Aleeva.RefreshToken = responseToken.RefreshToken;
+                    ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
+                    ApplicationSettings.Current.Save();
+                }
+                else
+                {
+                    AleevaAccessToken = "";
+                    controller.DefaultRequestHeaders.Authorization = null;
+                    AleevaAccessTokenExpires = DateTime.Now;
+                    ApplicationSettings.Current.Aleeva.RefreshToken = "";
+                    ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
+                    ApplicationSettings.Current.Save();
                 }
             }
             catch (JsonReaderException)
@@ -197,33 +191,29 @@ namespace PlenBotLogUploader
             };
             try
             {
-                using (var content = new FormUrlEncodedContent(aleevaKeyValues))
+                using var content = new FormUrlEncodedContent(aleevaKeyValues);
+                using var response = await mainLink.HttpClientController.PostAsync(uri, content);
+                var responseMessage = await response.Content.ReadAsStringAsync();
+                var responseToken = JsonConvert.DeserializeObject<AleevaAuthTokenResponse>(responseMessage);
+                AleevaAuthorised = responseToken.IsSuccess;
+                if (responseToken.IsSuccess)
                 {
-                    using (var response = await mainLink.HttpClientController.PostAsync(uri, content))
+                    AleevaAccessToken = responseToken.AccessToken;
+                    controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AleevaAccessToken);
+                    AleevaAccessTokenExpires = DateTime.Now.AddSeconds(responseToken.ExpiresIn);
+                    ApplicationSettings.Current.Aleeva.RefreshToken = responseToken.RefreshToken;
+                    ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
+                    ApplicationSettings.Current.Save();
+                    await AleevaLoadServers();
+                    var selectedServer = aleevaServers.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer)).FirstOrDefault();
+                    if (!(selectedServer is null))
                     {
-                        var responseMessage = await response.Content.ReadAsStringAsync();
-                        var responseToken = JsonConvert.DeserializeObject<AleevaAuthTokenResponse>(responseMessage);
-                        AleevaAuthorised = responseToken.IsSuccess;
-                        if (responseToken.IsSuccess)
+                        comboBoxServer.SelectedItem = selectedServer;
+                        await AleevaLoadChannels(selectedServer.ID);
+                        var selectedChannel = aleevaServerChannels.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel)).First();
+                        if (!(selectedChannel is null))
                         {
-                            AleevaAccessToken = responseToken.AccessToken;
-                            controller.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AleevaAccessToken);
-                            AleevaAccessTokenExpires = DateTime.Now.AddSeconds(responseToken.ExpiresIn);
-                            ApplicationSettings.Current.Aleeva.RefreshToken = responseToken.RefreshToken;
-                            ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
-                            ApplicationSettings.Current.Save();
-                            await AleevaLoadServers();
-                            var selectedServer = aleevaServers.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer)).FirstOrDefault();
-                            if (!(selectedServer is null))
-                            {
-                                comboBoxServer.SelectedItem = selectedServer;
-                                await AleevaLoadChannels(selectedServer.ID);
-                                var selectedChannel = aleevaServerChannels.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel)).First();
-                                if (!(selectedChannel is null))
-                                {
-                                    comboBoxChannel.SelectedItem = selectedChannel;
-                                }
-                            }
+                            comboBoxChannel.SelectedItem = selectedChannel;
                         }
                     }
                 }
@@ -292,17 +282,15 @@ namespace PlenBotLogUploader
                     comboBoxChannel.Items.Clear();
                 }
                 var uri = new Uri($"{aleevaAPIBaseUrl}/server?mode=UPLOADS");
-                using (var response = await controller.GetAsync(uri))
+                using var response = await controller.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
                 {
-                    if (response.IsSuccessStatusCode)
+                    var responseMessage = await response.Content.ReadAsStringAsync();
+                    var jArray = JArray.Parse(responseMessage);
+                    foreach (var token in jArray)
                     {
-                        var responseMessage = await response.Content.ReadAsStringAsync();
-                        var jArray = JArray.Parse(responseMessage);
-                        foreach (var token in jArray)
-                        {
-                            var server = token.ToObject<AleevaServer>();
-                            aleevaServers.Add(server);
-                        }
+                        var server = token.ToObject<AleevaServer>();
+                        aleevaServers.Add(server);
                     }
                 }
                 foreach (var server in aleevaServers)
@@ -350,17 +338,15 @@ namespace PlenBotLogUploader
                     comboBoxChannel.Items.Clear();
                 }
                 var uri = new Uri($"{aleevaAPIBaseUrl}/server/{serverId}/channel?mode=UPLOADS");
-                using (var response = await controller.GetAsync(uri))
+                using var response = await controller.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
                 {
-                    if (response.IsSuccessStatusCode)
+                    var responseMessage = await response.Content.ReadAsStringAsync();
+                    var jArray = JArray.Parse(responseMessage);
+                    foreach (var token in jArray)
                     {
-                        var responseMessage = await response.Content.ReadAsStringAsync();
-                        var jArray = JArray.Parse(responseMessage);
-                        foreach (var token in jArray)
-                        {
-                            var channel = token.ToObject<AleevaChannel>();
-                            aleevaServerChannels.Add(channel);
-                        }
+                        var channel = token.ToObject<AleevaChannel>();
+                        aleevaServerChannels.Add(channel);
                     }
                 }
                 foreach (var channel in aleevaServerChannels)

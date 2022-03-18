@@ -60,7 +60,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>Formatted string</returns>
         public string TwitchMessageFormat(DPSReportJSON reportJSON, int pullCounter)
         {
-            string format = (reportJSON.Encounter.Success ?? false) ? SuccessMsg : FailMsg;
+            var format = (reportJSON.Encounter.Success ?? false) ? SuccessMsg : FailMsg;
             format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);
             format = format.Replace("<log>", reportJSON.Permalink);
             format = format.Replace("<pulls>", pullCounter.ToString());
@@ -76,7 +76,7 @@ namespace PlenBotLogUploader.DPSReport
         {
             try
             {
-                string[] values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
+                var values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
                 int.TryParse(values[0], out int bossId);
                 int.TryParse(values[5], out int type);
                 int.TryParse(values[6], out int isEvent);
