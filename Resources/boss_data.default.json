@@ -1,18 +1,28 @@
 ﻿[
   {
+    "BossId": 24033,
+    "Name": "Aetherblade Hideout",
+    "Icon": "https://i.imgur.com/UZmW8Sd.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
     "BossId": 23254,
     "Name": "Ai, Keeper of the Peak",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://plenbot.net/img/ai_icon.png",
     "Type": 2,
     "Event": false
   },
   {
+    "BossId": 23957,
+    "Name": "Ankka",
+    "Icon": "https://i.imgur.com/orWH6qw.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
     "BossId": 17759,
     "Name": "Arkk",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/u6vv8cW.png",
     "Type": 2,
     "Event": false
@@ -20,8 +30,6 @@
   {
     "BossId": 17949,
     "Name": "Artsariiv",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "",
     "Type": 2,
     "Event": false
@@ -29,17 +37,13 @@
   {
     "BossId": 16088,
     "Name": "Bandit Trio",
-    "SuccessMsg": "Bandit Trio log: <log>",
-    "FailMsg": "Bandit Trio log: <log> | Wipe counter: <pulls>",
     "Icon": "https://i.imgur.com/UZZQUdf.png",
     "Type": 1,
-    "Event": true
+    "Event": false
   },
   {
     "BossId": 22521,
     "Name": "Boneskinner",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/meYwQmA.png",
     "Type": 3,
     "Event": false
@@ -47,8 +51,6 @@
   {
     "BossId": 19691,
     "Name": "Broken King",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/FNgUmvL.png",
     "Type": 1,
     "Event": false
@@ -56,8 +58,6 @@
   {
     "BossId": 17194,
     "Name": "Cairn the Indomitable",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/b/b8/Mini_Cairn_the_Indomitable.png",
     "Type": 1,
     "Event": false
@@ -65,8 +65,6 @@
   {
     "BossId": 22006,
     "Name": "Cardinal Adina",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/a/a0/Mini_Earth_Djinn.png",
     "Type": 1,
     "Event": false
@@ -74,8 +72,6 @@
   {
     "BossId": 21964,
     "Name": "Cardinal Sabir",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/f/fc/Mini_Air_Djinn.png",
     "Type": 1,
     "Event": false
@@ -83,8 +79,6 @@
   {
     "BossId": 43974,
     "Name": "Conjured Amalgamate",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://plenbot.net/img/amalgamate.png",
     "Type": 1,
     "Event": false
@@ -92,8 +86,6 @@
   {
     "BossId": 17154,
     "Name": "Deimos",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/e/e0/Mini_Ragged_White_Mantle_Figurehead.png",
     "Type": 1,
     "Event": false
@@ -101,8 +93,6 @@
   {
     "BossId": 19450,
     "Name": "Dhuum",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/e/e4/Mini_Dhuum.png",
     "Type": 1,
     "Event": false
@@ -110,17 +100,13 @@
   {
     "BossId": 19536,
     "Name": "Eater of Souls",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/Sd6Az8M.png",
     "Type": 1,
-    "Event": true
+    "Event": false
   },
   {
     "BossId": 16948,
     "Name": "Ensolyss of the Endless Torment",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/GUTNuyP.png",
     "Type": 2,
     "Event": false
@@ -128,26 +114,20 @@
   {
     "BossId": 19844,
     "Name": "Eyes of Fate & Judgement",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/kAgdoa5.png",
     "Type": 1,
-    "Event": true
+    "Event": false
   },
   {
     "BossId": 19651,
     "Name": "Eyes of Judgement & Fate",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/kAgdoa5.png",
     "Type": 1,
-    "Event": true
+    "Event": false
   },
   {
     "BossId": 22492,
     "Name": "Fraenir of Jormag",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://dps.report/cache/https_wiki.guildwars2.com_images_thumb_6_67_Fraenir_of_Jormag.jpg_208px-Fraenir_of_Jormag.jpg",
     "Type": 3,
     "Event": false
@@ -155,8 +135,6 @@
   {
     "BossId": 21333,
     "Name": "Freezie",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://dps.report/cache/https_wiki.guildwars2.com_images_thumb_8_8b_Freezie.jpg_189px-Freezie.jpg",
     "Type": 3,
     "Event": false
@@ -164,8 +142,6 @@
   {
     "BossId": 15429,
     "Name": "Gorseval",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/d/d1/Mini_Gorseval_the_Multifarious.png",
     "Type": 1,
     "Event": false
@@ -173,8 +149,6 @@
   {
     "BossId": 22154,
     "Name": "Icebrood Construct",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/e/e2/Icebrood_Construct.jpg",
     "Type": 3,
     "Event": false
@@ -182,8 +156,6 @@
   {
     "BossId": 16235,
     "Name": "Keep Construct",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Keep_Construct.png",
     "Type": 1,
     "Event": false
@@ -200,8 +172,6 @@
   {
     "BossId": 21105,
     "Name": "Largos Twins",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png",
     "Type": 1,
     "Event": false
@@ -209,8 +179,6 @@
   {
     "BossId": 17021,
     "Name": "M.A.M.A.",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/1h7HOII.png",
     "Type": 2,
     "Event": false
@@ -218,8 +186,6 @@
   {
     "BossId": 16115,
     "Name": "Matthias Gabrel",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/5/5d/Mini_Matthias_Abomination.png",
     "Type": 1,
     "Event": false
@@ -234,10 +200,15 @@
     "Event": false
   },
   {
+    "BossId": 24485,
+    "Name": "Minister Li",
+    "Icon": "https://i.imgur.com/7OutZup.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
     "BossId": 17172,
     "Name": "Mursaat Overseer",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/c/c8/Mini_Mursaat_Overseer.png",
     "Type": 1,
     "Event": false
@@ -245,8 +216,6 @@
   {
     "BossId": 20934,
     "Name": "Qadim",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/f/f2/Mini_Qadim.png",
     "Type": 1,
     "Event": false
@@ -254,8 +223,6 @@
   {
     "BossId": 22000,
     "Name": "Qadim the Peerless",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/8/8b/Mini_Qadim_the_Peerless.png",
     "Type": 1,
     "Event": false
@@ -272,8 +239,6 @@
   {
     "BossId": 15375,
     "Name": "Sabetha the Saboteur",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/5/54/Mini_Sabetha.png",
     "Type": 1,
     "Event": false
@@ -281,8 +246,6 @@
   {
     "BossId": 17188,
     "Name": "Samarog",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/f/f0/Mini_Samarog.png",
     "Type": 1,
     "Event": false
@@ -290,8 +253,6 @@
   {
     "BossId": 17028,
     "Name": "Siax the Corrupted",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/5C60cQb.png",
     "Type": 2,
     "Event": false
@@ -299,8 +260,6 @@
   {
     "BossId": 17632,
     "Name": "Skorvald the Shattered",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://i.imgur.com/IOPAHRE.png",
     "Type": 2,
     "Event": false
@@ -308,8 +267,6 @@
   {
     "BossId": 16123,
     "Name": "Slothasor",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/1/12/Mini_Slothasor.png",
     "Type": 1,
     "Event": false
@@ -317,8 +274,6 @@
   {
     "BossId": 19767,
     "Name": "Soulless Horror",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/d/d4/Mini_Desmina.png",
     "Type": 1,
     "Event": false
@@ -333,6 +288,27 @@
     "Event": false
   },
   {
+    "BossId": 1378,
+    "Name": "The Dragonvoid",
+    "Icon": "https://i.imgur.com/gZRqzlr.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
+    "BossId": 24375,
+    "Name": "The Dragonvoid",
+    "Icon": "https://i.imgur.com/gZRqzlr.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
+    "BossId": 22343,
+    "Name": "The Voice and the Claw of the Fallen",
+    "Icon": "https://i.imgur.com/lNXXbnC.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
     "BossId": 16247,
     "Name": "Twisted Castle",
     "SuccessMsg": "Twisted Castle log: <log>",
@@ -342,28 +318,15 @@
     "Event": true
   },
   {
-    "BossId": 22343,
-    "Name": "The Voice and the Claw of the Fallen",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
-    "Icon": "https://i.imgur.com/lNXXbnC.png",
-    "Type": 3,
-    "Event": false
-  },
-  {
     "BossId": 15438,
     "Name": "Vale Guardian",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/f/fb/Mini_Vale_Guardian.png",
     "Type": 1,
     "Event": false
   },
   {
     "BossId": 22836,
-    "Name": "Varinia Stormsounder (Cold War)",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
+    "Name": "Varinia Stormsounder",
     "Icon": "https://i.imgur.com/r9b2oww.png",
     "Type": 3,
     "Event": false
@@ -371,8 +334,6 @@
   {
     "BossId": 22711,
     "Name": "Whisper of Jormag",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/c/c0/Mini_Whisper_of_Jormag.png",
     "Type": 3,
     "Event": false
@@ -389,8 +350,6 @@
   {
     "BossId": 16246,
     "Name": "Xera",
-    "SuccessMsg": "<boss> kill: <log>",
-    "FailMsg": "<boss> pull: <log> | Current wipes: <pulls>",
     "Icon": "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png",
     "Type": 1,
     "Event": false

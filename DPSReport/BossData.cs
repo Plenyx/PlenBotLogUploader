@@ -101,7 +101,8 @@ namespace PlenBotLogUploader.DPSReport
             var parsedJson = JsonConvert.DeserializeObject<IEnumerable<BossData>>(jsonString)
                              ?? throw new JsonException("Could not parse json to BossData");
 
-            var result = parsedJson.Select(x => (Key: bossCount++, BossData: x))
+            var result = parsedJson
+                .Select(x => (Key: bossCount++, BossData: x))
                 .ToDictionary(x => x.Key, x => x.BossData);
 
             return result;

@@ -87,6 +87,14 @@ namespace PlenBotLogUploader.DPSReport
             var jsonString = reader.ReadToEnd();
 
             _All = BossData.ParseJsonString(jsonString);
+            foreach (var boss in _All)
+            {
+                if ((boss.Value.Type != BossType.Golem) && (boss.Value.Type != BossType.WvW) && !boss.Value.Event)
+                {
+                    boss.Value.SuccessMsg = ApplicationSettings.Current.BossTemplate.SuccessText;
+                    boss.Value.FailMsg = ApplicationSettings.Current.BossTemplate.FailText;
+                }
+            }
             SaveToJson(_All);
 
             return _All;
