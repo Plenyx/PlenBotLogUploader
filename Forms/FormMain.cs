@@ -750,9 +750,16 @@ namespace PlenBotLogUploader
                                     {
                                         var jsonString = await HttpClientController.DownloadFileToStringAsync($"https://dps.report/getJson?permalink={reportJSON.Permalink}");
                                         var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
-                                        reportJSON.ExtraJSON = extraJSON;
-                                        bossId = reportJSON.ExtraJSON.TriggerID;
-                                        lastLogBossCM = reportJSON.ExtraJSON.IsCM;
+                                        if (!(extraJSON is null))
+                                        {
+                                            reportJSON.ExtraJSON = extraJSON;
+                                            bossId = reportJSON.ExtraJSON.TriggerID;
+                                            lastLogBossCM = reportJSON.ExtraJSON.IsCM;
+                                        }
+                                        else
+                                        {
+                                            AddToText(">:> Extra JSON available but couldn't be obtained.");
+                                        }
                                     }
                                     catch
                                     {
