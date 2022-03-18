@@ -307,54 +307,45 @@ namespace PlenBotLogUploader
             httpController?.Dispose();
         }
 
-        private void RadioButtonDX11_CheckedChanged(object sender, EventArgs e)
+        private async void RadioButtonDX11_CheckedChanged(object sender, EventArgs e)
         {
             var toggle = radioButtonDX11.Checked;
-            SwitchRenderMode((toggle) ? GameRenderMode.DX11 : GameRenderMode.DX9);
+            await SwitchRenderMode((toggle) ? GameRenderMode.DX11 : GameRenderMode.DX9);
         }
 
-        private void SwitchRenderMode(GameRenderMode mode)
+        private async Task SwitchRenderMode(GameRenderMode mode)
         {
+            if (ApplicationSettings.Current.ArcUpdate.RenderMode == mode)
+            {
+                return;
+            }
+            var processes = GetGW2Instances();
+            if (processes.Count > 0)
+            {
+                ((mode == GameRenderMode.DX9) ? radioButtonDX11 : radioButtonDX9).Checked = true;
+                MessageBox.Show("Please close Guild Wars 2 in order to switch DirectX versions.", "GW2 is running", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             ApplicationSettings.Current.ArcUpdate.RenderMode = mode;
             checkedListBoxArcDpsPlugins.ItemCheck -= itemCheckHandler;
             checkBoxEnableNotifications.CheckedChanged -= checkChangedHandler;
             checkedListBoxArcDpsPlugins.Items.Clear();
-            var installedComponents = ArcDpsComponent.All;
-            var availableComponents = ArcDpsComponentHelperClass.All;
-            var arcIsInstalled = true;
-            var arcInstalledComponent = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(mode)).Any();
-            if (arcInstalledComponent)
+            foreach (var component in ArcDpsComponentHelperClass.All)
             {
-                var arcdps = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(mode)).First();
-                if (!arcdps.IsInstalled())
-                {
-                    arcIsInstalled = false;
-                    checkBoxModuleEnabled.Checked = false;
-                    ApplicationSettings.Current.GW2Location = "";
-                    ApplicationSettings.Current.Save();
-                }
+                checkedListBoxArcDpsPlugins.Items.Add(component, false);
             }
-            else
+            var existingComponents = ArcDpsComponent.All;
+            foreach (var component in existingComponents)
             {
-                arcIsInstalled = false;
-                checkBoxModuleEnabled.Checked = false;
-                ApplicationSettings.Current.GW2Location = "";
-                ApplicationSettings.Current.Save();
+                File.Delete($"{ApplicationSettings.Current.GW2Location}{component.RelativeLocation}");
             }
-            foreach (var component in availableComponents)
+            ArcDpsComponent.All.Clear();
+            var arcdps = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = ApplicationSettings.Current.ArcUpdate.RenderMode.Equals(GameRenderMode.DX11) ? @"\d3d11.dll" : @"\bin64\d3d9.dll" };
+            if (!arcdps.IsInstalled())
             {
-                var installed = arcIsInstalled && installedComponents.Where(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(mode)).Any();
-                if (installed)
-                {
-                    var installedComponent = installedComponents.Where(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(mode)).First();
-                    if (!installedComponent.IsInstalled())
-                    {
-                        installed = false;
-                        installedComponents.RemoveAll(x => x.Type.Equals(component.Type));
-                    }
-                }
-                checkedListBoxArcDpsPlugins.Items.Add(component, installed);
+                await arcdps.DownloadComponent(httpController);
             }
+            ArcDpsComponent.All.Add(arcdps);
             checkedListBoxArcDpsPlugins.ItemCheck += itemCheckHandler;
             checkBoxEnableNotifications.CheckedChanged += checkChangedHandler;
             ApplicationSettings.Current.Save();
