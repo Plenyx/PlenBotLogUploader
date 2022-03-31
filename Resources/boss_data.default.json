@@ -288,14 +288,7 @@
     "Event": false
   },
   {
-    "BossId": 1378,
-    "Name": "The Dragonvoid",
-    "Icon": "https://i.imgur.com/gZRqzlr.png",
-    "Type": 3,
-    "Event": false
-  },
-  {
-    "BossId": 24375,
+    "BossId": 43488,
     "Name": "The Dragonvoid",
     "Icon": "https://i.imgur.com/gZRqzlr.png",
     "Type": 3,

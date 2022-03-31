@@ -3,7 +3,6 @@
     public enum BossIds
     {
         WvW = 1,
-        TheDragonvoid = 1378,
         Sabetha = 15375,
         Gorseval = 15429,
         ValeGuardian = 15438,
@@ -49,7 +48,7 @@
         Ankka = 23957,
         AetherbladeHideout = 24033,
         MinisterLi = 24485,
-        TheDragonvoidTrigger = 24375,
-        ConjuredAmalgamate = 43974
+        TheDragonvoid = 43488,
+        ConjuredAmalgamate = 43974,
     }
 }
