@@ -35,7 +35,7 @@ namespace PlenBotLogUploader
             teamsLink = new FormWebhookTeams();
             Icon = Properties.Resources.AppIcon;
 
-            allWebhooks = LoadDiscordWebhooks();
+            allWebhooks = DiscordWebhooks.LoadDiscordWebhooks();
 
             webhookIdsKey = allWebhooks.Count;
 
@@ -463,29 +463,6 @@ namespace PlenBotLogUploader
                 {
                     mainLink.AddToText(">:> Unable to execute active webhooks.");
                 }
-            }
-        }
-
-        private IDictionary<int, DiscordWebhookData> LoadDiscordWebhooks()
-        {
-            try
-            {
-                if (File.Exists(DiscordWebhooks.TxtFileLocation))
-                {
-                    var webhooks = DiscordWebhooks.FromTxtFile(DiscordWebhooks.TxtFileLocation);
-                    DiscordWebhooks.SaveToJson(webhooks, DiscordWebhooks.JsonFileLocation);
-                    File.Move(DiscordWebhooks.TxtFileLocation, DiscordWebhooks.MigratedTxtFileLocation);
-                    return webhooks;
-                }
-                else if (File.Exists(DiscordWebhooks.JsonFileLocation))
-                {
-                    return DiscordWebhooks.FromJsonFile(DiscordWebhooks.JsonFileLocation);
-                }
-                return new Dictionary<int, DiscordWebhookData>();
-            }
-            catch
-            {
-                return new Dictionary<int, DiscordWebhookData>();
             }
         }
 

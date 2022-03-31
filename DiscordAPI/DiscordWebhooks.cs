@@ -17,14 +17,9 @@ namespace PlenBotLogUploader.DiscordAPI
         /// Returns the main dictionary with all webhooks.
         /// </summary>
         /// <returns>A dictionary with all webhooks</returns>
-        public static IDictionary<int, DiscordWebhookData> All => _All ?? (_All = new Dictionary<int, DiscordWebhookData>());
+        public static IDictionary<int, DiscordWebhookData> All => _All ??= new Dictionary<int, DiscordWebhookData>();
 
-        /// <summary>
-        /// Loads all webhooks from a specified file.
-        /// </summary>
-        /// <param name="file">The file from which the webhooks are loaded from</param>
-        /// <returns>A dictionary with all webhooks</returns>
-        public static IDictionary<int, DiscordWebhookData> FromTxtFile(string file)
+        private static IDictionary<int, DiscordWebhookData> FromTxtFile(string file)
         {
             var allWebhooks = new Dictionary<int, DiscordWebhookData>();
             if (allWebhooks.Count > 0)
@@ -43,7 +38,7 @@ namespace PlenBotLogUploader.DiscordAPI
             return allWebhooks;
         }
 
-        public static IDictionary<int, DiscordWebhookData> FromJsonFile(string filePath)
+        private static IDictionary<int, DiscordWebhookData> FromJsonFile(string filePath)
         {
             var jsonData = File.ReadAllText(filePath);
 
@@ -57,6 +52,30 @@ namespace PlenBotLogUploader.DiscordAPI
             var jsonString = JsonConvert.SerializeObject(webhookData.Values, Formatting.Indented);
 
             File.WriteAllText(filePath, jsonString, Encoding.UTF8);
+        }
+
+        public static IDictionary<int, DiscordWebhookData> LoadDiscordWebhooks()
+        {
+            try
+            {
+                if (File.Exists(TxtFileLocation))
+                {
+                    var webhooks = FromTxtFile(TxtFileLocation);
+                    SaveToJson(webhooks, JsonFileLocation);
+                    File.Move(TxtFileLocation, MigratedTxtFileLocation);
+                    _All = webhooks;
+                    return All;
+                }
+                else if (File.Exists(JsonFileLocation))
+                {
+                    return FromJsonFile(JsonFileLocation);
+                }
+                return All;
+            }
+            catch
+            {
+                return All;
+            }
         }
     }
 }
