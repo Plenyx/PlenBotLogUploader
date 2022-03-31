@@ -62,7 +62,7 @@ namespace PlenBotLogUploader.DiscordAPI
             {
                 var response = await httpController.DownloadFileToStringAsync(URL);
                 var pingTest = JsonConvert.DeserializeObject<DiscordAPIJSONWebhookResponse>(response);
-                return pingTest.Success;
+                return pingTest?.Success ?? false;
             }
             catch
             {
