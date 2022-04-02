@@ -17,7 +17,7 @@ The uploader will create a file called "uploaded_logs.csv" which will contain al
 
 For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username "gw2loguploader". Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
 
-If you are using the uploader with Twitch integration, you can customise bot messages in the "Edit boss data" dialog window. Settings are saved in "boss_data.txt" file.
+If you are using the uploader with Twitch integration, you can customise bot messages in the "Edit boss data" dialog window. Settings are saved in "boss_data.json" file.
 
 I recommend using the compress feature in the arcdps log settings. Otherwise the bot will try to archive it itself, which delays log uploads.
 
@@ -32,11 +32,11 @@ To remove all application settings, remove the "PlenBotLogUploader.exe_Url_xxx" 
 
 To remove all the saved logs, remove the "uploaded_logs.csv" file located in the directory of the executable.
 
-To remove all the saved boss data, remove the "boss_data.txt" file located in the directory of the executable.
+To remove all the saved boss data, remove the "boss_data.json" file located in the directory of the executable.
 
-To remove all the saved Discord webhooks, remove the "discord_webhooks.txt" file located in the directory of the executable.
+To remove all the saved Discord webhooks, remove the "discord_webhooks.json" file located in the directory of the executable.
 
-To remove all the saved remote server ping configurations, remove the "remote_pings.txt" file located in the directory of the executable.
+To remove all the saved remote server ping configurations, remove the "remote_pings.json" file located in the directory of the executable.
 
 To fully remove all the saved settings in the registry, use the enclosed "ResetSettings.reg" file in the release tab.
 
@@ -53,8 +53,9 @@ To fully remove all the saved settings in the registry, use the enclosed "ResetS
 * Twitch integration
   * pinging links to Twitch chat with customisable messages
   * custom name for the Twitch chat bot, otherwise "gw2loguploader" is being used
+* Aleeva & GW2Bot integration
 * update reminder & automatic update install
-* arcdps auto-updater
+* arcdps auto-updater and plugin manager
 
 ## Future updates
 I plan to finish the following features:
