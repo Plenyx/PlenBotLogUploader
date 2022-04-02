@@ -129,7 +129,9 @@ namespace PlenBotLogUploader.DPSReport
                 case (int)BossIds.Sabetha:
                     return 1;
                 case (int)BossIds.Slothasor:
-                case (int)BossIds.BanditTrio:
+                case (int)BossIds.BanditTrioBerg:
+                case (int)BossIds.BanditTrioZane:
+                case (int)BossIds.BanditTrioNarella:
                 case (int)BossIds.Matthias:
                     return 2;
                 case (int)BossIds.KeepConstruct:
@@ -179,7 +181,9 @@ namespace PlenBotLogUploader.DPSReport
                 case (int)BossIds.CardinalAdina:
                     return 1;
                 case (int)BossIds.Gorseval:
-                case (int)BossIds.BanditTrio:
+                case (int)BossIds.BanditTrioBerg:
+                case (int)BossIds.BanditTrioZane:
+                case (int)BossIds.BanditTrioNarella:
                 case (int)BossIds.KeepConstruct:
                 case (int)BossIds.MursaatOverseer:
                 case (int)BossIds.RiverOfSouls:

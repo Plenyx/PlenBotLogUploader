@@ -42,6 +42,20 @@
     "Event": false
   },
   {
+    "BossId": 16137,
+    "Name": "Bandit Trio",
+    "Icon": "https://i.imgur.com/UZZQUdf.png",
+    "Type": 1,
+    "Event": false
+  },
+  {
+    "BossId": 16125,
+    "Name": "Bandit Trio",
+    "Icon": "https://i.imgur.com/UZZQUdf.png",
+    "Type": 1,
+    "Event": false
+  },
+  {
     "BossId": 22521,
     "Name": "Boneskinner",
     "Icon": "https://i.imgur.com/meYwQmA.png",
