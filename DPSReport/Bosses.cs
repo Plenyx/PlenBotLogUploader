@@ -152,7 +152,8 @@ namespace PlenBotLogUploader.DPSReport
                 case (int)BossIds.Dhuum:
                     return 5;
                 case (int)BossIds.ConjuredAmalgamate:
-                case (int)BossIds.LargosTwins:
+                case (int)BossIds.LargosTwinsKenut:
+                case (int)BossIds.LargosTwinsNikare:
                 case (int)BossIds.Qadim:
                     return 6;
                 case (int)BossIds.CardinalAdina:
@@ -182,12 +183,13 @@ namespace PlenBotLogUploader.DPSReport
                     return 1;
                 case (int)BossIds.Gorseval:
                 case (int)BossIds.BanditTrioBerg:
-                case (int)BossIds.BanditTrioZane:
                 case (int)BossIds.BanditTrioNarella:
+                case (int)BossIds.BanditTrioZane:
                 case (int)BossIds.KeepConstruct:
                 case (int)BossIds.MursaatOverseer:
                 case (int)BossIds.RiverOfSouls:
-                case (int)BossIds.LargosTwins:
+                case (int)BossIds.LargosTwinsKenut:
+                case (int)BossIds.LargosTwinsNikare:
                 case (int)BossIds.CardinalSabir:
                     return 2;
                 case (int)BossIds.Matthias:

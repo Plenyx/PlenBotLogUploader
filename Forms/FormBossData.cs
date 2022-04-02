@@ -30,7 +30,7 @@ namespace PlenBotLogUploader
             
             foreach (var boss in allBosses)
             {
-                listViewBosses.Items.Add(new ListViewItem { Name = boss.Key.ToString(), Text = boss.Value.Name });
+                listViewBosses.Items.Add(new ListViewItem() { Name = boss.Key.ToString(), Text = boss.Value.UIName });
             }
         }
 
@@ -62,7 +62,7 @@ namespace PlenBotLogUploader
                 bossesIdsKey = allBosses.Count;
                 foreach (var bossEntry in allBosses)
                 {
-                    listViewBosses.Items.Add(new ListViewItem() { Name = bossEntry.Key.ToString(), Text = bossEntry.Value.Name });
+                    listViewBosses.Items.Add(new ListViewItem() { Name = bossEntry.Key.ToString(), Text = bossEntry.Value.UIName });
                 }
             }
         }

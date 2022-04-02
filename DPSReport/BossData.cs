@@ -9,6 +9,7 @@ namespace PlenBotLogUploader.DPSReport
     /// <summary>
     /// An object holding boss information
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class BossData
     {
         /// <summary>
@@ -22,6 +23,12 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Internal description of the boss, only visible in the Uploader app
+        /// </summary>
+        [JsonProperty("internalDescription")]
+        public string InternalDescription { get; set; } = "";
 
         /// <summary>
         /// Twitch message when encounter is a success
@@ -52,6 +59,17 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         [JsonProperty("isEvent")]
         public bool Event { get; set; } = false;
+
+        /// <summary>
+        /// Returns the name the object is using in the Uploader UI
+        /// </summary>
+        public string UIName
+        {
+            get
+            {
+                return $"{Name}{(!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : "")}";
+            }
+        }
 
         /// <summary>
         /// Formats Twitch message based on the DPSReport's JSON response.

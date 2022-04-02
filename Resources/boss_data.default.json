@@ -37,13 +37,7 @@
   {
     "BossId": 16088,
     "Name": "Bandit Trio",
-    "Icon": "https://i.imgur.com/UZZQUdf.png",
-    "Type": 1,
-    "Event": false
-  },
-  {
-    "BossId": 16137,
-    "Name": "Bandit Trio",
+    "InternalDescription": "Berg",
     "Icon": "https://i.imgur.com/UZZQUdf.png",
     "Type": 1,
     "Event": false
@@ -51,6 +45,15 @@
   {
     "BossId": 16125,
     "Name": "Bandit Trio",
+    "InternalDescription": "Narella",
+    "Icon": "https://i.imgur.com/UZZQUdf.png",
+    "Type": 1,
+    "Event": false
+  },
+  {
+    "BossId": 16137,
+    "Name": "Bandit Trio",
+    "InternalDescription": "Zane",
     "Icon": "https://i.imgur.com/UZZQUdf.png",
     "Type": 1,
     "Event": false
@@ -128,6 +131,7 @@
   {
     "BossId": 19844,
     "Name": "Eyes of Fate & Judgement",
+    "InternalDescription": "Fate",
     "Icon": "https://i.imgur.com/kAgdoa5.png",
     "Type": 1,
     "Event": false
@@ -135,6 +139,7 @@
   {
     "BossId": 19651,
     "Name": "Eyes of Judgement & Fate",
+    "InternalDescription": "Judgement",
     "Icon": "https://i.imgur.com/kAgdoa5.png",
     "Type": 1,
     "Event": false
@@ -184,8 +189,17 @@
     "Event": false
   },
   {
+    "BossId": 21089,
+    "Name": "Largos Twins",
+    "InternalDescription": "Kenut",
+    "Icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png",
+    "Type": 1,
+    "Event": false
+  },
+  {
     "BossId": 21105,
     "Name": "Largos Twins",
+    "InternalDescription": "Nikare",
     "Icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png",
     "Type": 1,
     "Event": false
