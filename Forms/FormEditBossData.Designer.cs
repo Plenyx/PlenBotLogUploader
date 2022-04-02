@@ -39,6 +39,7 @@
             this.labelId = new System.Windows.Forms.Label();
             this.labelBossName = new System.Windows.Forms.Label();
             this.groupBoxCrucial = new System.Windows.Forms.GroupBox();
+            this.labelBossInternalDescription = new System.Windows.Forms.Label();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.labelWPulls = new System.Windows.Forms.Label();
             this.labelWLog = new System.Windows.Forms.Label();
@@ -52,6 +53,7 @@
             this.radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeNone = new System.Windows.Forms.RadioButton();
+            this.textBoxInternalDescription = new System.Windows.Forms.TextBox();
             this.groupBoxCrucial.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.groupBoxBossType.SuspendLayout();
@@ -139,16 +141,27 @@
             // 
             // groupBoxCrucial
             // 
+            this.groupBoxCrucial.Controls.Add(this.textBoxInternalDescription);
+            this.groupBoxCrucial.Controls.Add(this.labelBossInternalDescription);
             this.groupBoxCrucial.Controls.Add(this.textBoxBossName);
             this.groupBoxCrucial.Controls.Add(this.labelBossName);
             this.groupBoxCrucial.Controls.Add(this.textBoxBossID);
             this.groupBoxCrucial.Controls.Add(this.labelId);
             this.groupBoxCrucial.Location = new System.Drawing.Point(12, 12);
             this.groupBoxCrucial.Name = "groupBoxCrucial";
-            this.groupBoxCrucial.Size = new System.Drawing.Size(380, 102);
+            this.groupBoxCrucial.Size = new System.Drawing.Size(380, 140);
             this.groupBoxCrucial.TabIndex = 10;
             this.groupBoxCrucial.TabStop = false;
             this.groupBoxCrucial.Text = "Boss data (beware of changing these)";
+            // 
+            // labelBossInternalDescription
+            // 
+            this.labelBossInternalDescription.AutoSize = true;
+            this.labelBossInternalDescription.Location = new System.Drawing.Point(3, 97);
+            this.labelBossInternalDescription.Name = "labelBossInternalDescription";
+            this.labelBossInternalDescription.Size = new System.Drawing.Size(248, 13);
+            this.labelBossInternalDescription.TabIndex = 10;
+            this.labelBossInternalDescription.Text = "UI only description (will appear in [ ] in the boss list):";
             // 
             // groupBoxOtherSettings
             // 
@@ -162,7 +175,7 @@
             this.groupBoxOtherSettings.Controls.Add(this.labelFailMsg);
             this.groupBoxOtherSettings.Controls.Add(this.textBoxIcon);
             this.groupBoxOtherSettings.Controls.Add(this.textBoxFailMsg);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(12, 189);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(13, 227);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
             this.groupBoxOtherSettings.Size = new System.Drawing.Size(379, 186);
             this.groupBoxOtherSettings.TabIndex = 11;
@@ -214,7 +227,7 @@
             this.groupBoxBossType.Controls.Add(this.radioButtonTypeFractal);
             this.groupBoxBossType.Controls.Add(this.radioButtonTypeRaid);
             this.groupBoxBossType.Controls.Add(this.radioButtonTypeNone);
-            this.groupBoxBossType.Location = new System.Drawing.Point(12, 120);
+            this.groupBoxBossType.Location = new System.Drawing.Point(13, 158);
             this.groupBoxBossType.Name = "groupBoxBossType";
             this.groupBoxBossType.Size = new System.Drawing.Size(379, 63);
             this.groupBoxBossType.TabIndex = 12;
@@ -301,12 +314,19 @@
             this.radioButtonTypeNone.UseVisualStyleBackColor = true;
             this.radioButtonTypeNone.CheckedChanged += new System.EventHandler(this.RadioButtonTypeNone_CheckedChanged);
             // 
+            // textBoxInternalDescription
+            // 
+            this.textBoxInternalDescription.Location = new System.Drawing.Point(6, 113);
+            this.textBoxInternalDescription.Name = "textBoxInternalDescription";
+            this.textBoxInternalDescription.Size = new System.Drawing.Size(366, 20);
+            this.textBoxInternalDescription.TabIndex = 11;
+            // 
             // FormEditBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(403, 384);
+            this.ClientSize = new System.Drawing.Size(403, 420);
             this.Controls.Add(this.groupBoxBossType);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxCrucial);
@@ -353,5 +373,7 @@
         private System.Windows.Forms.Label labelWLog;
         private System.Windows.Forms.Label labelWBoss;
         private System.Windows.Forms.Label labelAvailableWildcards;
+        private System.Windows.Forms.Label labelBossInternalDescription;
+        private System.Windows.Forms.TextBox textBoxInternalDescription;
     }
 }
