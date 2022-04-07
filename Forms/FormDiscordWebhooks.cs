@@ -184,7 +184,7 @@ namespace PlenBotLogUploader
                     // damage summary
                     var damageStats = reportJSON.ExtraJSON.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
-                        .OrderByDescending(x => x.DpsAll.First().Damage)
+                        .OrderByDescending(x => x.DpsTargets.Sum(y => y.First().Damage))
                         .Take(10)
                         .ToList();
                     var damageSummary = new TextTable(4, tableStyle, tableBorders);
@@ -202,8 +202,8 @@ namespace PlenBotLogUploader
                         rank++;
                         damageSummary.AddCell($"{rank}", tableCellCenterAlign);
                         damageSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                        damageSummary.AddCell($"{player.DpsAll.First().Damage.ParseAsK()}", tableCellRightAlign);
-                        damageSummary.AddCell($"{player.DpsAll.First().DPS.ParseAsK()}", tableCellRightAlign);
+                        damageSummary.AddCell($"{player.DpsTargets.Sum(y => y.First().Damage).ParseAsK()}", tableCellRightAlign);
+                        damageSummary.AddCell($"{player.DpsTargets.Sum(y => y.First().DPS).ParseAsK()}", tableCellRightAlign);
                     }
                     var damageField = new DiscordAPIJSONContentEmbedField()
                     {
