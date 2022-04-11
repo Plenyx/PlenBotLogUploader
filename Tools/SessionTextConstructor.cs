@@ -342,7 +342,7 @@ namespace PlenBotLogUploader.Tools
                     var totalEnemyKills = WvWLogs.Select(x =>
                         x.ExtraJSON?.Players
                             .Where(y => !y.FriendNPC && !y.NotInSquad)
-                            .Select(y => y.StatsAll.First().Killed)
+                            .Select(y => y.StatsTargets.Select(z => z.First().Killed).Sum())
                             .Sum()
                         ?? 0)
                     .Sum();

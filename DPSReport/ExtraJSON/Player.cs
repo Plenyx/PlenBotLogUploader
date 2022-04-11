@@ -40,6 +40,9 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
         [JsonProperty("dpsTargets")]
         public List<List<DpsTarget>> DpsTargets { get; set; }
 
+        [JsonProperty("statsTargets")]
+        public List<List<StatsTarget>> StatsTargets { get; set; }
+
         [JsonProperty("statsAll")]
         public List<StatsAll> StatsAll { get; set; }
 
