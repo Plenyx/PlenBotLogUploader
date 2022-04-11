@@ -184,6 +184,7 @@ namespace PlenBotLogUploader
                     // damage summary
                     var damageStats = reportJSON.ExtraJSON.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
+                        .Where(x => x.DpsTargets.Sum(y => y.First().Damage) > 0)
                         .OrderByDescending(x => x.DpsTargets.Sum(y => y.First().Damage))
                         .Take(10)
                         .ToList();
