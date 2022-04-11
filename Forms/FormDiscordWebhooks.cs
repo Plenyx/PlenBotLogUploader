@@ -98,11 +98,11 @@ namespace PlenBotLogUploader
                         .Count();
                     var squadDamage = reportJSON.ExtraJSON.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
-                        .Select(x => x.DpsAll.First().Damage)
+                        .Select(x => x.DpsTargets.Sum(y => y.Sum(z => z.Damage)))
                         .Sum();
                     var squadDps = reportJSON.ExtraJSON.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
-                        .Select(x => x.DpsAll.First().DPS)
+                        .Select(x => x.DpsTargets.Sum(y => y.Sum(z => z.DPS)))
                         .Sum();
                     var squadDowns = reportJSON.ExtraJSON.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
@@ -144,20 +144,20 @@ namespace PlenBotLogUploader
                         var enemyPlayers = reportJSON.ExtraJSON.Targets
                             .Count() - 1;
                         var enemyDamage = reportJSON.ExtraJSON.Targets
-                            .Where(x => !x.Name.Equals("Dummy WvW Agent"))
+                            .Where(x => !x.IsFake)
                             .Select(x => x.DpsAll.First().Damage)
                             .Sum();
                         var enemyDps = reportJSON.ExtraJSON.Targets
-                            .Where(x => !x.Name.Equals("Dummy WvW Agent"))
+                            .Where(x => !x.IsFake)
                             .Select(x => x.DpsAll.First().DPS)
                             .Sum();
                         var enemyDowns = reportJSON.ExtraJSON.Players
                             .Where(x => !x.FriendNPC && !x.NotInSquad)
-                            .Select(x => x.StatsAll.First().Downed)
+                            .Select(x => x.StatsTargets.Select(y => y.First().Downed).Sum())
                             .Sum();
                         var enemyDeaths = reportJSON.ExtraJSON.Players
                             .Where(x => !x.FriendNPC && !x.NotInSquad)
-                            .Select(x => x.StatsAll.First().Killed)
+                            .Select(x => x.StatsTargets.Select(y => y.First().Killed).Sum())
                             .Sum();
                         var enemySummary = new TextTable(5, tableStyle, tableBorders);
                         enemySummary.SetColumnWidthRange(0, 3, 3);
