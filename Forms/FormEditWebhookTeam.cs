@@ -50,7 +50,7 @@ namespace PlenBotLogUploader
         {
             if (!string.IsNullOrWhiteSpace(textBoxName.Text.Trim()))
             {
-                var limiterToggle = WebhookTeamLimiter.Min;
+                var limiterToggle = WebhookTeamLimiter.AtLeast;
                 if (radioButtonLimiterExact.Checked)
                 {
                     limiterToggle = WebhookTeamLimiter.Exact;
