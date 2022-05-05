@@ -863,18 +863,12 @@ namespace PlenBotLogUploader
                         await Task.Run(async () =>
                         {
                             var delay = 0;
-                            switch (recentUploadFailCounter)
+                            delay = recentUploadFailCounter switch
                             {
-                                case 3:
-                                    delay = 45000;
-                                    break;
-                                case 2:
-                                    delay = 15000;
-                                    break;
-                                default:
-                                    delay = 3000;
-                                    break;
-                            }
+                                3 => 45000,
+                                2 => 15000,
+                                _ => 3000,
+                            };
                             AddToText($">:> Retrying in {(delay / 1000)}s...");
                             await Task.Delay(delay);
                             await HttpUploadLogAsync(file, postData, bypassMessage);

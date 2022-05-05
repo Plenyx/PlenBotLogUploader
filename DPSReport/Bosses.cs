@@ -16,34 +16,14 @@ namespace PlenBotLogUploader.DPSReport
         public static string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.json";
         public static string TxtFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.txt";
         public static string MigratedTxtFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data-migrated.txt";
-        
-        private static IDictionary<int, BossData> _All { get; set; }
+
+        private static IDictionary<int, BossData> _all;
 
         /// <summary>
         /// Returns the main dictionary with all encounters.
         /// </summary>
         /// <returns>A dictionary with all encounters</returns>
-        public static IDictionary<int, BossData> All => _All ??= new Dictionary<int, BossData>();
-
-        /// <summary>
-        /// Loads all bosses' data from a specified file.
-        /// </summary>
-        /// <param name="file">The file from which the bosses are loaded from</param>
-        /// <returns>A dictionary with all encounters</returns>
-        public static IDictionary<int, BossData> FromTxtFile(string file)
-        {
-            var allBosses = new Dictionary<int, BossData>();
-
-            using var reader = new StreamReader(file);
-            var line = reader.ReadLine(); // skip the first line
-            while (!((line = reader.ReadLine()) is null))
-            {
-                allBosses.Add(allBosses.Count + 1, BossData.FromSavedFormat(line));
-            }
-
-            _All = allBosses;
-            return allBosses;
-        }
+        public static IDictionary<int, BossData> All => _all ??= new Dictionary<int, BossData>();
 
         /// <summary>
         /// Loads BossData from specified json file.
@@ -54,9 +34,9 @@ namespace PlenBotLogUploader.DPSReport
         {
             var jsonData = File.ReadAllText(filePath);
 
-            _All = BossData.ParseJsonString(jsonData);
+            _all = BossData.ParseJsonString(jsonData);
 
-            return _All;
+            return _all;
         }
 
         /// <summary>
@@ -84,8 +64,8 @@ namespace PlenBotLogUploader.DPSReport
             using var reader = new StreamReader(stream);
             var jsonString = reader.ReadToEnd();
 
-            _All = BossData.ParseJsonString(jsonString);
-            foreach (var boss in _All)
+            _all = BossData.ParseJsonString(jsonString);
+            foreach (var boss in _all)
             {
                 if ((boss.Value.Type != BossType.Golem) && (boss.Value.Type != BossType.WvW) && !boss.Value.Event)
                 {
@@ -93,9 +73,9 @@ namespace PlenBotLogUploader.DPSReport
                     boss.Value.FailMsg = ApplicationSettings.Current.BossTemplate.FailText;
                 }
             }
-            SaveToJson(_All);
+            SaveToJson(_all);
 
-            return _All;
+            return _all;
         }
 
         /// <summary>
@@ -221,25 +201,17 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>wing name</returns>
         public static string GetWingName(int wingNumber)
         {
-            switch (wingNumber)
+            return wingNumber switch
             {
-                case 1:
-                    return "Spirit Vale";
-                case 2:
-                    return "Salvation Pass";
-                case 3:
-                    return "Stronghold of the Faithful";
-                case 4:
-                    return "Bastion of the Penitent";
-                case 5:
-                    return "Hall of Chains";
-                case 6:
-                    return "Mythwright Gambit";
-                case 7:
-                    return "The Key of Ahdashim";
-                default:
-                    return "Unknown wing";
-            }
+                1 => "Spirit Vale",
+                2 => "Salvation Pass",
+                3 => "Stronghold of the Faithful",
+                4 => "Bastion of the Penitent",
+                5 => "Hall of Chains",
+                6 => "Mythwright Gambit",
+                7 => "The Key of Ahdashim",
+                _ => "Unknown wing",
+            };
         }
     }
 }

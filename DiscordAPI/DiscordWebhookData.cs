@@ -77,59 +77,6 @@ namespace PlenBotLogUploader.DiscordAPI
         /// <returns></returns>
         public bool IsBossEnabled(int bossId) => !BossesDisable.Contains(bossId);
 
-        /// <summary>
-        /// Creates an DiscordWebhookData object from a serialised format.
-        /// </summary>
-        /// <param name="savedFormat">string representing the object</param>
-        /// <returns>deserilised object of DiscordWebhookData type</returns>
-        public static DiscordWebhookData FromSavedFormat(string serialisedFormat)
-        {
-            try
-            {
-                var values = serialisedFormat.Split(new string[] { "<;>" }, StringSplitOptions.None);
-                int.TryParse(values[0], out int active);
-                int.TryParse(values[3], out int successFailToggle);
-                int.TryParse(values[4], out int showPlayers);
-                var bossesDisableList = new List<int>();
-                var team = WebhookTeams.All.Values.First();
-                if (values.Count() > 5)
-                {
-                    var bossesDisable = values[5];
-                    var bossesDisableSplit = bossesDisable.Split(';');
-                    foreach (var bossIdString in bossesDisableSplit)
-                    {
-                        if (int.TryParse(bossIdString, out int bossId))
-                        {
-                            bossesDisableList.Add(bossId);
-                        }
-                    }
-                    if (values.Count() > 6)
-                    {
-                        int.TryParse(values[6], out int teamId);
-                        var allTeams = WebhookTeams.All;
-                        if (allTeams.TryGetValue(teamId, out WebhookTeam newTeam))
-                        {
-                            team = newTeam;
-                        }
-                    }
-                }
-                return new DiscordWebhookData()
-                {
-                    Active = active == 1,
-                    Name = values[1],
-                    URL = values[2],
-                    SuccessFailToggle = (DiscordWebhookDataSuccessToggle)successFailToggle,
-                    ShowPlayers = showPlayers == 1,
-                    BossesDisable = bossesDisableList,
-                    Team = team
-                };
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-
         public static IDictionary<int, DiscordWebhookData> FromJsonString(string jsonString)
         {
             var webhookId = 1;

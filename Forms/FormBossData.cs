@@ -120,14 +120,7 @@ namespace PlenBotLogUploader
         {
             try
             {
-                if (File.Exists(Bosses.TxtFileLocation))
-                {
-                    var bossData = Bosses.FromTxtFile(Bosses.TxtFileLocation);
-                    Bosses.SaveToJson(bossData);
-                    File.Move(Bosses.TxtFileLocation, Bosses.MigratedTxtFileLocation);
-                    return bossData;
-                }
-                else if (File.Exists(Bosses.JsonFileLocation))
+                if (File.Exists(Bosses.JsonFileLocation))
                 {
                     return Bosses.FromJsonFile($@"{ApplicationSettings.LocalDir}\boss_data.json");
                 }

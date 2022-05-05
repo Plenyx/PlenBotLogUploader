@@ -19,25 +19,6 @@ namespace PlenBotLogUploader.DiscordAPI
         /// <returns>A dictionary with all webhooks</returns>
         public static IDictionary<int, DiscordWebhookData> All => _All ??= new Dictionary<int, DiscordWebhookData>();
 
-        private static IDictionary<int, DiscordWebhookData> FromTxtFile(string file)
-        {
-            var allWebhooks = new Dictionary<int, DiscordWebhookData>();
-            if (allWebhooks.Count > 0)
-            {
-                allWebhooks.Clear();
-            }
-
-            using var reader = new StreamReader(file);
-            var line = reader.ReadLine(); // skip the first line
-            while (!((line = reader.ReadLine()) is null))
-            {
-                allWebhooks.Add(allWebhooks.Count + 1, DiscordWebhookData.FromSavedFormat(line));
-            }
-
-            _All = allWebhooks;
-            return allWebhooks;
-        }
-
         private static IDictionary<int, DiscordWebhookData> FromJsonFile(string filePath)
         {
             var jsonData = File.ReadAllText(filePath);
@@ -58,15 +39,7 @@ namespace PlenBotLogUploader.DiscordAPI
         {
             try
             {
-                if (File.Exists(TxtFileLocation))
-                {
-                    var webhooks = FromTxtFile(TxtFileLocation);
-                    SaveToJson(webhooks, JsonFileLocation);
-                    File.Move(TxtFileLocation, MigratedTxtFileLocation);
-                    _All = webhooks;
-                    return All;
-                }
-                else if (File.Exists(JsonFileLocation))
+                if (File.Exists(JsonFileLocation))
                 {
                     return FromJsonFile(JsonFileLocation);
                 }
