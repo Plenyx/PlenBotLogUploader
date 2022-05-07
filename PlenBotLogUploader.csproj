@@ -214,11 +214,17 @@
     <Compile Include="Forms\FormEditDiscordWebhook.Designer.cs">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormEditWebhookTeam.cs">
+    <Compile Include="Forms\FormEditTeam.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormEditWebhookTeam.Designer.cs">
-      <DependentUpon>FormEditWebhookTeam.cs</DependentUpon>
+    <Compile Include="Forms\FormEditTeam.Designer.cs">
+      <DependentUpon>FormEditTeam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormEditTeamCondition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEditTeamCondition.Designer.cs">
+      <DependentUpon>FormEditTeamCondition.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormGW2API.cs">
       <SubType>Form</SubType>
@@ -280,11 +286,11 @@
     <Compile Include="Forms\FormTwitchCommands.Designer.cs">
       <DependentUpon>FormTwitchCommands.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormWebhookTeams.cs">
+    <Compile Include="Forms\FormTeams.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormWebhookTeams.Designer.cs">
-      <DependentUpon>FormWebhookTeams.cs</DependentUpon>
+    <Compile Include="Forms\FormTeams.Designer.cs">
+      <DependentUpon>FormTeams.cs</DependentUpon>
     </Compile>
     <Compile Include="GitHub\GitHubReleasesLatest.cs" />
     <Compile Include="GitHub\GitHubReleasesLatestAsset.cs" />
@@ -297,9 +303,10 @@
     <Compile Include="RemotePing\PingAuthentication.cs" />
     <Compile Include="RemotePing\PingConfiguration.cs" />
     <Compile Include="RemotePing\PingMethod.cs" />
-    <Compile Include="Teams\WebhookTeam.cs" />
-    <Compile Include="Teams\WebhookTeamLimiter.cs" />
-    <Compile Include="Teams\WebhookTeams.cs" />
+    <Compile Include="Teams\Team.cs" />
+    <Compile Include="Teams\TeamCondition.cs" />
+    <Compile Include="Teams\TeamLimiter.cs" />
+    <Compile Include="Teams\Teams.cs" />
     <Compile Include="AppSettings\ApplicationSettings.cs" />
     <Compile Include="AppSettings\ApplicationSettingsTwitch.cs" />
     <Compile Include="Tools\BossesDisableHelperClass.cs" />
@@ -314,63 +321,87 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\FormAleeva.resx">
       <DependentUpon>FormAleeva.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormArcPluginInfo.resx">
       <DependentUpon>FormArcPluginInfo.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormArcPluginManager.resx">
       <DependentUpon>FormArcPluginManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormCustomName.resx">
       <DependentUpon>FormCustomName.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormDiscordWebhooks.resx">
       <DependentUpon>FormDiscordWebhooks.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormDPSReportSettings.resx">
       <DependentUpon>FormDPSReportSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditBossData.resx">
       <DependentUpon>FormEditBossData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditDiscordWebhook.resx">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormEditWebhookTeam.resx">
-      <DependentUpon>FormEditWebhookTeam.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FormEditTeam.resx">
+      <DependentUpon>FormEditTeam.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEditTeamCondition.resx">
+      <DependentUpon>FormEditTeamCondition.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormGW2API.resx">
       <DependentUpon>FormGW2API.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormGW2Bot.resx">
       <DependentUpon>FormGW2Bot.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormLogSession.resx">
       <DependentUpon>FormLogSession.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPings.resx">
       <DependentUpon>FormPings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormBossData.resx">
       <DependentUpon>FormBossData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormTemplateBossData.resx">
       <DependentUpon>FormTemplateBossData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormTwitchCommands.resx">
       <DependentUpon>FormTwitchCommands.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormTwitchNameSetup.resx">
       <DependentUpon>FormTwitchNameSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditPing.resx">
       <DependentUpon>FormEditPing.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormWebhookTeams.resx">
-      <DependentUpon>FormWebhookTeams.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FormTeams.resx">
+      <DependentUpon>FormTeams.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

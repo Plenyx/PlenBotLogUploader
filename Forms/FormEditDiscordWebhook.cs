@@ -26,8 +26,8 @@ namespace PlenBotLogUploader
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             Text = (data is null) ? "Add a new webhook" : "Edit an existing webhook";
-            textBoxName.Text = data?.Name ?? "";
-            textBoxUrl.Text = data?.URL ?? "";
+            textBoxName.Text = data?.Name ?? string.Empty;
+            textBoxUrl.Text = data?.URL ?? string.Empty;
             switch (data?.SuccessFailToggle ?? DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)
             {
                 case DiscordWebhookDataSuccessToggle.OnSuccessOnly:
@@ -46,12 +46,12 @@ namespace PlenBotLogUploader
                 .OrderBy(x => x.Value.Type)
                 .ThenBy(x => x.Value.Name)
                 .ToDictionary(x => x.Key, x => x.Value);
-            var teams = WebhookTeams.All;
+            var teams = Teams.Teams.All;
             foreach (var team in teams.Values)
             {
-                comboBoxWebhookTeam.Items.Add(team);
+                comboBoxTeam.Items.Add(team);
             }
-            comboBoxWebhookTeam.SelectedItem = data?.Team ?? teams[0];
+            comboBoxTeam.SelectedItem = data?.Team ?? teams[0];
             foreach (var bossNumber in bosses.Keys)
             {
                 checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass() { BossID = bosses[bossNumber].BossId, Text = $"{bosses[bossNumber].Type}: {bosses[bossNumber].Name} ({bosses[bossNumber].BossId})" }, data?.IsBossEnabled(bosses[bossNumber].BossId) ?? true);
@@ -73,7 +73,7 @@ namespace PlenBotLogUploader
                 }
                 if (data is null)
                 {
-                    allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList(), Team = (WebhookTeam)comboBoxWebhookTeam.SelectedItem };
+                    allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList(), Team = (Team)comboBoxTeam.SelectedItem };
                     discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
                 }
                 else
@@ -85,7 +85,7 @@ namespace PlenBotLogUploader
                     webhook.SuccessFailToggle = successFailToggle;
                     webhook.ShowPlayers = checkBoxPlayers.Checked;
                     webhook.BossesDisable = ConvertCheckboxListToList();
-                    webhook.Team = (WebhookTeam)comboBoxWebhookTeam.SelectedItem;
+                    webhook.Team = (Team)comboBoxTeam.SelectedItem;
                     discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
                 }
             }

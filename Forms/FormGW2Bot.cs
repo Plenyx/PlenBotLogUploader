@@ -41,7 +41,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.GW2Bot.Enabled = checkBoxModuleEnabled.Checked;
             ApplicationSettings.Current.GW2Bot.APIKey = textBoxAPIKey.Text;
             ApplicationSettings.Current.GW2Bot.SendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
-            ApplicationSettings.Current.GW2Bot.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as WebhookTeam).ID;
+            ApplicationSettings.Current.GW2Bot.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as Team).ID;
             ApplicationSettings.Current.Save();
             controller.DefaultRequestHeaders.Authorization = (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Bot.APIKey)) ? new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApplicationSettings.Current.GW2Bot.APIKey) : null;
         }
@@ -54,9 +54,9 @@ namespace PlenBotLogUploader
             {
                 if (ApplicationSettings.Current.GW2Bot.SelectedTeamId > 0)
                 {
-                    if (WebhookTeams.All.ContainsKey(ApplicationSettings.Current.GW2Bot.SelectedTeamId))
+                    if (Teams.Teams.All.ContainsKey(ApplicationSettings.Current.GW2Bot.SelectedTeamId))
                     {
-                        if (!WebhookTeams.All[ApplicationSettings.Current.GW2Bot.SelectedTeamId].IsSatisfied(reportJSON.Players))
+                        if (!Teams.Teams.All[ApplicationSettings.Current.GW2Bot.SelectedTeamId].IsSatisfied(reportJSON.ExtraJSON))
                         {
                             return true;
                         }
@@ -99,7 +99,7 @@ namespace PlenBotLogUploader
         private void FormGW2Bot_Shown(object sender, EventArgs e)
         {
             comboBoxSelectedTeam.Items.Clear();
-            var teams = WebhookTeams.All;
+            var teams = Teams.Teams.All;
             foreach (var team in teams.Values)
             {
                 comboBoxSelectedTeam.Items.Add(team);

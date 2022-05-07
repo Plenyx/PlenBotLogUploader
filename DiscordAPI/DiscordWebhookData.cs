@@ -49,7 +49,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// A selected webhook team, with which the webhook should evaluate itself
         /// </summary>
         [JsonProperty("team")]
-        public WebhookTeam Team { get; set; }
+        public Team Team { get; set; }
 
         /// <summary>
         /// Tests whether webhook is valid

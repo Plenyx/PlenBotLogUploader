@@ -19,7 +19,7 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormMain mainLink;
-        private readonly FormWebhookTeams teamsLink;
+        private readonly FormTeams teamsLink;
         private int webhookIdsKey;
         private readonly IDictionary<int, DiscordWebhookData> allWebhooks;
         private readonly CellStyle tableCellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
@@ -32,7 +32,7 @@ namespace PlenBotLogUploader
         {
             this.mainLink = mainLink;
             InitializeComponent();
-            teamsLink = new FormWebhookTeams();
+            teamsLink = new FormTeams();
             Icon = Properties.Resources.AppIcon;
 
             allWebhooks = DiscordWebhooks.LoadDiscordWebhooks();
@@ -62,8 +62,8 @@ namespace PlenBotLogUploader
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
                 var extraJSONFightName = (reportJSON.ExtraJSON is null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJSON.FightName;
-                var extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}";
-                var icon = "";
+                var extraJSON = (reportJSON.ExtraJSON is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}";
+                var icon = string.Empty;
                 var bossData = Bosses.GetBossDataFromId(1);
                 if (!(bossData is null))
                 {
@@ -290,7 +290,7 @@ namespace PlenBotLogUploader
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                             || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                            || (!webhook.Team.IsSatisfied(reportJSON.Players)))
+                            || (!webhook.Team.IsSatisfied(reportJSON.ExtraJSON)))
                         {
                             continue;
                         }
@@ -310,14 +310,14 @@ namespace PlenBotLogUploader
             }
             else // not WvW
             {
-                var bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : "")}";
+                var bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : string.Empty)}";
                 var successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
-                var extraJSON = (reportJSON.ExtraJSON is null) ? "" : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
-                var icon = "";
+                var extraJSON = (reportJSON.ExtraJSON is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
+                var icon = string.Empty;
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
                 if (!(bossData is null))
                 {
-                    bossName = $"{bossData.Name}{(reportJSON.ChallengeMode ? " CM" : "")}";
+                    bossName = $"{bossData.Name}{(reportJSON.ChallengeMode ? " CM" : string.Empty)}";
                     icon = bossData.Icon;
                 }
                 var colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
@@ -410,7 +410,7 @@ namespace PlenBotLogUploader
                             dpsTargetSummary.AddCell($"{player.Player.Name} ({player.Player.ProfessionShort})");
                             dpsTargetSummary.AddCell($"{player.DPS.ParseAsK()}", tableCellRightAlign);
                         }
-                        dpsTargetSummary.AddCell("");
+                        dpsTargetSummary.AddCell(string.Empty);
                         dpsTargetSummary.AddCell("Total");
                         var totalDPS = damageStats
                             .Select(x => x.DPS)
@@ -439,7 +439,7 @@ namespace PlenBotLogUploader
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                             || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                            || (!webhook.Team.IsSatisfied(reportJSON.Players)))
+                            || (!webhook.Team.IsSatisfied(reportJSON.ExtraJSON)))
                         {
                             continue;
                         }

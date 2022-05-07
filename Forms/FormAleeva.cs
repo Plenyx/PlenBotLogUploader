@@ -97,9 +97,9 @@ namespace PlenBotLogUploader
                 }
                 if (ApplicationSettings.Current.Aleeva.SelectedTeamId > 0)
                 {
-                    if (WebhookTeams.All.ContainsKey(ApplicationSettings.Current.Aleeva.SelectedTeamId))
+                    if (Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Aleeva.SelectedTeamId))
                     {
-                        if (!WebhookTeams.All[ApplicationSettings.Current.Aleeva.SelectedTeamId].IsSatisfied(reportJSON.Players))
+                        if (!Teams.Teams.All[ApplicationSettings.Current.Aleeva.SelectedTeamId].IsSatisfied(reportJSON.ExtraJSON))
                         {
                             return;
                         }
@@ -159,10 +159,10 @@ namespace PlenBotLogUploader
                 }
                 else
                 {
-                    AleevaAccessToken = "";
+                    AleevaAccessToken = string.Empty;
                     controller.DefaultRequestHeaders.Authorization = null;
                     AleevaAccessTokenExpires = DateTime.Now;
-                    ApplicationSettings.Current.Aleeva.RefreshToken = "";
+                    ApplicationSettings.Current.Aleeva.RefreshToken = string.Empty;
                     ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
                     ApplicationSettings.Current.Save();
                 }
@@ -247,10 +247,10 @@ namespace PlenBotLogUploader
                 Invoke((Action)delegate () { DeauthoriseAleeva(); });
                 return;
             }
-            AleevaAccessToken = "";
+            AleevaAccessToken = string.Empty;
             AleevaAccessTokenExpires = DateTime.Now;
             AleevaAuthorised = false;
-            ApplicationSettings.Current.Aleeva.RefreshToken = "";
+            ApplicationSettings.Current.Aleeva.RefreshToken = string.Empty;
             ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
             ApplicationSettings.Current.Save();
         }
@@ -391,7 +391,7 @@ namespace PlenBotLogUploader
         private void FormAleeva_Shown(object sender, EventArgs e)
         {
             comboBoxSelectedTeam.Items.Clear();
-            var teams = WebhookTeams.All;
+            var teams = Teams.Teams.All;
             foreach (var team in teams.Values)
             {
                 comboBoxSelectedTeam.Items.Add(team);
@@ -401,7 +401,7 @@ namespace PlenBotLogUploader
 
         private void ComboBoxSelectedTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.Aleeva.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as WebhookTeam).ID;
+            ApplicationSettings.Current.Aleeva.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as Team).ID;
             ApplicationSettings.Current.Save();
         }
     }

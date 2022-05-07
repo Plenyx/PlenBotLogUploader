@@ -9,62 +9,62 @@ using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormWebhookTeams : Form
+    public partial class FormTeams : Form
     {
         #region definitions
         // fields
         private int teamIdsKey;
-        private readonly IDictionary<int, WebhookTeam> allTeams;
+        private readonly IDictionary<int, Team> allTeams;
         private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         #endregion
 
-        public FormWebhookTeams()
+        public FormTeams()
         {
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            allTeams = LoadWebhookTeams();
+            allTeams = LoadTeams();
 
             teamIdsKey = allTeams.Values.Select(x => x.ID).OrderByDescending(x => x).First() + 1;
 
             foreach (var key in allTeams.Keys.Skip(1))
             {
-                listBoxWebhookTeams.Items.Add(allTeams[key]);
+                listBoxTeams.Items.Add(allTeams[key]);
             }
         }
 
-        private IDictionary<int, WebhookTeam> LoadWebhookTeams()
+        private IDictionary<int, Team> LoadTeams()
         {
             try
             {
-                if (File.Exists(WebhookTeams.JsonFileLocation))
+                if (File.Exists(Teams.Teams.JsonFileLocation))
                 {
-                    return WebhookTeams.FromJsonFile(WebhookTeams.JsonFileLocation);
+                    return Teams.Teams.FromJsonFile(Teams.Teams.JsonFileLocation);
                 }
-                return WebhookTeams.ResetDictionary();
+                return Teams.Teams.ResetDictionary();
             }
             catch
             {
-                return WebhookTeams.ResetDictionary();
+                return Teams.Teams.ResetDictionary();
             }
         }
 
-        private void FormWebhookTeams_FormClosing(object sender, FormClosingEventArgs e)
+        private void FormTeams_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();
-            WebhookTeams.SaveToJson(allTeams);
+            Teams.Teams.SaveToJson(allTeams);
         }
 
         private void ContextMenuStripInteract_Opening(object sender, CancelEventArgs e)
         {
-            var toggle = listBoxWebhookTeams.SelectedItems.Count > 0;
+            var toggle = listBoxTeams.SelectedItems.Count > 0;
             toolStripMenuItemEdit.Enabled = toggle;
             toolStripMenuItemDelete.Enabled = toggle;
         }
 
         private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
-            var item = (WebhookTeam)listBoxWebhookTeams.SelectedItem;
+            var item = (Team)listBoxTeams.SelectedItem;
             foreach (var webhook in allWebhooks.Values)
             {
                 if (webhook.Team.Equals(item))
@@ -72,34 +72,39 @@ namespace PlenBotLogUploader
                     webhook.Team = allTeams.Values.First();
                 }
             }
+            listBoxTeams.SelectedItem = null;
             allTeams.Remove(item.ID);
-            listBoxWebhookTeams.Items.Remove(item);
+            listBoxTeams.Items.Remove(item);
         }
 
         private void ToolStripMenuItemAdd_Click(object sender, EventArgs e)
         {
             teamIdsKey++;
+            listBoxTeams.SelectedItem = null;
             new FormEditTeam(this, null, teamIdsKey).Show();
         }
 
         private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
         {
-            var item = (WebhookTeam)listBoxWebhookTeams.SelectedItem;
+            var item = (Team)listBoxTeams.SelectedItem;
+            listBoxTeams.SelectedItem = null;
             new FormEditTeam(this, item, item.ID).Show();
         }
 
-        private void ListBoxWebhookTeams_DoubleClick(object sender, EventArgs e)
+        private void ListBoxTeams_DoubleClick(object sender, EventArgs e)
         {
-            if (!(listBoxWebhookTeams.SelectedItem is null))
+            if (!(listBoxTeams.SelectedItem is null))
             {
-                var item = (WebhookTeam)listBoxWebhookTeams.SelectedItem;
+                var item = (Team)listBoxTeams.SelectedItem;
                 new FormEditTeam(this, item, item.ID).Show();
             }
+            listBoxTeams.SelectedItem = null;
         }
 
         private void ButtonAddTeam_Click(object sender, EventArgs e)
         {
             teamIdsKey++;
+            listBoxTeams.SelectedItem = null;
             new FormEditTeam(this, null, teamIdsKey).Show();
         }
     }

@@ -11,6 +11,9 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
         [JsonProperty("group")]
         public int Group { get; set; }
 
+        [JsonProperty("hasCommanderTag")]
+        public bool IsCommander { get; set; }
+
         [JsonProperty("profession")]
         public string Profession { get; set; }
 
