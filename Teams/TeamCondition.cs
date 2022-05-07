@@ -127,13 +127,12 @@ namespace PlenBotLogUploader.Teams
             {
                 return false;
             }
-            var recordedBy = extraJSON.RecordedBy;
             var sumOfTeamMembers = AccountNames.Select(x => extraJSON.Players.Where(y => y.Account.Equals(x)).Count()).Sum();
             return Limiter switch
             {
                 TeamLimiter.AND => Subconditions.Where(x => x.IsSatisfied(extraJSON)).Count() == Subconditions.Count,
                 TeamLimiter.OR => Subconditions.Where(x => x.IsSatisfied(extraJSON)).Count() > 0,
-                TeamLimiter.CommanderName => extraJSON.Players.Where(x => x.IsCommander).Select(x => extraJSON.Players.Where(y => y.Account.Equals(x)).Count()).Sum() > 0,
+                TeamLimiter.CommanderName => extraJSON.Players.Where(x => x.IsCommander).Where(x => AccountNames.Contains(x.Account)).Count() > 0,
                 TeamLimiter.Exact => sumOfTeamMembers == LimiterValue,
                 TeamLimiter.Except => sumOfTeamMembers == 0,
                 // at least
