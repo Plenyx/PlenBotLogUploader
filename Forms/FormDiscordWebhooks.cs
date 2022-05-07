@@ -469,14 +469,21 @@ namespace PlenBotLogUploader
 
         public async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
-            var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON, logSessionSettings);
             if (logSessionSettings.UseSelectedWebhooksInstead)
             {
-                await SendDiscordMessageToSelectedWebhooksAsync(logSessionSettings.SelectedWebhooks, discordEmbeds, logSessionSettings.ContentText);
+                foreach (var webhook in logSessionSettings.SelectedWebhooks)
+                {
+                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.ExtraJSON)).ToList(), logSessionSettings);
+                    await SendDiscordMessageWebhooksAsync(webhook, discordEmbeds, logSessionSettings.ContentText);
+                }
             }
             else
             {
-                await SendDiscordMessageToAllActiveWebhooksAsync(discordEmbeds, logSessionSettings.ContentText);
+                foreach (var webhook in allWebhooks.Values.Where(x => x.Active))
+                {
+                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.ExtraJSON)).ToList(), logSessionSettings);
+                    await SendDiscordMessageWebhooksAsync(webhook, discordEmbeds, logSessionSettings.ContentText);
+                }
             }
             if (logSessionSettings.UseSelectedWebhooksInstead && logSessionSettings.SelectedWebhooks.Count > 0)
             {
@@ -488,7 +495,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async Task SendDiscordMessageToAllActiveWebhooksAsync(SessionTextConstructor.DiscordEmbeds discordEmbeds, string contentText)
+        private async Task SendDiscordMessageWebhooksAsync(DiscordWebhookData webhook, SessionTextConstructor.DiscordEmbeds discordEmbeds, string contentText)
         {
             var jsonContentSuccessFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
             {
@@ -507,59 +514,16 @@ namespace PlenBotLogUploader
             });
             try
             {
-                foreach (var key in allWebhooks.Keys)
-                {
-                    var webhook = allWebhooks[key];
-                    if (!webhook.Active)
-                    {
-                        continue;
-                    }
                     var jsonContent =
                         (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)) ? jsonContentSuccessFailure :
                         ((webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) ? jsonContentSuccess : jsonContentFailure));
                     var uri = new Uri(webhook.URL);
                     using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                     using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
-                }
             }
             catch
             {
-                mainLink.AddToText(">:> Unable to execute active webhooks with a finished log session.");
-            }
-        }
-
-        private async Task SendDiscordMessageToSelectedWebhooksAsync(List<DiscordWebhookData> webhooks, SessionTextConstructor.DiscordEmbeds discordEmbeds, string contentText)
-        {
-            var jsonContentSuccessFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
-            {
-                Content = contentText,
-                Embeds = discordEmbeds.SuccessFailure
-            });
-            var jsonContentSuccess = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
-            {
-                Content = contentText,
-                Embeds = discordEmbeds.Success
-            });
-            var jsonContentFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
-            {
-                Content = contentText,
-                Embeds = discordEmbeds.Failure
-            });
-            try
-            {
-                foreach (var webhook in webhooks)
-                {
-                    var jsonContent =
-                        (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)) ? jsonContentSuccessFailure :
-                        ((webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) ? jsonContentSuccess : jsonContentFailure));
-                    var uri = new Uri(webhook.URL);
-                    using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
-                }
-            }
-            catch
-            {
-                mainLink.AddToText(">:> Unable to execute selected webhooks with a finished log session.");
+                mainLink.AddToText($">:> Unable to execute webhook \"{webhook.Name}\" with a finished log session.");
             }
         }
 
