@@ -8,7 +8,7 @@ namespace PlenBotLogUploader.AppSettings
         public bool Enabled { get; set; } = false;
 
         [JsonProperty("apiKey")]
-        public string APIKey { get; set; } = "";
+        public string APIKey { get; set; } = string.Empty;
 
         [JsonProperty("selectedTeamId")]
         public int SelectedTeamId { get; set; } = 0;

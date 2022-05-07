@@ -8,9 +8,9 @@ namespace PlenBotLogUploader.AppSettings
         public bool Enabled { get; set; } = false;
 
         [JsonProperty("name")]
-        public string Name { get; set; } = "";
+        public string Name { get; set; } = string.Empty;
 
         [JsonProperty("oauth")]
-        public string OAuthPassword { get; set; } = "";
+        public string OAuthPassword { get; set; } = string.Empty;
     }
 }

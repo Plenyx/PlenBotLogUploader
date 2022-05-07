@@ -194,7 +194,7 @@ namespace PlenBotLogUploader.ArcDps
             }
             catch
             {
-                return "";
+                return string.Empty;
             }
         }
     }

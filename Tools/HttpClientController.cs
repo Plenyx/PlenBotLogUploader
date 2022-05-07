@@ -57,7 +57,7 @@ namespace PlenBotLogUploader.Tools
             }
             catch
             {
-                return "";
+                return string.Empty;
             }
         }
 

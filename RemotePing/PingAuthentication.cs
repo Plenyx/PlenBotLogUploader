@@ -11,9 +11,9 @@ namespace PlenBotLogUploader.RemotePing
         public bool UseAsAuth { get; set; } = false;
 
         [JsonProperty("authName")]
-        public string AuthName { get; set; } = "";
+        public string AuthName { get; set; } = string.Empty;
 
         [JsonProperty("authToken")]
-        public string AuthToken { get; set; } = "";
+        public string AuthToken { get; set; } = string.Empty;
     }
 }

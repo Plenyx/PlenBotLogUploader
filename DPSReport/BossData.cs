@@ -28,7 +28,7 @@ namespace PlenBotLogUploader.DPSReport
         /// Internal description of the boss, only visible in the Uploader app
         /// </summary>
         [JsonProperty("internalDescription")]
-        public string InternalDescription { get; set; } = "";
+        public string InternalDescription { get; set; } = string.Empty;
 
         /// <summary>
         /// Twitch message when encounter is a success
@@ -46,7 +46,7 @@ namespace PlenBotLogUploader.DPSReport
         /// Icon used for Discord webhooks
         /// </summary>
         [JsonProperty("icon")]
-        public string Icon { get; set; } = "";
+        public string Icon { get; set; } = string.Empty;
 
         /// <summary>
         /// Type of the boss
@@ -67,7 +67,7 @@ namespace PlenBotLogUploader.DPSReport
         {
             get
             {
-                return $"{Name}{(!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : "")}";
+                return $"{Name}{(!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty)}";
             }
         }
 

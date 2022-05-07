@@ -5,7 +5,7 @@ namespace PlenBotLogUploader.AppSettings
     public class ApplicationSettingsTwitch
     {
         [JsonProperty("channelname")]
-        public string ChannelName { get; set; } = "";
+        public string ChannelName { get; set; } = string.Empty;
 
         [JsonProperty("commands")]
         public ApplicationSettingsTwitchCommands Commands { get; set; } = new ApplicationSettingsTwitchCommands();

@@ -6,7 +6,7 @@ namespace PlenBotLogUploader.AppSettings
     public class ApplicationSettingsSession
     {
         [JsonProperty("message")]
-        public string Message { get; set; } = "";
+        public string Message { get; set; } = string.Empty;
 
         [JsonProperty("name")]
         public string Name { get; set; } = "Log session";

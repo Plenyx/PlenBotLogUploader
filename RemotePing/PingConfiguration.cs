@@ -13,10 +13,10 @@ namespace PlenBotLogUploader.RemotePing
         public bool Active { get; set; } = false;
 
         [JsonProperty("name")]
-        public string Name { get; set; } = "";
+        public string Name { get; set; } = string.Empty;
 
         [JsonProperty("url")]
-        public string URL { get; set; } = "";
+        public string URL { get; set; } = string.Empty;
 
         [JsonProperty("method")]
         public PingMethod Method { get; set; } = PingMethod.Post;

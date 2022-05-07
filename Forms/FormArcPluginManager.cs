@@ -43,7 +43,7 @@ namespace PlenBotLogUploader
                 {
                     arcIsInstalled = false;
                     checkBoxModuleEnabled.Checked = false;
-                    ApplicationSettings.Current.GW2Location = "";
+                    ApplicationSettings.Current.GW2Location = string.Empty;
                     ApplicationSettings.Current.Save();
                 }
             }
@@ -51,7 +51,7 @@ namespace PlenBotLogUploader
             {
                 arcIsInstalled = false;
                 checkBoxModuleEnabled.Checked = false;
-                ApplicationSettings.Current.GW2Location = "";
+                ApplicationSettings.Current.GW2Location = string.Empty;
                 ApplicationSettings.Current.Save();
             }
             foreach (var component in availableComponents)
@@ -283,7 +283,7 @@ namespace PlenBotLogUploader
             groupBoxDXVersion.Enabled = toggle;
             groupBoxModuleControls.Enabled = toggle;
             checkedListBoxArcDpsPlugins.Enabled = toggle;
-            if (Visible && toggle && (ApplicationSettings.Current.GW2Location == ""))
+            if (Visible && toggle && (string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Location)))
             {
                 ButtonChangeGW2Location_Click(this, new EventArgs());
             }

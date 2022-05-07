@@ -78,7 +78,7 @@ namespace PlenBotLogUploader
         private int reconnectedFailCounter = 0;
         private int recentUploadFailCounter = 0;
         private int logsCount = 0;
-        private string lastLogMessage = "";
+        private string lastLogMessage = string.Empty;
         private int lastLogBossId = 0;
         private int lastLogPullCounter = 0;
         private bool lastLogBossCM = false;
@@ -140,7 +140,7 @@ namespace PlenBotLogUploader
                     twitchNameLink.ShowDialog();
                     ApplicationSettings.Current.FirstApplicationRun = false;
                 }
-                if (ApplicationSettings.Current.LogsLocation.Equals("") || !Directory.Exists(ApplicationSettings.Current.LogsLocation))
+                if (ApplicationSettings.Current.LogsLocation.Equals(string.Empty) || !Directory.Exists(ApplicationSettings.Current.LogsLocation))
                 {
                     labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
                 }
@@ -156,12 +156,12 @@ namespace PlenBotLogUploader
                     }
                     else
                     {
-                        ApplicationSettings.Current.LogsLocation = "";
+                        ApplicationSettings.Current.LogsLocation = string.Empty;
                         labelLocationInfo.Text = "!!! Select a directory with arc logs !!!";
                     }
                 }
                 ApplicationSettings.Current.Twitch.ChannelName = ApplicationSettings.Current.Twitch.ChannelName.ToLower();
-                if (ApplicationSettings.Current.Twitch.ChannelName != "")
+                if (ApplicationSettings.Current.Twitch.ChannelName != string.Empty)
                 {
                     twitchNameLink.textBoxChannelUrl.Text = $"https://twitch.tv/{ApplicationSettings.Current.Twitch.ChannelName}/";
                 }
@@ -228,7 +228,7 @@ namespace PlenBotLogUploader
                     customNameLink.textBoxCustomOAuth.Text = ApplicationSettings.Current.Twitch.Custom.OAuthPassword;
                 }
                 arcPluginManagerLink.checkBoxEnableNotifications.Checked = ApplicationSettings.Current.ArcUpdate.Notifications;
-                if (ApplicationSettings.Current.GW2Location != "")
+                if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Location))
                 {
                     if (File.Exists($@"{ApplicationSettings.Current.GW2Location}\Gw2-64.exe") || File.Exists($@"{ApplicationSettings.Current.GW2Location}\Gw2.exe") || File.Exists($@"{ApplicationSettings.Current.GW2Location}\Guild Wars 2.exe"))
                     {
@@ -245,7 +245,7 @@ namespace PlenBotLogUploader
                     else
                     {
                         ShowBalloon("arcdps plugin manager", "There has been an error locating the main Guild Wars 2 folder, try changing the directory again.", 6500);
-                        ApplicationSettings.Current.GW2Location = "";
+                        ApplicationSettings.Current.GW2Location = string.Empty;
                     }
                 }
                 twitchCommandsLink.checkBoxGW2BuildEnable.Checked = ApplicationSettings.Current.Twitch.Commands.BuildEnabled;
@@ -273,7 +273,7 @@ namespace PlenBotLogUploader
                 {
                     Task.Run(() => aleevaLink.GetAleevaTokenFromRefreshToken());
                 }
-                if (ApplicationSettings.Current.LogsLocation.Equals("") || !Directory.Exists(ApplicationSettings.Current.LogsLocation))
+                if (ApplicationSettings.Current.LogsLocation.Equals(string.Empty) || !Directory.Exists(ApplicationSettings.Current.LogsLocation))
                 {
                     MessageBox.Show("Path to arcdps logs is not set.\nDo not forget to set it up so the logs can be auto-uploaded.", "Just a reminder", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -771,7 +771,7 @@ namespace PlenBotLogUploader
                                     try
                                     {
                                         // log file
-                                        File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? ""};{reportJSON.ExtraJSON?.RecordedBy ?? ""};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? ""};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
+                                        File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? string.Empty};{reportJSON.ExtraJSON?.RecordedBy ?? string.Empty};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? string.Empty};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
                                     }
                                     catch (Exception e)
                                     {
@@ -1152,7 +1152,7 @@ namespace PlenBotLogUploader
                     AddToText("> PULLS COMMAND USED");
                     if (lastLogBossId > 0)
                     {
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{Bosses.GetBossDataFromId(lastLogBossId).Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
+                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{Bosses.GetBossDataFromId(lastLogBossId).Name}{((lastLogBossCM) ? " CM" : string.Empty)} | Current pull: {lastLogPullCounter}");
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
@@ -1440,7 +1440,7 @@ namespace PlenBotLogUploader
             var result = await HttpClientController.DownloadFileAsync(downloadUrl, $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
             if (result)
             {
-                Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{((appStartup && StartedMinimised) ? " -m" : "")}");
+                Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{((appStartup && StartedMinimised) ? " -m" : string.Empty)}");
                 if (InvokeRequired)
                 {
                     Invoke((Action)delegate () { ExitApp(); });

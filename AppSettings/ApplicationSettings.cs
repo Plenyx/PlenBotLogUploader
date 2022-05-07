@@ -62,16 +62,16 @@ namespace PlenBotLogUploader.AppSettings
         public bool FirstTimeMinimised { get; set; } = false;
 
         [JsonProperty("gw2APIKey")]
-        public string GW2APIKey { get; set; } = "";
+        public string GW2APIKey { get; set; } = string.Empty;
 
         [JsonProperty("gw2Bot")]
         public ApplicationSettingsGW2Bot GW2Bot { get; set; } = new ApplicationSettingsGW2Bot();
 
         [JsonProperty("gw2Location")]
-        public string GW2Location { get; set; } = "";
+        public string GW2Location { get; set; } = string.Empty;
 
         [JsonProperty("logsLocation")]
-        public string LogsLocation { get; set; } = "";
+        public string LogsLocation { get; set; } = string.Empty;
 
         [JsonProperty("mainFormSize")]
         public System.Drawing.Size MainFormSize { get; set; } = new System.Drawing.Size(649, 784);

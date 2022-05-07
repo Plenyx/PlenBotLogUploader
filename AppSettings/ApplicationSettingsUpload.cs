@@ -33,7 +33,7 @@ namespace PlenBotLogUploader.AppSettings
         public bool DPSReportUsertokenEnabled { get; set; } = false;
 
         [JsonProperty("dpsReportUsertoken")]
-        public string DPSReportUsertoken { get; set; } = "";
+        public string DPSReportUsertoken { get; set; } = string.Empty;
 
         [JsonProperty("enabled")]
         public bool Enabled { get; set; } = true;
