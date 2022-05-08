@@ -123,7 +123,7 @@ namespace PlenBotLogUploader.Teams
 
         public bool IsSatisfied(DPSReport.DPSReportJSONExtraJSON extraJSON)
         {
-            if (extraJSON == null)
+            if (extraJSON is null)
             {
                 return false;
             }
