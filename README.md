@@ -22,23 +22,27 @@ If you are using the uploader with Twitch integration, you can customise bot mes
 I recommend using the compress feature in the arcdps log settings. Otherwise the bot will try to archive it itself, which delays log uploads.
 
 ## Update
-The uploader keeps track of its version and the online available version.
-When you start the executable, it will check for a new version. If update is available a prompt will be displayed.
+The uploader keeps track of its version and the vesion available online.
+When you start the executable, it will check whether a new version is available.
 
-To update the bot you either need to overwrite the previous executable with the new one under the Release tab or you need to press the big **Update Uploader** button within the application.
+To update the bot you either need to overwrite the previous executable with the new one under the Release tab or you need to press the big **Update Uploader** button within the application. Alternatively, you can setup an automatic update if you toggle "automatically update the uploader".
 
 ## Uninstall/Reinstall
-To remove all application settings, remove the "PlenBotLogUploader.exe_Url_xxx" folders located in the "%AppData%\Plenyx's_Bad_Software" (for Releases < 66), delete app_settings.json (for Releases > 65), use "Reset all settings" button inside the application or launch the application with -resetsettings flag.
+To remove all application settings, remove the "app_settings.json" file located in the directory of the executable.
 
-To remove all the saved logs, remove the "uploaded_logs.csv" file located in the directory of the executable.
+To remove all saved arcdps logs, remove the "uploaded_logs.csv" file located in the directory of the executable.
 
-To remove all the saved boss data, remove the "boss_data.json" file located in the directory of the executable.
+To remove all saved boss data, remove the "boss_data.json" file located in the directory of the executable.
 
-To remove all the saved Discord webhooks, remove the "discord_webhooks.json" file located in the directory of the executable.
+To remove all saved teams, remove the "teams.json" file located in the directory of the executable.
 
-To remove all the saved remote server ping configurations, remove the "remote_pings.json" file located in the directory of the executable.
+To remove all saved Discord webhooks, remove the "discord_webhooks.json" file located in the directory of the executable.
 
-To fully remove all the saved settings in the registry, use the enclosed "ResetSettings.reg" file in the release tab.
+To remove all saved arcdps plugin manager settings, remove the "arcdps_plugin_manager.json" file located in the directory of the executable.
+
+To remove all saved remote server ping configurations, remove the "remote_pings.json" file located in the directory of the executable.
+
+To fully remove all the saved settings in the Windows registry, use the enclosed "ResetSettings.reg" file in the release tab.
 
 ## Features
 * arcdps log uploads
@@ -53,16 +57,19 @@ To fully remove all the saved settings in the registry, use the enclosed "ResetS
 * Twitch integration
   * pinging links to Twitch chat with customisable messages
   * custom name for the Twitch chat bot, otherwise "gw2loguploader" is being used
+* Set up advanced log conditions using Teams system
+  * Limit Discord Webhooks and bots to specific players in a group
+    * Statics, commanders and friends...
 * Aleeva & GW2Bot integration
 * update reminder & automatic update install
 * arcdps auto-updater and plugin manager
 
 ## Future updates
 I plan to finish the following features:
-* *adding additional features based on feedback*
+* *adding additional features based on your feedback*
   * I am always looking to provide more features to the users, if you have any ideas of how to improve the uploader, don't be afraid to contact me directly.
 
 ## Remote server ping
-Remote server ping allows you to send log data to a custom server.
+Remote server ping allows you to send log data to a custom REST server.
 
-If you wish to create your own server, follow the [remote server readme](https://github.com/HardstuckGuild/PlenBotLogUploader/blob/master/remote-server/README.md).
+If you wish to use your own REST server, follow the [remote server readme](https://github.com/HardstuckGuild/PlenBotLogUploader/blob/main/remote-server/README.md).
