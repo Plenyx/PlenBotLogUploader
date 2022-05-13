@@ -214,8 +214,8 @@ namespace PlenBotLogUploader
                     // cleanses summary
                     var cleansesStats = reportJSON.ExtraJSON.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
-                        .Where(x => x.Support.First().CondiCleanse > 0)
-                        .OrderByDescending(x => x.Support.First().CondiCleanse)
+                        .Where(x => x.Support.First().CondiCleanseTotal > 0)
+                        .OrderByDescending(x => x.Support.First().CondiCleanseTotal)
                         .Take(10)
                         .ToList();
                     var cleansesSummary = new TextTable(3, tableStyle, tableBorders);
