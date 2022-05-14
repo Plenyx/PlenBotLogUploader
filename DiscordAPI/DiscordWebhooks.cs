@@ -8,9 +8,7 @@ namespace PlenBotLogUploader.DiscordAPI
 {
     class DiscordWebhooks
     {
-        public static string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
-        public static string TxtFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.txt";
-        public static string MigratedTxtFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks-migrated.txt";
+        public static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
         
         private static IDictionary<int, DiscordWebhookData> _All;
         /// <summary>

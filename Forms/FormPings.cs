@@ -17,9 +17,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        private static string PingTxtFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.txt";
-        private static string MigratedPingTxtFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings-migrated.txt";
-        private static string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
+        private static readonly string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
         public IDictionary<int, PingConfiguration> AllPings { get; set; }
 
         // fields
@@ -44,48 +42,6 @@ namespace PlenBotLogUploader
                     Text = ping.Value.Name,
                     Checked = ping.Value.Active
                 });
-            }
-        }
-
-        private void LoadFromTxtFile()
-        {
-            AllPings = new Dictionary<int, PingConfiguration>();
-            try
-            {
-                using var reader = new StreamReader(PingTxtFileLocation);
-                var line = reader.ReadLine();
-                while (!((line = reader.ReadLine()) is null))
-                {
-                    var values = line.Split(new string[] { "<;>" }, StringSplitOptions.None);
-                    int.TryParse(values[0], out int active);
-                    int.TryParse(values[3], out int method);
-                    int.TryParse(values[4], out int authActive);
-                    int.TryParse(values[5], out int useAsAuth);
-                    if (method > 3 || method < 0)
-                    {
-                        method = 0;
-                    }
-
-                    var auth = new PingAuthentication()
-                    {
-                        Active = authActive == 1,
-                        UseAsAuth = useAsAuth == 1,
-                        AuthName = values[6],
-                        AuthToken = values[7]
-                    };
-                    AddPing(new PingConfiguration()
-                    {
-                        Active = active == 1,
-                        Name = values[1],
-                        URL = values[2],
-                        Method = (PingMethod)method,
-                        Authentication = auth
-                    });
-                }
-            }
-            catch
-            {
-                AllPings = new Dictionary<int, PingConfiguration>();
             }
         }
 
@@ -203,15 +159,7 @@ namespace PlenBotLogUploader
         {
             try
             {
-                if (File.Exists(PingTxtFileLocation))
-                {
-                    LoadFromTxtFile();
-                    var pings = AllPings;
-                    SaveToJson(pings.Values);
-                    File.Move(PingTxtFileLocation, MigratedPingTxtFileLocation);
-                    return pings;
-                }
-                else if (File.Exists(PingJsonFileLocation))
+                if (File.Exists(PingJsonFileLocation))
                 {
                     return LoadFromJsonFile(PingJsonFileLocation);
                 }

@@ -13,9 +13,7 @@ namespace PlenBotLogUploader.DPSReport
     /// </summary>
     public static class Bosses
     {
-        public static string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.json";
-        public static string TxtFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.txt";
-        public static string MigratedTxtFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data-migrated.txt";
+        public static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.json";
 
         private static IDictionary<int, BossData> _all;
 

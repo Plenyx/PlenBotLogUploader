@@ -8,7 +8,7 @@ namespace PlenBotLogUploader.Teams
 {
     public static class Teams
     {
-        public static string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\teams.json";
+        public static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\teams.json";
 
         private static IDictionary<int, Team> _All;
 

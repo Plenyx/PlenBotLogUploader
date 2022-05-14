@@ -4,7 +4,6 @@ using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
