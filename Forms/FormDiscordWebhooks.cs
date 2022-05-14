@@ -18,7 +18,6 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormMain mainLink;
-        private readonly FormTeams teamsLink;
         private int webhookIdsKey;
         private readonly IDictionary<int, DiscordWebhookData> allWebhooks;
         private readonly CellStyle tableCellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
@@ -31,7 +30,6 @@ namespace PlenBotLogUploader
         {
             this.mainLink = mainLink;
             InitializeComponent();
-            teamsLink = new FormTeams();
             Icon = Properties.Resources.AppIcon;
 
             allWebhooks = DiscordWebhooks.LoadDiscordWebhooks();
@@ -588,11 +586,6 @@ namespace PlenBotLogUploader
         {
             webhookIdsKey++;
             new FormEditDiscordWebhook(this, null, webhookIdsKey).Show();
-        }
-
-        private void ButtonConfigureTeams_Click(object sender, EventArgs e)
-        {
-            teamsLink.Show();
         }
     }
 }

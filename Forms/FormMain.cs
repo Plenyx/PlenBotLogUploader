@@ -71,6 +71,7 @@ namespace PlenBotLogUploader
         private readonly FormGW2API gw2APILink;
         private readonly FormAleeva aleevaLink;
         private readonly FormGW2Bot gw2botLink;
+        private readonly FormTeams teamsLink;
         private readonly List<string> allSessionLogs = new List<string>();
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
@@ -111,6 +112,7 @@ namespace PlenBotLogUploader
             gw2APILink = new FormGW2API();
             aleevaLink = new FormAleeva(this);
             gw2botLink = new FormGW2Bot(this);
+            teamsLink = new FormTeams();
             MumbleReader = new MumbleReader(false);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
@@ -120,7 +122,7 @@ namespace PlenBotLogUploader
             toolTip.SetToolTip(checkBoxDetailedWvW, "If checked, extended per-target reports will be generated. (might cause some issues)");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             toolTip.SetToolTip(buttonCopyApplicationSession, "Copies all the logs uploaded during the application session into the clipboard.");
-            toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the app.");
+            // toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the app.");
             toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
             #endregion
             try
@@ -206,7 +208,7 @@ namespace PlenBotLogUploader
                 }
                 if (ApplicationSettings.Current.AutoUpdate)
                 {
-                    checkBoxAutoUpdate.Checked = true;
+                    // checkBoxAutoUpdate.Checked = true;
                 }
                 if (ApplicationSettings.Current.Upload.Anonymous)
                 {
@@ -324,7 +326,7 @@ namespace PlenBotLogUploader
                 checkBoxDetailedWvW.CheckedChanged += new EventHandler(CheckBoxDetailedWvW_CheckedChanged);
                 checkBoxSaveLogsToCSV.CheckedChanged += new EventHandler(CheckBoxSaveLogsToCSV_CheckedChanged);
                 comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
-                checkBoxAutoUpdate.CheckedChanged += new EventHandler(CheckBoxAutoUpdate_CheckedChanged);
+                // checkBoxAutoUpdate.CheckedChanged += new EventHandler(CheckBoxAutoUpdate_CheckedChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
@@ -551,7 +553,7 @@ namespace PlenBotLogUploader
                     {
                         UpdateFound = true;
                         latestRelease = await HttpClientController.GetGitHubLatestReleaseAsync("HardstuckGuild/PlenBotLogUploader");
-                        if (appStartup && ApplicationSettings.Current.AutoUpdate)
+                        if (false /*appStartup && ApplicationSettings.Current.AutoUpdate*/)
                         {
                             await PerformUpdate(appStartup);
                         }
@@ -1273,11 +1275,11 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
         }
 
-        private void CheckBoxAutoUpdate_CheckedChanged(object sender, EventArgs e)
+        /*private void CheckBoxAutoUpdate_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.AutoUpdate = checkBoxAutoUpdate.Checked;
             ApplicationSettings.Current.Save();
-        }
+        }*/
 
         private void NotifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -1406,6 +1408,12 @@ namespace PlenBotLogUploader
         {
             aleevaLink.Show();
             aleevaLink.BringToFront();
+        }
+
+        private void ButtonTeamsSettings_Click(object sender, EventArgs e)
+        {
+            teamsLink.Show();
+            teamsLink.BringToFront();
         }
 
         private async void ButtonDisConnectTwitch_Click(object sender, EventArgs e)

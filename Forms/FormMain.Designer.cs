@@ -64,7 +64,6 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
-            this.checkBoxAutoUpdate = new System.Windows.Forms.CheckBox();
             this.buttonGW2BotSettings = new System.Windows.Forms.Button();
             this.buttonAleevaSettings = new System.Windows.Forms.Button();
             this.buttonGW2API = new System.Windows.Forms.Button();
@@ -80,6 +79,7 @@
             this.richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
             this.timerResizeSave = new System.Windows.Forms.Timer(this.components);
+            this.buttonTeamsSettings = new System.Windows.Forms.Button();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -459,7 +459,7 @@
             // 
             // groupBoxOtherSettings
             // 
-            this.groupBoxOtherSettings.Controls.Add(this.checkBoxAutoUpdate);
+            this.groupBoxOtherSettings.Controls.Add(this.buttonTeamsSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonGW2BotSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonAleevaSettings);
             this.groupBoxOtherSettings.Controls.Add(this.buttonGW2API);
@@ -481,22 +481,11 @@
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
-            // checkBoxAutoUpdate
-            // 
-            this.checkBoxAutoUpdate.AutoSize = true;
-            this.checkBoxAutoUpdate.Location = new System.Drawing.Point(8, 367);
-            this.checkBoxAutoUpdate.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxAutoUpdate.Name = "checkBoxAutoUpdate";
-            this.checkBoxAutoUpdate.Size = new System.Drawing.Size(231, 20);
-            this.checkBoxAutoUpdate.TabIndex = 15;
-            this.checkBoxAutoUpdate.Text = "automatically update the uploader";
-            this.checkBoxAutoUpdate.UseVisualStyleBackColor = true;
-            // 
             // buttonGW2BotSettings
             // 
             this.buttonGW2BotSettings.Image = global::PlenBotLogUploader.Properties.Resources.gw2bot_icon16;
             this.buttonGW2BotSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonGW2BotSettings.Location = new System.Drawing.Point(8, 292);
+            this.buttonGW2BotSettings.Location = new System.Drawing.Point(8, 185);
             this.buttonGW2BotSettings.Margin = new System.Windows.Forms.Padding(4);
             this.buttonGW2BotSettings.Name = "buttonGW2BotSettings";
             this.buttonGW2BotSettings.Size = new System.Drawing.Size(251, 28);
@@ -509,7 +498,7 @@
             // 
             this.buttonAleevaSettings.Image = global::PlenBotLogUploader.Properties.Resources.aleeva_icon16;
             this.buttonAleevaSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonAleevaSettings.Location = new System.Drawing.Point(8, 256);
+            this.buttonAleevaSettings.Location = new System.Drawing.Point(8, 149);
             this.buttonAleevaSettings.Margin = new System.Windows.Forms.Padding(4);
             this.buttonAleevaSettings.Name = "buttonAleevaSettings";
             this.buttonAleevaSettings.Size = new System.Drawing.Size(251, 28);
@@ -520,7 +509,7 @@
             // 
             // buttonGW2API
             // 
-            this.buttonGW2API.Location = new System.Drawing.Point(8, 149);
+            this.buttonGW2API.Location = new System.Drawing.Point(8, 257);
             this.buttonGW2API.Margin = new System.Windows.Forms.Padding(4);
             this.buttonGW2API.Name = "buttonGW2API";
             this.buttonGW2API.Size = new System.Drawing.Size(251, 28);
@@ -562,7 +551,7 @@
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(8, 327);
+            this.buttonReset.Location = new System.Drawing.Point(8, 359);
             this.buttonReset.Margin = new System.Windows.Forms.Padding(4);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(251, 28);
@@ -595,7 +584,7 @@
             // 
             // buttonArcDpsPluginManager
             // 
-            this.buttonArcDpsPluginManager.Location = new System.Drawing.Point(8, 185);
+            this.buttonArcDpsPluginManager.Location = new System.Drawing.Point(8, 293);
             this.buttonArcDpsPluginManager.Margin = new System.Windows.Forms.Padding(4);
             this.buttonArcDpsPluginManager.Name = "buttonArcDpsPluginManager";
             this.buttonArcDpsPluginManager.Size = new System.Drawing.Size(251, 28);
@@ -606,7 +595,7 @@
             // 
             // buttonPingSettings
             // 
-            this.buttonPingSettings.Location = new System.Drawing.Point(8, 220);
+            this.buttonPingSettings.Location = new System.Drawing.Point(8, 328);
             this.buttonPingSettings.Margin = new System.Windows.Forms.Padding(4);
             this.buttonPingSettings.Name = "buttonPingSettings";
             this.buttonPingSettings.Size = new System.Drawing.Size(251, 28);
@@ -665,6 +654,17 @@
             // 
             this.timerResizeSave.Interval = 1500;
             this.timerResizeSave.Tick += new System.EventHandler(this.TimerResizeSave_Tick);
+            // 
+            // buttonTeamsSettings
+            // 
+            this.buttonTeamsSettings.Location = new System.Drawing.Point(8, 221);
+            this.buttonTeamsSettings.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonTeamsSettings.Name = "buttonTeamsSettings";
+            this.buttonTeamsSettings.Size = new System.Drawing.Size(251, 28);
+            this.buttonTeamsSettings.TabIndex = 15;
+            this.buttonTeamsSettings.Text = "Setup Teams";
+            this.buttonTeamsSettings.UseVisualStyleBackColor = true;
+            this.buttonTeamsSettings.Click += new System.EventHandler(this.ButtonTeamsSettings_Click);
             // 
             // FormMain
             // 
@@ -748,7 +748,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMainForm;
         private System.Windows.Forms.Timer timerResizeSave;
         private System.Windows.Forms.Button buttonGW2BotSettings;
-        private System.Windows.Forms.CheckBox checkBoxAutoUpdate;
+        private System.Windows.Forms.Button buttonTeamsSettings;
     }
 }
 

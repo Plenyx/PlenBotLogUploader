@@ -38,7 +38,6 @@
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddNew = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
-            this.buttonConfigureTeams = new System.Windows.Forms.Button();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,10 +46,11 @@
             this.listViewDiscordWebhooks.CheckBoxes = true;
             this.listViewDiscordWebhooks.ContextMenuStrip = this.contextMenuStripInteract;
             this.listViewDiscordWebhooks.HideSelection = false;
-            this.listViewDiscordWebhooks.Location = new System.Drawing.Point(12, 12);
+            this.listViewDiscordWebhooks.Location = new System.Drawing.Point(16, 15);
+            this.listViewDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listViewDiscordWebhooks.MultiSelect = false;
             this.listViewDiscordWebhooks.Name = "listViewDiscordWebhooks";
-            this.listViewDiscordWebhooks.Size = new System.Drawing.Size(561, 252);
+            this.listViewDiscordWebhooks.Size = new System.Drawing.Size(747, 309);
             this.listViewDiscordWebhooks.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewDiscordWebhooks.TabIndex = 0;
             this.listViewDiscordWebhooks.UseCompatibleStateImageBehavior = false;
@@ -58,6 +58,7 @@
             // 
             // contextMenuStripInteract
             // 
+            this.contextMenuStripInteract.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripInteract.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemEdit,
             this.toolStripMenuItemTest,
@@ -65,47 +66,48 @@
             this.toolStripSeparator1,
             this.toolStripMenuItemAdd});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(206, 98);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(247, 106);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEdit
             // 
             this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
-            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(205, 22);
+            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(246, 24);
             this.toolStripMenuItemEdit.Text = "Edit selected webhook";
             this.toolStripMenuItemEdit.Click += new System.EventHandler(this.ToolStripMenuItemEdit_Click);
             // 
             // toolStripMenuItemTest
             // 
             this.toolStripMenuItemTest.Name = "toolStripMenuItemTest";
-            this.toolStripMenuItemTest.Size = new System.Drawing.Size(205, 22);
+            this.toolStripMenuItemTest.Size = new System.Drawing.Size(246, 24);
             this.toolStripMenuItemTest.Text = "Test selected webhook";
             this.toolStripMenuItemTest.Click += new System.EventHandler(this.ToolStripMenuItemTest_Click);
             // 
             // toolStripMenuItemDelete
             // 
             this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
-            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(205, 22);
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(246, 24);
             this.toolStripMenuItemDelete.Text = "Delete selected webhook";
             this.toolStripMenuItemDelete.Click += new System.EventHandler(this.ToolStripMenuItemDelete_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(202, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(243, 6);
             // 
             // toolStripMenuItemAdd
             // 
             this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
-            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(205, 22);
+            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(246, 24);
             this.toolStripMenuItemAdd.Text = "Add new webhook";
             this.toolStripMenuItemAdd.Click += new System.EventHandler(this.ToolStripMenuItemAdd_Click);
             // 
             // buttonAddNew
             // 
-            this.buttonAddNew.Location = new System.Drawing.Point(464, 270);
+            this.buttonAddNew.Location = new System.Drawing.Point(619, 332);
+            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonAddNew.Name = "buttonAddNew";
-            this.buttonAddNew.Size = new System.Drawing.Size(109, 23);
+            this.buttonAddNew.Size = new System.Drawing.Size(145, 28);
             this.buttonAddNew.TabIndex = 1;
             this.buttonAddNew.Text = "Add new webhook";
             this.buttonAddNew.UseVisualStyleBackColor = true;
@@ -114,33 +116,24 @@
             // labelInformation
             // 
             this.labelInformation.AutoSize = true;
-            this.labelInformation.Location = new System.Drawing.Point(12, 275);
+            this.labelInformation.Location = new System.Drawing.Point(16, 338);
+            this.labelInformation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(295, 13);
+            this.labelInformation.Size = new System.Drawing.Size(356, 16);
             this.labelInformation.TabIndex = 2;
             this.labelInformation.Text = "You can right click the box window to bring up context menu.";
             // 
-            // buttonConfigureTeams
-            // 
-            this.buttonConfigureTeams.Location = new System.Drawing.Point(360, 270);
-            this.buttonConfigureTeams.Name = "buttonConfigureTeams";
-            this.buttonConfigureTeams.Size = new System.Drawing.Size(98, 23);
-            this.buttonConfigureTeams.TabIndex = 3;
-            this.buttonConfigureTeams.Text = "Configure Teams";
-            this.buttonConfigureTeams.UseVisualStyleBackColor = true;
-            this.buttonConfigureTeams.Click += new System.EventHandler(this.ButtonConfigureTeams_Click);
-            // 
             // FormDiscordWebhooks
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(585, 301);
-            this.Controls.Add(this.buttonConfigureTeams);
+            this.ClientSize = new System.Drawing.Size(780, 370);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewDiscordWebhooks);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormDiscordWebhooks";
@@ -163,6 +156,5 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTest;
         private System.Windows.Forms.Button buttonAddNew;
         private System.Windows.Forms.Label labelInformation;
-        private System.Windows.Forms.Button buttonConfigureTeams;
     }
 }
