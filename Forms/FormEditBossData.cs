@@ -1,5 +1,6 @@
 ﻿using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
+using System;
 using System.Windows.Forms;
 
 namespace PlenBotLogUploader
@@ -110,7 +111,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void RadioButtonTypeNone_CheckedChanged(object sender, System.EventArgs e)
+        private void RadioButtonTypeNone_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonTypeNone.Checked)
             {
@@ -118,7 +119,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void RadioButtonTypeRaid_CheckedChanged(object sender, System.EventArgs e)
+        private void RadioButtonTypeRaid_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonTypeRaid.Checked)
             {
@@ -126,7 +127,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void RadioButtonTypeFractal_CheckedChanged(object sender, System.EventArgs e)
+        private void RadioButtonTypeFractal_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonTypeFractal.Checked)
             {
@@ -134,7 +135,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void RadioButtonTypeStrike_CheckedChanged(object sender, System.EventArgs e)
+        private void RadioButtonTypeStrike_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonTypeStrike.Checked)
             {
@@ -142,7 +143,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void RadioButtonTypeGolem_CheckedChanged(object sender, System.EventArgs e)
+        private void RadioButtonTypeGolem_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonTypeGolem.Checked)
             {
@@ -150,7 +151,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void RadioButtonTypeWvW_CheckedChanged(object sender, System.EventArgs e)
+        private void RadioButtonTypeWvW_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonTypeWvW.Checked)
             {

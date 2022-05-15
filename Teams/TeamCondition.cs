@@ -107,10 +107,7 @@ namespace PlenBotLogUploader.Teams
 
         public string PathDescription
         {
-            get
-            {
-                return $"{ParentCondition?.PathDescription} -> {Descriptor()}";
-            }
+            get => $"{ParentCondition?.PathDescription} -> {Descriptor()}";
         }
 
         public override string ToString() => Descriptor();
