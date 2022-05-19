@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace PlenBotLogUploader.AppSettings
@@ -17,12 +18,18 @@ namespace PlenBotLogUploader.AppSettings
 
         public static string LocalDir { get; set; }
 
+        public event EventHandler<EventArgs> SettingsSaved;
+
         public ApplicationSettings()
         {
             Current = this;
         }
 
-        private void SerialiseToFile(string saveLocation) => File.WriteAllText(saveLocation, JsonConvert.SerializeObject(this));
+        private void SerialiseToFile(string saveLocation)
+        {
+            SettingsSaved?.Invoke(this, new EventArgs());
+            File.WriteAllText(saveLocation, JsonConvert.SerializeObject(this));
+        }
 
         private static ApplicationSettings DeserialiseFromFile(string loadLocation)
         {
