@@ -84,6 +84,18 @@ namespace PlenBotLogUploader.ArcDps
                         License = "MIT",
                         Description = "A plugin for arcdps which adds a window that shows your current weekly clears. - Sejsel",
                     },
+                    new ArcDpsComponentHelperClass()
+                    {
+                        Name = "Food Reminder",
+                        FullName = "Food Reminder",
+                        LinkName = "Zerthox/arcdps-food-reminder",
+                        LinkURL = "https://github.com/Zerthox/arcdps-food-reminder/",
+                        Author = "Zerthox",
+                        Type = ArcDpsComponentType.FoodReminder,
+                        Provider = "GitHub",
+                        License = "MIT",
+                        Description = "ArcDPS plugin for Guild Wars 2 allowing tracking of buff food & utility items. - Zerthox",
+                    },
                 };
             }
         }
@@ -108,37 +120,25 @@ namespace PlenBotLogUploader.ArcDps
 
         private string Prefix
         {
-            get
-            {
-                if (ApplicationSettings.Current.ArcUpdate.RenderMode == GameRenderMode.DX11)
-                {
-                    return "d3d11";
-                }
-                return "d3d9";
-            }
+            get => (ApplicationSettings.Current.ArcUpdate.RenderMode == GameRenderMode.DX11) ? "d3d11" : "d3d9";
         }
 
         public string DefaultFileName
         {
             get
             {
-                switch (Type)
+                return Type switch
                 {
-                    case ArcDpsComponentType.Mechanics:
-                        return $"{Prefix}_arcdps_mechanics.dll";
-                    case ArcDpsComponentType.BoonTable:
-                        return $"{Prefix}_arcdps_table.dll";
-                    case ArcDpsComponentType.KPme:
-                        return $"{Prefix}_arcdps_killproof_me.dll";
-                    case ArcDpsComponentType.HealStats:
-                        return $"{Prefix}_arcdps_healing_stats.dll";
-                    case ArcDpsComponentType.SCT:
-                        return $"{Prefix}_arcdps_sct.dll";
-                    case ArcDpsComponentType.Clears:
-                        return $"{Prefix}_arcdps_clears.dll";
-                    default: // arcdps
-                        return $"{Prefix}.dll";
-                }
+                    ArcDpsComponentType.Mechanics => $"{Prefix}_arcdps_mechanics.dll",
+                    ArcDpsComponentType.BoonTable => $"{Prefix}_arcdps_table.dll",
+                    ArcDpsComponentType.KPme => $"{Prefix}_arcdps_killproof_me.dll",
+                    ArcDpsComponentType.HealStats => $"{Prefix}_arcdps_healing_stats.dll",
+                    ArcDpsComponentType.SCT => $"{Prefix}_arcdps_sct.dll",
+                    ArcDpsComponentType.Clears => $"{Prefix}_arcdps_clears.dll",
+                    ArcDpsComponentType.FoodReminder => $"{Prefix}_arcdps_food_reminder.dll",
+                    // arcdps
+                    _ => $"{Prefix}.dll",
+                };
             }
         }
 

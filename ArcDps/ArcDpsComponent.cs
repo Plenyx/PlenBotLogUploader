@@ -18,14 +18,7 @@ namespace PlenBotLogUploader.ArcDps
 
         public static List<ArcDpsComponent> All
         {
-            get
-            {
-                if (_All is null)
-                {
-                    _All = new List<ArcDpsComponent>();
-                }
-                return _All;
-            }
+            get => _All ??= new List<ArcDpsComponent>();
         }
 
         public static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All));
@@ -51,56 +44,37 @@ namespace PlenBotLogUploader.ArcDps
 
         public string Repository
         {
-            get
+            get => Type switch
             {
-                switch (Type)
-                {
-                    case ArcDpsComponentType.Mechanics:
-                        return "knoxfighter/GW2-ArcDPS-Mechanics-Log";
-                    case ArcDpsComponentType.BoonTable:
-                        return "knoxfighter/GW2-ArcDPS-Boon-Table";
-                    case ArcDpsComponentType.KPme:
-                        return "knoxfighter/arcdps-killproof.me-plugin";
-                    case ArcDpsComponentType.HealStats:
-                        return "Krappa322/arcdps_healing_stats";
-                    case ArcDpsComponentType.SCT:
-                        return "Artenuvielle/GW2-SCT";
-                    case ArcDpsComponentType.Clears:
-                        return "gw2scratch/arcdps-clears";
-                    default:
-                        return null;
-                }
-            }
+                ArcDpsComponentType.Mechanics => "knoxfighter/GW2-ArcDPS-Mechanics-Log",
+                ArcDpsComponentType.BoonTable => "knoxfighter/GW2-ArcDPS-Boon-Table",
+                ArcDpsComponentType.KPme => "knoxfighter/arcdps-killproof.me-plugin",
+                ArcDpsComponentType.HealStats => "Krappa322/arcdps_healing_stats",
+                ArcDpsComponentType.SCT => "Artenuvielle/GW2-SCT",
+                ArcDpsComponentType.Clears => "gw2scratch/arcdps-clears",
+                ArcDpsComponentType.FoodReminder => "Zerthox/arcdps-food-reminder",
+                _ => null,
+            };
         }
 
         public GitHubReleasesLatest LatestRelease { get; private set; }
 
         public string DownloadLink
         {
-            get
+            get => Type switch
             {
-                switch (Type)
-                {
-                    case ArcDpsComponentType.ArcDps:
-                        return "https://deltaconnected.com/arcdps/x64/d3d9.dll";
-                    default:
-                        return null;
-                }
-            }
+                ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d9.dll",
+                _ => null,
+            };
         }
 
         public string VersionLink
         {
-            get
+            get => Type switch
             {
-                switch (Type)
-                {
-                    case ArcDpsComponentType.ArcDps:
-                        return "https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum";
-                    default:
-                        return null;
-                }
-            }
+                ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum",
+                _ => null,
+            };
         }
 
         public async Task<bool> DownloadComponent(HttpClientController httpController)
@@ -138,8 +112,8 @@ namespace PlenBotLogUploader.ArcDps
             {
                 return false;
             }
-            if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) ||
-                (Type == ArcDpsComponentType.Mechanics) || (Type == ArcDpsComponentType.BoonTable) || (Type == ArcDpsComponentType.KPme))
+            if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) || (Type == ArcDpsComponentType.Mechanics) ||
+                (Type == ArcDpsComponentType.BoonTable) || (Type == ArcDpsComponentType.KPme) || (Type == ArcDpsComponentType.Clears) || (Type == ArcDpsComponentType.FoodReminder))
             {
                 return GetFileSize().ToString().Equals(version);
             }
