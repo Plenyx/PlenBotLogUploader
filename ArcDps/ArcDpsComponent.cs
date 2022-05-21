@@ -21,7 +21,7 @@ namespace PlenBotLogUploader.ArcDps
             get => _All ??= new List<ArcDpsComponent>();
         }
 
-        public static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All));
+        public static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All, Formatting.Indented));
 
         public static List<ArcDpsComponent> DeserialiseAll(string applicationDirectory)
         {
