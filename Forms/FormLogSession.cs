@@ -65,7 +65,8 @@ namespace PlenBotLogUploader
                     UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
                     SelectedWebhooks = ConvertCheckboxListToList()
                 };
-                var fileName = $"{textBoxSessionName.Text.ToLower().Replace(" ", string.Empty)} {sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
+                var sessionNameFormatted = textBoxSessionName.Text.ToLower().Replace(" ", string.Empty);
+                var fileName = $"{((!string.IsNullOrWhiteSpace(sessionNameFormatted)) ? $"{sessionNameFormatted} " : "")}{sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
                 File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
                 foreach (var reportJSON in mainLink.SessionLogs)
                 {
