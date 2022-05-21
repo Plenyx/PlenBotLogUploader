@@ -223,6 +223,12 @@
     <Compile Include="Forms\FormLogSession.Designer.cs">
       <DependentUpon>FormLogSession.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormNETV6Upgrade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormNETV6Upgrade.Designer.cs">
+      <DependentUpon>FormNETV6Upgrade.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormPings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -349,6 +355,9 @@
     <EmbeddedResource Include="Forms\FormLogSession.resx">
       <DependentUpon>FormLogSession.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormNETV6Upgrade.resx">
+      <DependentUpon>FormNETV6Upgrade.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPings.resx">
       <DependentUpon>FormPings.cs</DependentUpon>

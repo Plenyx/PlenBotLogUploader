@@ -35,7 +35,7 @@ namespace PlenBotLogUploader
         public MumbleReader MumbleReader { get; set; }
         public bool UpdateFound
         {
-            get => _UpdateFound;
+            get => _updateFound;
             set
             {
                 if (buttonUpdate.InvokeRequired)
@@ -51,9 +51,10 @@ namespace PlenBotLogUploader
                     buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
                     buttonUpdate.NotifyDefault(value);
                 }
-                _UpdateFound = value;
+                _updateFound = value;
             }
         }
+        public bool NETV6RisksAccepted { get; set; } = false;
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
@@ -80,7 +81,8 @@ namespace PlenBotLogUploader
         private int lastLogBossId = 0;
         private int lastLogPullCounter = 0;
         private bool lastLogBossCM = false;
-        private bool _UpdateFound = false;
+        private bool _updateFound = false;
+        private bool netv6Update = false;
         private GitHubReleasesLatest latestRelease = null;
 
         // constants
@@ -550,8 +552,8 @@ namespace PlenBotLogUploader
                     {
                         UpdateFound = true;
                         latestRelease = await HttpClientController.GetGitHubLatestReleaseAsync("HardstuckGuild/PlenBotLogUploader");
-                        var netv6Response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/NETV6") ?? "0";
-                        if (appStartup && ApplicationSettings.Current.AutoUpdate && (netv6Response == "false"))
+                        netv6Update = (await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/NETV6") ?? "false") == "true";
+                        if (appStartup && ApplicationSettings.Current.AutoUpdate && !netv6Update)
                         {
                             await PerformUpdate(appStartup);
                         }
@@ -1428,16 +1430,18 @@ namespace PlenBotLogUploader
             }
         }
 
-        private async void ButtonUpdateNow_Click(object sender, EventArgs e)
-        {
-            await PerformUpdate();
-        }
+        private async void ButtonUpdateNow_Click(object sender, EventArgs e) => await PerformUpdate();
 
-        private async Task PerformUpdate(bool appStartup = false)
+        internal async Task PerformUpdate(bool appStartup = false)
         {
             if (!UpdateFound)
             {
                 await NewReleaseCheckAsync();
+                return;
+            }
+            if (netv6Update && !NETV6RisksAccepted)
+            {
+                new FormNETV6Upgrade(this).ShowDialog();
                 return;
             }
             buttonUpdate.Enabled = false;
