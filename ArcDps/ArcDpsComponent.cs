@@ -123,11 +123,7 @@ namespace PlenBotLogUploader.ArcDps
             return MakeMD5Hash().Equals(versionMd5Clean);
         }
 
-        private async Task<GitHubReleasesLatest> GetGitHubRelease(HttpClientController httpController)
-        {
-            LatestRelease = await httpController.GetGitHubLatestReleaseAsync(Repository);
-            return LatestRelease;
-        }
+        private async Task<GitHubReleasesLatest> GetGitHubRelease(HttpClientController httpController) => LatestRelease = await httpController.GetGitHubLatestReleaseAsync(Repository);
 
         public async Task<string> GetVersionStringAsync(HttpClientController httpController)
         {

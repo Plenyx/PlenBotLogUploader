@@ -18,9 +18,6 @@ namespace PlenBotLogUploader
             linkLabelPluginLink.Text = infoItem.LinkName;
         }
 
-        private void LinkLabelPluginLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start(infoItem.LinkURL);
-        }
+        private void LinkLabelPluginLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start(infoItem.LinkURL);
     }
 }

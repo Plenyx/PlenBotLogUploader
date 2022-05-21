@@ -9,11 +9,11 @@ namespace PlenBotLogUploader.Teams
     [JsonObject(MemberSerialization.OptIn)]
     public class TeamCondition
     {
-        private string description = string.Empty;
-        private TeamLimiter limiter = TeamLimiter.Exact;
-        private int limiterValue = 0;
-        private List<string> accountNames = new List<string>();
-        private List<TeamCondition> subconditions = new List<TeamCondition>();
+        private string _description = string.Empty;
+        private TeamLimiter _limiter = TeamLimiter.Exact;
+        private int _limiterValue = 0;
+        private List<string> _accountNames = new List<string>();
+        private List<TeamCondition> _subconditions = new List<TeamCondition>();
 
         /// <summary>
         /// Description for the condition
@@ -21,13 +21,10 @@ namespace PlenBotLogUploader.Teams
         [JsonProperty("description")]
         public string Description
         {
-            get
-            {
-                return description;
-            }
+            get => _description;
             set
             {
-                description = value;
+                _description = value;
                 CallConditionChanged();
             }
         }
@@ -38,13 +35,10 @@ namespace PlenBotLogUploader.Teams
         [JsonProperty("limiter")]
         public TeamLimiter Limiter
         {
-            get
-            {
-                return limiter;
-            }
+            get => _limiter;
             set
             {
-                limiter = value;
+                _limiter = value;
                 CallConditionChanged();
             }
         }
@@ -55,13 +49,10 @@ namespace PlenBotLogUploader.Teams
         [JsonProperty("limiterValue")]
         public int LimiterValue
         {
-            get
-            {
-                return limiterValue;
-            }
+            get => _limiterValue;
             set
             {
-                limiterValue = value;
+                _limiterValue = value;
                 CallConditionChanged();
             }
         }
@@ -72,13 +63,10 @@ namespace PlenBotLogUploader.Teams
         [JsonProperty("accountNames")]
         public List<string> AccountNames
         {
-            get
-            {
-                return accountNames;
-            }
+            get => _accountNames;
             set
             {
-                accountNames = value;
+                _accountNames = value;
                 CallConditionChanged();
             }
         }
@@ -89,14 +77,11 @@ namespace PlenBotLogUploader.Teams
         [JsonProperty("subconditions")]
         public List<TeamCondition> Subconditions
         {
-            get
-            {
-                return subconditions;
-            }
+            get => _subconditions;
             set
             {
-                subconditions = value;
-                subconditions.ForEach(x => x.ParentCondition = this);
+                _subconditions = value;
+                _subconditions.ForEach(x => x.ParentCondition = this);
                 CallConditionChanged();
             }
         }

@@ -78,10 +78,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         public string UrlId
         {
-            get
-            {
-                return Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
-            }
+            get => Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
         }
 
         /// <summary>
@@ -89,10 +86,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         public bool ChallengeMode
         {
-            get
-            {
-                return ExtraJSON?.IsCM ?? false;
-            }
+            get => ExtraJSON?.IsCM ?? false;
         }
     }
 }

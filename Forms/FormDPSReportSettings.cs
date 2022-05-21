@@ -67,14 +67,7 @@ namespace PlenBotLogUploader
         private void ButtonDPSReportShowUsertoken_Click(object sender, EventArgs e)
         {
             textBoxDPSReportUsertoken.UseSystemPasswordChar = !textBoxDPSReportUsertoken.UseSystemPasswordChar;
-            if (textBoxDPSReportUsertoken.UseSystemPasswordChar)
-            {
-                buttonDPSReportShowUsertoken.Text = "Show token";
-            }
-            else
-            {
-                buttonDPSReportShowUsertoken.Text = "Hide token";
-            }
+            buttonDPSReportShowUsertoken.Text = (textBoxDPSReportUsertoken.UseSystemPasswordChar) ? "Show token" : "Hide token";
         }
     }
 }

@@ -35,10 +35,7 @@ namespace PlenBotLogUploader
         public MumbleReader MumbleReader { get; set; }
         public bool UpdateFound
         {
-            get
-            {
-                return _UpdateFound;
-            }
+            get => _UpdateFound;
             set
             {
                 if (buttonUpdate.InvokeRequired)
@@ -122,7 +119,7 @@ namespace PlenBotLogUploader
             toolTip.SetToolTip(checkBoxDetailedWvW, "If checked, extended per-target reports will be generated. (might cause some issues)");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             toolTip.SetToolTip(buttonCopyApplicationSession, "Copies all the logs uploaded during the application session into the clipboard.");
-            // toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the app.");
+            toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the app.");
             toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
             #endregion
             try
@@ -208,7 +205,7 @@ namespace PlenBotLogUploader
                 }
                 if (ApplicationSettings.Current.AutoUpdate)
                 {
-                    // checkBoxAutoUpdate.Checked = true;
+                    checkBoxAutoUpdate.Checked = true;
                 }
                 if (ApplicationSettings.Current.Upload.Anonymous)
                 {
@@ -326,7 +323,7 @@ namespace PlenBotLogUploader
                 checkBoxDetailedWvW.CheckedChanged += new EventHandler(CheckBoxDetailedWvW_CheckedChanged);
                 checkBoxSaveLogsToCSV.CheckedChanged += new EventHandler(CheckBoxSaveLogsToCSV_CheckedChanged);
                 comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
-                // checkBoxAutoUpdate.CheckedChanged += new EventHandler(CheckBoxAutoUpdate_CheckedChanged);
+                checkBoxAutoUpdate.CheckedChanged += new EventHandler(CheckBoxAutoUpdate_CheckedChanged);
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
@@ -546,14 +543,15 @@ namespace PlenBotLogUploader
                 {
                     buttonUpdate.Enabled = false;
                 }
-                var response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/VERSION");
+                var response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/VERSION") ?? "0";
                 if (int.TryParse(response, out int currentversion))
                 {
                     if (currentversion > ApplicationSettings.Version)
                     {
                         UpdateFound = true;
                         latestRelease = await HttpClientController.GetGitHubLatestReleaseAsync("HardstuckGuild/PlenBotLogUploader");
-                        if (false /*appStartup && ApplicationSettings.Current.AutoUpdate*/)
+                        var netv6Response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/NETV6") ?? "0";
+                        if (appStartup && ApplicationSettings.Current.AutoUpdate && (netv6Response == "false"))
                         {
                             await PerformUpdate(appStartup);
                         }
@@ -1275,11 +1273,11 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
         }
 
-        /*private void CheckBoxAutoUpdate_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxAutoUpdate_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.AutoUpdate = checkBoxAutoUpdate.Checked;
             ApplicationSettings.Current.Save();
-        }*/
+        }
 
         private void NotifyIconTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {

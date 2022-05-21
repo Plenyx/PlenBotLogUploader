@@ -67,7 +67,6 @@ namespace PlenBotLogUploader
                         break;
                 }
                 textBoxAccountNames.Text = ((Condition.AccountNames?.Count ?? 0) > 0) ? Condition.AccountNames.Aggregate((x, y) => $"{x}{Environment.NewLine}{y}") : string.Empty;
-                //listBoxSubConditions.Items.AddRange(Condition.Subconditions.ToArray());
                 textBoxConditionVisual.Text = Condition.Draw();
             }
             radioButtonLimiterOR.CheckedChanged += new EventHandler(RadioButtonLimiterOR_CheckedChanged);

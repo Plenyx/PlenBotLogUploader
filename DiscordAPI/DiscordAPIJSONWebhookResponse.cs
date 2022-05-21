@@ -35,10 +35,7 @@ namespace PlenBotLogUploader.DiscordAPI
 
         public bool Success
         {
-            get
-            {
-                return Code is null;
-            }
+            get => Code is null;
         }
     }
 }

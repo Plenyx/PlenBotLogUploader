@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -65,10 +64,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         public string UIName
         {
-            get
-            {
-                return $"{Name}{(!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty)}";
-            }
+            get => $"{Name}{(!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty)}";
         }
 
         /// <summary>

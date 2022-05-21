@@ -167,9 +167,6 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ButtonReloadWebhooks_Click(object sender, EventArgs e)
-        {
-            ReloadWebhooks();
-        }
+        private void ButtonReloadWebhooks_Click(object sender, EventArgs e) => ReloadWebhooks();
     }
 }
