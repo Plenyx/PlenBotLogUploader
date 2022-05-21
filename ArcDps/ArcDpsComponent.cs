@@ -37,7 +37,7 @@ namespace PlenBotLogUploader.ArcDps
         public ArcDpsComponentType Type { get; set; }
 
         [JsonProperty("renderMode")]
-        public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX9;
+        public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX11;
 
         [JsonProperty("location")]
         public string RelativeLocation { get; set; }
