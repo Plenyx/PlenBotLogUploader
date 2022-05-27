@@ -50,6 +50,7 @@
         AiKeeperOfThePeak = 23254,
         Ankka = 23957,
         AetherbladeHideout = 24033,
+        MinisterLiCM = 24266,
         MinisterLi = 24485,
         TheDragonvoid = 43488,
         ConjuredAmalgamate = 43974,

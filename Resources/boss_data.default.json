@@ -228,6 +228,14 @@
     "Event": false
   },
   {
+    "BossId": 24266,
+    "Name": "Minister Li",
+    "InternalDescription": "Challenge Mode",
+    "Icon": "https://i.imgur.com/7OutZup.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
     "BossId": 24485,
     "Name": "Minister Li",
     "Icon": "https://i.imgur.com/7OutZup.png",
