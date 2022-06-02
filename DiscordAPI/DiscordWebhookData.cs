@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.Teams;
+using PlenBotLogUploader.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.DiscordAPI
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class DiscordWebhookData
     {
         /// <summary>
@@ -44,18 +46,40 @@ namespace PlenBotLogUploader.DiscordAPI
         [JsonProperty("disabledBosses")]
         public List<int> BossesDisable { get; set; } = new List<int>();
 
+        [JsonProperty("teamId")]
+        public int TeamID { get; set; } = 0;
+
         /// <summary>
         /// A selected webhook team, with which the webhook should evaluate itself
         /// </summary>
-        [JsonProperty("team")]
-        public Team Team { get; set; }
+        public Team Team
+        {
+            get
+            {
+                if (_team is null)
+                {
+                    if (Teams.Teams.All.TryGetValue(TeamID, out Team team))
+                    {
+                        _team = team;
+                    }
+                }
+                return _team;
+            }
+            set
+            {
+                _team = value;
+                TeamID = value.ID;
+            }
+        }
+
+        private Team _team;
 
         /// <summary>
         /// Tests whether webhook is valid
         /// </summary>
         /// <param name="httpController">HttpClientController class used for using http connection</param>
         /// <returns>True if webhook is valid, false otherwise</returns>
-        public async Task<bool> TestWebhookAsync(Tools.HttpClientController httpController)
+        public async Task<bool> TestWebhookAsync(HttpClientController httpController)
         {
             try
             {

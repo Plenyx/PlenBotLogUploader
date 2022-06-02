@@ -160,7 +160,7 @@ namespace PlenBotLogUploader.ArcDps
                 byte[] hash = null;
                 using var stream = File.OpenRead($"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
                 hash = md5.ComputeHash(stream);
-                return BitConverter.ToString(hash).Replace("-", "").ToLower();
+                return BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
             }
             catch
             {
