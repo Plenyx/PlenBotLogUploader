@@ -887,6 +887,11 @@ namespace PlenBotLogUploader
 
         public async Task ExecuteSessionLogWebhooksAsync(LogSessionSettings logSessionSettings)
         {
+            if (SessionLogs is null)
+            {
+                AddToText($"There was an error processing log session logs. SessionLogs is null.");
+                return;
+            }
             var builder = new StringBuilder($">:> Session summary:{Environment.NewLine}");
             foreach (var log in SessionLogs)
             {
