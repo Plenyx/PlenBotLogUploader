@@ -895,7 +895,7 @@ namespace PlenBotLogUploader
             var builder = new StringBuilder($">:> Session summary:{Environment.NewLine}");
             foreach (var log in SessionLogs)
             {
-                builder.AppendLine($"{log?.ExtraJSON.FightName ?? log.Encounter.Boss}: {log.Permalink}");
+                builder.AppendLine($"{log?.ExtraJSON?.FightName ?? log.Encounter.Boss}: {log.Permalink}");
             }
             AddToText(builder.ToString());
             await discordWebhooksLink.ExecuteSessionWebhooksAsync(SessionLogs, logSessionSettings);
