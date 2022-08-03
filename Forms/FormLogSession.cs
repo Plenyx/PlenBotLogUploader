@@ -53,7 +53,6 @@ namespace PlenBotLogUploader
                 var elapsedTime = stopWatch.Elapsed.ParseHMS();
                 var elapsedTimeSpan = stopWatch.Elapsed;
                 stopWatch.Reset();
-                var sortBy = radioButtonSortByUpload.Checked ? 1 : 0;
                 var logSessionSettings = new LogSessionSettings()
                 {
                     Name = textBoxSessionName.Text,
@@ -61,7 +60,7 @@ namespace PlenBotLogUploader
                     ShowSuccess = !checkBoxOnlySuccess.Checked,
                     ElapsedTime = elapsedTime,
                     ElapsedTimeSpan = elapsedTimeSpan,
-                    SortBy = (LogSessionSortBy)sortBy,
+                    SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.Wing,
                     MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
                     UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
                     SelectedWebhooks = ConvertCheckboxListToList()

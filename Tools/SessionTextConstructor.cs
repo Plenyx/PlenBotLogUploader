@@ -153,6 +153,8 @@ namespace PlenBotLogUploader.Tools
                         if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.EVTC.BossId)))
                         {
                             builderSuccessFailure.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                            builderSuccess.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                            builderFailure.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
                             lastWing = Bosses.GetWingForBoss(data.LogData.EVTC.BossId);
                         }
                         var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : string.Empty);
@@ -202,7 +204,17 @@ namespace PlenBotLogUploader.Tools
                 {
                     builderSuccessFailure.Append("\n\n");
                 }
+                if (!builderSuccess.ToString().EndsWith("***\n"))
+                {
+                    builderSuccess.Append("\n\n");
+                }
+                if (!builderFailure.ToString().EndsWith("***\n"))
+                {
+                    builderFailure.Append("\n\n");
+                }
                 builderSuccessFailure.Append("***Fractal logs:***\n");
+                builderSuccess.Append("***Fractal logs:***\n");
+                builderFailure.Append("***Fractal logs:***\n");
                 foreach (var log in FractalLogs)
                 {
                     var bossName = log.Encounter.Boss;
@@ -251,7 +263,17 @@ namespace PlenBotLogUploader.Tools
                 {
                     builderSuccessFailure.Append("\n\n");
                 }
+                if (!builderSuccess.ToString().EndsWith("***\n"))
+                {
+                    builderSuccess.Append("\n\n");
+                }
+                if (!builderFailure.ToString().EndsWith("***\n"))
+                {
+                    builderFailure.Append("\n\n");
+                }
                 builderSuccessFailure.Append("***Strike mission logs:***\n");
+                builderSuccess.Append("***Strike mission logs:***\n");
+                builderFailure.Append("***Strike mission logs:***\n");
                 foreach (var log in StrikeLogs)
                 {
                     var bossName = log.Encounter.Boss;
@@ -300,7 +322,17 @@ namespace PlenBotLogUploader.Tools
                 {
                     builderSuccessFailure.Append("\n\n");
                 }
+                if (!builderSuccess.ToString().EndsWith("***\n"))
+                {
+                    builderSuccess.Append("\n\n");
+                }
+                if (!builderFailure.ToString().EndsWith("***\n"))
+                {
+                    builderFailure.Append("\n\n");
+                }
                 builderSuccessFailure.Append("***Golem logs:***\n");
+                builderSuccess.Append("***Golem logs:***\n");
+                builderFailure.Append("***Golem logs:***\n");
                 foreach (var log in GolemLogs)
                 {
                     builderSuccessFailure.Append($"{log.Permalink}\n");
@@ -362,7 +394,17 @@ namespace PlenBotLogUploader.Tools
                 {
                     builderSuccessFailure.Append("\n\n");
                 }
+                if (!builderSuccess.ToString().EndsWith("***\n"))
+                {
+                    builderSuccess.Append("\n\n");
+                }
+                if (!builderFailure.ToString().EndsWith("***\n"))
+                {
+                    builderFailure.Append("\n\n");
+                }
                 builderSuccessFailure.Append("***WvW logs:***\n");
+                builderSuccess.Append("***WvW logs:***\n");
+                builderFailure.Append("***WvW logs:***\n");
                 foreach (var log in WvWLogs)
                 {
                     builderSuccessFailure.Append($"{log.Permalink}\n");
@@ -403,7 +445,17 @@ namespace PlenBotLogUploader.Tools
                 {
                     builderSuccessFailure.Append("\n\n");
                 }
+                if (!builderSuccess.ToString().EndsWith("***\n"))
+                {
+                    builderSuccess.Append("\n\n");
+                }
+                if (!builderFailure.ToString().EndsWith("***\n"))
+                {
+                    builderFailure.Append("\n\n");
+                }
                 builderSuccessFailure.Append("***Other logs:***\n");
+                builderSuccess.Append("***Other logs:***\n");
+                builderFailure.Append("***Other logs:***\n");
                 foreach (var log in OtherLogs)
                 {
                     var bossName = log.Encounter.Boss;
