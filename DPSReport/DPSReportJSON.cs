@@ -78,7 +78,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         public string UrlId
         {
-            get => Permalink.Substring(Permalink.IndexOf("dps.report/") + 11);
+            get => Permalink?.Substring(Permalink.IndexOf("dps.report/") + 11) ?? "";
         }
 
         /// <summary>
