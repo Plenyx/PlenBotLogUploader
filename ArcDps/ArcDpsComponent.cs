@@ -63,7 +63,7 @@ namespace PlenBotLogUploader.ArcDps
         {
             get => Type switch
             {
-                ArcDpsComponentType.ArcDps => RenderMode.Equals(GameRenderMode.DX11) ? "https://deltaconnected.com/arcdps/x64/d3d11.dll" : "https://deltaconnected.com/arcdps/x64/d3d9.dll",
+                ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d11.dll",
                 _ => null,
             };
         }
@@ -72,7 +72,7 @@ namespace PlenBotLogUploader.ArcDps
         {
             get => Type switch
             {
-                ArcDpsComponentType.ArcDps => RenderMode.Equals(GameRenderMode.DX11) ? "https://deltaconnected.com/arcdps/x64/d3d11.dll.md5sum" : "https://deltaconnected.com/arcdps/x64/d3d9.dll.md5sum",
+                ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d11.dll.md5sum",
                 _ => null,
             };
         }
