@@ -85,11 +85,11 @@ namespace PlenBotLogUploader.ArcDps
             }
             if (!string.IsNullOrWhiteSpace(Repository))
             {
-                var dll = LatestRelease?.Assets?.Where(x => x.Name.EndsWith(".dll")).FirstOrDefault()?.DownloadURL ?? null;
+                var dll = LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadURL ?? null;
                 if (dll is null)
                 {
                     await GetGitHubRelease(httpController);
-                    dll = LatestRelease?.Assets?.Where(x => x.Name.EndsWith(".dll")).FirstOrDefault()?.DownloadURL ?? null;
+                    dll = LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadURL ?? null;
                     if (dll is null)
                     {
                         return false;
@@ -134,7 +134,7 @@ namespace PlenBotLogUploader.ArcDps
             if (!string.IsNullOrWhiteSpace(Repository))
             {
                 var release = await GetGitHubRelease(httpController);
-                return release?.Assets?.Where(x => x.Name.EndsWith(".dll")).FirstOrDefault()?.Size.ToString() ?? null;
+                return release?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.Size.ToString() ?? null;
             }
             return null;
         }

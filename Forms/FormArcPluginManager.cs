@@ -35,10 +35,10 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             var availableComponents = ArcDpsComponentHelperClass.All;
             var arcIsInstalled = true;
-            var arcInstalledComponent = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).Any();
+            var arcInstalledComponent = installedComponents.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
             if (arcInstalledComponent)
             {
-                var arcdps = installedComponents.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).First();
+                var arcdps = installedComponents.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
                 if (!arcdps.IsInstalled())
                 {
                     arcIsInstalled = false;
@@ -56,10 +56,10 @@ namespace PlenBotLogUploader
             }
             foreach (var component in availableComponents)
             {
-                var installed = arcIsInstalled && installedComponents.Where(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).Any();
+                var installed = arcIsInstalled && installedComponents.Any(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
                 if (installed)
                 {
-                    var installedComponent = installedComponents.Where(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).First();
+                    var installedComponent = installedComponents.First(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
                     if (!installedComponent.IsInstalled())
                     {
                         installed = false;
@@ -209,9 +209,9 @@ namespace PlenBotLogUploader
                 var location = Path.GetDirectoryName(dialog.FileName);
                 ApplicationSettings.Current.GW2Location = location;
                 ApplicationSettings.Current.Save();
-                if (ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).Any())
+                if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)))
                 {
-                    var component = ArcDpsComponent.All.Where(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).First();
+                    var component = ArcDpsComponent.All.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
                     if (!component.IsInstalled())
                     {
                         await component.DownloadComponent(httpController);
@@ -251,7 +251,7 @@ namespace PlenBotLogUploader
                 var processes = GetGW2Instances();
                 if (processes.Count == 0)
                 {
-                    var component = ArcDpsComponent.All.Where(x => x.Type.Equals(item.Type)).FirstOrDefault();
+                    var component = ArcDpsComponent.All.FirstOrDefault(x => x.Type.Equals(item.Type));
                     File.Delete($"{ApplicationSettings.Current.GW2Location}{component.RelativeLocation}");
                     ArcDpsComponent.All.RemoveAll(x => x.Type.Equals(component.Type));
                 }
@@ -354,14 +354,10 @@ namespace PlenBotLogUploader
         private void ButtonShowPluginInfo_Click(object sender, EventArgs e)
         {
             var item = checkedListBoxArcDpsPlugins.SelectedItem;
-            if (!(item is null))
+            if (!(item is null) && item.GetType().Equals(typeof(ArcDpsComponentHelperClass)))
             {
-                if (item.GetType().Equals(typeof(ArcDpsComponentHelperClass)))
-                {
-                    (new FormArcPluginInfo(item as ArcDpsComponentHelperClass)).ShowDialog();
-                }
+                (new FormArcPluginInfo(item as ArcDpsComponentHelperClass)).ShowDialog();
             }
-            
         }
 
         private void CheckedListBoxArcDpsPlugins_SelectedIndexChanged(object sender, EventArgs e)

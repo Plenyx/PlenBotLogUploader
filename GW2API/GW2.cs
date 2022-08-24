@@ -10,9 +10,7 @@ namespace PlenBotLogUploader.GW2API
         {
             get
             {
-                if (_AllServers is null)
-                {
-                    _AllServers = new Dictionary<int, GW2Server>()
+                _AllServers ??= new Dictionary<int, GW2Server>()
                     {
                         { 1001, new GW2Server() { ID = 1001, Name = "Anvil Rock" } },
                         { 1002, new GW2Server() { ID = 1002, Name = "Borlis Pass" } },
@@ -66,7 +64,6 @@ namespace PlenBotLogUploader.GW2API
                         { 2207, new GW2Server() { ID = 2207, Name = "Dzagonur [DE]" } },
                         { 2301, new GW2Server() { ID = 2301, Name = "Baruch Bay [SP]" } }
                     };
-                }
                 return _AllServers;
             }
         }

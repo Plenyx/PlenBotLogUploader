@@ -17,15 +17,12 @@ namespace PlenBotLogUploader.AppSettings
         {
             get
             {
-                switch (DPSReportServer)
+                return DPSReportServer switch
                 {
-                    case DPSReportServer.A:
-                        return "http://a.dps.report";
-                    case DPSReportServer.B:
-                        return "https://b.dps.report";
-                    default:
-                        return "https://dps.report";
-                }
+                    DPSReportServer.A => "http://a.dps.report",
+                    DPSReportServer.B => "https://b.dps.report",
+                    _ => "https://dps.report",
+                };
             }
         }
 

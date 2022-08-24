@@ -109,12 +109,12 @@ namespace PlenBotLogUploader.Teams
             {
                 return false;
             }
-            var sumOfTeamMembers = AccountNames.Select(x => extraJSON.Players.Where(y => y.Account.Equals(x)).Count()).Sum();
+            var sumOfTeamMembers = AccountNames.Select(x => extraJSON.Players.Count(y => y.Account.Equals(x))).Sum();
             return Limiter switch
             {
-                TeamLimiter.AND => Subconditions.Where(x => x.IsSatisfied(extraJSON)).Count() == Subconditions.Count,
-                TeamLimiter.OR => Subconditions.Where(x => x.IsSatisfied(extraJSON)).Count() > 0,
-                TeamLimiter.CommanderName => extraJSON.Players.Where(x => x.IsCommander).Where(x => AccountNames.Contains(x.Account)).Count() > 0,
+                TeamLimiter.AND => Subconditions.Count(x => x.IsSatisfied(extraJSON)) == Subconditions.Count,
+                TeamLimiter.OR => Subconditions.Any(x => x.IsSatisfied(extraJSON)),
+                TeamLimiter.CommanderName => extraJSON.Players.Any(x => x.IsCommander && AccountNames.Contains(x.Account)),
                 TeamLimiter.Exact => sumOfTeamMembers == LimiterValue,
                 TeamLimiter.Except => sumOfTeamMembers == 0,
                 // at least

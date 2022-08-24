@@ -61,35 +61,26 @@ namespace PlenBotLogUploader.Tools
             }
             var FractalLogs = reportsJSON
                 .Where(x => allBosses
-                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
-                    .Where(y => y.Value.Type.Equals(BossType.Fractal))
-                    .Count() > 0)
+                    .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.Fractal)))
                 .ToList();
             var StrikeLogs = reportsJSON
                 .Where(x => allBosses
-                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
-                    .Where(y => y.Value.Type.Equals(BossType.Strike))
-                    .Count() > 0)
+                    .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.Strike)))
                 .ToList();
             var GolemLogs = reportsJSON
                 .Where(x => allBosses
-                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
-                    .Where(y => y.Value.Type.Equals(BossType.Golem))
-                    .Count() > 0)
+                    .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.Golem)))
                 .ToList();
             var WvWLogs = reportsJSON
                 .Where(x => allBosses
-                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
-                    .Where(y => y.Value.Type.Equals(BossType.WvW))
-                    .Count() > 0)
+                    .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.WvW)))
                 .ToList();
             var OtherLogs = reportsJSON
-                .Where(x => allBosses
-                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
-                    .Where(y => y.Value.Type.Equals(BossType.None))
-                    .Count() > 0 || allBosses
-                    .Where(y => y.Value.BossId.Equals(x.EVTC.BossId))
-                    .Count() == 0)
+                .Where(x =>
+                    allBosses
+                        .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.None)) ||
+                    !allBosses
+                        .Any(y => y.Value.BossId.Equals(x.EVTC.BossId)))
                 .ToList();
 
             var durationText = $"Session duration: **{logSessionSettings.ElapsedTime}**";

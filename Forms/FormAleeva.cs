@@ -92,17 +92,10 @@ namespace PlenBotLogUploader
                 {
                     await GetAleevaTokenFromRefreshToken();
                 }
-                if (ApplicationSettings.Current.Aleeva.SelectedTeamId > 0)
-                {
-                    if (Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Aleeva.SelectedTeamId))
-                    {
-                        if (!Teams.Teams.All[ApplicationSettings.Current.Aleeva.SelectedTeamId].IsSatisfied(reportJSON.ExtraJSON))
-                        {
-                            return;
-                        }
-                    }
-                }
-                if (checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
+                if ((checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false)) ||
+                    ((ApplicationSettings.Current.Aleeva.SelectedTeamId > 0) &&
+                        Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Aleeva.SelectedTeamId) &&
+                        !Teams.Teams.All[ApplicationSettings.Current.Aleeva.SelectedTeamId].IsSatisfied(reportJSON.ExtraJSON)))
                 {
                     return;
                 }
@@ -202,12 +195,12 @@ namespace PlenBotLogUploader
                     ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
                     ApplicationSettings.Current.Save();
                     await AleevaLoadServers();
-                    var selectedServer = aleevaServers.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer)).FirstOrDefault();
+                    var selectedServer = aleevaServers.FirstOrDefault(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer));
                     if (!(selectedServer is null))
                     {
                         comboBoxServer.SelectedItem = selectedServer;
                         await AleevaLoadChannels(selectedServer.ID);
-                        var selectedChannel = aleevaServerChannels.Where(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel)).First();
+                        var selectedChannel = aleevaServerChannels.First(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel));
                         if (!(selectedChannel is null))
                         {
                             comboBoxChannel.SelectedItem = selectedChannel;

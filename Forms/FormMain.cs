@@ -482,10 +482,6 @@ namespace PlenBotLogUploader
                                 };
                                 await HttpUploadLogAsync(zipfilelocation, postData);
                             }
-                            catch
-                            {
-                                throw;
-                            }
                             finally
                             {
                                 if (archived)
@@ -897,7 +893,7 @@ namespace PlenBotLogUploader
             var builder = new StringBuilder($">:> Session summary:{Environment.NewLine}");
             foreach (var log in SessionLogs)
             {
-                builder.AppendLine($"{log?.ExtraJSON?.FightName ?? log.Encounter.Boss}: {log.Permalink}");
+                builder.AppendLine($"{log.ExtraJSON?.FightName ?? log.Encounter.Boss}: {log.Permalink}");
             }
             AddToText(builder.ToString());
             await discordWebhooksLink.ExecuteSessionWebhooksAsync(SessionLogs, logSessionSettings);
@@ -1453,7 +1449,7 @@ namespace PlenBotLogUploader
             }
             buttonUpdate.Enabled = false;
             AddToText(">>> Downloading update...");
-            var downloadUrl = latestRelease.Assets.Where(x => x.Name.Equals("PlenBotLogUploader.exe")).FirstOrDefault().DownloadURL;
+            var downloadUrl = latestRelease.Assets.FirstOrDefault(x => x.Name.Equals("PlenBotLogUploader.exe")).DownloadURL;
             var result = await HttpClientController.DownloadFileAsync(downloadUrl, $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
             if (result)
             {

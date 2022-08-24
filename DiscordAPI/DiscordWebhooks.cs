@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PlenBotLogUploader.DiscordAPI
 {
-    class DiscordWebhooks
+    public static class DiscordWebhooks
     {
         public static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
         
