@@ -1,6 +1,7 @@
 ﻿using Hardstuck.GuildWars2;
 using PlenBotLogUploader.AppSettings;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PlenBotLogUploader.ArcDps
 {
@@ -125,21 +126,23 @@ namespace PlenBotLogUploader.ArcDps
 
         public string DefaultFileName
         {
-            get
+            get => Type switch
             {
-                return Type switch
-                {
-                    ArcDpsComponentType.Mechanics => $"{Prefix}_arcdps_mechanics.dll",
-                    ArcDpsComponentType.BoonTable => $"{Prefix}_arcdps_table.dll",
-                    ArcDpsComponentType.KPme => $"{Prefix}_arcdps_killproof_me.dll",
-                    ArcDpsComponentType.HealStats => $"{Prefix}_arcdps_healing_stats.dll",
-                    ArcDpsComponentType.SCT => $"{Prefix}_arcdps_sct.dll",
-                    ArcDpsComponentType.Clears => $"{Prefix}_arcdps_clears.dll",
-                    ArcDpsComponentType.FoodReminder => $"{Prefix}_arcdps_food_reminder.dll",
-                    // arcdps
-                    _ => $"{Prefix}.dll",
-                };
-            }
+                ArcDpsComponentType.Mechanics => $"{Prefix}_arcdps_mechanics.dll",
+                ArcDpsComponentType.BoonTable => $"{Prefix}_arcdps_table.dll",
+                ArcDpsComponentType.KPme => $"{Prefix}_arcdps_killproof_me.dll",
+                ArcDpsComponentType.HealStats => $"{Prefix}_arcdps_healing_stats.dll",
+                ArcDpsComponentType.SCT => $"{Prefix}_arcdps_sct.dll",
+                ArcDpsComponentType.Clears => $"{Prefix}_arcdps_clears.dll",
+                ArcDpsComponentType.FoodReminder => $"{Prefix}_arcdps_food_reminder.dll",
+                // arcdps
+                _ => $"{Prefix}.dll",
+            };
+        }
+
+        public bool IsInstalled
+        {
+            get => File.Exists($"{ApplicationSettings.Current.GW2Location}{DefaultFileName}");
         }
 
         public override string ToString() => $"{Name} by {Author}";
