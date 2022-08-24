@@ -13,7 +13,7 @@ namespace PlenBotLogUploader.AppSettings
         public bool Notifications { get; set; } = true;
 
         [JsonProperty("renderMode")]
-        public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX9;
+        public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX11;
 
         [JsonProperty("lastUpdateCheck")]
         public DateTime LastUpdateCheck { get; set; } = DateTime.Now;

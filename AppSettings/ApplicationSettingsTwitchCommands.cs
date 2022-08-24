@@ -20,7 +20,7 @@ namespace PlenBotLogUploader.AppSettings
         public bool LastLogEnabled { get; set; } = false;
 
         [JsonProperty("lastLogCommand")]
-        public string LastLogCommand { get; set; } = "!log";
+        public string LastLogCommand { get; set; } = "!lastlog";
 
         [JsonProperty("pullCounterEnabled")]
         public bool PullCounterEnabled { get; set; } = true;
