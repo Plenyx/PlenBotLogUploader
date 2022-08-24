@@ -127,6 +127,6 @@ It is because the next version has changes that require additional action from y
 The next version is using an updated version of the programming language pack used by the Uploader. You must have this new version installed before you proceed.
 
 Please install the latest version of .NET 6.0 at the following link BEFORE you click on the button below.
-https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.5-windows-x64-installer</value>
+https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.8-windows-x64-installer</value>
   </data>
 </root>
