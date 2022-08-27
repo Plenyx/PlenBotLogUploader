@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace PlenBotLogUploader.AppSettings
@@ -68,8 +69,8 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("firstTimeMinimised")]
         public bool FirstTimeMinimised { get; set; } = false;
 
-        [JsonProperty("gw2APIKey")]
-        public string GW2APIKey { get; set; } = string.Empty;
+        [JsonProperty("gw2APIKeys")]
+        public List<ApplicationSettingsGW2API> GW2APIs { get; set; } = new List<ApplicationSettingsGW2API>();
 
         [JsonProperty("gw2Bot")]
         public ApplicationSettingsGW2Bot GW2Bot { get; set; } = new ApplicationSettingsGW2Bot();

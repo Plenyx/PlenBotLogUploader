@@ -107,6 +107,7 @@
     <Compile Include="AppSettings\ApplicationSettingsAleeva.cs" />
     <Compile Include="AppSettings\ApplicationSettingsArcUpdate.cs" />
     <Compile Include="AppSettings\ApplicationSettingsBossTemplate.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsGW2API.cs" />
     <Compile Include="AppSettings\ApplicationSettingsGW2Bot.cs" />
     <Compile Include="AppSettings\ApplicationSettingsSession.cs" />
     <Compile Include="AppSettings\ApplicationSettingsTwitchCommands.cs" />
@@ -192,6 +193,12 @@
     </Compile>
     <Compile Include="Forms\FormEditDiscordWebhook.Designer.cs">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormEditGW2API.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEditGW2API.Designer.cs">
+      <DependentUpon>FormEditGW2API.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormEditTeam.cs">
       <SubType>Form</SubType>
@@ -282,6 +289,7 @@
     <Compile Include="GW2API\GW2.cs" />
     <Compile Include="GW2API\GW2Account.cs" />
     <Compile Include="GW2API\GW2Server.cs" />
+    <Compile Include="GW2API\GW2TokenInfo.cs" />
     <Compile Include="GW2Bot\GW2BotAddReport.cs" />
     <Compile Include="GW2Bot\GW2BotAddReportResponse.cs" />
     <Compile Include="RemotePing\PingResponse.cs" />
@@ -335,6 +343,9 @@
     <EmbeddedResource Include="Forms\FormEditDiscordWebhook.resx">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEditGW2API.resx">
+      <DependentUpon>FormEditGW2API.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditTeam.resx">
       <DependentUpon>FormEditTeam.cs</DependentUpon>

@@ -108,7 +108,7 @@ namespace PlenBotLogUploader
             discordWebhooksLink = new FormDiscordWebhooks(this);
             twitchCommandsLink = new FormTwitchCommands();
             logSessionLink = new FormLogSession(this);
-            gw2APILink = new FormGW2API();
+            gw2APILink = new FormGW2API(this);
             aleevaLink = new FormAleeva(this);
             gw2botLink = new FormGW2Bot(this);
             teamsLink = new FormTeams();
@@ -269,7 +269,6 @@ namespace PlenBotLogUploader
                 logSessionLink.radioButtonSortByUpload.Checked = ApplicationSettings.Current.Session.Sort == LogSessionSortBy.UploadTime;
                 logSessionLink.checkBoxSaveToFile.Checked = ApplicationSettings.Current.Session.SaveToFile;
                 logSessionLink.checkBoxMakeWvWSummary.Checked = ApplicationSettings.Current.Session.MakeWvWSummaryEmbed;
-                gw2APILink.textBoxAPIKey.Text = ApplicationSettings.Current.GW2APIKey;
                 if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.RefreshToken) && (DateTime.Now < ApplicationSettings.Current.Aleeva.RefreshTokenExpire))
                 {
                     Task.Run(() => aleevaLink.GetAleevaTokenFromRefreshToken());
@@ -306,7 +305,9 @@ namespace PlenBotLogUploader
                 {
                     File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
                 }
-                // startup check
+                // API keys check
+                _ = ValidateGW2Tokens();
+                // Windows startup check
                 using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                 {
                     var registryValue = registrySubKey.GetValue("PlenBot Log Uploader");
@@ -651,6 +652,15 @@ namespace PlenBotLogUploader
                     }
                 }
             }
+        }
+
+        protected async Task ValidateGW2Tokens()
+        {
+            foreach (var apiKey in ApplicationSettings.Current.GW2APIs)
+            {
+                await apiKey.ValidateToken(HttpClientController);
+            }
+            gw2APILink.RedrawList();
         }
         #endregion
 
@@ -1101,47 +1111,45 @@ namespace PlenBotLogUploader
                 else if (command.Equals(twitchCommandsLink.textBoxGW2Build.Text.ToLower()) && twitchCommandsLink.checkBoxGW2BuildEnable.Checked)
                 {
                     AddToText("> (GW2) BUILD COMMAND USED");
-                    if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2APIKey))
+                    MumbleReader?.Update();
+                    if (!string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
                     {
-                        MumbleReader?.Update();
-                        if (!string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
+                        _ = Task.Run(async () =>
                         {
-                            _ = Task.Run(async () =>
+                            foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
                             {
-                                try
+                                await apiKey.GetCharacters(HttpClientController);
+                            }
+                            var trueApiKey = ApplicationSettings.Current.GW2APIs.FirstOrDefault(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+                            try
+                            {
+                                using var parser = new GW2BuildParser(trueApiKey?.APIKey ?? "");
+                                var build = await parser.GetAPIBuildAsync(MumbleReader.Data.Identity.Name, MumbleReader.Data.Context.GameMode);
+                                var buildLink = build.GetBuildLink();
+                                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"Link to the build: {buildLink}");
+                            }
+                            catch (NotEnoughPermissionsException ex)
+                            {
+                                var response = new StringBuilder("The API request failed due to low API key permissions, main reason: ");
+                                switch (ex.MissingPermission)
                                 {
-                                    using var parser = new GW2BuildParser(ApplicationSettings.Current.GW2APIKey);
-                                    var build = await parser.GetAPIBuildAsync(MumbleReader.Data.Identity.Name, MumbleReader.Data.Context.GameMode);
-                                    var buildLink = build.GetBuildLink();
-                                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"Link to the build: {buildLink}");
+                                    case NotEnoughPermissionsReason.Characters:
+                                        response.Append("the API key is missing \"characters\" permission");
+                                        break;
+                                    case NotEnoughPermissionsReason.Builds:
+                                        response.Append("the API key is missing \"builds\" permission");
+                                        break;
+                                    default:
+                                        response.Append("the API key is invalid");
+                                        break;
                                 }
-                                catch (NotEnoughPermissionsException ex)
-                                {
-                                    var response = new StringBuilder("The API request failed due to low API key permissions, main reason: ");
-                                    switch (ex.MissingPermission)
-                                    {
-                                        case NotEnoughPermissionsReason.Characters:
-                                            response.Append("the API key is missing \"characters\" permission");
-                                            break;
-                                        case NotEnoughPermissionsReason.Builds:
-                                            response.Append("the API key is missing \"builds\" permission");
-                                            break;
-                                        default:
-                                            response.Append("the API key is invalid");
-                                            break;
-                                    }
-                                    AddToText(response.ToString());
-                                }
-                            });
-                        }
-                        else
-                        {
-                            AddToText("Read from Mumble Link has failed, is the game running?");
-                        }
+                                AddToText(response.ToString());
+                            }
+                        });
                     }
                     else
                     {
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "GW2 API key is not set for the streamer, although the command is enabled, curious.");
+                        AddToText("Read from Mumble Link has failed, is the game running?");
                     }
                 }
                 else if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
@@ -1167,19 +1175,32 @@ namespace PlenBotLogUploader
                 else if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2IgnEnable.Checked)
                 {
                     AddToText("> (GW2) IGN COMMAND USED");
-                    if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2APIKey))
+                    MumbleReader?.Update();
+                    if (!string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
                     {
-                        using var gw2Api = new Gw2APIHelper(ApplicationSettings.Current.GW2APIKey);
-                        var userInfo = await gw2Api.GetUserInfoAsync();
-                        if (!(userInfo is null))
+                        _ = Task.Run(async () =>
                         {
-                            var playerWorld = GW2.AllServers[userInfo.World];
-                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
-                        }
-                        else
-                        {
-                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "An error has occured while getting the user name from an API key.");
-                        }
+                            foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                            {
+                                await apiKey.GetCharacters(HttpClientController);
+                            }
+                            var trueApiKey = ApplicationSettings.Current.GW2APIs.FirstOrDefault(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+                            if (trueApiKey is null)
+                            {
+                                return;
+                            }
+                            using var gw2Api = new Gw2APIHelper(trueApiKey.APIKey);
+                            var userInfo = await gw2Api.GetUserInfoAsync();
+                            if (!(userInfo is null))
+                            {
+                                var playerWorld = GW2.AllServers[userInfo.World];
+                                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
+                            }
+                            else
+                            {
+                                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "An error has occured while getting the user name from an API key.");
+                            }
+                        });
                     }
                 }
             }
