@@ -378,7 +378,8 @@ namespace PlenBotLogUploader.Tools
                     .Sum();
                     discordEmbedSummary = MakeEmbedFromText($"{logSessionSettings.Name} - WvW Summary", $"{durationText}\n\n" +
                         $"Total kills: **{totalEnemyKills}**\nTotal kills per minute: **{Math.Round(totalEnemyKills / logSessionSettings.ElapsedTimeSpan.TotalMinutes, 3).ToString(CultureInfo.InvariantCulture.NumberFormat)}**\n\n" +
-                        $"Total squad deaths: **{totalSquadDeaths}**\nTotal squad deaths per minute: **{Math.Round(totalSquadDeaths / logSessionSettings.ElapsedTimeSpan.TotalMinutes, 3).ToString(CultureInfo.InvariantCulture.NumberFormat)}**");
+                        $"Total squad deaths: **{totalSquadDeaths}**\nTotal squad deaths per minute: **{Math.Round(totalSquadDeaths / logSessionSettings.ElapsedTimeSpan.TotalMinutes, 3).ToString(CultureInfo.InvariantCulture.NumberFormat)}**\n\n" +
+                        $"Kill Death Ratio:: **{Math.Round(totalEnemyKills / totalSquadDeaths, 2).ToString(CultureInfo.InvariantCulture.NumberFormat)}**");
                     discordEmbedSummary.Thumbnail = defaultWvWSummaryThumbnail;
                 }
                 if (!builderSuccessFailure.ToString().EndsWith("***\n"))
