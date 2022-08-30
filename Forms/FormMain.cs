@@ -236,10 +236,6 @@ namespace PlenBotLogUploader
                         if (ApplicationSettings.Current.ArcUpdate.Enabled)
                         {
                             arcPluginManagerLink.checkBoxModuleEnabled.Checked = true;
-                            if (ApplicationSettings.Current.ArcUpdate.RenderMode.Equals(Hardstuck.GuildWars2.GameRenderMode.DX11))
-                            {
-                                arcPluginManagerLink.radioButtonDX11.Checked = true;
-                            }
                             _ = arcPluginManagerLink.StartTimerAsync(true, true);
                         }
                     }

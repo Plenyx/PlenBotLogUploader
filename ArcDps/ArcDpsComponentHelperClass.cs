@@ -121,7 +121,7 @@ namespace PlenBotLogUploader.ArcDps
 
         private string Prefix
         {
-            get => (ApplicationSettings.Current.ArcUpdate.RenderMode == GameRenderMode.DX11) ? "d3d11" : "d3d9";
+            get => "d3d11";
         }
 
         public string DefaultFileName
