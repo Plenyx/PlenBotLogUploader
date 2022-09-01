@@ -64,6 +64,7 @@
             this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.checkBoxAutoUpdate = new System.Windows.Forms.CheckBox();
             this.buttonTeamsSettings = new System.Windows.Forms.Button();
             this.buttonGW2BotSettings = new System.Windows.Forms.Button();
             this.buttonAleevaSettings = new System.Windows.Forms.Button();
@@ -80,7 +81,6 @@
             this.richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
             this.timerResizeSave = new System.Windows.Forms.Timer(this.components);
-            this.checkBoxAutoUpdate = new System.Windows.Forms.CheckBox();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -483,6 +483,16 @@
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
             // 
+            // checkBoxAutoUpdate
+            // 
+            this.checkBoxAutoUpdate.AutoSize = true;
+            this.checkBoxAutoUpdate.Location = new System.Drawing.Point(7, 394);
+            this.checkBoxAutoUpdate.Name = "checkBoxAutoUpdate";
+            this.checkBoxAutoUpdate.Size = new System.Drawing.Size(231, 20);
+            this.checkBoxAutoUpdate.TabIndex = 16;
+            this.checkBoxAutoUpdate.Text = "automatically update the uploader";
+            this.checkBoxAutoUpdate.UseVisualStyleBackColor = true;
+            // 
             // buttonTeamsSettings
             // 
             this.buttonTeamsSettings.Location = new System.Drawing.Point(8, 221);
@@ -527,7 +537,7 @@
             this.buttonGW2API.Name = "buttonGW2API";
             this.buttonGW2API.Size = new System.Drawing.Size(251, 28);
             this.buttonGW2API.TabIndex = 12;
-            this.buttonGW2API.Text = "GW2 API settings";
+            this.buttonGW2API.Text = "GW2 API keys and Hs build codes";
             this.buttonGW2API.UseVisualStyleBackColor = true;
             this.buttonGW2API.Click += new System.EventHandler(this.ButtonGW2API_Click);
             // 
@@ -667,16 +677,6 @@
             // 
             this.timerResizeSave.Interval = 1500;
             this.timerResizeSave.Tick += new System.EventHandler(this.TimerResizeSave_Tick);
-            // 
-            // checkBoxAutoUpdate
-            // 
-            this.checkBoxAutoUpdate.AutoSize = true;
-            this.checkBoxAutoUpdate.Location = new System.Drawing.Point(7, 394);
-            this.checkBoxAutoUpdate.Name = "checkBoxAutoUpdate";
-            this.checkBoxAutoUpdate.Size = new System.Drawing.Size(231, 20);
-            this.checkBoxAutoUpdate.TabIndex = 16;
-            this.checkBoxAutoUpdate.Text = "automatically update the uploader";
-            this.checkBoxAutoUpdate.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
