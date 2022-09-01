@@ -46,10 +46,10 @@
             this.labelAPIKeyInfo.Location = new System.Drawing.Point(8, 323);
             this.labelAPIKeyInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAPIKeyInfo.Name = "labelAPIKeyInfo";
-            this.labelAPIKeyInfo.Size = new System.Drawing.Size(512, 73);
+            this.labelAPIKeyInfo.Size = new System.Drawing.Size(561, 73);
             this.labelAPIKeyInfo.TabIndex = 1;
-            this.labelAPIKeyInfo.Text = "API key is used with \"!ign\" and \"!build\" Twitch commands, you do not need to set " +
-    "it unless you want to use these Twitch commands.";
+            this.labelAPIKeyInfo.Text = "API keys are used with \"!ign\" and \"!build\" Twitch commands.\r\nYou do not need to s" +
+    "et it unless you want to use these Twitch commands.";
             this.labelAPIKeyInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // listBoxAPIKeys
@@ -71,28 +71,28 @@
             this.toolStripMenuItemEditKey,
             this.toolStripMenuItemRemoveKey});
             this.contextMenuStripEditAPIKeys.Name = "contextMenuStripEditAPIKeys";
-            this.contextMenuStripEditAPIKeys.Size = new System.Drawing.Size(185, 76);
+            this.contextMenuStripEditAPIKeys.Size = new System.Drawing.Size(210, 76);
             this.contextMenuStripEditAPIKeys.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripEditAPIKeys_Opening);
             // 
             // toolStripMenuItemAddKey
             // 
             this.toolStripMenuItemAddKey.Name = "toolStripMenuItemAddKey";
-            this.toolStripMenuItemAddKey.Size = new System.Drawing.Size(184, 24);
-            this.toolStripMenuItemAddKey.Text = "Add API key";
+            this.toolStripMenuItemAddKey.Size = new System.Drawing.Size(210, 24);
+            this.toolStripMenuItemAddKey.Text = "Add an API key";
             this.toolStripMenuItemAddKey.Click += new System.EventHandler(this.ToolStripMenuItemAddKey_Click);
             // 
             // toolStripMenuItemEditKey
             // 
             this.toolStripMenuItemEditKey.Name = "toolStripMenuItemEditKey";
-            this.toolStripMenuItemEditKey.Size = new System.Drawing.Size(184, 24);
-            this.toolStripMenuItemEditKey.Text = "Edit API key";
+            this.toolStripMenuItemEditKey.Size = new System.Drawing.Size(210, 24);
+            this.toolStripMenuItemEditKey.Text = "Edit the API key";
             this.toolStripMenuItemEditKey.Click += new System.EventHandler(this.ToolStripMenuItemEditKey_Click);
             // 
             // toolStripMenuItemRemoveKey
             // 
             this.toolStripMenuItemRemoveKey.Name = "toolStripMenuItemRemoveKey";
-            this.toolStripMenuItemRemoveKey.Size = new System.Drawing.Size(184, 24);
-            this.toolStripMenuItemRemoveKey.Text = "Remove API key";
+            this.toolStripMenuItemRemoveKey.Size = new System.Drawing.Size(210, 24);
+            this.toolStripMenuItemRemoveKey.Text = "Remove the API key";
             this.toolStripMenuItemRemoveKey.Click += new System.EventHandler(this.ToolStripMenuItemRemoveKey_Click);
             // 
             // buttonAddAPIKey
@@ -108,12 +108,12 @@
             // 
             // buttonGetHardStuckCode
             // 
-            this.buttonGetHardStuckCode.Location = new System.Drawing.Point(633, 363);
+            this.buttonGetHardStuckCode.Location = new System.Drawing.Point(613, 363);
             this.buttonGetHardStuckCode.Margin = new System.Windows.Forms.Padding(4);
             this.buttonGetHardStuckCode.Name = "buttonGetHardStuckCode";
-            this.buttonGetHardStuckCode.Size = new System.Drawing.Size(285, 28);
+            this.buttonGetHardStuckCode.Size = new System.Drawing.Size(305, 28);
             this.buttonGetHardStuckCode.TabIndex = 4;
-            this.buttonGetHardStuckCode.Text = "Get HardStuck code for the current character";
+            this.buttonGetHardStuckCode.Text = "Get Hardstuck build link for the current character";
             this.buttonGetHardStuckCode.UseVisualStyleBackColor = true;
             this.buttonGetHardStuckCode.Click += new System.EventHandler(this.ButtonGetHardStuckCode_Click);
             // 
