@@ -177,11 +177,6 @@ namespace PlenBotLogUploader
                     default:
                         break;
                 }
-                if (ApplicationSettings.Current.Upload.DPSReportUsertokenEnabled)
-                {
-                    dpsReportSettingsLink.checkBoxDPSReportEnableUsertoken.Checked = true;
-                }
-                dpsReportSettingsLink.textBoxDPSReportUsertoken.Text = ApplicationSettings.Current.Upload.DPSReportUsertoken;
                 if (ApplicationSettings.Current.Upload.Enabled)
                 {
                     checkBoxUploadLogs.Checked = true;
@@ -913,9 +908,9 @@ namespace PlenBotLogUploader
                 "json=1",
                 "generator=ei"
             };
-            if (ApplicationSettings.Current.Upload.DPSReportUsertokenEnabled)
+            if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count(x => x.Active) == 1)
             {
-                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DPSReportUsertoken}");
+                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DPSReportUserTokens.FirstOrDefault(x => x.Active)}");
             }
             if (ApplicationSettings.Current.Upload.Anonymous)
             {
@@ -1225,6 +1220,39 @@ namespace PlenBotLogUploader
         #endregion
 
         #region buttons & checks, events
+        public void RedrawUserTokenContext()
+        {
+            toolStripMenuItemDPSReportUserTokens.DropDownItems.Clear();
+            if (!ApplicationSettings.Current.Upload.DPSReportUserTokens.Any())
+            {
+                toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItem() { Enabled = false, Text = "No user tokens defined" });
+                return;
+            }
+            ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToList().ForEach(x =>
+            {
+                var index = toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItemCustom() { Checked = x.Active, Text = x.Name, LinkedObject = x });
+                toolStripMenuItemDPSReportUserTokens.DropDownItems[index].Click += UserTokenButtonClicked;
+            });
+        }
+
+        private void UserTokenButtonClicked(object sender, EventArgs e)
+        {
+            if (sender.GetType().Equals(typeof(ToolStripMenuItemCustom)))
+            {
+                var pressedButton = (ToolStripMenuItemCustom)(sender);
+                if (pressedButton.LinkedObject.GetType().Equals(typeof(ApplicationSettingsUploadUserToken)))
+                {
+                    ApplicationSettings.Current.Upload.DPSReportUserTokens.Where(x => x.Active).ToList().ForEach(x => {
+                        x.Active = false;
+                    });
+                    ((ApplicationSettingsUploadUserToken)(pressedButton.LinkedObject)).Active = true;
+                    dpsReportSettingsLink.RedrawList();
+                    RedrawUserTokenContext();
+                }
+            }
+            
+        }
+
         private void CheckBoxUploadAll_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.Upload.Enabled = checkBoxUploadLogs.Checked;

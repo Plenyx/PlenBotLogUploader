@@ -113,6 +113,7 @@
     <Compile Include="AppSettings\ApplicationSettingsTwitchCommands.cs" />
     <Compile Include="AppSettings\ApplicationSettingsTwitchCustom.cs" />
     <Compile Include="AppSettings\ApplicationSettingsUpload.cs" />
+    <Compile Include="AppSettings\ApplicationSettingsUploadUserToken.cs" />
     <Compile Include="AppSettings\DPSReportServer.cs" />
     <Compile Include="ArcDps\ArcDpsComponent.cs" />
     <Compile Include="ArcDps\ArcDpsComponentHelperClass.cs" />
@@ -193,6 +194,12 @@
     </Compile>
     <Compile Include="Forms\FormEditDiscordWebhook.Designer.cs">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormEditDPSReportUserToken.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEditDPSReportUserToken.Designer.cs">
+      <DependentUpon>FormEditDPSReportUserToken.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormEditGW2API.cs">
       <SubType>Form</SubType>
@@ -304,6 +311,7 @@
     <Compile Include="AppSettings\ApplicationSettingsTwitch.cs" />
     <Compile Include="Tools\BossesDisableHelperClass.cs" />
     <Compile Include="Tools\DiscordWebhooksHelperClass.cs" />
+    <Compile Include="Tools\DPSReportUserTokenHelperClass.cs" />
     <Compile Include="Tools\Gw2APIHelper.cs" />
     <Compile Include="Tools\HttpClientController.cs" />
     <Compile Include="Tools\LogSessionSettings.cs" />
@@ -312,6 +320,9 @@
     <Compile Include="Tools\SessionTextConstructor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\ToolStripMenuItemCustom.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Forms\FormAleeva.resx">
       <DependentUpon>FormAleeva.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -343,6 +354,9 @@
     <EmbeddedResource Include="Forms\FormEditDiscordWebhook.resx">
       <DependentUpon>FormEditDiscordWebhook.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEditDPSReportUserToken.resx">
+      <DependentUpon>FormEditDPSReportUserToken.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormEditGW2API.resx">
       <DependentUpon>FormEditGW2API.cs</DependentUpon>

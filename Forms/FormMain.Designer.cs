@@ -81,6 +81,8 @@
             this.richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
             this.timerResizeSave = new System.Windows.Forms.Timer(this.components);
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemDPSReportUserTokens = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -365,6 +367,8 @@
             this.contextMenuStripIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemUploadLogs,
             this.toolStripMenuItemPostToTwitch,
+            this.toolStripSeparator1,
+            this.toolStripMenuItemDPSReportUserTokens,
             this.toolStripSeparatorFirst,
             this.toolStripMenuItemOpenDPSReportServer,
             this.toolStripMenuItemOpenCustomName,
@@ -376,7 +380,7 @@
             this.toolStripSeparatorThird,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
-            this.contextMenuStripIcon.Size = new System.Drawing.Size(272, 238);
+            this.contextMenuStripIcon.Size = new System.Drawing.Size(272, 296);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -678,6 +682,17 @@
             this.timerResizeSave.Interval = 1500;
             this.timerResizeSave.Tick += new System.EventHandler(this.TimerResizeSave_Tick);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(268, 6);
+            // 
+            // toolStripMenuItemDPSReportUserTokens
+            // 
+            this.toolStripMenuItemDPSReportUserTokens.Name = "toolStripMenuItemDPSReportUserTokens";
+            this.toolStripMenuItemDPSReportUserTokens.Size = new System.Drawing.Size(271, 24);
+            this.toolStripMenuItemDPSReportUserTokens.Text = "DPS.report user token";
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -762,6 +777,8 @@
         private System.Windows.Forms.Button buttonGW2BotSettings;
         private System.Windows.Forms.Button buttonTeamsSettings;
         private System.Windows.Forms.CheckBox checkBoxAutoUpdate;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDPSReportUserTokens;
     }
 }
 

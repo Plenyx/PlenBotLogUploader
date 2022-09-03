@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace PlenBotLogUploader.AppSettings
 {
@@ -26,11 +27,8 @@ namespace PlenBotLogUploader.AppSettings
             }
         }
 
-        [JsonProperty("dpsReportUsertokenEnabled")]
-        public bool DPSReportUsertokenEnabled { get; set; } = false;
-
-        [JsonProperty("dpsReportUsertoken")]
-        public string DPSReportUsertoken { get; set; } = string.Empty;
+        [JsonProperty("dpsReportUserTokens")]
+        public List<ApplicationSettingsUploadUserToken> DPSReportUserTokens { get; set; } = new List<ApplicationSettingsUploadUserToken>();
 
         [JsonProperty("enabled")]
         public bool Enabled { get; set; } = true;

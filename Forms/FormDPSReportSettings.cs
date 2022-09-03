@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PlenBotLogUploader
@@ -17,6 +18,15 @@ namespace PlenBotLogUploader
             this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
+            if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count(x => x.Active) > 1)
+            {
+                ApplicationSettings.Current.Upload.DPSReportUserTokens.ForEach(x =>
+                {
+                    x.Active = false;
+                });
+                ApplicationSettings.Current.Save();
+            }
+            RedrawList();
         }
 
         private void FormDPSReportSettings_FormClosing(object sender, FormClosingEventArgs e)
@@ -35,39 +45,59 @@ namespace PlenBotLogUploader
             {
                 ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.Main;
             }
-            ApplicationSettings.Current.Upload.DPSReportUsertokenEnabled = checkBoxDPSReportEnableUsertoken.Checked;
-            ApplicationSettings.Current.Upload.DPSReportUsertoken = textBoxDPSReportUsertoken.Text;
             ApplicationSettings.Current.Save();
         }
 
-        private void CheckBoxDPSReportEnableUsertoken_CheckedChanged(object sender, EventArgs e)
+        public void RedrawList()
         {
-            var enable = checkBoxDPSReportEnableUsertoken.Checked;
-            textBoxDPSReportUsertoken.Enabled = enable;
-            buttonDPSReportShowUsertoken.Enabled = enable;
+            checkedListBoxUserTokens.ItemCheck -= CheckedListBoxUserTokens_ItemCheck;
+            checkedListBoxUserTokens.Items.Clear();
+            ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToList().ForEach(x =>
+            {
+                checkedListBoxUserTokens.Items.Add(x, x.Active);
+            });
+            checkedListBoxUserTokens.ItemCheck += new ItemCheckEventHandler(CheckedListBoxUserTokens_ItemCheck);
+            mainLink.RedrawUserTokenContext();
         }
 
-        private async void ButtonDPSReportGetToken_Click(object sender, EventArgs e)
+        private void CheckedListBoxUserTokens_DoubleClick(object sender, EventArgs e)
         {
-            try
-            {
-                var uri = new Uri("https://dps.report/getUserToken");
-                using var responseMessage = await mainLink.HttpClientController.GetAsync(uri);
-                var response = await responseMessage.Content.ReadAsStringAsync();
-                var anonObject = new { userToken = string.Empty };
-                var responseJson = JsonConvert.DeserializeAnonymousType(response, anonObject);
-                textBoxDPSReportUsertoken.Text = responseJson.userToken;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error has occured while getting the user token from dps.report API.\n{ex.Message}", "An error has occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            checkedListBoxUserTokens.SelectedItem = null;
         }
 
-        private void ButtonDPSReportShowUsertoken_Click(object sender, EventArgs e)
+        private void ButtonAddUserToken_Click(object sender, EventArgs e) => (new FormEditDPSReportUserToken(this, mainLink.HttpClientController)).ShowDialog();
+
+        private void ToolStripMenuItemAddUserToken_Click(object sender, EventArgs e) => (new FormEditDPSReportUserToken(this, mainLink.HttpClientController)).ShowDialog();
+
+        private void ToolStripMenuItemEditUserToken_Click(object sender, EventArgs e) => (new FormEditDPSReportUserToken(this, mainLink.HttpClientController, (ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.SelectedItem)).ShowDialog();
+
+        private void ToolStripMenuItemDeleteUserToken_Click(object sender, EventArgs e)
         {
-            textBoxDPSReportUsertoken.UseSystemPasswordChar = !textBoxDPSReportUsertoken.UseSystemPasswordChar;
-            buttonDPSReportShowUsertoken.Text = (textBoxDPSReportUsertoken.UseSystemPasswordChar) ? "Show token" : "Hide token";
+            ApplicationSettings.Current.Upload.DPSReportUserTokens.Remove((ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.SelectedItem);
+            ApplicationSettings.Current.Save();
+            RedrawList();
+        }
+
+        private void ContextMenuStripUserTokens_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var toggle = !(checkedListBoxUserTokens.SelectedItem is null);
+            toolStripMenuItemEditUserToken.Enabled = toggle;
+            toolStripMenuItemDeleteUserToken.Enabled = toggle;
+        }
+
+        private void CheckedListBoxUserTokens_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var checkedItems = checkedListBoxUserTokens.CheckedItems;
+            if (checkedItems.Count > 0)
+            {
+                foreach (var checkedItem in checkedItems)
+                {
+                    ((ApplicationSettingsUploadUserToken)checkedItem).Active = false;
+                }
+            }
+            ((ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.Items[e.Index]).Active = true;
+            ApplicationSettings.Current.Save();
+            RedrawList();
         }
     }
 }

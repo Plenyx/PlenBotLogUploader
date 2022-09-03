@@ -28,18 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBoxDPSReportServer = new System.Windows.Forms.GroupBox();
             this.radioButtonB = new System.Windows.Forms.RadioButton();
             this.radioButtonA = new System.Windows.Forms.RadioButton();
             this.radioButtonNormal = new System.Windows.Forms.RadioButton();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.groupBoxDPSReportUsertoken = new System.Windows.Forms.GroupBox();
-            this.buttonDPSReportGetToken = new System.Windows.Forms.Button();
-            this.buttonDPSReportShowUsertoken = new System.Windows.Forms.Button();
-            this.textBoxDPSReportUsertoken = new System.Windows.Forms.TextBox();
-            this.checkBoxDPSReportEnableUsertoken = new System.Windows.Forms.CheckBox();
+            this.checkedListBoxUserTokens = new System.Windows.Forms.CheckedListBox();
+            this.contextMenuStripUserTokens = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemAddUserToken = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemEditUserToken = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDeleteUserToken = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBoxUserTokens = new System.Windows.Forms.GroupBox();
+            this.buttonAddUserToken = new System.Windows.Forms.Button();
             this.groupBoxDPSReportServer.SuspendLayout();
-            this.groupBoxDPSReportUsertoken.SuspendLayout();
+            this.contextMenuStripUserTokens.SuspendLayout();
+            this.groupBoxUserTokens.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxDPSReportServer
@@ -47,9 +50,11 @@
             this.groupBoxDPSReportServer.Controls.Add(this.radioButtonB);
             this.groupBoxDPSReportServer.Controls.Add(this.radioButtonA);
             this.groupBoxDPSReportServer.Controls.Add(this.radioButtonNormal);
-            this.groupBoxDPSReportServer.Location = new System.Drawing.Point(13, 13);
+            this.groupBoxDPSReportServer.Location = new System.Drawing.Point(17, 16);
+            this.groupBoxDPSReportServer.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxDPSReportServer.Name = "groupBoxDPSReportServer";
-            this.groupBoxDPSReportServer.Size = new System.Drawing.Size(276, 53);
+            this.groupBoxDPSReportServer.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxDPSReportServer.Size = new System.Drawing.Size(368, 65);
             this.groupBoxDPSReportServer.TabIndex = 0;
             this.groupBoxDPSReportServer.TabStop = false;
             this.groupBoxDPSReportServer.Text = "DPS.report servers";
@@ -57,9 +62,10 @@
             // radioButtonB
             // 
             this.radioButtonB.AutoSize = true;
-            this.radioButtonB.Location = new System.Drawing.Point(98, 19);
+            this.radioButtonB.Location = new System.Drawing.Point(131, 23);
+            this.radioButtonB.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonB.Name = "radioButtonB";
-            this.radioButtonB.Size = new System.Drawing.Size(81, 30);
+            this.radioButtonB.Size = new System.Drawing.Size(100, 36);
             this.radioButtonB.TabIndex = 2;
             this.radioButtonB.TabStop = true;
             this.radioButtonB.Text = "b.dps.report\r\n(Recom.)";
@@ -68,9 +74,10 @@
             // radioButtonA
             // 
             this.radioButtonA.AutoSize = true;
-            this.radioButtonA.Location = new System.Drawing.Point(187, 19);
+            this.radioButtonA.Location = new System.Drawing.Point(249, 23);
+            this.radioButtonA.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonA.Name = "radioButtonA";
-            this.radioButtonA.Size = new System.Drawing.Size(83, 30);
+            this.radioButtonA.Size = new System.Drawing.Size(101, 36);
             this.radioButtonA.TabIndex = 1;
             this.radioButtonA.Text = "a.dps.report\r\n(Not recom.)";
             this.radioButtonA.UseVisualStyleBackColor = true;
@@ -79,77 +86,91 @@
             // 
             this.radioButtonNormal.AutoSize = true;
             this.radioButtonNormal.Checked = true;
-            this.radioButtonNormal.Location = new System.Drawing.Point(11, 19);
+            this.radioButtonNormal.Location = new System.Drawing.Point(15, 23);
+            this.radioButtonNormal.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonNormal.Name = "radioButtonNormal";
-            this.radioButtonNormal.Size = new System.Drawing.Size(72, 30);
+            this.radioButtonNormal.Size = new System.Drawing.Size(89, 36);
             this.radioButtonNormal.TabIndex = 0;
             this.radioButtonNormal.TabStop = true;
             this.radioButtonNormal.Text = "dps.report\r\n(Recom.)";
             this.radioButtonNormal.UseVisualStyleBackColor = true;
             // 
-            // groupBoxDPSReportUsertoken
+            // checkedListBoxUserTokens
             // 
-            this.groupBoxDPSReportUsertoken.Controls.Add(this.buttonDPSReportGetToken);
-            this.groupBoxDPSReportUsertoken.Controls.Add(this.buttonDPSReportShowUsertoken);
-            this.groupBoxDPSReportUsertoken.Controls.Add(this.textBoxDPSReportUsertoken);
-            this.groupBoxDPSReportUsertoken.Controls.Add(this.checkBoxDPSReportEnableUsertoken);
-            this.groupBoxDPSReportUsertoken.Location = new System.Drawing.Point(13, 72);
-            this.groupBoxDPSReportUsertoken.Name = "groupBoxDPSReportUsertoken";
-            this.groupBoxDPSReportUsertoken.Size = new System.Drawing.Size(277, 73);
-            this.groupBoxDPSReportUsertoken.TabIndex = 1;
-            this.groupBoxDPSReportUsertoken.TabStop = false;
-            this.groupBoxDPSReportUsertoken.Text = "DPS.report user token";
+            this.checkedListBoxUserTokens.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.checkedListBoxUserTokens.ContextMenuStrip = this.contextMenuStripUserTokens;
+            this.checkedListBoxUserTokens.FormattingEnabled = true;
+            this.checkedListBoxUserTokens.Location = new System.Drawing.Point(6, 21);
+            this.checkedListBoxUserTokens.Name = "checkedListBoxUserTokens";
+            this.checkedListBoxUserTokens.Size = new System.Drawing.Size(357, 204);
+            this.checkedListBoxUserTokens.TabIndex = 2;
+            this.checkedListBoxUserTokens.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckedListBoxUserTokens_ItemCheck);
+            this.checkedListBoxUserTokens.DoubleClick += new System.EventHandler(this.CheckedListBoxUserTokens_DoubleClick);
             // 
-            // buttonDPSReportGetToken
+            // contextMenuStripUserTokens
             // 
-            this.buttonDPSReportGetToken.Location = new System.Drawing.Point(157, 15);
-            this.buttonDPSReportGetToken.Name = "buttonDPSReportGetToken";
-            this.buttonDPSReportGetToken.Size = new System.Drawing.Size(108, 23);
-            this.buttonDPSReportGetToken.TabIndex = 3;
-            this.buttonDPSReportGetToken.Text = "Get token from API";
-            this.buttonDPSReportGetToken.UseVisualStyleBackColor = true;
-            this.buttonDPSReportGetToken.Click += new System.EventHandler(this.ButtonDPSReportGetToken_Click);
+            this.contextMenuStripUserTokens.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripUserTokens.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemAddUserToken,
+            this.toolStripMenuItemEditUserToken,
+            this.toolStripMenuItemDeleteUserToken});
+            this.contextMenuStripUserTokens.Name = "contextMenuStripUserTokens";
+            this.contextMenuStripUserTokens.Size = new System.Drawing.Size(222, 76);
+            this.contextMenuStripUserTokens.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripUserTokens_Opening);
             // 
-            // buttonDPSReportShowUsertoken
+            // toolStripMenuItemAddUserToken
             // 
-            this.buttonDPSReportShowUsertoken.Enabled = false;
-            this.buttonDPSReportShowUsertoken.Location = new System.Drawing.Point(192, 42);
-            this.buttonDPSReportShowUsertoken.Name = "buttonDPSReportShowUsertoken";
-            this.buttonDPSReportShowUsertoken.Size = new System.Drawing.Size(73, 23);
-            this.buttonDPSReportShowUsertoken.TabIndex = 2;
-            this.buttonDPSReportShowUsertoken.Text = "Show token";
-            this.buttonDPSReportShowUsertoken.UseVisualStyleBackColor = true;
-            this.buttonDPSReportShowUsertoken.Click += new System.EventHandler(this.ButtonDPSReportShowUsertoken_Click);
+            this.toolStripMenuItemAddUserToken.Name = "toolStripMenuItemAddUserToken";
+            this.toolStripMenuItemAddUserToken.Size = new System.Drawing.Size(221, 24);
+            this.toolStripMenuItemAddUserToken.Text = "Add a new user token";
+            this.toolStripMenuItemAddUserToken.Click += new System.EventHandler(this.ToolStripMenuItemAddUserToken_Click);
             // 
-            // textBoxDPSReportUsertoken
+            // toolStripMenuItemEditUserToken
             // 
-            this.textBoxDPSReportUsertoken.Enabled = false;
-            this.textBoxDPSReportUsertoken.Location = new System.Drawing.Point(11, 42);
-            this.textBoxDPSReportUsertoken.Name = "textBoxDPSReportUsertoken";
-            this.textBoxDPSReportUsertoken.Size = new System.Drawing.Size(175, 20);
-            this.textBoxDPSReportUsertoken.TabIndex = 1;
-            this.textBoxDPSReportUsertoken.UseSystemPasswordChar = true;
+            this.toolStripMenuItemEditUserToken.Name = "toolStripMenuItemEditUserToken";
+            this.toolStripMenuItemEditUserToken.Size = new System.Drawing.Size(221, 24);
+            this.toolStripMenuItemEditUserToken.Text = "Edit the user token";
+            this.toolStripMenuItemEditUserToken.Click += new System.EventHandler(this.ToolStripMenuItemEditUserToken_Click);
             // 
-            // checkBoxDPSReportEnableUsertoken
+            // toolStripMenuItemDeleteUserToken
             // 
-            this.checkBoxDPSReportEnableUsertoken.AutoSize = true;
-            this.checkBoxDPSReportEnableUsertoken.Location = new System.Drawing.Point(11, 19);
-            this.checkBoxDPSReportEnableUsertoken.Name = "checkBoxDPSReportEnableUsertoken";
-            this.checkBoxDPSReportEnableUsertoken.Size = new System.Drawing.Size(148, 17);
-            this.checkBoxDPSReportEnableUsertoken.TabIndex = 0;
-            this.checkBoxDPSReportEnableUsertoken.Text = "enable custom user token";
-            this.checkBoxDPSReportEnableUsertoken.UseVisualStyleBackColor = true;
-            this.checkBoxDPSReportEnableUsertoken.CheckedChanged += new System.EventHandler(this.CheckBoxDPSReportEnableUsertoken_CheckedChanged);
+            this.toolStripMenuItemDeleteUserToken.Name = "toolStripMenuItemDeleteUserToken";
+            this.toolStripMenuItemDeleteUserToken.Size = new System.Drawing.Size(221, 24);
+            this.toolStripMenuItemDeleteUserToken.Text = "Delete the user token";
+            this.toolStripMenuItemDeleteUserToken.Click += new System.EventHandler(this.ToolStripMenuItemDeleteUserToken_Click);
+            // 
+            // groupBoxUserTokens
+            // 
+            this.groupBoxUserTokens.Controls.Add(this.buttonAddUserToken);
+            this.groupBoxUserTokens.Controls.Add(this.checkedListBoxUserTokens);
+            this.groupBoxUserTokens.Location = new System.Drawing.Point(16, 82);
+            this.groupBoxUserTokens.Name = "groupBoxUserTokens";
+            this.groupBoxUserTokens.Size = new System.Drawing.Size(369, 271);
+            this.groupBoxUserTokens.TabIndex = 3;
+            this.groupBoxUserTokens.TabStop = false;
+            this.groupBoxUserTokens.Text = "DPS.report user tokens";
+            // 
+            // buttonAddUserToken
+            // 
+            this.buttonAddUserToken.Location = new System.Drawing.Point(218, 236);
+            this.buttonAddUserToken.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAddUserToken.Name = "buttonAddUserToken";
+            this.buttonAddUserToken.Size = new System.Drawing.Size(144, 28);
+            this.buttonAddUserToken.TabIndex = 4;
+            this.buttonAddUserToken.Text = "Add a new user token";
+            this.buttonAddUserToken.UseVisualStyleBackColor = true;
+            this.buttonAddUserToken.Click += new System.EventHandler(this.ButtonAddUserToken_Click);
             // 
             // FormDPSReportSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(302, 155);
-            this.Controls.Add(this.groupBoxDPSReportUsertoken);
+            this.ClientSize = new System.Drawing.Size(403, 368);
+            this.Controls.Add(this.groupBoxUserTokens);
             this.Controls.Add(this.groupBoxDPSReportServer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormDPSReportSettings";
@@ -158,8 +179,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDPSReportSettings_FormClosing);
             this.groupBoxDPSReportServer.ResumeLayout(false);
             this.groupBoxDPSReportServer.PerformLayout();
-            this.groupBoxDPSReportUsertoken.ResumeLayout(false);
-            this.groupBoxDPSReportUsertoken.PerformLayout();
+            this.contextMenuStripUserTokens.ResumeLayout(false);
+            this.groupBoxUserTokens.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -170,11 +191,12 @@
         public System.Windows.Forms.RadioButton radioButtonA;
         public System.Windows.Forms.RadioButton radioButtonNormal;
         public System.Windows.Forms.RadioButton radioButtonB;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.GroupBox groupBoxDPSReportUsertoken;
-        public System.Windows.Forms.TextBox textBoxDPSReportUsertoken;
-        public System.Windows.Forms.CheckBox checkBoxDPSReportEnableUsertoken;
-        public System.Windows.Forms.Button buttonDPSReportShowUsertoken;
-        private System.Windows.Forms.Button buttonDPSReportGetToken;
+        private System.Windows.Forms.CheckedListBox checkedListBoxUserTokens;
+        private System.Windows.Forms.GroupBox groupBoxUserTokens;
+        private System.Windows.Forms.Button buttonAddUserToken;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripUserTokens;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddUserToken;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditUserToken;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDeleteUserToken;
     }
 }
