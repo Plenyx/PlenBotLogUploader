@@ -53,6 +53,7 @@ namespace PlenBotLogUploader.ArcDps
                 ArcDpsComponentType.SCT => "Artenuvielle/GW2-SCT",
                 ArcDpsComponentType.Clears => "gw2scratch/arcdps-clears",
                 ArcDpsComponentType.FoodReminder => "Zerthox/arcdps-food-reminder",
+                ArcDpsComponentType.CommandersToolkit => "RaidcoreGG/GW2-CommandersToolkit",
                 _ => null,
             };
         }

@@ -75,7 +75,7 @@ namespace PlenBotLogUploader.ArcDps
                     },
                     new ArcDpsComponentHelperClass()
                     {
-                        Name = "Clears",
+                        Name = "ArcDps Clears",
                         FullName = "ArcDps clears",
                         LinkName = "gw2scratch/arcdps-clears",
                         LinkURL = "https://github.com/gw2scratch/arcdps-clears/",
@@ -96,6 +96,18 @@ namespace PlenBotLogUploader.ArcDps
                         Provider = "GitHub",
                         License = "MIT",
                         Description = "ArcDPS plugin for Guild Wars 2 allowing tracking of buff food & utility items. - Zerthox",
+                    },
+                    new ArcDpsComponentHelperClass()
+                    {
+                        Name = "Commander's Toolkit",
+                        FullName = "Commander's Toolkit",
+                        LinkName = "RaidcoreGG/GW2-CommandersToolkit",
+                        LinkURL = "https://github.com/RaidcoreGG/GW2-CommandersToolkit/",
+                        Author = "DeltaxHunter",
+                        Type = ArcDpsComponentType.CommandersToolkit,
+                        Provider = "GitHub",
+                        License = "(unspecified)",
+                        Description = "An addon to help with squad management.",
                     },
                 };
             }
@@ -135,6 +147,7 @@ namespace PlenBotLogUploader.ArcDps
                 ArcDpsComponentType.SCT => $"{Prefix}_arcdps_sct.dll",
                 ArcDpsComponentType.Clears => $"{Prefix}_arcdps_clears.dll",
                 ArcDpsComponentType.FoodReminder => $"{Prefix}_arcdps_food_reminder.dll",
+                ArcDpsComponentType.CommandersToolkit => $"{Prefix}_arcdps_commanders_toolkit.dll",
                 // arcdps
                 _ => $"{Prefix}.dll",
             };

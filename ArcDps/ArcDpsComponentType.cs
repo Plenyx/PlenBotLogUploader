@@ -10,5 +10,6 @@
         SCT = 6,
         FoodReminder = 7,
         Clears = 8,
+        CommandersToolkit = 9,
     }
 }
