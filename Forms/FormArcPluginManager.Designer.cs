@@ -47,7 +47,7 @@ namespace PlenBotLogUploader
             // buttonChangeGW2Location
             // 
             this.buttonChangeGW2Location.Location = new System.Drawing.Point(8, 23);
-            this.buttonChangeGW2Location.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonChangeGW2Location.Margin = new System.Windows.Forms.Padding(4);
             this.buttonChangeGW2Location.Name = "buttonChangeGW2Location";
             this.buttonChangeGW2Location.Size = new System.Drawing.Size(201, 28);
             this.buttonChangeGW2Location.TabIndex = 0;
@@ -64,7 +64,7 @@ namespace PlenBotLogUploader
             // 
             this.checkedListBoxArcDpsPlugins.Enabled = false;
             this.checkedListBoxArcDpsPlugins.Location = new System.Drawing.Point(241, 15);
-            this.checkedListBoxArcDpsPlugins.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkedListBoxArcDpsPlugins.Margin = new System.Windows.Forms.Padding(4);
             this.checkedListBoxArcDpsPlugins.Name = "checkedListBoxArcDpsPlugins";
             this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(355, 174);
             this.checkedListBoxArcDpsPlugins.Sorted = true;
@@ -75,7 +75,7 @@ namespace PlenBotLogUploader
             // 
             this.checkBoxModuleEnabled.AutoSize = true;
             this.checkBoxModuleEnabled.Location = new System.Drawing.Point(8, 23);
-            this.checkBoxModuleEnabled.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxModuleEnabled.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxModuleEnabled.Name = "checkBoxModuleEnabled";
             this.checkBoxModuleEnabled.Size = new System.Drawing.Size(119, 20);
             this.checkBoxModuleEnabled.TabIndex = 3;
@@ -87,9 +87,9 @@ namespace PlenBotLogUploader
             // 
             this.groupBoxModuleEnabled.Controls.Add(this.checkBoxModuleEnabled);
             this.groupBoxModuleEnabled.Location = new System.Drawing.Point(16, 15);
-            this.groupBoxModuleEnabled.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxModuleEnabled.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxModuleEnabled.Name = "groupBoxModuleEnabled";
-            this.groupBoxModuleEnabled.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxModuleEnabled.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxModuleEnabled.Size = new System.Drawing.Size(217, 54);
             this.groupBoxModuleEnabled.TabIndex = 4;
             this.groupBoxModuleEnabled.TabStop = false;
@@ -102,9 +102,9 @@ namespace PlenBotLogUploader
             this.groupBoxModuleControls.Controls.Add(this.buttonChangeGW2Location);
             this.groupBoxModuleControls.Enabled = false;
             this.groupBoxModuleControls.Location = new System.Drawing.Point(16, 101);
-            this.groupBoxModuleControls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxModuleControls.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxModuleControls.Name = "groupBoxModuleControls";
-            this.groupBoxModuleControls.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxModuleControls.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxModuleControls.Size = new System.Drawing.Size(217, 124);
             this.groupBoxModuleControls.TabIndex = 5;
             this.groupBoxModuleControls.TabStop = false;
@@ -114,7 +114,7 @@ namespace PlenBotLogUploader
             // 
             this.checkBoxEnableNotifications.AutoSize = true;
             this.checkBoxEnableNotifications.Location = new System.Drawing.Point(8, 59);
-            this.checkBoxEnableNotifications.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxEnableNotifications.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxEnableNotifications.Name = "checkBoxEnableNotifications";
             this.checkBoxEnableNotifications.Size = new System.Drawing.Size(189, 20);
             this.checkBoxEnableNotifications.TabIndex = 2;
@@ -125,7 +125,7 @@ namespace PlenBotLogUploader
             // buttonCheckNow
             // 
             this.buttonCheckNow.Location = new System.Drawing.Point(8, 87);
-            this.buttonCheckNow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonCheckNow.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCheckNow.Name = "buttonCheckNow";
             this.buttonCheckNow.Size = new System.Drawing.Size(201, 28);
             this.buttonCheckNow.TabIndex = 1;
@@ -147,7 +147,7 @@ namespace PlenBotLogUploader
             // 
             this.buttonShowPluginInfo.Enabled = false;
             this.buttonShowPluginInfo.Location = new System.Drawing.Point(240, 197);
-            this.buttonShowPluginInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonShowPluginInfo.Margin = new System.Windows.Forms.Padding(4);
             this.buttonShowPluginInfo.Name = "buttonShowPluginInfo";
             this.buttonShowPluginInfo.Size = new System.Drawing.Size(356, 28);
             this.buttonShowPluginInfo.TabIndex = 8;
@@ -167,7 +167,7 @@ namespace PlenBotLogUploader
             this.Controls.Add(this.groupBoxModuleEnabled);
             this.Controls.Add(this.checkedListBoxArcDpsPlugins);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormArcPluginManager";

@@ -80,12 +80,19 @@ namespace PlenBotLogUploader
                         await apiKey.GetCharacters(httpClientController);
                     }
                     var trueApiKey = ApplicationSettings.Current.GW2APIs.FirstOrDefault(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                    if (trueApiKey is null)
+                    {
+                        foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                        {
+                            await apiKey.GetCharacters(httpClientController, true);
+                        }
+                        trueApiKey = ApplicationSettings.Current.GW2APIs.FirstOrDefault(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                    }
                     try
                     {
                         using var parser = new GW2BuildParser(trueApiKey?.APIKey ?? "");
                         var build = await parser.GetAPIBuildAsync(mainLink.MumbleReader.Data.Identity.Name, mainLink.MumbleReader.Data.Context.GameMode);
-                        var buildLink = build.GetBuildLink();
-                        mainLink.AddToText(buildLink);
+                        mainLink.AddToText(build.GetBuildLink());
                     }
                     catch (NotEnoughPermissionsException ex)
                     {

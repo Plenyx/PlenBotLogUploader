@@ -81,14 +81,14 @@ namespace PlenBotLogUploader
         {
             teamIdsKey++;
             listBoxTeams.SelectedItem = null;
-            new FormEditTeam(this, null, teamIdsKey).Show();
+            new FormEditTeam(this, null, teamIdsKey).ShowDialog();
         }
 
         private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
         {
             var item = (Team)listBoxTeams.SelectedItem;
             listBoxTeams.SelectedItem = null;
-            new FormEditTeam(this, item, item.ID).Show();
+            new FormEditTeam(this, item, item.ID).ShowDialog();
         }
 
         private void ListBoxTeams_DoubleClick(object sender, EventArgs e)
@@ -96,7 +96,7 @@ namespace PlenBotLogUploader
             if (!(listBoxTeams.SelectedItem is null))
             {
                 var item = (Team)listBoxTeams.SelectedItem;
-                new FormEditTeam(this, item, item.ID).Show();
+                new FormEditTeam(this, item, item.ID).ShowDialog();
             }
             listBoxTeams.SelectedItem = null;
         }
@@ -105,7 +105,7 @@ namespace PlenBotLogUploader
         {
             teamIdsKey++;
             listBoxTeams.SelectedItem = null;
-            new FormEditTeam(this, null, teamIdsKey).Show();
+            new FormEditTeam(this, null, teamIdsKey).ShowDialog();
         }
     }
 }

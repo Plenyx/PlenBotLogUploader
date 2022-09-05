@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using PlenBotLogUploader.GW2API;
 using PlenBotLogUploader.Tools;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,8 +27,12 @@ namespace PlenBotLogUploader.AppSettings
             return Valid;
         }
 
-        public async Task GetCharacters(HttpClientController httpClientController)
+        public async Task GetCharacters(HttpClientController httpClientController, bool bypassCheck = false)
         {
+            if ((Characters.Count > 0) && !bypassCheck)
+            {
+                return;
+            }
             using var response = await httpClientController.GetAsync($"https://api.guildwars2.com/v2/characters?access_token={APIKey}");
             if (!response.IsSuccessStatusCode)
             {

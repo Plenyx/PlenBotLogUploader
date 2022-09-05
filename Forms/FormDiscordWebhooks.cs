@@ -527,7 +527,7 @@ namespace PlenBotLogUploader
         private void ToolStripMenuItemAdd_Click(object sender, EventArgs e)
         {
             webhookIdsKey++;
-            new FormEditDiscordWebhook(this, null, webhookIdsKey).Show();
+            new FormEditDiscordWebhook(this, null, webhookIdsKey).ShowDialog();
         }
 
         private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
@@ -547,7 +547,7 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewDiscordWebhooks.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                new FormEditDiscordWebhook(this, allWebhooks[reservedId], reservedId).Show();
+                new FormEditDiscordWebhook(this, allWebhooks[reservedId], reservedId).ShowDialog();
             }
         }
 
@@ -585,7 +585,7 @@ namespace PlenBotLogUploader
         private void ButtonAddNew_Click(object sender, EventArgs e)
         {
             webhookIdsKey++;
-            new FormEditDiscordWebhook(this, null, webhookIdsKey).Show();
+            new FormEditDiscordWebhook(this, null, webhookIdsKey).ShowDialog();
         }
     }
 }

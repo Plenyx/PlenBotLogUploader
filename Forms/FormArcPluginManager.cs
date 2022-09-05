@@ -200,8 +200,7 @@ namespace PlenBotLogUploader
 
         private async void ButtonChangeGW2Location_Click(object sender, EventArgs e)
         {
-            using var dialog = new OpenFileDialog();
-            dialog.Filter = "Guild Wars 2|Gw2-64.exe;Gw2.exe;Guild Wars 2.exe";
+            using var dialog = new OpenFileDialog() { Filter = "Guild Wars 2|Gw2-64.exe;Gw2.exe;Guild Wars 2.exe" };
             var result = dialog.ShowDialog();
             if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
             {

@@ -1,5 +1,4 @@
-﻿using Hardstuck.GuildWars2;
-using PlenBotLogUploader.AppSettings;
+﻿using PlenBotLogUploader.AppSettings;
 using System.Collections.Generic;
 using System.IO;
 
@@ -107,7 +106,7 @@ namespace PlenBotLogUploader.ArcDps
                         Type = ArcDpsComponentType.CommandersToolkit,
                         Provider = "GitHub",
                         License = "(unspecified)",
-                        Description = "An addon to help with squad management.",
+                        Description = "An addon to help with squad management. - DeltaxHunter",
                     },
                 };
             }
@@ -131,25 +130,20 @@ namespace PlenBotLogUploader.ArcDps
 
         public ArcDpsComponentType Type { get; set; }
 
-        private string Prefix
-        {
-            get => "d3d11";
-        }
-
         public string DefaultFileName
         {
             get => Type switch
             {
-                ArcDpsComponentType.Mechanics => $"{Prefix}_arcdps_mechanics.dll",
-                ArcDpsComponentType.BoonTable => $"{Prefix}_arcdps_table.dll",
-                ArcDpsComponentType.KPme => $"{Prefix}_arcdps_killproof_me.dll",
-                ArcDpsComponentType.HealStats => $"{Prefix}_arcdps_healing_stats.dll",
-                ArcDpsComponentType.SCT => $"{Prefix}_arcdps_sct.dll",
-                ArcDpsComponentType.Clears => $"{Prefix}_arcdps_clears.dll",
-                ArcDpsComponentType.FoodReminder => $"{Prefix}_arcdps_food_reminder.dll",
-                ArcDpsComponentType.CommandersToolkit => $"{Prefix}_arcdps_commanders_toolkit.dll",
+                ArcDpsComponentType.Mechanics => "d3d11_arcdps_mechanics.dll",
+                ArcDpsComponentType.BoonTable => "d3d11_arcdps_table.dll",
+                ArcDpsComponentType.KPme => "d3d11_arcdps_killproof_me.dll",
+                ArcDpsComponentType.HealStats => "d3d11_arcdps_healing_stats.dll",
+                ArcDpsComponentType.SCT => "d3d11_arcdps_sct.dll",
+                ArcDpsComponentType.Clears => "d3d11_arcdps_clears.dll",
+                ArcDpsComponentType.FoodReminder => "d3d11_arcdps_food_reminder.dll",
+                ArcDpsComponentType.CommandersToolkit => "d3d11_arcdps_commanders_toolkit.dll",
                 // arcdps
-                _ => $"{Prefix}.dll",
+                _ => "d3d11.dll",
             };
         }
 

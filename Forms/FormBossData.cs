@@ -38,7 +38,7 @@ namespace PlenBotLogUploader
         {
             var selected = listViewBosses.SelectedItems[0];
             int.TryParse(selected.Name, out int reservedId);
-            new FormEditBossData(this, allBosses[reservedId], reservedId).Show();
+            new FormEditBossData(this, allBosses[reservedId], reservedId).ShowDialog();
         }
 
         private void FormBossData_FormClosing(object sender, FormClosingEventArgs e)
@@ -70,13 +70,13 @@ namespace PlenBotLogUploader
         private void ButtonAddNew_Click(object sender, EventArgs e)
         {
             bossesIdsKey++;
-            new FormEditBossData(this, null, bossesIdsKey).Show();
+            new FormEditBossData(this, null, bossesIdsKey).ShowDialog();
         }
 
         private void ToolStripMenuItemAddNew_Click(object sender, EventArgs e)
         {
             bossesIdsKey++;
-            new FormEditBossData(this, null, bossesIdsKey).Show();
+            new FormEditBossData(this, null, bossesIdsKey).ShowDialog();
         }
 
         private void ToolStripMenuItemEditBoss_Click(object sender, EventArgs e)
@@ -85,7 +85,7 @@ namespace PlenBotLogUploader
             {
                 var selected = listViewBosses.SelectedItems[0];
                 int.TryParse(selected.Name, out int reservedId);
-                new FormEditBossData(this, allBosses[reservedId], reservedId).Show();
+                new FormEditBossData(this, allBosses[reservedId], reservedId).ShowDialog();
             }
         }
 

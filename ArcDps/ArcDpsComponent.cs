@@ -113,8 +113,8 @@ namespace PlenBotLogUploader.ArcDps
             {
                 return false;
             }
-            if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) || (Type == ArcDpsComponentType.Mechanics) ||
-                (Type == ArcDpsComponentType.BoonTable) || (Type == ArcDpsComponentType.KPme) || (Type == ArcDpsComponentType.Clears) || (Type == ArcDpsComponentType.FoodReminder))
+            if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) || (Type == ArcDpsComponentType.Mechanics) || (Type == ArcDpsComponentType.BoonTable) ||
+                (Type == ArcDpsComponentType.KPme) || (Type == ArcDpsComponentType.Clears) || (Type == ArcDpsComponentType.FoodReminder) || (Type == ArcDpsComponentType.CommandersToolkit))
             {
                 return GetFileSize().ToString().Equals(version);
             }

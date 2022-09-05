@@ -54,14 +54,16 @@
             this.toolStripMenuItemUploadLogs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemPostToTwitch = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorFirst = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemDPSReportUserTokens = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenTwitchCommands = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenArcDpsPluginManager = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparatorSecond = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemDiscordWebhooks = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenPingSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparatorThird = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparatorFourth = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             this.checkBoxAutoUpdate = new System.Windows.Forms.CheckBox();
@@ -81,8 +83,6 @@
             this.richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
             this.timerResizeSave = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItemDPSReportUserTokens = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
@@ -367,17 +367,17 @@
             this.contextMenuStripIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemUploadLogs,
             this.toolStripMenuItemPostToTwitch,
-            this.toolStripSeparator1,
-            this.toolStripMenuItemDPSReportUserTokens,
             this.toolStripSeparatorFirst,
+            this.toolStripMenuItemDPSReportUserTokens,
+            this.toolStripSeparatorSecond,
             this.toolStripMenuItemOpenDPSReportServer,
             this.toolStripMenuItemOpenCustomName,
             this.toolStripMenuItemOpenTwitchCommands,
             this.toolStripMenuItemOpenArcDpsPluginManager,
-            this.toolStripSeparatorSecond,
+            this.toolStripSeparatorThird,
             this.toolStripMenuItemDiscordWebhooks,
             this.toolStripMenuItemOpenPingSettings,
-            this.toolStripSeparatorThird,
+            this.toolStripSeparatorFourth,
             this.toolStripMenuItemExit});
             this.contextMenuStripIcon.Name = "contextMenuStripIcon";
             this.contextMenuStripIcon.Size = new System.Drawing.Size(272, 296);
@@ -402,6 +402,17 @@
             // 
             this.toolStripSeparatorFirst.Name = "toolStripSeparatorFirst";
             this.toolStripSeparatorFirst.Size = new System.Drawing.Size(268, 6);
+            // 
+            // toolStripMenuItemDPSReportUserTokens
+            // 
+            this.toolStripMenuItemDPSReportUserTokens.Name = "toolStripMenuItemDPSReportUserTokens";
+            this.toolStripMenuItemDPSReportUserTokens.Size = new System.Drawing.Size(271, 24);
+            this.toolStripMenuItemDPSReportUserTokens.Text = "DPS.report user token";
+            // 
+            // toolStripSeparatorSecond
+            // 
+            this.toolStripSeparatorSecond.Name = "toolStripSeparatorSecond";
+            this.toolStripSeparatorSecond.Size = new System.Drawing.Size(268, 6);
             // 
             // toolStripMenuItemOpenDPSReportServer
             // 
@@ -431,10 +442,10 @@
             this.toolStripMenuItemOpenArcDpsPluginManager.Text = "Open arcdps plugin manager";
             this.toolStripMenuItemOpenArcDpsPluginManager.Click += new System.EventHandler(this.ToolStripMenuItemOpenArcDpsPluginManager_Click);
             // 
-            // toolStripSeparatorSecond
+            // toolStripSeparatorThird
             // 
-            this.toolStripSeparatorSecond.Name = "toolStripSeparatorSecond";
-            this.toolStripSeparatorSecond.Size = new System.Drawing.Size(268, 6);
+            this.toolStripSeparatorThird.Name = "toolStripSeparatorThird";
+            this.toolStripSeparatorThird.Size = new System.Drawing.Size(268, 6);
             // 
             // toolStripMenuItemDiscordWebhooks
             // 
@@ -450,10 +461,10 @@
             this.toolStripMenuItemOpenPingSettings.Text = "Remote server pings";
             this.toolStripMenuItemOpenPingSettings.Click += new System.EventHandler(this.ToolStripMenuItemOpenPingSettings_Click);
             // 
-            // toolStripSeparatorThird
+            // toolStripSeparatorFourth
             // 
-            this.toolStripSeparatorThird.Name = "toolStripSeparatorThird";
-            this.toolStripSeparatorThird.Size = new System.Drawing.Size(268, 6);
+            this.toolStripSeparatorFourth.Name = "toolStripSeparatorFourth";
+            this.toolStripSeparatorFourth.Size = new System.Drawing.Size(268, 6);
             // 
             // toolStripMenuItemExit
             // 
@@ -541,7 +552,7 @@
             this.buttonGW2API.Name = "buttonGW2API";
             this.buttonGW2API.Size = new System.Drawing.Size(251, 28);
             this.buttonGW2API.TabIndex = 12;
-            this.buttonGW2API.Text = "GW2 API keys and Hs build codes";
+            this.buttonGW2API.Text = "GW2 API keys and Hs build links";
             this.buttonGW2API.UseVisualStyleBackColor = true;
             this.buttonGW2API.Click += new System.EventHandler(this.ButtonGW2API_Click);
             // 
@@ -682,17 +693,6 @@
             this.timerResizeSave.Interval = 1500;
             this.timerResizeSave.Tick += new System.EventHandler(this.TimerResizeSave_Tick);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(268, 6);
-            // 
-            // toolStripMenuItemDPSReportUserTokens
-            // 
-            this.toolStripMenuItemDPSReportUserTokens.Name = "toolStripMenuItemDPSReportUserTokens";
-            this.toolStripMenuItemDPSReportUserTokens.Size = new System.Drawing.Size(271, 24);
-            this.toolStripMenuItemDPSReportUserTokens.Text = "DPS.report user token";
-            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -735,7 +735,7 @@
         private System.Windows.Forms.Button buttonChangeTwitchChannel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripIcon;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemUploadLogs;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorFirst;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorSecond;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPostToTwitch;
         private System.Windows.Forms.Button buttonOpenLogs;
@@ -745,7 +745,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenDPSReportServer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenCustomName;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenPingSettings;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorSecond;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorThird;
         private System.Windows.Forms.Button buttonDisConnectTwitch;
         public System.Windows.Forms.CheckBox checkBoxPostToTwitch;
         private System.Windows.Forms.CheckBox checkBoxTwitchOnlySuccess;
@@ -753,7 +753,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenArcDpsPluginManager;
         private System.Windows.Forms.Button buttonBossData;
         private System.Windows.Forms.Button buttonDiscordWebhooks;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorThird;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorFourth;
         public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDiscordWebhooks;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.CheckBox checkBoxStartWhenWindowsStarts;
@@ -777,7 +777,7 @@
         private System.Windows.Forms.Button buttonGW2BotSettings;
         private System.Windows.Forms.Button buttonTeamsSettings;
         private System.Windows.Forms.CheckBox checkBoxAutoUpdate;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorFirst;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDPSReportUserTokens;
     }
 }
