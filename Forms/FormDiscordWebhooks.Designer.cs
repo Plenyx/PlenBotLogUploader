@@ -34,7 +34,7 @@
             this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTest = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddNew = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
@@ -47,7 +47,7 @@
             this.listViewDiscordWebhooks.ContextMenuStrip = this.contextMenuStripInteract;
             this.listViewDiscordWebhooks.HideSelection = false;
             this.listViewDiscordWebhooks.Location = new System.Drawing.Point(16, 15);
-            this.listViewDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listViewDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4);
             this.listViewDiscordWebhooks.MultiSelect = false;
             this.listViewDiscordWebhooks.Name = "listViewDiscordWebhooks";
             this.listViewDiscordWebhooks.Size = new System.Drawing.Size(747, 309);
@@ -63,53 +63,53 @@
             this.toolStripMenuItemEdit,
             this.toolStripMenuItemTest,
             this.toolStripMenuItemDelete,
-            this.toolStripSeparator1,
+            this.toolStripSeparatorOne,
             this.toolStripMenuItemAdd});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(247, 106);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(272, 106);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEdit
             // 
             this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
-            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(246, 24);
-            this.toolStripMenuItemEdit.Text = "Edit selected webhook";
+            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(271, 24);
+            this.toolStripMenuItemEdit.Text = "Edit the selected webhook";
             this.toolStripMenuItemEdit.Click += new System.EventHandler(this.ToolStripMenuItemEdit_Click);
             // 
             // toolStripMenuItemTest
             // 
             this.toolStripMenuItemTest.Name = "toolStripMenuItemTest";
-            this.toolStripMenuItemTest.Size = new System.Drawing.Size(246, 24);
-            this.toolStripMenuItemTest.Text = "Test selected webhook";
+            this.toolStripMenuItemTest.Size = new System.Drawing.Size(271, 24);
+            this.toolStripMenuItemTest.Text = "Test the selected webhook";
             this.toolStripMenuItemTest.Click += new System.EventHandler(this.ToolStripMenuItemTest_Click);
             // 
             // toolStripMenuItemDelete
             // 
             this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
-            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(246, 24);
-            this.toolStripMenuItemDelete.Text = "Delete selected webhook";
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(271, 24);
+            this.toolStripMenuItemDelete.Text = "Delete the selected webhook";
             this.toolStripMenuItemDelete.Click += new System.EventHandler(this.ToolStripMenuItemDelete_Click);
             // 
-            // toolStripSeparator1
+            // toolStripSeparatorOne
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparatorOne.Name = "toolStripSeparatorOne";
+            this.toolStripSeparatorOne.Size = new System.Drawing.Size(268, 6);
             // 
             // toolStripMenuItemAdd
             // 
             this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
-            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(246, 24);
-            this.toolStripMenuItemAdd.Text = "Add new webhook";
+            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(271, 24);
+            this.toolStripMenuItemAdd.Text = "Add a new webhook";
             this.toolStripMenuItemAdd.Click += new System.EventHandler(this.ToolStripMenuItemAdd_Click);
             // 
             // buttonAddNew
             // 
             this.buttonAddNew.Location = new System.Drawing.Point(619, 332);
-            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4);
             this.buttonAddNew.Name = "buttonAddNew";
             this.buttonAddNew.Size = new System.Drawing.Size(145, 28);
             this.buttonAddNew.TabIndex = 1;
-            this.buttonAddNew.Text = "Add new webhook";
+            this.buttonAddNew.Text = "Add a new webhook";
             this.buttonAddNew.UseVisualStyleBackColor = true;
             this.buttonAddNew.Click += new System.EventHandler(this.ButtonAddNew_Click);
             // 
@@ -133,7 +133,7 @@
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewDiscordWebhooks);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormDiscordWebhooks";
@@ -150,7 +150,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripInteract;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
         public System.Windows.Forms.ListView listViewDiscordWebhooks;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTest;

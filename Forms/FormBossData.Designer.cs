@@ -46,11 +46,12 @@
             // 
             this.listViewBosses.ContextMenuStrip = this.contextMenuStripInteract;
             this.listViewBosses.HideSelection = false;
-            this.listViewBosses.Location = new System.Drawing.Point(12, 12);
+            this.listViewBosses.Location = new System.Drawing.Point(16, 15);
+            this.listViewBosses.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listViewBosses.MultiSelect = false;
             this.listViewBosses.Name = "listViewBosses";
             this.listViewBosses.ShowGroups = false;
-            this.listViewBosses.Size = new System.Drawing.Size(758, 316);
+            this.listViewBosses.Size = new System.Drawing.Size(1009, 388);
             this.listViewBosses.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewBosses.TabIndex = 0;
             this.listViewBosses.UseCompatibleStateImageBehavior = false;
@@ -59,46 +60,48 @@
             // 
             // contextMenuStripInteract
             // 
+            this.contextMenuStripInteract.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripInteract.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemEditBoss,
             this.toolStripMenuItemDeleteBoss,
             this.toolStripSeparatorOne,
             this.toolStripMenuItemAddNew});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(181, 76);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(241, 110);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEditBoss
             // 
             this.toolStripMenuItemEditBoss.Name = "toolStripMenuItemEditBoss";
-            this.toolStripMenuItemEditBoss.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItemEditBoss.Text = "Edit selected boss";
+            this.toolStripMenuItemEditBoss.Size = new System.Drawing.Size(240, 24);
+            this.toolStripMenuItemEditBoss.Text = "Edit the selected boss";
             this.toolStripMenuItemEditBoss.Click += new System.EventHandler(this.ToolStripMenuItemEditBoss_Click);
             // 
             // toolStripMenuItemDeleteBoss
             // 
             this.toolStripMenuItemDeleteBoss.Name = "toolStripMenuItemDeleteBoss";
-            this.toolStripMenuItemDeleteBoss.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItemDeleteBoss.Text = "Delete selected boss";
+            this.toolStripMenuItemDeleteBoss.Size = new System.Drawing.Size(240, 24);
+            this.toolStripMenuItemDeleteBoss.Text = "Delete the selected boss";
             this.toolStripMenuItemDeleteBoss.Click += new System.EventHandler(this.ToolStripMenuItemDeleteBoss_Click);
             // 
             // toolStripSeparatorOne
             // 
             this.toolStripSeparatorOne.Name = "toolStripSeparatorOne";
-            this.toolStripSeparatorOne.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparatorOne.Size = new System.Drawing.Size(237, 6);
             // 
             // toolStripMenuItemAddNew
             // 
             this.toolStripMenuItemAddNew.Name = "toolStripMenuItemAddNew";
-            this.toolStripMenuItemAddNew.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemAddNew.Size = new System.Drawing.Size(240, 24);
             this.toolStripMenuItemAddNew.Text = "Add a new boss";
             this.toolStripMenuItemAddNew.Click += new System.EventHandler(this.ToolStripMenuItemAddNew_Click);
             // 
             // buttonAddNew
             // 
-            this.buttonAddNew.Location = new System.Drawing.Point(673, 340);
+            this.buttonAddNew.Location = new System.Drawing.Point(897, 418);
+            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonAddNew.Name = "buttonAddNew";
-            this.buttonAddNew.Size = new System.Drawing.Size(96, 23);
+            this.buttonAddNew.Size = new System.Drawing.Size(128, 28);
             this.buttonAddNew.TabIndex = 1;
             this.buttonAddNew.Text = "Add a new boss";
             this.buttonAddNew.UseVisualStyleBackColor = true;
@@ -106,9 +109,10 @@
             // 
             // buttonResetSettings
             // 
-            this.buttonResetSettings.Location = new System.Drawing.Point(569, 340);
+            this.buttonResetSettings.Location = new System.Drawing.Point(759, 418);
+            this.buttonResetSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonResetSettings.Name = "buttonResetSettings";
-            this.buttonResetSettings.Size = new System.Drawing.Size(98, 23);
+            this.buttonResetSettings.Size = new System.Drawing.Size(131, 28);
             this.buttonResetSettings.TabIndex = 2;
             this.buttonResetSettings.Text = "Reset all bosses";
             this.buttonResetSettings.UseVisualStyleBackColor = true;
@@ -117,17 +121,19 @@
             // labelInformation
             // 
             this.labelInformation.AutoSize = true;
-            this.labelInformation.Location = new System.Drawing.Point(12, 345);
+            this.labelInformation.Location = new System.Drawing.Point(16, 425);
+            this.labelInformation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(295, 13);
+            this.labelInformation.Size = new System.Drawing.Size(356, 16);
             this.labelInformation.TabIndex = 5;
             this.labelInformation.Text = "You can right click the box window to bring up context menu.";
             // 
             // buttonOpenTemplate
             // 
-            this.buttonOpenTemplate.Location = new System.Drawing.Point(418, 340);
+            this.buttonOpenTemplate.Location = new System.Drawing.Point(557, 418);
+            this.buttonOpenTemplate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonOpenTemplate.Name = "buttonOpenTemplate";
-            this.buttonOpenTemplate.Size = new System.Drawing.Size(145, 23);
+            this.buttonOpenTemplate.Size = new System.Drawing.Size(193, 28);
             this.buttonOpenTemplate.TabIndex = 6;
             this.buttonOpenTemplate.Text = "Open boss data templates";
             this.buttonOpenTemplate.UseVisualStyleBackColor = true;
@@ -135,16 +141,17 @@
             // 
             // FormBossData
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(781, 375);
+            this.ClientSize = new System.Drawing.Size(1041, 462);
             this.Controls.Add(this.buttonOpenTemplate);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.buttonResetSettings);
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewBosses);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormBossData";

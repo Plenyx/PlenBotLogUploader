@@ -40,6 +40,7 @@
             this.toolStripMenuItemDeleteUserToken = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxUserTokens = new System.Windows.Forms.GroupBox();
             this.buttonAddUserToken = new System.Windows.Forms.Button();
+            this.toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
             this.groupBoxDPSReportServer.SuspendLayout();
             this.contextMenuStripUserTokens.SuspendLayout();
             this.groupBoxUserTokens.SuspendLayout();
@@ -111,32 +112,33 @@
             // 
             this.contextMenuStripUserTokens.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripUserTokens.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemAddUserToken,
             this.toolStripMenuItemEditUserToken,
-            this.toolStripMenuItemDeleteUserToken});
+            this.toolStripMenuItemDeleteUserToken,
+            this.toolStripSeparatorOne,
+            this.toolStripMenuItemAddUserToken});
             this.contextMenuStripUserTokens.Name = "contextMenuStripUserTokens";
-            this.contextMenuStripUserTokens.Size = new System.Drawing.Size(222, 76);
+            this.contextMenuStripUserTokens.Size = new System.Drawing.Size(279, 110);
             this.contextMenuStripUserTokens.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripUserTokens_Opening);
             // 
             // toolStripMenuItemAddUserToken
             // 
             this.toolStripMenuItemAddUserToken.Name = "toolStripMenuItemAddUserToken";
-            this.toolStripMenuItemAddUserToken.Size = new System.Drawing.Size(221, 24);
+            this.toolStripMenuItemAddUserToken.Size = new System.Drawing.Size(278, 24);
             this.toolStripMenuItemAddUserToken.Text = "Add a new user token";
             this.toolStripMenuItemAddUserToken.Click += new System.EventHandler(this.ToolStripMenuItemAddUserToken_Click);
             // 
             // toolStripMenuItemEditUserToken
             // 
             this.toolStripMenuItemEditUserToken.Name = "toolStripMenuItemEditUserToken";
-            this.toolStripMenuItemEditUserToken.Size = new System.Drawing.Size(221, 24);
-            this.toolStripMenuItemEditUserToken.Text = "Edit the user token";
+            this.toolStripMenuItemEditUserToken.Size = new System.Drawing.Size(278, 24);
+            this.toolStripMenuItemEditUserToken.Text = "Edit the selected user token";
             this.toolStripMenuItemEditUserToken.Click += new System.EventHandler(this.ToolStripMenuItemEditUserToken_Click);
             // 
             // toolStripMenuItemDeleteUserToken
             // 
             this.toolStripMenuItemDeleteUserToken.Name = "toolStripMenuItemDeleteUserToken";
-            this.toolStripMenuItemDeleteUserToken.Size = new System.Drawing.Size(221, 24);
-            this.toolStripMenuItemDeleteUserToken.Text = "Delete the user token";
+            this.toolStripMenuItemDeleteUserToken.Size = new System.Drawing.Size(278, 24);
+            this.toolStripMenuItemDeleteUserToken.Text = "Delete the selected user token";
             this.toolStripMenuItemDeleteUserToken.Click += new System.EventHandler(this.ToolStripMenuItemDeleteUserToken_Click);
             // 
             // groupBoxUserTokens
@@ -160,6 +162,11 @@
             this.buttonAddUserToken.Text = "Add a new user token";
             this.buttonAddUserToken.UseVisualStyleBackColor = true;
             this.buttonAddUserToken.Click += new System.EventHandler(this.ButtonAddUserToken_Click);
+            // 
+            // toolStripSeparatorOne
+            // 
+            this.toolStripSeparatorOne.Name = "toolStripSeparatorOne";
+            this.toolStripSeparatorOne.Size = new System.Drawing.Size(275, 6);
             // 
             // FormDPSReportSettings
             // 
@@ -198,5 +205,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddUserToken;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditUserToken;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDeleteUserToken;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
     }
 }

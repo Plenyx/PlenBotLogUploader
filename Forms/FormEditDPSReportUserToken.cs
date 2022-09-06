@@ -64,6 +64,7 @@ namespace PlenBotLogUploader
 
         private async void ButtonDPSReportGetToken_Click(object sender, EventArgs e)
         {
+            buttonDPSReportGetToken.Enabled = false;
             try
             {
                 var uri = new Uri("https://dps.report/getUserToken");
@@ -76,6 +77,7 @@ namespace PlenBotLogUploader
             {
                 MessageBox.Show($"An error has occured while getting the user token from dps.report API.\n{ex.Message}", "An error has occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            buttonDPSReportGetToken.Enabled = true;
         }
     }
 }

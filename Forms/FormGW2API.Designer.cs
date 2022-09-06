@@ -32,11 +32,12 @@
             this.labelAPIKeyInfo = new System.Windows.Forms.Label();
             this.listBoxAPIKeys = new System.Windows.Forms.ListBox();
             this.contextMenuStripEditAPIKeys = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemAddKey = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemEditKey = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemRemoveKey = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemAddKey = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddAPIKey = new System.Windows.Forms.Button();
-            this.buttonGetHardStuckCode = new System.Windows.Forms.Button();
+            this.buttonGetHardstuckBuildLink = new System.Windows.Forms.Button();
             this.contextMenuStripEditAPIKeys.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +55,7 @@
             // 
             // listBoxAPIKeys
             // 
+            this.listBoxAPIKeys.BackColor = System.Drawing.Color.White;
             this.listBoxAPIKeys.ContextMenuStrip = this.contextMenuStripEditAPIKeys;
             this.listBoxAPIKeys.FormattingEnabled = true;
             this.listBoxAPIKeys.ItemHeight = 16;
@@ -67,55 +69,61 @@
             // 
             this.contextMenuStripEditAPIKeys.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripEditAPIKeys.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemAddKey,
             this.toolStripMenuItemEditKey,
-            this.toolStripMenuItemRemoveKey});
+            this.toolStripMenuItemRemoveKey,
+            this.toolStripSeparatorOne,
+            this.toolStripMenuItemAddKey});
             this.contextMenuStripEditAPIKeys.Name = "contextMenuStripEditAPIKeys";
-            this.contextMenuStripEditAPIKeys.Size = new System.Drawing.Size(210, 76);
+            this.contextMenuStripEditAPIKeys.Size = new System.Drawing.Size(269, 82);
             this.contextMenuStripEditAPIKeys.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripEditAPIKeys_Opening);
-            // 
-            // toolStripMenuItemAddKey
-            // 
-            this.toolStripMenuItemAddKey.Name = "toolStripMenuItemAddKey";
-            this.toolStripMenuItemAddKey.Size = new System.Drawing.Size(210, 24);
-            this.toolStripMenuItemAddKey.Text = "Add an API key";
-            this.toolStripMenuItemAddKey.Click += new System.EventHandler(this.ToolStripMenuItemAddKey_Click);
             // 
             // toolStripMenuItemEditKey
             // 
             this.toolStripMenuItemEditKey.Name = "toolStripMenuItemEditKey";
-            this.toolStripMenuItemEditKey.Size = new System.Drawing.Size(210, 24);
-            this.toolStripMenuItemEditKey.Text = "Edit the API key";
+            this.toolStripMenuItemEditKey.Size = new System.Drawing.Size(268, 24);
+            this.toolStripMenuItemEditKey.Text = "Edit the selected API key";
             this.toolStripMenuItemEditKey.Click += new System.EventHandler(this.ToolStripMenuItemEditKey_Click);
             // 
             // toolStripMenuItemRemoveKey
             // 
             this.toolStripMenuItemRemoveKey.Name = "toolStripMenuItemRemoveKey";
-            this.toolStripMenuItemRemoveKey.Size = new System.Drawing.Size(210, 24);
-            this.toolStripMenuItemRemoveKey.Text = "Remove the API key";
+            this.toolStripMenuItemRemoveKey.Size = new System.Drawing.Size(268, 24);
+            this.toolStripMenuItemRemoveKey.Text = "Remove the selected API key";
             this.toolStripMenuItemRemoveKey.Click += new System.EventHandler(this.ToolStripMenuItemRemoveKey_Click);
+            // 
+            // toolStripSeparatorOne
+            // 
+            this.toolStripSeparatorOne.Name = "toolStripSeparatorOne";
+            this.toolStripSeparatorOne.Size = new System.Drawing.Size(265, 6);
+            // 
+            // toolStripMenuItemAddKey
+            // 
+            this.toolStripMenuItemAddKey.Name = "toolStripMenuItemAddKey";
+            this.toolStripMenuItemAddKey.Size = new System.Drawing.Size(268, 24);
+            this.toolStripMenuItemAddKey.Text = "Add a new API key";
+            this.toolStripMenuItemAddKey.Click += new System.EventHandler(this.ToolStripMenuItemAddKey_Click);
             // 
             // buttonAddAPIKey
             // 
-            this.buttonAddAPIKey.Location = new System.Drawing.Point(805, 327);
+            this.buttonAddAPIKey.Location = new System.Drawing.Point(783, 327);
             this.buttonAddAPIKey.Margin = new System.Windows.Forms.Padding(4);
             this.buttonAddAPIKey.Name = "buttonAddAPIKey";
-            this.buttonAddAPIKey.Size = new System.Drawing.Size(113, 28);
+            this.buttonAddAPIKey.Size = new System.Drawing.Size(135, 28);
             this.buttonAddAPIKey.TabIndex = 3;
-            this.buttonAddAPIKey.Text = "Add an API key";
+            this.buttonAddAPIKey.Text = "Add a new API key";
             this.buttonAddAPIKey.UseVisualStyleBackColor = true;
             this.buttonAddAPIKey.Click += new System.EventHandler(this.ButtonAddAPIKey_Click);
             // 
-            // buttonGetHardStuckCode
+            // buttonGetHardstuckBuildLink
             // 
-            this.buttonGetHardStuckCode.Location = new System.Drawing.Point(613, 363);
-            this.buttonGetHardStuckCode.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonGetHardStuckCode.Name = "buttonGetHardStuckCode";
-            this.buttonGetHardStuckCode.Size = new System.Drawing.Size(305, 28);
-            this.buttonGetHardStuckCode.TabIndex = 4;
-            this.buttonGetHardStuckCode.Text = "Get Hardstuck build link for the current character";
-            this.buttonGetHardStuckCode.UseVisualStyleBackColor = true;
-            this.buttonGetHardStuckCode.Click += new System.EventHandler(this.ButtonGetHardStuckCode_Click);
+            this.buttonGetHardstuckBuildLink.Location = new System.Drawing.Point(613, 363);
+            this.buttonGetHardstuckBuildLink.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonGetHardstuckBuildLink.Name = "buttonGetHardstuckBuildLink";
+            this.buttonGetHardstuckBuildLink.Size = new System.Drawing.Size(305, 28);
+            this.buttonGetHardstuckBuildLink.TabIndex = 4;
+            this.buttonGetHardstuckBuildLink.Text = "Get Hardstuck build link for the current character";
+            this.buttonGetHardstuckBuildLink.UseVisualStyleBackColor = true;
+            this.buttonGetHardstuckBuildLink.Click += new System.EventHandler(this.ButtonGetHardStuckCode_Click);
             // 
             // FormGW2API
             // 
@@ -123,7 +131,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(933, 405);
-            this.Controls.Add(this.buttonGetHardStuckCode);
+            this.Controls.Add(this.buttonGetHardstuckBuildLink);
             this.Controls.Add(this.buttonAddAPIKey);
             this.Controls.Add(this.listBoxAPIKeys);
             this.Controls.Add(this.labelAPIKeyInfo);
@@ -148,6 +156,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditKey;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRemoveKey;
         private System.Windows.Forms.Button buttonAddAPIKey;
-        private System.Windows.Forms.Button buttonGetHardStuckCode;
+        private System.Windows.Forms.Button buttonGetHardstuckBuildLink;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
     }
 }

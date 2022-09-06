@@ -38,7 +38,7 @@
             this.contextMenuStripInteract = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxLimiter = new System.Windows.Forms.GroupBox();
             this.radioButtonLimiterOR = new System.Windows.Forms.RadioButton();
@@ -105,22 +105,23 @@
             // 
             // buttonAddSubCondition
             // 
-            this.buttonAddSubCondition.Location = new System.Drawing.Point(208, 271);
+            this.buttonAddSubCondition.Location = new System.Drawing.Point(191, 271);
             this.buttonAddSubCondition.Name = "buttonAddSubCondition";
-            this.buttonAddSubCondition.Size = new System.Drawing.Size(151, 25);
+            this.buttonAddSubCondition.Size = new System.Drawing.Size(168, 25);
             this.buttonAddSubCondition.TabIndex = 1;
-            this.buttonAddSubCondition.Text = "Add new subcondition";
+            this.buttonAddSubCondition.Text = "Add a new subcondition";
             this.buttonAddSubCondition.UseVisualStyleBackColor = true;
             this.buttonAddSubCondition.Click += new System.EventHandler(this.ButtonAddSubCondition_Click);
             // 
             // listBoxSubConditions
             // 
+            this.listBoxSubConditions.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listBoxSubConditions.ContextMenuStrip = this.contextMenuStripInteract;
             this.listBoxSubConditions.FormattingEnabled = true;
             this.listBoxSubConditions.ItemHeight = 16;
             this.listBoxSubConditions.Location = new System.Drawing.Point(8, 23);
             this.listBoxSubConditions.Name = "listBoxSubConditions";
-            this.listBoxSubConditions.Size = new System.Drawing.Size(351, 244);
+            this.listBoxSubConditions.Size = new System.Drawing.Size(351, 240);
             this.listBoxSubConditions.TabIndex = 0;
             this.listBoxSubConditions.DoubleClick += new System.EventHandler(this.ListBoxSubConditions_DoubleClick);
             // 
@@ -130,36 +131,36 @@
             this.contextMenuStripInteract.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemEdit,
             this.toolStripMenuItemDelete,
-            this.toolStripSeparator1,
+            this.toolStripSeparatorOne,
             this.toolStripMenuItemAdd});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(249, 82);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(297, 110);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEdit
             // 
             this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
-            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(248, 24);
-            this.toolStripMenuItemEdit.Text = "Edit selected condition";
+            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(296, 24);
+            this.toolStripMenuItemEdit.Text = "Edit the selected subcondition";
             this.toolStripMenuItemEdit.Click += new System.EventHandler(this.ToolStripMenuItemEdit_Click);
             // 
             // toolStripMenuItemDelete
             // 
             this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
-            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(248, 24);
-            this.toolStripMenuItemDelete.Text = "Delete selected condition";
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(296, 24);
+            this.toolStripMenuItemDelete.Text = "Delete the selected subcondition";
             this.toolStripMenuItemDelete.Click += new System.EventHandler(this.ToolStripMenuItemDelete_Click);
             // 
-            // toolStripSeparator1
+            // toolStripSeparatorOne
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(245, 6);
+            this.toolStripSeparatorOne.Name = "toolStripSeparatorOne";
+            this.toolStripSeparatorOne.Size = new System.Drawing.Size(293, 6);
             // 
             // toolStripMenuItemAdd
             // 
             this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
-            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(248, 24);
-            this.toolStripMenuItemAdd.Text = "Add a condition";
+            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(296, 24);
+            this.toolStripMenuItemAdd.Text = "Add a new subcondition";
             this.toolStripMenuItemAdd.Click += new System.EventHandler(this.ToolStripMenuItemAdd_Click);
             // 
             // groupBoxLimiter
@@ -356,7 +357,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripInteract;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
     }
 }

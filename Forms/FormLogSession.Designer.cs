@@ -37,6 +37,7 @@
             this.groupBoxSessionSettings = new System.Windows.Forms.GroupBox();
             this.checkBoxSaveToFile = new System.Windows.Forms.CheckBox();
             this.groupBoxDiscordWebhooks = new System.Windows.Forms.GroupBox();
+            this.checkBoxMakeWvWSummary = new System.Windows.Forms.CheckBox();
             this.radioButtonSortByUpload = new System.Windows.Forms.RadioButton();
             this.labelSessionContent = new System.Windows.Forms.Label();
             this.textBoxSessionContent = new System.Windows.Forms.TextBox();
@@ -47,7 +48,6 @@
             this.checkedListBoxSelectedWebhooks = new System.Windows.Forms.CheckedListBox();
             this.radioButtonOnlySelectedWebhooks = new System.Windows.Forms.RadioButton();
             this.radioButtonAllActive = new System.Windows.Forms.RadioButton();
-            this.checkBoxMakeWvWSummary = new System.Windows.Forms.CheckBox();
             this.groupBoxSessionSettings.SuspendLayout();
             this.groupBoxDiscordWebhooks.SuspendLayout();
             this.groupBoxWebhookTypeSelection.SuspendLayout();
@@ -56,9 +56,10 @@
             // 
             // buttonSessionStarter
             // 
-            this.buttonSessionStarter.Location = new System.Drawing.Point(12, 12);
+            this.buttonSessionStarter.Location = new System.Drawing.Point(16, 15);
+            this.buttonSessionStarter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonSessionStarter.Name = "buttonSessionStarter";
-            this.buttonSessionStarter.Size = new System.Drawing.Size(163, 23);
+            this.buttonSessionStarter.Size = new System.Drawing.Size(217, 28);
             this.buttonSessionStarter.TabIndex = 0;
             this.buttonSessionStarter.Text = "Start a log session";
             this.buttonSessionStarter.UseVisualStyleBackColor = true;
@@ -67,9 +68,10 @@
             // checkBoxSupressWebhooks
             // 
             this.checkBoxSupressWebhooks.AutoSize = true;
-            this.checkBoxSupressWebhooks.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxSupressWebhooks.Location = new System.Drawing.Point(8, 23);
+            this.checkBoxSupressWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxSupressWebhooks.Name = "checkBoxSupressWebhooks";
-            this.checkBoxSupressWebhooks.Size = new System.Drawing.Size(232, 17);
+            this.checkBoxSupressWebhooks.Size = new System.Drawing.Size(291, 20);
             this.checkBoxSupressWebhooks.TabIndex = 1;
             this.checkBoxSupressWebhooks.Text = "suppress webhooks until session concludes";
             this.checkBoxSupressWebhooks.UseVisualStyleBackColor = true;
@@ -77,9 +79,10 @@
             // checkBoxOnlySuccess
             // 
             this.checkBoxOnlySuccess.AutoSize = true;
-            this.checkBoxOnlySuccess.Location = new System.Drawing.Point(9, 58);
+            this.checkBoxOnlySuccess.Location = new System.Drawing.Point(12, 71);
+            this.checkBoxOnlySuccess.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxOnlySuccess.Name = "checkBoxOnlySuccess";
-            this.checkBoxOnlySuccess.Size = new System.Drawing.Size(167, 17);
+            this.checkBoxOnlySuccess.Size = new System.Drawing.Size(207, 20);
             this.checkBoxOnlySuccess.TabIndex = 2;
             this.checkBoxOnlySuccess.Text = "save only successful attempts";
             this.checkBoxOnlySuccess.UseVisualStyleBackColor = true;
@@ -87,9 +90,10 @@
             // buttonUnPauseSession
             // 
             this.buttonUnPauseSession.Enabled = false;
-            this.buttonUnPauseSession.Location = new System.Drawing.Point(181, 12);
+            this.buttonUnPauseSession.Location = new System.Drawing.Point(241, 15);
+            this.buttonUnPauseSession.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonUnPauseSession.Name = "buttonUnPauseSession";
-            this.buttonUnPauseSession.Size = new System.Drawing.Size(116, 23);
+            this.buttonUnPauseSession.Size = new System.Drawing.Size(155, 28);
             this.buttonUnPauseSession.TabIndex = 3;
             this.buttonUnPauseSession.Text = "Pause session";
             this.buttonUnPauseSession.UseVisualStyleBackColor = true;
@@ -97,17 +101,19 @@
             // 
             // textBoxSessionName
             // 
-            this.textBoxSessionName.Location = new System.Drawing.Point(9, 32);
+            this.textBoxSessionName.Location = new System.Drawing.Point(12, 39);
+            this.textBoxSessionName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxSessionName.Name = "textBoxSessionName";
-            this.textBoxSessionName.Size = new System.Drawing.Size(270, 20);
+            this.textBoxSessionName.Size = new System.Drawing.Size(359, 22);
             this.textBoxSessionName.TabIndex = 4;
             // 
             // labelSessionName
             // 
             this.labelSessionName.AutoSize = true;
-            this.labelSessionName.Location = new System.Drawing.Point(6, 16);
+            this.labelSessionName.Location = new System.Drawing.Point(8, 20);
+            this.labelSessionName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSessionName.Name = "labelSessionName";
-            this.labelSessionName.Size = new System.Drawing.Size(106, 13);
+            this.labelSessionName.Size = new System.Drawing.Size(132, 16);
             this.labelSessionName.TabIndex = 5;
             this.labelSessionName.Text = "Name of the session:";
             // 
@@ -118,9 +124,11 @@
             this.groupBoxSessionSettings.Controls.Add(this.textBoxSessionName);
             this.groupBoxSessionSettings.Controls.Add(this.labelSessionName);
             this.groupBoxSessionSettings.Controls.Add(this.checkBoxOnlySuccess);
-            this.groupBoxSessionSettings.Location = new System.Drawing.Point(12, 41);
+            this.groupBoxSessionSettings.Location = new System.Drawing.Point(16, 50);
+            this.groupBoxSessionSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxSessionSettings.Name = "groupBoxSessionSettings";
-            this.groupBoxSessionSettings.Size = new System.Drawing.Size(285, 267);
+            this.groupBoxSessionSettings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxSessionSettings.Size = new System.Drawing.Size(380, 329);
             this.groupBoxSessionSettings.TabIndex = 6;
             this.groupBoxSessionSettings.TabStop = false;
             this.groupBoxSessionSettings.Text = "Session settings";
@@ -128,9 +136,10 @@
             // checkBoxSaveToFile
             // 
             this.checkBoxSaveToFile.AutoSize = true;
-            this.checkBoxSaveToFile.Location = new System.Drawing.Point(9, 81);
+            this.checkBoxSaveToFile.Location = new System.Drawing.Point(12, 100);
+            this.checkBoxSaveToFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBoxSaveToFile.Name = "checkBoxSaveToFile";
-            this.checkBoxSaveToFile.Size = new System.Drawing.Size(124, 17);
+            this.checkBoxSaveToFile.Size = new System.Drawing.Size(154, 20);
             this.checkBoxSaveToFile.TabIndex = 9;
             this.checkBoxSaveToFile.Text = "save session to a file";
             this.checkBoxSaveToFile.UseVisualStyleBackColor = true;
@@ -143,19 +152,33 @@
             this.groupBoxDiscordWebhooks.Controls.Add(this.textBoxSessionContent);
             this.groupBoxDiscordWebhooks.Controls.Add(this.radioButtonSortByWing);
             this.groupBoxDiscordWebhooks.Controls.Add(this.checkBoxSupressWebhooks);
-            this.groupBoxDiscordWebhooks.Location = new System.Drawing.Point(6, 104);
+            this.groupBoxDiscordWebhooks.Location = new System.Drawing.Point(8, 128);
+            this.groupBoxDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxDiscordWebhooks.Name = "groupBoxDiscordWebhooks";
-            this.groupBoxDiscordWebhooks.Size = new System.Drawing.Size(270, 157);
+            this.groupBoxDiscordWebhooks.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxDiscordWebhooks.Size = new System.Drawing.Size(360, 193);
             this.groupBoxDiscordWebhooks.TabIndex = 8;
             this.groupBoxDiscordWebhooks.TabStop = false;
             this.groupBoxDiscordWebhooks.Text = "Discord webhook settings";
             // 
+            // checkBoxMakeWvWSummary
+            // 
+            this.checkBoxMakeWvWSummary.AutoSize = true;
+            this.checkBoxMakeWvWSummary.Location = new System.Drawing.Point(8, 165);
+            this.checkBoxMakeWvWSummary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxMakeWvWSummary.Name = "checkBoxMakeWvWSummary";
+            this.checkBoxMakeWvWSummary.Size = new System.Drawing.Size(219, 20);
+            this.checkBoxMakeWvWSummary.TabIndex = 8;
+            this.checkBoxMakeWvWSummary.Text = "create a summary for WvW logs";
+            this.checkBoxMakeWvWSummary.UseVisualStyleBackColor = true;
+            // 
             // radioButtonSortByUpload
             // 
             this.radioButtonSortByUpload.AutoSize = true;
-            this.radioButtonSortByUpload.Location = new System.Drawing.Point(6, 108);
+            this.radioButtonSortByUpload.Location = new System.Drawing.Point(8, 133);
+            this.radioButtonSortByUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSortByUpload.Name = "radioButtonSortByUpload";
-            this.radioButtonSortByUpload.Size = new System.Drawing.Size(135, 17);
+            this.radioButtonSortByUpload.Size = new System.Drawing.Size(170, 20);
             this.radioButtonSortByUpload.TabIndex = 1;
             this.radioButtonSortByUpload.TabStop = true;
             this.radioButtonSortByUpload.Text = "sort logs by upload time";
@@ -165,26 +188,29 @@
             // labelSessionContent
             // 
             this.labelSessionContent.AutoSize = true;
-            this.labelSessionContent.Location = new System.Drawing.Point(6, 39);
+            this.labelSessionContent.Location = new System.Drawing.Point(8, 48);
+            this.labelSessionContent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSessionContent.Name = "labelSessionContent";
-            this.labelSessionContent.Size = new System.Drawing.Size(91, 13);
+            this.labelSessionContent.Size = new System.Drawing.Size(117, 16);
             this.labelSessionContent.TabIndex = 6;
             this.labelSessionContent.Text = "Discord message:";
             // 
             // textBoxSessionContent
             // 
-            this.textBoxSessionContent.Location = new System.Drawing.Point(6, 55);
+            this.textBoxSessionContent.Location = new System.Drawing.Point(8, 68);
+            this.textBoxSessionContent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxSessionContent.Name = "textBoxSessionContent";
-            this.textBoxSessionContent.Size = new System.Drawing.Size(258, 20);
+            this.textBoxSessionContent.Size = new System.Drawing.Size(343, 22);
             this.textBoxSessionContent.TabIndex = 7;
             // 
             // radioButtonSortByWing
             // 
             this.radioButtonSortByWing.AutoSize = true;
             this.radioButtonSortByWing.Checked = true;
-            this.radioButtonSortByWing.Location = new System.Drawing.Point(6, 82);
+            this.radioButtonSortByWing.Location = new System.Drawing.Point(8, 101);
+            this.radioButtonSortByWing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonSortByWing.Name = "radioButtonSortByWing";
-            this.radioButtonSortByWing.Size = new System.Drawing.Size(176, 17);
+            this.radioButtonSortByWing.Size = new System.Drawing.Size(221, 20);
             this.radioButtonSortByWing.TabIndex = 0;
             this.radioButtonSortByWing.TabStop = true;
             this.radioButtonSortByWing.Text = "sort logs by wing and boss order";
@@ -196,9 +222,11 @@
             this.groupBoxWebhookTypeSelection.Controls.Add(this.groupBoxSelectedWebhooks);
             this.groupBoxWebhookTypeSelection.Controls.Add(this.radioButtonOnlySelectedWebhooks);
             this.groupBoxWebhookTypeSelection.Controls.Add(this.radioButtonAllActive);
-            this.groupBoxWebhookTypeSelection.Location = new System.Drawing.Point(303, 12);
+            this.groupBoxWebhookTypeSelection.Location = new System.Drawing.Point(404, 15);
+            this.groupBoxWebhookTypeSelection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxWebhookTypeSelection.Name = "groupBoxWebhookTypeSelection";
-            this.groupBoxWebhookTypeSelection.Size = new System.Drawing.Size(246, 296);
+            this.groupBoxWebhookTypeSelection.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxWebhookTypeSelection.Size = new System.Drawing.Size(328, 364);
             this.groupBoxWebhookTypeSelection.TabIndex = 7;
             this.groupBoxWebhookTypeSelection.TabStop = false;
             this.groupBoxWebhookTypeSelection.Text = "Select which Webhooks to execute for session";
@@ -208,18 +236,21 @@
             this.groupBoxSelectedWebhooks.Controls.Add(this.buttonReloadWebhooks);
             this.groupBoxSelectedWebhooks.Controls.Add(this.checkedListBoxSelectedWebhooks);
             this.groupBoxSelectedWebhooks.Enabled = false;
-            this.groupBoxSelectedWebhooks.Location = new System.Drawing.Point(7, 69);
+            this.groupBoxSelectedWebhooks.Location = new System.Drawing.Point(9, 85);
+            this.groupBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxSelectedWebhooks.Name = "groupBoxSelectedWebhooks";
-            this.groupBoxSelectedWebhooks.Size = new System.Drawing.Size(233, 221);
+            this.groupBoxSelectedWebhooks.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxSelectedWebhooks.Size = new System.Drawing.Size(311, 272);
             this.groupBoxSelectedWebhooks.TabIndex = 3;
             this.groupBoxSelectedWebhooks.TabStop = false;
             this.groupBoxSelectedWebhooks.Text = "Selected Webhooks";
             // 
             // buttonReloadWebhooks
             // 
-            this.buttonReloadWebhooks.Location = new System.Drawing.Point(6, 18);
+            this.buttonReloadWebhooks.Location = new System.Drawing.Point(8, 22);
+            this.buttonReloadWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonReloadWebhooks.Name = "buttonReloadWebhooks";
-            this.buttonReloadWebhooks.Size = new System.Drawing.Size(221, 23);
+            this.buttonReloadWebhooks.Size = new System.Drawing.Size(295, 28);
             this.buttonReloadWebhooks.TabIndex = 3;
             this.buttonReloadWebhooks.Text = "Reload possible Webhooks";
             this.buttonReloadWebhooks.UseVisualStyleBackColor = true;
@@ -227,18 +258,21 @@
             // 
             // checkedListBoxSelectedWebhooks
             // 
+            this.checkedListBoxSelectedWebhooks.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.checkedListBoxSelectedWebhooks.FormattingEnabled = true;
-            this.checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(6, 47);
+            this.checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(8, 58);
+            this.checkedListBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkedListBoxSelectedWebhooks.Name = "checkedListBoxSelectedWebhooks";
-            this.checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(221, 169);
+            this.checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(293, 204);
             this.checkedListBoxSelectedWebhooks.TabIndex = 2;
             // 
             // radioButtonOnlySelectedWebhooks
             // 
             this.radioButtonOnlySelectedWebhooks.AutoSize = true;
-            this.radioButtonOnlySelectedWebhooks.Location = new System.Drawing.Point(7, 41);
+            this.radioButtonOnlySelectedWebhooks.Location = new System.Drawing.Point(9, 50);
+            this.radioButtonOnlySelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonOnlySelectedWebhooks.Name = "radioButtonOnlySelectedWebhooks";
-            this.radioButtonOnlySelectedWebhooks.Size = new System.Drawing.Size(200, 17);
+            this.radioButtonOnlySelectedWebhooks.Size = new System.Drawing.Size(248, 20);
             this.radioButtonOnlySelectedWebhooks.TabIndex = 1;
             this.radioButtonOnlySelectedWebhooks.Text = "Only selected Webhooks from the list";
             this.radioButtonOnlySelectedWebhooks.UseVisualStyleBackColor = true;
@@ -248,35 +282,27 @@
             // 
             this.radioButtonAllActive.AutoSize = true;
             this.radioButtonAllActive.Checked = true;
-            this.radioButtonAllActive.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonAllActive.Location = new System.Drawing.Point(9, 25);
+            this.radioButtonAllActive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonAllActive.Name = "radioButtonAllActive";
-            this.radioButtonAllActive.Size = new System.Drawing.Size(166, 17);
+            this.radioButtonAllActive.Size = new System.Drawing.Size(204, 20);
             this.radioButtonAllActive.TabIndex = 0;
             this.radioButtonAllActive.TabStop = true;
             this.radioButtonAllActive.Text = "All currently active Webhooks";
             this.radioButtonAllActive.UseVisualStyleBackColor = true;
             // 
-            // checkBoxMakeWvWSummary
-            // 
-            this.checkBoxMakeWvWSummary.AutoSize = true;
-            this.checkBoxMakeWvWSummary.Location = new System.Drawing.Point(6, 134);
-            this.checkBoxMakeWvWSummary.Name = "checkBoxMakeWvWSummary";
-            this.checkBoxMakeWvWSummary.Size = new System.Drawing.Size(177, 17);
-            this.checkBoxMakeWvWSummary.TabIndex = 8;
-            this.checkBoxMakeWvWSummary.Text = "create a summary for WvW logs";
-            this.checkBoxMakeWvWSummary.UseVisualStyleBackColor = true;
-            // 
             // FormLogSession
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(558, 312);
+            this.ClientSize = new System.Drawing.Size(744, 384);
             this.Controls.Add(this.groupBoxWebhookTypeSelection);
             this.Controls.Add(this.groupBoxSessionSettings);
             this.Controls.Add(this.buttonUnPauseSession);
             this.Controls.Add(this.buttonSessionStarter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormLogSession";

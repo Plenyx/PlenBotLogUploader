@@ -35,6 +35,7 @@ namespace PlenBotLogUploader
             {
                 listBoxAPIKeys.Items.Add(apiKey);
             }
+            buttonGetHardstuckBuildLink.Enabled = ApplicationSettings.Current.GW2APIs.Any();
         }
 
         private void ListBoxAPIKeys_DoubleClick(object sender, System.EventArgs e)

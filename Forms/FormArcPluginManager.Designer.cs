@@ -62,11 +62,12 @@ namespace PlenBotLogUploader
             // 
             // checkedListBoxArcDpsPlugins
             // 
+            this.checkedListBoxArcDpsPlugins.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.checkedListBoxArcDpsPlugins.Enabled = false;
             this.checkedListBoxArcDpsPlugins.Location = new System.Drawing.Point(241, 15);
             this.checkedListBoxArcDpsPlugins.Margin = new System.Windows.Forms.Padding(4);
             this.checkedListBoxArcDpsPlugins.Name = "checkedListBoxArcDpsPlugins";
-            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(355, 174);
+            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(355, 170);
             this.checkedListBoxArcDpsPlugins.Sorted = true;
             this.checkedListBoxArcDpsPlugins.TabIndex = 2;
             this.checkedListBoxArcDpsPlugins.SelectedIndexChanged += new System.EventHandler(this.CheckedListBoxArcDpsPlugins_SelectedIndexChanged);

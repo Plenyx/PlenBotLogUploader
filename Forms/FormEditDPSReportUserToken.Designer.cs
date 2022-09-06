@@ -29,11 +29,10 @@
         private void InitializeComponent()
         {
             this.groupBoxName = new System.Windows.Forms.GroupBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.groupBoxUserToken = new System.Windows.Forms.GroupBox();
-            this.textBoxUserToken = new System.Windows.Forms.TextBox();
             this.buttonDPSReportGetToken = new System.Windows.Forms.Button();
+            this.textBoxUserToken = new System.Windows.Forms.TextBox();
             this.groupBoxName.SuspendLayout();
             this.groupBoxUserToken.SuspendLayout();
             this.SuspendLayout();
@@ -66,23 +65,23 @@
             this.groupBoxUserToken.TabStop = false;
             this.groupBoxUserToken.Text = "User token";
             // 
+            // buttonDPSReportGetToken
+            // 
+            this.buttonDPSReportGetToken.Location = new System.Drawing.Point(157, 50);
+            this.buttonDPSReportGetToken.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDPSReportGetToken.Name = "buttonDPSReportGetToken";
+            this.buttonDPSReportGetToken.Size = new System.Drawing.Size(254, 28);
+            this.buttonDPSReportGetToken.TabIndex = 4;
+            this.buttonDPSReportGetToken.Text = "Generate token from the DPS.report API";
+            this.buttonDPSReportGetToken.UseVisualStyleBackColor = true;
+            this.buttonDPSReportGetToken.Click += new System.EventHandler(this.ButtonDPSReportGetToken_Click);
+            // 
             // textBoxUserToken
             // 
             this.textBoxUserToken.Location = new System.Drawing.Point(6, 21);
             this.textBoxUserToken.Name = "textBoxUserToken";
             this.textBoxUserToken.Size = new System.Drawing.Size(405, 22);
             this.textBoxUserToken.TabIndex = 0;
-            // 
-            // buttonDPSReportGetToken
-            // 
-            this.buttonDPSReportGetToken.Location = new System.Drawing.Point(267, 50);
-            this.buttonDPSReportGetToken.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonDPSReportGetToken.Name = "buttonDPSReportGetToken";
-            this.buttonDPSReportGetToken.Size = new System.Drawing.Size(144, 28);
-            this.buttonDPSReportGetToken.TabIndex = 4;
-            this.buttonDPSReportGetToken.Text = "Get token from API";
-            this.buttonDPSReportGetToken.UseVisualStyleBackColor = true;
-            this.buttonDPSReportGetToken.Click += new System.EventHandler(this.ButtonDPSReportGetToken_Click);
             // 
             // FormEditDPSReportUserToken
             // 
@@ -111,7 +110,6 @@
 
         private System.Windows.Forms.GroupBox groupBoxName;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.GroupBox groupBoxUserToken;
         private System.Windows.Forms.TextBox textBoxUserToken;
         private System.Windows.Forms.Button buttonDPSReportGetToken;
