@@ -99,19 +99,19 @@ namespace PlenBotLogUploader
             buttonUnPauseSession.Text = (!sessionPaused) ? "Pause session" : "Unpause session";
         }
 
-        public void CheckBoxSupressWebhooks_CheckedChanged(object sender, EventArgs e)
+        internal void CheckBoxSupressWebhooks_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.Session.SupressWebhooks = checkBoxSupressWebhooks.Checked;
             ApplicationSettings.Current.Save();
         }
 
-        public void CheckBoxOnlySuccess_CheckedChanged(object sender, EventArgs e)
+        internal void CheckBoxOnlySuccess_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.Session.OnlySuccess = checkBoxOnlySuccess.Checked;
             ApplicationSettings.Current.Save();
         }
 
-        public void CheckBoxSaveToFile_CheckedChanged(object sender, EventArgs e)
+        internal void CheckBoxSaveToFile_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.Session.SaveToFile = checkBoxSaveToFile.Checked;
             ApplicationSettings.Current.Save();
@@ -140,12 +140,9 @@ namespace PlenBotLogUploader
                 {
                     var discordWebhookHelper = (DiscordWebhooksHelperClass)item;
                     var checkedState = checkedListBoxSelectedWebhooks.GetItemChecked(i);
-                    if (checkedState)
+                    if (checkedState && allWebhooks.ContainsKey(discordWebhookHelper.WebhookID))
                     {
-                        if (allWebhooks.ContainsKey(discordWebhookHelper.WebhookID))
-                        {
-                            list.Add(allWebhooks[discordWebhookHelper.WebhookID]);
-                        }
+                        list.Add(allWebhooks[discordWebhookHelper.WebhookID]);
                     }
                 }
             }

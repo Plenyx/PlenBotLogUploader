@@ -195,9 +195,9 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBoxDPSReportServer;
-        public System.Windows.Forms.RadioButton radioButtonA;
-        public System.Windows.Forms.RadioButton radioButtonNormal;
-        public System.Windows.Forms.RadioButton radioButtonB;
+        internal System.Windows.Forms.RadioButton radioButtonA;
+        internal System.Windows.Forms.RadioButton radioButtonNormal;
+        internal System.Windows.Forms.RadioButton radioButtonB;
         private System.Windows.Forms.CheckedListBox checkedListBoxUserTokens;
         private System.Windows.Forms.GroupBox groupBoxUserTokens;
         private System.Windows.Forms.Button buttonAddUserToken;

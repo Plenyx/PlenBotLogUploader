@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DiscordAPI;
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.Tools;
@@ -54,7 +55,7 @@ namespace PlenBotLogUploader
             DiscordWebhooks.SaveToJson(allWebhooks,DiscordWebhooks.JsonFileLocation);
         }
 
-        public async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON)
+        internal async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON)
         {
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
@@ -91,8 +92,7 @@ namespace PlenBotLogUploader
                 {
                     // squad summary
                     var squadPlayers = reportJSON.ExtraJSON.Players
-                        .Where(x => !x.FriendNPC && !x.NotInSquad)
-                        .Count();
+                        .Count(x => !x.FriendNPC && !x.NotInSquad);
                     var squadDamage = reportJSON.ExtraJSON.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.DpsTargets.Sum(y => y.Sum(z => z.Damage)))
@@ -139,7 +139,7 @@ namespace PlenBotLogUploader
                     if (reportJSON.ExtraJSON.Targets.Count > 1)
                     {
                         var enemyPlayers = reportJSON.ExtraJSON.Targets
-                            .Count() - 1;
+                            .Count - 1;
                         var enemyDamage = reportJSON.ExtraJSON.Targets
                             .Where(x => !x.IsFake)
                             .Select(x => x.DpsAll.First().Damage)
@@ -379,8 +379,7 @@ namespace PlenBotLogUploader
                             Value = $"```{playerNames.Render()}```"
                         });
                         var numberOfRealTargers = reportJSON.ExtraJSON.Targets
-                            .Where(x => !x.IsFake)
-                            .Count();
+                            .Count(x => !x.IsFake);
                         // damage summary
                         var damageStats = reportJSON.ExtraJSON.Players
                             .Where(x => !x.FriendNPC)
@@ -464,7 +463,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
+        internal async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
             if (logSessionSettings.UseSelectedWebhooksInstead)
             {
@@ -586,6 +585,12 @@ namespace PlenBotLogUploader
         {
             webhookIdsKey++;
             new FormEditDiscordWebhook(this, null, webhookIdsKey).ShowDialog();
+        }
+
+        internal void CheckBoxShortenThousands_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.ShortenThousands = checkBoxShortenThousands.Checked;
+            ApplicationSettings.Current.Save();
         }
     }
 }

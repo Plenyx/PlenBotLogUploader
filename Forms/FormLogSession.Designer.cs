@@ -57,7 +57,7 @@
             // buttonSessionStarter
             // 
             this.buttonSessionStarter.Location = new System.Drawing.Point(16, 15);
-            this.buttonSessionStarter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonSessionStarter.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSessionStarter.Name = "buttonSessionStarter";
             this.buttonSessionStarter.Size = new System.Drawing.Size(217, 28);
             this.buttonSessionStarter.TabIndex = 0;
@@ -69,7 +69,7 @@
             // 
             this.checkBoxSupressWebhooks.AutoSize = true;
             this.checkBoxSupressWebhooks.Location = new System.Drawing.Point(8, 23);
-            this.checkBoxSupressWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxSupressWebhooks.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxSupressWebhooks.Name = "checkBoxSupressWebhooks";
             this.checkBoxSupressWebhooks.Size = new System.Drawing.Size(291, 20);
             this.checkBoxSupressWebhooks.TabIndex = 1;
@@ -80,7 +80,7 @@
             // 
             this.checkBoxOnlySuccess.AutoSize = true;
             this.checkBoxOnlySuccess.Location = new System.Drawing.Point(12, 71);
-            this.checkBoxOnlySuccess.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxOnlySuccess.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxOnlySuccess.Name = "checkBoxOnlySuccess";
             this.checkBoxOnlySuccess.Size = new System.Drawing.Size(207, 20);
             this.checkBoxOnlySuccess.TabIndex = 2;
@@ -91,7 +91,7 @@
             // 
             this.buttonUnPauseSession.Enabled = false;
             this.buttonUnPauseSession.Location = new System.Drawing.Point(241, 15);
-            this.buttonUnPauseSession.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonUnPauseSession.Margin = new System.Windows.Forms.Padding(4);
             this.buttonUnPauseSession.Name = "buttonUnPauseSession";
             this.buttonUnPauseSession.Size = new System.Drawing.Size(155, 28);
             this.buttonUnPauseSession.TabIndex = 3;
@@ -102,7 +102,7 @@
             // textBoxSessionName
             // 
             this.textBoxSessionName.Location = new System.Drawing.Point(12, 39);
-            this.textBoxSessionName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxSessionName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSessionName.Name = "textBoxSessionName";
             this.textBoxSessionName.Size = new System.Drawing.Size(359, 22);
             this.textBoxSessionName.TabIndex = 4;
@@ -125,9 +125,9 @@
             this.groupBoxSessionSettings.Controls.Add(this.labelSessionName);
             this.groupBoxSessionSettings.Controls.Add(this.checkBoxOnlySuccess);
             this.groupBoxSessionSettings.Location = new System.Drawing.Point(16, 50);
-            this.groupBoxSessionSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxSessionSettings.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxSessionSettings.Name = "groupBoxSessionSettings";
-            this.groupBoxSessionSettings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxSessionSettings.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxSessionSettings.Size = new System.Drawing.Size(380, 329);
             this.groupBoxSessionSettings.TabIndex = 6;
             this.groupBoxSessionSettings.TabStop = false;
@@ -137,7 +137,7 @@
             // 
             this.checkBoxSaveToFile.AutoSize = true;
             this.checkBoxSaveToFile.Location = new System.Drawing.Point(12, 100);
-            this.checkBoxSaveToFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxSaveToFile.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxSaveToFile.Name = "checkBoxSaveToFile";
             this.checkBoxSaveToFile.Size = new System.Drawing.Size(154, 20);
             this.checkBoxSaveToFile.TabIndex = 9;
@@ -153,9 +153,9 @@
             this.groupBoxDiscordWebhooks.Controls.Add(this.radioButtonSortByWing);
             this.groupBoxDiscordWebhooks.Controls.Add(this.checkBoxSupressWebhooks);
             this.groupBoxDiscordWebhooks.Location = new System.Drawing.Point(8, 128);
-            this.groupBoxDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxDiscordWebhooks.Name = "groupBoxDiscordWebhooks";
-            this.groupBoxDiscordWebhooks.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxDiscordWebhooks.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxDiscordWebhooks.Size = new System.Drawing.Size(360, 193);
             this.groupBoxDiscordWebhooks.TabIndex = 8;
             this.groupBoxDiscordWebhooks.TabStop = false;
@@ -165,7 +165,7 @@
             // 
             this.checkBoxMakeWvWSummary.AutoSize = true;
             this.checkBoxMakeWvWSummary.Location = new System.Drawing.Point(8, 165);
-            this.checkBoxMakeWvWSummary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxMakeWvWSummary.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxMakeWvWSummary.Name = "checkBoxMakeWvWSummary";
             this.checkBoxMakeWvWSummary.Size = new System.Drawing.Size(219, 20);
             this.checkBoxMakeWvWSummary.TabIndex = 8;
@@ -176,7 +176,7 @@
             // 
             this.radioButtonSortByUpload.AutoSize = true;
             this.radioButtonSortByUpload.Location = new System.Drawing.Point(8, 133);
-            this.radioButtonSortByUpload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonSortByUpload.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonSortByUpload.Name = "radioButtonSortByUpload";
             this.radioButtonSortByUpload.Size = new System.Drawing.Size(170, 20);
             this.radioButtonSortByUpload.TabIndex = 1;
@@ -198,7 +198,7 @@
             // textBoxSessionContent
             // 
             this.textBoxSessionContent.Location = new System.Drawing.Point(8, 68);
-            this.textBoxSessionContent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxSessionContent.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSessionContent.Name = "textBoxSessionContent";
             this.textBoxSessionContent.Size = new System.Drawing.Size(343, 22);
             this.textBoxSessionContent.TabIndex = 7;
@@ -208,7 +208,7 @@
             this.radioButtonSortByWing.AutoSize = true;
             this.radioButtonSortByWing.Checked = true;
             this.radioButtonSortByWing.Location = new System.Drawing.Point(8, 101);
-            this.radioButtonSortByWing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonSortByWing.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonSortByWing.Name = "radioButtonSortByWing";
             this.radioButtonSortByWing.Size = new System.Drawing.Size(221, 20);
             this.radioButtonSortByWing.TabIndex = 0;
@@ -223,9 +223,9 @@
             this.groupBoxWebhookTypeSelection.Controls.Add(this.radioButtonOnlySelectedWebhooks);
             this.groupBoxWebhookTypeSelection.Controls.Add(this.radioButtonAllActive);
             this.groupBoxWebhookTypeSelection.Location = new System.Drawing.Point(404, 15);
-            this.groupBoxWebhookTypeSelection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxWebhookTypeSelection.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxWebhookTypeSelection.Name = "groupBoxWebhookTypeSelection";
-            this.groupBoxWebhookTypeSelection.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxWebhookTypeSelection.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxWebhookTypeSelection.Size = new System.Drawing.Size(328, 364);
             this.groupBoxWebhookTypeSelection.TabIndex = 7;
             this.groupBoxWebhookTypeSelection.TabStop = false;
@@ -237,9 +237,9 @@
             this.groupBoxSelectedWebhooks.Controls.Add(this.checkedListBoxSelectedWebhooks);
             this.groupBoxSelectedWebhooks.Enabled = false;
             this.groupBoxSelectedWebhooks.Location = new System.Drawing.Point(9, 85);
-            this.groupBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxSelectedWebhooks.Name = "groupBoxSelectedWebhooks";
-            this.groupBoxSelectedWebhooks.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxSelectedWebhooks.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxSelectedWebhooks.Size = new System.Drawing.Size(311, 272);
             this.groupBoxSelectedWebhooks.TabIndex = 3;
             this.groupBoxSelectedWebhooks.TabStop = false;
@@ -248,7 +248,7 @@
             // buttonReloadWebhooks
             // 
             this.buttonReloadWebhooks.Location = new System.Drawing.Point(8, 22);
-            this.buttonReloadWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonReloadWebhooks.Margin = new System.Windows.Forms.Padding(4);
             this.buttonReloadWebhooks.Name = "buttonReloadWebhooks";
             this.buttonReloadWebhooks.Size = new System.Drawing.Size(295, 28);
             this.buttonReloadWebhooks.TabIndex = 3;
@@ -261,7 +261,7 @@
             this.checkedListBoxSelectedWebhooks.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.checkedListBoxSelectedWebhooks.FormattingEnabled = true;
             this.checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(8, 58);
-            this.checkedListBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkedListBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4);
             this.checkedListBoxSelectedWebhooks.Name = "checkedListBoxSelectedWebhooks";
             this.checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(293, 204);
             this.checkedListBoxSelectedWebhooks.TabIndex = 2;
@@ -270,7 +270,7 @@
             // 
             this.radioButtonOnlySelectedWebhooks.AutoSize = true;
             this.radioButtonOnlySelectedWebhooks.Location = new System.Drawing.Point(9, 50);
-            this.radioButtonOnlySelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonOnlySelectedWebhooks.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonOnlySelectedWebhooks.Name = "radioButtonOnlySelectedWebhooks";
             this.radioButtonOnlySelectedWebhooks.Size = new System.Drawing.Size(248, 20);
             this.radioButtonOnlySelectedWebhooks.TabIndex = 1;
@@ -283,7 +283,7 @@
             this.radioButtonAllActive.AutoSize = true;
             this.radioButtonAllActive.Checked = true;
             this.radioButtonAllActive.Location = new System.Drawing.Point(9, 25);
-            this.radioButtonAllActive.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonAllActive.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonAllActive.Name = "radioButtonAllActive";
             this.radioButtonAllActive.Size = new System.Drawing.Size(204, 20);
             this.radioButtonAllActive.TabIndex = 0;
@@ -302,7 +302,7 @@
             this.Controls.Add(this.buttonUnPauseSession);
             this.Controls.Add(this.buttonSessionStarter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormLogSession";
@@ -323,18 +323,11 @@
         #endregion
 
         private System.Windows.Forms.Button buttonSessionStarter;
-        public System.Windows.Forms.CheckBox checkBoxSupressWebhooks;
-        public System.Windows.Forms.CheckBox checkBoxOnlySuccess;
         private System.Windows.Forms.Button buttonUnPauseSession;
         private System.Windows.Forms.Label labelSessionName;
         private System.Windows.Forms.GroupBox groupBoxSessionSettings;
-        public System.Windows.Forms.TextBox textBoxSessionName;
         private System.Windows.Forms.Label labelSessionContent;
-        public System.Windows.Forms.TextBox textBoxSessionContent;
         private System.Windows.Forms.GroupBox groupBoxDiscordWebhooks;
-        public System.Windows.Forms.RadioButton radioButtonSortByUpload;
-        public System.Windows.Forms.RadioButton radioButtonSortByWing;
-        public System.Windows.Forms.CheckBox checkBoxSaveToFile;
         private System.Windows.Forms.GroupBox groupBoxWebhookTypeSelection;
         private System.Windows.Forms.GroupBox groupBoxSelectedWebhooks;
         private System.Windows.Forms.Button buttonReloadWebhooks;
@@ -342,5 +335,12 @@
         private System.Windows.Forms.RadioButton radioButtonOnlySelectedWebhooks;
         private System.Windows.Forms.RadioButton radioButtonAllActive;
         internal System.Windows.Forms.CheckBox checkBoxMakeWvWSummary;
+        internal System.Windows.Forms.CheckBox checkBoxOnlySuccess;
+        internal System.Windows.Forms.TextBox textBoxSessionName;
+        internal System.Windows.Forms.CheckBox checkBoxSupressWebhooks;
+        internal System.Windows.Forms.TextBox textBoxSessionContent;
+        internal System.Windows.Forms.RadioButton radioButtonSortByUpload;
+        internal System.Windows.Forms.RadioButton radioButtonSortByWing;
+        internal System.Windows.Forms.CheckBox checkBoxSaveToFile;
     }
 }

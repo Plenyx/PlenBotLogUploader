@@ -152,10 +152,10 @@
         #endregion
         private System.Windows.Forms.GroupBox groupBoxUploadSettings;
         private System.Windows.Forms.GroupBox groupBoxModuleEnabled;
-        public System.Windows.Forms.CheckBox checkBoxModuleEnabled;
+        internal System.Windows.Forms.CheckBox checkBoxModuleEnabled;
         private System.Windows.Forms.GroupBox groupBoxAPIKey;
-        public System.Windows.Forms.TextBox textBoxAPIKey;
-        public System.Windows.Forms.CheckBox checkBoxOnlySuccessful;
+        internal System.Windows.Forms.TextBox textBoxAPIKey;
+        internal System.Windows.Forms.CheckBox checkBoxOnlySuccessful;
         private System.Windows.Forms.Label labelSelectedTeam;
         private System.Windows.Forms.ComboBox comboBoxSelectedTeam;
     }

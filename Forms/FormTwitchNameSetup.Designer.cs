@@ -97,7 +97,7 @@
         #endregion
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.Button buttonNext;
-        public System.Windows.Forms.TextBox textBoxChannelUrl;
+        internal System.Windows.Forms.TextBox textBoxChannelUrl;
         private System.Windows.Forms.Button buttonDoNotUseTwitch;
     }
 }

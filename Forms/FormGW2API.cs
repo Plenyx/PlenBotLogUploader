@@ -28,7 +28,7 @@ namespace PlenBotLogUploader
             Hide();
         }
 
-        public void RedrawList()
+        internal void RedrawList()
         {
             listBoxAPIKeys.Items.Clear();
             foreach (var apiKey in ApplicationSettings.Current.GW2APIs)

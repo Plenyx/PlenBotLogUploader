@@ -79,7 +79,7 @@ namespace PlenBotLogUploader
             AllPings.Add(settingsIdsKey, config);
         }
 
-        public async Task ExecuteAllPingsAsync(DPSReportJSON reportJSON)
+        internal async Task ExecuteAllPingsAsync(DPSReportJSON reportJSON)
         {
             foreach (var key in AllPings.Keys)
             {

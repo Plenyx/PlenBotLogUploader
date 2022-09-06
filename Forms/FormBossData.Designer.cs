@@ -47,7 +47,7 @@
             this.listViewBosses.ContextMenuStrip = this.contextMenuStripInteract;
             this.listViewBosses.HideSelection = false;
             this.listViewBosses.Location = new System.Drawing.Point(16, 15);
-            this.listViewBosses.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listViewBosses.Margin = new System.Windows.Forms.Padding(4);
             this.listViewBosses.MultiSelect = false;
             this.listViewBosses.Name = "listViewBosses";
             this.listViewBosses.ShowGroups = false;
@@ -67,7 +67,7 @@
             this.toolStripSeparatorOne,
             this.toolStripMenuItemAddNew});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(241, 110);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(241, 82);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEditBoss
@@ -99,7 +99,7 @@
             // buttonAddNew
             // 
             this.buttonAddNew.Location = new System.Drawing.Point(897, 418);
-            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4);
             this.buttonAddNew.Name = "buttonAddNew";
             this.buttonAddNew.Size = new System.Drawing.Size(128, 28);
             this.buttonAddNew.TabIndex = 1;
@@ -110,7 +110,7 @@
             // buttonResetSettings
             // 
             this.buttonResetSettings.Location = new System.Drawing.Point(759, 418);
-            this.buttonResetSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonResetSettings.Margin = new System.Windows.Forms.Padding(4);
             this.buttonResetSettings.Name = "buttonResetSettings";
             this.buttonResetSettings.Size = new System.Drawing.Size(131, 28);
             this.buttonResetSettings.TabIndex = 2;
@@ -131,7 +131,7 @@
             // buttonOpenTemplate
             // 
             this.buttonOpenTemplate.Location = new System.Drawing.Point(557, 418);
-            this.buttonOpenTemplate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonOpenTemplate.Margin = new System.Windows.Forms.Padding(4);
             this.buttonOpenTemplate.Name = "buttonOpenTemplate";
             this.buttonOpenTemplate.Size = new System.Drawing.Size(193, 28);
             this.buttonOpenTemplate.TabIndex = 6;
@@ -151,7 +151,7 @@
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewBosses);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormBossData";
@@ -167,7 +167,6 @@
         #endregion
         private System.Windows.Forms.Button buttonAddNew;
         private System.Windows.Forms.Button buttonResetSettings;
-        public System.Windows.Forms.ListView listViewBosses;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripInteract;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDeleteBoss;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
@@ -175,5 +174,6 @@
         private System.Windows.Forms.Label labelInformation;
         private System.Windows.Forms.Button buttonOpenTemplate;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditBoss;
+        internal System.Windows.Forms.ListView listViewBosses;
     }
 }

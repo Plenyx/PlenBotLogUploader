@@ -164,7 +164,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
-        public System.Windows.Forms.ListView listViewDiscordWebhooks;
+        internal System.Windows.Forms.ListView listViewDiscordWebhooks;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTest;
         private System.Windows.Forms.Button buttonAddNew;
         private System.Windows.Forms.Label labelInformation;

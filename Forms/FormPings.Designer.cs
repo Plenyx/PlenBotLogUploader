@@ -152,7 +152,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
-        public System.Windows.Forms.ListView listViewPings;
+        internal System.Windows.Forms.ListView listViewPings;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTest;
         private System.Windows.Forms.Button buttonAddNew;
         private System.Windows.Forms.Label labelInformation;

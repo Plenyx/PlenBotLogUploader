@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
 
         private void FormGW2Bot_FormClosed(object sender, FormClosedEventArgs e) => controller.Dispose();
 
-        public async Task<bool> PostLogToGW2Bot(DPSReportJSON reportJSON)
+        internal async Task<bool> PostLogToGW2Bot(DPSReportJSON reportJSON)
         {
             if (checkBoxModuleEnabled.Checked)
             {

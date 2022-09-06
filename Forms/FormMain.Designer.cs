@@ -748,14 +748,14 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenPingSettings;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorThree;
         private System.Windows.Forms.Button buttonDisConnectTwitch;
-        public System.Windows.Forms.CheckBox checkBoxPostToTwitch;
+        internal System.Windows.Forms.CheckBox checkBoxPostToTwitch;
         private System.Windows.Forms.CheckBox checkBoxTwitchOnlySuccess;
         private System.Windows.Forms.Button buttonArcDpsPluginManager;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenArcDpsPluginManager;
         private System.Windows.Forms.Button buttonBossData;
         private System.Windows.Forms.Button buttonDiscordWebhooks;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorFour;
-        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDiscordWebhooks;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDiscordWebhooks;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.CheckBox checkBoxStartWhenWindowsStarts;
         private System.Windows.Forms.Timer timerCheckUpdate;

@@ -129,7 +129,7 @@ namespace PlenBotLogUploader
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
-        public System.Windows.Forms.ListBox listBoxTeams;
+        internal System.Windows.Forms.ListBox listBoxTeams;
         private System.Windows.Forms.Button buttonAddTeam;
     }
 }

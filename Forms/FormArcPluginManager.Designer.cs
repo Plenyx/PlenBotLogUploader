@@ -187,14 +187,14 @@ namespace PlenBotLogUploader
         #endregion
 
         private System.Windows.Forms.Button buttonChangeGW2Location;
-        public System.Windows.Forms.Timer timerCheckUpdates;
+        internal System.Windows.Forms.Timer timerCheckUpdates;
         private System.Windows.Forms.CheckedListBox checkedListBoxArcDpsPlugins;
         private System.Windows.Forms.GroupBox groupBoxModuleEnabled;
         private System.Windows.Forms.GroupBox groupBoxModuleControls;
         private System.Windows.Forms.Button buttonCheckNow;
         private System.Windows.Forms.Label labelStatusText;
-        public System.Windows.Forms.CheckBox checkBoxModuleEnabled;
-        public System.Windows.Forms.CheckBox checkBoxEnableNotifications;
         private System.Windows.Forms.Button buttonShowPluginInfo;
+        internal System.Windows.Forms.CheckBox checkBoxModuleEnabled;
+        internal System.Windows.Forms.CheckBox checkBoxEnableNotifications;
     }
 }

@@ -1,5 +1,4 @@
-﻿using Hardstuck.GuildWars2;
-using PlenBotLogUploader.AppSettings;
+﻿using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.ArcDps;
 using PlenBotLogUploader.Tools;
 using System;
@@ -96,7 +95,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task StartTimerAsync(bool checkNow = false, bool applicationStart = false)
+        internal async Task StartTimerAsync(bool checkNow = false, bool applicationStart = false)
         {
             timerCheckUpdates.Stop();
             if (checkNow)
@@ -106,7 +105,7 @@ namespace PlenBotLogUploader
             timerCheckUpdates.Start();
         }
 
-        public async Task StopTimerAsync(bool checkNow = false)
+        internal async Task StopTimerAsync(bool checkNow = false)
         {
             timerCheckUpdates.Stop();
             if (checkNow)

@@ -363,25 +363,25 @@
 
         #endregion
 
-        public System.Windows.Forms.CheckBox checkBoxUploaderEnable;
-        public System.Windows.Forms.CheckBox checkBoxLastLogEnable;
+        internal System.Windows.Forms.CheckBox checkBoxUploaderEnable;
+        internal System.Windows.Forms.CheckBox checkBoxLastLogEnable;
         private System.Windows.Forms.GroupBox groupBoxUploader;
         private System.Windows.Forms.GroupBox groupBoxLastLog;
-        public System.Windows.Forms.TextBox textBoxUploaderCommand;
-        public System.Windows.Forms.TextBox textBoxLastLogCommand;
+        internal System.Windows.Forms.TextBox textBoxUploaderCommand;
+        internal System.Windows.Forms.TextBox textBoxLastLogCommand;
         private System.Windows.Forms.GroupBox groupBoxSong;
-        public System.Windows.Forms.CheckBox checkBoxSongEnable;
-        public System.Windows.Forms.TextBox textBoxSongCommand;
+        internal System.Windows.Forms.CheckBox checkBoxSongEnable;
+        internal System.Windows.Forms.TextBox textBoxSongCommand;
         private System.Windows.Forms.GroupBox groupBoxGW2IGN;
-        public System.Windows.Forms.TextBox textBoxGW2Ign;
-        public System.Windows.Forms.CheckBox checkBoxGW2IgnEnable;
+        internal System.Windows.Forms.TextBox textBoxGW2Ign;
+        internal System.Windows.Forms.CheckBox checkBoxGW2IgnEnable;
         private System.Windows.Forms.GroupBox groupBoxPullCounter;
-        public System.Windows.Forms.TextBox textBoxPullCounter;
-        public System.Windows.Forms.CheckBox checkBoxPullCounterEnable;
-        public System.Windows.Forms.CheckBox checkBoxSongSmartRecognition;
+        internal System.Windows.Forms.TextBox textBoxPullCounter;
+        internal System.Windows.Forms.CheckBox checkBoxPullCounterEnable;
+        internal System.Windows.Forms.CheckBox checkBoxSongSmartRecognition;
         private System.Windows.Forms.GroupBox groupBoxGW2Build;
-        public System.Windows.Forms.TextBox textBoxGW2Build;
-        public System.Windows.Forms.CheckBox checkBoxGW2BuildEnable;
+        internal System.Windows.Forms.TextBox textBoxGW2Build;
+        internal System.Windows.Forms.CheckBox checkBoxGW2BuildEnable;
         private System.Windows.Forms.Label labelBuildInfo;
         private System.Windows.Forms.TabControl tabControlTwitchCommands;
         private System.Windows.Forms.TabPage tabPageUploader;

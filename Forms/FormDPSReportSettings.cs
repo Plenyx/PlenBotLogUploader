@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
         }
 
-        public void RedrawList()
+        internal void RedrawList()
         {
             checkedListBoxUserTokens.ItemCheck -= CheckedListBoxUserTokens_ItemCheck;
             checkedListBoxUserTokens.Items.Clear();
