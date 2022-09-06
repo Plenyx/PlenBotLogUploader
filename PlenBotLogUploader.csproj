@@ -138,6 +138,7 @@
     <Compile Include="DPSReport\DPSReportJSONEVTC.cs" />
     <Compile Include="DPSReport\DPSReportJSONExtraJSON.cs" />
     <Compile Include="DPSReport\DPSReportJSONPlayers.cs" />
+    <Compile Include="DPSReport\DPSReportJSONReport.cs" />
     <Compile Include="DPSReport\ExtraJSON\Player.cs" />
     <Compile Include="DPSReport\ExtraJSON\Defenses.cs" />
     <Compile Include="DPSReport\ExtraJSON\DpsAll.cs" />

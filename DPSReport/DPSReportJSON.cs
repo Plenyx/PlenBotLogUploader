@@ -39,10 +39,10 @@ namespace PlenBotLogUploader.DPSReport
         public string Generator { get; set; }
 
         /// <summary>
-        /// User ID when uploading multiple logs to DPSReport
+        /// User token used during the upload to DPSReport
         /// </summary>
-        [JsonProperty("userid")]
-        public string UserId { get; set; }
+        [JsonProperty("userToken")]
+        public string UserToken { get; set; }
 
         /// <summary>
         /// EVTC sub-object of DPSReport's response
@@ -63,6 +63,12 @@ namespace PlenBotLogUploader.DPSReport
         public Dictionary<string, DPSReportJSONPlayers> Players { get; set; } = new Dictionary<string, DPSReportJSONPlayers>();
 
         /// <summary>
+        /// Report sub-object of DPSReport's response
+        /// </summary>
+        [JsonProperty("report")]
+        public DPSReportJSONReport Report { get; set; }
+
+        /// <summary>
         /// ExtraJSON sub-objects of DPSReport's response
         /// </summary>
         public DPSReportJSONExtraJSON ExtraJSON { get; set; }
@@ -76,17 +82,11 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// the URL ID used in dps.report
         /// </summary>
-        public string UrlId
-        {
-            get => Permalink?.Substring(Permalink.IndexOf("dps.report/") + 11) ?? "";
-        }
+        public string UrlId => Permalink?.Substring(Permalink.IndexOf("dps.report/") + 11) ?? "";
 
         /// <summary>
         /// whether the enouncter was in challenge mode
         /// </summary>
-        public bool ChallengeMode
-        {
-            get => ExtraJSON?.IsCM ?? false;
-        }
+        public bool ChallengeMode => (ExtraJSON?.IsCM ?? false) ? true : (Encounter?.IsCM ?? false);
     }
 }

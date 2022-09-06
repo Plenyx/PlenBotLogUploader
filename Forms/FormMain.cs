@@ -294,7 +294,7 @@ namespace PlenBotLogUploader
                 }
                 if (!File.Exists($"{ApplicationSettings.LocalDir}uploaded_logs.csv"))
                 {
-                    File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink\n");
+                    File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink;UserToken\n");
                 }
                 // API keys check
                 _ = ValidateGW2Tokens();
@@ -734,7 +734,7 @@ namespace PlenBotLogUploader
                     if (responseMessage.IsSuccessStatusCode)
                     {
                         var response = await responseMessage.Content.ReadAsStringAsync();
-                        // workaround for deserialisation application crash if the player list is an empty array
+                        // workaround for deserialisation application crash if the player list is an empty array, in case the log was corrupted
                         response = response?.Replace("\"players\": []", "\"players\": {}");
                         try
                         {
@@ -743,7 +743,7 @@ namespace PlenBotLogUploader
                             {
                                 bossId = reportJSON.Encounter.BossId;
                                 var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
-                                lastLogBossCM = reportJSON.Encounter.IsCM ?? false;
+                                lastLogBossCM = reportJSON.ChallengeMode;
                                 // extra JSON from Elite Insights
                                 if (reportJSON.Encounter.JsonAvailable ?? false)
                                 {
@@ -755,7 +755,7 @@ namespace PlenBotLogUploader
                                         {
                                             reportJSON.ExtraJSON = extraJSON;
                                             bossId = reportJSON.ExtraJSON.TriggerID;
-                                            lastLogBossCM = reportJSON.ExtraJSON.IsCM;
+                                            lastLogBossCM = reportJSON.ChallengeMode;
                                         }
                                         else
                                         {
@@ -772,7 +772,7 @@ namespace PlenBotLogUploader
                                     try
                                     {
                                         // log file
-                                        File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? string.Empty};{reportJSON.ExtraJSON?.RecordedBy ?? string.Empty};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? string.Empty};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink}\n");
+                                        File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? string.Empty};{reportJSON.ExtraJSON?.RecordedBy ?? string.Empty};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? string.Empty};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink};{reportJSON.UserToken}\n");
                                     }
                                     catch (Exception e)
                                     {
@@ -857,7 +857,7 @@ namespace PlenBotLogUploader
                     if (recentUploadFailCounter > 3)
                     {
                         Interlocked.Exchange(ref recentUploadFailCounter, 0);
-                        AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}");
+                        AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}, aborting.");
                     }
                     else
                     {
