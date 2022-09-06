@@ -260,6 +260,7 @@ namespace PlenBotLogUploader
                 logSessionLink.radioButtonSortByUpload.Checked = ApplicationSettings.Current.Session.Sort == LogSessionSortBy.UploadTime;
                 logSessionLink.checkBoxSaveToFile.Checked = ApplicationSettings.Current.Session.SaveToFile;
                 logSessionLink.checkBoxMakeWvWSummary.Checked = ApplicationSettings.Current.Session.MakeWvWSummaryEmbed;
+                discordWebhooksLink.checkBoxShortenThousands.Checked = ApplicationSettings.Current.ShortenThousands;
                 if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.RefreshToken) && (DateTime.Now < ApplicationSettings.Current.Aleeva.RefreshTokenExpire))
                 {
                     Task.Run(() => aleevaLink.GetAleevaTokenFromRefreshToken());
@@ -321,6 +322,7 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
+                discordWebhooksLink.checkBoxShortenThousands.CheckedChanged += new EventHandler(discordWebhooksLink.CheckBoxShortenThousands_CheckedChanged);
                 ApplicationSettings.Current.Save();
             }
             catch (Exception e)

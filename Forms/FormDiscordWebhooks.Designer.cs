@@ -38,6 +38,7 @@
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddNew = new System.Windows.Forms.Button();
             this.labelInformation = new System.Windows.Forms.Label();
+            this.checkBoxShortenThousands = new System.Windows.Forms.CheckBox();
             this.contextMenuStripInteract.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -123,12 +124,23 @@
             this.labelInformation.TabIndex = 2;
             this.labelInformation.Text = "You can right click the box window to bring up context menu.";
             // 
+            // checkBoxShortenThousands
+            // 
+            this.checkBoxShortenThousands.AutoSize = true;
+            this.checkBoxShortenThousands.Location = new System.Drawing.Point(438, 337);
+            this.checkBoxShortenThousands.Name = "checkBoxShortenThousands";
+            this.checkBoxShortenThousands.Size = new System.Drawing.Size(174, 20);
+            this.checkBoxShortenThousands.TabIndex = 3;
+            this.checkBoxShortenThousands.Text = "Shorten thousands to \"k\"";
+            this.checkBoxShortenThousands.UseVisualStyleBackColor = true;
+            // 
             // FormDiscordWebhooks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(780, 370);
+            this.Controls.Add(this.checkBoxShortenThousands);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewDiscordWebhooks);
@@ -156,5 +168,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTest;
         private System.Windows.Forms.Button buttonAddNew;
         private System.Windows.Forms.Label labelInformation;
+        internal System.Windows.Forms.CheckBox checkBoxShortenThousands;
     }
 }

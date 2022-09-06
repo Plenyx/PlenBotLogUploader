@@ -99,8 +99,8 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("session")]
         public ApplicationSettingsSession Session { get; set; } = new ApplicationSettingsSession();
 
-        [JsonProperty("shortenedThousands")]
-        public bool ShortenedThousands { get; set; } = false;
+        [JsonProperty("shortenThousands")]
+        public bool ShortenThousands { get; set; } = false;
 
         [JsonProperty("twitch")]
         public ApplicationSettingsTwitch Twitch { get; set; } = new ApplicationSettingsTwitch();
