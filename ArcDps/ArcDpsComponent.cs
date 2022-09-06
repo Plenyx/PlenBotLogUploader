@@ -16,10 +16,7 @@ namespace PlenBotLogUploader.ArcDps
     {
         private static List<ArcDpsComponent> _All;
 
-        public static List<ArcDpsComponent> All
-        {
-            get => _All ??= new List<ArcDpsComponent>();
-        }
+        public static List<ArcDpsComponent> All => _All ??= new List<ArcDpsComponent>();
 
         public static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All, Formatting.Indented));
 
@@ -42,41 +39,32 @@ namespace PlenBotLogUploader.ArcDps
         [JsonProperty("location")]
         public string RelativeLocation { get; set; }
 
-        public string Repository
+        public string Repository => Type switch
         {
-            get => Type switch
-            {
-                ArcDpsComponentType.Mechanics => "knoxfighter/GW2-ArcDPS-Mechanics-Log",
-                ArcDpsComponentType.BoonTable => "knoxfighter/GW2-ArcDPS-Boon-Table",
-                ArcDpsComponentType.KPme => "knoxfighter/arcdps-killproof.me-plugin",
-                ArcDpsComponentType.HealStats => "Krappa322/arcdps_healing_stats",
-                ArcDpsComponentType.SCT => "Artenuvielle/GW2-SCT",
-                ArcDpsComponentType.Clears => "gw2scratch/arcdps-clears",
-                ArcDpsComponentType.FoodReminder => "Zerthox/arcdps-food-reminder",
-                ArcDpsComponentType.CommandersToolkit => "RaidcoreGG/GW2-CommandersToolkit",
-                _ => null,
-            };
-        }
+            ArcDpsComponentType.Mechanics => "knoxfighter/GW2-ArcDPS-Mechanics-Log",
+            ArcDpsComponentType.BoonTable => "knoxfighter/GW2-ArcDPS-Boon-Table",
+            ArcDpsComponentType.KPme => "knoxfighter/arcdps-killproof.me-plugin",
+            ArcDpsComponentType.HealStats => "Krappa322/arcdps_healing_stats",
+            ArcDpsComponentType.SCT => "Artenuvielle/GW2-SCT",
+            ArcDpsComponentType.Clears => "gw2scratch/arcdps-clears",
+            ArcDpsComponentType.FoodReminder => "Zerthox/arcdps-food-reminder",
+            ArcDpsComponentType.CommandersToolkit => "RaidcoreGG/GW2-CommandersToolkit",
+            _ => null,
+        };
 
         public GitHubReleasesLatest LatestRelease { get; private set; }
 
-        public string DownloadLink
+        public string DownloadLink => Type switch
         {
-            get => Type switch
-            {
-                ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d11.dll",
-                _ => null,
-            };
-        }
+            ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d11.dll",
+            _ => null,
+        };
 
-        public string VersionLink
+        public string VersionLink => Type switch
         {
-            get => Type switch
-            {
-                ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d11.dll.md5sum",
-                _ => null,
-            };
-        }
+            ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d11.dll.md5sum",
+            _ => null,
+        };
 
         public async Task<bool> DownloadComponent(HttpClientController httpController)
         {

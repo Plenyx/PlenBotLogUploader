@@ -7,9 +7,6 @@ namespace PlenBotLogUploader.Aleeva
         [JsonProperty("status")]
         public string Status { get; set; }
 
-        public bool IsSuccess
-        {
-            get => (Status ?? "successful") != "failed";
-        }
+        public bool IsSuccess => (Status ?? "successful") != "failed";
     }
 }

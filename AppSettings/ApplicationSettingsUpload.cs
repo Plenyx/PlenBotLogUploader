@@ -14,15 +14,12 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("dpsReportServer")]
         public DPSReportServer DPSReportServer { get; set; } = DPSReportServer.Main;
 
-        public string DPSReportServerLink
+        public string DPSReportServerLink => DPSReportServer switch
         {
-            get => DPSReportServer switch
-            {
-                DPSReportServer.A => "http://a.dps.report",
-                DPSReportServer.B => "https://b.dps.report",
-                _ => "https://dps.report",
-            };
-        }
+            DPSReportServer.A => "http://a.dps.report",
+            DPSReportServer.B => "https://b.dps.report",
+            _ => "https://dps.report",
+        };
 
         [JsonProperty("dpsReportUserTokens")]
         public List<ApplicationSettingsUploadUserToken> DPSReportUserTokens { get; set; } = new List<ApplicationSettingsUploadUserToken>();

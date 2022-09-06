@@ -10,10 +10,7 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
         [JsonProperty("condiCleanseSelf")]
         public int CondiCleanseSelf { get; set; }
 
-        public int CondiCleanseTotal
-        {
-            get => CondiCleanse + CondiCleanseSelf;
-        }
+        public int CondiCleanseTotal => CondiCleanse + CondiCleanseSelf;
 
         [JsonProperty("boonStrips")]
         public int BoonStrips { get; set; }

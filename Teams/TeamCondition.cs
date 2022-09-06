@@ -90,10 +90,7 @@ namespace PlenBotLogUploader.Teams
 
         public event EventHandler<EventArgs> ConditionChanged;
 
-        public string PathDescription
-        {
-            get => $"{ParentCondition?.PathDescription} -> {Descriptor()}";
-        }
+        public string PathDescription => $"{ParentCondition?.PathDescription} -> {Descriptor()}";
 
         public override string ToString() => Descriptor();
         

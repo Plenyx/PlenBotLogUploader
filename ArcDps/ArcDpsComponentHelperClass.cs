@@ -6,111 +6,105 @@ namespace PlenBotLogUploader.ArcDps
 {
     public class ArcDpsComponentHelperClass
     {
-        public static List<ArcDpsComponentHelperClass> All
+        public static List<ArcDpsComponentHelperClass> All => new List<ArcDpsComponentHelperClass>()
         {
-            get
+            new ArcDpsComponentHelperClass()
             {
-                return new List<ArcDpsComponentHelperClass>()
-                {
-                    new ArcDpsComponentHelperClass()
-                    {
-                        Name = "Mechanics",
-                        FullName = "Mechanics log",
-                        LinkName = "knoxfighter/GW2-ArcDPS-Mechanics-Log",
-                        LinkURL = "https://github.com/knoxfighter/GW2-ArcDPS-Mechanics-Log/",
-                        Author = "MarsEdge, modified by knoxfighter",
-                        Type = ArcDpsComponentType.Mechanics,
-                        Provider = "GitHub",
-                        License = "MIT",
-                        Description = "The plugin shows a list of fractal/strike/raid mechanics for players and also logs these mechanics to a file.",
-                    },
-                    new ArcDpsComponentHelperClass()
-                    {
-                        Name = "Boon table",
-                        FullName = "Boon table",
-                        LinkName = "knoxfighter/GW2-ArcDPS-Boon-Table",
-                        LinkURL = "https://github.com/knoxfighter/GW2-ArcDPS-Boon-Table/",
-                        Author = "MarsEdge, modified by knoxfighter",
-                        Type = ArcDpsComponentType.BoonTable,
-                        Provider = "GitHub",
-                        License = "MIT",
-                        Description = "The plugin shows a table of boon uptime in a group.",
-                    },
-                    new ArcDpsComponentHelperClass()
-                    {
-                        Name = "Killproof.me",
-                        FullName = "Killproof.me arcdps plugin",
-                        LinkName = "knoxfighter/arcdps-killproof.me-plugin",
-                        LinkURL = "https://github.com/knoxfighter/arcdps-killproof.me-plugin/",
-                        Author = "knoxfighter",
-                        Type = ArcDpsComponentType.KPme,
-                        Provider = "GitHub",
-                        License = "MIT",
-                        Description = "An official arcdps plugin for killproof.me website which retrieves the data from it and displays it on the screen.",
-                    },
-                    new ArcDpsComponentHelperClass()
-                    {
-                        Name = "Heal stats",
-                        FullName = "Heal stats",
-                        LinkName = "Krappa322/arcdps_healing_stats",
-                        LinkURL = "https://github.com/Krappa322/arcdps_healing_stats/",
-                        Author = "Krappa322",
-                        Type = ArcDpsComponentType.HealStats,
-                        Provider = "GitHub",
-                        License = "MIT",
-                        Description = "Addon for ArcDPS that shows personal healing stats. - Krappa322",
-                    },
-                    new ArcDpsComponentHelperClass()
-                    {
-                        Name = "Scrolling combat text",
-                        FullName = "Scrolling combat text",
-                        LinkName = "Artenuvielle/GW2-SCT",
-                        LinkURL = "https://github.com/Artenuvielle/GW2-SCT/",
-                        Author = "Artenuvielle",
-                        Type = ArcDpsComponentType.SCT,
-                        Provider = "GitHub",
-                        License = "MIT",
-                        Description = "A scrolling combat text addon for GW2 using ArcDPS API. - Artenuvielle",
-                    },
-                    new ArcDpsComponentHelperClass()
-                    {
-                        Name = "ArcDps Clears",
-                        FullName = "ArcDps clears",
-                        LinkName = "gw2scratch/arcdps-clears",
-                        LinkURL = "https://github.com/gw2scratch/arcdps-clears/",
-                        Author = "Sejsel",
-                        Type = ArcDpsComponentType.Clears,
-                        Provider = "GitHub",
-                        License = "MIT",
-                        Description = "A plugin for arcdps which adds a window that shows your current weekly clears. - Sejsel",
-                    },
-                    new ArcDpsComponentHelperClass()
-                    {
-                        Name = "Food Reminder",
-                        FullName = "Food Reminder",
-                        LinkName = "Zerthox/arcdps-food-reminder",
-                        LinkURL = "https://github.com/Zerthox/arcdps-food-reminder/",
-                        Author = "Zerthox",
-                        Type = ArcDpsComponentType.FoodReminder,
-                        Provider = "GitHub",
-                        License = "MIT",
-                        Description = "ArcDPS plugin for Guild Wars 2 allowing tracking of buff food & utility items. - Zerthox",
-                    },
-                    new ArcDpsComponentHelperClass()
-                    {
-                        Name = "Commander's Toolkit",
-                        FullName = "Commander's Toolkit",
-                        LinkName = "RaidcoreGG/GW2-CommandersToolkit",
-                        LinkURL = "https://github.com/RaidcoreGG/GW2-CommandersToolkit/",
-                        Author = "DeltaxHunter",
-                        Type = ArcDpsComponentType.CommandersToolkit,
-                        Provider = "GitHub",
-                        License = "(unspecified)",
-                        Description = "An addon to help with squad management. - DeltaxHunter",
-                    },
-                };
-            }
-        }
+                Name = "Mechanics",
+                FullName = "Mechanics log",
+                LinkName = "knoxfighter/GW2-ArcDPS-Mechanics-Log",
+                LinkURL = "https://github.com/knoxfighter/GW2-ArcDPS-Mechanics-Log/",
+                Author = "MarsEdge, modified by knoxfighter",
+                Type = ArcDpsComponentType.Mechanics,
+                Provider = "GitHub",
+                License = "MIT",
+                Description = "The plugin shows a list of fractal/strike/raid mechanics for players and also logs these mechanics to a file.",
+            },
+            new ArcDpsComponentHelperClass()
+            {
+                Name = "Boon table",
+                FullName = "Boon table",
+                LinkName = "knoxfighter/GW2-ArcDPS-Boon-Table",
+                LinkURL = "https://github.com/knoxfighter/GW2-ArcDPS-Boon-Table/",
+                Author = "MarsEdge, modified by knoxfighter",
+                Type = ArcDpsComponentType.BoonTable,
+                Provider = "GitHub",
+                License = "MIT",
+                Description = "The plugin shows a table of boon uptime in a group.",
+            },
+            new ArcDpsComponentHelperClass()
+            {
+                Name = "Killproof.me",
+                FullName = "Killproof.me arcdps plugin",
+                LinkName = "knoxfighter/arcdps-killproof.me-plugin",
+                LinkURL = "https://github.com/knoxfighter/arcdps-killproof.me-plugin/",
+                Author = "knoxfighter",
+                Type = ArcDpsComponentType.KPme,
+                Provider = "GitHub",
+                License = "MIT",
+                Description = "An official arcdps plugin for killproof.me website which retrieves the data from it and displays it on the screen.",
+            },
+            new ArcDpsComponentHelperClass()
+            {
+                Name = "Heal stats",
+                FullName = "Heal stats",
+                LinkName = "Krappa322/arcdps_healing_stats",
+                LinkURL = "https://github.com/Krappa322/arcdps_healing_stats/",
+                Author = "Krappa322",
+                Type = ArcDpsComponentType.HealStats,
+                Provider = "GitHub",
+                License = "MIT",
+                Description = "Addon for ArcDPS that shows personal healing stats. - Krappa322",
+            },
+            new ArcDpsComponentHelperClass()
+            {
+                Name = "Scrolling combat text",
+                FullName = "Scrolling combat text",
+                LinkName = "Artenuvielle/GW2-SCT",
+                LinkURL = "https://github.com/Artenuvielle/GW2-SCT/",
+                Author = "Artenuvielle",
+                Type = ArcDpsComponentType.SCT,
+                Provider = "GitHub",
+                License = "MIT",
+                Description = "A scrolling combat text addon for GW2 using ArcDPS API. - Artenuvielle",
+            },
+            new ArcDpsComponentHelperClass()
+            {
+                Name = "ArcDps Clears",
+                FullName = "ArcDps clears",
+                LinkName = "gw2scratch/arcdps-clears",
+                LinkURL = "https://github.com/gw2scratch/arcdps-clears/",
+                Author = "Sejsel",
+                Type = ArcDpsComponentType.Clears,
+                Provider = "GitHub",
+                License = "MIT",
+                Description = "A plugin for arcdps which adds a window that shows your current weekly clears. - Sejsel",
+            },
+            new ArcDpsComponentHelperClass()
+            {
+                Name = "Food Reminder",
+                FullName = "Food Reminder",
+                LinkName = "Zerthox/arcdps-food-reminder",
+                LinkURL = "https://github.com/Zerthox/arcdps-food-reminder/",
+                Author = "Zerthox",
+                Type = ArcDpsComponentType.FoodReminder,
+                Provider = "GitHub",
+                License = "MIT",
+                Description = "ArcDPS plugin for Guild Wars 2 allowing tracking of buff food & utility items. - Zerthox",
+            },
+            new ArcDpsComponentHelperClass()
+            {
+                Name = "Commander's Toolkit",
+                FullName = "Commander's Toolkit",
+                LinkName = "RaidcoreGG/GW2-CommandersToolkit",
+                LinkURL = "https://github.com/RaidcoreGG/GW2-CommandersToolkit/",
+                Author = "DeltaxHunter",
+                Type = ArcDpsComponentType.CommandersToolkit,
+                Provider = "GitHub",
+                License = "(unspecified)",
+                Description = "An addon to help with squad management. - DeltaxHunter",
+            },
+        };
 
         public string Name { get; set; }
 
@@ -130,27 +124,21 @@ namespace PlenBotLogUploader.ArcDps
 
         public ArcDpsComponentType Type { get; set; }
 
-        public string DefaultFileName
+        public string DefaultFileName => Type switch
         {
-            get => Type switch
-            {
-                ArcDpsComponentType.Mechanics => "d3d11_arcdps_mechanics.dll",
-                ArcDpsComponentType.BoonTable => "d3d11_arcdps_table.dll",
-                ArcDpsComponentType.KPme => "d3d11_arcdps_killproof_me.dll",
-                ArcDpsComponentType.HealStats => "d3d11_arcdps_healing_stats.dll",
-                ArcDpsComponentType.SCT => "d3d11_arcdps_sct.dll",
-                ArcDpsComponentType.Clears => "d3d11_arcdps_clears.dll",
-                ArcDpsComponentType.FoodReminder => "d3d11_arcdps_food_reminder.dll",
-                ArcDpsComponentType.CommandersToolkit => "d3d11_arcdps_commanders_toolkit.dll",
-                // arcdps
-                _ => "d3d11.dll",
-            };
-        }
+            ArcDpsComponentType.Mechanics => "d3d11_arcdps_mechanics.dll",
+            ArcDpsComponentType.BoonTable => "d3d11_arcdps_table.dll",
+            ArcDpsComponentType.KPme => "d3d11_arcdps_killproof_me.dll",
+            ArcDpsComponentType.HealStats => "d3d11_arcdps_healing_stats.dll",
+            ArcDpsComponentType.SCT => "d3d11_arcdps_sct.dll",
+            ArcDpsComponentType.Clears => "d3d11_arcdps_clears.dll",
+            ArcDpsComponentType.FoodReminder => "d3d11_arcdps_food_reminder.dll",
+            ArcDpsComponentType.CommandersToolkit => "d3d11_arcdps_commanders_toolkit.dll",
+            // arcdps
+            _ => "d3d11.dll",
+        };
 
-        public bool IsInstalled
-        {
-            get => File.Exists($"{ApplicationSettings.Current.GW2Location}{DefaultFileName}");
-        }
+        public bool IsInstalled => File.Exists($"{ApplicationSettings.Current.GW2Location}{DefaultFileName}");
 
         public override string ToString() => $"{Name} by {Author}";
     }

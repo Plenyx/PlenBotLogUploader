@@ -17,10 +17,7 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
         [JsonProperty("profession")]
         public string Profession { get; set; }
 
-        public string ProfessionShort
-        {
-            get => Profession.Substring(0, 3);
-        }
+        public string ProfessionShort => Profession.Substring(0, 3);
 
         [JsonProperty("friendlyNPC")]
         public bool FriendNPC { get; set; }

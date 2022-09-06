@@ -53,10 +53,7 @@ namespace PlenBotLogUploader.Teams
             return Equals((Team) obj);
         }
 
-        protected bool Equals(Team other)
-        {
-            return (ID == other.ID) && (Name == other.Name);
-        }
+        protected bool Equals(Team other) => (ID == other.ID) && (Name == other.Name);
         
         public override int GetHashCode()
         {

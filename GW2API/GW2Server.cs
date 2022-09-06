@@ -10,9 +10,6 @@ namespace PlenBotLogUploader.GW2API
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        public string Region
-        {
-            get => (ID < 2000) ? "NA" : "EU";
-        }
+        public string Region => (ID < 2000) ? "NA" : "EU";
     }
 }
