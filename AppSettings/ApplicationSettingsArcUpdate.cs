@@ -12,6 +12,9 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("notifications")]
         public bool Notifications { get; set; } = true;
 
+        [JsonProperty("useAL")]
+        public bool UseAL { get; set; } = false;
+
         [JsonProperty("renderMode")]
         public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX11;
 

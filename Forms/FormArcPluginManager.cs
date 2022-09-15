@@ -205,6 +205,7 @@ namespace PlenBotLogUploader
             {
                 var location = Path.GetDirectoryName(dialog.FileName);
                 ApplicationSettings.Current.GW2Location = location;
+                ApplicationSettings.Current.ArcUpdate.Enabled = true;
                 ApplicationSettings.Current.Save();
                 if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)))
                 {
@@ -223,7 +224,8 @@ namespace PlenBotLogUploader
                 }
                 else
                 {
-                    var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = @"\d3d11.dll" };
+                    var relLoc = ApplicationSettings.Current.ArcUpdate.UseAL ? @"\addons\arcdps\gw2addon_arcdps.dll" : @"\d3d11.dll";
+                    var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
                     if (!component.IsInstalled())
                     {
                         await component.DownloadComponent(httpController);
@@ -231,6 +233,9 @@ namespace PlenBotLogUploader
                     ArcDpsComponent.All.Add(component);
                     ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
                 }
+                labelStatusText.Text = "";
+                checkedListBoxArcDpsPlugins.Enabled = true;
+                buttonCheckNow.Enabled = true;
                 await StartTimerAsync();
             }
             else
@@ -260,7 +265,8 @@ namespace PlenBotLogUploader
             }
             else if (e.NewValue.Equals(CheckState.Checked))
             {
-                var component = new ArcDpsComponent() { Type = item.Type, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = $@"\{item.DefaultFileName}" };
+                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAL ? $@"\addons\arcdps\{item.DefaultFileName}" : $@"\{item.DefaultFileName}";
+                var component = new ArcDpsComponent() { Type = item.Type, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
                 ArcDpsComponent.All.Add(component);
                 await component.DownloadComponent(httpController);
             }
@@ -275,13 +281,20 @@ namespace PlenBotLogUploader
         private void CheckBoxModuleEnabled_CheckedChanged(object sender, EventArgs e)
         {
             var toggle = checkBoxModuleEnabled.Checked;
-            ApplicationSettings.Current.ArcUpdate.Enabled = toggle;
+            ApplicationSettings.Current.ArcUpdate.Enabled = false;
             ApplicationSettings.Current.Save();
             groupBoxModuleControls.Enabled = toggle;
             checkedListBoxArcDpsPlugins.Enabled = toggle;
             if (Visible && toggle && (string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Location)))
             {
-                ButtonChangeGW2Location_Click(this, new EventArgs());
+                labelStatusText.Text = "You need to select the GW2 Location.";
+                checkedListBoxArcDpsPlugins.Enabled = false;
+                buttonCheckNow.Enabled = false;
+                // ButtonChangeGW2Location_Click(this, new EventArgs());
+            } else
+            {
+                ApplicationSettings.Current.ArcUpdate.Enabled = toggle;
+                ApplicationSettings.Current.Save();
             }
         }
 
@@ -315,6 +328,12 @@ namespace PlenBotLogUploader
         private void CheckedListBoxArcDpsPlugins_SelectedIndexChanged(object sender, EventArgs e)
         {
             buttonShowPluginInfo.Enabled = checkedListBoxArcDpsPlugins.SelectedIndex > -1;
+        }
+
+        private void checkBoxUseAL_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.ArcUpdate.UseAL = checkBoxUseAL.Checked;
+            ApplicationSettings.Current.Save();
         }
     }
 }
