@@ -204,8 +204,13 @@ namespace PlenBotLogUploader
             if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
             {
                 var location = Path.GetDirectoryName(dialog.FileName);
+                if (File.Exists(location + @"\addonLoader.dll"))
+                {
+                    ApplicationSettings.Current.ArcUpdate.UseAL = true;
+                    checkBoxUseAL.Checked = true;
+                    labelStatusText.Text = "Addon Loader found. Using Addon Loader";
+                }
                 ApplicationSettings.Current.GW2Location = location;
-                ApplicationSettings.Current.ArcUpdate.Enabled = true;
                 ApplicationSettings.Current.Save();
                 if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)))
                 {
@@ -233,9 +238,6 @@ namespace PlenBotLogUploader
                     ArcDpsComponent.All.Add(component);
                     ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
                 }
-                labelStatusText.Text = "";
-                checkedListBoxArcDpsPlugins.Enabled = true;
-                buttonCheckNow.Enabled = true;
                 await StartTimerAsync();
             }
             else
@@ -281,20 +283,13 @@ namespace PlenBotLogUploader
         private void CheckBoxModuleEnabled_CheckedChanged(object sender, EventArgs e)
         {
             var toggle = checkBoxModuleEnabled.Checked;
-            ApplicationSettings.Current.ArcUpdate.Enabled = false;
+            ApplicationSettings.Current.ArcUpdate.Enabled = toggle;
             ApplicationSettings.Current.Save();
             groupBoxModuleControls.Enabled = toggle;
             checkedListBoxArcDpsPlugins.Enabled = toggle;
             if (Visible && toggle && (string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Location)))
             {
-                labelStatusText.Text = "You need to select the GW2 Location.";
-                checkedListBoxArcDpsPlugins.Enabled = false;
-                buttonCheckNow.Enabled = false;
-                // ButtonChangeGW2Location_Click(this, new EventArgs());
-            } else
-            {
-                ApplicationSettings.Current.ArcUpdate.Enabled = toggle;
-                ApplicationSettings.Current.Save();
+                ButtonChangeGW2Location_Click(this, new EventArgs());
             }
         }
 

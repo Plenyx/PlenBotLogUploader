@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
             // 
             // buttonChangeGW2Location
             // 
-            this.buttonChangeGW2Location.Location = new System.Drawing.Point(6, 40);
+            this.buttonChangeGW2Location.Location = new System.Drawing.Point(6, 19);
             this.buttonChangeGW2Location.Name = "buttonChangeGW2Location";
             this.buttonChangeGW2Location.Size = new System.Drawing.Size(151, 23);
             this.buttonChangeGW2Location.TabIndex = 0;
@@ -110,7 +110,7 @@ namespace PlenBotLogUploader
             // checkBoxUseAL
             // 
             this.checkBoxUseAL.AutoSize = true;
-            this.checkBoxUseAL.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxUseAL.Location = new System.Drawing.Point(6, 48);
             this.checkBoxUseAL.Name = "checkBoxUseAL";
             this.checkBoxUseAL.Size = new System.Drawing.Size(113, 17);
             this.checkBoxUseAL.TabIndex = 3;
