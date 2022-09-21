@@ -101,7 +101,7 @@ namespace PlenBotLogUploader.ArcDps
                 Author = "DeltaxHunter",
                 Type = ArcDpsComponentType.CommandersToolkit,
                 Provider = "GitHub",
-                License = "(unspecified)",
+                License = "MIT",
                 Description = "An addon to help with squad management. - DeltaxHunter",
             },
         };
