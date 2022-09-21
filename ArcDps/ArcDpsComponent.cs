@@ -107,9 +107,8 @@ namespace PlenBotLogUploader.ArcDps
                 return GetFileSize().ToString().Equals(version);
             }
             // arcdps
-            var versionMd5 = version;
-            var versionMd5Clean = versionMd5.Split(' ')[0];
-            return MakeMD5Hash().Equals(versionMd5Clean);
+            var versionMd5 = version.Split(' ')[0];
+            return MakeMD5Hash().Equals(versionMd5);
         }
 
         private async Task<GitHubReleasesLatest> GetGitHubRelease(HttpClientController httpController) => LatestRelease = await httpController.GetGitHubLatestReleaseAsync(Repository);
