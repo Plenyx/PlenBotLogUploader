@@ -204,6 +204,12 @@ namespace PlenBotLogUploader
             if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
             {
                 var location = Path.GetDirectoryName(dialog.FileName);
+                if (File.Exists(location + @"\addonLoader.dll"))
+                {
+                    ApplicationSettings.Current.ArcUpdate.UseAL = true;
+                    checkBoxUseAL.Checked = true;
+                    labelStatusText.Text = "Addon Loader found. Using Addon Loader";
+                }
                 ApplicationSettings.Current.GW2Location = location;
                 ApplicationSettings.Current.Save();
                 if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)))
@@ -223,7 +229,8 @@ namespace PlenBotLogUploader
                 }
                 else
                 {
-                    var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = @"\d3d11.dll" };
+                    var relLoc = ApplicationSettings.Current.ArcUpdate.UseAL ? @"\addons\arcdps\gw2addon_arcdps.dll" : @"\d3d11.dll";
+                    var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
                     if (!component.IsInstalled())
                     {
                         await component.DownloadComponent(httpController);
@@ -260,7 +267,8 @@ namespace PlenBotLogUploader
             }
             else if (e.NewValue.Equals(CheckState.Checked))
             {
-                var component = new ArcDpsComponent() { Type = item.Type, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = $@"\{item.DefaultFileName}" };
+                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAL ? $@"\addons\arcdps\{item.DefaultFileName}" : $@"\{item.DefaultFileName}";
+                var component = new ArcDpsComponent() { Type = item.Type, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
                 ArcDpsComponent.All.Add(component);
                 await component.DownloadComponent(httpController);
             }
@@ -315,6 +323,12 @@ namespace PlenBotLogUploader
         private void CheckedListBoxArcDpsPlugins_SelectedIndexChanged(object sender, EventArgs e)
         {
             buttonShowPluginInfo.Enabled = checkedListBoxArcDpsPlugins.SelectedIndex > -1;
+        }
+
+        private void checkBoxUseAL_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.ArcUpdate.UseAL = checkBoxUseAL.Checked;
+            ApplicationSettings.Current.Save();
         }
     }
 }
