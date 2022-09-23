@@ -2,18 +2,18 @@
 
 namespace PlenBotLogUploader.RemotePing
 {
-    public class PingAuthentication
+    internal sealed class PingAuthentication
     {
         [JsonProperty("isActive")]
-        public bool Active { get; set; }
+        internal bool Active { get; set; }
 
         [JsonProperty("useAsAuth")]
-        public bool UseAsAuth { get; set; } = false;
+        internal bool UseAsAuth { get; set; } = false;
 
         [JsonProperty("authName")]
-        public string AuthName { get; set; } = string.Empty;
+        internal string AuthName { get; set; } = string.Empty;
 
         [JsonProperty("authToken")]
-        public string AuthToken { get; set; } = string.Empty;
+        internal string AuthToken { get; set; } = string.Empty;
     }
 }

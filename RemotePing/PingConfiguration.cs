@@ -7,26 +7,26 @@ using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.RemotePing
 {
-    public class PingConfiguration
+    internal sealed class PingConfiguration
     {
         [JsonProperty("isActive")]
-        public bool Active { get; set; } = false;
+        internal bool Active { get; set; } = false;
 
         [JsonProperty("name")]
-        public string Name { get; set; } = string.Empty;
+        internal string Name { get; set; } = string.Empty;
 
         [JsonProperty("url")]
-        public string URL { get; set; } = string.Empty;
+        internal string URL { get; set; } = string.Empty;
 
         [JsonProperty("method")]
-        public PingMethod Method { get; set; } = PingMethod.Post;
+        internal PingMethod Method { get; set; } = PingMethod.Post;
 
         [JsonProperty("authentication")]
-        public PingAuthentication Authentication { get; set; }
+        internal PingAuthentication Authentication { get; set; }
 
-        public async Task<bool> PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON) => await PingServerAsync(this, mainLink, reportJSON);
+        internal async Task<bool> PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON) => await PingServerAsync(this, mainLink, reportJSON);
 
-        public static async Task<bool> PingServerAsync(PingConfiguration configuration, FormMain mainLink, DPSReportJSON reportJSON)
+        internal static async Task<bool> PingServerAsync(PingConfiguration configuration, FormMain mainLink, DPSReportJSON reportJSON)
         {
             var result = false;
             using var controller = new HttpClientController();

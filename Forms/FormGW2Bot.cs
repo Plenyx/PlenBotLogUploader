@@ -20,7 +20,7 @@ namespace PlenBotLogUploader
         private readonly HttpClientController controller = new HttpClientController();
         #endregion
 
-        public FormGW2Bot(FormMain mainLink)
+        internal FormGW2Bot(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

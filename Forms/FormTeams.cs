@@ -18,7 +18,7 @@ namespace PlenBotLogUploader
         private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         #endregion
 
-        public FormTeams()
+        internal FormTeams()
         {
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;

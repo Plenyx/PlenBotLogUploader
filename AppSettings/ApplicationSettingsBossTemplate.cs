@@ -2,12 +2,12 @@
 
 namespace PlenBotLogUploader.AppSettings
 {
-    public class ApplicationSettingsBossTemplate
+    internal sealed class ApplicationSettingsBossTemplate
     {
         [JsonProperty("failText")]
-        public string FailText { get; set; } = "<boss> pull: <log> | Current wipes: <pulls>";
+        internal string FailText { get; set; } = "<boss> pull: <log> | Current wipes: <pulls>";
 
         [JsonProperty("successText")]
-        public string SuccessText { get; set; } = "<boss> kill: <log>";
+        internal string SuccessText { get; set; } = "<boss> kill: <log>";
     }
 }

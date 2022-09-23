@@ -6,87 +6,87 @@ namespace PlenBotLogUploader.DPSReport
     /// <summary>
     /// DPSReport response after a log has been uploaded
     /// </summary>
-    public class DPSReportJSON
+    internal sealed class DPSReportJSON
     {
         /// <summary>
         /// DPSReport ID
         /// </summary>
         [JsonProperty("id")]
-        public string ID { get; set; }
+        internal string ID { get; set; }
 
         /// <summary>
         /// URL to DPSReport
         /// </summary>
         [JsonProperty("permalink")]
-        public string Permalink { get; set; }
+        internal string Permalink { get; set; }
 
         /// <summary>
         /// Time when the log was uploaded to DPSReport
         /// </summary>
         [JsonProperty("uploadTime")]
-        public int UploadTime { get; set; }
+        internal int UploadTime { get; set; }
 
         /// <summary>
         /// Total time of the encounter, might be null
         /// </summary>
         [JsonProperty("encounterTime")]
-        public int? EncounterTime { get; set; }
+        internal int? EncounterTime { get; set; }
 
         /// <summary>
         /// Log tool used with processing the log on DPSReport
         /// </summary>
         [JsonProperty("generator")]
-        public string Generator { get; set; }
+        internal string Generator { get; set; }
 
         /// <summary>
         /// User token used during the upload to DPSReport
         /// </summary>
         [JsonProperty("userToken")]
-        public string UserToken { get; set; }
+        internal string UserToken { get; set; }
 
         /// <summary>
         /// EVTC sub-object of DPSReport's response
         /// </summary>
         [JsonProperty("evtc")]
-        public DPSReportJSONEVTC EVTC { get; set; }
+        internal DPSReportJSONEVTC EVTC { get; set; }
 
         /// <summary>
         /// Encounter sub-object of DPSReport's response
         /// </summary>
         [JsonProperty("encounter")]
-        public DPSReportJSONEncounter Encounter { get; set; }
+        internal DPSReportJSONEncounter Encounter { get; set; }
 
         /// <summary>
         /// Players sub-objects of DPSReport's response
         /// </summary>
         [JsonProperty("players")]
-        public Dictionary<string, DPSReportJSONPlayers> Players { get; set; } = new Dictionary<string, DPSReportJSONPlayers>();
+        internal Dictionary<string, DPSReportJSONPlayers> Players { get; set; } = new Dictionary<string, DPSReportJSONPlayers>();
 
         /// <summary>
         /// Report sub-object of DPSReport's response
         /// </summary>
         [JsonProperty("report")]
-        public DPSReportJSONReport Report { get; set; }
+        internal DPSReportJSONReport Report { get; set; }
 
         /// <summary>
         /// ExtraJSON sub-objects of DPSReport's response
         /// </summary>
-        public DPSReportJSONExtraJSON ExtraJSON { get; set; }
+        internal DPSReportJSONExtraJSON ExtraJSON { get; set; }
 
         /// <summary>
         /// Returns an error if one was encountered
         /// </summary>
         [JsonProperty("error")]
-        public string Error { get; set; }
+        internal string Error { get; set; }
 
         /// <summary>
         /// the URL ID used in dps.report
         /// </summary>
-        public string UrlId => Permalink?.Substring(Permalink.IndexOf("dps.report/") + 11) ?? "";
+        internal string UrlId => Permalink?.Substring(Permalink.IndexOf("dps.report/") + 11) ?? "";
 
         /// <summary>
         /// whether the enouncter was in challenge mode
         /// </summary>
-        public bool ChallengeMode => (ExtraJSON?.IsCM ?? false) ? true : (Encounter?.IsCM ?? false);
+        internal bool ChallengeMode => (ExtraJSON?.IsCM ?? false) ? true : (Encounter?.IsCM ?? false);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader.ArcDps
 {
-    public enum ArcDpsComponentType
+    internal enum ArcDpsComponentType
     {
         ArcDps = 1,
         Mechanics = 2,

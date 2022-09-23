@@ -13,7 +13,7 @@ namespace PlenBotLogUploader
         private readonly FormMain mainLink;
         #endregion
 
-        public FormDPSReportSettings(FormMain mainLink)
+        internal FormDPSReportSettings(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

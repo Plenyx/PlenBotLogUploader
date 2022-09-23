@@ -2,17 +2,17 @@
 
 namespace PlenBotLogUploader.DPSReport.ExtraJSON
 {
-    public class PlayerSupport
+    internal sealed class PlayerSupport
     {
         [JsonProperty("condiCleanse")]
-        public int CondiCleanse { get; set; }
+        internal int CondiCleanse { get; set; }
 
         [JsonProperty("condiCleanseSelf")]
-        public int CondiCleanseSelf { get; set; }
+        internal int CondiCleanseSelf { get; set; }
 
-        public int CondiCleanseTotal => CondiCleanse + CondiCleanseSelf;
+        internal int CondiCleanseTotal => CondiCleanse + CondiCleanseSelf;
 
         [JsonProperty("boonStrips")]
-        public int BoonStrips { get; set; }
+        internal int BoonStrips { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace PlenBotLogUploader
         private ApplicationSettingsUploadUserToken data;
         #endregion
 
-        public FormEditDPSReportUserToken(FormDPSReportSettings settingsLink, HttpClientController httpClientController, ApplicationSettingsUploadUserToken data = null)
+        internal FormEditDPSReportUserToken(FormDPSReportSettings settingsLink, HttpClientController httpClientController, ApplicationSettingsUploadUserToken data = null)
         {
             this.settingsLink = settingsLink;
             this.httpClientController = httpClientController;

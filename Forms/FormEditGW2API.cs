@@ -15,7 +15,7 @@ namespace PlenBotLogUploader
         private readonly FormGW2API gw2apiLink;
         #endregion
 
-        public FormEditGW2API(FormGW2API gw2apiLink, ApplicationSettingsGW2API data)
+        internal FormEditGW2API(FormGW2API gw2apiLink, ApplicationSettingsGW2API data)
         {
             this.gw2apiLink = gw2apiLink;
             InitializeComponent();

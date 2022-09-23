@@ -2,18 +2,18 @@
 
 namespace PlenBotLogUploader.Aleeva
 {
-    public class AleevaAddReport
+    internal sealed class AleevaAddReport
     {
         [JsonProperty("sendNotification")]
-        public bool SendNotification { get; set; }
+        internal bool SendNotification { get; set; }
 
         [JsonProperty("notificationServerId")]
-        public string NotificationServerId { get; set; }
+        internal string NotificationServerId { get; set; }
 
         [JsonProperty("notificationChannelId")]
-        public string NotificationChannelId { get; set; }
+        internal string NotificationChannelId { get; set; }
 
         [JsonProperty("dpsReportPermalink")]
-        public string DPSReportPermalink { get; set; }
+        internal string DPSReportPermalink { get; set; }
     }
 }

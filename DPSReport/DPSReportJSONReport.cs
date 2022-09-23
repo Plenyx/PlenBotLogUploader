@@ -2,12 +2,12 @@
 
 namespace PlenBotLogUploader.DPSReport
 {
-    public class DPSReportJSONReport
+    internal sealed class DPSReportJSONReport
     {
         [JsonProperty("anonymous")]
-        public bool Anonymous { get; set; }
+        internal bool Anonymous { get; set; }
 
         [JsonProperty("detailed")]
-        public bool Detailed { get; set; }
+        internal bool Detailed { get; set; }
     }
 }

@@ -4,14 +4,14 @@ using System.Globalization;
 
 namespace PlenBotLogUploader.Tools
 {
-    public static class ClassExtensions
+    internal static class ClassExtensions
     {
         /// <summary>
         /// Outputs TimeSpan as Hh Mm Ss.
         /// </summary>
         /// <param name="span">TimeSpan in question</param>
         /// <returns>TimeSpan as Hh Mm Ss</returns>
-        public static string ParseHMS(this TimeSpan span)
+        internal static string ParseHMS(this TimeSpan span)
         {
             var elapsedTime = $"{span.Seconds}s";
             if (span.Hours > 0 || span.Days > 0)
@@ -27,8 +27,8 @@ namespace PlenBotLogUploader.Tools
 
         private static string ParseDoubleAsK(double number) => ApplicationSettings.Current.ShortenThousands ? $"{Math.Round((double)number / 1000, 1).ToString(CultureInfo.InvariantCulture)}k" : number.ToString();
 
-        public static string ParseAsK(this double number) => ParseDoubleAsK(number);
+        internal static string ParseAsK(this double number) => ParseDoubleAsK(number);
 
-        public static string ParseAsK(this int number) => ParseDoubleAsK(number);
+        internal static string ParseAsK(this int number) => ParseDoubleAsK(number);
     }
 }

@@ -5,7 +5,7 @@ namespace PlenBotLogUploader
 {
     public partial class FormTwitchCommands : Form
     {
-        public FormTwitchCommands()
+        internal FormTwitchCommands()
         {
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;

@@ -2,9 +2,9 @@
 
 namespace PlenBotLogUploader.GW2Bot
 {
-    public class GW2BotAddReport
+    internal sealed class GW2BotAddReport
     {
         [JsonProperty("dpsreport_url")]
-        public string LogLink { get; set; }
+        internal string LogLink { get; set; }
     }
 }

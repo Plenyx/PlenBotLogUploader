@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 namespace PlenBotLogUploader.AppSettings
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class ApplicationSettingsGW2API
+    internal sealed class ApplicationSettingsGW2API
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         [JsonProperty("apikey")]
-        public string APIKey { get; set; }
+        internal string APIKey { get; set; }
 
-        public bool Valid { get; set; } = true;
+        internal bool Valid { get; set; } = true;
 
-        public List<string> Characters { get; set; } = new List<string>();
+        internal List<string> Characters { get; set; } = new List<string>();
 
         public override string ToString() => $"{Name}{(!Valid ? " (token not valid)" : "")}";
 
-        public async Task<bool> ValidateToken(HttpClientController httpClientController)
+        internal async Task<bool> ValidateToken(HttpClientController httpClientController)
         {
             using var response = await httpClientController.GetAsync($"https://api.guildwars2.com/v2/tokeninfo?access_token={APIKey}");
             Valid = response.IsSuccessStatusCode;
             return Valid;
         }
 
-        public async Task GetCharacters(HttpClientController httpClientController, bool bypassCheck = false)
+        internal async Task GetCharacters(HttpClientController httpClientController, bool bypassCheck = false)
         {
             if ((Characters.Count > 0) && !bypassCheck)
             {

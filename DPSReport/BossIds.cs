@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader.DPSReport
 {
-    public enum BossIds
+    internal enum BossIds
     {
         WvW = 1,
         Sabetha = 15375,

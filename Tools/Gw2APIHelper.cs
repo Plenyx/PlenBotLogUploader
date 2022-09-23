@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.Tools
 {
-    public class Gw2APIHelper : IDisposable
+    internal sealed class Gw2APIHelper : IDisposable
     {
+        #region definitions
         private readonly HttpClientController HttpClientController = new HttpClientController();
         private const string gw2api = "https://api.guildwars2.com/";
+        #endregion
 
-        public Gw2APIHelper(string apiKey = "")
+        internal Gw2APIHelper(string apiKey = "")
         {
             if (!string.IsNullOrWhiteSpace(apiKey))
             {
@@ -18,7 +20,7 @@ namespace PlenBotLogUploader.Tools
             }
         }
 
-        public async Task<GW2Account> GetUserInfoAsync()
+        internal async Task<GW2Account> GetUserInfoAsync()
         {
             try
             {

@@ -2,13 +2,13 @@
 
 namespace PlenBotLogUploader.Aleeva
 {
-    public class AleevaChannel
+    internal sealed class AleevaChannel
     {
         [JsonProperty("id")]
-        public string ID { get; set; }
+        internal string ID { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         public override string ToString() => $"{Name} ({ID})";
     }

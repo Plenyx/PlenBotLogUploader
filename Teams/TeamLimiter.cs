@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader.Teams
 {
-    public enum TeamLimiter
+    internal enum TeamLimiter
     {
         AND = 0,
         OR = 1,

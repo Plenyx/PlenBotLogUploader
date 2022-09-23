@@ -26,7 +26,7 @@ namespace PlenBotLogUploader
         private readonly EventHandler checkChangedHandler;
         #endregion
 
-        public FormArcPluginManager(FormMain mainLink)
+        internal FormArcPluginManager(FormMain mainLink)
         {
             this.mainLink = mainLink;
             var installedComponents = ArcDpsComponent.DeserialiseAll(ApplicationSettings.LocalDir);
@@ -325,7 +325,7 @@ namespace PlenBotLogUploader
             buttonShowPluginInfo.Enabled = checkedListBoxArcDpsPlugins.SelectedIndex > -1;
         }
 
-        private void checkBoxUseAL_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxUseAL_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.ArcUpdate.UseAL = checkBoxUseAL.Checked;
             ApplicationSettings.Current.Save();

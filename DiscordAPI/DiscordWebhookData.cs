@@ -8,51 +8,51 @@ using System.Threading.Tasks;
 namespace PlenBotLogUploader.DiscordAPI
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class DiscordWebhookData
+    internal sealed class DiscordWebhookData
     {
         /// <summary>
         /// Indicates whether the webhook is currently active
         /// </summary>
         [JsonProperty("isActive")]
-        public bool Active { get; set; } = false;
+        internal bool Active { get; set; } = false;
 
         /// <summary>
         /// Name of the webhook
         /// </summary>
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         /// <summary>
         /// URL of the webhook
         /// </summary>
         [JsonProperty("url")]
-        public string URL { get; set; }
+        internal string URL { get; set; }
 
         /// <summary>
         /// Indicates whether the webhook is executed only if the ecounter is a success
         /// </summary>
         [JsonProperty("successFailToggle")]
-        public DiscordWebhookDataSuccessToggle SuccessFailToggle { get; set; } = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
+        internal DiscordWebhookDataSuccessToggle SuccessFailToggle { get; set; } = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
 
         /// <summary>
         /// Indicates whether players are showed in the webhook
         /// </summary>
         [JsonProperty("showPlayers")]
-        public bool ShowPlayers { get; set; } = true;
+        internal bool ShowPlayers { get; set; } = true;
 
         /// <summary>
         /// A list containing boss ids which are omitted to be posted via webhook
         /// </summary>
         [JsonProperty("disabledBosses")]
-        public List<int> BossesDisable { get; set; } = new List<int>();
+        internal List<int> BossesDisable { get; set; } = new List<int>();
 
         [JsonProperty("teamId")]
-        public int TeamID { get; set; } = 0;
+        internal int TeamID { get; set; } = 0;
 
         /// <summary>
         /// A selected webhook team, with which the webhook should evaluate itself
         /// </summary>
-        public Team Team
+        internal Team Team
         {
             get
             {
@@ -76,7 +76,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// </summary>
         /// <param name="httpController">HttpClientController class used for using http connection</param>
         /// <returns>True if webhook is valid, false otherwise</returns>
-        public async Task<bool> TestWebhookAsync(HttpClientController httpController)
+        internal async Task<bool> TestWebhookAsync(HttpClientController httpController)
         {
             try
             {
@@ -95,9 +95,9 @@ namespace PlenBotLogUploader.DiscordAPI
         /// </summary>
         /// <param name="bossId">Queried boss ID</param>
         /// <returns></returns>
-        public bool IsBossEnabled(int bossId) => !BossesDisable.Contains(bossId);
+        internal bool IsBossEnabled(int bossId) => !BossesDisable.Contains(bossId);
 
-        public static IDictionary<int, DiscordWebhookData> FromJsonString(string jsonString)
+        internal static IDictionary<int, DiscordWebhookData> FromJsonString(string jsonString)
         {
             var webhookId = 1;
 

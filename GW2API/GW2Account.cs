@@ -2,18 +2,18 @@
 
 namespace PlenBotLogUploader.GW2API
 {
-    public class GW2Account
+    internal sealed class GW2Account
     {
         [JsonProperty("id")]
-        public string ID { get; set; }
+        internal string ID { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         [JsonProperty("world")]
-        public int World { get; set; }
+        internal int World { get; set; }
 
         [JsonProperty("wvw_rank")]
-        public int WvWRank { get; set; }
+        internal int WvWRank { get; set; }
     }
 }

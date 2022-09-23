@@ -2,15 +2,15 @@
 
 namespace PlenBotLogUploader.DPSReport
 {
-    public class DPSReportJSONEVTC
+    internal sealed class DPSReportJSONEVTC
     {
         [JsonProperty("type")]
-        public string Type { get; set; }
+        internal string Type { get; set; }
 
         [JsonProperty("version")]
-        public string Version { get; set; }
+        internal string Version { get; set; }
 
         [JsonProperty("bossId")]
-        public int BossId { get; set; }
+        internal int BossId { get; set; }
     }
 }

@@ -2,12 +2,12 @@
 
 namespace PlenBotLogUploader.Aleeva
 {
-    public class AleevaAddReportResponse : AleevaResponseStatus
+    internal sealed class AleevaAddReportResponse : AleevaResponseStatus
     {
         [JsonProperty("dpsReport")]
-        public string DPSReport { get; set; }
+        internal string DPSReport { get; set; }
 
         [JsonProperty("fromCache")]
-        public bool FromCache { get; set; }
+        internal bool FromCache { get; set; }
     }
 }

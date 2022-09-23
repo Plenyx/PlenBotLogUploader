@@ -8,7 +8,7 @@ namespace PlenBotLogUploader
     {
         private readonly ArcDpsComponentHelperClass infoItem;
 
-        public FormArcPluginInfo(ArcDpsComponentHelperClass infoItem)
+        internal FormArcPluginInfo(ArcDpsComponentHelperClass infoItem)
         {
             this.infoItem = infoItem;
             InitializeComponent();

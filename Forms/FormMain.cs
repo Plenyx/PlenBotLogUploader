@@ -28,12 +28,12 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        public List<DPSReportJSON> SessionLogs { get; } = new List<DPSReportJSON>();
-        public bool ChannelJoined { get; set; } = false;
-        public HttpClientController HttpClientController { get; } = new HttpClientController();
-        public bool StartedMinimised { get; private set; } = false;
-        public MumbleReader MumbleReader { get; set; }
-        public bool UpdateFound
+        internal List<DPSReportJSON> SessionLogs { get; } = new List<DPSReportJSON>();
+        internal bool ChannelJoined { get; set; } = false;
+        internal HttpClientController HttpClientController { get; } = new HttpClientController();
+        internal bool StartedMinimised { get; private set; } = false;
+        internal MumbleReader MumbleReader { get; set; }
+        internal bool UpdateFound
         {
             get => _updateFound;
             set
@@ -54,7 +54,7 @@ namespace PlenBotLogUploader
                 _updateFound = value;
             }
         }
-        public bool NETV6RisksAccepted { get; set; } = false;
+        internal bool NETV6RisksAccepted { get; set; } = false;
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
@@ -90,7 +90,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region constructor
-        public FormMain()
+        internal FormMain()
         {
             ApplicationSettings.LocalDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
             ApplicationSettings.Load();
@@ -499,7 +499,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public void ShowBalloon(string title, string description, int ms)
+        internal void ShowBalloon(string title, string description, int ms)
         {
             MumbleReader?.Update();
             if (!MumbleReader?.Data.Context.UIState.HasFlag(UIState.IsInCombat) ?? true)
@@ -662,7 +662,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region self-invocable functions
-        public void AddToText(string s)
+        internal void AddToText(string s)
         {
             if (richTextBoxMainConsole.InvokeRequired)
             {
@@ -697,7 +697,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region log upload and processing
-        public async Task SendLogToTwitchChatAsync(DPSReportJSON reportJSON, bool bypassMessage = false)
+        internal async Task SendLogToTwitchChatAsync(DPSReportJSON reportJSON, bool bypassMessage = false)
         {
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage && IsStreamingSoftwareRunning())
             {
@@ -719,7 +719,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
+        internal async Task HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
             using var content = new MultipartFormDataContent();
             foreach (var key in postData.Keys)
@@ -890,7 +890,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task ExecuteSessionLogWebhooksAsync(LogSessionSettings logSessionSettings)
+        internal async Task ExecuteSessionLogWebhooksAsync(LogSessionSettings logSessionSettings)
         {
             if (SessionLogs is null)
             {
@@ -931,9 +931,9 @@ namespace PlenBotLogUploader
         #endregion
 
         #region Twitch bot methods
-        public bool IsTwitchConnectionNull() => chatConnect is null;
+        internal bool IsTwitchConnectionNull() => chatConnect is null;
 
-        public bool IsStreamingSoftwareRunning()
+        internal bool IsStreamingSoftwareRunning()
         {
             var processes = Process.GetProcesses();
             foreach (var process in processes)
@@ -949,7 +949,7 @@ namespace PlenBotLogUploader
             return false;
         }
 
-        public async Task ConnectTwitchBot()
+        internal async Task ConnectTwitchBot()
         {
             if (InvokeRequired)
             {
@@ -979,7 +979,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
         }
 
-        public void DisconnectTwitchBot()
+        internal void DisconnectTwitchBot()
         {
             if (InvokeRequired)
             {
@@ -1002,7 +1002,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
         }
 
-        public async Task ReconnectTwitchBot()
+        internal async Task ReconnectTwitchBot()
         {
             if (InvokeRequired)
             {
@@ -1226,7 +1226,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region buttons & checks, events
-        public void RedrawUserTokenContext()
+        internal void RedrawUserTokenContext()
         {
             toolStripMenuItemDPSReportUserTokens.DropDownItems.Clear();
             if (!ApplicationSettings.Current.Upload.DPSReportUserTokens.Any())

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.Tools
 {
-    public class HttpClientController: HttpClient
+    internal sealed class HttpClientController: HttpClient
     {
         #region init
         /// <summary>
         /// The initial settings by HttpClientController child of HttpClient.
         /// </summary>
-        public HttpClientController() : base()
+        internal HttpClientController() : base()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("PlenBotLogUploader", AppSettings.ApplicationSettings.Version.ToString()));
@@ -24,7 +24,7 @@ namespace PlenBotLogUploader.Tools
         /// <summary>
         /// Downloads a file asynchronously.
         /// </summary>
-        public async Task<bool> DownloadFileAsync(string url, string destination)
+        internal async Task<bool> DownloadFileAsync(string url, string destination)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace PlenBotLogUploader.Tools
         /// <summary>
         /// Downloads a file to string asynchronously.
         /// </summary>
-        public async Task<string> DownloadFileToStringAsync(string url)
+        internal async Task<string> DownloadFileToStringAsync(string url)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace PlenBotLogUploader.Tools
         /// </summary>
         /// <param name="repository">specified repository</param>
         /// <returns>latest release from a specified repository</returns>
-        public async Task<GitHubReleasesLatest> GetGitHubLatestReleaseAsync(string repository)
+        internal async Task<GitHubReleasesLatest> GetGitHubLatestReleaseAsync(string repository)
         {
             try
             {

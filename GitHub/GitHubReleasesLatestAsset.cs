@@ -2,15 +2,15 @@
 
 namespace PlenBotLogUploader.GitHub
 {
-    public class GitHubReleasesLatestAsset
+    internal sealed class GitHubReleasesLatestAsset
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         [JsonProperty("size")]
-        public long Size { get; set; }
+        internal long Size { get; set; }
 
         [JsonProperty("browser_download_url")]
-        public string DownloadURL { get; set; }
+        internal string DownloadURL { get; set; }
     }
 }

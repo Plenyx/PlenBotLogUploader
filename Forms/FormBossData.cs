@@ -10,15 +10,13 @@ namespace PlenBotLogUploader
     public partial class FormBossData : Form
     {
         #region definitions
-
         // fields
         private readonly FormTemplateBossData templateLink;
         private int bossesIdsKey;
         private readonly IDictionary<int, BossData> allBosses;
-
         #endregion
 
-        public FormBossData()
+        internal FormBossData()
         {
             templateLink = new FormTemplateBossData();
             InitializeComponent();

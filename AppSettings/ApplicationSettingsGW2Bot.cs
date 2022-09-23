@@ -2,18 +2,18 @@
 
 namespace PlenBotLogUploader.AppSettings
 {
-    public class ApplicationSettingsGW2Bot
+    internal sealed class ApplicationSettingsGW2Bot
     {
         [JsonProperty("enabled")]
-        public bool Enabled { get; set; } = false;
+        internal bool Enabled { get; set; } = false;
 
         [JsonProperty("apiKey")]
-        public string APIKey { get; set; } = string.Empty;
+        internal string APIKey { get; set; } = string.Empty;
 
         [JsonProperty("selectedTeamId")]
-        public int SelectedTeamId { get; set; } = 0;
+        internal int SelectedTeamId { get; set; } = 0;
 
         [JsonProperty("sendOnSuccessOnly")]
-        public bool SendOnSuccessOnly { get; set; } = false;
+        internal bool SendOnSuccessOnly { get; set; } = false;
     }
 }

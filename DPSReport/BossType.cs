@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader.DPSReport
 {
-    public enum BossType
+    internal enum BossType
     {
         None,
         Raid,

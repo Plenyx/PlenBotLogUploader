@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace PlenBotLogUploader.GitHub
 {
-    public class GitHubReleasesLatest
+    internal sealed class GitHubReleasesLatest
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         [JsonProperty("assets")]
-        public List<GitHubReleasesLatestAsset> Assets { get; set; }
+        internal List<GitHubReleasesLatestAsset> Assets { get; set; }
 
         [JsonProperty("body")]
-        public string Body { get; set; }
+        internal string Body { get; set; }
     }
 }

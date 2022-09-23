@@ -18,14 +18,14 @@ namespace PlenBotLogUploader
         #region definitions
         // properties
         private static readonly string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
-        public IDictionary<int, PingConfiguration> AllPings { get; set; }
+        internal IDictionary<int, PingConfiguration> AllPings { get; set; }
 
         // fields
         private readonly FormMain mainLink;
         private int settingsIdsKey;
         #endregion
 
-        public FormPings(FormMain mainLink)
+        internal FormPings(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();
@@ -73,7 +73,7 @@ namespace PlenBotLogUploader
             SaveToJson(AllPings.Values);
         }
 
-        public void AddPing(PingConfiguration config)
+        internal void AddPing(PingConfiguration config)
         {
             settingsIdsKey++;
             AllPings.Add(settingsIdsKey, config);

@@ -13,7 +13,7 @@ namespace PlenBotLogUploader
         private readonly FormMain mainLink;
         #endregion
 
-        public FormTwitchNameSetup(FormMain mainLink)
+        internal FormTwitchNameSetup(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

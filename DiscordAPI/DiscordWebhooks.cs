@@ -6,16 +6,16 @@ using System.Text;
 
 namespace PlenBotLogUploader.DiscordAPI
 {
-    public static class DiscordWebhooks
+    internal static class DiscordWebhooks
     {
-        public static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
+        internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
         
         private static IDictionary<int, DiscordWebhookData> _All;
         /// <summary>
         /// Returns the main dictionary with all webhooks.
         /// </summary>
         /// <returns>A dictionary with all webhooks</returns>
-        public static IDictionary<int, DiscordWebhookData> All => _All ??= new Dictionary<int, DiscordWebhookData>();
+        internal static IDictionary<int, DiscordWebhookData> All => _All ??= new Dictionary<int, DiscordWebhookData>();
 
         private static IDictionary<int, DiscordWebhookData> FromJsonFile(string filePath)
         {
@@ -25,15 +25,15 @@ namespace PlenBotLogUploader.DiscordAPI
 
             return All;
         }
-        
-        public static void SaveToJson(IDictionary<int, DiscordWebhookData> webhookData, string filePath)
+
+        internal static void SaveToJson(IDictionary<int, DiscordWebhookData> webhookData, string filePath)
         {
             var jsonString = JsonConvert.SerializeObject(webhookData.Values, Formatting.Indented);
 
             File.WriteAllText(filePath, jsonString, Encoding.UTF8);
         }
 
-        public static IDictionary<int, DiscordWebhookData> LoadDiscordWebhooks()
+        internal static IDictionary<int, DiscordWebhookData> LoadDiscordWebhooks()
         {
             try
             {

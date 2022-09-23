@@ -14,7 +14,7 @@ namespace PlenBotLogUploader
         private readonly FormMain mainLink;
         #endregion
 
-        public FormGW2API(FormMain mainLink)
+        internal FormGW2API(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

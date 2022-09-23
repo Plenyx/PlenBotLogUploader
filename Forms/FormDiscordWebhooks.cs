@@ -27,7 +27,7 @@ namespace PlenBotLogUploader
         private readonly TableVisibleBorders tableBorders = TableVisibleBorders.HEADER_ONLY;
         #endregion
 
-        public FormDiscordWebhooks(FormMain mainLink)
+        internal FormDiscordWebhooks(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

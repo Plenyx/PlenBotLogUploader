@@ -7,19 +7,21 @@ using System.Text;
 namespace PlenBotLogUploader.Teams
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class TeamCondition
+    internal sealed class TeamCondition
     {
+        #region definitions
         private string _description = string.Empty;
         private TeamLimiter _limiter = TeamLimiter.Exact;
         private int _limiterValue = 0;
         private List<string> _accountNames = new List<string>();
         private List<TeamCondition> _subconditions = new List<TeamCondition>();
+        #endregion
 
         /// <summary>
         /// Description for the condition
         /// </summary>
         [JsonProperty("description")]
-        public string Description
+        internal string Description
         {
             get => _description;
             set
@@ -33,7 +35,7 @@ namespace PlenBotLogUploader.Teams
         /// What limiter to the team should be applied
         /// </summary>
         [JsonProperty("limiter")]
-        public TeamLimiter Limiter
+        internal TeamLimiter Limiter
         {
             get => _limiter;
             set
@@ -47,7 +49,7 @@ namespace PlenBotLogUploader.Teams
         /// What value for the limiter should be applied
         /// </summary>
         [JsonProperty("limiterValue")]
-        public int LimiterValue
+        internal int LimiterValue
         {
             get => _limiterValue;
             set
@@ -61,7 +63,7 @@ namespace PlenBotLogUploader.Teams
         /// List of account names in the given team
         /// </summary>
         [JsonProperty("accountNames")]
-        public List<string> AccountNames
+        internal List<string> AccountNames
         {
             get => _accountNames;
             set
@@ -75,7 +77,7 @@ namespace PlenBotLogUploader.Teams
         /// List of subconditions that must be fulfilled
         /// </summary>
         [JsonProperty("subconditions")]
-        public List<TeamCondition> Subconditions
+        internal List<TeamCondition> Subconditions
         {
             get => _subconditions;
             set
@@ -86,21 +88,21 @@ namespace PlenBotLogUploader.Teams
             }
         }
 
-        public TeamCondition ParentCondition { get; set; } = null;
+        internal TeamCondition ParentCondition { get; set; } = null;
 
-        public event EventHandler<EventArgs> ConditionChanged;
+        internal event EventHandler<EventArgs> ConditionChanged;
 
-        public string PathDescription => $"{ParentCondition?.PathDescription} -> {Descriptor()}";
+        internal string PathDescription => $"{ParentCondition?.PathDescription} -> {Descriptor()}";
 
         public override string ToString() => Descriptor();
-        
-        public void SetUp(TeamCondition parent)
+
+        internal void SetUp(TeamCondition parent)
         {
             ParentCondition = parent;
             Subconditions.ForEach(x => x.SetUp(this));
         }
 
-        public bool IsSatisfied(DPSReport.DPSReportJSONExtraJSON extraJSON)
+        internal bool IsSatisfied(DPSReport.DPSReportJSONExtraJSON extraJSON)
         {
             if (extraJSON is null)
             {
@@ -119,7 +121,7 @@ namespace PlenBotLogUploader.Teams
             };
         }
 
-        public string Descriptor()
+        internal string Descriptor()
         {
             if (string.IsNullOrWhiteSpace(Description))
             {
@@ -136,7 +138,7 @@ namespace PlenBotLogUploader.Teams
             return Description;
         }
 
-        public string Draw(int intent = 0)
+        internal string Draw(int intent = 0)
         {
             var intentString = new string(' ', intent);
             var result = new StringBuilder();
@@ -164,7 +166,7 @@ namespace PlenBotLogUploader.Teams
             return result.ToString();
         }
 
-        public void CallConditionChanged()
+        internal void CallConditionChanged()
         {
             ConditionChanged?.Invoke(this, EventArgs.Empty);
             ParentCondition?.CallConditionChanged();

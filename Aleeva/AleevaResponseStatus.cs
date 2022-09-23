@@ -2,11 +2,11 @@
 
 namespace PlenBotLogUploader.Aleeva
 {
-    public partial class AleevaResponseStatus
+    internal partial class AleevaResponseStatus
     {
         [JsonProperty("status")]
-        public string Status { get; set; }
+        internal string Status { get; set; }
 
-        public bool IsSuccess => (Status ?? "successful") != "failed";
+        internal bool IsSuccess => (Status ?? "successful") != "failed";
     }
 }

@@ -12,7 +12,7 @@ namespace PlenBotLogUploader
         private readonly FormMain mainLink;
         #endregion
 
-        public FormCustomName(FormMain mainLink)
+        internal FormCustomName(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

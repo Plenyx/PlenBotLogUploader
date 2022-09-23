@@ -2,9 +2,9 @@
 
 namespace PlenBotLogUploader.GW2Bot
 {
-    public class GW2BotAddReportResponse
+    internal sealed class GW2BotAddReportResponse
     {
         [JsonProperty("detail")]
-        public object Detail { get; set; }
+        internal object Detail { get; set; }
     }
 }

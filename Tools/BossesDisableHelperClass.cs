@@ -1,10 +1,10 @@
 ﻿namespace PlenBotLogUploader.Tools
 {
-    public class BossesDisableHelperClass
+    internal sealed class BossesDisableHelperClass
     {
-        public int BossID { get; set; }
+        internal int BossID { get; set; }
 
-        public string Text { get; set; }
+        internal string Text { get; set; }
 
         public override string ToString() => Text;
     }

@@ -14,7 +14,7 @@ namespace PlenBotLogUploader
         private readonly bool addNew;
         #endregion
 
-        public FormEditPing(FormPings pingLink, int reservedId, bool addNew, PingConfiguration config)
+        internal FormEditPing(FormPings pingLink, int reservedId, bool addNew, PingConfiguration config)
         {
             this.pingLink = pingLink;
             this.config = config;

@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 namespace PlenBotLogUploader.ArcDps
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class ArcDpsComponent
+    internal sealed class ArcDpsComponent
     {
         private static List<ArcDpsComponent> _All;
 
-        public static List<ArcDpsComponent> All => _All ??= new List<ArcDpsComponent>();
+        internal static List<ArcDpsComponent> All => _All ??= new List<ArcDpsComponent>();
 
-        public static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All, Formatting.Indented));
+        internal static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All, Formatting.Indented));
 
-        public static List<ArcDpsComponent> DeserialiseAll(string applicationDirectory)
+        internal static List<ArcDpsComponent> DeserialiseAll(string applicationDirectory)
         {
             if (File.Exists($"{applicationDirectory}arcdps_components.json"))
             {
@@ -31,15 +31,15 @@ namespace PlenBotLogUploader.ArcDps
         }
 
         [JsonProperty("type")]
-        public ArcDpsComponentType Type { get; set; }
+        internal ArcDpsComponentType Type { get; set; }
 
         [JsonProperty("renderMode")]
-        public GameRenderMode RenderMode { get; set; } = GameRenderMode.DX11;
+        internal GameRenderMode RenderMode { get; set; } = GameRenderMode.DX11;
 
         [JsonProperty("location")]
-        public string RelativeLocation { get; set; }
+        internal string RelativeLocation { get; set; }
 
-        public string Repository => Type switch
+        internal string Repository => Type switch
         {
             ArcDpsComponentType.Mechanics => "knoxfighter/GW2-ArcDPS-Mechanics-Log",
             ArcDpsComponentType.BoonTable => "knoxfighter/GW2-ArcDPS-Boon-Table",
@@ -52,21 +52,21 @@ namespace PlenBotLogUploader.ArcDps
             _ => null,
         };
 
-        public GitHubReleasesLatest LatestRelease { get; private set; }
+        internal GitHubReleasesLatest LatestRelease { get; private set; }
 
-        public string DownloadLink => Type switch
+        internal string DownloadLink => Type switch
         {
             ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d11.dll",
             _ => null,
         };
 
-        public string VersionLink => Type switch
+        internal string VersionLink => Type switch
         {
             ArcDpsComponentType.ArcDps => "https://deltaconnected.com/arcdps/x64/d3d11.dll.md5sum",
             _ => null,
         };
 
-        public async Task<bool> DownloadComponent(HttpClientController httpController)
+        internal async Task<bool> DownloadComponent(HttpClientController httpController)
         {
             if (!string.IsNullOrWhiteSpace(DownloadLink))
             {
@@ -89,9 +89,9 @@ namespace PlenBotLogUploader.ArcDps
             return false;
         }
 
-        public bool IsInstalled() => File.Exists($@"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
+        internal bool IsInstalled() => File.Exists($@"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
 
-        public bool IsCurrentVersion(string version)
+        internal bool IsCurrentVersion(string version)
         {
             if (string.IsNullOrWhiteSpace(version))
             {
@@ -113,7 +113,7 @@ namespace PlenBotLogUploader.ArcDps
 
         private async Task<GitHubReleasesLatest> GetGitHubRelease(HttpClientController httpController) => LatestRelease = await httpController.GetGitHubLatestReleaseAsync(Repository);
 
-        public async Task<string> GetVersionStringAsync(HttpClientController httpController)
+        internal async Task<string> GetVersionStringAsync(HttpClientController httpController)
         {
             if (!string.IsNullOrWhiteSpace(VersionLink))
             {

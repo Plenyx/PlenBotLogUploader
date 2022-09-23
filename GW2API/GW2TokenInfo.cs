@@ -2,9 +2,9 @@
 
 namespace PlenBotLogUploader.GW2API
 {
-    public class GW2APITokenInfo
+    internal sealed class GW2APITokenInfo
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
     }
 }

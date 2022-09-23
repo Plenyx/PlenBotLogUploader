@@ -4,25 +4,25 @@ using System.Linq;
 
 namespace PlenBotLogUploader.Teams
 {
-    public class Team
+    internal sealed class Team
     {
         /// <summary>
         /// ID of the team, for internal use
         /// </summary>
         [JsonProperty("id")]
-        public int ID { get; set; }
+        internal int ID { get; set; }
 
         /// <summary>
         /// Name of the webhook team
         /// </summary>
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         /// <summary>
         /// What condition to use to resolve the team
         /// </summary>
         [JsonProperty("condition")]
-        public TeamCondition MainCondition { get; set; }
+        internal TeamCondition MainCondition { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current object.
@@ -30,9 +30,9 @@ namespace PlenBotLogUploader.Teams
         /// <returns>A string that represents the current object.</returns>
         public override string ToString() => Name;
 
-        public bool IsSatisfied(DPSReport.DPSReportJSONExtraJSON extraJSON) => MainCondition?.IsSatisfied(extraJSON) ?? false;
+        internal bool IsSatisfied(DPSReport.DPSReportJSONExtraJSON extraJSON) => MainCondition?.IsSatisfied(extraJSON) ?? false;
 
-        public static IDictionary<int, Team> FromJsonString(string jsonData)
+        internal static IDictionary<int, Team> FromJsonString(string jsonData)
         {
             var parsedData = JsonConvert.DeserializeObject<IEnumerable<Team>>(jsonData)
                              ?? throw new JsonException("Could not parse json to WebhookData");
@@ -44,7 +44,7 @@ namespace PlenBotLogUploader.Teams
 
             return result;
         }
-        
+
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
@@ -53,8 +53,8 @@ namespace PlenBotLogUploader.Teams
             return Equals((Team) obj);
         }
 
-        protected bool Equals(Team other) => (ID == other.ID) && (Name == other.Name);
-        
+        internal bool Equals(Team other) => (ID == other.ID) && (Name == other.Name);
+
         public override int GetHashCode()
         {
             unchecked

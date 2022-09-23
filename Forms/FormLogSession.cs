@@ -14,7 +14,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        public bool SessionRunning { get; private set; } = false;
+        internal bool SessionRunning { get; private set; } = false;
 
         // fields
         private readonly FormMain mainLink;
@@ -23,7 +23,7 @@ namespace PlenBotLogUploader
         private DateTime sessionTimeStarted;
         #endregion
 
-        public FormLogSession(FormMain mainLink)
+        internal FormLogSession(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

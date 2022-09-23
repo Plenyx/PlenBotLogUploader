@@ -20,9 +20,9 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        public string AleevaAccessToken { get; set; }
-        public DateTime AleevaAccessTokenExpires { get; set; }
-        public bool AleevaAuthorised
+        internal string AleevaAccessToken { get; set; }
+        internal DateTime AleevaAccessTokenExpires { get; set; }
+        internal bool AleevaAuthorised
         {
             get => _authorised;
             set
@@ -67,7 +67,7 @@ namespace PlenBotLogUploader
         private readonly List<AleevaChannel> aleevaServerChannels = new List<AleevaChannel>();
         #endregion
 
-        public FormAleeva(FormMain mainLink)
+        internal FormAleeva(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();
@@ -84,7 +84,7 @@ namespace PlenBotLogUploader
 
         private void FormAleeva_FormClosed(object sender, FormClosedEventArgs e) => controller.Dispose();
 
-        public async Task PostLogToAleeva(DPSReportJSON reportJSON)
+        internal async Task PostLogToAleeva(DPSReportJSON reportJSON)
         {
             if (AleevaAuthorised)
             {
@@ -119,7 +119,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task GetAleevaTokenFromAccessCode(string access_code)
+        internal async Task GetAleevaTokenFromAccessCode(string access_code)
         {
             var aleeva = new AleevaAuthToken() { AccessCode = access_code, GrantType = "access_code" };
             var uri = new Uri($"{aleevaAPIBaseUrl}/auth/token");
@@ -167,7 +167,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        public async Task GetAleevaTokenFromRefreshToken()
+        internal async Task GetAleevaTokenFromRefreshToken()
         {
             var aleeva = new AleevaAuthToken() { RefreshToken = ApplicationSettings.Current.Aleeva.RefreshToken, GrantType = "refresh_token" };
             var uri = new Uri($"{aleevaAPIBaseUrl}/auth/token");

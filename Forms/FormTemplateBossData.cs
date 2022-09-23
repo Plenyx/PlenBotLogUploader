@@ -14,7 +14,7 @@ namespace PlenBotLogUploader
         private readonly IDictionary<int, BossData> allBosses = Bosses.All;
         #endregion
 
-        public FormTemplateBossData()
+        internal FormTemplateBossData()
         {
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;

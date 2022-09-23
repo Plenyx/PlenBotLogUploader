@@ -7,10 +7,12 @@ namespace PlenBotLogUploader
 {
     public partial class FormEditTeamCondition : Form
     {
-        public Team Team { get; set; }
-        public TeamCondition Condition { get; set; }
+        #region definitions
+        internal Team Team { get; set; }
+        internal TeamCondition Condition { get; set; }
+        #endregion
 
-        public FormEditTeamCondition(Team teamData, TeamCondition data)
+        internal FormEditTeamCondition(Team teamData, TeamCondition data)
         {
             Team = teamData;
             Condition = data;

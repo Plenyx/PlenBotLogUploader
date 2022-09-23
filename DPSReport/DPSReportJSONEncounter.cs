@@ -2,36 +2,36 @@
 
 namespace PlenBotLogUploader.DPSReport
 {
-    public class DPSReportJSONEncounter
+    internal sealed class DPSReportJSONEncounter
     {
         [JsonProperty("success")]
-        public bool? Success { get; set; }
+        internal bool? Success { get; set; }
 
         [JsonProperty("duration")]
-        public float? Duration { get; set; }
+        internal float? Duration { get; set; }
 
         [JsonProperty("compDps")]
-        public int? CompDps { get; set; }
+        internal int? CompDps { get; set; }
 
         [JsonProperty("numberOfPlayers")]
-        public int? NumberOfPlayers { get; set; }
+        internal int? NumberOfPlayers { get; set; }
 
         [JsonProperty("numberOfGroups")]
-        public int? NumberOfGroups { get; set; }
+        internal int? NumberOfGroups { get; set; }
 
         [JsonProperty("bossId")]
-        public int BossId { get; set; }
+        internal int BossId { get; set; }
 
         [JsonProperty("boss")]
-        public string Boss { get; set; }
+        internal string Boss { get; set; }
 
         [JsonProperty("isCm")]
-        public bool? IsCM { get; set; }
+        internal bool? IsCM { get; set; }
 
         [JsonProperty("gw2Build")]
-        public int? Gw2Build { get; set; }
+        internal int? Gw2Build { get; set; }
 
         [JsonProperty("jsonAvailable")]
-        public bool? JsonAvailable { get; set; }
+        internal bool? JsonAvailable { get; set; }
     }
 }

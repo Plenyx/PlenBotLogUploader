@@ -2,18 +2,18 @@
 
 namespace PlenBotLogUploader.DPSReport
 {
-    public class DPSReportJSONPlayers
+    internal sealed class DPSReportJSONPlayers
     {
         [JsonProperty("display_name")]
-        public string DisplayName { get; set; }
+        internal string DisplayName { get; set; }
 
         [JsonProperty("character_name")]
-        public string CharacterName { get; set; }
+        internal string CharacterName { get; set; }
 
         [JsonProperty("profession")]
-        public int Profession { get; set; }
+        internal int Profession { get; set; }
 
         [JsonProperty("elite_spec")]
-        public int EliteSpec { get; set; }
+        internal int EliteSpec { get; set; }
     }
 }

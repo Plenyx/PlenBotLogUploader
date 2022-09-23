@@ -8,7 +8,7 @@ using System.Text;
 
 namespace PlenBotLogUploader.Tools
 {
-    public static class SessionTextConstructor
+    internal static class SessionTextConstructor
     {
         #region definitions
         // fields
@@ -25,19 +25,17 @@ namespace PlenBotLogUploader.Tools
         private const int maxAllowedMessageSize = 1750;
         #endregion
 
-        public static DiscordAPIJSONContentEmbed MakeEmbedFromText(string title, string text)
-        {
-            return new DiscordAPIJSONContentEmbed()
-            {
-                Title = title,
-                Description = text,
-                Colour = 32768,
-                TimeStamp = DateTime.UtcNow.ToString("o"),
-                Thumbnail = defaultThumbnail
-            };
-        }
+        internal static DiscordAPIJSONContentEmbed MakeEmbedFromText(string title, string text)
+            => new DiscordAPIJSONContentEmbed()
+                {
+                    Title = title,
+                    Description = text,
+                    Colour = 32768,
+                    TimeStamp = DateTime.UtcNow.ToString("o"),
+                    Thumbnail = defaultThumbnail
+                };
 
-        public static DiscordEmbeds ConstructSessionEmbeds(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
+        internal static DiscordEmbeds ConstructSessionEmbeds(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {
             var discordEmbedsSuccessFailure = new List<DiscordAPIJSONContentEmbed>();
             var discordEmbedsSuccess = new List<DiscordAPIJSONContentEmbed>();

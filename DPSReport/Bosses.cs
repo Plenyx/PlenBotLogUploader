@@ -11,9 +11,9 @@ namespace PlenBotLogUploader.DPSReport
     /// <summary>
     /// Contains static methods for working with encounters
     /// </summary>
-    public static class Bosses
+    internal static class Bosses
     {
-        public static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.json";
+        internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.json";
 
         private static IDictionary<int, BossData> _all;
 
@@ -21,14 +21,14 @@ namespace PlenBotLogUploader.DPSReport
         /// Returns the main dictionary with all encounters.
         /// </summary>
         /// <returns>A dictionary with all encounters</returns>
-        public static IDictionary<int, BossData> All => _all ??= new Dictionary<int, BossData>();
+        internal static IDictionary<int, BossData> All => _all ??= new Dictionary<int, BossData>();
 
         /// <summary>
         /// Loads BossData from specified json file.
         /// </summary>
         /// <param name="filePath">The json file form which the data is loaded.</param>
         /// <returns>A Dictionary containing the loaded BossData.</returns>
-        public static IDictionary<int, BossData> FromJsonFile(string filePath)
+        internal static IDictionary<int, BossData> FromJsonFile(string filePath)
         {
             var jsonData = File.ReadAllText(filePath);
 
@@ -42,7 +42,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="bossDataToSave">BossData to persist.</param>
         /// <param name="filePath">File to be saved to.</param>
-        public static void SaveToJson(IDictionary<int, BossData> bossDataToSave)
+        internal static void SaveToJson(IDictionary<int, BossData> bossDataToSave)
         {
             var jsonString = JsonConvert.SerializeObject(bossDataToSave.Values, Formatting.Indented);
 
@@ -53,7 +53,7 @@ namespace PlenBotLogUploader.DPSReport
         /// Returns a dictionary with default BossData values.
         /// </summary>
         /// <returns>Dictionary with default BossData values</returns>
-        public static IDictionary<int, BossData> GetDefaultSettingsForBossesAsDictionary()
+        internal static IDictionary<int, BossData> GetDefaultSettingsForBossesAsDictionary()
         {
             const string defaultBossData = "PlenBotLogUploader.Resources.boss_data.default.json";
             var assembly = Assembly.GetExecutingAssembly();
@@ -81,7 +81,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="bossId">The boss id to query for</param>
         /// <returns>BossData object or null</returns>
-        public static BossData GetBossDataFromId(int bossId)
+        internal static BossData GetBossDataFromId(int bossId)
         {
             var bossDataRef = All
                 .Where(x => x.Value.BossId.Equals(bossId))
@@ -98,7 +98,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="bossId">ID of the encounter</param>
         /// <returns>wing number</returns>
-        public static int GetWingForBoss(int bossId)
+        internal static int GetWingForBoss(int bossId)
         {
             switch (bossId)
             {
@@ -148,7 +148,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="bossId">ID of the encounter</param>
         /// <returns>order of the encounter within a wing</returns>
-        public static int GetBossOrder(int bossId)
+        internal static int GetBossOrder(int bossId)
         {
             switch (bossId)
             {
@@ -197,19 +197,17 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="wingNumber">number of the wing</param>
         /// <returns>wing name</returns>
-        public static string GetWingName(int wingNumber)
-        {
-            return wingNumber switch
-            {
-                1 => "Spirit Vale",
-                2 => "Salvation Pass",
-                3 => "Stronghold of the Faithful",
-                4 => "Bastion of the Penitent",
-                5 => "Hall of Chains",
-                6 => "Mythwright Gambit",
-                7 => "The Key of Ahdashim",
-                _ => "Unknown wing",
-            };
-        }
+        internal static string GetWingName(int wingNumber)
+            => wingNumber switch
+                {
+                    1 => "Spirit Vale",
+                    2 => "Salvation Pass",
+                    3 => "Stronghold of the Faithful",
+                    4 => "Bastion of the Penitent",
+                    5 => "Hall of Chains",
+                    6 => "Mythwright Gambit",
+                    7 => "The Key of Ahdashim",
+                    _ => "Unknown wing",
+                };
     }
 }

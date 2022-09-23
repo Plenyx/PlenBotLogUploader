@@ -2,45 +2,45 @@
 
 namespace PlenBotLogUploader.AppSettings
 {
-    public class ApplicationSettingsTwitchCommands
+    internal sealed class ApplicationSettingsTwitchCommands
     {
         [JsonProperty("buildEnabled")]
-        public bool BuildEnabled { get; set; } = false;
+        internal bool BuildEnabled { get; set; } = false;
 
         [JsonProperty("buildCommand")]
-        public string BuildCommand { get; set; } = "!build";
+        internal string BuildCommand { get; set; } = "!build";
 
         [JsonProperty("ignEnabled")]
-        public bool IGNEnabled { get; set; } = false;
+        internal bool IGNEnabled { get; set; } = false;
 
         [JsonProperty("ignCommand")]
-        public string IGNCommand { get; set; } = "!ign";
+        internal string IGNCommand { get; set; } = "!ign";
 
         [JsonProperty("lastLogEnabled")]
-        public bool LastLogEnabled { get; set; } = false;
+        internal bool LastLogEnabled { get; set; } = false;
 
         [JsonProperty("lastLogCommand")]
-        public string LastLogCommand { get; set; } = "!lastlog";
+        internal string LastLogCommand { get; set; } = "!lastlog";
 
         [JsonProperty("pullCounterEnabled")]
-        public bool PullCounterEnabled { get; set; } = true;
+        internal bool PullCounterEnabled { get; set; } = true;
 
         [JsonProperty("pullCounterCommand")]
-        public string PullCounterCommand { get; set; } = "!pulls";
+        internal string PullCounterCommand { get; set; } = "!pulls";
 
         [JsonProperty("songEnabled")]
-        public bool SongEnabled { get; set; } = false;
+        internal bool SongEnabled { get; set; } = false;
 
         [JsonProperty("songCommand")]
-        public string SongCommand { get; set; } = "!song";
+        internal string SongCommand { get; set; } = "!song";
 
         [JsonProperty("smartSongRecognition")]
-        public bool SmartRecognition { get; set; } = true;
+        internal bool SmartRecognition { get; set; } = true;
 
         [JsonProperty("uploaderEnabled")]
-        public bool UploaderEnabled { get; set; } = true;
+        internal bool UploaderEnabled { get; set; } = true;
 
         [JsonProperty("uploaderCommand")]
-        public string UploaderCommand { get; set; } = "!uploader";
+        internal string UploaderCommand { get; set; } = "!uploader";
     }
 }

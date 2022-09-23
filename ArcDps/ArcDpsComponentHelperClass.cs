@@ -4,9 +4,9 @@ using System.IO;
 
 namespace PlenBotLogUploader.ArcDps
 {
-    public class ArcDpsComponentHelperClass
+    internal sealed class ArcDpsComponentHelperClass
     {
-        public static List<ArcDpsComponentHelperClass> All => new List<ArcDpsComponentHelperClass>()
+        internal static List<ArcDpsComponentHelperClass> All => new List<ArcDpsComponentHelperClass>()
         {
             new ArcDpsComponentHelperClass()
             {
@@ -106,25 +106,25 @@ namespace PlenBotLogUploader.ArcDps
             },
         };
 
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
-        public string FullName { get; set; }
+        internal string FullName { get; set; }
 
-        public string Author { get; set; }
+        internal string Author { get; set; }
 
-        public string Description { get; set; }
+        internal string Description { get; set; }
 
-        public string LinkName { get; set; }
+        internal string LinkName { get; set; }
 
-        public string LinkURL { get; set; }
+        internal string LinkURL { get; set; }
 
-        public string License { get; set; }
+        internal string License { get; set; }
 
-        public string Provider { get; set; }
+        internal string Provider { get; set; }
 
-        public ArcDpsComponentType Type { get; set; }
+        internal ArcDpsComponentType Type { get; set; }
 
-        public string DefaultFileName => Type switch
+        internal string DefaultFileName => Type switch
         {
             ArcDpsComponentType.Mechanics => "d3d11_arcdps_mechanics.dll",
             ArcDpsComponentType.BoonTable => "d3d11_arcdps_table.dll",
@@ -138,7 +138,7 @@ namespace PlenBotLogUploader.ArcDps
             _ => "d3d11.dll",
         };
 
-        public bool IsInstalled => File.Exists($"{ApplicationSettings.Current.GW2Location}{DefaultFileName}");
+        internal bool IsInstalled => File.Exists($"{ApplicationSettings.Current.GW2Location}{DefaultFileName}");
 
         public override string ToString() => $"{Name} by {Author}";
     }

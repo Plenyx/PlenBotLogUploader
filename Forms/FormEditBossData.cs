@@ -9,7 +9,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        public BossType BossTypeSwitch
+        internal BossType BossTypeSwitch
         {
             get => _bossTypeSwitch;
             set
@@ -54,7 +54,7 @@ namespace PlenBotLogUploader
         private BossType _bossTypeSwitch = BossType.None;
         #endregion
 
-        public FormEditBossData(FormBossData editLink, BossData data, int reservedId)
+        internal FormEditBossData(FormBossData editLink, BossData data, int reservedId)
         {
             this.editLink = editLink;
             InitializeComponent();

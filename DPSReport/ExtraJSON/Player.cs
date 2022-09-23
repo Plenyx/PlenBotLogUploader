@@ -3,47 +3,47 @@ using System.Collections.Generic;
 
 namespace PlenBotLogUploader.DPSReport.ExtraJSON
 {
-    public class Player
+    internal sealed class Player
     {
         [JsonProperty("account")]
-        public string Account { get; set; }
+        internal string Account { get; set; }
 
         [JsonProperty("group")]
-        public int Group { get; set; }
+        internal int Group { get; set; }
 
         [JsonProperty("hasCommanderTag")]
-        public bool IsCommander { get; set; }
+        internal bool IsCommander { get; set; }
 
         [JsonProperty("profession")]
-        public string Profession { get; set; }
+        internal string Profession { get; set; }
 
-        public string ProfessionShort => Profession.Substring(0, 3);
+        internal string ProfessionShort => Profession.Substring(0, 3);
 
         [JsonProperty("friendlyNPC")]
-        public bool FriendNPC { get; set; }
+        internal bool FriendNPC { get; set; }
 
         [JsonProperty("notInSquad")]
-        public bool NotInSquad { get; set; }
+        internal bool NotInSquad { get; set; }
 
         [JsonProperty("support")]
-        public List<PlayerSupport> Support { get; set; }
+        internal List<PlayerSupport> Support { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         [JsonProperty("dpsAll")]
-        public List<DpsAll> DpsAll { get; set; }
+        internal List<DpsAll> DpsAll { get; set; }
 
         [JsonProperty("dpsTargets")]
-        public List<List<DpsTarget>> DpsTargets { get; set; }
+        internal List<List<DpsTarget>> DpsTargets { get; set; }
 
         [JsonProperty("statsTargets")]
-        public List<List<StatsTarget>> StatsTargets { get; set; }
+        internal List<List<StatsTarget>> StatsTargets { get; set; }
 
         [JsonProperty("statsAll")]
-        public List<StatsAll> StatsAll { get; set; }
+        internal List<StatsAll> StatsAll { get; set; }
 
         [JsonProperty("defenses")]
-        public List<Defenses> Defenses { get; set; }
+        internal List<Defenses> Defenses { get; set; }
     }
 }

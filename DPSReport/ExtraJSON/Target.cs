@@ -3,21 +3,21 @@ using System.Collections.Generic;
 
 namespace PlenBotLogUploader.DPSReport.ExtraJSON
 {
-    public class Target
+    internal sealed class Target
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         [JsonProperty("isFake")]
-        public bool IsFake { get; set; }
+        internal bool IsFake { get; set; }
 
         [JsonProperty("dpsAll")]
-        public List<DpsAll> DpsAll { get; set; }
+        internal List<DpsAll> DpsAll { get; set; }
 
         [JsonProperty("statsAll")]
-        public List<StatsAll> StatsAll { get; set; }
+        internal List<StatsAll> StatsAll { get; set; }
 
         [JsonProperty("defenses")]
-        public List<Defenses> Defenses { get; set; }
+        internal List<Defenses> Defenses { get; set; }
     }
 }

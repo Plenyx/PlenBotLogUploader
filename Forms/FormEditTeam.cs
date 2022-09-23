@@ -15,7 +15,7 @@ namespace PlenBotLogUploader
         private readonly IDictionary<int, Team> allTeams = Teams.Teams.All;
         #endregion
 
-        public FormEditTeam(FormTeams teamsLink, Team teamData, int reservedId)
+        internal FormEditTeam(FormTeams teamsLink, Team teamData, int reservedId)
         {
             this.teamsLink = teamsLink;
             this.teamData = teamData;

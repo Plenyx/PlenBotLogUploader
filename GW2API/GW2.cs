@@ -2,11 +2,11 @@
 
 namespace PlenBotLogUploader.GW2API
 {
-    public static class GW2
+    internal static class GW2
     {
         private static Dictionary<int, GW2Server> _AllServers;
 
-        public static Dictionary<int, GW2Server> AllServers => _AllServers ??= new Dictionary<int, GW2Server>()
+        internal static Dictionary<int, GW2Server> AllServers => _AllServers ??= new Dictionary<int, GW2Server>()
         {
             { 1001, new GW2Server() { ID = 1001, Name = "Anvil Rock" } },
             { 1002, new GW2Server() { ID = 1002, Name = "Borlis Pass" } },

@@ -118,7 +118,7 @@ namespace PlenBotLogUploader
             this.toolTipAL.SetToolTip(this.checkBoxUseAL, "Check this if you use the Addon Manager for other Addons such as GW2Radial alread" +
         "y");
             this.checkBoxUseAL.UseVisualStyleBackColor = true;
-            this.checkBoxUseAL.CheckedChanged += new System.EventHandler(this.checkBoxUseAL_CheckedChanged);
+            this.checkBoxUseAL.CheckedChanged += new System.EventHandler(this.CheckBoxUseAL_CheckedChanged);
             // 
             // checkBoxEnableNotifications
             // 

@@ -18,7 +18,7 @@ namespace PlenBotLogUploader
         private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         #endregion
 
-        public FormEditDiscordWebhook(FormDiscordWebhooks discordPingLink, DiscordWebhookData data, int reservedId)
+        internal FormEditDiscordWebhook(FormDiscordWebhooks discordPingLink, DiscordWebhookData data, int reservedId)
         {
             this.discordPingLink = discordPingLink;
             this.data = data;

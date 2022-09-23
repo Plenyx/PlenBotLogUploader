@@ -2,21 +2,21 @@
 
 namespace PlenBotLogUploader.Aleeva
 {
-    public class AleevaAuthTokenResponse : AleevaResponseStatus
+    internal sealed class AleevaAuthTokenResponse : AleevaResponseStatus
     {
         [JsonProperty("accessToken")]
-        public string AccessToken { get; set; }
+        internal string AccessToken { get; set; }
 
         [JsonProperty("refreshToken")]
-        public string RefreshToken { get; set; }
+        internal string RefreshToken { get; set; }
 
         [JsonProperty("tokenType")]
-        public string TokenType { get; set; }
+        internal string TokenType { get; set; }
 
         [JsonProperty("refreshExpiresIn")]
-        public int RefreshExpiresIn { get; set; }
+        internal int RefreshExpiresIn { get; set; }
 
         [JsonProperty("expiresIn")]
-        public int ExpiresIn { get; set; }
+        internal int ExpiresIn { get; set; }
     }
 }

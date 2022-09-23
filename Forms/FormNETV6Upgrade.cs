@@ -6,9 +6,11 @@ namespace PlenBotLogUploader
 {
     public partial class FormNETV6Upgrade : Form
     {
+        #region definitions
         private readonly FormMain mainLink;
+        #endregion
 
-        public FormNETV6Upgrade(FormMain mainLink)
+        internal FormNETV6Upgrade(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

@@ -2,14 +2,14 @@
 
 namespace PlenBotLogUploader.GW2API
 {
-    public class GW2Server
+    internal sealed class GW2Server
     {
         [JsonProperty("id")]
-        public int ID { get; set; }
+        internal int ID { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
-        public string Region => (ID < 2000) ? "NA" : "EU";
+        internal string Region => (ID < 2000) ? "NA" : "EU";
     }
 }
