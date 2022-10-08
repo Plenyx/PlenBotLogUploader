@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using PlenBotLogUploader.AppSettings;
+﻿using PlenBotLogUploader.AppSettings;
 using System;
 using System.Linq;
 using System.Windows.Forms;

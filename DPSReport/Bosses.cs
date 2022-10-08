@@ -199,15 +199,15 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>wing name</returns>
         internal static string GetWingName(int wingNumber)
             => wingNumber switch
-                {
-                    1 => "Spirit Vale",
-                    2 => "Salvation Pass",
-                    3 => "Stronghold of the Faithful",
-                    4 => "Bastion of the Penitent",
-                    5 => "Hall of Chains",
-                    6 => "Mythwright Gambit",
-                    7 => "The Key of Ahdashim",
-                    _ => "Unknown wing",
-                };
+            {
+                1 => "Spirit Vale",
+                2 => "Salvation Pass",
+                3 => "Stronghold of the Faithful",
+                4 => "Bastion of the Penitent",
+                5 => "Hall of Chains",
+                6 => "Mythwright Gambit",
+                7 => "The Key of Ahdashim",
+                _ => "Unknown wing",
+            };
     }
 }

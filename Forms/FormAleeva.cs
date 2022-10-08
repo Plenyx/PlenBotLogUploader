@@ -33,7 +33,7 @@ namespace PlenBotLogUploader
                 groupBoxUploadSettings.Enabled = value;
                 if (groupBoxAleevaStatus.InvokeRequired)
                 {
-                    groupBoxAleevaStatus.Invoke((Action) delegate() { groupBoxAleevaStatus.Text = (value) ? "Status: Aleeva successfully authorised" : "Status: Not authorised"; });
+                    groupBoxAleevaStatus.Invoke((Action)delegate () { groupBoxAleevaStatus.Text = (value) ? "Status: Aleeva successfully authorised" : "Status: Not authorised"; });
                 }
                 else
                 {
@@ -256,7 +256,7 @@ namespace PlenBotLogUploader
                 aleevaServers.Clear();
                 if (comboBoxServer.InvokeRequired)
                 {
-                    comboBoxServer.Invoke((Action) delegate() { comboBoxServer.Items.Clear(); });
+                    comboBoxServer.Invoke((Action)delegate () { comboBoxServer.Items.Clear(); });
                 }
                 else
                 {

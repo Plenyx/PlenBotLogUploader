@@ -9,7 +9,7 @@ namespace PlenBotLogUploader.DiscordAPI
     internal static class DiscordWebhooks
     {
         internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
-        
+
         private static IDictionary<int, DiscordWebhookData> _All;
         /// <summary>
         /// Returns the main dictionary with all webhooks.

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.Tools
 {
-    internal sealed class HttpClientController: HttpClient
+    internal sealed class HttpClientController : HttpClient
     {
         #region init
         /// <summary>

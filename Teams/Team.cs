@@ -36,7 +36,7 @@ namespace PlenBotLogUploader.Teams
         {
             var parsedData = JsonConvert.DeserializeObject<IEnumerable<Team>>(jsonData)
                              ?? throw new JsonException("Could not parse json to WebhookData");
-            
+
             var result = parsedData.Select(x => (Key: x.ID, TeamData: x))
                 .ToDictionary(x => x.Key, x => x.TeamData);
 
@@ -50,7 +50,7 @@ namespace PlenBotLogUploader.Teams
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Team) obj);
+            return Equals((Team)obj);
         }
 
         internal bool Equals(Team other) => (ID == other.ID) && (Name == other.Name);

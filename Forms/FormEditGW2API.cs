@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.GW2API;
+using PlenBotLogUploader.Tools;
 using System;
 using System.Windows.Forms;
 

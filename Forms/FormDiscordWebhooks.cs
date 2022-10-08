@@ -52,7 +52,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            DiscordWebhooks.SaveToJson(allWebhooks,DiscordWebhooks.JsonFileLocation);
+            DiscordWebhooks.SaveToJson(allWebhooks, DiscordWebhooks.JsonFileLocation);
         }
 
         internal async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON)
@@ -510,12 +510,12 @@ namespace PlenBotLogUploader
             });
             try
             {
-                    var jsonContent =
-                        (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)) ? jsonContentSuccessFailure :
-                        ((webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) ? jsonContentSuccess : jsonContentFailure));
-                    var uri = new Uri(webhook.URL);
-                    using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
+                var jsonContent =
+                    (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)) ? jsonContentSuccessFailure :
+                    ((webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) ? jsonContentSuccess : jsonContentFailure));
+                var uri = new Uri(webhook.URL);
+                using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
             }
             catch
             {

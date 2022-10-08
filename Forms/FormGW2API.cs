@@ -1,10 +1,10 @@
 ﻿using Hardstuck.GuildWars2.Builds;
 using PlenBotLogUploader.AppSettings;
-using System.Text;
+using PlenBotLogUploader.Tools;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PlenBotLogUploader.Tools;
 
 namespace PlenBotLogUploader
 {

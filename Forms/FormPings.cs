@@ -52,7 +52,7 @@ namespace PlenBotLogUploader
 
             var parsedData = JsonConvert.DeserializeObject<IEnumerable<PingConfiguration>>(jsonData) ??
                              throw new JsonException("Could not parse json to PingConfiguration");
-            
+
             var result = parsedData.Select(x => (Key: remotePingId++, PinConfiguration: x))
                 .ToDictionary(x => x.Key, x => x.PinConfiguration);
 
@@ -62,7 +62,7 @@ namespace PlenBotLogUploader
         private static void SaveToJson(IEnumerable<PingConfiguration> pingConfigurations)
         {
             var jsonString = JsonConvert.SerializeObject(pingConfigurations, Formatting.Indented);
-            
+
             File.WriteAllText(PingJsonFileLocation, jsonString, Encoding.UTF8);
         }
 

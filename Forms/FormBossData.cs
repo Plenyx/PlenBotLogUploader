@@ -25,7 +25,7 @@ namespace PlenBotLogUploader
             allBosses = LoadBossData();
 
             bossesIdsKey = allBosses.Count;
-            
+
             foreach (var boss in allBosses)
             {
                 listViewBosses.Items.Add(new ListViewItem() { Name = boss.Key.ToString(), Text = boss.Value.UIName });
@@ -123,7 +123,7 @@ namespace PlenBotLogUploader
                     return Bosses.FromJsonFile($@"{ApplicationSettings.LocalDir}\boss_data.json");
                 }
                 return Bosses.GetDefaultSettingsForBossesAsDictionary();
-                
+
             }
             catch
             {

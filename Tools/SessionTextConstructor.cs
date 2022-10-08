@@ -27,13 +27,13 @@ namespace PlenBotLogUploader.Tools
 
         internal static DiscordAPIJSONContentEmbed MakeEmbedFromText(string title, string text)
             => new DiscordAPIJSONContentEmbed()
-                {
-                    Title = title,
-                    Description = text,
-                    Colour = 32768,
-                    TimeStamp = DateTime.UtcNow.ToString("o"),
-                    Thumbnail = defaultThumbnail
-                };
+            {
+                Title = title,
+                Description = text,
+                Colour = 32768,
+                TimeStamp = DateTime.UtcNow.ToString("o"),
+                Thumbnail = defaultThumbnail
+            };
 
         internal static DiscordEmbeds ConstructSessionEmbeds(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
         {

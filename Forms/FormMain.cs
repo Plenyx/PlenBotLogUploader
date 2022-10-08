@@ -518,7 +518,8 @@ namespace PlenBotLogUploader
 
         private void LogsScan(string directory)
         {
-            Parallel.ForEach(Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories), f => {
+            Parallel.ForEach(Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories), f =>
+            {
                 if (f.EndsWith(".evtc") || f.EndsWith(".zevtc"))
                 {
                     Interlocked.Increment(ref logsCount);
@@ -1248,7 +1249,8 @@ namespace PlenBotLogUploader
                 var pressedButton = (ToolStripMenuItemCustom)(sender);
                 if (pressedButton.LinkedObject.GetType().Equals(typeof(ApplicationSettingsUploadUserToken)))
                 {
-                    ApplicationSettings.Current.Upload.DPSReportUserTokens.Where(x => x.Active).ToList().ForEach(x => {
+                    ApplicationSettings.Current.Upload.DPSReportUserTokens.Where(x => x.Active).ToList().ForEach(x =>
+                    {
                         x.Active = false;
                     });
                     ((ApplicationSettingsUploadUserToken)(pressedButton.LinkedObject)).Active = true;
@@ -1256,7 +1258,7 @@ namespace PlenBotLogUploader
                     RedrawUserTokenContext();
                 }
             }
-            
+
         }
 
         private void CheckBoxUploadAll_CheckedChanged(object sender, EventArgs e)
@@ -1577,7 +1579,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Upload.Anonymous = checkBoxAnonymiseReports.Checked;
             ApplicationSettings.Current.Save();
         }
-        
+
         private void CheckBoxDetailedWvW_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.Upload.DetailedWvW = checkBoxDetailedWvW.Checked;

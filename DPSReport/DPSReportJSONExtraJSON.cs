@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.DPSReport.ExtraJSON;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -49,7 +49,8 @@ namespace PlenBotLogUploader.DPSReport
             get
             {
                 var dict = new Dictionary<Player, int>();
-                Players.ForEach(player => {
+                Players.ForEach(player =>
+                {
                     var damage = player.DpsTargets
                         .Select(x => x.First().DPS)
                         .Sum();
