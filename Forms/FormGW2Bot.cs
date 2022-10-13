@@ -69,7 +69,7 @@ namespace PlenBotLogUploader
                 try
                 {
                     var uri = new Uri($"{gw2botAPIBaseUrl}/evtc/notification");
-                    var logObject = new GW2BotAddReport() { LogLink = reportJSON.Permalink };
+                    var logObject = new GW2BotAddReport() { LogLink = reportJSON.ConfigAwarePermalink };
                     var jsonLogObject = JsonConvert.SerializeObject(logObject);
                     using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
                     using var response = await controller.PostAsync(uri, content);

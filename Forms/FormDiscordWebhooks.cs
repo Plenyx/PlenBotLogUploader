@@ -81,7 +81,7 @@ namespace PlenBotLogUploader
                 var discordContentEmbed = new DiscordAPIJSONContentEmbed()
                 {
                     Title = extraJSONFightName,
-                    Url = reportJSON.Permalink,
+                    Url = reportJSON.ConfigAwarePermalink,
                     Description = $"{extraJSON}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
                     Colour = colour,
                     TimeStamp = timestamp,
@@ -331,7 +331,7 @@ namespace PlenBotLogUploader
                 var discordContentEmbed = new DiscordAPIJSONContentEmbed()
                 {
                     Title = bossName,
-                    Url = reportJSON.Permalink,
+                    Url = reportJSON.ConfigAwarePermalink,
                     Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
                     Colour = colour,
                     TimeStamp = timestamp,
@@ -344,7 +344,7 @@ namespace PlenBotLogUploader
                 var discordContentEmbedForPlayers = new DiscordAPIJSONContentEmbed()
                 {
                     Title = bossName,
-                    Url = reportJSON.Permalink,
+                    Url = reportJSON.ConfigAwarePermalink,
                     Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
                     Colour = colour,
                     TimeStamp = timestamp,

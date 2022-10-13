@@ -73,7 +73,7 @@ namespace PlenBotLogUploader.DPSReport
         {
             var format = (reportJSON.Encounter.Success ?? false) ? SuccessMsg : FailMsg;
             format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);
-            format = format.Replace("<log>", reportJSON.Permalink);
+            format = format.Replace("<log>", reportJSON.ConfigAwarePermalink);
             format = format.Replace("<pulls>", pullCounter.ToString());
             return format;
         }

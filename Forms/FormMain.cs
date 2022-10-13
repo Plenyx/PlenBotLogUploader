@@ -714,7 +714,7 @@ namespace PlenBotLogUploader
                 }
                 else
                 {
-                    lastLogMessage = $"Link to the last log: {reportJSON.Permalink}";
+                    lastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
                     await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
                 }
             }
@@ -748,6 +748,7 @@ namespace PlenBotLogUploader
                             var reportJSON = JsonConvert.DeserializeObject<DPSReportJSON>(response);
                             if (string.IsNullOrEmpty(reportJSON.Error))
                             {
+                                reportJSON.ConfigAwarePermalink = $"{ApplicationSettings.Current.Upload.DPSReportServerLink}/{reportJSON.UrlId}";
                                 bossId = reportJSON.Encounter.BossId;
                                 var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
                                 lastLogBossCM = reportJSON.ChallengeMode;
@@ -779,7 +780,7 @@ namespace PlenBotLogUploader
                                     try
                                     {
                                         // log file
-                                        File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? string.Empty};{reportJSON.ExtraJSON?.RecordedBy ?? string.Empty};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? string.Empty};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink};{reportJSON.UserToken}\n");
+                                        File.AppendAllText($"{ApplicationSettings.LocalDir}uploaded_logs.csv", $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{bossId};{success};{reportJSON.ExtraJSON?.Duration ?? string.Empty};{reportJSON.ExtraJSON?.RecordedBy ?? string.Empty};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? string.Empty};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.ConfigAwarePermalink};{reportJSON.UserToken}\n");
                                     }
                                     catch (Exception e)
                                     {
@@ -787,16 +788,16 @@ namespace PlenBotLogUploader
                                     }
                                 }
                                 // save to clipboard list
-                                allSessionLogs.Add(reportJSON.Permalink);
+                                allSessionLogs.Add(reportJSON.ConfigAwarePermalink);
                                 // Twitch chat
-                                lastLogMessage = $"Link to the last log: {reportJSON.Permalink}";
+                                lastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
                                 if (lastLogBossId != bossId)
                                 {
                                     lastLogPullCounter = 0;
                                 }
                                 lastLogBossId = bossId;
                                 lastLogPullCounter = (reportJSON.Encounter.Success ?? false) ? 0 : lastLogPullCounter + 1;
-                                AddToText($">:> {reportJSON.Permalink}");
+                                AddToText($">:> {reportJSON.ConfigAwarePermalink}");
                                 if (checkBoxTwitchOnlySuccess.Checked && (reportJSON.Encounter.Success ?? false))
                                 {
                                     await SendLogToTwitchChatAsync(reportJSON, bypassMessage);
@@ -901,7 +902,7 @@ namespace PlenBotLogUploader
             var builder = new StringBuilder($">:> Session summary:{Environment.NewLine}");
             foreach (var log in SessionLogs)
             {
-                builder.AppendLine($"{log.ExtraJSON?.FightName ?? log.Encounter.Boss}: {log.Permalink}");
+                builder.AppendLine($"{log.ExtraJSON?.FightName ?? log.Encounter.Boss}: {log.ConfigAwarePermalink}");
             }
             AddToText(builder.ToString());
             await discordWebhooksLink.ExecuteSessionWebhooksAsync(SessionLogs, logSessionSettings);

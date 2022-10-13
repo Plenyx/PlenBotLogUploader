@@ -19,7 +19,12 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         [JsonProperty("permalink")]
         internal string Permalink { get; set; }
-
+        
+        /// <summary>
+        /// URL to DPSReport using server configured in settings
+        /// </summary>
+        internal string ConfigAwarePermalink { get; set; }        
+        
         /// <summary>
         /// Time when the log was uploaded to DPSReport
         /// </summary>

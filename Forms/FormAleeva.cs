@@ -102,7 +102,7 @@ namespace PlenBotLogUploader
                 try
                 {
                     var uri = new Uri($"{aleevaAPIBaseUrl}/report");
-                    var logObject = new AleevaAddReport() { DPSReportPermalink = reportJSON.Permalink, SendNotification = checkBoxSendNotification.Checked };
+                    var logObject = new AleevaAddReport() { DPSReportPermalink = reportJSON.ConfigAwarePermalink, SendNotification = checkBoxSendNotification.Checked };
                     if (checkBoxSendNotification.Checked)
                     {
                         logObject.NotificationServerId = ApplicationSettings.Current.Aleeva.SelectedServer;

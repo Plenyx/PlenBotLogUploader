@@ -75,7 +75,7 @@ namespace PlenBotLogUploader
                 {
                     var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
                     File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv",
-                        $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? string.Empty};{reportJSON.ExtraJSON?.RecordedBy ?? string.Empty};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? string.Empty};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.Permalink};{reportJSON.UserToken}\n");
+                        $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? string.Empty};{reportJSON.ExtraJSON?.RecordedBy ?? string.Empty};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? string.Empty};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.ConfigAwarePermalink};{reportJSON.UserToken}\n");
                 }
                 await mainLink.ExecuteSessionLogWebhooksAsync(logSessionSettings);
                 mainLink.SessionLogs.Clear();
