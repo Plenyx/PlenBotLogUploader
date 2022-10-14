@@ -748,7 +748,8 @@ namespace PlenBotLogUploader
                             var reportJSON = JsonConvert.DeserializeObject<DPSReportJSON>(response);
                             if (string.IsNullOrEmpty(reportJSON.Error))
                             {
-                                reportJSON.ConfigAwarePermalink = $"{ApplicationSettings.Current.Upload.DPSReportServerLink}/{reportJSON.UrlId}";
+                                var reportServerUrl = ApplicationSettings.Current.Upload.DPSReportServerLink;
+                                reportJSON.ConfigAwarePermalink = $"{reportServerUrl}/{reportJSON.UrlId}";
                                 bossId = reportJSON.Encounter.BossId;
                                 var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
                                 lastLogBossCM = reportJSON.ChallengeMode;
@@ -757,7 +758,7 @@ namespace PlenBotLogUploader
                                 {
                                     try
                                     {
-                                        var jsonString = await HttpClientController.DownloadFileToStringAsync($"https://dps.report/getJson?permalink={reportJSON.Permalink}");
+                                        var jsonString = await HttpClientController.DownloadFileToStringAsync($"{reportServerUrl}/getJson?permalink={reportJSON.ConfigAwarePermalink}");
                                         var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
                                         if (!(extraJSON is null))
                                         {
