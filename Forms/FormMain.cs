@@ -741,15 +741,13 @@ namespace PlenBotLogUploader
                     if (responseMessage.IsSuccessStatusCode)
                     {
                         var response = await responseMessage.Content.ReadAsStringAsync();
-                        // workaround for deserialisation application crash if the player list is an empty array, in case the log was corrupted
+                        // workaround for deserialisation application crash if the player list is an empty array, in case the log being corrupted
                         response = response?.Replace("\"players\": []", "\"players\": {}");
                         try
                         {
                             var reportJSON = JsonConvert.DeserializeObject<DPSReportJSON>(response);
                             if (string.IsNullOrEmpty(reportJSON.Error))
                             {
-                                var reportServerUrl = ApplicationSettings.Current.Upload.DPSReportServerLink;
-                                reportJSON.ConfigAwarePermalink = $"{reportServerUrl}/{reportJSON.UrlId}";
                                 bossId = reportJSON.Encounter.BossId;
                                 var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
                                 lastLogBossCM = reportJSON.ChallengeMode;
@@ -758,7 +756,7 @@ namespace PlenBotLogUploader
                                 {
                                     try
                                     {
-                                        var jsonString = await HttpClientController.DownloadFileToStringAsync($"{reportServerUrl}/getJson?permalink={reportJSON.ConfigAwarePermalink}");
+                                        var jsonString = await HttpClientController.DownloadFileToStringAsync($"{ApplicationSettings.Current.Upload.DPSReportServerLink}/getJson?permalink={reportJSON.ConfigAwarePermalink}");
                                         var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
                                         if (!(extraJSON is null))
                                         {
