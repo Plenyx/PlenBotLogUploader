@@ -917,7 +917,7 @@ namespace PlenBotLogUploader
             };
             if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count(x => x.Active) == 1)
             {
-                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DPSReportUserTokens.FirstOrDefault(x => x.Active)}");
+                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DPSReportUserTokens.FirstOrDefault(x => x.Active).UserToken}");
             }
             if (ApplicationSettings.Current.Upload.Anonymous)
             {
