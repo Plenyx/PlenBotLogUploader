@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -75,6 +76,9 @@ namespace PlenBotLogUploader.DPSReport
             format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);
             format = format.Replace("<log>", reportJSON.ConfigAwarePermalink);
             format = format.Replace("<pulls>", pullCounter.ToString());
+            format = (!(reportJSON.ExtraJSON is null) && !(reportJSON.ExtraJSON.PossiblyLastTarget is null))
+                ? format.Replace("<percent>", $"{reportJSON.ExtraJSON.PossiblyLastTarget.Name} ({Math.Round(reportJSON.ExtraJSON.PossiblyLastTarget.RemainingHealthPercent, 2)}%)")
+                : format.Replace("<percent>", string.Empty);
             return format;
         }
 

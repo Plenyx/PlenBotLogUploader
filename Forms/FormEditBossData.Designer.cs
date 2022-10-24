@@ -54,6 +54,7 @@
             this.radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeNone = new System.Windows.Forms.RadioButton();
+            this.labelWPercent = new System.Windows.Forms.Label();
             this.groupBoxCrucial.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.groupBoxBossType.SuspendLayout();
@@ -82,7 +83,7 @@
             // textBoxSuccessMsg
             // 
             this.textBoxSuccessMsg.Location = new System.Drawing.Point(8, 42);
-            this.textBoxSuccessMsg.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxSuccessMsg.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSuccessMsg.Name = "textBoxSuccessMsg";
             this.textBoxSuccessMsg.Size = new System.Drawing.Size(484, 22);
             this.textBoxSuccessMsg.TabIndex = 2;
@@ -90,15 +91,15 @@
             // textBoxFailMsg
             // 
             this.textBoxFailMsg.Location = new System.Drawing.Point(8, 90);
-            this.textBoxFailMsg.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxFailMsg.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxFailMsg.Name = "textBoxFailMsg";
             this.textBoxFailMsg.Size = new System.Drawing.Size(484, 22);
             this.textBoxFailMsg.TabIndex = 3;
             // 
             // textBoxIcon
             // 
-            this.textBoxIcon.Location = new System.Drawing.Point(8, 197);
-            this.textBoxIcon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxIcon.Location = new System.Drawing.Point(9, 202);
+            this.textBoxIcon.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxIcon.Name = "textBoxIcon";
             this.textBoxIcon.Size = new System.Drawing.Size(484, 22);
             this.textBoxIcon.TabIndex = 4;
@@ -106,7 +107,7 @@
             // labelIcon
             // 
             this.labelIcon.AutoSize = true;
-            this.labelIcon.Location = new System.Drawing.Point(4, 177);
+            this.labelIcon.Location = new System.Drawing.Point(5, 182);
             this.labelIcon.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelIcon.Name = "labelIcon";
             this.labelIcon.Size = new System.Drawing.Size(198, 16);
@@ -116,7 +117,7 @@
             // textBoxBossID
             // 
             this.textBoxBossID.Location = new System.Drawing.Point(8, 43);
-            this.textBoxBossID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxBossID.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxBossID.Name = "textBoxBossID";
             this.textBoxBossID.Size = new System.Drawing.Size(487, 22);
             this.textBoxBossID.TabIndex = 6;
@@ -124,7 +125,7 @@
             // textBoxBossName
             // 
             this.textBoxBossName.Location = new System.Drawing.Point(8, 91);
-            this.textBoxBossName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxBossName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxBossName.Name = "textBoxBossName";
             this.textBoxBossName.Size = new System.Drawing.Size(487, 22);
             this.textBoxBossName.TabIndex = 7;
@@ -158,9 +159,9 @@
             this.groupBoxCrucial.Controls.Add(this.textBoxBossID);
             this.groupBoxCrucial.Controls.Add(this.labelId);
             this.groupBoxCrucial.Location = new System.Drawing.Point(16, 15);
-            this.groupBoxCrucial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxCrucial.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxCrucial.Name = "groupBoxCrucial";
-            this.groupBoxCrucial.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxCrucial.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxCrucial.Size = new System.Drawing.Size(507, 172);
             this.groupBoxCrucial.TabIndex = 10;
             this.groupBoxCrucial.TabStop = false;
@@ -169,7 +170,7 @@
             // textBoxInternalDescription
             // 
             this.textBoxInternalDescription.Location = new System.Drawing.Point(8, 139);
-            this.textBoxInternalDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxInternalDescription.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxInternalDescription.Name = "textBoxInternalDescription";
             this.textBoxInternalDescription.Size = new System.Drawing.Size(487, 22);
             this.textBoxInternalDescription.TabIndex = 11;
@@ -186,6 +187,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.labelWPercent);
             this.groupBoxOtherSettings.Controls.Add(this.labelWPulls);
             this.groupBoxOtherSettings.Controls.Add(this.labelWLog);
             this.groupBoxOtherSettings.Controls.Add(this.labelWBoss);
@@ -197,10 +199,10 @@
             this.groupBoxOtherSettings.Controls.Add(this.textBoxIcon);
             this.groupBoxOtherSettings.Controls.Add(this.textBoxFailMsg);
             this.groupBoxOtherSettings.Location = new System.Drawing.Point(17, 279);
-            this.groupBoxOtherSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxOtherSettings.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
-            this.groupBoxOtherSettings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(505, 229);
+            this.groupBoxOtherSettings.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(505, 234);
             this.groupBoxOtherSettings.TabIndex = 11;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Uploader specific settings for the boss (empty messages are not sent)";
@@ -255,9 +257,9 @@
             this.groupBoxBossType.Controls.Add(this.radioButtonTypeRaid);
             this.groupBoxBossType.Controls.Add(this.radioButtonTypeNone);
             this.groupBoxBossType.Location = new System.Drawing.Point(17, 194);
-            this.groupBoxBossType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxBossType.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxBossType.Name = "groupBoxBossType";
-            this.groupBoxBossType.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxBossType.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxBossType.Size = new System.Drawing.Size(505, 78);
             this.groupBoxBossType.TabIndex = 12;
             this.groupBoxBossType.TabStop = false;
@@ -267,7 +269,7 @@
             // 
             this.checkBoxEvent.AutoSize = true;
             this.checkBoxEvent.Location = new System.Drawing.Point(9, 53);
-            this.checkBoxEvent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxEvent.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxEvent.Name = "checkBoxEvent";
             this.checkBoxEvent.Size = new System.Drawing.Size(63, 20);
             this.checkBoxEvent.TabIndex = 6;
@@ -278,7 +280,7 @@
             // 
             this.radioButtonTypeGolem.AutoSize = true;
             this.radioButtonTypeGolem.Location = new System.Drawing.Point(317, 23);
-            this.radioButtonTypeGolem.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonTypeGolem.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonTypeGolem.Name = "radioButtonTypeGolem";
             this.radioButtonTypeGolem.Size = new System.Drawing.Size(68, 20);
             this.radioButtonTypeGolem.TabIndex = 5;
@@ -291,7 +293,7 @@
             // 
             this.radioButtonTypeWvW.AutoSize = true;
             this.radioButtonTypeWvW.Location = new System.Drawing.Point(399, 23);
-            this.radioButtonTypeWvW.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonTypeWvW.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonTypeWvW.Name = "radioButtonTypeWvW";
             this.radioButtonTypeWvW.Size = new System.Drawing.Size(61, 20);
             this.radioButtonTypeWvW.TabIndex = 4;
@@ -304,7 +306,7 @@
             // 
             this.radioButtonTypeStrike.AutoSize = true;
             this.radioButtonTypeStrike.Location = new System.Drawing.Point(240, 23);
-            this.radioButtonTypeStrike.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonTypeStrike.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonTypeStrike.Name = "radioButtonTypeStrike";
             this.radioButtonTypeStrike.Size = new System.Drawing.Size(62, 20);
             this.radioButtonTypeStrike.TabIndex = 3;
@@ -316,7 +318,7 @@
             // 
             this.radioButtonTypeFractal.AutoSize = true;
             this.radioButtonTypeFractal.Location = new System.Drawing.Point(156, 23);
-            this.radioButtonTypeFractal.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonTypeFractal.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonTypeFractal.Name = "radioButtonTypeFractal";
             this.radioButtonTypeFractal.Size = new System.Drawing.Size(69, 20);
             this.radioButtonTypeFractal.TabIndex = 2;
@@ -328,7 +330,7 @@
             // 
             this.radioButtonTypeRaid.AutoSize = true;
             this.radioButtonTypeRaid.Location = new System.Drawing.Point(85, 23);
-            this.radioButtonTypeRaid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonTypeRaid.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonTypeRaid.Name = "radioButtonTypeRaid";
             this.radioButtonTypeRaid.Size = new System.Drawing.Size(57, 20);
             this.radioButtonTypeRaid.TabIndex = 1;
@@ -341,7 +343,7 @@
             this.radioButtonTypeNone.AutoSize = true;
             this.radioButtonTypeNone.Checked = true;
             this.radioButtonTypeNone.Location = new System.Drawing.Point(9, 23);
-            this.radioButtonTypeNone.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.radioButtonTypeNone.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonTypeNone.Name = "radioButtonTypeNone";
             this.radioButtonTypeNone.Size = new System.Drawing.Size(61, 20);
             this.radioButtonTypeNone.TabIndex = 0;
@@ -350,17 +352,27 @@
             this.radioButtonTypeNone.UseVisualStyleBackColor = true;
             this.radioButtonTypeNone.CheckedChanged += new System.EventHandler(this.RadioButtonTypeNone_CheckedChanged);
             // 
+            // labelWPercent
+            // 
+            this.labelWPercent.AutoSize = true;
+            this.labelWPercent.Location = new System.Drawing.Point(184, 166);
+            this.labelWPercent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelWPercent.Name = "labelWPercent";
+            this.labelWPercent.Size = new System.Drawing.Size(294, 16);
+            this.labelWPercent.TabIndex = 10;
+            this.labelWPercent.Text = "<percent> - the % of the encounter (experimental)";
+            // 
             // FormEditBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(537, 517);
+            this.ClientSize = new System.Drawing.Size(537, 522);
             this.Controls.Add(this.groupBoxBossType);
             this.Controls.Add(this.groupBoxOtherSettings);
             this.Controls.Add(this.groupBoxCrucial);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormEditBossData";
@@ -405,5 +417,6 @@
         private System.Windows.Forms.Label labelAvailableWildcards;
         private System.Windows.Forms.Label labelBossInternalDescription;
         private System.Windows.Forms.TextBox textBoxInternalDescription;
+        private System.Windows.Forms.Label labelWPercent;
     }
 }

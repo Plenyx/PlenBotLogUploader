@@ -59,5 +59,13 @@ namespace PlenBotLogUploader.DPSReport
                 return dict;
             }
         }
+
+        internal Target PossiblyLastTarget
+        {
+            get
+            {
+                return Targets.OrderByDescending(x => x.TotalHealth).FirstOrDefault(x => x.HealthPercentBurned <= 99);
+            }
+        }
     }
 }

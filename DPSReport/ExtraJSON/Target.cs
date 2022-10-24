@@ -5,6 +5,9 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
 {
     internal sealed class Target
     {
+        [JsonProperty("id")]
+        internal int Id { get; set; }
+
         [JsonProperty("name")]
         internal string Name { get; set; }
 
@@ -19,5 +22,13 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
 
         [JsonProperty("defenses")]
         internal List<Defenses> Defenses { get; set; }
+
+        [JsonProperty("totalHealth")]
+        internal int TotalHealth { get; set; }
+
+        [JsonProperty("healthPercentBurned")]
+        internal double HealthPercentBurned { get; set; }
+
+        internal double RemainingHealthPercent => 100 - HealthPercentBurned;
     }
 }
