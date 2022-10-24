@@ -24,7 +24,7 @@ namespace PlenBotLogUploader
             var localDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
             if (args.Count == 4)
             {
-                if (args[1].ToLower().Equals("-update") && args[3].ToLower().Equals("-m"))
+                if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase) && args[3].Equals("-m", StringComparison.OrdinalIgnoreCase))
                 {
                     if (otherProcesses.Count == 0)
                     {
@@ -56,11 +56,11 @@ namespace PlenBotLogUploader
             }
             else if (args.Count == 3)
             {
-                if (args[2].ToLower().Equals("-finishupdate"))
+                if (args[2].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
                 {
                     File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
                 }
-                else if (args[1].ToLower().Equals("-update"))
+                else if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase))
                 {
                     if (otherProcesses.Count == 0)
                     {
@@ -92,11 +92,11 @@ namespace PlenBotLogUploader
             }
             else if (args.Count == 2)
             {
-                if (args[1].ToLower().Equals("-finishupdate"))
+                if (args[1].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
                 {
                     File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
                 }
-                else if (args[1].ToLower().Equals("-resetsettings"))
+                else if (args[1].Equals("-resetsettings", StringComparison.OrdinalIgnoreCase))
                 {
                     using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                     {

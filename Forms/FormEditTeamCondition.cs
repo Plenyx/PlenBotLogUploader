@@ -71,13 +71,13 @@ namespace PlenBotLogUploader
                 textBoxAccountNames.Text = ((Condition.AccountNames?.Count ?? 0) > 0) ? Condition.AccountNames.Aggregate((x, y) => $"{x}{Environment.NewLine}{y}") : string.Empty;
                 textBoxConditionVisual.Text = Condition.Draw();
             }
-            radioButtonLimiterOR.CheckedChanged += new EventHandler(RadioButtonLimiterOR_CheckedChanged);
-            radioButtonLimiterAND.CheckedChanged += new EventHandler(RadioButtonLimiterAND_CheckedChanged);
-            radioButtonLimiterCommanderName.CheckedChanged += new EventHandler(RadioButtonLimiterCommanderName_CheckedChanged);
-            radioButtonLimiterExcept.CheckedChanged += new EventHandler(RadioButtonLimiterExcept_CheckedChanged);
-            radioButtonLimiterExact.CheckedChanged += new EventHandler(RadioButtonLimiterExact_CheckedChanged);
-            radioButtonLimiterAtLeast.CheckedChanged += new EventHandler(RadioButtonLimiterAtLeast_CheckedChanged);
-            textBoxAccountNames.TextChanged += new EventHandler(TextBoxAccountNames_TextChanged);
+            radioButtonLimiterOR.CheckedChanged += RadioButtonLimiterOR_CheckedChanged;
+            radioButtonLimiterAND.CheckedChanged += RadioButtonLimiterAND_CheckedChanged;
+            radioButtonLimiterCommanderName.CheckedChanged += RadioButtonLimiterCommanderName_CheckedChanged;
+            radioButtonLimiterExcept.CheckedChanged += RadioButtonLimiterExcept_CheckedChanged;
+            radioButtonLimiterExact.CheckedChanged += RadioButtonLimiterExact_CheckedChanged;
+            radioButtonLimiterAtLeast.CheckedChanged += RadioButtonLimiterAtLeast_CheckedChanged;
+            textBoxAccountNames.TextChanged += TextBoxAccountNames_TextChanged;
             Condition.ConditionChanged += HandleConditionChange;
         }
 

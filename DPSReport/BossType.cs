@@ -7,6 +7,6 @@
         Fractal,
         Strike,
         Golem,
-        WvW
+        WvW,
     }
 }

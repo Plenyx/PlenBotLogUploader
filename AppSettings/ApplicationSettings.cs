@@ -28,7 +28,7 @@ namespace PlenBotLogUploader.AppSettings
 
         private void SerialiseToFile(string saveLocation)
         {
-            SettingsSaved?.Invoke(this, new EventArgs());
+            SettingsSaved?.Invoke(this, EventArgs.Empty);
             File.WriteAllText(saveLocation, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
 

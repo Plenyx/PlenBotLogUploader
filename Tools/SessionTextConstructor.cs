@@ -102,7 +102,7 @@ namespace PlenBotLogUploader.Tools
                         }
                         var duration = (data.LogData.ExtraJSON is null) ? string.Empty : $" {data.LogData.ExtraJSON.Duration}";
                         var successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
-                        builderSuccessFailure.Append($"[{bossName}]({data.LogData.ConfigAwarePermalink}){duration}{successText}\n");
+                        builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessFailureCount++;
@@ -112,7 +112,7 @@ namespace PlenBotLogUploader.Tools
                         }
                         if (data.LogData.Encounter.Success ?? false)
                         {
-                            builderSuccess.Append($"[{bossName}]({data.LogData.ConfigAwarePermalink}){duration}{successText}\n");
+                            builderSuccess.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                             if (builderSuccess.Length >= maxAllowedMessageSize)
                             {
                                 messageSuccessCount++;
@@ -123,7 +123,7 @@ namespace PlenBotLogUploader.Tools
                         }
                         else
                         {
-                            builderFailure.Append($"[{bossName}]({data.LogData.ConfigAwarePermalink}){duration}{successText}\n");
+                            builderFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                             if (builderFailure.Length >= maxAllowedMessageSize)
                             {
                                 messageFailureCount++;
@@ -141,9 +141,9 @@ namespace PlenBotLogUploader.Tools
                     {
                         if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.EVTC.BossId)))
                         {
-                            builderSuccessFailure.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
-                            builderSuccess.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
-                            builderFailure.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                            builderSuccessFailure.Append("**").Append(Bosses.GetWingName(data.RaidWing)).Append(" (wing ").Append(data.RaidWing).Append(")**\n");
+                            builderSuccess.Append("**").Append(Bosses.GetWingName(data.RaidWing)).Append(" (wing ").Append(data.RaidWing).Append(")**\n");
+                            builderFailure.Append("**").Append(Bosses.GetWingName(data.RaidWing)).Append(" (wing ").Append(data.RaidWing).Append(")**\n");
                             lastWing = Bosses.GetWingForBoss(data.LogData.EVTC.BossId);
                         }
                         var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : string.Empty);
@@ -154,17 +154,17 @@ namespace PlenBotLogUploader.Tools
                         }
                         var duration = (data.LogData.ExtraJSON is null) ? string.Empty : $" {data.LogData.ExtraJSON.Duration}";
                         var successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
-                        builderSuccessFailure.Append($"[{bossName}]({data.LogData.ConfigAwarePermalink}){duration}{successText}\n");
+                        builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessFailureCount++;
                             discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : string.Empty), builderSuccessFailure.ToString()));
                             builderSuccessFailure.Clear();
-                            builderSuccessFailure.Append($"**{Bosses.GetWingName(data.RaidWing)} (wing {data.RaidWing})**\n");
+                            builderSuccessFailure.Append("**").Append(Bosses.GetWingName(data.RaidWing)).Append(" (wing ").Append(data.RaidWing).Append(")**\n");
                         }
                         if (data.LogData.Encounter.Success ?? false)
                         {
-                            builderSuccess.Append($"[{bossName}]({data.LogData.ConfigAwarePermalink}){duration}{successText}\n");
+                            builderSuccess.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                             if (builderSuccess.Length >= maxAllowedMessageSize)
                             {
                                 messageSuccessCount++;
@@ -175,7 +175,7 @@ namespace PlenBotLogUploader.Tools
                         }
                         else
                         {
-                            builderFailure.Append($"[{bossName}]({data.LogData.ConfigAwarePermalink}){duration}{successText}\n");
+                            builderFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                             if (builderFailure.Length >= maxAllowedMessageSize)
                             {
                                 messageFailureCount++;
@@ -214,7 +214,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
                     var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
-                    builderSuccessFailure.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                    builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessFailureCount++;
@@ -224,7 +224,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     if (log.Encounter.Success ?? false)
                     {
-                        builderSuccess.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                        builderSuccess.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderSuccess.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessCount++;
@@ -235,7 +235,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     else
                     {
-                        builderFailure.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                        builderFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderFailure.Length >= maxAllowedMessageSize)
                         {
                             messageFailureCount++;
@@ -273,7 +273,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
                     var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
-                    builderSuccessFailure.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                    builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessFailureCount++;
@@ -283,7 +283,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     if (log.Encounter.Success ?? false)
                     {
-                        builderSuccess.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                        builderSuccess.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderSuccess.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessCount++;
@@ -294,7 +294,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     else
                     {
-                        builderFailure.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                        builderFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderFailure.Length >= maxAllowedMessageSize)
                         {
                             messageFailureCount++;
@@ -324,7 +324,7 @@ namespace PlenBotLogUploader.Tools
                 builderFailure.Append("***Golem logs:***\n");
                 foreach (var log in GolemLogs)
                 {
-                    builderSuccessFailure.Append($"{log.ConfigAwarePermalink}\n");
+                    builderSuccessFailure.Append(log.ConfigAwarePermalink).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessFailureCount++;
@@ -334,7 +334,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     if (log.Encounter.Success ?? false)
                     {
-                        builderSuccess.Append($"{log.ConfigAwarePermalink}\n");
+                        builderSuccess.Append(log.ConfigAwarePermalink).Append('\n');
                         if (builderSuccess.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessCount++;
@@ -345,7 +345,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     else
                     {
-                        builderFailure.Append($"{log.ConfigAwarePermalink}\n");
+                        builderFailure.Append(log.ConfigAwarePermalink).Append('\n');
                         if (builderFailure.Length >= maxAllowedMessageSize)
                         {
                             messageFailureCount++;
@@ -363,14 +363,14 @@ namespace PlenBotLogUploader.Tools
                     var totalEnemyKills = WvWLogs.Select(x =>
                         x.ExtraJSON?.Players
                             .Where(y => !y.FriendNPC && !y.NotInSquad)
-                            .Select(y => y.StatsTargets.Select(z => z.First().Killed).Sum())
+                            .Select(y => y.StatsTargets.Select(z => z[0].Killed).Sum())
                             .Sum()
                         ?? 0)
                     .Sum();
                     var totalSquadDeaths = WvWLogs.Select(x =>
                         x.ExtraJSON?.Players
                             .Where(y => !y.FriendNPC && !y.NotInSquad)
-                            .Select(y => y.Defenses.First().DeadCount)
+                            .Select(y => y.Defenses[0].DeadCount)
                             .Sum()
                         ?? 0)
                     .Sum();
@@ -397,7 +397,7 @@ namespace PlenBotLogUploader.Tools
                 builderFailure.Append("***WvW logs:***\n");
                 foreach (var log in WvWLogs)
                 {
-                    builderSuccessFailure.Append($"{log.ConfigAwarePermalink}\n");
+                    builderSuccessFailure.Append(log.ConfigAwarePermalink).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessFailureCount++;
@@ -407,7 +407,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     if (log.Encounter.Success ?? false)
                     {
-                        builderSuccess.Append($"{log.ConfigAwarePermalink}\n");
+                        builderSuccess.Append(log.ConfigAwarePermalink).Append('\n');
                         if (builderSuccess.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessCount++;
@@ -418,7 +418,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     else
                     {
-                        builderFailure.Append($"{log.ConfigAwarePermalink}\n");
+                        builderFailure.Append(log.ConfigAwarePermalink).Append('\n');
                         if (builderFailure.Length >= maxAllowedMessageSize)
                         {
                             messageFailureCount++;
@@ -456,7 +456,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
                     var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
-                    builderSuccessFailure.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                    builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessFailureCount++;
@@ -466,7 +466,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     if (log.Encounter.Success ?? false)
                     {
-                        builderSuccess.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                        builderSuccess.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderSuccess.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessCount++;
@@ -477,7 +477,7 @@ namespace PlenBotLogUploader.Tools
                     }
                     else
                     {
-                        builderFailure.Append($"[{bossName}]({log.ConfigAwarePermalink}){duration}{successText}\n");
+                        builderFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderFailure.Length >= maxAllowedMessageSize)
                         {
                             messageFailureCount++;

@@ -35,7 +35,7 @@ namespace PlenBotLogUploader
             {
                 listBoxAPIKeys.Items.Add(apiKey);
             }
-            buttonGetHardstuckBuildLink.Enabled = ApplicationSettings.Current.GW2APIs.Any();
+            buttonGetHardstuckBuildLink.Enabled = ApplicationSettings.Current.GW2APIs.Count > 0;
         }
 
         private void ListBoxAPIKeys_DoubleClick(object sender, System.EventArgs e)
@@ -80,14 +80,14 @@ namespace PlenBotLogUploader
                     {
                         await apiKey.GetCharacters(httpClientController);
                     }
-                    var trueApiKey = ApplicationSettings.Current.GW2APIs.FirstOrDefault(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                    var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                     if (trueApiKey is null)
                     {
                         foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
                         {
                             await apiKey.GetCharacters(httpClientController, true);
                         }
-                        trueApiKey = ApplicationSettings.Current.GW2APIs.FirstOrDefault(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                        trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                     }
                     try
                     {

@@ -4,6 +4,6 @@
     {
         OnSuccessAndFailure = 0,
         OnSuccessOnly = 1,
-        OnFailOnly = 2
+        OnFailOnly = 2,
     }
 }

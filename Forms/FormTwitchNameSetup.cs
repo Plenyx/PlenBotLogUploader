@@ -1,6 +1,5 @@
 ﻿using PlenBotLogUploader.AppSettings;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,7 +23,7 @@ namespace PlenBotLogUploader
         {
             var channelInput = textBoxChannelUrl.Text.ToLower();
             var channelUrlSplit = channelInput.Split(new string[] { "twitch.tv/" }, StringSplitOptions.None);
-            if (channelUrlSplit.Count() > 1)
+            if (channelUrlSplit.Length > 1)
             {
                 var channelName = channelUrlSplit[1].Split('/')[0];
                 await AskNameToConfirm(channelName);

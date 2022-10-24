@@ -78,7 +78,7 @@ namespace PlenBotLogUploader
         {
             if (InvokeRequired)
             {
-                Invoke((Action)delegate () { SetStatus(status); });
+                Invoke((Action)(() => SetStatus(status)));
             }
             labelStatusText.Text = status;
         }
@@ -87,7 +87,7 @@ namespace PlenBotLogUploader
         {
             if (InvokeRequired)
             {
-                Invoke((Action)delegate () { buttonCheckNow.Enabled = toggle; });
+                Invoke((Action)(() => buttonCheckNow.Enabled = toggle));
             }
             else
             {
@@ -255,7 +255,7 @@ namespace PlenBotLogUploader
                 var processes = GetGW2Instances();
                 if (processes.Count == 0)
                 {
-                    var component = ArcDpsComponent.All.FirstOrDefault(x => x.Type.Equals(item.Type));
+                    var component = ArcDpsComponent.All.Find(x => x.Type.Equals(item.Type));
                     File.Delete($"{ApplicationSettings.Current.GW2Location}{component.RelativeLocation}");
                     ArcDpsComponent.All.RemoveAll(x => x.Type.Equals(component.Type));
                 }
@@ -289,7 +289,7 @@ namespace PlenBotLogUploader
             checkedListBoxArcDpsPlugins.Enabled = toggle;
             if (Visible && toggle && (string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Location)))
             {
-                ButtonChangeGW2Location_Click(this, new EventArgs());
+                ButtonChangeGW2Location_Click(this, EventArgs.Empty);
             }
         }
 

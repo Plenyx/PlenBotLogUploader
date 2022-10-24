@@ -93,6 +93,6 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// whether the enouncter was in challenge mode
         /// </summary>
-        internal bool ChallengeMode => (ExtraJSON?.IsCM ?? false) ? true : (Encounter?.IsCM ?? false);
+        internal bool ChallengeMode => (ExtraJSON?.IsCM ?? false) || (Encounter?.IsCM ?? false);
     }
 }

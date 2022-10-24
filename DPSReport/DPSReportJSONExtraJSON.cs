@@ -52,7 +52,7 @@ namespace PlenBotLogUploader.DPSReport
                 Players.ForEach(player =>
                 {
                     var damage = player.DpsTargets
-                        .Select(x => x.First().DPS)
+                        .Select(x => x[0].DPS)
                         .Sum();
                     dict.Add(player, damage);
                 });

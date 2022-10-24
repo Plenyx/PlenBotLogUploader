@@ -123,7 +123,6 @@ namespace PlenBotLogUploader
                     return Bosses.FromJsonFile($@"{ApplicationSettings.LocalDir}\boss_data.json");
                 }
                 return Bosses.GetDefaultSettingsForBossesAsDictionary();
-
             }
             catch
             {

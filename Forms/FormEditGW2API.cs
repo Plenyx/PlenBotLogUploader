@@ -20,7 +20,7 @@ namespace PlenBotLogUploader
             this.gw2apiLink = gw2apiLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            Text = (data is null) ? "Add a new API key" : $"Edit an existing API key";
+            Text = (data is null) ? "Add a new API key" : "Edit an existing API key";
             if (!(data is null))
             {
                 this.data = data;

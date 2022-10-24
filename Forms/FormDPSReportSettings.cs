@@ -19,10 +19,7 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count(x => x.Active) > 1)
             {
-                ApplicationSettings.Current.Upload.DPSReportUserTokens.ForEach(x =>
-                {
-                    x.Active = false;
-                });
+                ApplicationSettings.Current.Upload.DPSReportUserTokens.ForEach(x => x.Active = false);
                 ApplicationSettings.Current.Save();
             }
             RedrawList();
@@ -51,11 +48,8 @@ namespace PlenBotLogUploader
         {
             checkedListBoxUserTokens.ItemCheck -= CheckedListBoxUserTokens_ItemCheck;
             checkedListBoxUserTokens.Items.Clear();
-            ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToList().ForEach(x =>
-            {
-                checkedListBoxUserTokens.Items.Add(x, x.Active);
-            });
-            checkedListBoxUserTokens.ItemCheck += new ItemCheckEventHandler(CheckedListBoxUserTokens_ItemCheck);
+            ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToList().ForEach(x => checkedListBoxUserTokens.Items.Add(x, x.Active));
+            checkedListBoxUserTokens.ItemCheck += CheckedListBoxUserTokens_ItemCheck;
             mainLink.RedrawUserTokenContext();
         }
 

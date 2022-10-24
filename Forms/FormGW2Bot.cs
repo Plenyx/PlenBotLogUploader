@@ -41,7 +41,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.GW2Bot.Enabled = checkBoxModuleEnabled.Checked;
             ApplicationSettings.Current.GW2Bot.APIKey = textBoxAPIKey.Text;
             ApplicationSettings.Current.GW2Bot.SendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
-            ApplicationSettings.Current.GW2Bot.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as Team).ID;
+            ApplicationSettings.Current.GW2Bot.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as Team)?.ID ?? 0;
             ApplicationSettings.Current.Save();
             controller.DefaultRequestHeaders.Authorization = (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Bot.APIKey)) ? new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApplicationSettings.Current.GW2Bot.APIKey) : null;
         }

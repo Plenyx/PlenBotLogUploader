@@ -40,11 +40,11 @@ namespace PlenBotLogUploader
             {
                 if (buttonUpdate.InvokeRequired)
                 {
-                    buttonUpdate.Invoke((Action)delegate ()
+                    buttonUpdate.Invoke((Action)(() =>
                     {
                         buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
                         buttonUpdate.NotifyDefault(value);
-                    });
+                    }));
                 }
                 else
                 {
@@ -313,20 +313,20 @@ namespace PlenBotLogUploader
                     }
                 }
                 /* Subscribe to field changes events, otherwise they would trigger on load */
-                checkBoxPostToTwitch.CheckedChanged += new EventHandler(CheckBoxPostToTwitch_CheckedChanged);
-                checkBoxUploadLogs.CheckedChanged += new EventHandler(CheckBoxUploadAll_CheckedChanged);
-                checkBoxTrayMinimiseToIcon.CheckedChanged += new EventHandler(CheckBoxTrayMinimiseToIcon_CheckedChanged);
-                checkBoxTwitchOnlySuccess.CheckedChanged += new EventHandler(CheckBoxTwitchOnlySuccess_CheckedChanged);
-                checkBoxStartWhenWindowsStarts.CheckedChanged += new EventHandler(CheckBoxStartWhenWindowsStarts_CheckedChanged);
-                checkBoxAnonymiseReports.CheckedChanged += new EventHandler(CheckBoxAnonymiseReports_CheckedChanged);
-                checkBoxDetailedWvW.CheckedChanged += new EventHandler(CheckBoxDetailedWvW_CheckedChanged);
-                checkBoxSaveLogsToCSV.CheckedChanged += new EventHandler(CheckBoxSaveLogsToCSV_CheckedChanged);
-                comboBoxMaxUploads.SelectedIndexChanged += new EventHandler(ComboBoxMaxUploads_SelectedIndexChanged);
-                checkBoxAutoUpdate.CheckedChanged += new EventHandler(CheckBoxAutoUpdate_CheckedChanged);
-                logSessionLink.checkBoxSupressWebhooks.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSupressWebhooks_CheckedChanged);
-                logSessionLink.checkBoxOnlySuccess.CheckedChanged += new EventHandler(logSessionLink.CheckBoxOnlySuccess_CheckedChanged);
-                logSessionLink.checkBoxSaveToFile.CheckedChanged += new EventHandler(logSessionLink.CheckBoxSaveToFile_CheckedChanged);
-                discordWebhooksLink.checkBoxShortenThousands.CheckedChanged += new EventHandler(discordWebhooksLink.CheckBoxShortenThousands_CheckedChanged);
+                checkBoxPostToTwitch.CheckedChanged += CheckBoxPostToTwitch_CheckedChanged;
+                checkBoxUploadLogs.CheckedChanged += CheckBoxUploadAll_CheckedChanged;
+                checkBoxTrayMinimiseToIcon.CheckedChanged += CheckBoxTrayMinimiseToIcon_CheckedChanged;
+                checkBoxTwitchOnlySuccess.CheckedChanged += CheckBoxTwitchOnlySuccess_CheckedChanged;
+                checkBoxStartWhenWindowsStarts.CheckedChanged += CheckBoxStartWhenWindowsStarts_CheckedChanged;
+                checkBoxAnonymiseReports.CheckedChanged += CheckBoxAnonymiseReports_CheckedChanged;
+                checkBoxDetailedWvW.CheckedChanged += CheckBoxDetailedWvW_CheckedChanged;
+                checkBoxSaveLogsToCSV.CheckedChanged += CheckBoxSaveLogsToCSV_CheckedChanged;
+                comboBoxMaxUploads.SelectedIndexChanged += ComboBoxMaxUploads_SelectedIndexChanged;
+                checkBoxAutoUpdate.CheckedChanged += CheckBoxAutoUpdate_CheckedChanged;
+                logSessionLink.checkBoxSupressWebhooks.CheckedChanged += logSessionLink.CheckBoxSupressWebhooks_CheckedChanged;
+                logSessionLink.checkBoxOnlySuccess.CheckedChanged += logSessionLink.CheckBoxOnlySuccess_CheckedChanged;
+                logSessionLink.checkBoxSaveToFile.CheckedChanged += logSessionLink.CheckBoxSaveToFile_CheckedChanged;
+                discordWebhooksLink.checkBoxShortenThousands.CheckedChanged += discordWebhooksLink.CheckBoxShortenThousands_CheckedChanged;
                 ApplicationSettings.Current.Save();
             }
             catch (Exception e)
@@ -342,7 +342,7 @@ namespace PlenBotLogUploader
         {
             StartUpAndCommandArgs();
             Task.Run(async () => await NewReleaseCheckAsync(true));
-            Resize += new EventHandler(FormMain_Resize);
+            Resize += FormMain_Resize;
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -534,7 +534,7 @@ namespace PlenBotLogUploader
             {
                 if (buttonUpdate.InvokeRequired)
                 {
-                    buttonUpdate.Invoke((Action)delegate () { buttonUpdate.Enabled = false; });
+                    buttonUpdate.Invoke((Action)(() => buttonUpdate.Enabled = false));
                 }
                 else
                 {
@@ -576,7 +576,7 @@ namespace PlenBotLogUploader
             {
                 if (buttonUpdate.InvokeRequired)
                 {
-                    buttonUpdate.Invoke((Action)delegate () { buttonUpdate.Enabled = true; });
+                    buttonUpdate.Invoke((Action)(() => buttonUpdate.Enabled = true));
                 }
                 else
                 {
@@ -667,7 +667,7 @@ namespace PlenBotLogUploader
         {
             if (richTextBoxMainConsole.InvokeRequired)
             {
-                richTextBoxMainConsole.Invoke((Action<string>)delegate (string text) { AddToText(text); }, s);
+                richTextBoxMainConsole.Invoke((Action<string>)((string text) => AddToText(text)), s);
                 return;
             }
             var messagePre = s.IndexOf(' ');
@@ -690,7 +690,7 @@ namespace PlenBotLogUploader
         {
             if (labelLocationInfo.InvokeRequired)
             {
-                labelLocationInfo.Invoke((Action)delegate () { UpdateLogCount(); });
+                labelLocationInfo.Invoke((Action)(() => UpdateLogCount()));
                 return;
             }
             labelLocationInfo.Text = $"Logs in the directory: {logsCount}";
@@ -870,14 +870,13 @@ namespace PlenBotLogUploader
                     {
                         await Task.Run(async () =>
                         {
-                            var delay = 0;
-                            delay = recentUploadFailCounter switch
+                            var delay = recentUploadFailCounter switch
                             {
                                 3 => 45000,
                                 2 => 15000,
                                 _ => 3000,
                             };
-                            AddToText($">:> Retrying in {(delay / 1000)}s...");
+                            AddToText($">:> Retrying in {delay / 1000}s...");
                             await Task.Delay(delay);
                             await HttpUploadLogAsync(file, postData, bypassMessage);
                         });
@@ -895,13 +894,13 @@ namespace PlenBotLogUploader
         {
             if (SessionLogs is null)
             {
-                AddToText($"There was an error processing log session logs. SessionLogs is null.");
+                AddToText("There was an error processing log session logs. SessionLogs is null.");
                 return;
             }
             var builder = new StringBuilder($">:> Session summary:{Environment.NewLine}");
             foreach (var log in SessionLogs)
             {
-                builder.AppendLine($"{log.ExtraJSON?.FightName ?? log.Encounter.Boss}: {log.ConfigAwarePermalink}");
+                builder.Append(log.ExtraJSON?.FightName ?? log.Encounter.Boss).Append(": ").AppendLine(log.ConfigAwarePermalink);
             }
             AddToText(builder.ToString());
             await discordWebhooksLink.ExecuteSessionWebhooksAsync(SessionLogs, logSessionSettings);
@@ -917,7 +916,7 @@ namespace PlenBotLogUploader
             };
             if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count(x => x.Active) == 1)
             {
-                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DPSReportUserTokens.FirstOrDefault(x => x.Active).UserToken}");
+                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DPSReportUserTokens.Find(x => x.Active).UserToken}");
             }
             if (ApplicationSettings.Current.Upload.Anonymous)
             {
@@ -1036,7 +1035,7 @@ namespace PlenBotLogUploader
                     AddToText("<-?-> DISCONNECTED FROM TWITCH");
                     if (InvokeRequired)
                     {
-                        Invoke((Action)delegate () { reconnectedFailCounter++; });
+                        Invoke((Action)(() => reconnectedFailCounter++));
                     }
                     else
                     {
@@ -1118,7 +1117,7 @@ namespace PlenBotLogUploader
                             {
                                 await apiKey.GetCharacters(HttpClientController);
                             }
-                            var trueApiKey = ApplicationSettings.Current.GW2APIs.FirstOrDefault(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+                            var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
                             try
                             {
                                 using var parser = new GW2BuildParser(trueApiKey?.APIKey ?? "");
@@ -1182,7 +1181,7 @@ namespace PlenBotLogUploader
                             {
                                 await apiKey.GetCharacters(HttpClientController);
                             }
-                            var trueApiKey = ApplicationSettings.Current.GW2APIs.FirstOrDefault(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+                            var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
                             if (trueApiKey is null)
                             {
                                 return;
@@ -1209,7 +1208,7 @@ namespace PlenBotLogUploader
             AddToText("> (Spotify) SONG COMMAND USED");
             try
             {
-                var process = Process.GetProcessesByName("Spotify").FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
+                var process = Array.Find(Process.GetProcessesByName("Spotify"), x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
                 if (process.MainWindowTitle.Contains("Spotify"))
                 {
                     await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "No song is being played.");
@@ -1230,7 +1229,7 @@ namespace PlenBotLogUploader
         internal void RedrawUserTokenContext()
         {
             toolStripMenuItemDPSReportUserTokens.DropDownItems.Clear();
-            if (!ApplicationSettings.Current.Upload.DPSReportUserTokens.Any())
+            if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count == 0)
             {
                 toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItem() { Enabled = false, Text = "No user tokens defined" });
                 return;
@@ -1249,16 +1248,12 @@ namespace PlenBotLogUploader
                 var pressedButton = (ToolStripMenuItemCustom)(sender);
                 if (pressedButton.LinkedObject.GetType().Equals(typeof(ApplicationSettingsUploadUserToken)))
                 {
-                    ApplicationSettings.Current.Upload.DPSReportUserTokens.Where(x => x.Active).ToList().ForEach(x =>
-                    {
-                        x.Active = false;
-                    });
+                    ApplicationSettings.Current.Upload.DPSReportUserTokens.Where(x => x.Active).ToList().ForEach(x => x.Active = false);
                     ((ApplicationSettingsUploadUserToken)(pressedButton.LinkedObject)).Active = true;
                     dpsReportSettingsLink.RedrawList();
                     RedrawUserTokenContext();
                 }
             }
-
         }
 
         private void CheckBoxUploadAll_CheckedChanged(object sender, EventArgs e)
@@ -1502,14 +1497,14 @@ namespace PlenBotLogUploader
             }
             buttonUpdate.Enabled = false;
             AddToText(">>> Downloading update...");
-            var downloadUrl = latestRelease.Assets.FirstOrDefault(x => x.Name.Equals("PlenBotLogUploader.exe")).DownloadURL;
+            var downloadUrl = latestRelease.Assets.Find(x => x.Name.Equals("PlenBotLogUploader.exe")).DownloadURL;
             var result = await HttpClientController.DownloadFileAsync(downloadUrl, $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
             if (result)
             {
                 Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{((appStartup && StartedMinimised) ? " -m" : string.Empty)}");
                 if (InvokeRequired)
                 {
-                    Invoke((Action)delegate () { ExitApp(); });
+                    Invoke((Action)(() => ExitApp()));
                 }
                 else
                 {

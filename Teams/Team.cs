@@ -59,7 +59,7 @@ namespace PlenBotLogUploader.Teams
         {
             unchecked
             {
-                return (ID * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+                return (ID * 397) ^ ((Name?.GetHashCode()) ?? 0);
             }
         }
     }

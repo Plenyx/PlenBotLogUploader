@@ -33,7 +33,7 @@ namespace PlenBotLogUploader
                 groupBoxUploadSettings.Enabled = value;
                 if (groupBoxAleevaStatus.InvokeRequired)
                 {
-                    groupBoxAleevaStatus.Invoke((Action)delegate () { groupBoxAleevaStatus.Text = (value) ? "Status: Aleeva successfully authorised" : "Status: Not authorised"; });
+                    groupBoxAleevaStatus.Invoke((Action)(() => groupBoxAleevaStatus.Text = (value) ? "Status: Aleeva successfully authorised" : "Status: Not authorised"));
                 }
                 else
                 {
@@ -41,7 +41,7 @@ namespace PlenBotLogUploader
                 }
                 if (buttonGetBearerFromAccess.InvokeRequired)
                 {
-                    buttonGetBearerFromAccess.Invoke((Action)delegate () { buttonGetBearerFromAccess.Text = (value) ? "Deauthorise" : "Authorise"; });
+                    buttonGetBearerFromAccess.Invoke((Action)(() => buttonGetBearerFromAccess.Text = (value) ? "Deauthorise" : "Authorise"));
                 }
                 else
                 {
@@ -49,7 +49,7 @@ namespace PlenBotLogUploader
                 }
                 if (textBoxAccessCode.InvokeRequired)
                 {
-                    textBoxAccessCode.Invoke((Action)delegate () { textBoxAccessCode.Enabled = !value; });
+                    textBoxAccessCode.Invoke((Action)(() => textBoxAccessCode.Enabled = !value));
                 }
                 else
                 {
@@ -159,7 +159,7 @@ namespace PlenBotLogUploader
             }
             catch (JsonReaderException)
             {
-                mainLink.AddToText($"??>> There was an error authenticating with Aleeva while trying to exchange the access code. Is your access code correct? Make sure you select the PlenBotLogUploader when creating the access code.");
+                mainLink.AddToText("??>> There was an error authenticating with Aleeva while trying to exchange the access code. Is your access code correct? Make sure you select the PlenBotLogUploader when creating the access code.");
             }
             catch (Exception e)
             {
@@ -195,7 +195,7 @@ namespace PlenBotLogUploader
                     ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
                     ApplicationSettings.Current.Save();
                     await AleevaLoadServers();
-                    var selectedServer = aleevaServers.FirstOrDefault(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer));
+                    var selectedServer = aleevaServers.Find(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer));
                     if (!(selectedServer is null))
                     {
                         comboBoxServer.SelectedItem = selectedServer;
@@ -210,7 +210,7 @@ namespace PlenBotLogUploader
             }
             catch (JsonReaderException)
             {
-                mainLink.AddToText($"??>> There was an error authenticating with Aleeva while trying to refresh refresh token.");
+                mainLink.AddToText("??>> There was an error authenticating with Aleeva while trying to refresh refresh token.");
             }
             catch (Exception e)
             {
@@ -234,7 +234,7 @@ namespace PlenBotLogUploader
         {
             if (InvokeRequired)
             {
-                Invoke((Action)delegate () { DeauthoriseAleeva(); });
+                Invoke((Action)(() => DeauthoriseAleeva()));
                 return;
             }
             AleevaAccessToken = string.Empty;
@@ -256,7 +256,7 @@ namespace PlenBotLogUploader
                 aleevaServers.Clear();
                 if (comboBoxServer.InvokeRequired)
                 {
-                    comboBoxServer.Invoke((Action)delegate () { comboBoxServer.Items.Clear(); });
+                    comboBoxServer.Invoke((Action)(() => comboBoxServer.Items.Clear()));
                 }
                 else
                 {
@@ -265,7 +265,7 @@ namespace PlenBotLogUploader
                 aleevaServerChannels.Clear();
                 if (comboBoxChannel.InvokeRequired)
                 {
-                    comboBoxChannel.Invoke((Action)delegate () { comboBoxChannel.Items.Clear(); });
+                    comboBoxChannel.Invoke((Action)(() => comboBoxChannel.Items.Clear()));
                 }
                 else
                 {
@@ -318,7 +318,7 @@ namespace PlenBotLogUploader
                 aleevaServerChannels.Clear();
                 if (comboBoxChannel.InvokeRequired)
                 {
-                    comboBoxChannel.Invoke((Action)delegate () { comboBoxChannel.Items.Clear(); });
+                    comboBoxChannel.Invoke((Action)(() => comboBoxChannel.Items.Clear()));
                 }
                 else
                 {
@@ -388,7 +388,7 @@ namespace PlenBotLogUploader
 
         private void ComboBoxSelectedTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.Aleeva.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as Team).ID;
+            ApplicationSettings.Current.Aleeva.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as Team)?.ID ?? 0;
             ApplicationSettings.Current.Save();
         }
     }

@@ -89,7 +89,7 @@ namespace PlenBotLogUploader.ArcDps
             return false;
         }
 
-        internal bool IsInstalled() => File.Exists($@"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
+        internal bool IsInstalled() => File.Exists($"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
 
         internal bool IsCurrentVersion(string version)
         {
