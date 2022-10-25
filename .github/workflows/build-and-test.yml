@@ -1,0 +1,49 @@
+name: Build and test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    # This is a workaround for issue https://github.com/actions/virtual-environments/issues/1090,
+    # which causes to nuget restores to fail
+    - name: Clean NuGet cache
+      run: dotnet nuget locals all --clear
+    - name: Build
+      run: dotnet build PlenBotLogUploader.csproj -c Release
+    - name: Test
+      run: dotnet test PlenBotLogUploader.csproj --no-restore --verbosity normal
+    - name: Package PlenBotLogUploader (Windows)
+      run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=false -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64/
+    - name: Package PlenBotLogUploader (Windows, self-contained)
+      run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-sc/
+    - name: Bundle PDBs
+      run: |
+          mkdir -p artifacts/pdb/uploader/win64/
+          mv artifacts/uploader/win64/*.pdb artifacts/pdb/uploader/win64/
+    - name: Upload PlenBotLogUploader (Windows)
+      uses: actions/upload-artifact@v2
+      with:
+        name: PlenBotLogUploader (Windows)
+        path: artifacts/uploader/win64/PlenBotLogUploader.exe
+    - name: Upload PlenBotLogUploader (Windows, self-contained)
+      uses: actions/upload-artifact@v2
+      with:
+        name: PlenBotLogUploader (Windows, self-contained)
+        path: artifacts/uploader/win64-sc/PlenBotLogUploader.exe
+    - name: Upload PDB files
+      uses: actions/upload-artifact@v2
+      with:
+        name: PDB files
+        path: artifacts/pdb/

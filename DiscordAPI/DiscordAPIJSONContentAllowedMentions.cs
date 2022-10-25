@@ -9,6 +9,6 @@ namespace PlenBotLogUploader.DiscordAPI
         /// list of allowed mention types
         /// </summary>
         [JsonProperty("parse")]
-        internal List<string> Parse { get; set; } = new List<string>() { "roles", "users", "everyone" };
+        internal List<string> Parse { get; set; } = new() { "roles", "users", "everyone" };
     }
 }

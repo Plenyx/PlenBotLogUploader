@@ -24,7 +24,7 @@ namespace PlenBotLogUploader.Tools
             return $"{span.Seconds}s";
         }
 
-        private static string ParseDoubleAsK(double number) => ApplicationSettings.Current.ShortenThousands ? $"{Math.Round((double)number / 1000, 1).ToString(CultureInfo.InvariantCulture)}k" : number.ToString();
+        private static string ParseDoubleAsK(double number) => ApplicationSettings.Current.ShortenThousands ? $"{Math.Round(number / 1000, 1).ToString(CultureInfo.InvariantCulture)}k" : number.ToString();
 
         internal static string ParseAsK(this double number) => ParseDoubleAsK(number);
 

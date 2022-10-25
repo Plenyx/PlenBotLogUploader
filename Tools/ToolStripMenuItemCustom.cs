@@ -2,8 +2,8 @@
 
 namespace PlenBotLogUploader.Tools
 {
-    internal sealed class ToolStripMenuItemCustom : ToolStripMenuItem
+    internal sealed class ToolStripMenuItemCustom<T> : ToolStripMenuItem
     {
-        internal object LinkedObject { get; set; }
+        internal T LinkedObject { get; set; }
     }
 }

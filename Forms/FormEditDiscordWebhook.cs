@@ -97,9 +97,8 @@ namespace PlenBotLogUploader
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = checkedListBoxBossesEnable.Items[i];
-                if (item.GetType().Equals(typeof(BossesDisableHelperClass)))
+                if (item is BossesDisableHelperClass bossEnableHelper)
                 {
-                    var bossEnableHelper = (BossesDisableHelperClass)item;
                     var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
                     if (!checkedState)
                     {

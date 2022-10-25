@@ -74,39 +74,36 @@ namespace PlenBotLogUploader
 
         private void FormEditBossData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (int.TryParse(textBoxBossID.Text, out int bossId))
+            if (int.TryParse(textBoxBossID.Text, out int bossId) && !string.IsNullOrWhiteSpace(textBoxBossName.Text.Trim()))
             {
-                if (!string.IsNullOrWhiteSpace(textBoxBossName.Text.Trim()))
+                if (data is null)
                 {
-                    if (data is null)
+                    var boss = new BossData()
                     {
-                        var boss = new BossData()
-                        {
-                            BossId = bossId,
-                            Name = textBoxBossName.Text,
-                            InternalDescription = textBoxInternalDescription.Text,
-                            SuccessMsg = textBoxSuccessMsg.Text,
-                            FailMsg = textBoxFailMsg.Text,
-                            Icon = textBoxIcon.Text,
-                            Type = BossTypeSwitch,
-                            Event = checkBoxEvent.Checked,
-                        };
-                        Bosses.All[reservedId] = boss;
-                        editLink.listViewBosses.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = boss.UIName });
-                    }
-                    else
-                    {
-                        var boss = Bosses.All[reservedId];
-                        boss.BossId = bossId;
-                        boss.Name = textBoxBossName.Text;
-                        boss.InternalDescription = textBoxInternalDescription.Text;
-                        boss.SuccessMsg = textBoxSuccessMsg.Text;
-                        boss.FailMsg = textBoxFailMsg.Text;
-                        boss.Icon = textBoxIcon.Text;
-                        boss.Type = BossTypeSwitch;
-                        boss.Event = checkBoxEvent.Checked;
-                        editLink.listViewBosses.Items[editLink.listViewBosses.Items.IndexOfKey(reservedId.ToString())].Text = boss.UIName;
-                    }
+                        BossId = bossId,
+                        Name = textBoxBossName.Text,
+                        InternalDescription = textBoxInternalDescription.Text,
+                        SuccessMsg = textBoxSuccessMsg.Text,
+                        FailMsg = textBoxFailMsg.Text,
+                        Icon = textBoxIcon.Text,
+                        Type = BossTypeSwitch,
+                        Event = checkBoxEvent.Checked,
+                    };
+                    Bosses.All[reservedId] = boss;
+                    editLink.listViewBosses.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = boss.UIName });
+                }
+                else
+                {
+                    var boss = Bosses.All[reservedId];
+                    boss.BossId = bossId;
+                    boss.Name = textBoxBossName.Text;
+                    boss.InternalDescription = textBoxInternalDescription.Text;
+                    boss.SuccessMsg = textBoxSuccessMsg.Text;
+                    boss.FailMsg = textBoxFailMsg.Text;
+                    boss.Icon = textBoxIcon.Text;
+                    boss.Type = BossTypeSwitch;
+                    boss.Event = checkBoxEvent.Checked;
+                    editLink.listViewBosses.Items[editLink.listViewBosses.Items.IndexOfKey(reservedId.ToString())].Text = boss.UIName;
                 }
             }
         }

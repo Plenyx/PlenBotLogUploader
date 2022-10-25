@@ -17,8 +17,8 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormMain mainLink;
-        private readonly HttpClientController httpController = new HttpClientController();
-        private readonly List<ArcDpsComponent> componentsToUpdate = new List<ArcDpsComponent>();
+        private readonly HttpClientController httpController = new();
+        private readonly List<ArcDpsComponent> componentsToUpdate = new();
         private int gw2Instances = 0;
         private bool updateManual = false;
         private bool updateRunning = false;
@@ -152,7 +152,7 @@ namespace PlenBotLogUploader
 
         private void TimerCheckUpdates_Tick(object sender, EventArgs e) => _ = CheckUpdatesAsync();
 
-        private List<Process> GetGW2Instances() => Process.GetProcessesByName("Gw2-64").ToList();
+        private static List<Process> GetGW2Instances() => Process.GetProcessesByName("Gw2-64").ToList();
 
         private async Task UpdateArcAndPluginsAsync()
         {
@@ -314,9 +314,9 @@ namespace PlenBotLogUploader
         private void ButtonShowPluginInfo_Click(object sender, EventArgs e)
         {
             var item = checkedListBoxArcDpsPlugins.SelectedItem;
-            if (!(item is null) && item.GetType().Equals(typeof(ArcDpsComponentHelperClass)))
+            if (item is ArcDpsComponentHelperClass itemHelper)
             {
-                (new FormArcPluginInfo(item as ArcDpsComponentHelperClass)).ShowDialog();
+                new FormArcPluginInfo(itemHelper).ShowDialog();
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace PlenBotLogUploader.Aleeva
 {
-    internal partial class AleevaResponseStatus
+    internal class AleevaResponseStatus
     {
         [JsonProperty("status")]
         internal string Status { get; set; }

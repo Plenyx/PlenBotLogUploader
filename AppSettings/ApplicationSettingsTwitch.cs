@@ -8,12 +8,12 @@ namespace PlenBotLogUploader.AppSettings
         internal string ChannelName { get; set; } = string.Empty;
 
         [JsonProperty("commands")]
-        internal ApplicationSettingsTwitchCommands Commands { get; set; } = new ApplicationSettingsTwitchCommands();
+        internal ApplicationSettingsTwitchCommands Commands { get; set; } = new();
 
         [JsonProperty("connectToTwitch")]
         internal bool ConnectToTwitch { get; set; } = false;
 
         [JsonProperty("custom")]
-        internal ApplicationSettingsTwitchCustom Custom { get; set; } = new ApplicationSettingsTwitchCustom();
+        internal ApplicationSettingsTwitchCustom Custom { get; set; } = new();
     }
 }

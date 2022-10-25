@@ -13,11 +13,11 @@ namespace PlenBotLogUploader.Tools
         #region definitions
         // fields
         private static readonly IDictionary<int, BossData> allBosses = Bosses.All;
-        private static readonly DiscordAPIJSONContentEmbedThumbnail defaultThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
+        private static readonly DiscordAPIJSONContentEmbedThumbnail defaultThumbnail = new()
         {
             Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
         };
-        private static readonly DiscordAPIJSONContentEmbedThumbnail defaultWvWSummaryThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
+        private static readonly DiscordAPIJSONContentEmbedThumbnail defaultWvWSummaryThumbnail = new()
         {
             Url = "https://wiki.guildwars2.com/images/5/54/Commander_tag_(blue).png"
         };
@@ -26,7 +26,7 @@ namespace PlenBotLogUploader.Tools
         #endregion
 
         internal static DiscordAPIJSONContentEmbed MakeEmbedFromText(string title, string text)
-            => new DiscordAPIJSONContentEmbed()
+            => new()
             {
                 Title = title,
                 Description = text,
@@ -92,17 +92,29 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***Raid logs:***\n");
                 if (logSessionSettings.SortBy.Equals(LogSessionSortBy.UploadTime))
                 {
-                    foreach (var data in RaidLogs)
+                    foreach (var data in RaidLogs.Select(x => x.LogData))
                     {
-                        var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : string.Empty);
-                        var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
-                        if (!(bossData is null))
+                        var bossName = data.Encounter.Boss + (data.ChallengeMode ? " CM" : string.Empty);
+                        var bossData = Bosses.GetBossDataFromId(data.Encounter.BossId);
+                        if (bossData is not null)
                         {
-                            bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : string.Empty);
+                            bossName = bossData.Name + (data.ChallengeMode ? " CM" : string.Empty);
                         }
-                        var duration = (data.LogData.ExtraJSON is null) ? string.Empty : $" {data.LogData.ExtraJSON.Duration}";
-                        var successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
-                        builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
+                        var duration = (data.ExtraJSON is null) ? string.Empty : $" {data.ExtraJSON.Duration}";
+                        string successText = string.Empty;
+                        if (logSessionSettings.ShowSuccess)
+                        {
+                            if (data.Encounter.Success ?? false)
+                            {
+                                successText = " :white_check_mark:";
+                            }
+                            else
+                            {
+                                successText = " ❌";
+                            }
+                        }
+
+                        builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessFailureCount++;
@@ -110,9 +122,9 @@ namespace PlenBotLogUploader.Tools
                             builderSuccessFailure.Clear();
                             builderSuccessFailure.Append("***Raid logs:***\n");
                         }
-                        if (data.LogData.Encounter.Success ?? false)
+                        if (data.Encounter.Success ?? false)
                         {
-                            builderSuccess.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
+                            builderSuccess.Append('[').Append(bossName).Append("](").Append(data.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                             if (builderSuccess.Length >= maxAllowedMessageSize)
                             {
                                 messageSuccessCount++;
@@ -123,7 +135,7 @@ namespace PlenBotLogUploader.Tools
                         }
                         else
                         {
-                            builderFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
+                            builderFailure.Append('[').Append(bossName).Append("](").Append(data.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                             if (builderFailure.Length >= maxAllowedMessageSize)
                             {
                                 messageFailureCount++;
@@ -148,12 +160,24 @@ namespace PlenBotLogUploader.Tools
                         }
                         var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : string.Empty);
                         var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
-                        if (!(bossData is null))
+                        if (bossData is not null)
                         {
                             bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : string.Empty);
                         }
                         var duration = (data.LogData.ExtraJSON is null) ? string.Empty : $" {data.LogData.ExtraJSON.Duration}";
-                        var successText = (logSessionSettings.ShowSuccess) ? ((data.LogData.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
+                        string successText = string.Empty;
+                        if (logSessionSettings.ShowSuccess)
+                        {
+                            if (data.LogData.Encounter.Success ?? false)
+                            {
+                                successText = " :white_check_mark:";
+                            }
+                            else
+                            {
+                                successText = " ❌";
+                            }
+                        }
+
                         builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
@@ -208,12 +232,24 @@ namespace PlenBotLogUploader.Tools
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
-                    if (!(bossData is null))
+                    if (bossData is not null)
                     {
                         bossName = bossData.Name + (log.ChallengeMode ? " CM" : string.Empty);
                     }
                     var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
-                    var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
+                    string successText = string.Empty;
+                    if (logSessionSettings.ShowSuccess)
+                    {
+                        if (log.Encounter.Success ?? false)
+                        {
+                            successText = " :white_check_mark:";
+                        }
+                        else
+                        {
+                            successText = " ❌";
+                        }
+                    }
+
                     builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
@@ -267,12 +303,24 @@ namespace PlenBotLogUploader.Tools
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
-                    if (!(bossData is null))
+                    if (bossData is not null)
                     {
                         bossName = bossData.Name;
                     }
                     var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
-                    var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
+                    string successText = string.Empty;
+                    if (logSessionSettings.ShowSuccess)
+                    {
+                        if (log.Encounter.Success ?? false)
+                        {
+                            successText = " :white_check_mark:";
+                        }
+                        else
+                        {
+                            successText = " ❌";
+                        }
+                    }
+
                     builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
@@ -450,12 +498,24 @@ namespace PlenBotLogUploader.Tools
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
-                    if (!(bossData is null))
+                    if (bossData is not null)
                     {
                         bossName = bossData.Name;
                     }
                     var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
-                    var successText = (logSessionSettings.ShowSuccess) ? ((log.Encounter.Success ?? false) ? " :white_check_mark:" : " ❌") : string.Empty;
+                    string successText = string.Empty;
+                    if (logSessionSettings.ShowSuccess)
+                    {
+                        if (log.Encounter.Success ?? false)
+                        {
+                            successText = " :white_check_mark:";
+                        }
+                        else
+                        {
+                            successText = " ❌";
+                        }
+                    }
+
                     builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
@@ -503,7 +563,7 @@ namespace PlenBotLogUploader.Tools
                 messageFailureCount++;
                 discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : string.Empty), builderFailure.ToString()));
             }
-            if (!(discordEmbedSummary is null))
+            if (discordEmbedSummary is not null)
             {
                 discordEmbedsSuccessFailure.Insert(0, discordEmbedSummary);
                 discordEmbedsSuccess.Insert(0, discordEmbedSummary);

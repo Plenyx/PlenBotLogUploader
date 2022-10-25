@@ -22,7 +22,7 @@ namespace PlenBotLogUploader.AppSettings
         };
 
         [JsonProperty("dpsReportUserTokens")]
-        internal List<ApplicationSettingsUploadUserToken> DPSReportUserTokens { get; set; } = new List<ApplicationSettingsUploadUserToken>();
+        internal List<ApplicationSettingsUploadUserToken> DPSReportUserTokens { get; set; } = new();
 
         [JsonProperty("enabled")]
         internal bool Enabled { get; set; } = true;

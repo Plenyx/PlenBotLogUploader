@@ -54,7 +54,6 @@ namespace PlenBotLogUploader
                 _updateFound = value;
             }
         }
-        internal bool NETV6RisksAccepted { get; set; } = false;
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
@@ -70,10 +69,10 @@ namespace PlenBotLogUploader
         private readonly FormAleeva aleevaLink;
         private readonly FormGW2Bot gw2botLink;
         private readonly FormTeams teamsLink;
-        private readonly List<string> allSessionLogs = new List<string>();
+        private readonly List<string> allSessionLogs = new();
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
-        private FileSystemWatcher watcher = new FileSystemWatcher() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
+        private FileSystemWatcher watcher = new() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
         private int recentUploadFailCounter = 0;
         private int logsCount = 0;
@@ -82,11 +81,11 @@ namespace PlenBotLogUploader
         private int lastLogPullCounter = 0;
         private bool lastLogBossCM = false;
         private bool _updateFound = false;
-        private bool netv6Update = false;
         private GitHubReleasesLatest latestRelease = null;
 
         // constants
         private const int minFileSize = 8192;
+        private const string plenbotVersionFileURL = "https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/VERSION";
         #endregion
 
         #region constructor
@@ -307,7 +306,7 @@ namespace PlenBotLogUploader
                 using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                 {
                     var registryValue = registrySubKey.GetValue("PlenBot Log Uploader");
-                    if (!(registryValue is null) && ((string)registryValue).Contains(Application.ExecutablePath.Replace('/', '\\')))
+                    if ((registryValue is not null) && ((string)registryValue).Contains(Application.ExecutablePath.Replace('/', '\\')))
                     {
                         checkBoxStartWhenWindowsStarts.Checked = true;
                     }
@@ -340,8 +339,11 @@ namespace PlenBotLogUploader
         #region form events
         private void FormMain_Load(object sender, EventArgs e)
         {
-            StartUpAndCommandArgs();
-            Task.Run(async () => await NewReleaseCheckAsync(true));
+            _ = Task.Run(async () =>
+            {
+                await StartUpAndCommandArgs();
+                await NewReleaseCheckAsync(true);
+            });
             Resize += FormMain_Resize;
         }
 
@@ -540,15 +542,14 @@ namespace PlenBotLogUploader
                 {
                     buttonUpdate.Enabled = false;
                 }
-                var response = await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/VERSION") ?? "0";
+                var response = await HttpClientController.DownloadFileToStringAsync(plenbotVersionFileURL) ?? "0";
                 if (int.TryParse(response, out int currentversion))
                 {
                     if (currentversion > ApplicationSettings.Version)
                     {
                         UpdateFound = true;
                         latestRelease = await HttpClientController.GetGitHubLatestReleaseAsync("HardstuckGuild/PlenBotLogUploader");
-                        netv6Update = (await HttpClientController.DownloadFileToStringAsync("https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/NETV6") ?? "false") == "true";
-                        if (appStartup && ApplicationSettings.Current.AutoUpdate && !netv6Update)
+                        if (appStartup && ApplicationSettings.Current.AutoUpdate)
                         {
                             await PerformUpdate(appStartup);
                         }
@@ -591,7 +592,7 @@ namespace PlenBotLogUploader
             Application.Exit();
         }
 
-        protected async void StartUpAndCommandArgs()
+        protected async Task StartUpAndCommandArgs()
         {
             WindowState = ApplicationSettings.Current.MainFormState;
             var args = Environment.GetCommandLineArgs().ToList();
@@ -667,20 +668,20 @@ namespace PlenBotLogUploader
         {
             if (richTextBoxMainConsole.InvokeRequired)
             {
-                richTextBoxMainConsole.Invoke((Action<string>)((string text) => AddToText(text)), s);
+                richTextBoxMainConsole.Invoke((string text) => AddToText(text), s);
                 return;
             }
             var messagePre = s.IndexOf(' ');
             if (messagePre != -1)
             {
                 richTextBoxMainConsole.SelectionColor = Color.Blue;
-                richTextBoxMainConsole.AppendText(s.Substring(0, messagePre + 1));
+                richTextBoxMainConsole.AppendText(s[..(messagePre + 1)]);
                 richTextBoxMainConsole.SelectionColor = Color.Black;
-                richTextBoxMainConsole.AppendText($"{s.Substring(messagePre)}{Environment.NewLine}");
+                richTextBoxMainConsole.AppendText(string.Concat(s.AsSpan(messagePre), Environment.NewLine));
             }
             else
             {
-                richTextBoxMainConsole.AppendText($"{s}{Environment.NewLine}");
+                richTextBoxMainConsole.AppendText(s + Environment.NewLine);
             }
             richTextBoxMainConsole.SelectionStart = richTextBoxMainConsole.TextLength;
             richTextBoxMainConsole.ScrollToCaret();
@@ -703,7 +704,7 @@ namespace PlenBotLogUploader
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage && IsStreamingSoftwareRunning())
             {
                 var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJSON?.TriggerID ?? reportJSON.Encounter.BossId);
-                if (!(bossData is null))
+                if (bossData is not null)
                 {
                     var format = bossData.TwitchMessageFormat(reportJSON, lastLogPullCounter);
                     if (!string.IsNullOrWhiteSpace(format))
@@ -758,7 +759,7 @@ namespace PlenBotLogUploader
                                     {
                                         var jsonString = await HttpClientController.DownloadFileToStringAsync($"{ApplicationSettings.Current.Upload.DPSReportServerLink}/getJson?permalink={reportJSON.ConfigAwarePermalink}");
                                         var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
-                                        if (!(extraJSON is null))
+                                        if (extraJSON is not null)
                                         {
                                             reportJSON.ExtraJSON = extraJSON;
                                             bossId = reportJSON.ExtraJSON.TriggerID;
@@ -906,7 +907,7 @@ namespace PlenBotLogUploader
             await discordWebhooksLink.ExecuteSessionWebhooksAsync(SessionLogs, logSessionSettings);
         }
 
-        private string CreateDPSReportLink()
+        private static string CreateDPSReportLink()
         {
             var baseUrl = $"{ApplicationSettings.Current.Upload.DPSReportServerLink}/uploadContent";
             var urlParameters = new List<string>()
@@ -933,10 +934,9 @@ namespace PlenBotLogUploader
         #region Twitch bot methods
         internal bool IsTwitchConnectionNull() => chatConnect is null;
 
-        internal bool IsStreamingSoftwareRunning()
+        internal static bool IsStreamingSoftwareRunning()
         {
-            var processes = Process.GetProcesses();
-            foreach (var process in processes)
+            foreach (var process in Process.GetProcesses())
             {
                 var processLower = process.ProcessName.ToLower();
                 if ((processLower.StartsWith("obs"))
@@ -1188,7 +1188,7 @@ namespace PlenBotLogUploader
                             }
                             using var gw2Api = new Gw2APIHelper(trueApiKey.APIKey);
                             var userInfo = await gw2Api.GetUserInfoAsync();
-                            if (!(userInfo is null))
+                            if (userInfo is not null)
                             {
                                 var playerWorld = GW2.AllServers[userInfo.World];
                                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
@@ -1236,23 +1236,19 @@ namespace PlenBotLogUploader
             }
             ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToList().ForEach(x =>
             {
-                var index = toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItemCustom() { Checked = x.Active, Text = x.Name, LinkedObject = x });
+                var index = toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken>() { Checked = x.Active, Text = x.Name, LinkedObject = x });
                 toolStripMenuItemDPSReportUserTokens.DropDownItems[index].Click += UserTokenButtonClicked;
             });
         }
 
         private void UserTokenButtonClicked(object sender, EventArgs e)
         {
-            if (sender.GetType().Equals(typeof(ToolStripMenuItemCustom)))
+            if (sender is ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken> pressedButton)
             {
-                var pressedButton = (ToolStripMenuItemCustom)(sender);
-                if (pressedButton.LinkedObject.GetType().Equals(typeof(ApplicationSettingsUploadUserToken)))
-                {
-                    ApplicationSettings.Current.Upload.DPSReportUserTokens.Where(x => x.Active).ToList().ForEach(x => x.Active = false);
-                    ((ApplicationSettingsUploadUserToken)(pressedButton.LinkedObject)).Active = true;
-                    dpsReportSettingsLink.RedrawList();
-                    RedrawUserTokenContext();
-                }
+                ApplicationSettings.Current.Upload.DPSReportUserTokens.Where(x => x.Active).ToList().ForEach(x => x.Active = false);
+                pressedButton.LinkedObject.Active = true;
+                dpsReportSettingsLink.RedrawList();
+                RedrawUserTokenContext();
             }
         }
 
@@ -1490,11 +1486,6 @@ namespace PlenBotLogUploader
                 await NewReleaseCheckAsync();
                 return;
             }
-            if (netv6Update && !NETV6RisksAccepted)
-            {
-                new FormNETV6Upgrade(this).ShowDialog();
-                return;
-            }
             buttonUpdate.Enabled = false;
             AddToText(">>> Downloading update...");
             var downloadUrl = latestRelease.Assets.Find(x => x.Name.Equals("PlenBotLogUploader.exe")).DownloadURL;
@@ -1504,7 +1495,7 @@ namespace PlenBotLogUploader
                 Process.Start($"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{((appStartup && StartedMinimised) ? " -m" : string.Empty)}");
                 if (InvokeRequired)
                 {
-                    Invoke((Action)(() => ExitApp()));
+                    Invoke(() => ExitApp());
                 }
                 else
                 {

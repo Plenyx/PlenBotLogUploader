@@ -6,7 +6,7 @@ namespace PlenBotLogUploader.ArcDps
 {
     internal sealed class ArcDpsComponentHelperClass
     {
-        internal static List<ArcDpsComponentHelperClass> All => new List<ArcDpsComponentHelperClass>()
+        internal static List<ArcDpsComponentHelperClass> All => new()
         {
             new ArcDpsComponentHelperClass()
             {

@@ -60,12 +60,6 @@ namespace PlenBotLogUploader.DPSReport
             }
         }
 
-        internal Target PossiblyLastTarget
-        {
-            get
-            {
-                return Targets.OrderByDescending(x => x.TotalHealth).FirstOrDefault(x => x.HealthPercentBurned <= 99);
-            }
-        }
+        internal Target PossiblyLastTarget => Targets.OrderByDescending(x => x.TotalHealth).FirstOrDefault(x => x.HealthPercentBurned <= 99);
     }
 }

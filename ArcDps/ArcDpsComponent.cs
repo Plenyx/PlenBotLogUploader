@@ -74,22 +74,22 @@ namespace PlenBotLogUploader.ArcDps
             }
             if (!string.IsNullOrWhiteSpace(Repository))
             {
-                var dll = LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadURL ?? null;
+                var dll = LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadURL;
                 if (dll is null)
                 {
                     await GetGitHubRelease(httpController);
-                    dll = LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadURL ?? null;
+                    dll = (LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadURL);
                     if (dll is null)
                     {
                         return false;
                     }
                 }
-                return await httpController.DownloadFileAsync(dll, $"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
+                return await httpController.DownloadFileAsync(dll, ApplicationSettings.Current.GW2Location + RelativeLocation);
             }
             return false;
         }
 
-        internal bool IsInstalled() => File.Exists($"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
+        internal bool IsInstalled() => File.Exists(ApplicationSettings.Current.GW2Location + RelativeLocation);
 
         internal bool IsCurrentVersion(string version)
         {
@@ -122,7 +122,7 @@ namespace PlenBotLogUploader.ArcDps
             if (!string.IsNullOrWhiteSpace(Repository))
             {
                 var release = await GetGitHubRelease(httpController);
-                return release?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.Size.ToString() ?? null;
+                return release?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.Size.ToString();
             }
             return null;
         }
@@ -131,7 +131,7 @@ namespace PlenBotLogUploader.ArcDps
         {
             try
             {
-                var file = new FileInfo($"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
+                var file = new FileInfo(ApplicationSettings.Current.GW2Location + RelativeLocation);
                 return file.Length;
             }
             catch
@@ -146,7 +146,7 @@ namespace PlenBotLogUploader.ArcDps
             try
             {
                 byte[] hash = null;
-                using var stream = File.OpenRead($"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
+                using var stream = File.OpenRead(ApplicationSettings.Current.GW2Location + RelativeLocation);
                 hash = md5.ComputeHash(stream);
                 return BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
             }

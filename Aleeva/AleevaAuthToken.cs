@@ -21,6 +21,6 @@ namespace PlenBotLogUploader.Aleeva
         internal string RefreshToken { get; set; }
 
         [JsonProperty("scope")]
-        internal List<string> Scope { get; set; } = new List<string>();
+        internal List<string> Scope { get; set; } = new();
     }
 }

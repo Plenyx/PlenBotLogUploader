@@ -10,7 +10,7 @@ namespace PlenBotLogUploader
     public partial class FormEditGW2API : Form
     {
         #region definitions
-        private readonly HttpClientController httpClientController = new HttpClientController();
+        private readonly HttpClientController httpClientController = new();
         private ApplicationSettingsGW2API data = null;
         private readonly FormGW2API gw2apiLink;
         #endregion
@@ -21,7 +21,7 @@ namespace PlenBotLogUploader
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             Text = (data is null) ? "Add a new API key" : "Edit an existing API key";
-            if (!(data is null))
+            if (data is not null)
             {
                 this.data = data;
                 textBoxAPIKeyName.Text = data.Name;
@@ -34,7 +34,7 @@ namespace PlenBotLogUploader
         {
             if (string.IsNullOrWhiteSpace(textBoxAPIKeyName.Text))
             {
-                if (!(data is null))
+                if (data is not null)
                 {
                     ApplicationSettings.Current.GW2APIs.Remove(data);
                     ApplicationSettings.Current.Save();

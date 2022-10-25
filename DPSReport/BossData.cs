@@ -76,7 +76,7 @@ namespace PlenBotLogUploader.DPSReport
             format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);
             format = format.Replace("<log>", reportJSON.ConfigAwarePermalink);
             format = format.Replace("<pulls>", pullCounter.ToString());
-            format = (!(reportJSON.ExtraJSON is null) && !(reportJSON.ExtraJSON.PossiblyLastTarget is null))
+            format = ((reportJSON.ExtraJSON is not null) && (reportJSON.ExtraJSON.PossiblyLastTarget is not null))
                 ? format.Replace("<percent>", $"{reportJSON.ExtraJSON.PossiblyLastTarget.Name} ({Math.Round(reportJSON.ExtraJSON.PossiblyLastTarget.RemainingHealthPercent, 2)}%)")
                 : format.Replace("<percent>", string.Empty);
             return format;
@@ -86,7 +86,6 @@ namespace PlenBotLogUploader.DPSReport
         /// Deserializes a json string to BossData
         /// </summary>
         /// <param name="jsonString">The json to parse</param>
-        /// <returns></returns>
         /// <exception cref="JsonException"></exception>
         internal static IDictionary<int, BossData> ParseJsonString(string jsonString)
         {

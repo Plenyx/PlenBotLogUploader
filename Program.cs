@@ -16,6 +16,7 @@ namespace PlenBotLogUploader
         [STAThread]
         static void Main()
         {
+            Debug.Assert(OperatingSystem.IsWindowsVersionAtLeast(7));
             var currProcess = Process.GetCurrentProcess();
             var otherProcesses = Process.GetProcessesByName("PlenBotLogUploader")
                 .Where(x => !x.Id.Equals(currProcess.Id))
@@ -111,6 +112,7 @@ namespace PlenBotLogUploader
             if (otherProcesses.Count == 0)
             {
                 Application.EnableVisualStyles();
+                Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new FormMain());
             }

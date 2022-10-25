@@ -16,7 +16,7 @@ namespace PlenBotLogUploader.Tools
         /// </summary>
         internal HttpClientController() : base()
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("PlenBotLogUploader", AppSettings.ApplicationSettings.Version.ToString()));
         }
         #endregion
