@@ -9,11 +9,11 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: true
     - name: Setup .NET 6
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
     # This is a workaround for issue https://github.com/actions/virtual-environments/issues/1090,
@@ -33,17 +33,17 @@ jobs:
           mkdir -p artifacts/pdb/uploader/win64/
           mv artifacts/uploader/win64/*.pdb artifacts/pdb/uploader/win64/
     - name: Upload PlenBotLogUploader (Windows)
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3.1.1
       with:
         name: PlenBotLogUploader (Windows)
         path: artifacts/uploader/win64/PlenBotLogUploader.exe
     - name: Upload PlenBotLogUploader (Windows, self-contained)
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3.1.1
       with:
         name: PlenBotLogUploader (Windows, self-contained)
         path: artifacts/uploader/win64-sc/PlenBotLogUploader.exe
     - name: Upload PDB files
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3.1.1
       with:
         name: PDB files
         path: artifacts/pdb/
