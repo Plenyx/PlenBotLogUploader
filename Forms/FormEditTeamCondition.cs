@@ -165,13 +165,10 @@ namespace PlenBotLogUploader
 
         private void TextBoxLimiterValue_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(textBoxLimiterValue.Text, out int limiterValue))
+            if (int.TryParse(textBoxLimiterValue.Text, out int limiterValue) && (limiterValue >= 0))
             {
-                if (limiterValue >= 0)
-                {
-                    Condition.LimiterValue = limiterValue;
-                    RedrawCondition();
-                }
+                Condition.LimiterValue = limiterValue;
+                RedrawCondition();
             }
         }
 

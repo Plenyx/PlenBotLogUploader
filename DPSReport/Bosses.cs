@@ -41,7 +41,6 @@ namespace PlenBotLogUploader.DPSReport
         /// Saves BossData to specified json file.
         /// </summary>
         /// <param name="bossDataToSave">BossData to persist.</param>
-        /// <param name="filePath">File to be saved to.</param>
         internal static void SaveToJson(IDictionary<int, BossData> bossDataToSave)
         {
             var jsonString = JsonConvert.SerializeObject(bossDataToSave.Values, Formatting.Indented);
@@ -63,12 +62,12 @@ namespace PlenBotLogUploader.DPSReport
             var jsonString = reader.ReadToEnd();
 
             _all = BossData.ParseJsonString(jsonString);
-            foreach (var boss in _all)
+            foreach (var boss in _all.Values)
             {
-                if ((boss.Value.Type != BossType.Golem) && (boss.Value.Type != BossType.WvW) && !boss.Value.Event)
+                if ((boss.Type != BossType.Golem) && (boss.Type != BossType.WvW) && !boss.Event)
                 {
-                    boss.Value.SuccessMsg = ApplicationSettings.Current.BossTemplate.SuccessText;
-                    boss.Value.FailMsg = ApplicationSettings.Current.BossTemplate.FailText;
+                    boss.SuccessMsg = ApplicationSettings.Current.BossTemplate.SuccessText;
+                    boss.FailMsg = ApplicationSettings.Current.BossTemplate.FailText;
                 }
             }
             SaveToJson(_all);
@@ -100,47 +99,17 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>wing number</returns>
         internal static int GetWingForBoss(int bossId)
         {
-            switch (bossId)
+            return bossId switch
             {
-                case (int)BossIds.ValeGuardian:
-                case (int)BossIds.Gorseval:
-                case (int)BossIds.Sabetha:
-                    return 1;
-                case (int)BossIds.Slothasor:
-                case (int)BossIds.BanditTrioBerg:
-                case (int)BossIds.BanditTrioZane:
-                case (int)BossIds.BanditTrioNarella:
-                case (int)BossIds.Matthias:
-                    return 2;
-                case (int)BossIds.KeepConstruct:
-                case (int)BossIds.TwistedCastle:
-                case (int)BossIds.Xera:
-                    return 3;
-                case (int)BossIds.Cairn:
-                case (int)BossIds.MursaatOverseer:
-                case (int)BossIds.Samarog:
-                case (int)BossIds.Deimos:
-                    return 4;
-                case (int)BossIds.SoullessHorror:
-                case (int)BossIds.RiverOfSouls:
-                case (int)BossIds.BrokenKing:
-                case (int)BossIds.EaterOfSouls:
-                case (int)BossIds.EyeOfFate:
-                case (int)BossIds.EyeOfJudgement:
-                case (int)BossIds.Dhuum:
-                    return 5;
-                case (int)BossIds.ConjuredAmalgamate:
-                case (int)BossIds.LargosTwinsKenut:
-                case (int)BossIds.LargosTwinsNikare:
-                case (int)BossIds.Qadim:
-                    return 6;
-                case (int)BossIds.CardinalAdina:
-                case (int)BossIds.CardinalSabir:
-                case (int)BossIds.QadimThePeerless:
-                    return 7;
-                default:
-                    return 0;
-            }
+                (int)BossIds.ValeGuardian or (int)BossIds.Gorseval or (int)BossIds.Sabetha => 1,
+                (int)BossIds.Slothasor or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioZane or (int)BossIds.BanditTrioNarella or (int)BossIds.Matthias => 2,
+                (int)BossIds.KeepConstruct or (int)BossIds.TwistedCastle or (int)BossIds.Xera => 3,
+                (int)BossIds.Cairn or (int)BossIds.MursaatOverseer or (int)BossIds.Samarog or (int)BossIds.Deimos => 4,
+                (int)BossIds.SoullessHorror or (int)BossIds.RiverOfSouls or (int)BossIds.BrokenKing or (int)BossIds.EaterOfSouls or (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement or (int)BossIds.Dhuum => 5,
+                (int)BossIds.ConjuredAmalgamate or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.Qadim => 6,
+                (int)BossIds.CardinalAdina or (int)BossIds.CardinalSabir or (int)BossIds.QadimThePeerless => 7,
+                _ => 0,
+            };
         }
 
         /// <summary>
@@ -150,46 +119,16 @@ namespace PlenBotLogUploader.DPSReport
         /// <returns>order of the encounter within a wing</returns>
         internal static int GetBossOrder(int bossId)
         {
-            switch (bossId)
+            return bossId switch
             {
-                case (int)BossIds.ValeGuardian:
-                case (int)BossIds.Slothasor:
-                case (int)BossIds.Cairn:
-                case (int)BossIds.SoullessHorror:
-                case (int)BossIds.ConjuredAmalgamate:
-                case (int)BossIds.CardinalAdina:
-                    return 1;
-                case (int)BossIds.Gorseval:
-                case (int)BossIds.BanditTrioBerg:
-                case (int)BossIds.BanditTrioNarella:
-                case (int)BossIds.BanditTrioZane:
-                case (int)BossIds.KeepConstruct:
-                case (int)BossIds.MursaatOverseer:
-                case (int)BossIds.RiverOfSouls:
-                case (int)BossIds.LargosTwinsKenut:
-                case (int)BossIds.LargosTwinsNikare:
-                case (int)BossIds.CardinalSabir:
-                    return 2;
-                case (int)BossIds.Matthias:
-                case (int)BossIds.TwistedCastle:
-                case (int)BossIds.Sabetha:
-                case (int)BossIds.Samarog:
-                case (int)BossIds.BrokenKing:
-                case (int)BossIds.Qadim:
-                case (int)BossIds.QadimThePeerless:
-                    return 3;
-                case (int)BossIds.Deimos:
-                case (int)BossIds.EaterOfSouls:
-                case (int)BossIds.Xera:
-                    return 4;
-                case (int)BossIds.EyeOfFate:
-                case (int)BossIds.EyeOfJudgement:
-                    return 5;
-                case (int)BossIds.Dhuum:
-                    return 6;
-                default:
-                    return 0;
-            }
+                (int)BossIds.ValeGuardian or (int)BossIds.Slothasor or (int)BossIds.Cairn or (int)BossIds.SoullessHorror or (int)BossIds.ConjuredAmalgamate or (int)BossIds.CardinalAdina => 1,
+                (int)BossIds.Gorseval or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir => 2,
+                (int)BossIds.Matthias or (int)BossIds.TwistedCastle or (int)BossIds.Sabetha or (int)BossIds.Samarog or (int)BossIds.BrokenKing or (int)BossIds.Qadim or (int)BossIds.QadimThePeerless => 3,
+                (int)BossIds.Deimos or (int)BossIds.EaterOfSouls or (int)BossIds.Xera => 4,
+                (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement => 5,
+                (int)BossIds.Dhuum => 6,
+                _ => 0,
+            };
         }
 
         /// <summary>

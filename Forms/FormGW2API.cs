@@ -1,6 +1,7 @@
 ﻿using Hardstuck.GuildWars2.Builds;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Tools;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,9 +39,9 @@ namespace PlenBotLogUploader
             buttonGetHardstuckBuildLink.Enabled = ApplicationSettings.Current.GW2APIs.Count > 0;
         }
 
-        private void ListBoxAPIKeys_DoubleClick(object sender, System.EventArgs e)
+        private void ListBoxAPIKeys_DoubleClick(object sender, EventArgs e)
         {
-            if (!(listBoxAPIKeys.SelectedItem is null))
+            if (listBoxAPIKeys.SelectedItem is not null)
             {
                 var item = (ApplicationSettingsGW2API)listBoxAPIKeys.SelectedItem;
                 new FormEditGW2API(this, item).ShowDialog();
@@ -55,20 +56,20 @@ namespace PlenBotLogUploader
             toolStripMenuItemRemoveKey.Enabled = !toggle;
         }
 
-        private void ToolStripMenuItemAddKey_Click(object sender, System.EventArgs e) => (new FormEditGW2API(this, null)).ShowDialog();
+        private void ToolStripMenuItemAddKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, null)).ShowDialog();
 
-        private void ToolStripMenuItemEditKey_Click(object sender, System.EventArgs e) => (new FormEditGW2API(this, (ApplicationSettingsGW2API)listBoxAPIKeys.SelectedItem)).ShowDialog();
+        private void ToolStripMenuItemEditKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, (ApplicationSettingsGW2API)listBoxAPIKeys.SelectedItem)).ShowDialog();
 
-        private void ToolStripMenuItemRemoveKey_Click(object sender, System.EventArgs e)
+        private void ToolStripMenuItemRemoveKey_Click(object sender, EventArgs e)
         {
             ApplicationSettings.Current.GW2APIs.Remove((ApplicationSettingsGW2API)listBoxAPIKeys.SelectedItem);
             ApplicationSettings.Current.Save();
             RedrawList();
         }
 
-        private void ButtonAddAPIKey_Click(object sender, System.EventArgs e) => (new FormEditGW2API(this, null)).ShowDialog();
+        private void ButtonAddAPIKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, null)).ShowDialog();
 
-        private void ButtonGetHardStuckCode_Click(object sender, System.EventArgs e)
+        private void ButtonGetHardStuckCode_Click(object sender, EventArgs e)
         {
             mainLink.MumbleReader?.Update();
             if (!string.IsNullOrWhiteSpace(mainLink.MumbleReader?.Data.Identity?.Name))

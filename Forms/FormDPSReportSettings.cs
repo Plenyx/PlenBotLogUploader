@@ -73,7 +73,7 @@ namespace PlenBotLogUploader
 
         private void ContextMenuStripUserTokens_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var toggle = !(checkedListBoxUserTokens.SelectedItem is null);
+            var toggle = checkedListBoxUserTokens.SelectedItem is not null;
             toolStripMenuItemEditUserToken.Enabled = toggle;
             toolStripMenuItemDeleteUserToken.Enabled = toggle;
         }

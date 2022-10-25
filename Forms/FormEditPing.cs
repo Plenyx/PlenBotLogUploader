@@ -27,8 +27,7 @@ namespace PlenBotLogUploader
             textBoxURL.Text = config?.URL ?? string.Empty;
             textBoxAuthName.Text = config?.Authentication.AuthName ?? "Bearer";
             textBoxAuthToken.Text = config?.Authentication.AuthToken ?? string.Empty;
-            var method = config?.Method ?? PingMethod.Post;
-            switch (method)
+            switch (config?.Method ?? PingMethod.Post)
             {
                 case PingMethod.Get:
                     radioButtonMethodGet.Checked = true;

@@ -32,7 +32,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private IDictionary<int, Team> LoadTeams()
+        private static IDictionary<int, Team> LoadTeams()
         {
             try
             {
@@ -65,23 +65,13 @@ namespace PlenBotLogUploader
         private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
             var item = (Team)listBoxTeams.SelectedItem;
-            foreach (var webhook in allWebhooks.Values)
+            foreach (var webhook in allWebhooks.Values.Where(x => x.Team.Equals(item)))
             {
-                if (webhook.Team.Equals(item))
-                {
-                    webhook.Team = allTeams.Values.First();
-                }
+                webhook.Team = allTeams.Values.First();
             }
             listBoxTeams.SelectedItem = null;
             allTeams.Remove(item.ID);
             listBoxTeams.Items.Remove(item);
-        }
-
-        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e)
-        {
-            teamIdsKey++;
-            listBoxTeams.SelectedItem = null;
-            new FormEditTeam(this, null, teamIdsKey).ShowDialog();
         }
 
         private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
@@ -93,7 +83,7 @@ namespace PlenBotLogUploader
 
         private void ListBoxTeams_DoubleClick(object sender, EventArgs e)
         {
-            if (!(listBoxTeams.SelectedItem is null))
+            if (listBoxTeams.SelectedItem is not null)
             {
                 var item = (Team)listBoxTeams.SelectedItem;
                 new FormEditTeam(this, item, item.ID).ShowDialog();
@@ -101,11 +91,15 @@ namespace PlenBotLogUploader
             listBoxTeams.SelectedItem = null;
         }
 
-        private void ButtonAddTeam_Click(object sender, EventArgs e)
+        private void AddNewClick()
         {
             teamIdsKey++;
             listBoxTeams.SelectedItem = null;
             new FormEditTeam(this, null, teamIdsKey).ShowDialog();
         }
+
+        private void ButtonAddTeam_Click(object sender, EventArgs e) => AddNewClick();
+
+        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => AddNewClick();
     }
 }

@@ -8,7 +8,7 @@ namespace PlenBotLogUploader.Tools
     internal sealed class Gw2APIHelper : IDisposable
     {
         #region definitions
-        private readonly HttpClientController HttpClientController = new HttpClientController();
+        private readonly HttpClientController HttpClientController = new();
         private const string gw2api = "https://api.guildwars2.com/";
         #endregion
 

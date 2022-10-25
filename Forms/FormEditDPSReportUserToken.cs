@@ -9,9 +9,13 @@ namespace PlenBotLogUploader
     public partial class FormEditDPSReportUserToken : Form
     {
         #region definitions
+        // fields
         private readonly FormDPSReportSettings settingsLink;
         private readonly HttpClientController httpClientController;
         private ApplicationSettingsUploadUserToken data;
+
+        // constants
+        private const string dpsReportUserTokenURL = "https://dps.report/getUserToken";
         #endregion
 
         internal FormEditDPSReportUserToken(FormDPSReportSettings settingsLink, HttpClientController httpClientController, ApplicationSettingsUploadUserToken data = null)
@@ -22,7 +26,7 @@ namespace PlenBotLogUploader
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             Text = (data is null) ? "Add a new user token" : "Edit user token";
-            if (!(data is null))
+            if (data is not null)
             {
                 textBoxName.Text = data.Name;
                 textBoxUserToken.Text = data.UserToken;
@@ -33,7 +37,7 @@ namespace PlenBotLogUploader
         {
             if (string.IsNullOrWhiteSpace(textBoxName.Text))
             {
-                if (!(data is null))
+                if (data is not null)
                 {
                     ApplicationSettings.Current.Upload.DPSReportUserTokens.Remove(data);
                     ApplicationSettings.Current.Save();
@@ -60,7 +64,7 @@ namespace PlenBotLogUploader
             buttonDPSReportGetToken.Enabled = false;
             try
             {
-                var uri = new Uri("https://dps.report/getUserToken");
+                var uri = new Uri(dpsReportUserTokenURL);
                 using var responseMessage = await httpClientController.GetAsync(uri);
                 var response = await responseMessage.Content.ReadAsStringAsync();
                 var responseJson = JsonConvert.DeserializeObject<DPSReportUserTokenHelperClass>(response);

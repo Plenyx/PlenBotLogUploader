@@ -62,9 +62,10 @@ namespace PlenBotLogUploader
         private readonly FormMain mainLink;
         private bool _authorised = false;
         private const string aleevaAPIBaseUrl = "https://api.aleeva.io";
-        private readonly HttpClientController controller = new HttpClientController();
-        private readonly List<AleevaServer> aleevaServers = new List<AleevaServer>();
-        private readonly List<AleevaChannel> aleevaServerChannels = new List<AleevaChannel>();
+        private const string aleevaUrl = "https://www.aleeva.io/";
+        private readonly HttpClientController controller = new();
+        private readonly List<AleevaServer> aleevaServers = new();
+        private readonly List<AleevaChannel> aleevaServerChannels = new();
         #endregion
 
         internal FormAleeva(FormMain mainLink)
@@ -110,7 +111,7 @@ namespace PlenBotLogUploader
                     }
                     var jsonLogObject = JsonConvert.SerializeObject(logObject);
                     using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
-                    using (await controller.PostAsync(uri, content)) { }
+                    await controller.PostAsync(uri, content);
                 }
                 catch
                 {
@@ -196,12 +197,12 @@ namespace PlenBotLogUploader
                     ApplicationSettings.Current.Save();
                     await AleevaLoadServers();
                     var selectedServer = aleevaServers.Find(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer));
-                    if (!(selectedServer is null))
+                    if (selectedServer is not null)
                     {
                         comboBoxServer.SelectedItem = selectedServer;
                         await AleevaLoadChannels(selectedServer.ID);
                         var selectedChannel = aleevaServerChannels.First(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel));
-                        if (!(selectedChannel is null))
+                        if (selectedChannel is not null)
                         {
                             comboBoxChannel.SelectedItem = selectedChannel;
                         }
@@ -298,9 +299,8 @@ namespace PlenBotLogUploader
 
         private async void ComboBoxServer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxServer.SelectedItem.GetType().Equals(typeof(AleevaServer)))
+            if (comboBoxServer.SelectedItem is AleevaServer server)
             {
-                var server = (AleevaServer)comboBoxServer.SelectedItem;
                 ApplicationSettings.Current.Aleeva.SelectedServer = server.ID;
                 ApplicationSettings.Current.Save();
                 await AleevaLoadChannels(server.ID);
@@ -349,9 +349,8 @@ namespace PlenBotLogUploader
 
         private void ComboBoxChannel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxChannel.SelectedItem.GetType().Equals(typeof(AleevaChannel)))
+            if (comboBoxChannel.SelectedItem is AleevaChannel channel)
             {
-                var channel = (AleevaChannel)comboBoxChannel.SelectedItem;
                 ApplicationSettings.Current.Aleeva.SelectedChannel = channel.ID;
                 ApplicationSettings.Current.Save();
             }
@@ -372,7 +371,7 @@ namespace PlenBotLogUploader
         private void FormAleeva_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            Process.Start("https://www.aleeva.io/");
+            Process.Start(aleevaUrl);
         }
 
         private void FormAleeva_Shown(object sender, EventArgs e)

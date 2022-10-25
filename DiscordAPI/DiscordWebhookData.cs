@@ -44,7 +44,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// A list containing boss ids which are omitted to be posted via webhook
         /// </summary>
         [JsonProperty("disabledBosses")]
-        internal List<int> BossesDisable { get; set; } = new List<int>();
+        internal List<int> BossesDisable { get; set; } = new();
 
         [JsonProperty("teamId")]
         internal int TeamID { get; set; } = 0;
@@ -94,7 +94,6 @@ namespace PlenBotLogUploader.DiscordAPI
         /// True if boss is enabled for webhook broadcast, false otherwise; default: true
         /// </summary>
         /// <param name="bossId">Queried boss ID</param>
-        /// <returns></returns>
         internal bool IsBossEnabled(int bossId) => !BossesDisable.Contains(bossId);
 
         internal static IDictionary<int, DiscordWebhookData> FromJsonString(string jsonString)
@@ -104,10 +103,8 @@ namespace PlenBotLogUploader.DiscordAPI
             var parsedData = JsonConvert.DeserializeObject<IEnumerable<DiscordWebhookData>>(jsonString)
                              ?? throw new JsonException("Could not parse json to WebhookData");
 
-            var result = parsedData.Select(x => (Key: webhookId++, DiscordWebhookData: x))
+            return parsedData.Select(x => (Key: webhookId++, DiscordWebhookData: x))
                 .ToDictionary(x => x.Key, x => x.DiscordWebhookData);
-
-            return result;
         }
     }
 }

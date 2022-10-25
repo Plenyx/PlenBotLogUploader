@@ -90,19 +90,15 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e)
-        {
-            settingsIdsKey++;
-            new FormEditPing(this, settingsIdsKey, true, null).ShowDialog();
-        }
-
         private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
         {
             if (listViewPings.SelectedItems.Count > 0)
             {
                 var selected = listViewPings.SelectedItems[0];
-                int.TryParse(selected.Name, out int reservedId);
-                new FormEditPing(this, reservedId, false, AllPings[reservedId]).ShowDialog();
+                if (int.TryParse(selected.Name, out int reservedId))
+                {
+                    new FormEditPing(this, reservedId, false, AllPings[reservedId]).ShowDialog();
+                }
             }
         }
 
@@ -111,9 +107,11 @@ namespace PlenBotLogUploader
             if (listViewPings.SelectedItems.Count > 0)
             {
                 var selected = listViewPings.SelectedItems[0];
-                int.TryParse(selected.Name, out int reservedId);
-                listViewPings.Items.RemoveByKey(reservedId.ToString());
-                AllPings.Remove(reservedId);
+                if (int.TryParse(selected.Name, out int reservedId))
+                {
+                    listViewPings.Items.RemoveByKey(reservedId.ToString());
+                    AllPings.Remove(reservedId);
+                }
             }
         }
 
@@ -127,8 +125,10 @@ namespace PlenBotLogUploader
 
         private void ListViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            int.TryParse(e.Item.Name, out int reservedId);
-            AllPings[reservedId].Active = e.Item.Checked;
+            if (int.TryParse(e.Item.Name, out int reservedId))
+            {
+                AllPings[reservedId].Active = e.Item.Checked;
+            }
         }
 
         private async void ToolStripMenuItemTest_Click(object sender, EventArgs e)
@@ -136,26 +136,32 @@ namespace PlenBotLogUploader
             if (listViewPings.SelectedItems.Count > 0)
             {
                 var selected = listViewPings.SelectedItems[0];
-                int.TryParse(selected.Name, out int reservedId);
-                var result = await AllPings[reservedId].PingServerAsync(null, null);
-                if (result)
+                if (int.TryParse(selected.Name, out int reservedId))
                 {
-                    MessageBox.Show("Ping test successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    var result = await AllPings[reservedId].PingServerAsync(null, null);
+                    if (result)
+                    {
+                        MessageBox.Show("Ping test successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    }
                 }
             }
         }
 
-        private void ButtonAddNew_Click(object sender, EventArgs e)
+        private void AddNewClick()
         {
             settingsIdsKey++;
             new FormEditPing(this, settingsIdsKey, true, null).ShowDialog();
         }
 
-        private IDictionary<int, PingConfiguration> LoadPings()
+        private void ButtonAddNew_Click(object sender, EventArgs e) => AddNewClick();
+
+        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => AddNewClick();
+
+        private static IDictionary<int, PingConfiguration> LoadPings()
         {
             try
             {

@@ -10,6 +10,9 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormMain mainLink;
+
+        // constants
+        private const string generateOAuthURL = "https://twitchapps.com/tmi/";
         #endregion
 
         internal FormCustomName(FormMain mainLink)
@@ -43,6 +46,6 @@ namespace PlenBotLogUploader
             groupBoxCustomNameSettings.Enabled = checkBoxCustomNameEnable.Checked;
         }
 
-        private void LinkLabelGetOAuth_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start("https://twitchapps.com/tmi/");
+        private void LinkLabelGetOAuth_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start(generateOAuthURL);
     }
 }

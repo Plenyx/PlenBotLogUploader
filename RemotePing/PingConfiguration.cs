@@ -33,7 +33,7 @@ namespace PlenBotLogUploader.RemotePing
             if (configuration.Method.Equals(PingMethod.Post) || configuration.Method.Equals(PingMethod.Put))
             {
                 var fields = new Dictionary<string, string>();
-                if (!(reportJSON is null))
+                if (reportJSON is not null)
                 {
                     fields.Add("permalink", reportJSON.ConfigAwarePermalink);
                     fields.Add("bossId", reportJSON.Encounter.BossId.ToString());
@@ -77,12 +77,12 @@ namespace PlenBotLogUploader.RemotePing
             else if (configuration.Method.Equals(PingMethod.Get) || configuration.Method.Equals(PingMethod.Delete))
             {
                 var fullLink = $"{configuration.URL}?";
-                if (!(reportJSON is null))
+                if (reportJSON is not null)
                 {
                     var success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
                     var encounterInfo = $"bossId={reportJSON.Encounter.BossId}&success={success}&arcVersion={reportJSON.EVTC.Type}{reportJSON.EVTC.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.ConfigAwarePermalink)}";
-                    fullLink = $"{fullLink}{encounterInfo}";
-                    if (configuration.URL.Contains("?"))
+                    fullLink += encounterInfo;
+                    if (configuration.URL.Contains('?'))
                     {
                         fullLink = $"{configuration.URL}&{encounterInfo}";
                     }

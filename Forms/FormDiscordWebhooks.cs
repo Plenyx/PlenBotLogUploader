@@ -21,8 +21,8 @@ namespace PlenBotLogUploader
         private readonly FormMain mainLink;
         private int webhookIdsKey;
         private readonly IDictionary<int, DiscordWebhookData> allWebhooks;
-        private readonly CellStyle tableCellRightAlign = new CellStyle(CellHorizontalAlignment.Right);
-        private readonly CellStyle tableCellCenterAlign = new CellStyle(CellHorizontalAlignment.Center);
+        private readonly CellStyle tableCellRightAlign = new(CellHorizontalAlignment.Right);
+        private readonly CellStyle tableCellCenterAlign = new(CellHorizontalAlignment.Center);
         private readonly TableBordersStyle tableStyle = TableBordersStyle.HORIZONTAL_ONLY;
         private readonly TableVisibleBorders tableBorders = TableVisibleBorders.HEADER_ONLY;
         #endregion
@@ -63,7 +63,7 @@ namespace PlenBotLogUploader
                 var extraJSON = (reportJSON.ExtraJSON is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}";
                 var icon = string.Empty;
                 var bossData = Bosses.GetBossDataFromId(1);
-                if (!(bossData is null))
+                if (bossData is not null)
                 {
                     icon = bossData.Icon;
                 }
@@ -73,7 +73,7 @@ namespace PlenBotLogUploader
                     Url = icon
                 };
                 var timestampDateTime = DateTime.UtcNow;
-                if (!(reportJSON.ExtraJSON is null))
+                if (reportJSON.ExtraJSON is not null)
                 {
                     timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
@@ -88,7 +88,7 @@ namespace PlenBotLogUploader
                     Thumbnail = discordContentEmbedThumbnail
                 };
                 // fields
-                if (!(reportJSON.ExtraJSON is null))
+                if (reportJSON.ExtraJSON is not null)
                 {
                     // squad summary
                     var squadPlayers = reportJSON.ExtraJSON.Players
@@ -309,7 +309,7 @@ namespace PlenBotLogUploader
                 var extraJSON = (reportJSON.ExtraJSON is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
                 var icon = string.Empty;
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
-                if (!(bossData is null))
+                if (bossData is not null)
                 {
                     bossName = $"{bossData.Name}{(reportJSON.ChallengeMode ? " CM" : string.Empty)}";
                     icon = bossData.Icon;
@@ -320,7 +320,7 @@ namespace PlenBotLogUploader
                     Url = icon
                 };
                 var timestampDateTime = DateTime.UtcNow;
-                if (!(reportJSON.ExtraJSON is null))
+                if (reportJSON.ExtraJSON is not null)
                 {
                     timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
@@ -440,12 +440,12 @@ namespace PlenBotLogUploader
                         if (webhook.ShowPlayers)
                         {
                             using var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json");
-                            using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
+                            await mainLink.HttpClientController.PostAsync(uri, content);
                         }
                         else
                         {
                             using var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json");
-                            using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
+                            await mainLink.HttpClientController.PostAsync(uri, content);
                         }
                     }
                     if (allWebhooks.Count > 0)
@@ -507,12 +507,23 @@ namespace PlenBotLogUploader
             });
             try
             {
-                var jsonContent =
-                    (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)) ? jsonContentSuccessFailure :
-                    (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) ? jsonContentSuccess : jsonContentFailure);
+                string jsonContent;
+                if (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessAndFailure))
+                {
+                    jsonContent = jsonContentSuccessFailure;
+                }
+                else if (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly))
+                {
+                    jsonContent = jsonContentSuccess;
+                }
+                else
+                {
+                    jsonContent = jsonContentFailure;
+                }
+
                 var uri = new Uri(webhook.URL);
                 using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                using (await mainLink.HttpClientController.PostAsync(uri, content)) { }
+                await mainLink.HttpClientController.PostAsync(uri, content);
             }
             catch
             {
@@ -520,20 +531,16 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e)
-        {
-            webhookIdsKey++;
-            new FormEditDiscordWebhook(this, null, webhookIdsKey).ShowDialog();
-        }
-
         private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
             if (listViewDiscordWebhooks.SelectedItems.Count > 0)
             {
                 var selected = listViewDiscordWebhooks.SelectedItems[0];
-                int.TryParse(selected.Name, out int reservedId);
-                listViewDiscordWebhooks.Items.RemoveByKey(reservedId.ToString());
-                allWebhooks.Remove(reservedId);
+                if (int.TryParse(selected.Name, out int reservedId))
+                {
+                    listViewDiscordWebhooks.Items.RemoveByKey(reservedId.ToString());
+                    allWebhooks.Remove(reservedId);
+                }
             }
         }
 
@@ -542,15 +549,19 @@ namespace PlenBotLogUploader
             if (listViewDiscordWebhooks.SelectedItems.Count > 0)
             {
                 var selected = listViewDiscordWebhooks.SelectedItems[0];
-                int.TryParse(selected.Name, out int reservedId);
-                new FormEditDiscordWebhook(this, allWebhooks[reservedId], reservedId).ShowDialog();
+                if (int.TryParse(selected.Name, out int reservedId))
+                {
+                    new FormEditDiscordWebhook(this, allWebhooks[reservedId], reservedId).ShowDialog();
+                }
             }
         }
 
         private void ListViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            int.TryParse(e.Item.Name, out int reservedId);
-            allWebhooks[reservedId].Active = e.Item.Checked;
+            if (int.TryParse(e.Item.Name, out int reservedId))
+            {
+                allWebhooks[reservedId].Active = e.Item.Checked;
+            }
         }
 
         private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -566,23 +577,29 @@ namespace PlenBotLogUploader
             if (listViewDiscordWebhooks.SelectedItems.Count > 0)
             {
                 var selected = listViewDiscordWebhooks.SelectedItems[0];
-                int.TryParse(selected.Name, out int reservedId);
-                if (await allWebhooks[reservedId].TestWebhookAsync(mainLink.HttpClientController))
+                if (int.TryParse(selected.Name, out int reservedId))
                 {
-                    MessageBox.Show("Webhook is valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Webhook is not valid.\nCheck your URL.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (await allWebhooks[reservedId].TestWebhookAsync(mainLink.HttpClientController))
+                    {
+                        MessageBox.Show("Webhook is valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Webhook is not valid.\nCheck your URL.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
 
-        private void ButtonAddNew_Click(object sender, EventArgs e)
+        private void AddNewClick()
         {
             webhookIdsKey++;
             new FormEditDiscordWebhook(this, null, webhookIdsKey).ShowDialog();
         }
+
+        private void ButtonAddNew_Click(object sender, EventArgs e) => AddNewClick();
+
+        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => AddNewClick();
 
         internal void CheckBoxShortenThousands_CheckedChanged(object sender, EventArgs e)
         {

@@ -35,8 +35,10 @@ namespace PlenBotLogUploader
         private void ListViewBosses_DoubleClick(object sender, EventArgs e)
         {
             var selected = listViewBosses.SelectedItems[0];
-            int.TryParse(selected.Name, out int reservedId);
-            new FormEditBossData(this, allBosses[reservedId], reservedId).ShowDialog();
+            if (int.TryParse(selected.Name, out int reservedId))
+            {
+                new FormEditBossData(this, allBosses[reservedId], reservedId).ShowDialog();
+            }
         }
 
         private void FormBossData_FormClosing(object sender, FormClosingEventArgs e)
@@ -65,25 +67,25 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ButtonAddNew_Click(object sender, EventArgs e)
+        private void AddNewClick()
         {
             bossesIdsKey++;
             new FormEditBossData(this, null, bossesIdsKey).ShowDialog();
         }
 
-        private void ToolStripMenuItemAddNew_Click(object sender, EventArgs e)
-        {
-            bossesIdsKey++;
-            new FormEditBossData(this, null, bossesIdsKey).ShowDialog();
-        }
+        private void ButtonAddNew_Click(object sender, EventArgs e) => AddNewClick();
+
+        private void ToolStripMenuItemAddNew_Click(object sender, EventArgs e) => AddNewClick();
 
         private void ToolStripMenuItemEditBoss_Click(object sender, EventArgs e)
         {
             if (listViewBosses.SelectedItems.Count > 0)
             {
                 var selected = listViewBosses.SelectedItems[0];
-                int.TryParse(selected.Name, out int reservedId);
-                new FormEditBossData(this, allBosses[reservedId], reservedId).ShowDialog();
+                if (int.TryParse(selected.Name, out int reservedId))
+                {
+                    new FormEditBossData(this, allBosses[reservedId], reservedId).ShowDialog();
+                }
             }
         }
 
@@ -92,12 +94,14 @@ namespace PlenBotLogUploader
             if (listViewBosses.SelectedItems.Count > 0)
             {
                 var selected = listViewBosses.SelectedItems[0];
-                int.TryParse(selected.Name, out int reservedId);
-                var result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result.Equals(DialogResult.Yes))
+                if (int.TryParse(selected.Name, out int reservedId))
                 {
-                    listViewBosses.Items.RemoveByKey(reservedId.ToString());
-                    allBosses.Remove(reservedId);
+                    var result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result.Equals(DialogResult.Yes))
+                    {
+                        listViewBosses.Items.RemoveByKey(reservedId.ToString());
+                        allBosses.Remove(reservedId);
+                    }
                 }
             }
         }
@@ -114,7 +118,7 @@ namespace PlenBotLogUploader
             templateLink.BringToFront();
         }
 
-        private IDictionary<int, BossData> LoadBossData()
+        private static IDictionary<int, BossData> LoadBossData()
         {
             try
             {

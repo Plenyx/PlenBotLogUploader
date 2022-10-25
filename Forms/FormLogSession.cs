@@ -19,7 +19,7 @@ namespace PlenBotLogUploader
         // fields
         private readonly FormMain mainLink;
         private bool sessionPaused = false;
-        private readonly Stopwatch stopWatch = new Stopwatch();
+        private readonly Stopwatch stopWatch = new();
         private DateTime sessionTimeStarted;
         #endregion
 
@@ -136,9 +136,8 @@ namespace PlenBotLogUploader
             for (var i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
             {
                 var item = checkedListBoxSelectedWebhooks.Items[i];
-                if (item.GetType().Equals(typeof(DiscordWebhooksHelperClass)))
+                if (item is DiscordWebhooksHelperClass discordWebhookHelper)
                 {
-                    var discordWebhookHelper = (DiscordWebhooksHelperClass)item;
                     var checkedState = checkedListBoxSelectedWebhooks.GetItemChecked(i);
                     if (checkedState && allWebhooks.ContainsKey(discordWebhookHelper.WebhookID))
                     {

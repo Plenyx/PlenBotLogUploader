@@ -17,7 +17,7 @@ namespace PlenBotLogUploader
         #region definitions
         private readonly FormMain mainLink;
         private const string gw2botAPIBaseUrl = "https://api.gw2bot.info/v1";
-        private readonly HttpClientController controller = new HttpClientController();
+        private readonly HttpClientController controller = new();
         #endregion
 
         internal FormGW2Bot(FormMain mainLink)
@@ -52,15 +52,9 @@ namespace PlenBotLogUploader
         {
             if (checkBoxModuleEnabled.Checked)
             {
-                if (ApplicationSettings.Current.GW2Bot.SelectedTeamId > 0)
+                if ((ApplicationSettings.Current.GW2Bot.SelectedTeamId > 0) && Teams.Teams.All.ContainsKey(ApplicationSettings.Current.GW2Bot.SelectedTeamId) && !Teams.Teams.All[ApplicationSettings.Current.GW2Bot.SelectedTeamId].IsSatisfied(reportJSON.ExtraJSON))
                 {
-                    if (Teams.Teams.All.ContainsKey(ApplicationSettings.Current.GW2Bot.SelectedTeamId))
-                    {
-                        if (!Teams.Teams.All[ApplicationSettings.Current.GW2Bot.SelectedTeamId].IsSatisfied(reportJSON.ExtraJSON))
-                        {
-                            return true;
-                        }
-                    }
+                    return true;
                 }
                 if (checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
                 {
