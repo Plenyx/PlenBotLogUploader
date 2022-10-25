@@ -1,11 +1,11 @@
-# PlenBotLogUploader [![Build status](https://ci.appveyor.com/api/projects/status/qdx2bmsj54yg0c0y?svg=true)](https://ci.appveyor.com/project/Plenyx/plenbotloguploader)
+# PlenBotLogUploader [![Build and test](https://github.com/HardstuckGuild/PlenBotLogUploader/actions/workflows/build-and-test.yml/badge.svg?branch=netv6)](https://github.com/HardstuckGuild/PlenBotLogUploader/actions/workflows/build-and-test.yml)
 The all-in-one solution for all your arcdps logs.
 
 If you need any help to set-up the bot, be up-to-date with latest features or have a direct contact with other users of the uploader, you can join a special Discord server "[PlenBot support line](https://discord.gg/khMDaym)"!
 
-*Maintained by Plenyx.*
+*Maintained by @Plenyx & @sobrinth.*
 
-**Requires .NET Framework 4.8 ([link](https://dotnet.microsoft.com/download/thank-you/net48))**
+**Requires .NET 6.0 - Desktop Runtime ([link](https://dotnet.microsoft.com/en-us/download/dotnet/6.0))**
 
 ## Installation ([download](https://github.com/HardstuckGuild/PlenBotLogUploader/releases)) | [Screenshots](https://plenbot.net/uploader/?utm_source=github&utm_medium=referral&utm_campaign=readme)
 
