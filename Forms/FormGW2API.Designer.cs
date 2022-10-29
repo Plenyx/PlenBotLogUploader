@@ -43,7 +43,6 @@
             // 
             // labelAPIKeyInfo
             // 
-            this.labelAPIKeyInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelAPIKeyInfo.Location = new System.Drawing.Point(8, 323);
             this.labelAPIKeyInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAPIKeyInfo.Name = "labelAPIKeyInfo";

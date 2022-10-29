@@ -68,7 +68,7 @@
             this.groupBoxConditionVisual.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBoxConditionVisual.Name = "groupBoxConditionVisual";
             this.groupBoxConditionVisual.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBoxConditionVisual.Size = new System.Drawing.Size(507, 792);
+            this.groupBoxConditionVisual.Size = new System.Drawing.Size(507, 742);
             this.groupBoxConditionVisual.TabIndex = 8;
             this.groupBoxConditionVisual.TabStop = false;
             this.groupBoxConditionVisual.Text = "Visualisation of the conditions";
@@ -82,7 +82,7 @@
             this.textBoxConditionVisual.Multiline = true;
             this.textBoxConditionVisual.Name = "textBoxConditionVisual";
             this.textBoxConditionVisual.ReadOnly = true;
-            this.textBoxConditionVisual.Size = new System.Drawing.Size(495, 744);
+            this.textBoxConditionVisual.Size = new System.Drawing.Size(495, 706);
             this.textBoxConditionVisual.TabIndex = 5;
             // 
             // groupBoxConditionDefinition
@@ -94,7 +94,7 @@
             this.groupBoxConditionDefinition.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBoxConditionDefinition.Name = "groupBoxConditionDefinition";
             this.groupBoxConditionDefinition.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBoxConditionDefinition.Size = new System.Drawing.Size(384, 712);
+            this.groupBoxConditionDefinition.Size = new System.Drawing.Size(384, 662);
             this.groupBoxConditionDefinition.TabIndex = 7;
             this.groupBoxConditionDefinition.TabStop = false;
             this.groupBoxConditionDefinition.Text = "Condition definition";
@@ -103,7 +103,7 @@
             // 
             this.groupBoxSubConditions.Controls.Add(this.buttonAddSubCondition);
             this.groupBoxSubConditions.Controls.Add(this.listBoxSubConditions);
-            this.groupBoxSubConditions.Location = new System.Drawing.Point(7, 321);
+            this.groupBoxSubConditions.Location = new System.Drawing.Point(7, 272);
             this.groupBoxSubConditions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBoxSubConditions.Name = "groupBoxSubConditions";
             this.groupBoxSubConditions.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -114,10 +114,10 @@
             // 
             // buttonAddSubCondition
             // 
-            this.buttonAddSubCondition.Location = new System.Drawing.Point(191, 339);
+            this.buttonAddSubCondition.Location = new System.Drawing.Point(172, 339);
             this.buttonAddSubCondition.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonAddSubCondition.Name = "buttonAddSubCondition";
-            this.buttonAddSubCondition.Size = new System.Drawing.Size(168, 31);
+            this.buttonAddSubCondition.Size = new System.Drawing.Size(187, 31);
             this.buttonAddSubCondition.TabIndex = 1;
             this.buttonAddSubCondition.Text = "Add a new subcondition";
             this.buttonAddSubCondition.UseVisualStyleBackColor = true;
@@ -278,7 +278,7 @@
             // groupBoxAccountNames
             // 
             this.groupBoxAccountNames.Controls.Add(this.textBoxAccountNames);
-            this.groupBoxAccountNames.Location = new System.Drawing.Point(7, 321);
+            this.groupBoxAccountNames.Location = new System.Drawing.Point(7, 273);
             this.groupBoxAccountNames.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxAccountNames.Name = "groupBoxAccountNames";
             this.groupBoxAccountNames.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -323,7 +323,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(924, 824);
+            this.ClientSize = new System.Drawing.Size(924, 772);
             this.Controls.Add(this.groupBoxConditionDescription);
             this.Controls.Add(this.groupBoxConditionVisual);
             this.Controls.Add(this.groupBoxConditionDefinition);

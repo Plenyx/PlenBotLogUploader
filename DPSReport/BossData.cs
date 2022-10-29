@@ -63,7 +63,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <summary>
         /// Returns the name the object is using in the Uploader UI
         /// </summary>
-        internal string UIName => $"{Name}{(!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty)}";
+        internal string UIName => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty);
 
         /// <summary>
         /// Formats Twitch message based on the DPSReport's JSON response.

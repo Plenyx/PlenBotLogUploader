@@ -3,6 +3,7 @@ using PlenBotLogUploader.DPSReport.ExtraJSON;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace PlenBotLogUploader.DPSReport
 {
@@ -44,22 +45,19 @@ namespace PlenBotLogUploader.DPSReport
         [JsonProperty("players")]
         internal List<Player> Players { get; set; }
 
-        internal Dictionary<Player, int> PlayerTargetDPS
-        {
-            get
-            {
-                var dict = new Dictionary<Player, int>();
-                foreach (var player in Players)
-                {
-                    var damage = player.DpsTargets
-                        .Select(x => x[0].DPS)
-                        .Sum();
-                    dict.Add(player, damage);
-                }
-                return dict;
-            }
-        }
-
         internal Target PossiblyLastTarget => Targets.OrderByDescending(x => x.TotalHealth).FirstOrDefault(x => x.HealthPercentBurned <= 99);
+
+        internal Dictionary<Player, int> GetPlayerTargetDPS()
+        {
+            var dict = new Dictionary<Player, int>();
+            foreach (var player in CollectionsMarshal.AsSpan(Players))
+            {
+                var damage = player.DpsTargets
+                    .Select(x => x[0].DPS)
+                    .Sum();
+                dict.Add(player, damage);
+            }
+            return dict;
+        }
     }
 }

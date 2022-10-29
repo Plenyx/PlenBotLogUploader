@@ -40,37 +40,42 @@
             // groupBoxName
             // 
             this.groupBoxName.Controls.Add(this.textBoxName);
-            this.groupBoxName.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxName.Location = new System.Drawing.Point(12, 15);
+            this.groupBoxName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBoxName.Name = "groupBoxName";
-            this.groupBoxName.Size = new System.Drawing.Size(419, 54);
+            this.groupBoxName.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBoxName.Size = new System.Drawing.Size(419, 68);
             this.groupBoxName.TabIndex = 0;
             this.groupBoxName.TabStop = false;
             this.groupBoxName.Text = "Name";
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(6, 21);
+            this.textBoxName.Location = new System.Drawing.Point(6, 26);
+            this.textBoxName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(405, 22);
+            this.textBoxName.Size = new System.Drawing.Size(405, 27);
             this.textBoxName.TabIndex = 0;
             // 
             // groupBoxUserToken
             // 
             this.groupBoxUserToken.Controls.Add(this.buttonDPSReportGetToken);
             this.groupBoxUserToken.Controls.Add(this.textBoxUserToken);
-            this.groupBoxUserToken.Location = new System.Drawing.Point(12, 72);
+            this.groupBoxUserToken.Location = new System.Drawing.Point(12, 90);
+            this.groupBoxUserToken.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBoxUserToken.Name = "groupBoxUserToken";
-            this.groupBoxUserToken.Size = new System.Drawing.Size(419, 87);
+            this.groupBoxUserToken.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBoxUserToken.Size = new System.Drawing.Size(419, 109);
             this.groupBoxUserToken.TabIndex = 1;
             this.groupBoxUserToken.TabStop = false;
             this.groupBoxUserToken.Text = "User token";
             // 
             // buttonDPSReportGetToken
             // 
-            this.buttonDPSReportGetToken.Location = new System.Drawing.Point(157, 50);
-            this.buttonDPSReportGetToken.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDPSReportGetToken.Location = new System.Drawing.Point(126, 62);
+            this.buttonDPSReportGetToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonDPSReportGetToken.Name = "buttonDPSReportGetToken";
-            this.buttonDPSReportGetToken.Size = new System.Drawing.Size(254, 28);
+            this.buttonDPSReportGetToken.Size = new System.Drawing.Size(285, 35);
             this.buttonDPSReportGetToken.TabIndex = 4;
             this.buttonDPSReportGetToken.Text = "Generate token from the DPS.report API";
             this.buttonDPSReportGetToken.UseVisualStyleBackColor = true;
@@ -78,20 +83,22 @@
             // 
             // textBoxUserToken
             // 
-            this.textBoxUserToken.Location = new System.Drawing.Point(6, 21);
+            this.textBoxUserToken.Location = new System.Drawing.Point(6, 26);
+            this.textBoxUserToken.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxUserToken.Name = "textBoxUserToken";
-            this.textBoxUserToken.Size = new System.Drawing.Size(405, 22);
+            this.textBoxUserToken.Size = new System.Drawing.Size(405, 27);
             this.textBoxUserToken.TabIndex = 0;
             // 
             // FormEditDPSReportUserToken
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(440, 168);
+            this.ClientSize = new System.Drawing.Size(440, 210);
             this.Controls.Add(this.groupBoxUserToken);
             this.Controls.Add(this.groupBoxName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormEditDPSReportUserToken";

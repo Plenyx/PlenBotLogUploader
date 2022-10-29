@@ -378,12 +378,13 @@ namespace PlenBotLogUploader
                         var numberOfRealTargers = reportJSON.ExtraJSON.Targets
                             .Count(x => !x.IsFake);
                         // damage summary
+                        var targetDps = reportJSON.ExtraJSON.GetPlayerTargetDPS();
                         var damageStats = reportJSON.ExtraJSON.Players
                             .Where(x => !x.FriendNPC)
                             .Select(x => new
                             {
                                 Player = x,
-                                DPS = (numberOfRealTargers > 0) ? reportJSON.ExtraJSON.PlayerTargetDPS[x] : x.DpsAll[0].DPS
+                                DPS = (numberOfRealTargers > 0) ? targetDps[x] : x.DpsAll[0].DPS
                             })
                             .OrderByDescending(x => x.DPS)
                             .Take(10)

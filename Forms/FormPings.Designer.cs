@@ -45,12 +45,11 @@
             // 
             this.listViewPings.CheckBoxes = true;
             this.listViewPings.ContextMenuStrip = this.contextMenuStripInteract;
-            this.listViewPings.HideSelection = false;
-            this.listViewPings.Location = new System.Drawing.Point(16, 15);
-            this.listViewPings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listViewPings.Location = new System.Drawing.Point(16, 19);
+            this.listViewPings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listViewPings.MultiSelect = false;
             this.listViewPings.Name = "listViewPings";
-            this.listViewPings.Size = new System.Drawing.Size(747, 309);
+            this.listViewPings.Size = new System.Drawing.Size(747, 385);
             this.listViewPings.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewPings.TabIndex = 0;
             this.listViewPings.UseCompatibleStateImageBehavior = false;
@@ -66,7 +65,7 @@
             this.toolStripSeparatorOne,
             this.toolStripMenuItemAdd});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(300, 134);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(300, 106);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEdit
@@ -104,36 +103,36 @@
             // 
             // buttonAddNew
             // 
-            this.buttonAddNew.Location = new System.Drawing.Point(567, 332);
-            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonAddNew.Location = new System.Drawing.Point(545, 415);
+            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonAddNew.Name = "buttonAddNew";
-            this.buttonAddNew.Size = new System.Drawing.Size(197, 28);
+            this.buttonAddNew.Size = new System.Drawing.Size(219, 35);
             this.buttonAddNew.TabIndex = 1;
-            this.buttonAddNew.Text = "Add new ping configuration";
+            this.buttonAddNew.Text = "Add a new ping configuration";
             this.buttonAddNew.UseVisualStyleBackColor = true;
             this.buttonAddNew.Click += new System.EventHandler(this.ButtonAddNew_Click);
             // 
             // labelInformation
             // 
             this.labelInformation.AutoSize = true;
-            this.labelInformation.Location = new System.Drawing.Point(16, 338);
+            this.labelInformation.Location = new System.Drawing.Point(16, 422);
             this.labelInformation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(356, 16);
+            this.labelInformation.Size = new System.Drawing.Size(413, 20);
             this.labelInformation.TabIndex = 2;
             this.labelInformation.Text = "You can right click the box window to bring up context menu.";
             // 
             // FormPings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(780, 370);
+            this.ClientSize = new System.Drawing.Size(780, 462);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewPings);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormPings";

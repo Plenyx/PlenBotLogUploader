@@ -38,30 +38,31 @@ namespace PlenBotLogUploader
             // groupBoxTeamName
             // 
             this.groupBoxTeamName.Controls.Add(this.textBoxName);
-            this.groupBoxTeamName.Location = new System.Drawing.Point(16, 15);
-            this.groupBoxTeamName.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxTeamName.Location = new System.Drawing.Point(16, 19);
+            this.groupBoxTeamName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxTeamName.Name = "groupBoxTeamName";
-            this.groupBoxTeamName.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxTeamName.Size = new System.Drawing.Size(384, 57);
+            this.groupBoxTeamName.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxTeamName.Size = new System.Drawing.Size(384, 71);
             this.groupBoxTeamName.TabIndex = 0;
             this.groupBoxTeamName.TabStop = false;
             this.groupBoxTeamName.Text = "Team name";
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(8, 23);
-            this.textBoxName.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxName.Location = new System.Drawing.Point(8, 29);
+            this.textBoxName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(368, 22);
+            this.textBoxName.Size = new System.Drawing.Size(368, 27);
             this.textBoxName.TabIndex = 1;
             this.textBoxName.TextChanged += new System.EventHandler(this.TextBoxName_TextChanged);
             // 
             // buttonOpenMainCondition
             // 
             this.buttonOpenMainCondition.Enabled = false;
-            this.buttonOpenMainCondition.Location = new System.Drawing.Point(16, 79);
+            this.buttonOpenMainCondition.Location = new System.Drawing.Point(16, 99);
+            this.buttonOpenMainCondition.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonOpenMainCondition.Name = "buttonOpenMainCondition";
-            this.buttonOpenMainCondition.Size = new System.Drawing.Size(384, 32);
+            this.buttonOpenMainCondition.Size = new System.Drawing.Size(384, 40);
             this.buttonOpenMainCondition.TabIndex = 4;
             this.buttonOpenMainCondition.Text = "Setup condition parameters";
             this.buttonOpenMainCondition.UseVisualStyleBackColor = true;
@@ -69,14 +70,14 @@ namespace PlenBotLogUploader
             // 
             // FormEditTeam
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(414, 118);
+            this.ClientSize = new System.Drawing.Size(414, 148);
             this.Controls.Add(this.buttonOpenMainCondition);
             this.Controls.Add(this.groupBoxTeamName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormEditTeam";
