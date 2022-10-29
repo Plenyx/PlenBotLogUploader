@@ -46,7 +46,7 @@ namespace PlenBotLogUploader.Tools
                 .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
                 .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
                 .OrderBy(x => x.LogData.UploadTime)
-                .ToList();
+                .ToArray();
             if (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing))
             {
                 RaidLogs = reportsJSON
@@ -55,56 +55,56 @@ namespace PlenBotLogUploader.Tools
                     .OrderBy(x => Bosses.GetWingForBoss(x.LogData.EVTC.BossId))
                     .ThenBy(x => Bosses.GetBossOrder(x.LogData.Encounter.BossId))
                     .ThenBy(x => x.LogData.UploadTime)
-                    .ToList();
+                    .ToArray();
             }
             var FractalLogs = reportsJSON
                 .Where(x => allBosses
                     .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.Fractal)))
-                .ToList();
+                .ToArray();
             var StrikeLogs = reportsJSON
                 .Where(x => allBosses
                     .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.Strike)))
-                .ToList();
+                .ToArray();
             var GolemLogs = reportsJSON
                 .Where(x => allBosses
                     .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.Golem)))
-                .ToList();
+                .ToArray();
             var WvWLogs = reportsJSON
                 .Where(x => allBosses
                     .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.WvW)))
-                .ToList();
+                .ToArray();
             var OtherLogs = reportsJSON
                 .Where(x =>
                     allBosses
                         .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.None)) ||
                     !allBosses
                         .Any(y => y.Value.BossId.Equals(x.EVTC.BossId)))
-                .ToList();
+                .ToArray();
 
             var durationText = $"Session duration: **{logSessionSettings.ElapsedTime}**";
-            var builderSuccessFailure = ((WvWLogs.Count > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
-            var builderSuccess = ((WvWLogs.Count > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
-            var builderFailure = ((WvWLogs.Count > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
+            var builderSuccessFailure = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
+            var builderSuccess = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
+            var builderFailure = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
             int messageSuccessFailureCount = 0, messageSuccessCount = 0, messageFailureCount = 0;
 
-            if (RaidLogs.Count > 0)
+            if (RaidLogs.Length > 0)
             {
                 builderSuccessFailure.Append("***Raid logs:***\n");
                 if (logSessionSettings.SortBy.Equals(LogSessionSortBy.UploadTime))
                 {
-                    foreach (var data in RaidLogs.Select(x => x.LogData))
+                    foreach (var data in RaidLogs.AsSpan())
                     {
-                        var bossName = data.Encounter.Boss + (data.ChallengeMode ? " CM" : string.Empty);
-                        var bossData = Bosses.GetBossDataFromId(data.Encounter.BossId);
+                        var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : string.Empty);
+                        var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
                         if (bossData is not null)
                         {
-                            bossName = bossData.Name + (data.ChallengeMode ? " CM" : string.Empty);
+                            bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : string.Empty);
                         }
-                        var duration = (data.ExtraJSON is null) ? string.Empty : $" {data.ExtraJSON.Duration}";
+                        var duration = (data.LogData.ExtraJSON is null) ? string.Empty : $" {data.LogData.ExtraJSON.Duration}";
                         string successText = string.Empty;
                         if (logSessionSettings.ShowSuccess)
                         {
-                            if (data.Encounter.Success ?? false)
+                            if (data.LogData.Encounter.Success ?? false)
                             {
                                 successText = " :white_check_mark:";
                             }
@@ -114,7 +114,7 @@ namespace PlenBotLogUploader.Tools
                             }
                         }
 
-                        builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
+                        builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                         if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessFailureCount++;
@@ -122,9 +122,9 @@ namespace PlenBotLogUploader.Tools
                             builderSuccessFailure.Clear();
                             builderSuccessFailure.Append("***Raid logs:***\n");
                         }
-                        if (data.Encounter.Success ?? false)
+                        if (data.LogData.Encounter.Success ?? false)
                         {
-                            builderSuccess.Append('[').Append(bossName).Append("](").Append(data.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
+                            builderSuccess.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                             if (builderSuccess.Length >= maxAllowedMessageSize)
                             {
                                 messageSuccessCount++;
@@ -135,7 +135,7 @@ namespace PlenBotLogUploader.Tools
                         }
                         else
                         {
-                            builderFailure.Append('[').Append(bossName).Append("](").Append(data.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
+                            builderFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
                             if (builderFailure.Length >= maxAllowedMessageSize)
                             {
                                 messageFailureCount++;
@@ -149,7 +149,7 @@ namespace PlenBotLogUploader.Tools
                 else
                 {
                     var lastWing = 0;
-                    foreach (var data in RaidLogs)
+                    foreach (var data in RaidLogs.AsSpan())
                     {
                         if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.EVTC.BossId)))
                         {
@@ -211,7 +211,7 @@ namespace PlenBotLogUploader.Tools
                     }
                 }
             }
-            if (FractalLogs.Count > 0)
+            if (FractalLogs.Length > 0)
             {
                 if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
@@ -228,7 +228,7 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***Fractal logs:***\n");
                 builderSuccess.Append("***Fractal logs:***\n");
                 builderFailure.Append("***Fractal logs:***\n");
-                foreach (var log in FractalLogs)
+                foreach (var log in FractalLogs.AsSpan())
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
@@ -282,7 +282,7 @@ namespace PlenBotLogUploader.Tools
                     }
                 }
             }
-            if (StrikeLogs.Count > 0)
+            if (StrikeLogs.Length > 0)
             {
                 if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
@@ -299,7 +299,7 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***Strike mission logs:***\n");
                 builderSuccess.Append("***Strike mission logs:***\n");
                 builderFailure.Append("***Strike mission logs:***\n");
-                foreach (var log in StrikeLogs)
+                foreach (var log in StrikeLogs.AsSpan())
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
@@ -353,7 +353,7 @@ namespace PlenBotLogUploader.Tools
                     }
                 }
             }
-            if (GolemLogs.Count > 0)
+            if (GolemLogs.Length > 0)
             {
                 if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
@@ -370,7 +370,7 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***Golem logs:***\n");
                 builderSuccess.Append("***Golem logs:***\n");
                 builderFailure.Append("***Golem logs:***\n");
-                foreach (var log in GolemLogs)
+                foreach (var log in GolemLogs.AsSpan())
                 {
                     builderSuccessFailure.Append(log.ConfigAwarePermalink).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
@@ -404,7 +404,7 @@ namespace PlenBotLogUploader.Tools
                     }
                 }
             }
-            if (WvWLogs.Count > 0)
+            if (WvWLogs.Length > 0)
             {
                 if (logSessionSettings.MakeWvWSummaryEmbed)
                 {
@@ -443,7 +443,7 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***WvW logs:***\n");
                 builderSuccess.Append("***WvW logs:***\n");
                 builderFailure.Append("***WvW logs:***\n");
-                foreach (var log in WvWLogs)
+                foreach (var log in WvWLogs.AsSpan())
                 {
                     builderSuccessFailure.Append(log.ConfigAwarePermalink).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
@@ -477,7 +477,7 @@ namespace PlenBotLogUploader.Tools
                     }
                 }
             }
-            if (OtherLogs.Count > 0)
+            if (OtherLogs.Length > 0)
             {
                 if (!builderSuccessFailure.ToString().EndsWith("***\n"))
                 {
@@ -494,7 +494,7 @@ namespace PlenBotLogUploader.Tools
                 builderSuccessFailure.Append("***Other logs:***\n");
                 builderSuccess.Append("***Other logs:***\n");
                 builderFailure.Append("***Other logs:***\n");
-                foreach (var log in OtherLogs)
+                foreach (var log in OtherLogs.AsSpan())
                 {
                     var bossName = log.Encounter.Boss;
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
