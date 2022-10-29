@@ -173,8 +173,6 @@ namespace PlenBotLogUploader
                     case DPSReportServer.B:
                         dpsReportSettingsLink.radioButtonB.Checked = true;
                         break;
-                    default:
-                        break;
                 }
                 if (ApplicationSettings.Current.Upload.Enabled)
                 {
@@ -520,13 +518,13 @@ namespace PlenBotLogUploader
 
         private void LogsScan(string directory)
         {
-            Parallel.ForEach(Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories), f =>
+            foreach (var file in Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories).AsSpan())
             {
-                if (f.EndsWith(".evtc") || f.EndsWith(".zevtc"))
+                if (file.EndsWith(".evtc") || file.EndsWith(".zevtc"))
                 {
-                    Interlocked.Increment(ref logsCount);
+                    logsCount++;
                 }
-            });
+            }
             UpdateLogCount();
         }
 
@@ -1234,18 +1232,21 @@ namespace PlenBotLogUploader
                 toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItem() { Enabled = false, Text = "No user tokens defined" });
                 return;
             }
-            ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToList().ForEach(x =>
+            foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name))
             {
-                var index = toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken>() { Checked = x.Active, Text = x.Name, LinkedObject = x });
+                var index = toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken>() { Checked = userToken.Active, Text = userToken.Name, LinkedObject = userToken });
                 toolStripMenuItemDPSReportUserTokens.DropDownItems[index].Click += UserTokenButtonClicked;
-            });
+            }
         }
 
         private void UserTokenButtonClicked(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken> pressedButton)
             {
-                ApplicationSettings.Current.Upload.DPSReportUserTokens.Where(x => x.Active).ToList().ForEach(x => x.Active = false);
+                foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens)
+                {
+                    userToken.Active = false;
+                }
                 pressedButton.LinkedObject.Active = true;
                 dpsReportSettingsLink.RedrawList();
                 RedrawUserTokenContext();

@@ -3,6 +3,7 @@ using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -32,7 +33,7 @@ namespace PlenBotLogUploader
         internal void RedrawList()
         {
             listBoxAPIKeys.Items.Clear();
-            foreach (var apiKey in ApplicationSettings.Current.GW2APIs)
+            foreach (var apiKey in CollectionsMarshal.AsSpan(ApplicationSettings.Current.GW2APIs))
             {
                 listBoxAPIKeys.Items.Add(apiKey);
             }
@@ -41,9 +42,8 @@ namespace PlenBotLogUploader
 
         private void ListBoxAPIKeys_DoubleClick(object sender, EventArgs e)
         {
-            if (listBoxAPIKeys.SelectedItem is not null)
+            if (listBoxAPIKeys.SelectedItem is ApplicationSettingsGW2API item)
             {
-                var item = (ApplicationSettingsGW2API)listBoxAPIKeys.SelectedItem;
                 new FormEditGW2API(this, item).ShowDialog();
             }
             listBoxAPIKeys.SelectedItem = null;

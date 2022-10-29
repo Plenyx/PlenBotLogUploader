@@ -52,8 +52,7 @@ namespace PlenBotLogUploader.Tools
             {
                 var uri = new Uri(url);
                 using var responseMessage = await GetAsync(uri);
-                var response = await responseMessage.Content.ReadAsStringAsync();
-                return response;
+                return await responseMessage.Content.ReadAsStringAsync();
             }
             catch
             {
@@ -73,8 +72,7 @@ namespace PlenBotLogUploader.Tools
                 var uri = new Uri($"https://api.github.com/repos/{repository}/releases/latest");
                 using var responseMessage = await GetAsync(uri);
                 var response = await responseMessage.Content.ReadAsStringAsync();
-                var release = JsonConvert.DeserializeObject<GitHubReleasesLatest>(response);
-                return release;
+                return JsonConvert.DeserializeObject<GitHubReleasesLatest>(response);
             }
             catch
             {

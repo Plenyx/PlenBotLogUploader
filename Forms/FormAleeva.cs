@@ -277,8 +277,7 @@ namespace PlenBotLogUploader
                 if (response.IsSuccessStatusCode)
                 {
                     var responseMessage = await response.Content.ReadAsStringAsync();
-                    var jArray = JArray.Parse(responseMessage);
-                    foreach (var token in jArray)
+                    foreach (var token in JArray.Parse(responseMessage))
                     {
                         var server = token.ToObject<AleevaServer>();
                         aleevaServers.Add(server);
@@ -329,8 +328,7 @@ namespace PlenBotLogUploader
                 if (response.IsSuccessStatusCode)
                 {
                     var responseMessage = await response.Content.ReadAsStringAsync();
-                    var jArray = JArray.Parse(responseMessage);
-                    foreach (var token in jArray)
+                    foreach (var token in JArray.Parse(responseMessage))
                     {
                         var channel = token.ToObject<AleevaChannel>();
                         aleevaServerChannels.Add(channel);
