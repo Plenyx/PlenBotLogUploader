@@ -19,7 +19,7 @@ namespace PlenBotLogUploader
             InitializeComponent();
             ChangeFormText();
             Icon = Properties.Resources.AppIcon;
-            if (Condition != null)
+            if (Condition is not null)
             {
                 textBoxConditionDescription.Text = Condition.Description;
                 textBoxLimiterValue.Text = Condition.LimiterValue.ToString();
@@ -91,7 +91,7 @@ namespace PlenBotLogUploader
 
         private void ChangeFormText()
         {
-            Text = $"{Team.Name}{Condition.PathDescription}";
+            Text = Team.Name + Condition.PathDescription;
         }
 
         protected void HandleConditionChange(object sender, EventArgs e)
@@ -101,6 +101,10 @@ namespace PlenBotLogUploader
 
         private void RadioButtonLimiterAtLeast_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButtonLimiterAtLeast.Checked)
+            {
+                return;
+            }
             Condition.Limiter = TeamLimiter.AtLeast;
             textBoxLimiterValue.Enabled = true;
             textBoxAccountNames.Enabled = true;
@@ -111,6 +115,10 @@ namespace PlenBotLogUploader
 
         private void RadioButtonLimiterExact_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButtonLimiterExact.Checked)
+            {
+                return;
+            }
             Condition.Limiter = TeamLimiter.Exact;
             textBoxLimiterValue.Enabled = true;
             textBoxAccountNames.Enabled = true;
@@ -121,14 +129,24 @@ namespace PlenBotLogUploader
 
         private void RadioButtonLimiterExcept_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButtonLimiterExcept.Checked)
+            {
+                return;
+            }
             Condition.Limiter = TeamLimiter.Except;
             textBoxLimiterValue.Enabled = false;
             textBoxAccountNames.Enabled = true;
+            groupBoxAccountNames.Visible = true;
+            groupBoxSubConditions.Visible = false;
             RedrawCondition();
         }
 
         private void RadioButtonLimiterCommanderName_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButtonLimiterCommanderName.Checked)
+            {
+                return;
+            }
             Condition.Limiter = TeamLimiter.CommanderName;
             textBoxLimiterValue.Enabled = false;
             textBoxAccountNames.Enabled = true;
@@ -139,6 +157,10 @@ namespace PlenBotLogUploader
 
         private void RadioButtonLimiterAND_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButtonLimiterAND.Checked)
+            {
+                return;
+            }
             Condition.Limiter = TeamLimiter.AND;
             textBoxLimiterValue.Enabled = false;
             textBoxAccountNames.Enabled = false;
@@ -149,6 +171,10 @@ namespace PlenBotLogUploader
 
         private void RadioButtonLimiterOR_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radioButtonLimiterOR.Checked)
+            {
+                return;
+            }
             Condition.Limiter = TeamLimiter.OR;
             textBoxLimiterValue.Enabled = false;
             textBoxAccountNames.Enabled = false;

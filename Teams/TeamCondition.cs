@@ -147,26 +147,26 @@ namespace PlenBotLogUploader.Teams
         internal string Draw(int intent = 0)
         {
             var intentString = new string(' ', intent);
-            var result = new StringBuilder();
+            var result = new StringBuilder(intentString);
             switch (Limiter)
             {
                 case TeamLimiter.AND:
                 case TeamLimiter.OR:
-                    result.Append(intentString).Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append(Limiter).AppendLine(":");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append(Limiter).AppendLine(":");
                     result.Append(string.Concat(Subconditions.Select(x => x.Draw(intent + 4))));
                     break;
                 case TeamLimiter.CommanderName:
-                    result.Append(intentString).Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Any commander from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Any commander from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
                     break;
                 case TeamLimiter.Except:
-                    result.Append(intentString).Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Except any from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Except any from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
                     break;
                 case TeamLimiter.Exact:
-                    result.Append(intentString).Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Exactly ").Append(LimiterValue).Append(" from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Exactly ").Append(LimiterValue).Append(" from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
                     break;
                 // at least
                 default:
-                    result.Append(intentString).Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("At least ").Append(LimiterValue).Append(" from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("At least ").Append(LimiterValue).Append(" from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
                     break;
             }
             return result.ToString();
