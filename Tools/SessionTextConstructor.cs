@@ -42,21 +42,19 @@ namespace PlenBotLogUploader.Tools
             var discordEmbedsFailure = new List<DiscordAPIJSONContentEmbed>();
             DiscordAPIJSONContentEmbed discordEmbedSummary = null;
 
-            var RaidLogs = reportsJSON
-                .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
-                .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
-                .OrderBy(x => x.LogData.UploadTime)
-                .ToArray();
-            if (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing))
-            {
-                RaidLogs = reportsJSON
+            var RaidLogs = (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing)) ?
+                reportsJSON
                     .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
                     .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
                     .OrderBy(x => Bosses.GetWingForBoss(x.LogData.EVTC.BossId))
                     .ThenBy(x => Bosses.GetBossOrder(x.LogData.Encounter.BossId))
                     .ThenBy(x => x.LogData.UploadTime)
+                    .ToArray() :
+                reportsJSON
+                    .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
+                    .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
+                    .OrderBy(x => x.LogData.UploadTime)
                     .ToArray();
-            }
             var FractalLogs = reportsJSON
                 .Where(x => allBosses
                     .Any(y => y.Value.BossId.Equals(x.EVTC.BossId) && y.Value.Type.Equals(BossType.Fractal)))
