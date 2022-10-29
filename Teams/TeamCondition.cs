@@ -83,7 +83,10 @@ namespace PlenBotLogUploader.Teams
             set
             {
                 _subconditions = value;
-                _subconditions.ForEach(x => x.ParentCondition = this);
+                foreach (var subcondition in _subconditions)
+                {
+                    subcondition.ParentCondition = this;
+                }
                 CallConditionChanged();
             }
         }
@@ -99,7 +102,10 @@ namespace PlenBotLogUploader.Teams
         internal void SetUp(TeamCondition parent)
         {
             ParentCondition = parent;
-            Subconditions.ForEach(x => x.SetUp(this));
+            foreach (var subcondition in Subconditions)
+            {
+                subcondition.SetUp(this);
+            }
         }
 
         internal bool IsSatisfied(DPSReport.DPSReportJSONExtraJSON extraJSON)

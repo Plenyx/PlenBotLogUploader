@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace PlenBotLogUploader
@@ -66,8 +65,13 @@ namespace PlenBotLogUploader
                     SelectedWebhooks = ConvertCheckboxListToList()
                 };
                 var sessionNameFormatted = textBoxSessionName.Text.ToLower().Replace(" ", string.Empty);
-                var invalidCharacters = Path.GetInvalidFileNameChars().Where(x => !x.Equals('/')).ToList();
-                invalidCharacters.ForEach(x => sessionNameFormatted = sessionNameFormatted.Replace(x.ToString(), ""));
+                foreach (var character in Path.GetInvalidFileNameChars())
+                {
+                    if (!character.Equals('/'))
+                    {
+                        sessionNameFormatted = sessionNameFormatted.Replace(character.ToString(), "");
+                    }
+                }
                 sessionNameFormatted = sessionNameFormatted.Replace("/", "-out-of-");
                 var fileName = $"{((!string.IsNullOrWhiteSpace(sessionNameFormatted)) ? $"{sessionNameFormatted} " : "")}{sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
                 File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink;UserToken\n");

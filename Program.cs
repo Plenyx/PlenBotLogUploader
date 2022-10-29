@@ -16,21 +16,20 @@ namespace PlenBotLogUploader
         [STAThread]
         static void Main()
         {
-            Debug.Assert(OperatingSystem.IsWindowsVersionAtLeast(7));
             var currProcess = Process.GetCurrentProcess();
             var otherProcesses = Process.GetProcessesByName("PlenBotLogUploader")
                 .Where(x => !x.Id.Equals(currProcess.Id))
-                .ToList();
-            var args = Environment.GetCommandLineArgs().ToList();
+                .ToArray();
+            var args = Environment.GetCommandLineArgs();
             var localDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
-            if (args.Count == 4)
+            if (args.Length == 4)
             {
                 if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase) && args[3].Equals("-m", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (otherProcesses.Count == 0)
+                    if (otherProcesses.Length == 0)
                     {
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), $"{localDir}{args[2]}", true);
-                        Process.Start($"{localDir}{args[2]}", "-m -finishupdate");
+                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
+                        Process.Start(localDir + args[2], "-m -finishupdate");
                         return;
                     }
                     else
@@ -49,13 +48,13 @@ namespace PlenBotLogUploader
                                 // do nothing
                             }
                         }
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), $"{localDir}{args[2]}", true);
-                        Process.Start($"{localDir}{args[2]}", "-m -finishupdate");
+                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
+                        Process.Start(localDir + args[2], "-m -finishupdate");
                         return;
                     }
                 }
             }
-            else if (args.Count == 3)
+            else if (args.Length == 3)
             {
                 if (args[2].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
                 {
@@ -63,10 +62,10 @@ namespace PlenBotLogUploader
                 }
                 else if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (otherProcesses.Count == 0)
+                    if (otherProcesses.Length == 0)
                     {
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), $"{localDir}{args[2]}", true);
-                        Process.Start($"{localDir}{args[2]}", "-finishupdate");
+                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
+                        Process.Start(localDir + args[2], "-finishupdate");
                         return;
                     }
                     else
@@ -85,13 +84,13 @@ namespace PlenBotLogUploader
                                 // do nothing
                             }
                         }
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), $"{localDir}{args[2]}", true);
-                        Process.Start($"{localDir}{args[2]}", "-finishupdate");
+                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
+                        Process.Start(localDir + args[2], "-finishupdate");
                         return;
                     }
                 }
             }
-            else if (args.Count == 2)
+            else if (args.Length == 2)
             {
                 if (args[1].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
                 {
@@ -101,7 +100,7 @@ namespace PlenBotLogUploader
                 {
                     using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                     {
-                        if (!(registrySubKey.GetValue("PlenBot Log Uploader") is null))
+                        if (registrySubKey.GetValue("PlenBot Log Uploader") is not null)
                         {
                             registrySubKey.DeleteValue("PlenBot Log Uploader");
                         }
@@ -109,7 +108,7 @@ namespace PlenBotLogUploader
                     new ApplicationSettings().Save();
                 }
             }
-            if (otherProcesses.Count == 0)
+            if (otherProcesses.Length == 0)
             {
                 Application.EnableVisualStyles();
                 Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);

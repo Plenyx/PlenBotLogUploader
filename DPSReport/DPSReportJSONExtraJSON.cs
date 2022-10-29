@@ -49,13 +49,13 @@ namespace PlenBotLogUploader.DPSReport
             get
             {
                 var dict = new Dictionary<Player, int>();
-                Players.ForEach(player =>
+                foreach (var player in Players)
                 {
                     var damage = player.DpsTargets
                         .Select(x => x[0].DPS)
                         .Sum();
                     dict.Add(player, damage);
-                });
+                }
                 return dict;
             }
         }

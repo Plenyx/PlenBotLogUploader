@@ -40,7 +40,10 @@ namespace PlenBotLogUploader.Teams
             var result = parsedData.Select(x => (Key: x.ID, TeamData: x))
                 .ToDictionary(x => x.Key, x => x.TeamData);
 
-            result.Values.ToList().ForEach(x => x.MainCondition?.SetUp(null));
+            foreach (var team in result.Values)
+            {
+                team.MainCondition?.SetUp(null);
+            }
 
             return result;
         }

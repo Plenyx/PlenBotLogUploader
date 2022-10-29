@@ -218,13 +218,14 @@ namespace PlenBotLogUploader
                     if (!component.IsInstalled())
                     {
                         await component.DownloadComponent(httpController);
-                        ArcDpsComponent.All.Where(x => x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)).ToList().ForEach(async comp =>
+
+                        foreach (var comp in ArcDpsComponent.All)
                         {
-                            if (!comp.IsInstalled())
+                            if (comp.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode) && !comp.IsInstalled())
                             {
                                 await comp.DownloadComponent(httpController);
                             }
-                        });
+                        }
                     }
                 }
                 else
