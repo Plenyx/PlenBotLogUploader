@@ -46,12 +46,11 @@
             // 
             this.listViewDiscordWebhooks.CheckBoxes = true;
             this.listViewDiscordWebhooks.ContextMenuStrip = this.contextMenuStripInteract;
-            this.listViewDiscordWebhooks.HideSelection = false;
-            this.listViewDiscordWebhooks.Location = new System.Drawing.Point(16, 15);
-            this.listViewDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4);
+            this.listViewDiscordWebhooks.Location = new System.Drawing.Point(16, 19);
+            this.listViewDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listViewDiscordWebhooks.MultiSelect = false;
             this.listViewDiscordWebhooks.Name = "listViewDiscordWebhooks";
-            this.listViewDiscordWebhooks.Size = new System.Drawing.Size(747, 309);
+            this.listViewDiscordWebhooks.Size = new System.Drawing.Size(781, 385);
             this.listViewDiscordWebhooks.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewDiscordWebhooks.TabIndex = 0;
             this.listViewDiscordWebhooks.UseCompatibleStateImageBehavior = false;
@@ -105,10 +104,10 @@
             // 
             // buttonAddNew
             // 
-            this.buttonAddNew.Location = new System.Drawing.Point(619, 332);
-            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAddNew.Location = new System.Drawing.Point(639, 415);
+            this.buttonAddNew.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonAddNew.Name = "buttonAddNew";
-            this.buttonAddNew.Size = new System.Drawing.Size(145, 28);
+            this.buttonAddNew.Size = new System.Drawing.Size(158, 35);
             this.buttonAddNew.TabIndex = 1;
             this.buttonAddNew.Text = "Add a new webhook";
             this.buttonAddNew.UseVisualStyleBackColor = true;
@@ -117,35 +116,36 @@
             // labelInformation
             // 
             this.labelInformation.AutoSize = true;
-            this.labelInformation.Location = new System.Drawing.Point(16, 338);
+            this.labelInformation.Location = new System.Drawing.Point(16, 422);
             this.labelInformation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(356, 16);
+            this.labelInformation.Size = new System.Drawing.Size(413, 20);
             this.labelInformation.TabIndex = 2;
             this.labelInformation.Text = "You can right click the box window to bring up context menu.";
             // 
             // checkBoxShortenThousands
             // 
             this.checkBoxShortenThousands.AutoSize = true;
-            this.checkBoxShortenThousands.Location = new System.Drawing.Point(438, 337);
+            this.checkBoxShortenThousands.Location = new System.Drawing.Point(438, 421);
+            this.checkBoxShortenThousands.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBoxShortenThousands.Name = "checkBoxShortenThousands";
-            this.checkBoxShortenThousands.Size = new System.Drawing.Size(174, 20);
+            this.checkBoxShortenThousands.Size = new System.Drawing.Size(194, 24);
             this.checkBoxShortenThousands.TabIndex = 3;
             this.checkBoxShortenThousands.Text = "Shorten thousands to \"k\"";
             this.checkBoxShortenThousands.UseVisualStyleBackColor = true;
             // 
             // FormDiscordWebhooks
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(780, 370);
+            this.ClientSize = new System.Drawing.Size(809, 462);
             this.Controls.Add(this.checkBoxShortenThousands);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.buttonAddNew);
             this.Controls.Add(this.listViewDiscordWebhooks);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormDiscordWebhooks";

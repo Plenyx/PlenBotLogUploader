@@ -84,10 +84,11 @@ namespace PlenBotLogUploader.DPSReport
         {
             var bossDataRef = All
                 .Where(x => x.Value.BossId.Equals(bossId))
-                .Select(x => x.Value);
-            if (bossDataRef.Count() == 1)
+                .Select(x => x.Value)
+                .ToArray();
+            if (bossDataRef.Length == 1)
             {
-                return bossDataRef.First();
+                return bossDataRef[0];
             }
             return null;
         }
@@ -98,8 +99,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <param name="bossId">ID of the encounter</param>
         /// <returns>wing number</returns>
         internal static int GetWingForBoss(int bossId)
-        {
-            return bossId switch
+            => bossId switch
             {
                 (int)BossIds.ValeGuardian or (int)BossIds.Gorseval or (int)BossIds.Sabetha => 1,
                 (int)BossIds.Slothasor or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioZane or (int)BossIds.BanditTrioNarella or (int)BossIds.Matthias => 2,
@@ -110,7 +110,6 @@ namespace PlenBotLogUploader.DPSReport
                 (int)BossIds.CardinalAdina or (int)BossIds.CardinalSabir or (int)BossIds.QadimThePeerless => 7,
                 _ => 0,
             };
-        }
 
         /// <summary>
         /// Returns the order of the encounter within a wing based on given encounter ID.
@@ -118,8 +117,7 @@ namespace PlenBotLogUploader.DPSReport
         /// <param name="bossId">ID of the encounter</param>
         /// <returns>order of the encounter within a wing</returns>
         internal static int GetBossOrder(int bossId)
-        {
-            return bossId switch
+            => bossId switch
             {
                 (int)BossIds.ValeGuardian or (int)BossIds.Slothasor or (int)BossIds.Cairn or (int)BossIds.SoullessHorror or (int)BossIds.ConjuredAmalgamate or (int)BossIds.CardinalAdina => 1,
                 (int)BossIds.Gorseval or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir => 2,
@@ -129,7 +127,6 @@ namespace PlenBotLogUploader.DPSReport
                 (int)BossIds.Dhuum => 6,
                 _ => 0,
             };
-        }
 
         /// <summary>
         /// Returns a wing name based on its number.

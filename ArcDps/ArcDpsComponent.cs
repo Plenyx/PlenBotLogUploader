@@ -131,8 +131,7 @@ namespace PlenBotLogUploader.ArcDps
         {
             try
             {
-                var file = new FileInfo(ApplicationSettings.Current.GW2Location + RelativeLocation);
-                return file.Length;
+                return new FileInfo(ApplicationSettings.Current.GW2Location + RelativeLocation).Length;
             }
             catch
             {
@@ -145,9 +144,8 @@ namespace PlenBotLogUploader.ArcDps
             using var md5 = System.Security.Cryptography.MD5.Create();
             try
             {
-                byte[] hash = null;
                 using var stream = File.OpenRead(ApplicationSettings.Current.GW2Location + RelativeLocation);
-                hash = md5.ComputeHash(stream);
+                var hash = md5.ComputeHash(stream);
                 return BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
             }
             catch

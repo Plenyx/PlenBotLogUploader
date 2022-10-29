@@ -66,7 +66,7 @@ namespace PlenBotLogUploader.DPSReport
         /// Players sub-objects of DPSReport's response
         /// </summary>
         [JsonProperty("players")]
-        internal Dictionary<string, DPSReportJSONPlayers> Players { get; set; } = new Dictionary<string, DPSReportJSONPlayers>();
+        internal Dictionary<string, DPSReportJSONPlayers> Players { get; set; } = new();
 
         /// <summary>
         /// Report sub-object of DPSReport's response

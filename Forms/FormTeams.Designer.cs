@@ -43,13 +43,12 @@ namespace PlenBotLogUploader
             // listBoxTeams
             // 
             this.listBoxTeams.ContextMenuStrip = this.contextMenuStripInteract;
-            this.listBoxTeams.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.listBoxTeams.FormattingEnabled = true;
             this.listBoxTeams.ItemHeight = 20;
-            this.listBoxTeams.Location = new System.Drawing.Point(16, 15);
-            this.listBoxTeams.Margin = new System.Windows.Forms.Padding(4);
+            this.listBoxTeams.Location = new System.Drawing.Point(16, 19);
+            this.listBoxTeams.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listBoxTeams.Name = "listBoxTeams";
-            this.listBoxTeams.Size = new System.Drawing.Size(448, 424);
+            this.listBoxTeams.Size = new System.Drawing.Size(448, 524);
             this.listBoxTeams.TabIndex = 0;
             this.listBoxTeams.DoubleClick += new System.EventHandler(this.ListBoxTeams_DoubleClick);
             // 
@@ -62,7 +61,7 @@ namespace PlenBotLogUploader
             this.toolStripSeparatorOne,
             this.toolStripMenuItemAdd});
             this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(245, 110);
+            this.contextMenuStripInteract.Size = new System.Drawing.Size(245, 82);
             this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
             // 
             // toolStripMenuItemEdit
@@ -93,10 +92,10 @@ namespace PlenBotLogUploader
             // 
             // buttonAddTeam
             // 
-            this.buttonAddTeam.Location = new System.Drawing.Point(333, 460);
-            this.buttonAddTeam.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAddTeam.Location = new System.Drawing.Point(333, 553);
+            this.buttonAddTeam.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonAddTeam.Name = "buttonAddTeam";
-            this.buttonAddTeam.Size = new System.Drawing.Size(131, 28);
+            this.buttonAddTeam.Size = new System.Drawing.Size(131, 35);
             this.buttonAddTeam.TabIndex = 1;
             this.buttonAddTeam.Text = "Add a new team";
             this.buttonAddTeam.UseVisualStyleBackColor = true;
@@ -104,14 +103,14 @@ namespace PlenBotLogUploader
             // 
             // FormTeams
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(480, 500);
+            this.ClientSize = new System.Drawing.Size(480, 600);
             this.Controls.Add(this.buttonAddTeam);
             this.Controls.Add(this.listBoxTeams);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormTeams";

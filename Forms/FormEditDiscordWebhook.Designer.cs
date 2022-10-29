@@ -57,46 +57,46 @@
             // labelName
             // 
             this.labelName.AutoSize = true;
-            this.labelName.Location = new System.Drawing.Point(8, 20);
+            this.labelName.Location = new System.Drawing.Point(8, 25);
             this.labelName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(106, 16);
+            this.labelName.Size = new System.Drawing.Size(116, 20);
             this.labelName.TabIndex = 0;
             this.labelName.Text = "Webhook name:";
             // 
             // labelUrl
             // 
             this.labelUrl.AutoSize = true;
-            this.labelUrl.Location = new System.Drawing.Point(8, 68);
+            this.labelUrl.Location = new System.Drawing.Point(8, 85);
             this.labelUrl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelUrl.Name = "labelUrl";
-            this.labelUrl.Size = new System.Drawing.Size(99, 16);
+            this.labelUrl.Size = new System.Drawing.Size(105, 20);
             this.labelUrl.TabIndex = 1;
             this.labelUrl.Text = "Webhook URL:";
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(12, 39);
-            this.textBoxName.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxName.Location = new System.Drawing.Point(12, 49);
+            this.textBoxName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(501, 22);
+            this.textBoxName.Size = new System.Drawing.Size(501, 27);
             this.textBoxName.TabIndex = 2;
             // 
             // textBoxUrl
             // 
-            this.textBoxUrl.Location = new System.Drawing.Point(12, 87);
-            this.textBoxUrl.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxUrl.Location = new System.Drawing.Point(12, 109);
+            this.textBoxUrl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxUrl.Name = "textBoxUrl";
-            this.textBoxUrl.Size = new System.Drawing.Size(501, 22);
+            this.textBoxUrl.Size = new System.Drawing.Size(501, 27);
             this.textBoxUrl.TabIndex = 3;
             // 
             // checkBoxPlayers
             // 
             this.checkBoxPlayers.AutoSize = true;
-            this.checkBoxPlayers.Location = new System.Drawing.Point(12, 119);
-            this.checkBoxPlayers.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxPlayers.Location = new System.Drawing.Point(12, 149);
+            this.checkBoxPlayers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.checkBoxPlayers.Name = "checkBoxPlayers";
-            this.checkBoxPlayers.Size = new System.Drawing.Size(413, 20);
+            this.checkBoxPlayers.Size = new System.Drawing.Size(464, 24);
             this.checkBoxPlayers.TabIndex = 5;
             this.checkBoxPlayers.Text = "Show detailed information about players and squad performance";
             this.checkBoxPlayers.UseVisualStyleBackColor = true;
@@ -105,10 +105,10 @@
             // 
             this.checkedListBoxBossesEnable.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.checkedListBoxBossesEnable.FormattingEnabled = true;
-            this.checkedListBoxBossesEnable.Location = new System.Drawing.Point(8, 23);
-            this.checkedListBoxBossesEnable.Margin = new System.Windows.Forms.Padding(4);
+            this.checkedListBoxBossesEnable.Location = new System.Drawing.Point(8, 29);
+            this.checkedListBoxBossesEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.checkedListBoxBossesEnable.Name = "checkedListBoxBossesEnable";
-            this.checkedListBoxBossesEnable.Size = new System.Drawing.Size(505, 255);
+            this.checkedListBoxBossesEnable.Size = new System.Drawing.Size(505, 308);
             this.checkedListBoxBossesEnable.TabIndex = 6;
             // 
             // groupBoxWebhookInfo
@@ -118,11 +118,11 @@
             this.groupBoxWebhookInfo.Controls.Add(this.labelUrl);
             this.groupBoxWebhookInfo.Controls.Add(this.checkBoxPlayers);
             this.groupBoxWebhookInfo.Controls.Add(this.textBoxUrl);
-            this.groupBoxWebhookInfo.Location = new System.Drawing.Point(16, 15);
-            this.groupBoxWebhookInfo.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxWebhookInfo.Location = new System.Drawing.Point(16, 19);
+            this.groupBoxWebhookInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxWebhookInfo.Name = "groupBoxWebhookInfo";
-            this.groupBoxWebhookInfo.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxWebhookInfo.Size = new System.Drawing.Size(523, 149);
+            this.groupBoxWebhookInfo.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxWebhookInfo.Size = new System.Drawing.Size(523, 186);
             this.groupBoxWebhookInfo.TabIndex = 7;
             this.groupBoxWebhookInfo.TabStop = false;
             this.groupBoxWebhookInfo.Text = "Webhook info";
@@ -136,21 +136,21 @@
             this.groupBoxBossesEnable.Controls.Add(this.buttonUnSelectAllRaids);
             this.groupBoxBossesEnable.Controls.Add(this.buttonUnSelectAll);
             this.groupBoxBossesEnable.Controls.Add(this.checkedListBoxBossesEnable);
-            this.groupBoxBossesEnable.Location = new System.Drawing.Point(547, 15);
-            this.groupBoxBossesEnable.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxBossesEnable.Location = new System.Drawing.Point(547, 19);
+            this.groupBoxBossesEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxBossesEnable.Name = "groupBoxBossesEnable";
-            this.groupBoxBossesEnable.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxBossesEnable.Size = new System.Drawing.Size(523, 334);
+            this.groupBoxBossesEnable.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxBossesEnable.Size = new System.Drawing.Size(523, 388);
             this.groupBoxBossesEnable.TabIndex = 8;
             this.groupBoxBossesEnable.TabStop = false;
             this.groupBoxBossesEnable.Text = "Only upload for selected bosses";
             // 
             // buttonUnSelectAllGolems
             // 
-            this.buttonUnSelectAllGolems.Location = new System.Drawing.Point(363, 298);
-            this.buttonUnSelectAllGolems.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonUnSelectAllGolems.Location = new System.Drawing.Point(363, 345);
+            this.buttonUnSelectAllGolems.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUnSelectAllGolems.Name = "buttonUnSelectAllGolems";
-            this.buttonUnSelectAllGolems.Size = new System.Drawing.Size(72, 28);
+            this.buttonUnSelectAllGolems.Size = new System.Drawing.Size(72, 35);
             this.buttonUnSelectAllGolems.TabIndex = 12;
             this.buttonUnSelectAllGolems.Text = "Golems";
             this.buttonUnSelectAllGolems.UseVisualStyleBackColor = true;
@@ -158,10 +158,10 @@
             // 
             // buttonUnSelectWvW
             // 
-            this.buttonUnSelectWvW.Location = new System.Drawing.Point(443, 298);
-            this.buttonUnSelectWvW.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonUnSelectWvW.Location = new System.Drawing.Point(443, 345);
+            this.buttonUnSelectWvW.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUnSelectWvW.Name = "buttonUnSelectWvW";
-            this.buttonUnSelectWvW.Size = new System.Drawing.Size(72, 28);
+            this.buttonUnSelectWvW.Size = new System.Drawing.Size(72, 35);
             this.buttonUnSelectWvW.TabIndex = 11;
             this.buttonUnSelectWvW.Text = "WvW";
             this.buttonUnSelectWvW.UseVisualStyleBackColor = true;
@@ -169,10 +169,10 @@
             // 
             // buttonUnSelectAllFractals
             // 
-            this.buttonUnSelectAllFractals.Location = new System.Drawing.Point(204, 298);
-            this.buttonUnSelectAllFractals.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonUnSelectAllFractals.Location = new System.Drawing.Point(204, 345);
+            this.buttonUnSelectAllFractals.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUnSelectAllFractals.Name = "buttonUnSelectAllFractals";
-            this.buttonUnSelectAllFractals.Size = new System.Drawing.Size(72, 28);
+            this.buttonUnSelectAllFractals.Size = new System.Drawing.Size(72, 35);
             this.buttonUnSelectAllFractals.TabIndex = 10;
             this.buttonUnSelectAllFractals.Text = "Fractals";
             this.buttonUnSelectAllFractals.UseVisualStyleBackColor = true;
@@ -180,10 +180,10 @@
             // 
             // buttonUnSelectAllStrikes
             // 
-            this.buttonUnSelectAllStrikes.Location = new System.Drawing.Point(283, 298);
-            this.buttonUnSelectAllStrikes.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonUnSelectAllStrikes.Location = new System.Drawing.Point(283, 345);
+            this.buttonUnSelectAllStrikes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUnSelectAllStrikes.Name = "buttonUnSelectAllStrikes";
-            this.buttonUnSelectAllStrikes.Size = new System.Drawing.Size(72, 28);
+            this.buttonUnSelectAllStrikes.Size = new System.Drawing.Size(72, 35);
             this.buttonUnSelectAllStrikes.TabIndex = 9;
             this.buttonUnSelectAllStrikes.Text = "Strikes";
             this.buttonUnSelectAllStrikes.UseVisualStyleBackColor = true;
@@ -191,10 +191,10 @@
             // 
             // buttonUnSelectAllRaids
             // 
-            this.buttonUnSelectAllRaids.Location = new System.Drawing.Point(124, 298);
-            this.buttonUnSelectAllRaids.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonUnSelectAllRaids.Location = new System.Drawing.Point(124, 345);
+            this.buttonUnSelectAllRaids.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUnSelectAllRaids.Name = "buttonUnSelectAllRaids";
-            this.buttonUnSelectAllRaids.Size = new System.Drawing.Size(72, 28);
+            this.buttonUnSelectAllRaids.Size = new System.Drawing.Size(72, 35);
             this.buttonUnSelectAllRaids.TabIndex = 8;
             this.buttonUnSelectAllRaids.Text = "Raids";
             this.buttonUnSelectAllRaids.UseVisualStyleBackColor = true;
@@ -202,10 +202,10 @@
             // 
             // buttonUnSelectAll
             // 
-            this.buttonUnSelectAll.Location = new System.Drawing.Point(8, 298);
-            this.buttonUnSelectAll.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonUnSelectAll.Location = new System.Drawing.Point(8, 345);
+            this.buttonUnSelectAll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUnSelectAll.Name = "buttonUnSelectAll";
-            this.buttonUnSelectAll.Size = new System.Drawing.Size(108, 28);
+            this.buttonUnSelectAll.Size = new System.Drawing.Size(108, 35);
             this.buttonUnSelectAll.TabIndex = 7;
             this.buttonUnSelectAll.Text = "(Un)Select all";
             this.buttonUnSelectAll.UseVisualStyleBackColor = true;
@@ -216,11 +216,11 @@
             this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlySuccessAndFail);
             this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlyFail);
             this.groupBoxConditionalPost.Controls.Add(this.radioButtonOnlySuccess);
-            this.groupBoxConditionalPost.Location = new System.Drawing.Point(16, 185);
-            this.groupBoxConditionalPost.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxConditionalPost.Location = new System.Drawing.Point(16, 231);
+            this.groupBoxConditionalPost.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxConditionalPost.Name = "groupBoxConditionalPost";
-            this.groupBoxConditionalPost.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxConditionalPost.Size = new System.Drawing.Size(523, 81);
+            this.groupBoxConditionalPost.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxConditionalPost.Size = new System.Drawing.Size(523, 101);
             this.groupBoxConditionalPost.TabIndex = 9;
             this.groupBoxConditionalPost.TabStop = false;
             this.groupBoxConditionalPost.Text = "Use this Webhook if...";
@@ -228,10 +228,10 @@
             // radioButtonOnlySuccessAndFail
             // 
             this.radioButtonOnlySuccessAndFail.AutoSize = true;
-            this.radioButtonOnlySuccessAndFail.Location = new System.Drawing.Point(12, 53);
-            this.radioButtonOnlySuccessAndFail.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonOnlySuccessAndFail.Location = new System.Drawing.Point(12, 66);
+            this.radioButtonOnlySuccessAndFail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.radioButtonOnlySuccessAndFail.Name = "radioButtonOnlySuccessAndFail";
-            this.radioButtonOnlySuccessAndFail.Size = new System.Drawing.Size(264, 20);
+            this.radioButtonOnlySuccessAndFail.Size = new System.Drawing.Size(293, 24);
             this.radioButtonOnlySuccessAndFail.TabIndex = 2;
             this.radioButtonOnlySuccessAndFail.TabStop = true;
             this.radioButtonOnlySuccessAndFail.Text = "the encounter is either success or failure";
@@ -240,10 +240,10 @@
             // radioButtonOnlyFail
             // 
             this.radioButtonOnlyFail.AutoSize = true;
-            this.radioButtonOnlyFail.Location = new System.Drawing.Point(327, 23);
-            this.radioButtonOnlyFail.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonOnlyFail.Location = new System.Drawing.Point(320, 30);
+            this.radioButtonOnlyFail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.radioButtonOnlyFail.Name = "radioButtonOnlyFail";
-            this.radioButtonOnlyFail.Size = new System.Drawing.Size(171, 20);
+            this.radioButtonOnlyFail.Size = new System.Drawing.Size(193, 24);
             this.radioButtonOnlyFail.TabIndex = 1;
             this.radioButtonOnlyFail.TabStop = true;
             this.radioButtonOnlyFail.Text = "the encounter is a failure";
@@ -252,10 +252,10 @@
             // radioButtonOnlySuccess
             // 
             this.radioButtonOnlySuccess.AutoSize = true;
-            this.radioButtonOnlySuccess.Location = new System.Drawing.Point(12, 25);
-            this.radioButtonOnlySuccess.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonOnlySuccess.Location = new System.Drawing.Point(12, 31);
+            this.radioButtonOnlySuccess.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.radioButtonOnlySuccess.Name = "radioButtonOnlySuccess";
-            this.radioButtonOnlySuccess.Size = new System.Drawing.Size(185, 20);
+            this.radioButtonOnlySuccess.Size = new System.Drawing.Size(199, 24);
             this.radioButtonOnlySuccess.TabIndex = 0;
             this.radioButtonOnlySuccess.TabStop = true;
             this.radioButtonOnlySuccess.Text = "the encounter is a success";
@@ -264,11 +264,11 @@
             // groupBoxTeam
             // 
             this.groupBoxTeam.Controls.Add(this.comboBoxTeam);
-            this.groupBoxTeam.Location = new System.Drawing.Point(16, 289);
-            this.groupBoxTeam.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBoxTeam.Location = new System.Drawing.Point(16, 342);
+            this.groupBoxTeam.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxTeam.Name = "groupBoxTeam";
-            this.groupBoxTeam.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBoxTeam.Size = new System.Drawing.Size(523, 59);
+            this.groupBoxTeam.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxTeam.Size = new System.Drawing.Size(523, 65);
             this.groupBoxTeam.TabIndex = 7;
             this.groupBoxTeam.TabStop = false;
             this.groupBoxTeam.Text = "Associate with a player team";
@@ -277,25 +277,25 @@
             // 
             this.comboBoxTeam.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTeam.FormattingEnabled = true;
-            this.comboBoxTeam.Location = new System.Drawing.Point(12, 23);
-            this.comboBoxTeam.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxTeam.Location = new System.Drawing.Point(12, 29);
+            this.comboBoxTeam.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxTeam.MaxDropDownItems = 100;
             this.comboBoxTeam.Name = "comboBoxTeam";
-            this.comboBoxTeam.Size = new System.Drawing.Size(501, 24);
+            this.comboBoxTeam.Size = new System.Drawing.Size(501, 28);
             this.comboBoxTeam.TabIndex = 0;
             // 
             // FormEditDiscordWebhook
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1084, 358);
+            this.ClientSize = new System.Drawing.Size(1084, 421);
             this.Controls.Add(this.groupBoxTeam);
             this.Controls.Add(this.groupBoxConditionalPost);
             this.Controls.Add(this.groupBoxBossesEnable);
             this.Controls.Add(this.groupBoxWebhookInfo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormEditDiscordWebhook";

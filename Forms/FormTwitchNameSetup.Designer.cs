@@ -36,26 +36,28 @@
             // 
             // textBoxChannelUrl
             // 
-            this.textBoxChannelUrl.Location = new System.Drawing.Point(15, 25);
+            this.textBoxChannelUrl.Location = new System.Drawing.Point(20, 38);
+            this.textBoxChannelUrl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxChannelUrl.Name = "textBoxChannelUrl";
-            this.textBoxChannelUrl.Size = new System.Drawing.Size(311, 20);
+            this.textBoxChannelUrl.Size = new System.Drawing.Size(459, 27);
             this.textBoxChannelUrl.TabIndex = 0;
             // 
             // labelInfo
             // 
             this.labelInfo.AutoSize = true;
-            this.labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelInfo.Location = new System.Drawing.Point(12, 9);
+            this.labelInfo.Location = new System.Drawing.Point(16, 14);
+            this.labelInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(226, 13);
+            this.labelInfo.Size = new System.Drawing.Size(301, 17);
             this.labelInfo.TabIndex = 1;
             this.labelInfo.Text = "Enter link to your Twitch channel or username:";
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(218, 67);
+            this.buttonNext.Location = new System.Drawing.Point(340, 103);
+            this.buttonNext.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonNext.Name = "buttonNext";
-            this.buttonNext.Size = new System.Drawing.Size(108, 23);
+            this.buttonNext.Size = new System.Drawing.Size(139, 35);
             this.buttonNext.TabIndex = 3;
             this.buttonNext.Text = "Connect to Twitch";
             this.buttonNext.UseVisualStyleBackColor = true;
@@ -63,9 +65,10 @@
             // 
             // buttonDoNotUseTwitch
             // 
-            this.buttonDoNotUseTwitch.Location = new System.Drawing.Point(15, 67);
+            this.buttonDoNotUseTwitch.Location = new System.Drawing.Point(20, 103);
+            this.buttonDoNotUseTwitch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonDoNotUseTwitch.Name = "buttonDoNotUseTwitch";
-            this.buttonDoNotUseTwitch.Size = new System.Drawing.Size(197, 23);
+            this.buttonDoNotUseTwitch.Size = new System.Drawing.Size(275, 35);
             this.buttonDoNotUseTwitch.TabIndex = 4;
             this.buttonDoNotUseTwitch.Text = "I don\'t want to use Twitch to post logs";
             this.buttonDoNotUseTwitch.UseVisualStyleBackColor = true;
@@ -73,15 +76,16 @@
             // 
             // FormTwitchNameSetup
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(342, 102);
+            this.ClientSize = new System.Drawing.Size(492, 157);
             this.Controls.Add(this.buttonDoNotUseTwitch);
             this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.textBoxChannelUrl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormTwitchNameSetup";

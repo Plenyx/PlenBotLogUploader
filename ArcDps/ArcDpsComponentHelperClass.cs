@@ -138,7 +138,7 @@ namespace PlenBotLogUploader.ArcDps
             _ => "d3d11.dll",
         };
 
-        internal bool IsInstalled => File.Exists($"{ApplicationSettings.Current.GW2Location}{DefaultFileName}");
+        internal bool IsInstalled => File.Exists(ApplicationSettings.Current.GW2Location + DefaultFileName);
 
         public override string ToString() => $"{Name} by {Author}";
     }
