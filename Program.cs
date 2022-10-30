@@ -111,7 +111,7 @@ namespace PlenBotLogUploader
             if (otherProcesses.Length == 0)
             {
                 Application.EnableVisualStyles();
-                Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+                Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new FormMain());
             }
