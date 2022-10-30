@@ -40,11 +40,11 @@ namespace PlenBotLogUploader
             {
                 if (buttonUpdate.InvokeRequired)
                 {
-                    buttonUpdate.Invoke((Action)(() =>
+                    buttonUpdate.Invoke(() =>
                     {
                         buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
                         buttonUpdate.NotifyDefault(value);
-                    }));
+                    });
                 }
                 else
                 {
@@ -70,6 +70,7 @@ namespace PlenBotLogUploader
         private readonly FormGW2Bot gw2botLink;
         private readonly FormTeams teamsLink;
         private readonly List<string> allSessionLogs = new();
+        private readonly Regex songCommandRegex = new(@"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
@@ -347,6 +348,7 @@ namespace PlenBotLogUploader
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
+            ApplicationSettings.Current.Save();
             chatConnect?.Dispose();
             semaphore?.Dispose();
             HttpClientController?.Dispose();
@@ -371,18 +373,10 @@ namespace PlenBotLogUploader
             {
                 ApplicationSettings.Current.MainFormSize = Size;
                 ApplicationSettings.Current.MainFormState = WindowState;
-                if (!timerResizeSave.Enabled)
-                {
-                    timerResizeSave.Enabled = true;
-                }
             }
             if (WindowState.Equals(FormWindowState.Maximized))
             {
                 ApplicationSettings.Current.MainFormState = WindowState;
-                if (!timerResizeSave.Enabled)
-                {
-                    timerResizeSave.Enabled = true;
-                }
             }
         }
 
@@ -396,8 +390,7 @@ namespace PlenBotLogUploader
 
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
-            var files = ((string[])e.Data.GetData(DataFormats.FileDrop)).ToList();
-            foreach (var file in files)
+            foreach (var file in ((string[])e.Data.GetData(DataFormats.FileDrop)).AsSpan())
             {
                 Task.Run(async () =>
                 {
@@ -453,7 +446,7 @@ namespace PlenBotLogUploader
         {
             if (e.FullPath.EndsWith(".evtc") || e.FullPath.EndsWith(".zevtc"))
             {
-                Interlocked.Increment(ref logsCount);
+                logsCount++;
                 if (checkBoxUploadLogs.Checked)
                 {
                     try
@@ -491,7 +484,7 @@ namespace PlenBotLogUploader
                     }
                     catch
                     {
-                        Interlocked.Decrement(ref logsCount);
+                        logsCount--;
                         AddToText($">:> Unable to upload the file: {e.FullPath}");
                     }
                 }
@@ -593,10 +586,10 @@ namespace PlenBotLogUploader
         protected async Task StartUpAndCommandArgs()
         {
             WindowState = ApplicationSettings.Current.MainFormState;
-            var args = Environment.GetCommandLineArgs().ToList();
-            if (args.Count > 1)
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
             {
-                if (((args.Count == 2) || (args.Count == 3)) && (args[1].Equals("-m")))
+                if (((args.Length == 2) || (args.Length == 3)) && args[1].Equals("-m"))
                 {
                     StartedMinimised = true;
                     WindowState = FormWindowState.Minimized;
@@ -689,7 +682,7 @@ namespace PlenBotLogUploader
         {
             if (labelLocationInfo.InvokeRequired)
             {
-                labelLocationInfo.Invoke((Action)(() => UpdateLogCount()));
+                labelLocationInfo.Invoke(() => UpdateLogCount());
                 return;
             }
             labelLocationInfo.Text = $"Logs in the directory: {logsCount}";
@@ -981,7 +974,7 @@ namespace PlenBotLogUploader
         {
             if (InvokeRequired)
             {
-                Invoke((Action)delegate { DisconnectTwitchBot(); });
+                Invoke(delegate { DisconnectTwitchBot(); });
                 return;
             }
             chatConnect.ReceiveMessage -= ReadMessagesAsync;
@@ -1093,7 +1086,7 @@ namespace PlenBotLogUploader
             }
             if (e.Message.IsChannelMessage)
             {
-                if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && Regex.IsMatch(e.Message.ChannelMessage, @"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
+                if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && songCommandRegex.IsMatch(e.Message.ChannelMessage))
                 {
                     await SpotifySongCheck();
                 }
@@ -1577,13 +1570,6 @@ namespace PlenBotLogUploader
         {
             ApplicationSettings.Current.Upload.SaveToCSVEnabled = checkBoxSaveLogsToCSV.Checked;
             ApplicationSettings.Current.Save();
-        }
-
-        private void TimerResizeSave_Tick(object sender, EventArgs e)
-        {
-            ApplicationSettings.Current.Save();
-            timerResizeSave.Stop();
-            timerResizeSave.Enabled = false;
         }
         #endregion
     }

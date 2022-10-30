@@ -82,12 +82,17 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
-            this.timerResizeSave = new System.Windows.Forms.Timer(this.components);
+            this.tabControlSettings = new System.Windows.Forms.TabControl();
+            this.tabPageMainSettings = new System.Windows.Forms.TabPage();
+            this.tabPageOtherSettings = new System.Windows.Forms.TabPage();
             this.groupBoxTwitchSettings.SuspendLayout();
             this.groupBoxArcdpsLogs.SuspendLayout();
             this.contextMenuStripIcon.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.tableLayoutPanelMainForm.SuspendLayout();
+            this.tabControlSettings.SuspendLayout();
+            this.tabPageMainSettings.SuspendLayout();
+            this.tabPageOtherSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxTwitchSettings
@@ -99,12 +104,11 @@
             this.groupBoxTwitchSettings.Controls.Add(this.buttonChangeTwitchChannel);
             this.groupBoxTwitchSettings.Controls.Add(this.checkBoxPostToTwitch);
             this.groupBoxTwitchSettings.Controls.Add(this.buttonReconnectBot);
-            this.groupBoxTwitchSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxTwitchSettings.Location = new System.Drawing.Point(573, 5);
+            this.groupBoxTwitchSettings.Location = new System.Drawing.Point(7, 8);
             this.groupBoxTwitchSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxTwitchSettings.Name = "groupBoxTwitchSettings";
             this.groupBoxTwitchSettings.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(267, 275);
+            this.groupBoxTwitchSettings.Size = new System.Drawing.Size(308, 275);
             this.groupBoxTwitchSettings.TabIndex = 4;
             this.groupBoxTwitchSettings.TabStop = false;
             this.groupBoxTwitchSettings.Text = "Twitch settings";
@@ -114,7 +118,7 @@
             this.buttonTwitchCommands.Location = new System.Drawing.Point(8, 185);
             this.buttonTwitchCommands.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonTwitchCommands.Name = "buttonTwitchCommands";
-            this.buttonTwitchCommands.Size = new System.Drawing.Size(251, 35);
+            this.buttonTwitchCommands.Size = new System.Drawing.Size(291, 35);
             this.buttonTwitchCommands.TabIndex = 12;
             this.buttonTwitchCommands.Text = "Twitch commands";
             this.buttonTwitchCommands.UseVisualStyleBackColor = true;
@@ -137,7 +141,7 @@
             this.buttonDisConnectTwitch.Location = new System.Drawing.Point(8, 229);
             this.buttonDisConnectTwitch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonDisConnectTwitch.Name = "buttonDisConnectTwitch";
-            this.buttonDisConnectTwitch.Size = new System.Drawing.Size(251, 35);
+            this.buttonDisConnectTwitch.Size = new System.Drawing.Size(291, 35);
             this.buttonDisConnectTwitch.TabIndex = 10;
             this.buttonDisConnectTwitch.Text = "Disconnect from Twitch";
             this.buttonDisConnectTwitch.UseVisualStyleBackColor = true;
@@ -148,7 +152,7 @@
             this.buttonCustomName.Location = new System.Drawing.Point(8, 140);
             this.buttonCustomName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonCustomName.Name = "buttonCustomName";
-            this.buttonCustomName.Size = new System.Drawing.Size(121, 35);
+            this.buttonCustomName.Size = new System.Drawing.Size(139, 35);
             this.buttonCustomName.TabIndex = 9;
             this.buttonCustomName.Text = "Custom name";
             this.buttonCustomName.UseVisualStyleBackColor = true;
@@ -159,7 +163,7 @@
             this.buttonChangeTwitchChannel.Location = new System.Drawing.Point(8, 25);
             this.buttonChangeTwitchChannel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonChangeTwitchChannel.Name = "buttonChangeTwitchChannel";
-            this.buttonChangeTwitchChannel.Size = new System.Drawing.Size(251, 35);
+            this.buttonChangeTwitchChannel.Size = new System.Drawing.Size(291, 35);
             this.buttonChangeTwitchChannel.TabIndex = 8;
             this.buttonChangeTwitchChannel.Text = "Change Twitch channel";
             this.buttonChangeTwitchChannel.UseVisualStyleBackColor = true;
@@ -179,10 +183,10 @@
             // 
             // buttonReconnectBot
             // 
-            this.buttonReconnectBot.Location = new System.Drawing.Point(137, 140);
+            this.buttonReconnectBot.Location = new System.Drawing.Point(155, 140);
             this.buttonReconnectBot.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonReconnectBot.Name = "buttonReconnectBot";
-            this.buttonReconnectBot.Size = new System.Drawing.Size(121, 35);
+            this.buttonReconnectBot.Size = new System.Drawing.Size(144, 35);
             this.buttonReconnectBot.TabIndex = 4;
             this.buttonReconnectBot.Text = "Reconnect bot";
             this.buttonReconnectBot.UseVisualStyleBackColor = true;
@@ -190,10 +194,10 @@
             // 
             // buttonBossData
             // 
-            this.buttonBossData.Location = new System.Drawing.Point(148, 171);
+            this.buttonBossData.Location = new System.Drawing.Point(173, 171);
             this.buttonBossData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonBossData.Name = "buttonBossData";
-            this.buttonBossData.Size = new System.Drawing.Size(111, 35);
+            this.buttonBossData.Size = new System.Drawing.Size(126, 35);
             this.buttonBossData.TabIndex = 12;
             this.buttonBossData.Text = "Edit boss data";
             this.buttonBossData.UseVisualStyleBackColor = true;
@@ -223,12 +227,11 @@
             this.groupBoxArcdpsLogs.Controls.Add(this.labelLocationInfo);
             this.groupBoxArcdpsLogs.Controls.Add(this.buttonLogsLocation);
             this.groupBoxArcdpsLogs.Controls.Add(this.checkBoxUploadLogs);
-            this.groupBoxArcdpsLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(573, 290);
+            this.groupBoxArcdpsLogs.Location = new System.Drawing.Point(7, 293);
             this.groupBoxArcdpsLogs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxArcdpsLogs.Name = "groupBoxArcdpsLogs";
             this.groupBoxArcdpsLogs.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(267, 341);
+            this.groupBoxArcdpsLogs.Size = new System.Drawing.Size(308, 341);
             this.groupBoxArcdpsLogs.TabIndex = 5;
             this.groupBoxArcdpsLogs.TabStop = false;
             this.groupBoxArcdpsLogs.Text = "arcdps logs and DPS.report";
@@ -271,9 +274,9 @@
             this.buttonCopyApplicationSession.Location = new System.Drawing.Point(161, 215);
             this.buttonCopyApplicationSession.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonCopyApplicationSession.Name = "buttonCopyApplicationSession";
-            this.buttonCopyApplicationSession.Size = new System.Drawing.Size(97, 35);
+            this.buttonCopyApplicationSession.Size = new System.Drawing.Size(138, 35);
             this.buttonCopyApplicationSession.TabIndex = 14;
-            this.buttonCopyApplicationSession.Text = "Copy to clip.";
+            this.buttonCopyApplicationSession.Text = "Copy to clipboard";
             this.buttonCopyApplicationSession.UseVisualStyleBackColor = true;
             this.buttonCopyApplicationSession.Click += new System.EventHandler(this.ButtonCopyApplicationSession_Click);
             // 
@@ -282,7 +285,7 @@
             this.buttonSession.Location = new System.Drawing.Point(8, 171);
             this.buttonSession.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonSession.Name = "buttonSession";
-            this.buttonSession.Size = new System.Drawing.Size(132, 35);
+            this.buttonSession.Size = new System.Drawing.Size(157, 35);
             this.buttonSession.TabIndex = 13;
             this.buttonSession.Text = "Log sessions";
             this.buttonSession.UseVisualStyleBackColor = true;
@@ -291,10 +294,10 @@
             // buttonOpenLogs
             // 
             this.buttonOpenLogs.Enabled = false;
-            this.buttonOpenLogs.Location = new System.Drawing.Point(184, 260);
+            this.buttonOpenLogs.Location = new System.Drawing.Point(213, 260);
             this.buttonOpenLogs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonOpenLogs.Name = "buttonOpenLogs";
-            this.buttonOpenLogs.Size = new System.Drawing.Size(75, 35);
+            this.buttonOpenLogs.Size = new System.Drawing.Size(86, 35);
             this.buttonOpenLogs.TabIndex = 2;
             this.buttonOpenLogs.Text = "Open";
             this.buttonOpenLogs.UseVisualStyleBackColor = true;
@@ -316,7 +319,7 @@
             this.labelLocationInfo.Location = new System.Drawing.Point(8, 300);
             this.labelLocationInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelLocationInfo.Name = "labelLocationInfo";
-            this.labelLocationInfo.Size = new System.Drawing.Size(251, 35);
+            this.labelLocationInfo.Size = new System.Drawing.Size(291, 35);
             this.labelLocationInfo.TabIndex = 1;
             this.labelLocationInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -325,7 +328,7 @@
             this.buttonLogsLocation.Location = new System.Drawing.Point(8, 260);
             this.buttonLogsLocation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonLogsLocation.Name = "buttonLogsLocation";
-            this.buttonLogsLocation.Size = new System.Drawing.Size(168, 35);
+            this.buttonLogsLocation.Size = new System.Drawing.Size(197, 35);
             this.buttonLogsLocation.TabIndex = 0;
             this.buttonLogsLocation.Text = "Change logs directory";
             this.buttonLogsLocation.UseVisualStyleBackColor = true;
@@ -336,7 +339,7 @@
             this.buttonUpdate.Location = new System.Drawing.Point(7, 524);
             this.buttonUpdate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(251, 35);
+            this.buttonUpdate.Size = new System.Drawing.Size(293, 35);
             this.buttonUpdate.TabIndex = 8;
             this.buttonUpdate.Text = "Check for updates";
             this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -488,11 +491,11 @@
             this.groupBoxOtherSettings.Controls.Add(this.buttonArcDpsPluginManager);
             this.groupBoxOtherSettings.Controls.Add(this.checkBoxTrayMinimiseToIcon);
             this.groupBoxOtherSettings.Controls.Add(this.buttonPingSettings);
-            this.groupBoxOtherSettings.Location = new System.Drawing.Point(573, 641);
+            this.groupBoxOtherSettings.Location = new System.Drawing.Point(7, 8);
             this.groupBoxOtherSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBoxOtherSettings.Name = "groupBoxOtherSettings";
             this.groupBoxOtherSettings.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxOtherSettings.Size = new System.Drawing.Size(267, 569);
+            this.groupBoxOtherSettings.Size = new System.Drawing.Size(308, 569);
             this.groupBoxOtherSettings.TabIndex = 7;
             this.groupBoxOtherSettings.TabStop = false;
             this.groupBoxOtherSettings.Text = "Other settings";
@@ -513,7 +516,7 @@
             this.buttonTeamsSettings.Location = new System.Drawing.Point(8, 276);
             this.buttonTeamsSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonTeamsSettings.Name = "buttonTeamsSettings";
-            this.buttonTeamsSettings.Size = new System.Drawing.Size(251, 35);
+            this.buttonTeamsSettings.Size = new System.Drawing.Size(292, 35);
             this.buttonTeamsSettings.TabIndex = 15;
             this.buttonTeamsSettings.Text = "Setup Teams";
             this.buttonTeamsSettings.UseVisualStyleBackColor = true;
@@ -526,7 +529,7 @@
             this.buttonGW2BotSettings.Location = new System.Drawing.Point(8, 231);
             this.buttonGW2BotSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonGW2BotSettings.Name = "buttonGW2BotSettings";
-            this.buttonGW2BotSettings.Size = new System.Drawing.Size(251, 35);
+            this.buttonGW2BotSettings.Size = new System.Drawing.Size(292, 35);
             this.buttonGW2BotSettings.TabIndex = 14;
             this.buttonGW2BotSettings.Text = "GW2Bot integration";
             this.buttonGW2BotSettings.UseVisualStyleBackColor = true;
@@ -539,7 +542,7 @@
             this.buttonAleevaSettings.Location = new System.Drawing.Point(8, 186);
             this.buttonAleevaSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonAleevaSettings.Name = "buttonAleevaSettings";
-            this.buttonAleevaSettings.Size = new System.Drawing.Size(251, 35);
+            this.buttonAleevaSettings.Size = new System.Drawing.Size(292, 35);
             this.buttonAleevaSettings.TabIndex = 13;
             this.buttonAleevaSettings.Text = "Aleeva integration";
             this.buttonAleevaSettings.UseVisualStyleBackColor = true;
@@ -550,9 +553,9 @@
             this.buttonGW2API.Location = new System.Drawing.Point(8, 321);
             this.buttonGW2API.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonGW2API.Name = "buttonGW2API";
-            this.buttonGW2API.Size = new System.Drawing.Size(251, 35);
+            this.buttonGW2API.Size = new System.Drawing.Size(292, 35);
             this.buttonGW2API.TabIndex = 12;
-            this.buttonGW2API.Text = "GW2 API keys and Hs build links";
+            this.buttonGW2API.Text = "GW2 API keys and Hardstuck build links";
             this.buttonGW2API.UseVisualStyleBackColor = true;
             this.buttonGW2API.Click += new System.EventHandler(this.ButtonGW2API_Click);
             // 
@@ -574,7 +577,7 @@
             this.comboBoxMaxUploads.Location = new System.Drawing.Point(177, 100);
             this.comboBoxMaxUploads.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxMaxUploads.Name = "comboBoxMaxUploads";
-            this.comboBoxMaxUploads.Size = new System.Drawing.Size(80, 28);
+            this.comboBoxMaxUploads.Size = new System.Drawing.Size(123, 28);
             this.comboBoxMaxUploads.TabIndex = 11;
             // 
             // labelMaximumUploads
@@ -592,7 +595,7 @@
             this.buttonReset.Location = new System.Drawing.Point(8, 449);
             this.buttonReset.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(251, 35);
+            this.buttonReset.Size = new System.Drawing.Size(292, 35);
             this.buttonReset.TabIndex = 9;
             this.buttonReset.Text = "Reset all settings";
             this.buttonReset.UseVisualStyleBackColor = true;
@@ -614,7 +617,7 @@
             this.buttonDiscordWebhooks.Location = new System.Drawing.Point(8, 141);
             this.buttonDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonDiscordWebhooks.Name = "buttonDiscordWebhooks";
-            this.buttonDiscordWebhooks.Size = new System.Drawing.Size(251, 35);
+            this.buttonDiscordWebhooks.Size = new System.Drawing.Size(292, 35);
             this.buttonDiscordWebhooks.TabIndex = 4;
             this.buttonDiscordWebhooks.Text = "Discord webhooks";
             this.buttonDiscordWebhooks.UseVisualStyleBackColor = true;
@@ -625,7 +628,7 @@
             this.buttonArcDpsPluginManager.Location = new System.Drawing.Point(8, 366);
             this.buttonArcDpsPluginManager.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonArcDpsPluginManager.Name = "buttonArcDpsPluginManager";
-            this.buttonArcDpsPluginManager.Size = new System.Drawing.Size(251, 35);
+            this.buttonArcDpsPluginManager.Size = new System.Drawing.Size(292, 35);
             this.buttonArcDpsPluginManager.TabIndex = 3;
             this.buttonArcDpsPluginManager.Text = "arcdps plugin manager";
             this.buttonArcDpsPluginManager.UseVisualStyleBackColor = true;
@@ -636,7 +639,7 @@
             this.buttonPingSettings.Location = new System.Drawing.Point(8, 410);
             this.buttonPingSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonPingSettings.Name = "buttonPingSettings";
-            this.buttonPingSettings.Size = new System.Drawing.Size(251, 35);
+            this.buttonPingSettings.Size = new System.Drawing.Size(292, 35);
             this.buttonPingSettings.TabIndex = 0;
             this.buttonPingSettings.Text = "Remote server pings";
             this.buttonPingSettings.UseVisualStyleBackColor = true;
@@ -656,14 +659,14 @@
             this.richTextBoxMainConsole.BackColor = System.Drawing.Color.White;
             this.richTextBoxMainConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxMainConsole.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxMainConsole.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBoxMainConsole.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBoxMainConsole.Location = new System.Drawing.Point(4, 5);
             this.richTextBoxMainConsole.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.richTextBoxMainConsole.Name = "richTextBoxMainConsole";
             this.richTextBoxMainConsole.ReadOnly = true;
-            this.tableLayoutPanelMainForm.SetRowSpan(this.richTextBoxMainConsole, 4);
+            this.tableLayoutPanelMainForm.SetRowSpan(this.richTextBoxMainConsole, 2);
             this.richTextBoxMainConsole.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBoxMainConsole.Size = new System.Drawing.Size(561, 1209);
+            this.richTextBoxMainConsole.Size = new System.Drawing.Size(472, 675);
             this.richTextBoxMainConsole.TabIndex = 9;
             this.richTextBoxMainConsole.Text = "";
             this.richTextBoxMainConsole.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxUploadInfo_LinkClicked);
@@ -674,25 +677,50 @@
             this.tableLayoutPanelMainForm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelMainForm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelMainForm.Controls.Add(this.richTextBoxMainConsole, 0, 0);
-            this.tableLayoutPanelMainForm.Controls.Add(this.groupBoxTwitchSettings, 1, 0);
-            this.tableLayoutPanelMainForm.Controls.Add(this.groupBoxArcdpsLogs, 1, 1);
-            this.tableLayoutPanelMainForm.Controls.Add(this.groupBoxOtherSettings, 1, 2);
+            this.tableLayoutPanelMainForm.Controls.Add(this.tabControlSettings, 1, 0);
             this.tableLayoutPanelMainForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMainForm.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelMainForm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanelMainForm.Name = "tableLayoutPanelMainForm";
-            this.tableLayoutPanelMainForm.RowCount = 4;
-            this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelMainForm.RowCount = 2;
             this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelMainForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tableLayoutPanelMainForm.Size = new System.Drawing.Size(844, 1219);
+            this.tableLayoutPanelMainForm.Size = new System.Drawing.Size(814, 685);
             this.tableLayoutPanelMainForm.TabIndex = 10;
             // 
-            // timerResizeSave
+            // tabControlSettings
             // 
-            this.timerResizeSave.Interval = 1500;
-            this.timerResizeSave.Tick += new System.EventHandler(this.TimerResizeSave_Tick);
+            this.tabControlSettings.Controls.Add(this.tabPageMainSettings);
+            this.tabControlSettings.Controls.Add(this.tabPageOtherSettings);
+            this.tabControlSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlSettings.Location = new System.Drawing.Point(483, 3);
+            this.tabControlSettings.Name = "tabControlSettings";
+            this.tabControlSettings.SelectedIndex = 0;
+            this.tabControlSettings.Size = new System.Drawing.Size(328, 678);
+            this.tabControlSettings.TabIndex = 10;
+            // 
+            // tabPageMainSettings
+            // 
+            this.tabPageMainSettings.BackColor = System.Drawing.Color.White;
+            this.tabPageMainSettings.Controls.Add(this.groupBoxTwitchSettings);
+            this.tabPageMainSettings.Controls.Add(this.groupBoxArcdpsLogs);
+            this.tabPageMainSettings.Location = new System.Drawing.Point(4, 29);
+            this.tabPageMainSettings.Name = "tabPageMainSettings";
+            this.tabPageMainSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMainSettings.Size = new System.Drawing.Size(320, 645);
+            this.tabPageMainSettings.TabIndex = 0;
+            this.tabPageMainSettings.Text = "Main settings";
+            // 
+            // tabPageOtherSettings
+            // 
+            this.tabPageOtherSettings.BackColor = System.Drawing.Color.White;
+            this.tabPageOtherSettings.Controls.Add(this.groupBoxOtherSettings);
+            this.tabPageOtherSettings.Location = new System.Drawing.Point(4, 29);
+            this.tabPageOtherSettings.Name = "tabPageOtherSettings";
+            this.tabPageOtherSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageOtherSettings.Size = new System.Drawing.Size(320, 641);
+            this.tabPageOtherSettings.TabIndex = 1;
+            this.tabPageOtherSettings.Text = "Other settings";
             // 
             // FormMain
             // 
@@ -700,10 +728,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(844, 1219);
+            this.ClientSize = new System.Drawing.Size(814, 685);
             this.Controls.Add(this.tableLayoutPanelMainForm);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(726, 1261);
+            this.MinimumSize = new System.Drawing.Size(832, 732);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PlenBot Log Uploader";
@@ -719,6 +747,9 @@
             this.groupBoxOtherSettings.ResumeLayout(false);
             this.groupBoxOtherSettings.PerformLayout();
             this.tableLayoutPanelMainForm.ResumeLayout(false);
+            this.tabControlSettings.ResumeLayout(false);
+            this.tabPageMainSettings.ResumeLayout(false);
+            this.tabPageOtherSettings.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -774,12 +805,14 @@
         private System.Windows.Forms.CheckBox checkBoxAnonymiseReports;
         private System.Windows.Forms.CheckBox checkBoxSaveLogsToCSV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMainForm;
-        private System.Windows.Forms.Timer timerResizeSave;
         private System.Windows.Forms.Button buttonGW2BotSettings;
         private System.Windows.Forms.Button buttonTeamsSettings;
         private System.Windows.Forms.CheckBox checkBoxAutoUpdate;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDPSReportUserTokens;
+        private System.Windows.Forms.TabControl tabControlSettings;
+        private System.Windows.Forms.TabPage tabPageMainSettings;
+        private System.Windows.Forms.TabPage tabPageOtherSettings;
     }
 }
 
