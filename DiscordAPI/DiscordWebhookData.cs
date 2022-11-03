@@ -44,7 +44,7 @@ namespace PlenBotLogUploader.DiscordAPI
         /// A list containing boss ids which are omitted to be posted via webhook
         /// </summary>
         [JsonProperty("disabledBosses")]
-        internal List<int> BossesDisable { get; set; } = new();
+        internal int[] BossesDisable { get; set; }
 
         [JsonProperty("teamId")]
         internal int TeamID { get; set; } = 0;

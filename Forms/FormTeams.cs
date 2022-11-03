@@ -26,7 +26,7 @@ namespace PlenBotLogUploader
 
             teamIdsKey = allTeams.Values.Select(x => x.ID).OrderByDescending(x => x).First() + 1;
 
-            foreach (var key in allTeams.Keys.Skip(1))
+            foreach (var key in allTeams.Keys.Skip(1).ToArray())
             {
                 listBoxTeams.Items.Add(allTeams[key]);
             }

@@ -183,7 +183,7 @@ namespace PlenBotLogUploader
                         .Where(x => !x.FriendNPC && !x.NotInSquad && (x.DpsTargets.Sum(y => y[0].Damage) > 0))
                         .OrderByDescending(x => x.DpsTargets.Sum(y => y[0].Damage))
                         .Take(10)
-                        .ToList();
+                        .ToArray();
                     var damageSummary = new TextTable(4, tableStyle, tableBorders);
                     damageSummary.SetColumnWidthRange(0, 3, 3);
                     damageSummary.SetColumnWidthRange(1, 25, 25);
@@ -212,7 +212,7 @@ namespace PlenBotLogUploader
                         .Where(x => !x.FriendNPC && !x.NotInSquad && (x.Support[0].CondiCleanseTotal > 0))
                         .OrderByDescending(x => x.Support[0].CondiCleanseTotal)
                         .Take(10)
-                        .ToList();
+                        .ToArray();
                     var cleansesSummary = new TextTable(3, tableStyle, tableBorders);
                     cleansesSummary.SetColumnWidthRange(0, 3, 3);
                     cleansesSummary.SetColumnWidthRange(1, 27, 27);
@@ -238,7 +238,7 @@ namespace PlenBotLogUploader
                         .Where(x => !x.FriendNPC && !x.NotInSquad && (x.Support[0].BoonStrips > 0))
                         .OrderByDescending(x => x.Support[0].BoonStrips)
                         .Take(10)
-                        .ToList();
+                        .ToArray();
                     var boonStripsSummary = new TextTable(3, tableStyle, tableBorders);
                     boonStripsSummary.SetColumnWidthRange(0, 3, 3);
                     boonStripsSummary.SetColumnWidthRange(1, 27, 27);
@@ -388,7 +388,7 @@ namespace PlenBotLogUploader
                             })
                             .OrderByDescending(x => x.DPS)
                             .Take(10)
-                            .ToList();
+                            .ToArray();
                         var dpsTargetSummary = new TextTable(3, tableStyle, TableVisibleBorders.HEADER_AND_FOOTER);
                         dpsTargetSummary.SetColumnWidthRange(0, 5, 5);
                         dpsTargetSummary.SetColumnWidthRange(1, 27, 27);
