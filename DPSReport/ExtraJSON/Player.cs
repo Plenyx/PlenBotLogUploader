@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace PlenBotLogUploader.DPSReport.ExtraJSON
 {
@@ -26,24 +25,24 @@ namespace PlenBotLogUploader.DPSReport.ExtraJSON
         internal bool NotInSquad { get; set; }
 
         [JsonProperty("support")]
-        internal List<PlayerSupport> Support { get; set; }
+        internal PlayerSupport[] Support { get; set; }
 
         [JsonProperty("name")]
         internal string Name { get; set; }
 
         [JsonProperty("dpsAll")]
-        internal List<DpsAll> DpsAll { get; set; }
+        internal DpsAll[] DpsAll { get; set; }
 
         [JsonProperty("dpsTargets")]
-        internal List<List<DpsTarget>> DpsTargets { get; set; }
+        internal DpsTarget[][] DpsTargets { get; set; }
 
         [JsonProperty("statsTargets")]
-        internal List<List<StatsTarget>> StatsTargets { get; set; }
+        internal StatsTarget[][] StatsTargets { get; set; }
 
         [JsonProperty("statsAll")]
-        internal List<StatsAll> StatsAll { get; set; }
+        internal StatsAll[] StatsAll { get; set; }
 
         [JsonProperty("defenses")]
-        internal List<Defenses> Defenses { get; set; }
+        internal Defenses[] Defenses { get; set; }
     }
 }

@@ -1349,29 +1349,49 @@ namespace PlenBotLogUploader
 
         private void ButtonOpenLogs_Click(object sender, EventArgs e) => Process.Start(ApplicationSettings.Current.LogsLocation);
 
-        private void ButtonDPSReportServer_Click(object sender, EventArgs e)
+        private void OpenDPSReportSettings()
         {
             dpsReportSettingsLink.Show();
             dpsReportSettingsLink.BringToFront();
         }
 
-        private void ButtonCustomName_Click(object sender, EventArgs e)
+        private void OpenCustomNameSettings()
         {
             customNameLink.Show();
             customNameLink.BringToFront();
         }
 
-        private void ButtonPingSettings_Click(object sender, EventArgs e)
+        private void OpenRemotePingsSettings()
         {
             pingsLink.Show();
             pingsLink.BringToFront();
         }
 
-        private void ButtonArcDpsPluginManager_Click(object sender, EventArgs e)
+        private void OpenArcDpsPluginManager()
         {
             arcPluginManagerLink.Show();
             arcPluginManagerLink.BringToFront();
         }
+
+        private void OpenDiscordWebhooks()
+        {
+            discordWebhooksLink.Show();
+            discordWebhooksLink.BringToFront();
+        }
+
+        private void OpenTwitchCommands()
+        {
+            twitchCommandsLink.Show();
+            twitchCommandsLink.BringToFront();
+        }
+
+        private void ButtonDPSReportServer_Click(object sender, EventArgs e) => OpenDPSReportSettings();
+
+        private void ButtonCustomName_Click(object sender, EventArgs e) => OpenCustomNameSettings();
+
+        private void ButtonPingSettings_Click(object sender, EventArgs e) => OpenRemotePingsSettings();
+
+        private void ButtonArcDpsPluginManager_Click(object sender, EventArgs e) => OpenArcDpsPluginManager();
 
         private void ButtonBossData_Click(object sender, EventArgs e)
         {
@@ -1379,17 +1399,9 @@ namespace PlenBotLogUploader
             bossDataLink.BringToFront();
         }
 
-        private void ButtonDiscordWebhooks_Click(object sender, EventArgs e)
-        {
-            discordWebhooksLink.Show();
-            discordWebhooksLink.BringToFront();
-        }
+        private void ButtonDiscordWebhooks_Click(object sender, EventArgs e) => OpenDiscordWebhooks();
 
-        private void ButtonTwitchCommands_Click(object sender, EventArgs e)
-        {
-            twitchCommandsLink.Show();
-            twitchCommandsLink.BringToFront();
-        }
+        private void ButtonTwitchCommands_Click(object sender, EventArgs e) => OpenTwitchCommands();
 
         private void ButtonGW2BotSettings_Click(object sender, EventArgs e)
         {
@@ -1397,41 +1409,17 @@ namespace PlenBotLogUploader
             gw2botLink.BringToFront();
         }
 
-        private void ToolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e)
-        {
-            dpsReportSettingsLink.Show();
-            dpsReportSettingsLink.BringToFront();
-        }
+        private void ToolStripMenuItemOpenDPSReportServer_Click(object sender, EventArgs e) => OpenDPSReportSettings();
 
-        private void ToolStripMenuItemOpenCustomName_Click(object sender, EventArgs e)
-        {
-            customNameLink.Show();
-            customNameLink.BringToFront();
-        }
+        private void ToolStripMenuItemOpenCustomName_Click(object sender, EventArgs e) => OpenCustomNameSettings();
 
-        private void ToolStripMenuItemOpenPingSettings_Click(object sender, EventArgs e)
-        {
-            pingsLink.Show();
-            pingsLink.BringToFront();
-        }
+        private void ToolStripMenuItemOpenPingSettings_Click(object sender, EventArgs e) => OpenRemotePingsSettings();
 
-        private void ToolStripMenuItemOpenArcDpsPluginManager_Click(object sender, EventArgs e)
-        {
-            arcPluginManagerLink.Show();
-            arcPluginManagerLink.BringToFront();
-        }
+        private void ToolStripMenuItemOpenArcDpsPluginManager_Click(object sender, EventArgs e) => OpenArcDpsPluginManager();
 
-        private void ToolStripMenuItemDiscordWebhooks_Click(object sender, EventArgs e)
-        {
-            discordWebhooksLink.Show();
-            discordWebhooksLink.BringToFront();
-        }
+        private void ToolStripMenuItemDiscordWebhooks_Click(object sender, EventArgs e) => OpenDiscordWebhooks();
 
-        private void ToolStripMenuItemOpenTwitchCommands_Click(object sender, EventArgs e)
-        {
-            twitchCommandsLink.Show();
-            twitchCommandsLink.BringToFront();
-        }
+        private void ToolStripMenuItemOpenTwitchCommands_Click(object sender, EventArgs e) => OpenTwitchCommands();
 
         private void ButtonSession_Click(object sender, EventArgs e)
         {
@@ -1482,7 +1470,7 @@ namespace PlenBotLogUploader
             }
             buttonUpdate.Enabled = false;
             AddToText(">>> Downloading update...");
-            var downloadUrl = latestRelease.Assets.Find(x => x.Name.Equals("PlenBotLogUploader.exe")).DownloadURL;
+            var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals("PlenBotLogUploader.exe")).DownloadURL;
             var result = await HttpClientController.DownloadFileAsync(downloadUrl, $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
             if (result)
             {

@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
                 .ThenBy(x => x.Value.Name)
                 .ToDictionary(x => x.Key, x => x.Value);
             var teams = Teams.Teams.All;
-            foreach (var team in teams.Values.ToArray().AsSpan())
+            foreach (var team in teams.Values)
             {
                 comboBoxTeam.Items.Add(team);
             }
