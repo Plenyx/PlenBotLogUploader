@@ -136,10 +136,10 @@ namespace PlenBotLogUploader
                         Name = "Enemy summary:",
                         Value = "```Summary could not have been generated.\nToggle detailed WvW to enable this feature.```"
                     };
-                    if (reportJSON.ExtraJSON.Targets.Count > 1)
+                    if (reportJSON.ExtraJSON.Targets.Length > 1)
                     {
                         var enemyPlayers = reportJSON.ExtraJSON.Targets
-                            .Count - 1;
+                            .Length - 1;
                         var enemyDamage = reportJSON.ExtraJSON.Targets
                             .Where(x => !x.IsFake)
                             .Select(x => x.DpsAll[0].Damage)

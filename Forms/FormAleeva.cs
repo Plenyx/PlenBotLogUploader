@@ -375,7 +375,7 @@ namespace PlenBotLogUploader
         {
             comboBoxSelectedTeam.Items.Clear();
             var teams = Teams.Teams.All;
-            foreach (var team in teams.Values.ToArray().AsSpan())
+            foreach (var team in teams.Values)
             {
                 comboBoxSelectedTeam.Items.Add(team);
             }

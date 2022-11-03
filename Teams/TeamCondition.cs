@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace PlenBotLogUploader.Teams
@@ -83,7 +84,7 @@ namespace PlenBotLogUploader.Teams
             set
             {
                 _subconditions = value;
-                foreach (var subcondition in _subconditions)
+                foreach (var subcondition in CollectionsMarshal.AsSpan(_subconditions))
                 {
                     subcondition.ParentCondition = this;
                 }

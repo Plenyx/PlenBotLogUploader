@@ -34,6 +34,7 @@
   <PropertyGroup>
     <StartupObject>PlenBotLogUploader.Program</StartupObject>
     <PlatformTarget>x64</PlatformTarget>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>bin\x64\Debug\</OutputPath>

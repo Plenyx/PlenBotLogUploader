@@ -26,8 +26,7 @@ namespace PlenBotLogUploader.Tools
             {
                 using var accountResponse = await HttpClientController.GetAsync($"{gw2api}v2/account");
                 var accountContent = await accountResponse.Content.ReadAsStringAsync();
-                var accountInfo = JsonConvert.DeserializeObject<GW2Account>(accountContent);
-                return accountInfo;
+                return JsonConvert.DeserializeObject<GW2Account>(accountContent);
             }
             catch
             {

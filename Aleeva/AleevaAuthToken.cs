@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace PlenBotLogUploader.Aleeva
 {
@@ -21,6 +20,6 @@ namespace PlenBotLogUploader.Aleeva
         internal string RefreshToken { get; set; }
 
         [JsonProperty("scope")]
-        internal List<string> Scope { get; set; } = new();
+        internal string[] Scope { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace PlenBotLogUploader.GitHub
 {
@@ -9,7 +8,7 @@ namespace PlenBotLogUploader.GitHub
         internal string Name { get; set; }
 
         [JsonProperty("assets")]
-        internal List<GitHubReleasesLatestAsset> Assets { get; set; }
+        internal GitHubReleasesLatestAsset[] Assets { get; set; }
 
         [JsonProperty("body")]
         internal string Body { get; set; }

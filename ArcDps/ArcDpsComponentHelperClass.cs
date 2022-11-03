@@ -90,7 +90,7 @@ namespace PlenBotLogUploader.ArcDps
                 Type = ArcDpsComponentType.FoodReminder,
                 Provider = "GitHub",
                 License = "MIT",
-                Description = "ArcDPS plugin for Guild Wars 2 allowing tracking of buff food & utility items. - Zerthox",
+                Description = "ArcDPS plugin for Guild Wars 2 allowing tracking of buff food and utility items. - Zerthox",
             },
             new ArcDpsComponentHelperClass()
             {
