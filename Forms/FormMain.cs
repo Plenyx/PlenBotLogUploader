@@ -927,7 +927,7 @@ namespace PlenBotLogUploader
 
         internal static bool IsStreamingSoftwareRunning()
         {
-            foreach (var process in Process.GetProcesses())
+            foreach (var process in Process.GetProcesses().AsSpan())
             {
                 var processLower = process.ProcessName.ToLower();
                 if ((processLower.StartsWith("obs"))
@@ -1236,7 +1236,7 @@ namespace PlenBotLogUploader
         {
             if (sender is ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken> pressedButton)
             {
-                foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens)
+                foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens.AsSpan())
                 {
                     userToken.Active = false;
                 }

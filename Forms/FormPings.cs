@@ -34,7 +34,7 @@ namespace PlenBotLogUploader
 
             settingsIdsKey = AllPings.Count;
 
-            foreach (var ping in AllPings)
+            foreach (var ping in AllPings.ToArray().AsSpan())
             {
                 listViewPings.Items.Add(new ListViewItem
                 {

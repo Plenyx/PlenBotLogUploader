@@ -3,7 +3,6 @@ using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -33,7 +32,7 @@ namespace PlenBotLogUploader
         internal void RedrawList()
         {
             listBoxAPIKeys.Items.Clear();
-            foreach (var apiKey in CollectionsMarshal.AsSpan(ApplicationSettings.Current.GW2APIs))
+            foreach (var apiKey in ApplicationSettings.Current.GW2APIs.AsSpan())
             {
                 listBoxAPIKeys.Items.Add(apiKey);
             }

@@ -53,7 +53,7 @@ namespace PlenBotLogUploader
                 ApplicationSettings.Current.GW2Location = string.Empty;
                 ApplicationSettings.Current.Save();
             }
-            foreach (var component in availableComponents)
+            foreach (var component in availableComponents.AsSpan())
             {
                 var installed = arcIsInstalled && installedComponents.Any(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
                 if (installed)
@@ -78,7 +78,7 @@ namespace PlenBotLogUploader
         {
             if (InvokeRequired)
             {
-                Invoke((Action)(() => SetStatus(status)));
+                Invoke(() => SetStatus(status));
             }
             labelStatusText.Text = status;
         }
@@ -152,12 +152,12 @@ namespace PlenBotLogUploader
 
         private void TimerCheckUpdates_Tick(object sender, EventArgs e) => _ = CheckUpdatesAsync();
 
-        private static List<Process> GetGW2Instances() => Process.GetProcessesByName("Gw2-64").ToList();
+        private static Process[] GetGW2Instances() => Process.GetProcessesByName("Gw2-64");
 
         private async Task UpdateArcAndPluginsAsync()
         {
             var processes = GetGW2Instances();
-            if (processes.Count == 0)
+            if (processes.Length == 0)
             {
                 SetStatus($"{DateTime.Now.ToString(System.Globalization.CultureInfo.CurrentCulture)}: Updates for installed plugins found, updating...");
                 foreach (var component in componentsToUpdate)
@@ -179,7 +179,7 @@ namespace PlenBotLogUploader
                 {
                     mainLink.ShowBalloon("arcdps plugin manager", "An updates for installed plugins has been found.\nPlease close GW2 to enable the update.", 7500);
                 }
-                Interlocked.Exchange(ref gw2Instances, processes.Count);
+                Interlocked.Exchange(ref gw2Instances, processes.Length);
                 foreach (var process in processes)
                 {
                     process.EnableRaisingEvents = true;
@@ -254,10 +254,10 @@ namespace PlenBotLogUploader
             if (e.NewValue.Equals(CheckState.Unchecked))
             {
                 var processes = GetGW2Instances();
-                if (processes.Count == 0)
+                if (processes.Length == 0)
                 {
                     var component = ArcDpsComponent.All.Find(x => x.Type.Equals(item.Type));
-                    File.Delete($"{ApplicationSettings.Current.GW2Location}{component.RelativeLocation}");
+                    File.Delete(ApplicationSettings.Current.GW2Location + component.RelativeLocation);
                     ArcDpsComponent.All.RemoveAll(x => x.Type.Equals(component.Type));
                 }
                 else

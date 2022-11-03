@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace PlenBotLogUploader.DPSReport
             var jsonString = reader.ReadToEnd();
 
             _all = BossData.ParseJsonString(jsonString);
-            foreach (var boss in _all.Values)
+            foreach (var boss in _all.Values.ToArray().AsSpan())
             {
                 if ((boss.Type != BossType.Golem) && (boss.Type != BossType.WvW) && !boss.Event)
                 {

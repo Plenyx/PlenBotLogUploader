@@ -2,6 +2,7 @@
 using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.Teams;
 using PlenBotLogUploader.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -47,7 +48,7 @@ namespace PlenBotLogUploader
                 .ThenBy(x => x.Value.Name)
                 .ToDictionary(x => x.Key, x => x.Value);
             var teams = Teams.Teams.All;
-            foreach (var team in teams.Values)
+            foreach (var team in teams.Values.ToArray().AsSpan())
             {
                 comboBoxTeam.Items.Add(team);
             }
@@ -91,7 +92,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private List<int> ConvertCheckboxListToList()
+        private int[] ConvertCheckboxListToList()
         {
             var list = new List<int>();
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
@@ -106,10 +107,10 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            return list;
+            return list.ToArray();
         }
 
-        private void ButtonUnSelectAll_Click(object sender, System.EventArgs e)
+        private void ButtonUnSelectAll_Click(object sender, EventArgs e)
         {
             var allSelected = true;
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
@@ -137,7 +138,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ButtonUnSelectAllRaids_Click(object sender, System.EventArgs e)
+        private void ButtonUnSelectAllRaids_Click(object sender, EventArgs e)
         {
             var allSelected = true;
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
@@ -177,7 +178,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ButtonUnSelectAllFractals_Click(object sender, System.EventArgs e)
+        private void ButtonUnSelectAllFractals_Click(object sender, EventArgs e)
         {
             var allSelected = true;
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
@@ -217,7 +218,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ButtonUnSelectAllStrikes_Click(object sender, System.EventArgs e)
+        private void ButtonUnSelectAllStrikes_Click(object sender, EventArgs e)
         {
             var allSelected = true;
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
@@ -257,7 +258,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ButtonUnSelectAllGolems_Click(object sender, System.EventArgs e)
+        private void ButtonUnSelectAllGolems_Click(object sender, EventArgs e)
         {
             var allSelected = true;
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
@@ -297,7 +298,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void ButtonUnSelectWvW_Click(object sender, System.EventArgs e)
+        private void ButtonUnSelectWvW_Click(object sender, EventArgs e)
         {
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {

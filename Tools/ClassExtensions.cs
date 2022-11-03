@@ -1,6 +1,8 @@
 ﻿using PlenBotLogUploader.AppSettings;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace PlenBotLogUploader.Tools
 {
@@ -29,5 +31,7 @@ namespace PlenBotLogUploader.Tools
         internal static string ParseAsK(this double number) => ParseDoubleAsK(number);
 
         internal static string ParseAsK(this int number) => ParseDoubleAsK(number);
+
+        internal static ReadOnlySpan<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
     }
 }

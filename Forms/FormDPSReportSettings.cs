@@ -51,7 +51,7 @@ namespace PlenBotLogUploader
         {
             checkedListBoxUserTokens.ItemCheck -= CheckedListBoxUserTokens_ItemCheck;
             checkedListBoxUserTokens.Items.Clear();
-            foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToList())
+            foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToArray())
             {
                 checkedListBoxUserTokens.Items.Add(userToken, userToken.Active);
             }

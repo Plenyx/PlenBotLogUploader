@@ -5,6 +5,7 @@ using PlenBotLogUploader.GW2Bot;
 using PlenBotLogUploader.Teams;
 using PlenBotLogUploader.Tools;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,10 +95,7 @@ namespace PlenBotLogUploader
         {
             comboBoxSelectedTeam.Items.Clear();
             var teams = Teams.Teams.All;
-            foreach (var team in teams.Values)
-            {
-                comboBoxSelectedTeam.Items.Add(team);
-            }
+            comboBoxSelectedTeam.Items.AddRange(teams.Values.ToArray());
             comboBoxSelectedTeam.SelectedItem = (ApplicationSettings.Current.GW2Bot.SelectedTeamId > 0) ? teams[ApplicationSettings.Current.GW2Bot.SelectedTeamId] : teams[0];
         }
     }

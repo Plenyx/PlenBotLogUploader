@@ -126,11 +126,11 @@ namespace PlenBotLogUploader
             var uri = new Uri($"{aleevaAPIBaseUrl}/auth/token");
             var aleevaKeyValues = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("grant_type", aleeva.GrantType),
-                new KeyValuePair<string, string>("client_id", aleeva.ClientId),
-                new KeyValuePair<string, string>("client_secret", aleeva.ClientSecret),
-                new KeyValuePair<string, string>("access_code", aleeva.AccessCode),
-                new KeyValuePair<string, string>("scopes", "report:write server:read channel:read")
+                new ("grant_type", aleeva.GrantType),
+                new ("client_id", aleeva.ClientId),
+                new ("client_secret", aleeva.ClientSecret),
+                new ("access_code", aleeva.AccessCode),
+                new ("scopes", "report:write server:read channel:read")
             };
             try
             {
@@ -170,15 +170,19 @@ namespace PlenBotLogUploader
 
         internal async Task GetAleevaTokenFromRefreshToken()
         {
-            var aleeva = new AleevaAuthToken() { RefreshToken = ApplicationSettings.Current.Aleeva.RefreshToken, GrantType = "refresh_token" };
+            var aleeva = new AleevaAuthToken()
+            {
+                RefreshToken = ApplicationSettings.Current.Aleeva.RefreshToken,
+                GrantType = "refresh_token"
+            };
             var uri = new Uri($"{aleevaAPIBaseUrl}/auth/token");
             var aleevaKeyValues = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("grant_type", aleeva.GrantType),
-                new KeyValuePair<string, string>("client_id", aleeva.ClientId),
-                new KeyValuePair<string, string>("client_secret", aleeva.ClientSecret),
-                new KeyValuePair<string, string>("refresh_token", aleeva.RefreshToken),
-                new KeyValuePair<string, string>("scopes", "report:write server:read channel:read")
+                new ("grant_type", aleeva.GrantType),
+                new ("client_id", aleeva.ClientId),
+                new ("client_secret", aleeva.ClientSecret),
+                new ("refresh_token", aleeva.RefreshToken),
+                new ("scopes", "report:write server:read channel:read")
             };
             try
             {
@@ -235,7 +239,7 @@ namespace PlenBotLogUploader
         {
             if (InvokeRequired)
             {
-                Invoke((Action)(() => DeauthoriseAleeva()));
+                Invoke(() => DeauthoriseAleeva());
                 return;
             }
             AleevaAccessToken = string.Empty;
@@ -257,7 +261,7 @@ namespace PlenBotLogUploader
                 aleevaServers.Clear();
                 if (comboBoxServer.InvokeRequired)
                 {
-                    comboBoxServer.Invoke((Action)(() => comboBoxServer.Items.Clear()));
+                    comboBoxServer.Invoke(() => comboBoxServer.Items.Clear());
                 }
                 else
                 {
@@ -266,7 +270,7 @@ namespace PlenBotLogUploader
                 aleevaServerChannels.Clear();
                 if (comboBoxChannel.InvokeRequired)
                 {
-                    comboBoxChannel.Invoke((Action)(() => comboBoxChannel.Items.Clear()));
+                    comboBoxChannel.Invoke(() => comboBoxChannel.Items.Clear());
                 }
                 else
                 {
@@ -283,16 +287,14 @@ namespace PlenBotLogUploader
                         aleevaServers.Add(server);
                     }
                 }
-                foreach (var server in aleevaServers)
-                {
-                    comboBoxServer.Items.Add(server);
-                }
+                AddServersToView();
             }
             catch (Exception e)
             {
                 mainLink.AddToText(e.Message);
             }
         }
+
 
         private async void ComboBoxServer_DropDown(object sender, EventArgs e) => await AleevaLoadServers();
 
@@ -317,7 +319,7 @@ namespace PlenBotLogUploader
                 aleevaServerChannels.Clear();
                 if (comboBoxChannel.InvokeRequired)
                 {
-                    comboBoxChannel.Invoke((Action)(() => comboBoxChannel.Items.Clear()));
+                    comboBoxChannel.Invoke(() => comboBoxChannel.Items.Clear());
                 }
                 else
                 {
@@ -334,10 +336,7 @@ namespace PlenBotLogUploader
                         aleevaServerChannels.Add(channel);
                     }
                 }
-                foreach (var channel in aleevaServerChannels)
-                {
-                    comboBoxChannel.Items.Add(channel);
-                }
+                AddServersToView();
             }
             catch (Exception ex)
             {
@@ -376,7 +375,7 @@ namespace PlenBotLogUploader
         {
             comboBoxSelectedTeam.Items.Clear();
             var teams = Teams.Teams.All;
-            foreach (var team in teams.Values)
+            foreach (var team in teams.Values.ToArray().AsSpan())
             {
                 comboBoxSelectedTeam.Items.Add(team);
             }
@@ -387,6 +386,14 @@ namespace PlenBotLogUploader
         {
             ApplicationSettings.Current.Aleeva.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as Team)?.ID ?? 0;
             ApplicationSettings.Current.Save();
+        }
+
+        private void AddServersToView()
+        {
+            foreach (var server in aleevaServers.AsSpan())
+            {
+                comboBoxServer.Items.Add(server);
+            }
         }
     }
 }
