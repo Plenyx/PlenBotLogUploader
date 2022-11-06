@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace PlenBotLogUploader.DPSReport
     /// An object holding boss information
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    internal sealed class BossData
+    internal sealed class BossData : IListViewItemInfo
     {
         /// <summary>
         /// ID of the encounter
@@ -64,6 +65,12 @@ namespace PlenBotLogUploader.DPSReport
         /// Returns the name the object is using in the Uploader UI
         /// </summary>
         internal string UIName => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty);
+
+        string IListViewItemInfo.NameToDisplay => BossId.ToString();
+
+        string IListViewItemInfo.TextToDisplay => UIName;
+
+        bool IListViewItemInfo.CheckedToDisplay => false;
 
         /// <summary>
         /// Formats Twitch message based on the DPSReport's JSON response.
