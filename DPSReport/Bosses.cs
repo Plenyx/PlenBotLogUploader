@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
