@@ -12,7 +12,6 @@ namespace PlenBotLogUploader.Tools
     {
         #region definitions
         // fields
-        private static readonly List<BossData> allBosses = Bosses.All;
         private static readonly DiscordAPIJSONContentEmbedThumbnail defaultThumbnail = new()
         {
             Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
@@ -56,26 +55,26 @@ namespace PlenBotLogUploader.Tools
                     .OrderBy(x => x.LogData.UploadTime)
                     .ToArray();
             var FractalLogs = reportsJSON
-                .Where(x => allBosses
+                .Where(x => Bosses.All
                     .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.Fractal)))
                 .ToArray();
             var StrikeLogs = reportsJSON
-                .Where(x => allBosses
+                .Where(x => Bosses.All
                     .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.Strike)))
                 .ToArray();
             var GolemLogs = reportsJSON
-                .Where(x => allBosses
+                .Where(x => Bosses.All
                     .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.Golem)))
                 .ToArray();
             var WvWLogs = reportsJSON
-                .Where(x => allBosses
+                .Where(x => Bosses.All
                     .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.WvW)))
                 .ToArray();
             var OtherLogs = reportsJSON
                 .Where(x =>
-                    allBosses
+                    Bosses.All
                         .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.None)) ||
-                    !allBosses
+                    !Bosses.All
                         .Any(y => y.BossId.Equals(x.EVTC.BossId)))
                 .ToArray();
 
