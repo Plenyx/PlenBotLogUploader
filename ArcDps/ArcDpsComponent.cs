@@ -52,7 +52,7 @@ namespace PlenBotLogUploader.ArcDps
             _ => null,
         };
 
-        internal GitHubReleasesLatest LatestRelease { get; private set; }
+        internal GitHubReleaseLatest LatestRelease { get; private set; }
 
         internal string DownloadLink => Type switch
         {
@@ -111,7 +111,7 @@ namespace PlenBotLogUploader.ArcDps
             return MakeMD5Hash().Equals(versionMd5);
         }
 
-        private async Task<GitHubReleasesLatest> GetGitHubRelease(HttpClientController httpController) => LatestRelease = await httpController.GetGitHubLatestReleaseAsync(Repository);
+        private async Task<GitHubReleaseLatest> GetGitHubRelease(HttpClientController httpController) => LatestRelease = await httpController.GetGitHubLatestReleaseAsync(Repository);
 
         internal async Task<string> GetVersionStringAsync(HttpClientController httpController)
         {

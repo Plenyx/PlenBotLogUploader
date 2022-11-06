@@ -2,7 +2,7 @@
 
 namespace PlenBotLogUploader.GitHub
 {
-    internal sealed class GitHubReleasesLatestAsset
+    internal sealed class GitHubReleaseLatestAsset
     {
         [JsonProperty("name")]
         internal string Name { get; set; }

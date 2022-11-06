@@ -65,14 +65,14 @@ namespace PlenBotLogUploader.Tools
         /// </summary>
         /// <param name="repository">specified repository</param>
         /// <returns>latest release from a specified repository</returns>
-        internal async Task<GitHubReleasesLatest> GetGitHubLatestReleaseAsync(string repository)
+        internal async Task<GitHubReleaseLatest> GetGitHubLatestReleaseAsync(string repository)
         {
             try
             {
                 var uri = new Uri($"https://api.github.com/repos/{repository}/releases/latest");
                 using var responseMessage = await GetAsync(uri);
                 var response = await responseMessage.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<GitHubReleasesLatest>(response);
+                return JsonConvert.DeserializeObject<GitHubReleaseLatest>(response);
             }
             catch
             {
