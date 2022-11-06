@@ -368,7 +368,7 @@ namespace PlenBotLogUploader
         private void FormAleeva_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            Process.Start(aleevaUrl);
+            Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = aleevaUrl });
         }
 
         private void FormAleeva_Shown(object sender, EventArgs e)

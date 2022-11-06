@@ -46,6 +46,6 @@ namespace PlenBotLogUploader
             groupBoxCustomNameSettings.Enabled = checkBoxCustomNameEnable.Checked;
         }
 
-        private void LinkLabelGetOAuth_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start(generateOAuthURL);
+        private void LinkLabelGetOAuth_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = generateOAuthURL });
     }
 }
