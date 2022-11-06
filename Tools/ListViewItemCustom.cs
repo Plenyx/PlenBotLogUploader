@@ -3,7 +3,7 @@
 namespace PlenBotLogUploader.Tools
 {
     internal sealed class ListViewItemCustom<T> : ListViewItem
-        where T : IListViewItemInfo
+        where T : IListViewItemInfo<T>
     {
         private T _item;
 
@@ -21,8 +21,16 @@ namespace PlenBotLogUploader.Tools
 
         internal ListViewItemCustom(T item) => Item = item;
 
+        internal void UpdateData()
+        {
+            Name = Item.NameToDisplay;
+            Text = Item.TextToDisplay;
+            Checked = Item.CheckedToDisplay;
+        }
+
         private void SetUpItem()
         {
+            Item.ConnectedItems.Add(this);
             Name = Item.NameToDisplay;
             Text = Item.TextToDisplay;
             Checked = Item.CheckedToDisplay;

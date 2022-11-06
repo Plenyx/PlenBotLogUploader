@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.Tools;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,20 +16,20 @@ namespace PlenBotLogUploader.DPSReport
     {
         internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.json";
 
-        private static IDictionary<int, BossData> _all;
+        private static List<BossData> _all;
 
         /// <summary>
         /// Returns the main dictionary with all encounters.
         /// </summary>
         /// <returns>A dictionary with all encounters</returns>
-        internal static IDictionary<int, BossData> All => _all ??= new Dictionary<int, BossData>();
+        internal static List<BossData> All => _all ??= new List<BossData>();
 
         /// <summary>
         /// Loads BossData from specified json file.
         /// </summary>
         /// <param name="filePath">The json file form which the data is loaded.</param>
         /// <returns>A Dictionary containing the loaded BossData.</returns>
-        internal static IDictionary<int, BossData> FromJsonFile(string filePath)
+        internal static List<BossData> FromJsonFile(string filePath)
         {
             var jsonData = File.ReadAllText(filePath);
 
@@ -41,9 +42,9 @@ namespace PlenBotLogUploader.DPSReport
         /// Saves BossData to specified json file.
         /// </summary>
         /// <param name="bossDataToSave">BossData to persist.</param>
-        internal static void SaveToJson(IDictionary<int, BossData> bossDataToSave)
+        internal static void SaveToJson(List<BossData> bossDataToSave)
         {
-            var jsonString = JsonConvert.SerializeObject(bossDataToSave.Values, Formatting.Indented);
+            var jsonString = JsonConvert.SerializeObject(bossDataToSave, Formatting.Indented);
 
             File.WriteAllText(JsonFileLocation, jsonString, Encoding.UTF8);
         }
@@ -52,7 +53,7 @@ namespace PlenBotLogUploader.DPSReport
         /// Returns a dictionary with default BossData values.
         /// </summary>
         /// <returns>Dictionary with default BossData values</returns>
-        internal static IDictionary<int, BossData> GetDefaultSettingsForBossesAsDictionary()
+        internal static List<BossData> GetDefaultSettingsForBossesAsDictionary()
         {
             const string defaultBossData = "PlenBotLogUploader.Resources.boss_data.default.json";
             var assembly = Assembly.GetExecutingAssembly();
@@ -62,7 +63,7 @@ namespace PlenBotLogUploader.DPSReport
             var jsonString = reader.ReadToEnd();
 
             _all = BossData.ParseJsonString(jsonString);
-            foreach (var boss in _all.Values)
+            foreach (var boss in _all.AsSpan())
             {
                 if ((boss.Type != BossType.Golem) && (boss.Type != BossType.WvW) && !boss.Event)
                 {
@@ -83,8 +84,7 @@ namespace PlenBotLogUploader.DPSReport
         internal static BossData GetBossDataFromId(int bossId)
         {
             var bossDataRef = All
-                .Where(x => x.Value.BossId.Equals(bossId))
-                .Select(x => x.Value)
+                .Where(x => x.BossId.Equals(bossId))
                 .ToArray();
             if (bossDataRef.Length == 1)
             {

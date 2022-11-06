@@ -1,5 +1,6 @@
 ﻿using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,8 +13,7 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormTemplateBossData templateLink;
-        private int bossesIdsKey;
-        private readonly IDictionary<int, BossData> allBosses;
+        private readonly List<BossData> allBosses;
         #endregion
 
         internal FormBossData()
@@ -24,20 +24,17 @@ namespace PlenBotLogUploader
 
             allBosses = LoadBossData();
 
-            bossesIdsKey = allBosses.Count;
-
-            foreach (var boss in allBosses)
+            foreach (var boss in allBosses.AsSpan())
             {
-                listViewBosses.Items.Add(new ListViewItem() { Name = boss.Key.ToString(), Text = boss.Value.UIName });
+                listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
             }
         }
 
         private void ListViewBosses_DoubleClick(object sender, EventArgs e)
         {
-            var selected = listViewBosses.SelectedItems[0];
-            if (int.TryParse(selected.Name, out int reservedId))
+            if ((listViewBosses.SelectedItems.Count > 0) && (listViewBosses.SelectedItems[0] is ListViewItemCustom<BossData> item))
             {
-                new FormEditBossData(this, allBosses[reservedId], reservedId).ShowDialog();
+                new FormEditBossData(this, item.Item).ShowDialog();
             }
         }
 
@@ -55,23 +52,15 @@ namespace PlenBotLogUploader
             {
                 listViewBosses.Items.Clear();
                 allBosses.Clear();
-                foreach (var keyPair in Bosses.GetDefaultSettingsForBossesAsDictionary())
+                allBosses.AddRange(Bosses.GetDefaultSettingsForBossesAsDictionary());
+                foreach (var boss in allBosses)
                 {
-                    allBosses.Add(keyPair.Key, keyPair.Value);
-                }
-                bossesIdsKey = allBosses.Count;
-                foreach (var bossEntry in allBosses)
-                {
-                    listViewBosses.Items.Add(new ListViewItem() { Name = bossEntry.Key.ToString(), Text = bossEntry.Value.UIName });
+                    listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
                 }
             }
         }
 
-        private void AddNewClick()
-        {
-            bossesIdsKey++;
-            new FormEditBossData(this, null, bossesIdsKey).ShowDialog();
-        }
+        private void AddNewClick() => new FormEditBossData(this, null).ShowDialog();
 
         private void ButtonAddNew_Click(object sender, EventArgs e) => AddNewClick();
 
@@ -79,29 +68,21 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemEditBoss_Click(object sender, EventArgs e)
         {
-            if (listViewBosses.SelectedItems.Count > 0)
+            if ((listViewBosses.SelectedItems.Count > 0) && (listViewBosses.SelectedItems[0] is ListViewItemCustom<BossData> item))
             {
-                var selected = listViewBosses.SelectedItems[0];
-                if (int.TryParse(selected.Name, out int reservedId))
-                {
-                    new FormEditBossData(this, allBosses[reservedId], reservedId).ShowDialog();
-                }
+                new FormEditBossData(this, item.Item).ShowDialog();
             }
         }
 
         private void ToolStripMenuItemDeleteBoss_Click(object sender, EventArgs e)
         {
-            if (listViewBosses.SelectedItems.Count > 0)
+            if ((listViewBosses.SelectedItems.Count > 0) && (listViewBosses.SelectedItems[0] is ListViewItemCustom<BossData> item))
             {
-                var selected = listViewBosses.SelectedItems[0];
-                if (int.TryParse(selected.Name, out int reservedId))
+                var result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result.Equals(DialogResult.Yes))
                 {
-                    var result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result.Equals(DialogResult.Yes))
-                    {
-                        listViewBosses.Items.RemoveByKey(reservedId.ToString());
-                        allBosses.Remove(reservedId);
-                    }
+                    listViewBosses.Items.RemoveByKey(item.Name);
+                    allBosses.Remove(item.Item);
                 }
             }
         }
@@ -118,7 +99,7 @@ namespace PlenBotLogUploader
             templateLink.BringToFront();
         }
 
-        private static IDictionary<int, BossData> LoadBossData()
+        private static List<BossData> LoadBossData()
         {
             try
             {
