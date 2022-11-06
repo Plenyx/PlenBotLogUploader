@@ -11,7 +11,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private readonly IDictionary<int, BossData> allBosses = Bosses.All;
+        private readonly List<BossData> allBosses = Bosses.All;
         #endregion
 
         internal FormTemplateBossData()
@@ -36,12 +36,11 @@ namespace PlenBotLogUploader
             var result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on success to \"{textBoxSuccessMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
-                var BossesToChange = allBosses
-                    .Where(x => !x.Value.Type.Equals(BossType.Golem) && !x.Value.Type.Equals(BossType.WvW) && !x.Value.Event)
-                    .ToDictionary(x => x.Key, x => x.Value);
-                foreach (var key in BossesToChange.Keys)
+                var bossesToChange = allBosses
+                    .Where(x => !x.Type.Equals(BossType.Golem) && !x.Type.Equals(BossType.WvW) && !x.Event)
+                    .ToArray();
+                foreach (var boss in bossesToChange.AsSpan())
                 {
-                    var boss = allBosses[key];
                     boss.SuccessMsg = textBoxSuccessMessage.Text;
                 }
                 MessageBox.Show("All changes are saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -53,12 +52,11 @@ namespace PlenBotLogUploader
             var result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on fail to \"{textBoxFailMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
-                var BossesToChange = allBosses
-                    .Where(x => !x.Value.Type.Equals(BossType.Golem) && !x.Value.Type.Equals(BossType.WvW) && !x.Value.Event)
-                    .ToDictionary(x => x.Key, x => x.Value);
-                foreach (var key in BossesToChange.Keys)
+                var bossesToChange = allBosses
+                    .Where(x => !x.Type.Equals(BossType.Golem) && !x.Type.Equals(BossType.WvW) && !x.Event)
+                    .ToArray();
+                foreach (var boss in bossesToChange.AsSpan())
                 {
-                    var boss = allBosses[key];
                     boss.FailMsg = textBoxFailMessage.Text;
                 }
                 MessageBox.Show("All changes are saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -1,11 +1,24 @@
-﻿namespace PlenBotLogUploader.Tools
+﻿using System.Collections.Generic;
+
+namespace PlenBotLogUploader.Tools
 {
-    internal interface IListViewItemInfo
+    internal interface IListViewItemInfo<T>
+        where T : IListViewItemInfo<T>
     {
         internal string NameToDisplay { get; }
 
         internal string TextToDisplay { get; }
 
         internal bool CheckedToDisplay { get; }
+
+        internal HashSet<ListViewItemCustom<T>> ConnectedItems { get; }
+
+        internal void UpdateItems()
+        {
+            foreach (var item in ConnectedItems)
+            {
+                item.UpdateData();
+            }
+        }
     }
 }

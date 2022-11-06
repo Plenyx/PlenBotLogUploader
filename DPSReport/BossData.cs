@@ -11,7 +11,7 @@ namespace PlenBotLogUploader.DPSReport
     /// An object holding boss information
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    internal sealed class BossData : IListViewItemInfo
+    internal sealed class BossData : IListViewItemInfo<BossData>
     {
         /// <summary>
         /// ID of the encounter
@@ -61,16 +61,15 @@ namespace PlenBotLogUploader.DPSReport
         [JsonProperty("isEvent")]
         internal bool Event { get; set; } = false;
 
-        /// <summary>
-        /// Returns the name the object is using in the Uploader UI
-        /// </summary>
-        internal string UIName => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty);
+        internal HashSet<ListViewItemCustom<BossData>> connectedItems;
 
-        string IListViewItemInfo.NameToDisplay => BossId.ToString();
+        string IListViewItemInfo<BossData>.NameToDisplay => BossId.ToString();
 
-        string IListViewItemInfo.TextToDisplay => UIName;
+        string IListViewItemInfo<BossData>.TextToDisplay => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty);
 
-        bool IListViewItemInfo.CheckedToDisplay => false;
+        bool IListViewItemInfo<BossData>.CheckedToDisplay => false;
+
+        HashSet<ListViewItemCustom<BossData>> IListViewItemInfo<BossData>.ConnectedItems => connectedItems ??= new HashSet<ListViewItemCustom<BossData>>();
 
         /// <summary>
         /// Formats Twitch message based on the DPSReport's JSON response.
@@ -94,16 +93,12 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="jsonString">The json to parse</param>
         /// <exception cref="JsonException"></exception>
-        internal static IDictionary<int, BossData> ParseJsonString(string jsonString)
+        internal static List<BossData> ParseJsonString(string jsonString)
         {
-            var bossCount = 1;
-
             var parsedJson = JsonConvert.DeserializeObject<IEnumerable<BossData>>(jsonString)
                              ?? throw new JsonException("Could not parse json to BossData");
 
-            return parsedJson
-                .Select(x => (Key: bossCount++, BossData: x))
-                .ToDictionary(x => x.Key, x => x.BossData);
+            return parsedJson.ToList();
         }
     }
 }

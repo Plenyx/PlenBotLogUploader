@@ -1,5 +1,6 @@
 ﻿using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.Tools;
 using System;
 using System.Windows.Forms;
 
@@ -50,16 +51,14 @@ namespace PlenBotLogUploader
         // fields
         private readonly FormBossData editLink;
         private readonly BossData data;
-        private readonly int reservedId;
         private BossType _bossTypeSwitch = BossType.None;
         #endregion
 
-        internal FormEditBossData(FormBossData editLink, BossData data, int reservedId)
+        internal FormEditBossData(FormBossData editLink, BossData data)
         {
             this.editLink = editLink;
             InitializeComponent();
             this.data = data;
-            this.reservedId = reservedId;
             Icon = Properties.Resources.AppIcon;
             Text = (data is null) ? "Add a new boss" : $"{data.Name} ({data.BossId})";
             textBoxBossID.Text = data?.BossId.ToString() ?? string.Empty;
@@ -89,21 +88,20 @@ namespace PlenBotLogUploader
                         Type = BossTypeSwitch,
                         Event = checkBoxEvent.Checked,
                     };
-                    Bosses.All[reservedId] = boss;
-                    editLink.listViewBosses.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = boss.UIName });
+                    Bosses.All.Add(boss);
+                    editLink.listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
                 }
                 else
                 {
-                    var boss = Bosses.All[reservedId];
-                    boss.BossId = bossId;
-                    boss.Name = textBoxBossName.Text;
-                    boss.InternalDescription = textBoxInternalDescription.Text;
-                    boss.SuccessMsg = textBoxSuccessMsg.Text;
-                    boss.FailMsg = textBoxFailMsg.Text;
-                    boss.Icon = textBoxIcon.Text;
-                    boss.Type = BossTypeSwitch;
-                    boss.Event = checkBoxEvent.Checked;
-                    editLink.listViewBosses.Items[editLink.listViewBosses.Items.IndexOfKey(reservedId.ToString())].Text = boss.UIName;
+                    data.BossId = bossId;
+                    data.Name = textBoxBossName.Text;
+                    data.InternalDescription = textBoxInternalDescription.Text;
+                    data.SuccessMsg = textBoxSuccessMsg.Text;
+                    data.FailMsg = textBoxFailMsg.Text;
+                    data.Icon = textBoxIcon.Text;
+                    data.Type = BossTypeSwitch;
+                    data.Event = checkBoxEvent.Checked;
+                    (data as IListViewItemInfo<BossData>)?.UpdateItems();
                 }
             }
         }
