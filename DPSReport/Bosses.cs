@@ -33,9 +33,29 @@ namespace PlenBotLogUploader.DPSReport
         {
             var jsonData = File.ReadAllText(filePath);
 
-            _all = BossData.ParseJsonString(jsonData);
+            try
+            {
+                _all = ParseJsonString(jsonData);
 
-            return _all;
+                return _all;
+            }
+            catch
+            {
+                return new List<BossData>();
+            }
+        }
+
+        /// <summary>
+        /// Deserializes a json string to BossData
+        /// </summary>
+        /// <param name="jsonString">The json to parse</param>
+        /// <exception cref="JsonException"></exception>
+        internal static List<BossData> ParseJsonString(string jsonString)
+        {
+            var parsedJson = JsonConvert.DeserializeObject<IEnumerable<BossData>>(jsonString)
+                             ?? throw new JsonException("Could not parse json to BossData");
+
+            return parsedJson.ToList();
         }
 
         /// <summary>
@@ -62,7 +82,7 @@ namespace PlenBotLogUploader.DPSReport
             using var reader = new StreamReader(stream);
             var jsonString = reader.ReadToEnd();
 
-            _all = BossData.ParseJsonString(jsonString);
+            _all = ParseJsonString(jsonString);
             foreach (var boss in _all.AsSpan())
             {
                 if ((boss.Type != BossType.Golem) && (boss.Type != BossType.WvW) && !boss.Event)
@@ -81,17 +101,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="bossId">The boss id to query for</param>
         /// <returns>BossData object or null</returns>
-        internal static BossData GetBossDataFromId(int bossId)
-        {
-            var bossDataRef = All
-                .Where(x => x.BossId.Equals(bossId))
-                .ToArray();
-            if (bossDataRef.Length == 1)
-            {
-                return bossDataRef[0];
-            }
-            return null;
-        }
+        internal static BossData GetBossDataFromId(int bossId) => All.Find(x => x.BossId.Equals(bossId));
 
         /// <summary>
         /// Returns a wing number based on a given encounter ID.
@@ -143,7 +153,7 @@ namespace PlenBotLogUploader.DPSReport
                 5 => "Hall of Chains",
                 6 => "Mythwright Gambit",
                 7 => "The Key of Ahdashim",
-                _ => "Unknown wing",
+                _ => "Unknown raid wing",
             };
     }
 }
