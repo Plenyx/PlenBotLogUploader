@@ -439,7 +439,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        private void RichTextBoxUploadInfo_LinkClicked(object sender, LinkClickedEventArgs e) => Process.Start(e.LinkText);
+        private void RichTextBoxUploadInfo_LinkClicked(object sender, LinkClickedEventArgs e) => Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = e.LinkText });
         #endregion
 
         #region main program methods
@@ -1354,7 +1354,7 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemPostToTwitch_CheckedChanged(object sender, EventArgs e) => checkBoxPostToTwitch.Checked = toolStripMenuItemPostToTwitch.Checked;
 
-        private void ButtonOpenLogs_Click(object sender, EventArgs e) => Process.Start(ApplicationSettings.Current.LogsLocation);
+        private void ButtonOpenLogs_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = ApplicationSettings.Current.LogsLocation });
 
         private void OpenDPSReportSettings()
         {
@@ -1524,7 +1524,7 @@ namespace PlenBotLogUploader
             var result = MessageBox.Show("Are you sure you want to do this?\nThis resets all your settings but not boss data, webhooks and ping configurations.\nIf you click yes the application will close itself.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
-                Process.Start(ApplicationSettings.LocalDir);
+                Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = ApplicationSettings.LocalDir });
                 var reset = new ApplicationSettings();
                 reset.Save();
                 ExitApp();
@@ -1535,7 +1535,7 @@ namespace PlenBotLogUploader
         {
             timerCheckUpdate.Stop();
             timerCheckUpdate.Enabled = false;
-            Task.Run(() => NewReleaseCheckAsync());
+            _ = NewReleaseCheckAsync();
         }
 
         private void ComboBoxMaxUploads_SelectedIndexChanged(object sender, EventArgs e)
