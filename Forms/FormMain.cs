@@ -538,7 +538,7 @@ namespace PlenBotLogUploader
                 var response = await HttpClientController.DownloadFileToStringAsync(plenbotVersionFileURL) ?? "0";
                 if (int.TryParse(response, out int currentVersion))
                 {
-                    if (currentVersion >= ApplicationSettings.Version)
+                    if (currentVersion > ApplicationSettings.Version)
                     {
                         UpdateFound = true;
                         latestRelease = await HttpClientController.GetGitHubLatestReleaseAsync("HardstuckGuild/PlenBotLogUploader");
@@ -1478,7 +1478,7 @@ namespace PlenBotLogUploader
             buttonUpdate.Enabled = false;
             AddToText(">>> Downloading the update...");
             var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals(Process.GetCurrentProcess().ProcessName.Contains("netv6") ? netv6DownloadName : standaloneDownloadName)).DownloadURL;
-            if (downloadUrl is null)
+            if (downloadUrl is not null)
             {
                 var result = await HttpClientController.DownloadFileAsync(downloadUrl, $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe");
                 if (result)
