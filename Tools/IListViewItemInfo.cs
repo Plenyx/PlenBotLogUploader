@@ -17,7 +17,7 @@ namespace PlenBotLogUploader.Tools
         {
             foreach (var item in ConnectedItems.AsSpan())
             {
-                item.UpdateData();
+                item?.UpdateData();
             }
         }
     }
