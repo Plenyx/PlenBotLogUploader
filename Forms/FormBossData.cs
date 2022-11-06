@@ -1,8 +1,6 @@
-﻿using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.DPSReport;
 using PlenBotLogUploader.Tools;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -13,7 +11,6 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormTemplateBossData templateLink;
-        private readonly List<BossData> allBosses;
         #endregion
 
         internal FormBossData()
@@ -22,9 +19,9 @@ namespace PlenBotLogUploader
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
 
-            allBosses = LoadBossData();
+            LoadBossData();
 
-            foreach (var boss in allBosses.AsSpan())
+            foreach (var boss in Bosses.All.AsSpan())
             {
                 listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
             }
@@ -42,7 +39,7 @@ namespace PlenBotLogUploader
         {
             e.Cancel = true;
             Hide();
-            Bosses.SaveToJson(allBosses);
+            Bosses.SaveToJson(Bosses.All);
         }
 
         private void ButtonResetSettings_Click(object sender, EventArgs e)
@@ -51,9 +48,9 @@ namespace PlenBotLogUploader
             if (result.Equals(DialogResult.Yes))
             {
                 listViewBosses.Items.Clear();
-                allBosses.Clear();
-                allBosses.AddRange(Bosses.GetDefaultSettingsForBossesAsDictionary());
-                foreach (var boss in allBosses)
+                Bosses.All.Clear();
+                Bosses.All.AddRange(Bosses.GetDefaultSettingsForBossesAsDictionary());
+                foreach (var boss in Bosses.All.AsSpan())
                 {
                     listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
                 }
@@ -82,7 +79,7 @@ namespace PlenBotLogUploader
                 if (result.Equals(DialogResult.Yes))
                 {
                     listViewBosses.Items.RemoveByKey(item.Name);
-                    allBosses.Remove(item.Item);
+                    Bosses.All.Remove(item.Item);
                 }
             }
         }
@@ -99,19 +96,19 @@ namespace PlenBotLogUploader
             templateLink.BringToFront();
         }
 
-        private static List<BossData> LoadBossData()
+        private static void LoadBossData()
         {
             try
             {
                 if (File.Exists(Bosses.JsonFileLocation))
                 {
-                    return Bosses.FromJsonFile($@"{ApplicationSettings.LocalDir}\boss_data.json");
+                    Bosses.FromJsonFile(Bosses.JsonFileLocation);
                 }
-                return Bosses.GetDefaultSettingsForBossesAsDictionary();
+                Bosses.GetDefaultSettingsForBossesAsDictionary();
             }
             catch
             {
-                return Bosses.GetDefaultSettingsForBossesAsDictionary();
+                Bosses.GetDefaultSettingsForBossesAsDictionary();
             }
         }
     }

@@ -33,16 +33,9 @@ namespace PlenBotLogUploader.DPSReport
         {
             var jsonData = File.ReadAllText(filePath);
 
-            try
-            {
-                _all = ParseJsonString(jsonData);
+            _all = ParseJsonString(jsonData);
 
-                return _all;
-            }
-            catch
-            {
-                return new List<BossData>();
-            }
+            return _all;
         }
 
         /// <summary>

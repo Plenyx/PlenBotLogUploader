@@ -1,7 +1,6 @@
 ﻿using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,8 +9,6 @@ namespace PlenBotLogUploader
     public partial class FormTemplateBossData : Form
     {
         #region definitions
-        // fields
-        private readonly List<BossData> allBosses = Bosses.All;
         #endregion
 
         internal FormTemplateBossData()
@@ -36,7 +33,7 @@ namespace PlenBotLogUploader
             var result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on success to \"{textBoxSuccessMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
-                var bossesToChange = allBosses
+                var bossesToChange = Bosses.All
                     .Where(x => !x.Type.Equals(BossType.Golem) && !x.Type.Equals(BossType.WvW) && !x.Event)
                     .ToArray();
                 foreach (var boss in bossesToChange.AsSpan())
@@ -52,7 +49,7 @@ namespace PlenBotLogUploader
             var result = MessageBox.Show($"This will change all non-golem, non-wvw, non-event Twitch message on fail to \"{textBoxFailMessage.Text}\".\nAre you sure?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result.Equals(DialogResult.Yes))
             {
-                var bossesToChange = allBosses
+                var bossesToChange = Bosses.All
                     .Where(x => !x.Type.Equals(BossType.Golem) && !x.Type.Equals(BossType.WvW) && !x.Event)
                     .ToArray();
                 foreach (var boss in bossesToChange.AsSpan())

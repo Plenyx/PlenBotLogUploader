@@ -3,7 +3,6 @@ using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PlenBotLogUploader.DPSReport
 {
