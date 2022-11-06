@@ -77,6 +77,16 @@ namespace PlenBotLogUploader
             {
                 if (data is null)
                 {
+                    var existingBoss = Bosses.All.Find(x => x.BossId.Equals(bossId));
+                    if (existingBoss is not null)
+                    {
+                        var result = MessageBox.Show($"There is an already existing definition for this boss:\n\n{existingBoss.BossId}: {existingBoss.Name} ({existingBoss.Type})\n\nDo you wish to save this boss with the identical identification?", "Identical identification with an already existing boss", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (result == DialogResult.No)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
                     var boss = new BossData()
                     {
                         BossId = bossId,
@@ -93,6 +103,19 @@ namespace PlenBotLogUploader
                 }
                 else
                 {
+                    if (!data.BossId.Equals(bossId))
+                    {
+                        var existingBoss = Bosses.All.Find(x => x.BossId.Equals(bossId));
+                        if (existingBoss is not null)
+                        {
+                            var result = MessageBox.Show($"There is an already existing definition for this boss:\n\n{existingBoss.BossId}: {existingBoss.Name} ({existingBoss.Type})\n\nDo you wish to save this boss with the identical identification?", "Identical identification with an already existing boss", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            if (result == DialogResult.No)
+                            {
+                                e.Cancel = true;
+                                return;
+                            }
+                        }
+                    }
                     data.BossId = bossId;
                     data.Name = textBoxBossName.Text;
                     data.InternalDescription = textBoxInternalDescription.Text;
