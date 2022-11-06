@@ -87,18 +87,5 @@ namespace PlenBotLogUploader.DPSReport
                 : format.Replace("<percent>", string.Empty);
             return format;
         }
-
-        /// <summary>
-        /// Deserializes a json string to BossData
-        /// </summary>
-        /// <param name="jsonString">The json to parse</param>
-        /// <exception cref="JsonException"></exception>
-        internal static List<BossData> ParseJsonString(string jsonString)
-        {
-            var parsedJson = JsonConvert.DeserializeObject<IEnumerable<BossData>>(jsonString)
-                             ?? throw new JsonException("Could not parse json to BossData");
-
-            return parsedJson.ToList();
-        }
     }
 }
