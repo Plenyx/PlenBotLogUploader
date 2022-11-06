@@ -11,11 +11,11 @@ namespace PlenBotLogUploader.Tools
 
         internal bool CheckedToDisplay { get; }
 
-        internal HashSet<ListViewItemCustom<T>> ConnectedItems { get; }
+        internal List<ListViewItemCustom<T>> ConnectedItems { get; }
 
         internal void UpdateItems()
         {
-            foreach (var item in ConnectedItems)
+            foreach (var item in ConnectedItems.AsSpan())
             {
                 item.UpdateData();
             }

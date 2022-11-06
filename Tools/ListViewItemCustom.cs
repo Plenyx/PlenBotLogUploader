@@ -30,7 +30,10 @@ namespace PlenBotLogUploader.Tools
 
         private void SetUpItem()
         {
-            Item.ConnectedItems.Add(this);
+            if (!Item.ConnectedItems.Contains(this))
+            {
+                Item.ConnectedItems.Add(this);
+            }
             Name = Item.NameToDisplay;
             Text = Item.TextToDisplay;
             Checked = Item.CheckedToDisplay;
