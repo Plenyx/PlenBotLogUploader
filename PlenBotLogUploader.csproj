@@ -52,6 +52,7 @@
     <PackageReference Include="Hardstuck.GuildWars2.Builds" Version="1.2.1" />
     <PackageReference Include="Hardstuck.GuildWars2.MumbleLink" Version="1.2.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="TextTableFormatter.NET" Version="2.0.1" />
     <PackageReference Include="TwitchIrcClient" Version="1.1.0" />
