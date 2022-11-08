@@ -52,6 +52,7 @@
         AetherbladeHideout = 24033,
         MinisterLiCM = 24266,
         MinisterLi = 24485,
+        WatchknightTriumvirate = 25413,
         TheDragonvoid = 43488,
         ConjuredAmalgamate = 43974,
     }
