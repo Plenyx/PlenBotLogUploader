@@ -17,7 +17,8 @@ namespace PlenBotLogUploader
         static void Main()
         {
             var currProcess = Process.GetCurrentProcess();
-            var otherProcesses = Process.GetProcessesByName("PlenBotLogUploader")
+            var processName = Path.GetFileNameWithoutExtension(Application.ExecutablePath.AsSpan()).ToString();
+            var otherProcesses = Process.GetProcessesByName(processName)
                 .Where(x => !x.Id.Equals(currProcess.Id))
                 .ToArray();
             var args = Environment.GetCommandLineArgs();

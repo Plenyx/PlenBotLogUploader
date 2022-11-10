@@ -338,14 +338,11 @@ namespace PlenBotLogUploader
         #endregion
 
         #region form events
-        private void FormMain_Load(object sender, EventArgs e)
+        private async void FormMain_Load(object sender, EventArgs e)
         {
-            _ = Task.Run(async () =>
-            {
-                await StartUpAndCommandArgs();
-                await NewReleaseCheckAsync(true);
-            });
             Resize += FormMain_Resize;
+            await StartUpAndCommandArgs();
+            await NewReleaseCheckAsync(true);
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -867,18 +864,15 @@ namespace PlenBotLogUploader
                     }
                     else
                     {
-                        await Task.Run(async () =>
+                        var delay = recentUploadFailCounter switch
                         {
-                            var delay = recentUploadFailCounter switch
-                            {
-                                3 => 45000,
-                                2 => 15000,
-                                _ => 3000,
-                            };
-                            AddToText($">:> Retrying in {delay / 1000}s...");
-                            await Task.Delay(delay);
-                            await HttpUploadLogAsync(file, postData, bypassMessage);
-                        });
+                            3 => 45000,
+                            2 => 15000,
+                            _ => 3000,
+                        };
+                        AddToText($">:> Retrying in {delay / 1000}s...");
+                        await Task.Delay(delay);
+                        await HttpUploadLogAsync(file, postData, bypassMessage);
                     }
                 }
             }
@@ -1042,11 +1036,8 @@ namespace PlenBotLogUploader
                     if (reconnectedFailCounter <= 4)
                     {
                         AddToText($"<-?-> TRYING TO RECONNECT TO TWITCH IN {reconnectedFailCounter * 15}s");
-                        await Task.Run(async () =>
-                        {
-                            await Task.Delay(reconnectedFailCounter * 15000);
-                            await ReconnectTwitchBot();
-                        });
+                        await Task.Delay(reconnectedFailCounter * 15000);
+                        await ReconnectTwitchBot();
                     }
                     else
                     {
@@ -1206,14 +1197,14 @@ namespace PlenBotLogUploader
             AddToText("> (Spotify) SONG COMMAND USED");
             try
             {
-                var process = Array.Find(Process.GetProcessesByName("Spotify"), x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
-                if (process.MainWindowTitle.Contains("Spotify"))
+                var spotifyProcess = Array.Find(Process.GetProcessesByName("Spotify"), x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
+                if (spotifyProcess.MainWindowTitle.Contains("Spotify"))
                 {
                     await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "No song is being played.");
                 }
                 else
                 {
-                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, process.MainWindowTitle);
+                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, spotifyProcess.MainWindowTitle);
                 }
             }
             catch

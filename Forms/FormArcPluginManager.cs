@@ -152,11 +152,9 @@ namespace PlenBotLogUploader
 
         private void TimerCheckUpdates_Tick(object sender, EventArgs e) => _ = CheckUpdatesAsync();
 
-        private static Process[] GetGW2Instances() => Process.GetProcessesByName("Gw2-64");
-
         private async Task UpdateArcAndPluginsAsync()
         {
-            var processes = GetGW2Instances();
+            var processes = Process.GetProcessesByName("Gw2-64");
             if (processes.Length == 0)
             {
                 SetStatus($"{DateTime.Now.ToString(System.Globalization.CultureInfo.CurrentCulture)}: Updates for installed plugins found, updating...");
@@ -253,7 +251,7 @@ namespace PlenBotLogUploader
             var item = (ArcDpsComponentHelperClass)checkedListBoxArcDpsPlugins.Items[e.Index];
             if (e.NewValue.Equals(CheckState.Unchecked))
             {
-                var processes = GetGW2Instances();
+                var processes = Process.GetProcessesByName("Gw2-64");
                 if (processes.Length == 0)
                 {
                     var component = ArcDpsComponent.All.Find(x => x.Type.Equals(item.Type));

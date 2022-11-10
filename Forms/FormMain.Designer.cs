@@ -696,7 +696,7 @@
             this.tabControlSettings.Location = new System.Drawing.Point(483, 3);
             this.tabControlSettings.Name = "tabControlSettings";
             this.tabControlSettings.SelectedIndex = 0;
-            this.tabControlSettings.Size = new System.Drawing.Size(328, 678);
+            this.tabControlSettings.Size = new System.Drawing.Size(328, 679);
             this.tabControlSettings.TabIndex = 10;
             // 
             // tabPageMainSettings
@@ -707,7 +707,7 @@
             this.tabPageMainSettings.Location = new System.Drawing.Point(4, 29);
             this.tabPageMainSettings.Name = "tabPageMainSettings";
             this.tabPageMainSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMainSettings.Size = new System.Drawing.Size(320, 645);
+            this.tabPageMainSettings.Size = new System.Drawing.Size(320, 646);
             this.tabPageMainSettings.TabIndex = 0;
             this.tabPageMainSettings.Text = "Main settings";
             // 
@@ -718,7 +718,7 @@
             this.tabPageOtherSettings.Location = new System.Drawing.Point(4, 29);
             this.tabPageOtherSettings.Name = "tabPageOtherSettings";
             this.tabPageOtherSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageOtherSettings.Size = new System.Drawing.Size(320, 641);
+            this.tabPageOtherSettings.Size = new System.Drawing.Size(320, 646);
             this.tabPageOtherSettings.TabIndex = 1;
             this.tabPageOtherSettings.Text = "Other settings";
             // 
