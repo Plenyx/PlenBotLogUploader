@@ -30,14 +30,14 @@ jobs:
       run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-sc/
     - name: Prettify executable filenames
       run: |
-          mv artifacts/uploader/win64/PlenBotLogUploader.exe artifacts/uploader/win64/PlenBotLogUploader.exe
-          mv artifacts/uploader/win64-sc/PlenBotLogUploader.exe artifacts/uploader/win64-sc/PlenBotLogUploader.self-contained.exe
+          mv artifacts/uploader/win64/PlenBotLogUploader.exe artifacts/uploader/win64/PlenBotLogUploader.netv6.exe
+          mv artifacts/uploader/win64-sc/PlenBotLogUploader.exe artifacts/uploader/win64-sc/PlenBotLogUploader.exe
     - name: Prepare release
       uses: softprops/action-gh-release@v1
       with:
         draft: true
         files: |
-          artifacts/uploader/win64/PlenBotLogUploader.exe
-          artifacts/uploader/win64-sc/PlenBotLogUploader.self-contained.exe
+          artifacts/uploader/win64/PlenBotLogUploader.netv6.exe
+          artifacts/uploader/win64-sc/PlenBotLogUploader.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
