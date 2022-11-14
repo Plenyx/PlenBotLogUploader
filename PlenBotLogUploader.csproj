@@ -43,6 +43,11 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="dep\**" />
+    <EmbeddedResource Remove="dep\**" />
+    <None Remove="dep\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="IconAssembly.ico" />
     <EmbeddedResource Include="Resources\boss_data.default.json" />
     <Content Include="Resources\Icon.ico" />
@@ -57,6 +62,9 @@
     <PackageReference Include="TextTableFormatter.NET" Version="2.0.1" />
     <PackageReference Include="TwitchIrcClient" Version="1.1.0" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="dep\HsBuildCodes\include\c#\10\HsBuildCodes.csproj" />
   </ItemGroup>
   <ItemGroup>
       <SupportedPlatform Include="windows" />

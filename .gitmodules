@@ -1,0 +1,4 @@
+[submodule "HsBuildCodes"]
+	path = dep/HsBuildCodes
+	url = git@github.com:SaculRennorb/HsBuildCodes.git
+	branch = master

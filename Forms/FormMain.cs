@@ -1,4 +1,6 @@
-﻿using Hardstuck.GuildWars2.Builds;
+﻿using Gw2Sharp.WebApi.Exceptions;
+using Hardstuck.GuildWars2.BuildCodes.V2;
+using Hardstuck.GuildWars2.Builds;
 using Hardstuck.GuildWars2.MumbleLink;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -1107,29 +1109,34 @@ namespace PlenBotLogUploader
                                 await apiKey.GetCharacters(HttpClientController);
                             }
                             var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+                            if(trueApiKey == null)
+                            {
+                                AddToText($"No api key could be found for character '{MumbleReader.Data.Identity.Name}'");
+                                return;
+                            }
+
                             try
                             {
-                                using var parser = new GW2BuildParser(trueApiKey?.APIKey ?? "");
-                                var build = await parser.GetAPIBuildAsync(MumbleReader.Data.Identity.Name, MumbleReader.Data.Context.GameMode);
-                                var buildLink = build.GetBuildLink();
-                                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"Link to the build: {buildLink}");
+                                var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                                var message = $"Link to the build: https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
+                                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, message);
                             }
-                            catch (NotEnoughPermissionsException ex)
+                            catch (InvalidAccessTokenException)
                             {
-                                var response = new StringBuilder("The API request failed due to low API key permissions, main reason: ");
-                                switch (ex.MissingPermission)
-                                {
-                                    case NotEnoughPermissionsReason.Characters:
-                                        response.Append("the API key is missing \"characters\" permission");
-                                        break;
-                                    case NotEnoughPermissionsReason.Builds:
-                                        response.Append("the API key is missing \"builds\" permission");
-                                        break;
-                                    default:
-                                        response.Append("the API key is invalid");
-                                        break;
-                                }
-                                AddToText(response.ToString());
+                                AddToText("GW2 API access token is not valid.");
+                            }
+                            catch (MissingScopesException)
+                            {
+                                var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
+                                AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
+                            }
+                            catch (NotFoundException)
+                            {
+                                AddToText($"The currently logged in character ('{MumbleReader.Data.Identity.Name}') could be found using the GW2 API access token '{trueApiKey.Name}'");
+                            }
+                            catch (Exception ex)
+                            {
+                                AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
                             }
                         });
                     }
