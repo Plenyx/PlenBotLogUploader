@@ -1,6 +1,4 @@
-﻿using Gw2Sharp.WebApi.Exceptions;
-using Hardstuck.GuildWars2.BuildCodes.V2;
-using Hardstuck.GuildWars2.Builds;
+﻿using Hardstuck.GuildWars2.BuildCodes.V2;
 using Hardstuck.GuildWars2.MumbleLink;
 using Microsoft.Win32;
 using Newtonsoft.Json;
