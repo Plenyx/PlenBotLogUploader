@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PlenBotLogUploader.Aleeva;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DPSReport;
@@ -8,7 +7,6 @@ using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,6 +73,8 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.aleeva_icon;
             checkBoxSendNotification.Checked = ApplicationSettings.Current.Aleeva.SendNotification;
             checkBoxOnlySuccessful.Checked = ApplicationSettings.Current.Aleeva.SendOnSuccessOnly;
+            comboBoxServer.SelectedIndexChanged += ComboBoxServer_SelectedIndexChanged;
+            comboBoxChannel.SelectedIndexChanged += ComboBoxChannel_SelectedIndexChanged;
         }
 
         private void FormAleeva_FormClosing(object sender, FormClosingEventArgs e)
@@ -199,18 +199,22 @@ namespace PlenBotLogUploader
                     ApplicationSettings.Current.Aleeva.RefreshToken = responseToken.RefreshToken;
                     ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now.AddSeconds(responseToken.RefreshExpiresIn);
                     ApplicationSettings.Current.Save();
+                    comboBoxServer.SelectedIndexChanged -= ComboBoxServer_SelectedIndexChanged;
+                    comboBoxChannel.SelectedIndexChanged -= ComboBoxChannel_SelectedIndexChanged;
                     await AleevaLoadServers();
                     var selectedServer = aleevaServers.Find(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedServer));
                     if (selectedServer is not null)
                     {
                         comboBoxServer.SelectedItem = selectedServer;
                         await AleevaLoadChannels(selectedServer.ID);
-                        var selectedChannel = aleevaServerChannels.First(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel));
+                        var selectedChannel = aleevaServerChannels.Find(x => x.ID.Equals(ApplicationSettings.Current.Aleeva.SelectedChannel));
                         if (selectedChannel is not null)
                         {
                             comboBoxChannel.SelectedItem = selectedChannel;
                         }
                     }
+                    comboBoxServer.SelectedIndexChanged += ComboBoxServer_SelectedIndexChanged;
+                    comboBoxChannel.SelectedIndexChanged += ComboBoxChannel_SelectedIndexChanged;
                 }
             }
             catch (JsonReaderException)
@@ -281,11 +285,8 @@ namespace PlenBotLogUploader
                 if (response.IsSuccessStatusCode)
                 {
                     var responseMessage = await response.Content.ReadAsStringAsync();
-                    foreach (var token in JArray.Parse(responseMessage))
-                    {
-                        var server = token.ToObject<AleevaServer>();
-                        aleevaServers.Add(server);
-                    }
+                    var servers = JsonConvert.DeserializeObject<List<AleevaServer>>(responseMessage);
+                    aleevaServers.AddRange(servers);
                 }
                 AddServersToView();
             }
@@ -294,7 +295,6 @@ namespace PlenBotLogUploader
                 mainLink.AddToText(e.Message);
             }
         }
-
 
         private async void ComboBoxServer_DropDown(object sender, EventArgs e) => await AleevaLoadServers();
 
@@ -330,13 +330,10 @@ namespace PlenBotLogUploader
                 if (response.IsSuccessStatusCode)
                 {
                     var responseMessage = await response.Content.ReadAsStringAsync();
-                    foreach (var token in JArray.Parse(responseMessage))
-                    {
-                        var channel = token.ToObject<AleevaChannel>();
-                        aleevaServerChannels.Add(channel);
-                    }
+                    var channels = JsonConvert.DeserializeObject<List<AleevaChannel>>(responseMessage);
+                    aleevaServerChannels.AddRange(channels);
                 }
-                AddServersToView();
+                AddChannelsToView();
             }
             catch (Exception ex)
             {
@@ -393,6 +390,16 @@ namespace PlenBotLogUploader
             foreach (var server in aleevaServers.AsSpan())
             {
                 comboBoxServer.Items.Add(server);
+            }
+        }
+
+        private void AddChannelsToView()
+        {
+            comboBoxChannel.Text = string.Empty;
+            comboBoxChannel.Items.Clear();
+            foreach (var channel in aleevaServerChannels.AsSpan())
+            {
+                comboBoxChannel.Items.Add(channel);
             }
         }
     }

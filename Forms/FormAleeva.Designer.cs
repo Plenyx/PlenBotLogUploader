@@ -162,7 +162,6 @@
             this.comboBoxChannel.Name = "comboBoxChannel";
             this.comboBoxChannel.Size = new System.Drawing.Size(462, 21);
             this.comboBoxChannel.TabIndex = 2;
-            this.comboBoxChannel.SelectedIndexChanged += new System.EventHandler(this.ComboBoxChannel_SelectedIndexChanged);
             // 
             // groupBoxServer
             // 
@@ -183,7 +182,6 @@
             this.comboBoxServer.Size = new System.Drawing.Size(462, 21);
             this.comboBoxServer.TabIndex = 1;
             this.comboBoxServer.DropDown += new System.EventHandler(this.ComboBoxServer_DropDown);
-            this.comboBoxServer.SelectedIndexChanged += new System.EventHandler(this.ComboBoxServer_SelectedIndexChanged);
             // 
             // FormAleeva
             // 
