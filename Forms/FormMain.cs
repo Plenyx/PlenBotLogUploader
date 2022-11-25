@@ -1107,7 +1107,7 @@ namespace PlenBotLogUploader
                                 await apiKey.GetCharacters(HttpClientController);
                             }
                             var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
-                            if(trueApiKey == null)
+                            if (trueApiKey == null)
                             {
                                 AddToText($"No api key could be found for character '{MumbleReader.Data.Identity.Name}'");
                                 return;
