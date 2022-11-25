@@ -91,7 +91,6 @@ namespace PlenBotLogUploader
                     try
                     {
                         var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
-                        var test = TextLoader.WriteBuildCode(code);
                         mainLink.AddToText($"https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}");
                     }
                     catch (InvalidAccessTokenException)
