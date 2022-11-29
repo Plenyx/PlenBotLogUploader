@@ -368,6 +368,14 @@
     "Event": false
   },
   {
+    "BossId": 25414,
+    "Name": "Watchknight Triumvirate",
+    "InternalDescription": "Challenge Mode",
+    "Icon": "https://i.imgur.com/Q2g9aLD.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
     "BossId": 22711,
     "Name": "Whisper of Jormag",
     "Icon": "https://wiki.guildwars2.com/images/c/c0/Mini_Whisper_of_Jormag.png",
