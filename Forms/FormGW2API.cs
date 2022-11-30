@@ -1,9 +1,8 @@
-﻿using Hardstuck.GuildWars2.Builds;
+﻿using Hardstuck.GuildWars2.BuildCodes.V2;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -91,26 +90,25 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        using var parser = new GW2BuildParser(trueApiKey?.APIKey ?? "");
-                        var build = await parser.GetAPIBuildAsync(mainLink.MumbleReader.Data.Identity.Name, mainLink.MumbleReader.Data.Context.GameMode);
-                        mainLink.AddToText(build.GetBuildLink());
+                        var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                        mainLink.AddToText($"https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}");
                     }
-                    catch (NotEnoughPermissionsException ex)
+                    catch (InvalidAccessTokenException)
                     {
-                        var response = new StringBuilder("The API request failed due to low API key permissions, main reason: ");
-                        switch (ex.MissingPermission)
-                        {
-                            case NotEnoughPermissionsReason.Characters:
-                                response.Append("the API key is missing \"characters\" permission");
-                                break;
-                            case NotEnoughPermissionsReason.Builds:
-                                response.Append("the API key is missing \"builds\" permission");
-                                break;
-                            default:
-                                response.Append("the API key is invalid");
-                                break;
-                        }
-                        mainLink.AddToText(response.ToString());
+                        mainLink.AddToText("GW2 API access token is not valid.");
+                    }
+                    catch (MissingScopesException)
+                    {
+                        var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
+                        mainLink.AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
+                    }
+                    catch (NotFoundException)
+                    {
+                        mainLink.AddToText($"The currently logged in character ('{mainLink.MumbleReader.Data.Identity.Name}') could be found using the GW2 API access token '{trueApiKey.Name}'");
+                    }
+                    catch (Exception ex)
+                    {
+                        mainLink.AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
                     }
                 });
             }
