@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.GW2API
+namespace PlenBotLogUploader.Gw2Api
 {
-    internal sealed class GW2Account
+    internal sealed class Gw2Account
     {
         [JsonProperty("id")]
         internal string ID { get; set; }

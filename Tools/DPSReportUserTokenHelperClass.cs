@@ -2,7 +2,7 @@
 
 namespace PlenBotLogUploader.Tools
 {
-    internal sealed class DPSReportUserTokenHelperClass
+    internal sealed class DpsReportUserTokenHelperClass
     {
         [JsonProperty("userToken")]
         internal string UserToken { get; set; }

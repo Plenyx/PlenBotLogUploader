@@ -2,12 +2,12 @@
 using PlenBotLogUploader.AppSettings;
 using System.Collections.Generic;
 
-namespace PlenBotLogUploader.DPSReport
+namespace PlenBotLogUploader.DpsReport
 {
     /// <summary>
     /// DPSReport response after a log has been uploaded
     /// </summary>
-    internal sealed class DPSReportJSON
+    internal sealed class DpsReportJson
     {
         /// <summary>
         /// DPSReport ID
@@ -54,30 +54,30 @@ namespace PlenBotLogUploader.DPSReport
         /// EVTC sub-object of DPSReport's response
         /// </summary>
         [JsonProperty("evtc")]
-        internal DPSReportJSONEVTC EVTC { get; set; }
+        internal DpsReportJsonEvtc EVTC { get; set; }
 
         /// <summary>
         /// Encounter sub-object of DPSReport's response
         /// </summary>
         [JsonProperty("encounter")]
-        internal DPSReportJSONEncounter Encounter { get; set; }
+        internal DpsReportJsonEncounter Encounter { get; set; }
 
         /// <summary>
         /// Players sub-objects of DPSReport's response
         /// </summary>
         [JsonProperty("players")]
-        internal Dictionary<string, DPSReportJSONPlayers> Players { get; set; } = new();
+        internal Dictionary<string, DpsReportJsonPlayers> Players { get; set; } = new();
 
         /// <summary>
         /// Report sub-object of DPSReport's response
         /// </summary>
         [JsonProperty("report")]
-        internal DPSReportJSONReport Report { get; set; }
+        internal DpsReportJsonReport Report { get; set; }
 
         /// <summary>
         /// ExtraJSON sub-objects of DPSReport's response
         /// </summary>
-        internal DPSReportJSONExtraJSON ExtraJSON { get; set; }
+        internal DpsReportJsonExtraJson ExtraJSON { get; set; }
 
         /// <summary>
         /// Returns an error if one was encountered

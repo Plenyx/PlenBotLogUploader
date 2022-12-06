@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace PlenBotLogUploader.DiscordAPI
+namespace PlenBotLogUploader.DiscordApi
 {
     /// <summary>
     /// Discord Message content
     /// </summary>
-    internal sealed class DiscordAPIJSONContent
+    internal sealed class DiscordApiJsonContent
     {
         /// <summary>
         /// the message contents (up to 2000 characters)
@@ -18,12 +18,12 @@ namespace PlenBotLogUploader.DiscordAPI
         /// embedded (Discord) rich content
         /// </summary>
         [JsonProperty("embeds")]
-        internal List<DiscordAPIJSONContentEmbed> Embeds { get; set; }
+        internal List<DiscordApiJsonContentEmbed> Embeds { get; set; }
 
         /// <summary>
         /// allowed mentions for the message (content)
         /// </summary>
         [JsonProperty("allowed_mentions")]
-        internal DiscordAPIJSONContentAllowedMentions AllowedMentions { get; set; } = new DiscordAPIJSONContentAllowedMentions();
+        internal DiscordApiJsonContentAllowedMentions AllowedMentions { get; set; } = new DiscordApiJsonContentAllowedMentions();
     }
 }

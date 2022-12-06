@@ -1,5 +1,5 @@
-﻿using PlenBotLogUploader.DiscordAPI;
-using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.DiscordApi;
+using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Teams;
 using PlenBotLogUploader.Tools;
 using System;

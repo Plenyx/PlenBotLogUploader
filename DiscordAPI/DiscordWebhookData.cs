@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PlenBotLogUploader.DiscordAPI
+namespace PlenBotLogUploader.DiscordApi
 {
     [JsonObject(MemberSerialization.OptIn)]
     internal sealed class DiscordWebhookData
@@ -81,7 +81,7 @@ namespace PlenBotLogUploader.DiscordAPI
             try
             {
                 var response = await httpController.DownloadFileToStringAsync(URL);
-                var pingTest = JsonConvert.DeserializeObject<DiscordAPIJSONWebhookResponse>(response);
+                var pingTest = JsonConvert.DeserializeObject<DiscordApiJsonWebhookResponse>(response);
                 return pingTest?.Success ?? false;
             }
             catch

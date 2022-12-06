@@ -1,5 +1,5 @@
 ﻿using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.DpsReport;
 using System;
 using System.Linq;
 using System.Windows.Forms;

@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DiscordAPI
+namespace PlenBotLogUploader.DiscordApi
 {
     /// <summary>
     /// Discord embedded rich content's author object
     /// </summary>
-    internal sealed class DiscordAPIJSONContentEmbedAuthor
+    internal sealed class DiscordApiJsonContentEmbedAuthor
     {
         /// <summary>
         /// author's name

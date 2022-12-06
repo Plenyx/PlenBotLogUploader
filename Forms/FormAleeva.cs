@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.Aleeva;
 using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Teams;
 using PlenBotLogUploader.Tools;
 using System;
@@ -85,7 +85,7 @@ namespace PlenBotLogUploader
 
         private void FormAleeva_FormClosed(object sender, FormClosedEventArgs e) => controller.Dispose();
 
-        internal async Task PostLogToAleeva(DPSReportJSON reportJSON)
+        internal async Task PostLogToAleeva(DpsReportJson reportJSON)
         {
             if (AleevaAuthorised)
             {

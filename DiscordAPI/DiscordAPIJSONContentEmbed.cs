@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace PlenBotLogUploader.DiscordAPI
+namespace PlenBotLogUploader.DiscordApi
 {
     /// <summary>
     /// Discord embedded rich content
     /// </summary>
-    internal sealed class DiscordAPIJSONContentEmbed
+    internal sealed class DiscordApiJsonContentEmbed
     {
         /// <summary>
         /// title of the embed
@@ -48,24 +48,24 @@ namespace PlenBotLogUploader.DiscordAPI
         /// author information
         /// </summary>
         [JsonProperty("author")]
-        internal DiscordAPIJSONContentEmbedAuthor Author { get; set; } = new DiscordAPIJSONContentEmbedAuthor();
+        internal DiscordApiJsonContentEmbedAuthor Author { get; set; } = new DiscordApiJsonContentEmbedAuthor();
 
         /// <summary>
         /// thumbnail information
         /// </summary>
         [JsonProperty("thumbnail")]
-        internal DiscordAPIJSONContentEmbedThumbnail Thumbnail { get; set; }
+        internal DiscordApiJsonContentEmbedThumbnail Thumbnail { get; set; }
 
         /// <summary>
         /// footer information
         /// </summary>
         [JsonProperty("footer")]
-        internal DiscordAPIJSONContentEmbedFooter Footer { get; set; } = new DiscordAPIJSONContentEmbedFooter();
+        internal DiscordApiJsonContentEmbedFooter Footer { get; set; } = new DiscordApiJsonContentEmbedFooter();
 
         /// <summary>
         /// fields information
         /// </summary>
         [JsonProperty("fields")]
-        internal List<DiscordAPIJSONContentEmbedField> Fields { get; set; }
+        internal List<DiscordApiJsonContentEmbedField> Fields { get; set; }
     }
 }

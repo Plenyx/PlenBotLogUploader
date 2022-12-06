@@ -2,7 +2,7 @@
 
 namespace PlenBotLogUploader.AppSettings
 {
-    internal sealed class ApplicationSettingsGW2Bot
+    internal sealed class ApplicationSettingsGw2Bot
     {
         [JsonProperty("enabled")]
         internal bool Enabled { get; set; } = false;

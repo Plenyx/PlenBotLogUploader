@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DPSReport;
-using PlenBotLogUploader.GW2Bot;
+using PlenBotLogUploader.DpsReport;
+using PlenBotLogUploader.Gw2Bot;
 using PlenBotLogUploader.Teams;
 using PlenBotLogUploader.Tools;
 using System;
@@ -49,7 +49,7 @@ namespace PlenBotLogUploader
 
         private void FormGW2Bot_FormClosed(object sender, FormClosedEventArgs e) => controller.Dispose();
 
-        internal async Task<bool> PostLogToGW2Bot(DPSReportJSON reportJSON)
+        internal async Task<bool> PostLogToGW2Bot(DpsReportJson reportJSON)
         {
             if (checkBoxModuleEnabled.Checked)
             {
@@ -64,7 +64,7 @@ namespace PlenBotLogUploader
                 try
                 {
                     var uri = new Uri($"{gw2botAPIBaseUrl}/evtc/notification");
-                    var logObject = new GW2BotAddReport() { LogLink = reportJSON.ConfigAwarePermalink };
+                    var logObject = new Gw2BotAddReport() { LogLink = reportJSON.ConfigAwarePermalink };
                     var jsonLogObject = JsonConvert.SerializeObject(logObject);
                     using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
                     using var response = await controller.PostAsync(uri, content);

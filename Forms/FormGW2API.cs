@@ -40,7 +40,7 @@ namespace PlenBotLogUploader
 
         private void ListBoxAPIKeys_DoubleClick(object sender, EventArgs e)
         {
-            if (listBoxAPIKeys.SelectedItem is ApplicationSettingsGW2API item)
+            if (listBoxAPIKeys.SelectedItem is ApplicationSettingsGw2Api item)
             {
                 new FormEditGW2API(this, item).ShowDialog();
             }
@@ -56,11 +56,11 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemAddKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, null)).ShowDialog();
 
-        private void ToolStripMenuItemEditKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, (ApplicationSettingsGW2API)listBoxAPIKeys.SelectedItem)).ShowDialog();
+        private void ToolStripMenuItemEditKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, (ApplicationSettingsGw2Api)listBoxAPIKeys.SelectedItem)).ShowDialog();
 
         private void ToolStripMenuItemRemoveKey_Click(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.GW2APIs.Remove((ApplicationSettingsGW2API)listBoxAPIKeys.SelectedItem);
+            ApplicationSettings.Current.GW2APIs.Remove((ApplicationSettingsGw2Api)listBoxAPIKeys.SelectedItem);
             ApplicationSettings.Current.Save();
             RedrawList();
         }

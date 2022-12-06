@@ -70,10 +70,10 @@ namespace PlenBotLogUploader.AppSettings
         internal bool FirstTimeMinimised { get; set; } = false;
 
         [JsonProperty("gw2APIKeys")]
-        internal List<ApplicationSettingsGW2API> GW2APIs { get; set; } = new List<ApplicationSettingsGW2API>();
+        internal List<ApplicationSettingsGw2Api> GW2APIs { get; set; } = new List<ApplicationSettingsGw2Api>();
 
         [JsonProperty("gw2Bot")]
-        internal ApplicationSettingsGW2Bot GW2Bot { get; set; } = new ApplicationSettingsGW2Bot();
+        internal ApplicationSettingsGw2Bot GW2Bot { get; set; } = new ApplicationSettingsGw2Bot();
 
         [JsonProperty("gw2Location")]
         internal string GW2Location { get; set; } = string.Empty;

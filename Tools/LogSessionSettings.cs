@@ -1,4 +1,4 @@
-﻿using PlenBotLogUploader.DiscordAPI;
+﻿using PlenBotLogUploader.DiscordApi;
 using System;
 using System.Collections.Generic;
 

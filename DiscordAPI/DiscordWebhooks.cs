@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace PlenBotLogUploader.DiscordAPI
+namespace PlenBotLogUploader.DiscordApi
 {
     internal static class DiscordWebhooks
     {

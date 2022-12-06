@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DPSReport
+namespace PlenBotLogUploader.DpsReport
 {
-    internal sealed class DPSReportJSONReport
+    internal sealed class DpsReportJsonReport
     {
         [JsonProperty("anonymous")]
         internal bool Anonymous { get; set; }

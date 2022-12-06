@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Tools;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -24,9 +24,9 @@ namespace PlenBotLogUploader.RemotePing
         [JsonProperty("authentication")]
         internal PingAuthentication Authentication { get; set; }
 
-        internal async Task<bool> PingServerAsync(FormMain mainLink, DPSReportJSON reportJSON) => await PingServerAsync(this, mainLink, reportJSON);
+        internal async Task<bool> PingServerAsync(FormMain mainLink, DpsReportJson reportJSON) => await PingServerAsync(this, mainLink, reportJSON);
 
-        internal static async Task<bool> PingServerAsync(PingConfiguration configuration, FormMain mainLink, DPSReportJSON reportJSON)
+        internal static async Task<bool> PingServerAsync(PingConfiguration configuration, FormMain mainLink, DpsReportJson reportJSON)
         {
             var result = false;
             using var controller = new HttpClientController();

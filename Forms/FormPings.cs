@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.RemotePing;
 using System;
 using System.Collections.Generic;
@@ -79,7 +79,7 @@ namespace PlenBotLogUploader
             AllPings.Add(settingsIdsKey, config);
         }
 
-        internal async Task ExecuteAllPingsAsync(DPSReportJSON reportJSON)
+        internal async Task ExecuteAllPingsAsync(DpsReportJson reportJSON)
         {
             foreach (var key in AllPings.Keys)
             {

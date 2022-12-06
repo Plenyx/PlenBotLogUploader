@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.GW2Bot
+namespace PlenBotLogUploader.Gw2Bot
 {
-    internal sealed class GW2BotAddReportResponse
+    internal sealed class Gw2BotAddReportResponse
     {
         [JsonProperty("detail")]
         internal object Detail { get; set; }

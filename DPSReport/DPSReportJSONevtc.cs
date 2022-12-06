@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DPSReport
+namespace PlenBotLogUploader.DpsReport
 {
-    internal sealed class DPSReportJSONEVTC
+    internal sealed class DpsReportJsonEvtc
     {
         [JsonProperty("type")]
         internal string Type { get; set; }

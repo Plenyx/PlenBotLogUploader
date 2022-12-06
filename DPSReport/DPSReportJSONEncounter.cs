@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DPSReport
+namespace PlenBotLogUploader.DpsReport
 {
-    internal sealed class DPSReportJSONEncounter
+    internal sealed class DpsReportJsonEncounter
     {
         [JsonProperty("success")]
         internal bool? Success { get; set; }

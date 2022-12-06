@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DiscordAPI
+namespace PlenBotLogUploader.DiscordApi
 {
     /// <summary>
     /// Discord's response to CreateMessage endpoint
     /// </summary>
-    internal sealed class DiscordAPIJSONWebhookResponse
+    internal sealed class DiscordApiJsonWebhookResponse
     {
         // On success
         [JsonProperty("name")]

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DPSReport
+namespace PlenBotLogUploader.DpsReport
 {
-    internal sealed class DPSReportJSONPlayers
+    internal sealed class DpsReportJsonPlayers
     {
         [JsonProperty("display_name")]
         internal string DisplayName { get; set; }

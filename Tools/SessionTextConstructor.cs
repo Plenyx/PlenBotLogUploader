@@ -1,5 +1,5 @@
-﻿using PlenBotLogUploader.DiscordAPI;
-using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.DiscordApi;
+using PlenBotLogUploader.DpsReport;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,11 +12,11 @@ namespace PlenBotLogUploader.Tools
     {
         #region definitions
         // fields
-        private static readonly DiscordAPIJSONContentEmbedThumbnail defaultThumbnail = new()
+        private static readonly DiscordApiJsonContentEmbedThumbnail defaultThumbnail = new()
         {
             Url = "https://wiki.guildwars2.com/images/5/5e/Legendary_Insight.png"
         };
-        private static readonly DiscordAPIJSONContentEmbedThumbnail defaultWvWSummaryThumbnail = new()
+        private static readonly DiscordApiJsonContentEmbedThumbnail defaultWvWSummaryThumbnail = new()
         {
             Url = "https://wiki.guildwars2.com/images/5/54/Commander_tag_(blue).png"
         };
@@ -24,7 +24,7 @@ namespace PlenBotLogUploader.Tools
         private const int maxAllowedMessageSize = 1750;
         #endregion
 
-        internal static DiscordAPIJSONContentEmbed MakeEmbedFromText(string title, string text)
+        internal static DiscordApiJsonContentEmbed MakeEmbedFromText(string title, string text)
             => new()
             {
                 Title = title,
@@ -34,12 +34,12 @@ namespace PlenBotLogUploader.Tools
                 Thumbnail = defaultThumbnail
             };
 
-        internal static DiscordEmbeds ConstructSessionEmbeds(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
+        internal static DiscordEmbeds ConstructSessionEmbeds(List<DpsReportJson> reportsJSON, LogSessionSettings logSessionSettings)
         {
-            var discordEmbedsSuccessFailure = new List<DiscordAPIJSONContentEmbed>();
-            var discordEmbedsSuccess = new List<DiscordAPIJSONContentEmbed>();
-            var discordEmbedsFailure = new List<DiscordAPIJSONContentEmbed>();
-            DiscordAPIJSONContentEmbed discordEmbedSummary = null;
+            var discordEmbedsSuccessFailure = new List<DiscordApiJsonContentEmbed>();
+            var discordEmbedsSuccess = new List<DiscordApiJsonContentEmbed>();
+            var discordEmbedsFailure = new List<DiscordApiJsonContentEmbed>();
+            DiscordApiJsonContentEmbed discordEmbedSummary = null;
 
             var RaidLogs = (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing)) ?
                 reportsJSON
@@ -571,13 +571,13 @@ namespace PlenBotLogUploader.Tools
 
         public class DiscordEmbeds
         {
-            public DiscordAPIJSONContentEmbed Summary { get; internal set; }
+            public DiscordApiJsonContentEmbed Summary { get; internal set; }
 
-            public List<DiscordAPIJSONContentEmbed> SuccessFailure { get; internal set; }
+            public List<DiscordApiJsonContentEmbed> SuccessFailure { get; internal set; }
 
-            public List<DiscordAPIJSONContentEmbed> Success { get; internal set; }
+            public List<DiscordApiJsonContentEmbed> Success { get; internal set; }
 
-            public List<DiscordAPIJSONContentEmbed> Failure { get; internal set; }
+            public List<DiscordApiJsonContentEmbed> Failure { get; internal set; }
         }
     }
 }

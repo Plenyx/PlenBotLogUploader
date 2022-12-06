@@ -1,4 +1,4 @@
-﻿using PlenBotLogUploader.DPSReport;
+﻿using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Tools;
 using System;
 using System.IO;

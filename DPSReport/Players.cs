@@ -1,7 +1,7 @@
 ﻿using Hardstuck.GuildWars2;
 using System;
 
-namespace PlenBotLogUploader.DPSReport
+namespace PlenBotLogUploader.DpsReport
 {
     public static class Players
     {

@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 
-namespace PlenBotLogUploader.DiscordAPI
+namespace PlenBotLogUploader.DiscordApi
 {
     /// <summary>
     /// Discord embedded rich content's footer
     /// </summary>
-    internal sealed class DiscordAPIJSONContentEmbedFooter
+    internal sealed class DiscordApiJsonContentEmbedFooter
     {
         /// <summary>
         /// footer text

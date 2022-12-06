@@ -109,7 +109,7 @@ namespace PlenBotLogUploader.Teams
             }
         }
 
-        internal bool IsSatisfied(DPSReport.DPSReportJSONExtraJSON extraJSON)
+        internal bool IsSatisfied(DpsReport.DpsReportJsonExtraJson extraJSON)
         {
             if (extraJSON is null)
             {

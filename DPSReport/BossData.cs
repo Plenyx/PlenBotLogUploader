@@ -4,7 +4,7 @@ using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
 
-namespace PlenBotLogUploader.DPSReport
+namespace PlenBotLogUploader.DpsReport
 {
     /// <summary>
     /// An object holding boss information
@@ -75,7 +75,7 @@ namespace PlenBotLogUploader.DPSReport
         /// </summary>
         /// <param name="reportJSON">DPSReport's JSON response</param>
         /// <returns>Formatted string</returns>
-        internal string TwitchMessageFormat(DPSReportJSON reportJSON, int pullCounter)
+        internal string TwitchMessageFormat(DpsReportJson reportJSON, int pullCounter)
         {
             var format = (reportJSON.Encounter.Success ?? false) ? SuccessMsg : FailMsg;
             format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);

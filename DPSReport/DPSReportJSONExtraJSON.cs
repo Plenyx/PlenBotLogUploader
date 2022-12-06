@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using PlenBotLogUploader.DPSReport.ExtraJSON;
+using PlenBotLogUploader.DpsReport.ExtraJson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PlenBotLogUploader.DPSReport
+namespace PlenBotLogUploader.DpsReport
 {
-    internal sealed class DPSReportJSONExtraJSON
+    internal sealed class DpsReportJsonExtraJson
     {
         [JsonProperty("eliteInsightsVersion")]
         internal string EliteInsightsVersion { get; set; }

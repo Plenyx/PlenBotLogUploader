@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.GW2API;
+using PlenBotLogUploader.Gw2Api;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Windows.Forms;
@@ -11,11 +11,11 @@ namespace PlenBotLogUploader
     {
         #region definitions
         private readonly HttpClientController httpClientController = new();
-        private ApplicationSettingsGW2API data = null;
+        private ApplicationSettingsGw2Api data = null;
         private readonly FormGW2API gw2apiLink;
         #endregion
 
-        internal FormEditGW2API(FormGW2API gw2apiLink, ApplicationSettingsGW2API data)
+        internal FormEditGW2API(FormGW2API gw2apiLink, ApplicationSettingsGw2Api data)
         {
             this.gw2apiLink = gw2apiLink;
             InitializeComponent();
@@ -45,7 +45,7 @@ namespace PlenBotLogUploader
             }
             if (data is null)
             {
-                data = new ApplicationSettingsGW2API() { Name = textBoxAPIKeyName.Text, APIKey = textBoxAPIKeyKey.Text };
+                data = new ApplicationSettingsGw2Api() { Name = textBoxAPIKeyName.Text, APIKey = textBoxAPIKeyKey.Text };
                 ApplicationSettings.Current.GW2APIs.Add(data);
                 ApplicationSettings.Current.Save();
             }
@@ -66,7 +66,7 @@ namespace PlenBotLogUploader
             if (response.IsSuccessStatusCode)
             {
                 var responseMessage = await response.Content.ReadAsStringAsync();
-                var tokenInfo = JsonConvert.DeserializeObject<GW2APITokenInfo>(responseMessage);
+                var tokenInfo = JsonConvert.DeserializeObject<Gw2TokenInfo>(responseMessage);
                 textBoxAPIKeyName.Text = tokenInfo.Name;
             }
         }

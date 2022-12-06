@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DiscordAPI;
-using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.DiscordApi;
+using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
@@ -55,7 +55,7 @@ namespace PlenBotLogUploader
             DiscordWebhooks.SaveToJson(allWebhooks, DiscordWebhooks.JsonFileLocation);
         }
 
-        internal async Task ExecuteAllActiveWebhooksAsync(DPSReportJSON reportJSON)
+        internal async Task ExecuteAllActiveWebhooksAsync(DpsReportJson reportJSON)
         {
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
@@ -68,7 +68,7 @@ namespace PlenBotLogUploader
                     icon = bossData.Icon;
                 }
                 const int colour = 16752238;
-                var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
+                var discordContentEmbedThumbnail = new DiscordApiJsonContentEmbedThumbnail()
                 {
                     Url = icon
                 };
@@ -78,7 +78,7 @@ namespace PlenBotLogUploader
                     timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
                 var timestamp = timestampDateTime.ToString("o");
-                var discordContentEmbed = new DiscordAPIJSONContentEmbed()
+                var discordContentEmbed = new DiscordApiJsonContentEmbed()
                 {
                     Title = extraJSONFightName,
                     Url = reportJSON.ConfigAwarePermalink,
@@ -125,13 +125,13 @@ namespace PlenBotLogUploader
                     squadSummary.AddCell($"{squadDps.ParseAsK()}", tableCellCenterAlign);
                     squadSummary.AddCell($"{squadDowns}", tableCellCenterAlign);
                     squadSummary.AddCell($"{squadDeaths}", tableCellCenterAlign);
-                    var squadField = new DiscordAPIJSONContentEmbedField()
+                    var squadField = new DiscordApiJsonContentEmbedField()
                     {
                         Name = "Squad summary:",
                         Value = $"```{squadSummary.Render()}```"
                     };
                     // enemy summary field
-                    var enemyField = new DiscordAPIJSONContentEmbedField()
+                    var enemyField = new DiscordApiJsonContentEmbedField()
                     {
                         Name = "Enemy summary:",
                         Value = "```Summary could not have been generated.\nToggle detailed WvW to enable this feature.```"
@@ -172,7 +172,7 @@ namespace PlenBotLogUploader
                         enemySummary.AddCell($"{enemyDps.ParseAsK()}", tableCellCenterAlign);
                         enemySummary.AddCell($"{enemyDowns}", tableCellCenterAlign);
                         enemySummary.AddCell($"{enemyDeaths}", tableCellCenterAlign);
-                        enemyField = new DiscordAPIJSONContentEmbedField()
+                        enemyField = new DiscordApiJsonContentEmbedField()
                         {
                             Name = "Enemy summary:",
                             Value = $"```{enemySummary.Render()}```"
@@ -202,7 +202,7 @@ namespace PlenBotLogUploader
                         damageSummary.AddCell($"{player.DpsTargets.Sum(y => y[0].Damage).ParseAsK()}", tableCellRightAlign);
                         damageSummary.AddCell($"{player.DpsTargets.Sum(y => y[0].DPS).ParseAsK()}", tableCellRightAlign);
                     }
-                    var damageField = new DiscordAPIJSONContentEmbedField()
+                    var damageField = new DiscordApiJsonContentEmbedField()
                     {
                         Name = "Damage summary:",
                         Value = $"```{damageSummary.Render()}```"
@@ -228,7 +228,7 @@ namespace PlenBotLogUploader
                         cleansesSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
                         cleansesSummary.AddCell($"{player.Support[0].CondiCleanseTotal}", tableCellRightAlign);
                     }
-                    var cleansesField = new DiscordAPIJSONContentEmbedField()
+                    var cleansesField = new DiscordApiJsonContentEmbedField()
                     {
                         Name = "Cleanses summary:",
                         Value = $"```{cleansesSummary.Render()}```"
@@ -254,13 +254,13 @@ namespace PlenBotLogUploader
                         boonStripsSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
                         boonStripsSummary.AddCell($"{player.Support[0].BoonStrips}", tableCellRightAlign);
                     }
-                    var boonStripsField = new DiscordAPIJSONContentEmbedField()
+                    var boonStripsField = new DiscordApiJsonContentEmbedField()
                     {
                         Name = "Boon strips summary:",
                         Value = $"```{boonStripsSummary.Render()}```"
                     };
                     // add the fields
-                    discordContentEmbed.Fields = new List<DiscordAPIJSONContentEmbedField>()
+                    discordContentEmbed.Fields = new List<DiscordApiJsonContentEmbedField>()
                     {
                         squadField,
                         enemyField,
@@ -270,9 +270,9 @@ namespace PlenBotLogUploader
                     };
                 }
                 // post to discord
-                var discordContentWvW = new DiscordAPIJSONContent()
+                var discordContentWvW = new DiscordApiJsonContent()
                 {
-                    Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+                    Embeds = new List<DiscordApiJsonContentEmbed>() { discordContentEmbed }
                 };
                 try
                 {
@@ -315,7 +315,7 @@ namespace PlenBotLogUploader
                     icon = bossData.Icon;
                 }
                 var colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
-                var discordContentEmbedThumbnail = new DiscordAPIJSONContentEmbedThumbnail()
+                var discordContentEmbedThumbnail = new DiscordApiJsonContentEmbedThumbnail()
                 {
                     Url = icon
                 };
@@ -325,7 +325,7 @@ namespace PlenBotLogUploader
                     timestampDateTime = reportJSON.ExtraJSON.TimeStart;
                 }
                 var timestamp = timestampDateTime.ToString("o");
-                var discordContentEmbed = new DiscordAPIJSONContentEmbed()
+                var discordContentEmbed = new DiscordApiJsonContentEmbed()
                 {
                     Title = bossName,
                     Url = reportJSON.ConfigAwarePermalink,
@@ -334,11 +334,11 @@ namespace PlenBotLogUploader
                     TimeStamp = timestamp,
                     Thumbnail = discordContentEmbedThumbnail
                 };
-                var discordContentWithoutPlayers = new DiscordAPIJSONContent()
+                var discordContentWithoutPlayers = new DiscordApiJsonContent()
                 {
-                    Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbed }
+                    Embeds = new List<DiscordApiJsonContentEmbed>() { discordContentEmbed }
                 };
-                var discordContentEmbedForPlayers = new DiscordAPIJSONContentEmbed()
+                var discordContentEmbedForPlayers = new DiscordApiJsonContentEmbed()
                 {
                     Title = bossName,
                     Url = reportJSON.ConfigAwarePermalink,
@@ -349,12 +349,12 @@ namespace PlenBotLogUploader
                 };
                 if (reportJSON.Players.Values.Count <= 10)
                 {
-                    var fields = new List<DiscordAPIJSONContentEmbedField>();
+                    var fields = new List<DiscordApiJsonContentEmbedField>();
                     if (reportJSON.ExtraJSON is null)
                     {
                         foreach (var player in reportJSON.Players.Values)
                         {
-                            fields.Add(new DiscordAPIJSONContentEmbedField() { Name = player.CharacterName, Value = $"```\n{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.EliteSpec)}\n```", Inline = true });
+                            fields.Add(new DiscordApiJsonContentEmbedField() { Name = player.CharacterName, Value = $"```\n{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.EliteSpec)}\n```", Inline = true });
                         }
                     }
                     else
@@ -370,7 +370,7 @@ namespace PlenBotLogUploader
                             playerNames.AddCell($"{player.Name}");
                             playerNames.AddCell($"{player.Account}");
                         }
-                        fields.Add(new DiscordAPIJSONContentEmbedField()
+                        fields.Add(new DiscordApiJsonContentEmbedField()
                         {
                             Name = "Players in squad/group:",
                             Value = $"```{playerNames.Render()}```"
@@ -410,7 +410,7 @@ namespace PlenBotLogUploader
                             .Select(x => x.DPS)
                             .Sum();
                         dpsTargetSummary.AddCell($"{totalDPS.ParseAsK()}", tableCellRightAlign);
-                        fields.Add(new DiscordAPIJSONContentEmbedField()
+                        fields.Add(new DiscordApiJsonContentEmbedField()
                         {
                             Name = "DPS target summary:",
                             Value = $"```{dpsTargetSummary.Render()}```"
@@ -418,9 +418,9 @@ namespace PlenBotLogUploader
                     }
                     discordContentEmbedForPlayers.Fields = fields;
                 }
-                var discordContentWithPlayers = new DiscordAPIJSONContent()
+                var discordContentWithPlayers = new DiscordApiJsonContent()
                 {
-                    Embeds = new List<DiscordAPIJSONContentEmbed>() { discordContentEmbedForPlayers }
+                    Embeds = new List<DiscordApiJsonContentEmbed>() { discordContentEmbedForPlayers }
                 };
                 try
                 {
@@ -461,7 +461,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        internal async Task ExecuteSessionWebhooksAsync(List<DPSReportJSON> reportsJSON, LogSessionSettings logSessionSettings)
+        internal async Task ExecuteSessionWebhooksAsync(List<DpsReportJson> reportsJSON, LogSessionSettings logSessionSettings)
         {
             if (logSessionSettings.UseSelectedWebhooksInstead)
             {
@@ -491,17 +491,17 @@ namespace PlenBotLogUploader
 
         private async Task SendDiscordMessageWebhooksAsync(DiscordWebhookData webhook, SessionTextConstructor.DiscordEmbeds discordEmbeds, string contentText)
         {
-            var jsonContentSuccessFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentSuccessFailure = JsonConvert.SerializeObject(new DiscordApiJsonContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.SuccessFailure
             });
-            var jsonContentSuccess = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentSuccess = JsonConvert.SerializeObject(new DiscordApiJsonContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.Success
             });
-            var jsonContentFailure = JsonConvert.SerializeObject(new DiscordAPIJSONContent()
+            var jsonContentFailure = JsonConvert.SerializeObject(new DiscordApiJsonContent()
             {
                 Content = contentText,
                 Embeds = discordEmbeds.Failure

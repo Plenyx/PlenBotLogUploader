@@ -1,5 +1,5 @@
 ﻿using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DiscordAPI;
+using PlenBotLogUploader.DiscordApi;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;

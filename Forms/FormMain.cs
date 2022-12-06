@@ -3,9 +3,9 @@ using Hardstuck.GuildWars2.MumbleLink;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.DPSReport;
+using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.GitHub;
-using PlenBotLogUploader.GW2API;
+using PlenBotLogUploader.Gw2Api;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        internal List<DPSReportJSON> SessionLogs { get; } = new List<DPSReportJSON>();
+        internal List<DpsReportJson> SessionLogs { get; } = new List<DpsReportJson>();
         internal bool ChannelJoined { get; set; } = false;
         internal HttpClientController HttpClientController { get; } = new HttpClientController();
         internal bool StartedMinimised { get; private set; } = false;
@@ -694,7 +694,7 @@ namespace PlenBotLogUploader
         #endregion
 
         #region log upload and processing
-        internal async Task SendLogToTwitchChatAsync(DPSReportJSON reportJSON, bool bypassMessage = false)
+        internal async Task SendLogToTwitchChatAsync(DpsReportJson reportJSON, bool bypassMessage = false)
         {
             if (ChannelJoined && checkBoxPostToTwitch.Checked && !bypassMessage && IsStreamingSoftwareRunning())
             {
@@ -741,7 +741,7 @@ namespace PlenBotLogUploader
                         response = response?.Replace("\"players\": []", "\"players\": {}");
                         try
                         {
-                            var reportJSON = JsonConvert.DeserializeObject<DPSReportJSON>(response);
+                            var reportJSON = JsonConvert.DeserializeObject<DpsReportJson>(response);
                             if (string.IsNullOrEmpty(reportJSON.Error))
                             {
                                 bossId = reportJSON.Encounter.BossId;
@@ -753,7 +753,7 @@ namespace PlenBotLogUploader
                                     try
                                     {
                                         var jsonString = await HttpClientController.DownloadFileToStringAsync($"{ApplicationSettings.Current.Upload.DPSReportServerLink}/getJson?permalink={reportJSON.ConfigAwarePermalink}");
-                                        var extraJSON = JsonConvert.DeserializeObject<DPSReportJSONExtraJSON>(jsonString);
+                                        var extraJSON = JsonConvert.DeserializeObject<DpsReportJsonExtraJson>(jsonString);
                                         if (extraJSON is not null)
                                         {
                                             reportJSON.ExtraJSON = extraJSON;
@@ -1180,11 +1180,11 @@ namespace PlenBotLogUploader
                             {
                                 return;
                             }
-                            using var gw2Api = new Gw2APIHelper(trueApiKey.APIKey);
+                            using var gw2Api = new Gw2ApiHelper(trueApiKey.APIKey);
                             var userInfo = await gw2Api.GetUserInfoAsync();
                             if (userInfo is not null)
                             {
-                                var playerWorld = GW2.AllServers[userInfo.World];
+                                var playerWorld = Gw2.AllServers[userInfo.World];
                                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
                             }
                             else

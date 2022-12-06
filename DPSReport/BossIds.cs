@@ -1,4 +1,4 @@
-﻿namespace PlenBotLogUploader.DPSReport
+﻿namespace PlenBotLogUploader.DpsReport
 {
     internal enum BossIds
     {

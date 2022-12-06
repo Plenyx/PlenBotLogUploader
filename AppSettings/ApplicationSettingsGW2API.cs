@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace PlenBotLogUploader.AppSettings
 {
     [JsonObject(MemberSerialization.OptIn)]
-    internal sealed class ApplicationSettingsGW2API
+    internal sealed class ApplicationSettingsGw2Api
     {
         [JsonProperty("name")]
         internal string Name { get; set; }

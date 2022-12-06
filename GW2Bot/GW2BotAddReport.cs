@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.GW2Bot
+namespace PlenBotLogUploader.Gw2Bot
 {
-    internal sealed class GW2BotAddReport
+    internal sealed class Gw2BotAddReport
     {
         [JsonProperty("dpsreport_url")]
         internal string LogLink { get; set; }

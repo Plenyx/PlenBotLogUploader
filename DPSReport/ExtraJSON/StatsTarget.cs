@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DPSReport.ExtraJSON
+namespace PlenBotLogUploader.DpsReport.ExtraJson
 {
     internal sealed class StatsTarget
     {

@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DiscordAPI
+namespace PlenBotLogUploader.DiscordApi
 {
     /// <summary>
     /// Discord embedded rich content's field
     /// </summary>
-    internal sealed class DiscordAPIJSONContentEmbedField
+    internal sealed class DiscordApiJsonContentEmbedField
     {
         /// <summary>
         /// name of the field

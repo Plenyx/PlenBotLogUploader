@@ -67,7 +67,7 @@ namespace PlenBotLogUploader
                 var uri = new Uri(dpsReportUserTokenURL);
                 using var responseMessage = await httpClientController.GetAsync(uri);
                 var response = await responseMessage.Content.ReadAsStringAsync();
-                var responseJson = JsonConvert.DeserializeObject<DPSReportUserTokenHelperClass>(response);
+                var responseJson = JsonConvert.DeserializeObject<DpsReportUserTokenHelperClass>(response);
                 textBoxUserToken.Text = responseJson.UserToken;
             }
             catch (Exception ex)
