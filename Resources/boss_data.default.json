@@ -370,7 +370,23 @@
   {
     "BossId": 25414,
     "Name": "Watchknight Triumvirate",
-    "InternalDescription": "Challenge Mode",
+    "InternalDescription": "Challenge Mode - Vermillion",
+    "Icon": "https://i.imgur.com/Q2g9aLD.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
+    "BossId": 25416,
+    "Name": "Watchknight Triumvirate",
+    "InternalDescription": "Challenge Mode - Arsenite",
+    "Icon": "https://i.imgur.com/Q2g9aLD.png",
+    "Type": 3,
+    "Event": false
+  },
+  {
+    "BossId": 25423,
+    "Name": "Watchknight Triumvirate",
+    "InternalDescription": "Challenge Mode - Indigo",
     "Icon": "https://i.imgur.com/Q2g9aLD.png",
     "Type": 3,
     "Event": false
