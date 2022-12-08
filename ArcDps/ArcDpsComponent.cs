@@ -49,6 +49,7 @@ namespace PlenBotLogUploader.ArcDps
             ArcDpsComponentType.Clears => "gw2scratch/arcdps-clears",
             ArcDpsComponentType.FoodReminder => "Zerthox/arcdps-food-reminder",
             ArcDpsComponentType.CommandersToolkit => "RaidcoreGG/GW2-CommandersToolkit",
+            ArcDpsComponentType.KnowThyEnemy => "typedeck0/Know-thy-enemy",
             _ => null,
         };
 
@@ -102,7 +103,8 @@ namespace PlenBotLogUploader.ArcDps
                 return false;
             }
             if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) || (Type == ArcDpsComponentType.Mechanics) || (Type == ArcDpsComponentType.BoonTable) ||
-                (Type == ArcDpsComponentType.KPme) || (Type == ArcDpsComponentType.Clears) || (Type == ArcDpsComponentType.FoodReminder) || (Type == ArcDpsComponentType.CommandersToolkit))
+                (Type == ArcDpsComponentType.KPme) || (Type == ArcDpsComponentType.Clears) || (Type == ArcDpsComponentType.FoodReminder) || (Type == ArcDpsComponentType.CommandersToolkit) ||
+                (Type == ArcDpsComponentType.KnowThyEnemy))
             {
                 return GetFileSize().ToString().Equals(version);
             }
