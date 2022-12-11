@@ -342,7 +342,7 @@ namespace PlenBotLogUploader
         {
             Resize += FormMain_Resize;
             await StartUpAndCommandArgs();
-            await NewReleaseCheckAsync(true);
+            await NewReleaseCheckAsync(true, true);
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -520,7 +520,7 @@ namespace PlenBotLogUploader
             UpdateLogCount();
         }
 
-        protected async Task NewReleaseCheckAsync(bool appStartup = false)
+        protected async Task NewReleaseCheckAsync(bool appStartup = false, bool quietFail = false)
         {
             try
             {
@@ -552,21 +552,30 @@ namespace PlenBotLogUploader
                     }
                     else
                     {
-                        AddToText(">>> The uploader is up to date.");
+                        if (!quietFail)
+                        {
+                            AddToText(">>> The uploader is up to date.");
+                        }
                         timerCheckUpdate.Enabled = true;
                         timerCheckUpdate.Start();
                     }
                 }
                 else
                 {
-                    AddToText(">>> Could not verify the version release.");
+                    if (!quietFail)
+                    {
+                        AddToText(">>> Could not verify the version release.");
+                    }
                     timerCheckUpdate.Enabled = true;
                     timerCheckUpdate.Start();
                 }
             }
             catch
             {
-                AddToText(">>> Unable to check new release version.");
+                if (!quietFail)
+                {
+                    AddToText(">>> Unable to check new release version.");
+                }
             }
             finally
             {
@@ -1531,7 +1540,7 @@ namespace PlenBotLogUploader
         {
             timerCheckUpdate.Stop();
             timerCheckUpdate.Enabled = false;
-            _ = NewReleaseCheckAsync();
+            _ = NewReleaseCheckAsync(false, true);
         }
 
         private void ComboBoxMaxUploads_SelectedIndexChanged(object sender, EventArgs e)
