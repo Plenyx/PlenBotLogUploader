@@ -9,7 +9,7 @@ namespace PlenBotLogUploader.AppSettings
     internal sealed class ApplicationSettings
     {
         #region application version
-        internal static int Version { get; } = 79;
+        internal static int Version { get; } = 80;
         #endregion
 
         #region load & save functionality
