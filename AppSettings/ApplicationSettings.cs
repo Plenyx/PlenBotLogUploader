@@ -107,6 +107,9 @@ namespace PlenBotLogUploader.AppSettings
 
         [JsonProperty("upload")]
         internal ApplicationSettingsUpload Upload { get; set; } = new ApplicationSettingsUpload();
-        #endregion
-    }
+
+		[JsonProperty("buildCodes")]
+		internal ApplicationSettingsBuildCodes BuildCodes { get; set; } = new();
+		#endregion
+	}
 }

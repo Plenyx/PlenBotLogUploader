@@ -6,6 +6,7 @@ using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.GitHub;
 using PlenBotLogUploader.Gw2Api;
+using PlenBotLogUploader.Properties;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
@@ -1111,7 +1112,7 @@ namespace PlenBotLogUploader
                     {
                         _ = Task.Run(async () =>
                         {
-                            foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                            foreach(var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
                             {
                                 await apiKey.GetCharacters(HttpClientController);
                             }
@@ -1125,7 +1126,19 @@ namespace PlenBotLogUploader
                             try
                             {
                                 var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
-                                var message = $"Link to the build: https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
+								if(ApplicationSettings.Current.BuildCodes.DemoteRunes)
+								{
+									code.Rune = Static.LegendaryToSuperior(code.Rune);
+                                }
+								if(ApplicationSettings.Current.BuildCodes.DemoteSigils)
+								{
+									code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
+									code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
+									code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
+									code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
+                                }
+                                Static.Compress(code, ApplicationSettings.Current.BuildCodes.Compression);
+								var message = $"Link to the build: https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
                                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, message);
                             }
                             catch (InvalidAccessTokenException)
