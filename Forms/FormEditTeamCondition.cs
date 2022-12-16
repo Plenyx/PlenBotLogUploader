@@ -191,11 +191,12 @@ namespace PlenBotLogUploader
 
         private void TextBoxLimiterValue_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(textBoxLimiterValue.Text, out int limiterValue) && (limiterValue >= 0))
+            if (!int.TryParse(textBoxLimiterValue.Text, out var limiterValue) || limiterValue < 0)
             {
-                Condition.LimiterValue = limiterValue;
-                RedrawCondition();
+                return;
             }
+            Condition.LimiterValue = limiterValue;
+            RedrawCondition();
         }
 
         private void TextBoxConditionDescription_TextChanged(object sender, EventArgs e)
@@ -216,11 +217,12 @@ namespace PlenBotLogUploader
 
         private void EditSubCondition()
         {
-            if (listBoxSubConditions.SelectedItem is TeamCondition teamCondition)
+            if (listBoxSubConditions.SelectedItem is not TeamCondition teamCondition)
             {
-                listBoxSubConditions.SelectedItem = null;
-                new FormEditTeamCondition(Team, teamCondition).ShowDialog();
+                return;
             }
+            listBoxSubConditions.SelectedItem = null;
+            new FormEditTeamCondition(Team, teamCondition).ShowDialog();
         }
 
         private void ButtonAddSubCondition_Click(object sender, EventArgs e) => AddNewSubCondition();
@@ -238,13 +240,14 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
-            if (listBoxSubConditions.SelectedItem is TeamCondition teamCondition)
+            if (listBoxSubConditions.SelectedItem is not TeamCondition teamCondition)
             {
-                listBoxSubConditions.SelectedItem = null;
-                teamCondition.ParentCondition = null;
-                Condition.Subconditions.Remove(teamCondition);
-                RedrawCondition();
+                return;
             }
+            listBoxSubConditions.SelectedItem = null;
+            teamCondition.ParentCondition = null;
+            Condition.Subconditions.Remove(teamCondition);
+            RedrawCondition();
         }
 
         private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => AddNewSubCondition();

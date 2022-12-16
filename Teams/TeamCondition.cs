@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,7 +104,7 @@ namespace PlenBotLogUploader.Teams
         internal void SetUp(TeamCondition parent)
         {
             ParentCondition = parent;
-            foreach (var subcondition in Subconditions)
+            foreach (var subcondition in Subconditions.AsSpan())
             {
                 subcondition.SetUp(this);
             }

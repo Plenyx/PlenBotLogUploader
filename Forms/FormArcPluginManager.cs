@@ -199,50 +199,48 @@ namespace PlenBotLogUploader
         {
             using var dialog = new OpenFileDialog() { Filter = "Guild Wars 2|Gw2-64.exe;Gw2.exe;Guild Wars 2.exe" };
             var result = dialog.ShowDialog();
-            if (result.Equals(DialogResult.OK) && !string.IsNullOrWhiteSpace(dialog.FileName))
+            if (!result.Equals(DialogResult.OK) || string.IsNullOrWhiteSpace(dialog.FileName))
             {
-                var location = Path.GetDirectoryName(dialog.FileName);
-                if (File.Exists(location + @"\addonLoader.dll"))
+                await StopTimerAsync();
+                return;
+            }
+            var location = Path.GetDirectoryName(dialog.FileName);
+            if (File.Exists(location + @"\addonLoader.dll"))
+            {
+                ApplicationSettings.Current.ArcUpdate.UseAL = true;
+                checkBoxUseAL.Checked = true;
+                labelStatusText.Text = "Addon Loader found. Using Addon Loader";
+            }
+            ApplicationSettings.Current.GW2Location = location;
+            ApplicationSettings.Current.Save();
+            if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)))
+            {
+                var component = ArcDpsComponent.All.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
+                if (!component.IsInstalled())
                 {
-                    ApplicationSettings.Current.ArcUpdate.UseAL = true;
-                    checkBoxUseAL.Checked = true;
-                    labelStatusText.Text = "Addon Loader found. Using Addon Loader";
-                }
-                ApplicationSettings.Current.GW2Location = location;
-                ApplicationSettings.Current.Save();
-                if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)))
-                {
-                    var component = ArcDpsComponent.All.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
-                    if (!component.IsInstalled())
-                    {
-                        await component.DownloadComponent(httpController);
+                    await component.DownloadComponent(httpController);
 
-                        foreach (var comp in ArcDpsComponent.All)
+                    foreach (var comp in ArcDpsComponent.All)
+                    {
+                        if (comp.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode) && !comp.IsInstalled())
                         {
-                            if (comp.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode) && !comp.IsInstalled())
-                            {
-                                await comp.DownloadComponent(httpController);
-                            }
+                            await comp.DownloadComponent(httpController);
                         }
                     }
                 }
-                else
-                {
-                    var relLoc = ApplicationSettings.Current.ArcUpdate.UseAL ? @"\addons\arcdps\gw2addon_arcdps.dll" : @"\d3d11.dll";
-                    var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
-                    if (!component.IsInstalled())
-                    {
-                        await component.DownloadComponent(httpController);
-                    }
-                    ArcDpsComponent.All.Add(component);
-                    ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
-                }
-                await StartTimerAsync();
             }
             else
             {
-                await StopTimerAsync();
+                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAL ? @"\addons\arcdps\gw2addon_arcdps.dll" : @"\d3d11.dll";
+                var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
+                if (!component.IsInstalled())
+                {
+                    await component.DownloadComponent(httpController);
+                }
+                ArcDpsComponent.All.Add(component);
+                ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
             }
+            await StartTimerAsync();
         }
 
         private async void CheckedListBoxArcDpsPlugins_ItemCheck(object sender, ItemCheckEventArgs e)

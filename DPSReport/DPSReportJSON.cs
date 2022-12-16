@@ -54,7 +54,7 @@ namespace PlenBotLogUploader.DpsReport
         /// EVTC sub-object of DPSReport's response
         /// </summary>
         [JsonProperty("evtc")]
-        internal DpsReportJsonEvtc EVTC { get; set; }
+        internal DpsReportJsonEvtc Evtc { get; set; }
 
         /// <summary>
         /// Encounter sub-object of DPSReport's response
@@ -77,7 +77,7 @@ namespace PlenBotLogUploader.DpsReport
         /// <summary>
         /// ExtraJSON sub-objects of DPSReport's response
         /// </summary>
-        internal DpsReportJsonExtraJson ExtraJSON { get; set; }
+        internal DpsReportJsonExtraJson ExtraJson { get; set; }
 
         /// <summary>
         /// Returns an error if one was encountered
@@ -88,11 +88,11 @@ namespace PlenBotLogUploader.DpsReport
         /// <summary>
         /// the URL ID used in dps.report
         /// </summary>
-        internal string UrlId => Permalink?[(Permalink.IndexOf("dps.report/") + 11)..] ?? "";
+        internal string UrlId => (!string.IsNullOrWhiteSpace(Permalink) && (Permalink.IndexOf("dps.report/") != -1)) ? Permalink[(Permalink.IndexOf("dps.report/") + 11)..] : string.Empty;
 
         /// <summary>
         /// whether the enouncter was in challenge mode
         /// </summary>
-        internal bool ChallengeMode => (ExtraJSON?.IsCM ?? false) || (Encounter?.IsCM ?? false);
+        internal bool ChallengeMode => (ExtraJson?.IsCM ?? false) || (Encounter?.IsCM ?? false);
     }
 }

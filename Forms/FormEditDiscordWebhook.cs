@@ -60,35 +60,34 @@ namespace PlenBotLogUploader
 
         private void FormEditDiscordWebhook_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(textBoxName.Text.Trim()))
+            if (string.IsNullOrWhiteSpace(textBoxName.Text.Trim()))
             {
-                var successFailToggle = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
-                if (radioButtonOnlySuccess.Checked)
-                {
-                    successFailToggle = DiscordWebhookDataSuccessToggle.OnSuccessOnly;
-                }
-                else if (radioButtonOnlyFail.Checked)
-                {
-                    successFailToggle = DiscordWebhookDataSuccessToggle.OnFailOnly;
-                }
-                if (data is null)
-                {
-                    allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList(), Team = (Team)comboBoxTeam.SelectedItem };
-                    discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
-                }
-                else
-                {
-                    var webhook = allWebhooks[reservedId];
-                    webhook.Active = data.Active;
-                    webhook.Name = textBoxName.Text;
-                    webhook.URL = textBoxUrl.Text;
-                    webhook.SuccessFailToggle = successFailToggle;
-                    webhook.ShowPlayers = checkBoxPlayers.Checked;
-                    webhook.BossesDisable = ConvertCheckboxListToList();
-                    webhook.Team = (Team)comboBoxTeam.SelectedItem;
-                    discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
-                }
+                return;
             }
+            var successFailToggle = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
+            if (radioButtonOnlySuccess.Checked)
+            {
+                successFailToggle = DiscordWebhookDataSuccessToggle.OnSuccessOnly;
+            }
+            else if (radioButtonOnlyFail.Checked)
+            {
+                successFailToggle = DiscordWebhookDataSuccessToggle.OnFailOnly;
+            }
+            if (data is null)
+            {
+                allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, URL = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList(), Team = (Team)comboBoxTeam.SelectedItem };
+                discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
+                return;
+            }
+            var webhook = allWebhooks[reservedId];
+            webhook.Active = data.Active;
+            webhook.Name = textBoxName.Text;
+            webhook.URL = textBoxUrl.Text;
+            webhook.SuccessFailToggle = successFailToggle;
+            webhook.ShowPlayers = checkBoxPlayers.Checked;
+            webhook.BossesDisable = ConvertCheckboxListToList();
+            webhook.Team = (Team)comboBoxTeam.SelectedItem;
+            discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
         }
 
         private int[] ConvertCheckboxListToList()
@@ -97,13 +96,9 @@ namespace PlenBotLogUploader
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = checkedListBoxBossesEnable.Items[i];
-                if (item is BossesDisableHelperClass bossEnableHelper)
+                if ((item is BossesDisableHelperClass bossEnableHelper) && (!checkedListBoxBossesEnable.GetItemChecked(i)))
                 {
-                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
-                    if (!checkedState)
-                    {
-                        list.Add(bossEnableHelper.BossID);
-                    }
+                    list.Add(bossEnableHelper.BossID);
                 }
             }
             return list.ToArray();
@@ -114,8 +109,7 @@ namespace PlenBotLogUploader
             var allSelected = true;
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
-                var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
-                if (!checkedState)
+                if (!checkedListBoxBossesEnable.GetItemChecked(i))
                 {
                     allSelected = false;
                     break;
@@ -127,13 +121,11 @@ namespace PlenBotLogUploader
                 {
                     checkedListBoxBossesEnable.SetItemChecked(i, true);
                 }
+                return;
             }
-            else
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
-                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
-                {
-                    checkedListBoxBossesEnable.SetItemChecked(i, false);
-                }
+                checkedListBoxBossesEnable.SetItemChecked(i, false);
             }
         }
 
@@ -143,14 +135,10 @@ namespace PlenBotLogUploader
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
-                if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Raid) ?? false)
+                if ((Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Raid) ?? false) && !checkedListBoxBossesEnable.GetItemChecked(i))
                 {
-                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
-                    if (!checkedState)
-                    {
-                        allSelected = false;
-                        break;
-                    }
+                    allSelected = false;
+                    break;
                 }
             }
             if (!allSelected)
@@ -163,16 +151,14 @@ namespace PlenBotLogUploader
                         checkedListBoxBossesEnable.SetItemChecked(i, true);
                     }
                 }
+                return;
             }
-            else
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
-                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Raid) ?? false)
                 {
-                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
-                    if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Raid) ?? false)
-                    {
-                        checkedListBoxBossesEnable.SetItemChecked(i, false);
-                    }
+                    checkedListBoxBossesEnable.SetItemChecked(i, false);
                 }
             }
         }
@@ -183,14 +169,10 @@ namespace PlenBotLogUploader
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
-                if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Fractal) ?? false)
+                if ((Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Fractal) ?? false) && !checkedListBoxBossesEnable.GetItemChecked(i))
                 {
-                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
-                    if (!checkedState)
-                    {
-                        allSelected = false;
-                        break;
-                    }
+                    allSelected = false;
+                    break;
                 }
             }
             if (!allSelected)
@@ -203,16 +185,14 @@ namespace PlenBotLogUploader
                         checkedListBoxBossesEnable.SetItemChecked(i, true);
                     }
                 }
+                return;
             }
-            else
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
-                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Fractal) ?? false)
                 {
-                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
-                    if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Fractal) ?? false)
-                    {
-                        checkedListBoxBossesEnable.SetItemChecked(i, false);
-                    }
+                    checkedListBoxBossesEnable.SetItemChecked(i, false);
                 }
             }
         }
@@ -223,14 +203,10 @@ namespace PlenBotLogUploader
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
-                if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Strike) ?? false)
+                if ((Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Strike) ?? false) && !checkedListBoxBossesEnable.GetItemChecked(i))
                 {
-                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
-                    if (!checkedState)
-                    {
-                        allSelected = false;
-                        break;
-                    }
+                    allSelected = false;
+                    break;
                 }
             }
             if (!allSelected)
@@ -243,16 +219,14 @@ namespace PlenBotLogUploader
                         checkedListBoxBossesEnable.SetItemChecked(i, true);
                     }
                 }
+                return;
             }
-            else
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
-                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Strike) ?? false)
                 {
-                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
-                    if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Strike) ?? false)
-                    {
-                        checkedListBoxBossesEnable.SetItemChecked(i, false);
-                    }
+                    checkedListBoxBossesEnable.SetItemChecked(i, false);
                 }
             }
         }
@@ -263,14 +237,10 @@ namespace PlenBotLogUploader
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
                 var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
-                if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Golem) ?? false)
+                if ((Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Golem) ?? false) && !checkedListBoxBossesEnable.GetItemChecked(i))
                 {
-                    var checkedState = checkedListBoxBossesEnable.GetItemChecked(i);
-                    if (!checkedState)
-                    {
-                        allSelected = false;
-                        break;
-                    }
+                    allSelected = false;
+                    break;
                 }
             }
             if (!allSelected)
@@ -283,16 +253,14 @@ namespace PlenBotLogUploader
                         checkedListBoxBossesEnable.SetItemChecked(i, true);
                     }
                 }
+                return;
             }
-            else
+            for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
             {
-                for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
+                var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
+                if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Golem) ?? false)
                 {
-                    var item = (BossesDisableHelperClass)checkedListBoxBossesEnable.Items[i];
-                    if (Bosses.All.Find(x => x.BossId.Equals(item.BossID))?.Type.Equals(BossType.Golem) ?? false)
-                    {
-                        checkedListBoxBossesEnable.SetItemChecked(i, false);
-                    }
+                    checkedListBoxBossesEnable.SetItemChecked(i, false);
                 }
             }
         }

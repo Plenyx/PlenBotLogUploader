@@ -70,9 +70,19 @@ namespace PlenBotLogUploader
         private void ButtonGetHardStuckCode_Click(object sender, EventArgs e)
         {
             mainLink.MumbleReader?.Update();
-            if (!string.IsNullOrWhiteSpace(mainLink.MumbleReader?.Data.Identity?.Name))
+            if (string.IsNullOrWhiteSpace(mainLink.MumbleReader?.Data.Identity?.Name))
             {
-                _ = Task.Run(async () =>
+                return;
+            }
+            _ = Task.Run(async () =>
+            {
+                using var httpClientController = new HttpClientController();
+                foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                {
+                    await apiKey.GetCharacters(httpClientController);
+                }
+                var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                if (trueApiKey is null)
                 {
                     using var httpClientController = new HttpClientController();
                     var settings = ApplicationSettings.Current;
@@ -115,16 +125,31 @@ namespace PlenBotLogUploader
                         var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
                         mainLink.AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
                     }
-                    catch (NotFoundException)
-                    {
-                        mainLink.AddToText($"The currently logged in character ('{mainLink.MumbleReader.Data.Identity.Name}') could be found using the GW2 API access token '{trueApiKey.Name}'");
-                    }
-                    catch (Exception ex)
-                    {
-                        mainLink.AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
-                    }
-                });
-            }
+                    trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                }
+                try
+                {
+                    var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                    mainLink.AddToText($"https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}");
+                }
+                catch (InvalidAccessTokenException)
+                {
+                    mainLink.AddToText("GW2 API access token is not valid.");
+                }
+                catch (MissingScopesException)
+                {
+                    var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
+                    mainLink.AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
+                }
+                catch (NotFoundException)
+                {
+                    mainLink.AddToText($"The currently logged in character ('{mainLink.MumbleReader.Data.Identity.Name}') could be found using the GW2 API access token '{trueApiKey.Name}'");
+                }
+                catch (Exception ex)
+                {
+                    mainLink.AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
+                }
+            });
         }
 
         private void ButtonBuildCodeCompressionSettings_Click(object sender, EventArgs e)

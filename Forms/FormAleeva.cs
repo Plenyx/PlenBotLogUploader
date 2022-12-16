@@ -87,36 +87,37 @@ namespace PlenBotLogUploader
 
         internal async Task PostLogToAleeva(DpsReportJson reportJSON)
         {
-            if (AleevaAuthorised)
+            if (!AleevaAuthorised)
             {
-                if (AleevaAccessTokenExpires <= DateTime.Now)
+                return;
+            }
+            if (AleevaAccessTokenExpires <= DateTime.Now)
+            {
+                await GetAleevaTokenFromRefreshToken();
+            }
+            if ((checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false)) ||
+                ((ApplicationSettings.Current.Aleeva.SelectedTeamId > 0) &&
+                    Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Aleeva.SelectedTeamId) &&
+                    !Teams.Teams.All[ApplicationSettings.Current.Aleeva.SelectedTeamId].IsSatisfied(reportJSON.ExtraJson)))
+            {
+                return;
+            }
+            try
+            {
+                var uri = new Uri($"{aleevaAPIBaseUrl}/report");
+                var logObject = new AleevaAddReport() { DpsReportPermalink = reportJSON.ConfigAwarePermalink, SendNotification = checkBoxSendNotification.Checked };
+                if (checkBoxSendNotification.Checked)
                 {
-                    await GetAleevaTokenFromRefreshToken();
+                    logObject.NotificationServerId = ApplicationSettings.Current.Aleeva.SelectedServer;
+                    logObject.NotificationChannelId = ApplicationSettings.Current.Aleeva.SelectedChannel;
                 }
-                if ((checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false)) ||
-                    ((ApplicationSettings.Current.Aleeva.SelectedTeamId > 0) &&
-                        Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Aleeva.SelectedTeamId) &&
-                        !Teams.Teams.All[ApplicationSettings.Current.Aleeva.SelectedTeamId].IsSatisfied(reportJSON.ExtraJSON)))
-                {
-                    return;
-                }
-                try
-                {
-                    var uri = new Uri($"{aleevaAPIBaseUrl}/report");
-                    var logObject = new AleevaAddReport() { DPSReportPermalink = reportJSON.ConfigAwarePermalink, SendNotification = checkBoxSendNotification.Checked };
-                    if (checkBoxSendNotification.Checked)
-                    {
-                        logObject.NotificationServerId = ApplicationSettings.Current.Aleeva.SelectedServer;
-                        logObject.NotificationChannelId = ApplicationSettings.Current.Aleeva.SelectedChannel;
-                    }
-                    var jsonLogObject = JsonConvert.SerializeObject(logObject);
-                    using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
-                    await controller.PostAsync(uri, content);
-                }
-                catch
-                {
-                    // do nothing
-                }
+                var jsonLogObject = JsonConvert.SerializeObject(logObject);
+                using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
+                await controller.PostAsync(uri, content);
+            }
+            catch
+            {
+                // do nothing
             }
         }
 
@@ -232,18 +233,16 @@ namespace PlenBotLogUploader
             if (string.IsNullOrEmpty(AleevaAccessToken))
             {
                 await GetAleevaTokenFromAccessCode(textBoxAccessCode.Text);
+                return;
             }
-            else
-            {
-                DeauthoriseAleeva();
-            }
+            DeauthoriseAleeva();
         }
 
         private void DeauthoriseAleeva()
         {
             if (InvokeRequired)
             {
-                Invoke(() => DeauthoriseAleeva());
+                Invoke(DeauthoriseAleeva);
                 return;
             }
             AleevaAccessToken = string.Empty;
@@ -300,12 +299,13 @@ namespace PlenBotLogUploader
 
         private async void ComboBoxServer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxServer.SelectedItem is AleevaServer server)
+            if (comboBoxServer.SelectedItem is not AleevaServer server)
             {
-                ApplicationSettings.Current.Aleeva.SelectedServer = server.ID;
-                ApplicationSettings.Current.Save();
-                await AleevaLoadChannels(server.ID);
+                return;
             }
+            ApplicationSettings.Current.Aleeva.SelectedServer = server.ID;
+            ApplicationSettings.Current.Save();
+            await AleevaLoadChannels(server.ID);
         }
 
         private async Task AleevaLoadChannels(string serverId)
@@ -343,11 +343,12 @@ namespace PlenBotLogUploader
 
         private void ComboBoxChannel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxChannel.SelectedItem is AleevaChannel channel)
+            if (comboBoxChannel.SelectedItem is not AleevaChannel channel)
             {
-                ApplicationSettings.Current.Aleeva.SelectedChannel = channel.ID;
-                ApplicationSettings.Current.Save();
+                return;
             }
+            ApplicationSettings.Current.Aleeva.SelectedChannel = channel.ID;
+            ApplicationSettings.Current.Save();
         }
 
         private void CheckBoxSendNotification_CheckedChanged(object sender, EventArgs e)

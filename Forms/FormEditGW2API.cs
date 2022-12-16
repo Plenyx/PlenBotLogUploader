@@ -63,12 +63,13 @@ namespace PlenBotLogUploader
         private async void ButtonGetNameFromKey_Click(object sender, EventArgs e)
         {
             using var response = await httpClientController.GetAsync($"https://api.guildwars2.com/v2/tokeninfo?access_token={textBoxAPIKeyKey.Text}");
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-                var responseMessage = await response.Content.ReadAsStringAsync();
-                var tokenInfo = JsonConvert.DeserializeObject<Gw2TokenInfo>(responseMessage);
-                textBoxAPIKeyName.Text = tokenInfo.Name;
+                return;
             }
+            var responseMessage = await response.Content.ReadAsStringAsync();
+            var tokenInfo = JsonConvert.DeserializeObject<Gw2TokenInfo>(responseMessage);
+            textBoxAPIKeyName.Text = tokenInfo.Name;
         }
 
         private void TextBoxAPIKeyKey_TextChanged(object sender, EventArgs e)

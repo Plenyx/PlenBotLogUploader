@@ -42,41 +42,7 @@ namespace PlenBotLogUploader
 
         private void ButtonSessionStarter_Click(object sender, EventArgs e)
         {
-            if (SessionRunning || sessionPaused)
-            {
-                buttonSessionStarter.Text = "Start a log session";
-                buttonUnPauseSession.Text = "Pause session";
-                buttonUnPauseSession.Enabled = false;
-                SessionRunning = false;
-                sessionPaused = false;
-                stopWatch.Stop();
-                var elapsedTime = stopWatch.Elapsed.ParseHMS();
-                var elapsedTimeSpan = stopWatch.Elapsed;
-                stopWatch.Reset();
-                var logSessionSettings = new LogSessionSettings()
-                {
-                    Name = textBoxSessionName.Text,
-                    ContentText = textBoxSessionContent.Text,
-                    ShowSuccess = !checkBoxOnlySuccess.Checked,
-                    ElapsedTime = elapsedTime,
-                    ElapsedTimeSpan = elapsedTimeSpan,
-                    SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.Wing,
-                    MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
-                    UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
-                    SelectedWebhooks = ConvertCheckboxListToList()
-                };
-                var sessionNameFormatted = CleanSessionName();
-                var fileName = $"{((!string.IsNullOrWhiteSpace(sessionNameFormatted)) ? $"{sessionNameFormatted} " : "")}{sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
-                File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink;UserToken\n");
-                foreach (var reportJSON in mainLink.SessionLogs.AsSpan())
-                {
-                    var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
-                    File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv",
-                        $"{reportJSON.ExtraJSON?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJSON?.Duration ?? string.Empty};{reportJSON.ExtraJSON?.RecordedBy ?? string.Empty};{reportJSON.ExtraJSON?.EliteInsightsVersion ?? string.Empty};{reportJSON.EVTC.Type}{reportJSON.EVTC.Version};{reportJSON.ConfigAwarePermalink};{reportJSON.UserToken}\n");
-                }
-                _ = SendSessionWebhooks(logSessionSettings);
-            }
-            else
+            if (!SessionRunning && !sessionPaused)
             {
                 buttonSessionStarter.Text = "Stop the log session";
                 buttonUnPauseSession.Text = "Pause session";
@@ -85,7 +51,39 @@ namespace PlenBotLogUploader
                 sessionPaused = false;
                 stopWatch.Start();
                 sessionTimeStarted = DateTime.Now;
+                return;
             }
+            buttonSessionStarter.Text = "Start a log session";
+            buttonUnPauseSession.Text = "Pause session";
+            buttonUnPauseSession.Enabled = false;
+            SessionRunning = false;
+            sessionPaused = false;
+            stopWatch.Stop();
+            var elapsedTime = stopWatch.Elapsed.ParseHMS();
+            var elapsedTimeSpan = stopWatch.Elapsed;
+            stopWatch.Reset();
+            var logSessionSettings = new LogSessionSettings()
+            {
+                Name = textBoxSessionName.Text,
+                ContentText = textBoxSessionContent.Text,
+                ShowSuccess = !checkBoxOnlySuccess.Checked,
+                ElapsedTime = elapsedTime,
+                ElapsedTimeSpan = elapsedTimeSpan,
+                SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.Wing,
+                MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
+                UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
+                SelectedWebhooks = ConvertCheckboxListToList()
+            };
+            var sessionNameFormatted = CleanSessionName();
+            var fileName = $"{((!string.IsNullOrWhiteSpace(sessionNameFormatted)) ? $"{sessionNameFormatted} " : "")}{sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
+            File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink;UserToken\n");
+            foreach (var reportJSON in mainLink.SessionLogs.AsSpan())
+            {
+                var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
+                File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv",
+                    $"{reportJSON.ExtraJson?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJson?.Duration ?? string.Empty};{reportJSON.ExtraJson?.RecordedBy ?? string.Empty};{reportJSON.ExtraJson?.EliteInsightsVersion ?? string.Empty};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.ConfigAwarePermalink};{reportJSON.UserToken}\n");
+            }
+            _ = SendSessionWebhooks(logSessionSettings);
         }
 
         private string CleanSessionName()
@@ -151,13 +149,11 @@ namespace PlenBotLogUploader
             for (var i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
             {
                 var item = checkedListBoxSelectedWebhooks.Items[i];
-                if (item is DiscordWebhooksHelperClass discordWebhookHelper)
+                if ((item is DiscordWebhooksHelperClass discordWebhookHelper) &&
+                    checkedListBoxSelectedWebhooks.GetItemChecked(i) &&
+                    allWebhooks.ContainsKey(discordWebhookHelper.WebhookID))
                 {
-                    var checkedState = checkedListBoxSelectedWebhooks.GetItemChecked(i);
-                    if (checkedState && allWebhooks.ContainsKey(discordWebhookHelper.WebhookID))
-                    {
-                        list.Add(allWebhooks[discordWebhookHelper.WebhookID]);
-                    }
+                    list.Add(allWebhooks[discordWebhookHelper.WebhookID]);
                 }
             }
             return list;

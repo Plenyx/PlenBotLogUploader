@@ -37,20 +37,21 @@ namespace PlenBotLogUploader
         private async Task AskNameToConfirm(string input)
         {
             var result = MessageBox.Show($"Is this your channel name?\n\n{input}", "Channel name confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-            if (result.Equals(DialogResult.Yes))
+            if (!result.Equals(DialogResult.Yes))
             {
-                ApplicationSettings.Current.Twitch.ChannelName = input;
-                ApplicationSettings.Current.Save();
-                if (mainLink.IsTwitchConnectionNull())
-                {
-                    await mainLink.ConnectTwitchBot();
-                }
-                else
-                {
-                    await mainLink.ReconnectTwitchBot();
-                }
-                Hide();
+                return;
             }
+            ApplicationSettings.Current.Twitch.ChannelName = input;
+            ApplicationSettings.Current.Save();
+            if (mainLink.IsTwitchConnectionNull())
+            {
+                await mainLink.ConnectTwitchBot();
+            }
+            else
+            {
+                await mainLink.ReconnectTwitchBot();
+            }
+            Hide();
         }
 
         private void FormTwitchNameSetup_FormClosing(object sender, FormClosingEventArgs e)

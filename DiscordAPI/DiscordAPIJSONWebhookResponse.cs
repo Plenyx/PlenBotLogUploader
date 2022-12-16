@@ -12,7 +12,7 @@ namespace PlenBotLogUploader.DiscordApi
         internal string Name { get; set; }
 
         [JsonProperty("channel_id")]
-        internal string Channel_id { get; set; }
+        internal string ChannelId { get; set; }
 
         [JsonProperty("token")]
         internal string Token { get; set; }
@@ -21,7 +21,7 @@ namespace PlenBotLogUploader.DiscordApi
         internal string Avatar { get; set; }
 
         [JsonProperty("guild_id")]
-        internal string Guild_id { get; set; }
+        internal string GuildId { get; set; }
 
         [JsonProperty("id")]
         internal string Id { get; set; }
