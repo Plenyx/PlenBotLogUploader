@@ -90,6 +90,7 @@
 			this.Name = "FormHSBuildCodeCompressionSettings";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "BuildCode Compression Settings";
+			this.BackColor = System.Drawing.Color.White;
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

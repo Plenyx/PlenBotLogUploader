@@ -10,6 +10,7 @@ namespace PlenBotLogUploader
 		public FormHSBuildCodeCompressionSettings()
 		{
 			InitializeComponent();
+			Icon = Properties.Resources.AppIcon;
 
 			var settings = ApplicationSettings.Current.BuildCodes;
 			this.CheckBoxDemoteRunes .Checked = settings.DemoteRunes;
