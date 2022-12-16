@@ -84,9 +84,46 @@ namespace PlenBotLogUploader
                 var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                 if (trueApiKey is null)
                 {
-                    foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                    using var httpClientController = new HttpClientController();
+                    var settings = ApplicationSettings.Current;
+                    foreach (var apiKey in settings.GW2APIs.Where(x => x.Valid))
                     {
-                        await apiKey.GetCharacters(httpClientController, true);
+                        await apiKey.GetCharacters(httpClientController);
+                    }
+                    var trueApiKey = settings.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                    if (trueApiKey is null)
+                    {
+                        foreach (var apiKey in settings.GW2APIs.Where(x => x.Valid))
+                        {
+                            await apiKey.GetCharacters(httpClientController, true);
+                        }
+                        trueApiKey = settings.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                    }
+                    try
+                    {
+                        var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                        if (settings.BuildCodes.DemoteRunes)
+                        {
+                            code.Rune = Static.LegendaryToSuperior(code.Rune);
+                        }
+                        if (settings.BuildCodes.DemoteSigils)
+                        {
+                            code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
+                            code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
+                            code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
+                            code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
+                        }
+                        Static.Compress(code, settings.BuildCodes.Compression);
+                        mainLink.AddToText($"https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}");
+                    }
+                    catch (InvalidAccessTokenException)
+                    {
+                        mainLink.AddToText("GW2 API access token is not valid.");
+                    }
+                    catch (MissingScopesException)
+                    {
+                        var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
+                        mainLink.AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
                     }
                     trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                 }
@@ -113,6 +150,11 @@ namespace PlenBotLogUploader
                     mainLink.AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
                 }
             });
+        }
+
+        private void ButtonBuildCodeCompressionSettings_Click(object sender, EventArgs e)
+        {
+            (new FormHsBuildCodeCompressionSettings()).ShowDialog();
         }
     }
 }

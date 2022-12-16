@@ -38,15 +38,16 @@
             this.toolStripMenuItemAddKey = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddAPIKey = new System.Windows.Forms.Button();
             this.buttonGetHardstuckBuildLink = new System.Windows.Forms.Button();
+            this.ButtonBuildCodeCompressionSettings = new System.Windows.Forms.Button();
             this.contextMenuStripEditAPIKeys.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelAPIKeyInfo
             // 
             this.labelAPIKeyInfo.Location = new System.Drawing.Point(8, 404);
-            this.labelAPIKeyInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelAPIKeyInfo.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelAPIKeyInfo.Name = "labelAPIKeyInfo";
-            this.labelAPIKeyInfo.Size = new System.Drawing.Size(561, 91);
+            this.labelAPIKeyInfo.Size = new System.Drawing.Size(474, 91);
             this.labelAPIKeyInfo.TabIndex = 1;
             this.labelAPIKeyInfo.Text = "API keys are used with \"!ign\" and \"!build\" Twitch commands.\r\nYou do not need to s" +
     "et it unless you want to use these Twitch commands.";
@@ -58,7 +59,7 @@
             this.listBoxAPIKeys.ContextMenuStrip = this.contextMenuStripEditAPIKeys;
             this.listBoxAPIKeys.FormattingEnabled = true;
             this.listBoxAPIKeys.ItemHeight = 20;
-            this.listBoxAPIKeys.Location = new System.Drawing.Point(12, 15);
+            this.listBoxAPIKeys.Location = new System.Drawing.Point(11, 15);
             this.listBoxAPIKeys.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listBoxAPIKeys.Name = "listBoxAPIKeys";
             this.listBoxAPIKeys.Size = new System.Drawing.Size(906, 384);
@@ -106,7 +107,7 @@
             // buttonAddAPIKey
             // 
             this.buttonAddAPIKey.Location = new System.Drawing.Point(767, 409);
-            this.buttonAddAPIKey.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonAddAPIKey.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.buttonAddAPIKey.Name = "buttonAddAPIKey";
             this.buttonAddAPIKey.Size = new System.Drawing.Size(151, 35);
             this.buttonAddAPIKey.TabIndex = 3;
@@ -116,27 +117,39 @@
             // 
             // buttonGetHardstuckBuildLink
             // 
-            this.buttonGetHardstuckBuildLink.Location = new System.Drawing.Point(577, 454);
-            this.buttonGetHardstuckBuildLink.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonGetHardstuckBuildLink.Location = new System.Drawing.Point(492, 453);
+            this.buttonGetHardstuckBuildLink.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.buttonGetHardstuckBuildLink.Name = "buttonGetHardstuckBuildLink";
-            this.buttonGetHardstuckBuildLink.Size = new System.Drawing.Size(341, 35);
+            this.buttonGetHardstuckBuildLink.Size = new System.Drawing.Size(425, 35);
             this.buttonGetHardstuckBuildLink.TabIndex = 4;
             this.buttonGetHardstuckBuildLink.Text = "Get Hardstuck build link for the current character";
             this.buttonGetHardstuckBuildLink.UseVisualStyleBackColor = true;
             this.buttonGetHardstuckBuildLink.Click += new System.EventHandler(this.ButtonGetHardStuckCode_Click);
+            // 
+            // ButtonBuildCodeCompressionSettings
+            // 
+            this.ButtonBuildCodeCompressionSettings.Location = new System.Drawing.Point(492, 409);
+            this.ButtonBuildCodeCompressionSettings.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ButtonBuildCodeCompressionSettings.Name = "ButtonBuildCodeCompressionSettings";
+            this.ButtonBuildCodeCompressionSettings.Size = new System.Drawing.Size(265, 35);
+            this.ButtonBuildCodeCompressionSettings.TabIndex = 5;
+            this.ButtonBuildCodeCompressionSettings.Text = "Hardstuck build compression settings";
+            this.ButtonBuildCodeCompressionSettings.UseVisualStyleBackColor = true;
+            this.ButtonBuildCodeCompressionSettings.Click += new System.EventHandler(this.ButtonBuildCodeCompressionSettings_Click);
             // 
             // FormGW2API
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(933, 506);
+            this.ClientSize = new System.Drawing.Size(933, 507);
+            this.Controls.Add(this.ButtonBuildCodeCompressionSettings);
             this.Controls.Add(this.buttonGetHardstuckBuildLink);
             this.Controls.Add(this.buttonAddAPIKey);
             this.Controls.Add(this.listBoxAPIKeys);
             this.Controls.Add(this.labelAPIKeyInfo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormGW2API";
@@ -158,5 +171,6 @@
         private System.Windows.Forms.Button buttonAddAPIKey;
         private System.Windows.Forms.Button buttonGetHardstuckBuildLink;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
-    }
+		private System.Windows.Forms.Button ButtonBuildCodeCompressionSettings;
+	}
 }

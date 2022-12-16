@@ -1133,27 +1133,39 @@ namespace PlenBotLogUploader
 
                     try
                     {
-                        var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
-                        var message = $"Link to the build: https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, message);
-                    }
-                    catch (InvalidAccessTokenException)
-                    {
-                        AddToText("GW2 API access token is not valid.");
-                    }
-                    catch (MissingScopesException)
-                    {
-                        var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
-                        AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
-                    }
-                    catch (NotFoundException)
-                    {
-                        AddToText($"The currently logged in character ('{MumbleReader.Data.Identity.Name}') could be found using the GW2 API access token '{trueApiKey.Name}'");
-                    }
-                    catch (Exception ex)
-                    {
-                        AddToText($"An unexpected error occured. {ex.GetType()}: {ex.Message}");
-                    }
+                            var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                            if (ApplicationSettings.Current.BuildCodes.DemoteRunes)
+                            {
+                                code.Rune = Static.LegendaryToSuperior(code.Rune);
+                            }
+                            if (ApplicationSettings.Current.BuildCodes.DemoteSigils)
+                            {
+                                code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
+                                code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
+                                code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
+                                code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
+                            }
+                            Static.Compress(code, ApplicationSettings.Current.BuildCodes.Compression);
+                            var message = $"Link to the build: https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
+                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, message);
+                        }
+                        catch (InvalidAccessTokenException)
+                        {
+                            AddToText("GW2 API access token is not valid.");
+                        }
+                        catch (MissingScopesException)
+                        {
+                            var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
+                            AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
+                        }
+                        catch (NotFoundException)
+                        {
+                            AddToText($"The currently logged in character ('{MumbleReader.Data.Identity.Name}') could be found using the GW2 API access token '{trueApiKey.Name}'");
+                        }
+                        catch (Exception ex)
+                        {
+                            AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
+                        }
                 });
                 return;
             }
