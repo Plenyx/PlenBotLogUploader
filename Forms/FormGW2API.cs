@@ -84,52 +84,27 @@ namespace PlenBotLogUploader
                 var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                 if (trueApiKey is null)
                 {
-                    using var httpClientController = new HttpClientController();
-                    var settings = ApplicationSettings.Current;
-                    foreach (var apiKey in settings.GW2APIs.Where(x => x.Valid))
+                    foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
                     {
-                        await apiKey.GetCharacters(httpClientController);
-                    }
-                    var trueApiKey = settings.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
-                    if (trueApiKey is null)
-                    {
-                        foreach (var apiKey in settings.GW2APIs.Where(x => x.Valid))
-                        {
-                            await apiKey.GetCharacters(httpClientController, true);
-                        }
-                        trueApiKey = settings.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
-                    }
-                    try
-                    {
-                        var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
-                        if (settings.BuildCodes.DemoteRunes)
-                        {
-                            code.Rune = Static.LegendaryToSuperior(code.Rune);
-                        }
-                        if (settings.BuildCodes.DemoteSigils)
-                        {
-                            code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
-                            code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
-                            code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
-                            code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
-                        }
-                        Static.Compress(code, settings.BuildCodes.Compression);
-                        mainLink.AddToText($"https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}");
-                    }
-                    catch (InvalidAccessTokenException)
-                    {
-                        mainLink.AddToText("GW2 API access token is not valid.");
-                    }
-                    catch (MissingScopesException)
-                    {
-                        var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
-                        mainLink.AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
+                        await apiKey.GetCharacters(httpClientController, true);
                     }
                     trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                 }
                 try
                 {
                     var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                    if (ApplicationSettings.Current.BuildCodes.DemoteRunes)
+                    {
+                        code.Rune = Static.LegendaryToSuperior(code.Rune);
+                    }
+                    if (ApplicationSettings.Current.BuildCodes.DemoteSigils)
+                    {
+                        code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
+                        code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
+                        code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
+                        code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
+                    }
+                    Static.Compress(code, ApplicationSettings.Current.BuildCodes.Compression);
                     mainLink.AddToText($"https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}");
                 }
                 catch (InvalidAccessTokenException)
