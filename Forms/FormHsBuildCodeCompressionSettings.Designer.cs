@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader
 {
-	partial class FormHsBuildCodeCompressionSettings2
+	partial class FormHsBuildCodeCompressionSettings
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHsBuildCodeCompressionSettings2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHsBuildCodeCompressionSettings));
             this.labelCompressionSettings = new System.Windows.Forms.Label();
             this.checkBoxDemoteRunes = new System.Windows.Forms.CheckBox();
             this.checkBoxDemoteSigils = new System.Windows.Forms.CheckBox();

@@ -5,9 +5,9 @@ using static Hardstuck.GuildWars2.BuildCodes.V2.Static;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormHsBuildCodeCompressionSettings2 : Form
+    public partial class FormHsBuildCodeCompressionSettings : Form
     {
-        public FormHsBuildCodeCompressionSettings2()
+        public FormHsBuildCodeCompressionSettings()
         {
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;

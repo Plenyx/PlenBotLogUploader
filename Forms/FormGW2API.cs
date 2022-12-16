@@ -129,7 +129,7 @@ namespace PlenBotLogUploader
 
         private void ButtonBuildCodeCompressionSettings_Click(object sender, EventArgs e)
         {
-            (new FormHsBuildCodeCompressionSettings2()).ShowDialog();
+            (new FormHsBuildCodeCompressionSettings()).ShowDialog();
         }
     }
 }
