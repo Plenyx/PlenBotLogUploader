@@ -14,6 +14,6 @@ namespace PlenBotLogUploader.Aleeva
         internal string NotificationChannelId { get; set; }
 
         [JsonProperty("dpsReportPermalink")]
-        internal string DPSReportPermalink { get; set; }
+        internal string DpsReportPermalink { get; set; }
     }
 }

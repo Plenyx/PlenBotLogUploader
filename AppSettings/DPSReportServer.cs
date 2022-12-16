@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader.AppSettings
 {
-    internal enum DPSReportServer
+    internal enum DpsReportServer
     {
         Main = 0,
         A = 1,

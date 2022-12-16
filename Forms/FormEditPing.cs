@@ -57,63 +57,62 @@ namespace PlenBotLogUploader
 
         private void FormPing_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (textBoxName.Text != string.Empty)
+            if (textBoxName.Text == string.Empty)
             {
-                if (addNew)
+                return;
+            }
+            if (addNew)
+            {
+                PingMethod chosenMethod = PingMethod.Post;
+                if (radioButtonMethodPut.Checked)
                 {
-                    PingMethod chosenMethod = PingMethod.Post;
-                    if (radioButtonMethodPut.Checked)
-                    {
-                        chosenMethod = PingMethod.Put;
-                    }
-                    else if (radioButtonMethodGet.Checked)
-                    {
-                        chosenMethod = PingMethod.Get;
-                    }
-                    else if (radioButtonMethodDelete.Checked)
-                    {
-                        chosenMethod = PingMethod.Delete;
-                    }
-                    var auth = new PingAuthentication()
-                    {
-                        Active = textBoxAuthToken.Text != string.Empty,
-                        UseAsAuth = radioButtonUseAuthField.Checked,
-                        AuthName = textBoxAuthName.Text,
-                        AuthToken = textBoxAuthToken.Text
-                    };
-                    pingLink.AllPings[reservedId] = new PingConfiguration() { Active = false, Name = textBoxName.Text, URL = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
-                    pingLink.listViewPings.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
+                    chosenMethod = PingMethod.Put;
+                }
+                else if (radioButtonMethodGet.Checked)
+                {
+                    chosenMethod = PingMethod.Get;
+                }
+                else if (radioButtonMethodDelete.Checked)
+                {
+                    chosenMethod = PingMethod.Delete;
+                }
+                var auth = new PingAuthentication()
+                {
+                    Active = textBoxAuthToken.Text != string.Empty,
+                    UseAsAuth = radioButtonUseAuthField.Checked,
+                    AuthName = textBoxAuthName.Text,
+                    AuthToken = textBoxAuthToken.Text
+                };
+                pingLink.AllPings[reservedId] = new PingConfiguration() { Active = false, Name = textBoxName.Text, URL = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
+                pingLink.listViewPings.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
+                return;
+            }
+            if (pingLink.AllPings.ContainsKey(reservedId))
+            {
+                pingLink.AllPings[reservedId].Active = config.Active;
+                pingLink.AllPings[reservedId].Name = textBoxName.Text;
+                pingLink.AllPings[reservedId].URL = textBoxURL.Text;
+                if (radioButtonMethodPut.Checked)
+                {
+                    pingLink.AllPings[reservedId].Method = PingMethod.Put;
+                }
+                else if (radioButtonMethodGet.Checked)
+                {
+                    pingLink.AllPings[reservedId].Method = PingMethod.Get;
+                }
+                else if (radioButtonMethodDelete.Checked)
+                {
+                    pingLink.AllPings[reservedId].Method = PingMethod.Delete;
                 }
                 else
                 {
-                    if (pingLink.AllPings.ContainsKey(reservedId))
-                    {
-                        pingLink.AllPings[reservedId].Active = config.Active;
-                        pingLink.AllPings[reservedId].Name = textBoxName.Text;
-                        pingLink.AllPings[reservedId].URL = textBoxURL.Text;
-                        if (radioButtonMethodPut.Checked)
-                        {
-                            pingLink.AllPings[reservedId].Method = PingMethod.Put;
-                        }
-                        else if (radioButtonMethodGet.Checked)
-                        {
-                            pingLink.AllPings[reservedId].Method = PingMethod.Get;
-                        }
-                        else if (radioButtonMethodDelete.Checked)
-                        {
-                            pingLink.AllPings[reservedId].Method = PingMethod.Delete;
-                        }
-                        else
-                        {
-                            pingLink.AllPings[reservedId].Method = PingMethod.Post;
-                        }
-                        pingLink.AllPings[reservedId].Authentication.Active = textBoxAuthToken.Text.Trim() != string.Empty;
-                        pingLink.AllPings[reservedId].Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
-                        pingLink.AllPings[reservedId].Authentication.AuthName = textBoxAuthName.Text;
-                        pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxAuthToken.Text;
-                        pingLink.listViewPings.Items[pingLink.listViewPings.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = config.Active };
-                    }
+                    pingLink.AllPings[reservedId].Method = PingMethod.Post;
                 }
+                pingLink.AllPings[reservedId].Authentication.Active = textBoxAuthToken.Text.Trim() != string.Empty;
+                pingLink.AllPings[reservedId].Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
+                pingLink.AllPings[reservedId].Authentication.AuthName = textBoxAuthName.Text;
+                pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxAuthToken.Text;
+                pingLink.listViewPings.Items[pingLink.listViewPings.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = config.Active };
             }
         }
 

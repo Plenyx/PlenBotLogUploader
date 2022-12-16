@@ -51,37 +51,36 @@ namespace PlenBotLogUploader
 
         internal async Task<bool> PostLogToGW2Bot(DpsReportJson reportJSON)
         {
-            if (checkBoxModuleEnabled.Checked)
+            if (!checkBoxModuleEnabled.Checked)
             {
-                if ((ApplicationSettings.Current.GW2Bot.SelectedTeamId > 0) && Teams.Teams.All.ContainsKey(ApplicationSettings.Current.GW2Bot.SelectedTeamId) && !Teams.Teams.All[ApplicationSettings.Current.GW2Bot.SelectedTeamId].IsSatisfied(reportJSON.ExtraJSON))
+                return true;
+            }
+            if ((ApplicationSettings.Current.GW2Bot.SelectedTeamId > 0) &&
+                Teams.Teams.All.ContainsKey(ApplicationSettings.Current.GW2Bot.SelectedTeamId) &&
+                !Teams.Teams.All[ApplicationSettings.Current.GW2Bot.SelectedTeamId].IsSatisfied(reportJSON.ExtraJson) &&
+                checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
+            {
+                return true;
+            }
+            try
+            {
+                var uri = new Uri($"{gw2botAPIBaseUrl}/evtc/notification");
+                var logObject = new Gw2BotAddReport() { LogLink = reportJSON.ConfigAwarePermalink };
+                var jsonLogObject = JsonConvert.SerializeObject(logObject);
+                using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
+                using var response = await controller.PostAsync(uri, content);
+                if (!response.IsSuccessStatusCode)
                 {
-                    return true;
-                }
-                if (checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
-                {
-                    return true;
-                }
-                try
-                {
-                    var uri = new Uri($"{gw2botAPIBaseUrl}/evtc/notification");
-                    var logObject = new Gw2BotAddReport() { LogLink = reportJSON.ConfigAwarePermalink };
-                    var jsonLogObject = JsonConvert.SerializeObject(logObject);
-                    using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
-                    using var response = await controller.PostAsync(uri, content);
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        mainLink.AddToText($"??>> There was an error with GW2Bot while trying to post the log. Status code on response: {response.StatusCode}");
-                        return false;
-                    }
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    mainLink.AddToText($"??>> There was an error with GW2Bot while trying to post the log. Error: {e.Message}");
+                    mainLink.AddToText($"??>> There was an error with GW2Bot while trying to post the log. Status code on response: {response.StatusCode}");
                     return false;
                 }
+                return true;
             }
-            return true;
+            catch (Exception e)
+            {
+                mainLink.AddToText($"??>> There was an error with GW2Bot while trying to post the log. Error: {e.Message}");
+                return false;
+            }
         }
 
         private void CheckBoxModuleEnabled_CheckedChanged(object sender, EventArgs e)

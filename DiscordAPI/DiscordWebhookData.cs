@@ -56,7 +56,7 @@ namespace PlenBotLogUploader.DiscordApi
         {
             get
             {
-                if (_team is null && Teams.Teams.All.TryGetValue(TeamID, out Team team))
+                if ((_team is null) && Teams.Teams.All.TryGetValue(TeamID, out var team))
                 {
                     _team = team;
                 }

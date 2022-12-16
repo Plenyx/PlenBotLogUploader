@@ -29,17 +29,18 @@ namespace PlenBotLogUploader
 
         private void FormEditTeam_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(textBoxName.Text.Trim()))
+            if (string.IsNullOrWhiteSpace(textBoxName.Text.Trim()))
             {
-                if (!allTeams.ContainsKey(reservedId))
-                {
-                    allTeams[reservedId] = teamData;
-                    teamsLink.listBoxTeams.Items.Add(allTeams[reservedId]);
-                }
-                teamData.Name = textBoxName.Text;
-                teamsLink.listBoxTeams.DisplayMember = string.Empty;
-                teamsLink.listBoxTeams.DisplayMember = "Name";
+                return;
             }
+            if (!allTeams.ContainsKey(reservedId))
+            {
+                allTeams[reservedId] = teamData;
+                teamsLink.listBoxTeams.Items.Add(allTeams[reservedId]);
+            }
+            teamData.Name = textBoxName.Text;
+            teamsLink.listBoxTeams.DisplayMember = string.Empty;
+            teamsLink.listBoxTeams.DisplayMember = "Name";
         }
 
         private void ButtonOpenMainCondition_Click(object sender, EventArgs e)

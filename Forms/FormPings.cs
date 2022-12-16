@@ -34,7 +34,7 @@ namespace PlenBotLogUploader
 
             settingsIdsKey = AllPings.Count;
 
-            foreach (var ping in AllPings.ToArray().AsSpan())
+            foreach (var ping in AllPings)
             {
                 listViewPings.Items.Add(new ListViewItem
                 {
@@ -92,27 +92,31 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
         {
-            if (listViewPings.SelectedItems.Count > 0)
+            if (listViewPings.SelectedItems.Count == 0)
             {
-                var selected = listViewPings.SelectedItems[0];
-                if (int.TryParse(selected.Name, out int reservedId))
-                {
-                    new FormEditPing(this, reservedId, false, AllPings[reservedId]).ShowDialog();
-                }
+                return;
             }
+            var selected = listViewPings.SelectedItems[0];
+            if (!int.TryParse(selected.Name, out var reservedId))
+            {
+                return;
+            }
+            new FormEditPing(this, reservedId, false, AllPings[reservedId]).ShowDialog();
         }
 
         private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
-            if (listViewPings.SelectedItems.Count > 0)
+            if (listViewPings.SelectedItems.Count == 0)
             {
-                var selected = listViewPings.SelectedItems[0];
-                if (int.TryParse(selected.Name, out int reservedId))
-                {
-                    listViewPings.Items.RemoveByKey(reservedId.ToString());
-                    AllPings.Remove(reservedId);
-                }
+                return;
             }
+            var selected = listViewPings.SelectedItems[0];
+            if (!int.TryParse(selected.Name, out var reservedId))
+            {
+                return;
+            }
+            listViewPings.Items.RemoveByKey(reservedId.ToString());
+            AllPings.Remove(reservedId);
         }
 
         private void ContextMenuStripInteract_Opening(object sender, CancelEventArgs e)
@@ -125,29 +129,32 @@ namespace PlenBotLogUploader
 
         private void ListViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (int.TryParse(e.Item.Name, out int reservedId))
+            if (!int.TryParse(e.Item.Name, out var reservedId))
             {
-                AllPings[reservedId].Active = e.Item.Checked;
+                return;
             }
+            AllPings[reservedId].Active = e.Item.Checked;
         }
 
         private async void ToolStripMenuItemTest_Click(object sender, EventArgs e)
         {
-            if (listViewPings.SelectedItems.Count > 0)
+            if (listViewPings.SelectedItems.Count == 0)
             {
-                var selected = listViewPings.SelectedItems[0];
-                if (int.TryParse(selected.Name, out int reservedId))
-                {
-                    var result = await AllPings[reservedId].PingServerAsync(null, null);
-                    if (result)
-                    {
-                        MessageBox.Show("Ping test successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    }
-                }
+                return;
+            }
+            var selected = listViewPings.SelectedItems[0];
+            if (!int.TryParse(selected.Name, out var reservedId))
+            {
+                return;
+            }
+            var result = await AllPings[reservedId].PingServerAsync(null, null);
+            if (result)
+            {
+                MessageBox.Show("Ping test successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 

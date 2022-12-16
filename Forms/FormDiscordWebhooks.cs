@@ -59,8 +59,8 @@ namespace PlenBotLogUploader
         {
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
-                var extraJSONFightName = (reportJSON.ExtraJSON is null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJSON.FightName;
-                var extraJSON = (reportJSON.ExtraJSON is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}";
+                var extraJSONFightName = (reportJSON.ExtraJson is null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJson.FightName;
+                var extraJSON = (reportJSON.ExtraJson is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}";
                 var icon = string.Empty;
                 var bossData = Bosses.GetBossDataFromId(1);
                 if (bossData is not null)
@@ -73,39 +73,39 @@ namespace PlenBotLogUploader
                     Url = icon
                 };
                 var timestampDateTime = DateTime.UtcNow;
-                if (reportJSON.ExtraJSON is not null)
+                if (reportJSON.ExtraJson is not null)
                 {
-                    timestampDateTime = reportJSON.ExtraJSON.TimeStart;
+                    timestampDateTime = reportJSON.ExtraJson.TimeStart;
                 }
                 var timestamp = timestampDateTime.ToString("o");
                 var discordContentEmbed = new DiscordApiJsonContentEmbed()
                 {
                     Title = extraJSONFightName,
                     Url = reportJSON.ConfigAwarePermalink,
-                    Description = $"{extraJSON}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
+                    Description = $"{extraJSON}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
                     Colour = colour,
                     TimeStamp = timestamp,
                     Thumbnail = discordContentEmbedThumbnail
                 };
                 // fields
-                if (reportJSON.ExtraJSON is not null)
+                if (reportJSON.ExtraJson is not null)
                 {
                     // squad summary
-                    var squadPlayers = reportJSON.ExtraJSON.Players
+                    var squadPlayers = reportJSON.ExtraJson.Players
                         .Count(x => !x.FriendNPC && !x.NotInSquad);
-                    var squadDamage = reportJSON.ExtraJSON.Players
+                    var squadDamage = reportJSON.ExtraJson.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.DpsTargets.Sum(y => y.Sum(z => z.Damage)))
                         .Sum();
-                    var squadDps = reportJSON.ExtraJSON.Players
+                    var squadDps = reportJSON.ExtraJson.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.DpsTargets.Sum(y => y.Sum(z => z.DPS)))
                         .Sum();
-                    var squadDowns = reportJSON.ExtraJSON.Players
+                    var squadDowns = reportJSON.ExtraJson.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.Defenses[0].DownCount)
                         .Sum();
-                    var squadDeaths = reportJSON.ExtraJSON.Players
+                    var squadDeaths = reportJSON.ExtraJson.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad)
                         .Select(x => x.Defenses[0].DeadCount)
                         .Sum();
@@ -136,23 +136,23 @@ namespace PlenBotLogUploader
                         Name = "Enemy summary:",
                         Value = "```Summary could not have been generated.\nToggle detailed WvW to enable this feature.```"
                     };
-                    if (reportJSON.ExtraJSON.Targets.Length > 1)
+                    if (reportJSON.ExtraJson.Targets.Length > 1)
                     {
-                        var enemyPlayers = reportJSON.ExtraJSON.Targets
+                        var enemyPlayers = reportJSON.ExtraJson.Targets
                             .Length - 1;
-                        var enemyDamage = reportJSON.ExtraJSON.Targets
+                        var enemyDamage = reportJSON.ExtraJson.Targets
                             .Where(x => !x.IsFake)
                             .Select(x => x.DpsAll[0].Damage)
                             .Sum();
-                        var enemyDps = reportJSON.ExtraJSON.Targets
+                        var enemyDps = reportJSON.ExtraJson.Targets
                             .Where(x => !x.IsFake)
                             .Select(x => x.DpsAll[0].DPS)
                             .Sum();
-                        var enemyDowns = reportJSON.ExtraJSON.Players
+                        var enemyDowns = reportJSON.ExtraJson.Players
                             .Where(x => !x.FriendNPC && !x.NotInSquad)
                             .Select(x => x.StatsTargets.Select(y => y[0].Downed).Sum())
                             .Sum();
-                        var enemyDeaths = reportJSON.ExtraJSON.Players
+                        var enemyDeaths = reportJSON.ExtraJson.Players
                             .Where(x => !x.FriendNPC && !x.NotInSquad)
                             .Select(x => x.StatsTargets.Select(y => y[0].Killed).Sum())
                             .Sum();
@@ -179,7 +179,7 @@ namespace PlenBotLogUploader
                         };
                     }
                     // damage summary
-                    var damageStats = reportJSON.ExtraJSON.Players
+                    var damageStats = reportJSON.ExtraJson.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad && (x.DpsTargets.Sum(y => y[0].Damage) > 0))
                         .OrderByDescending(x => x.DpsTargets.Sum(y => y[0].Damage))
                         .Take(10)
@@ -208,7 +208,7 @@ namespace PlenBotLogUploader
                         Value = $"```{damageSummary.Render()}```"
                     };
                     // cleanses summary
-                    var cleansesStats = reportJSON.ExtraJSON.Players
+                    var cleansesStats = reportJSON.ExtraJson.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad && (x.Support[0].CondiCleanseTotal > 0))
                         .OrderByDescending(x => x.Support[0].CondiCleanseTotal)
                         .Take(10)
@@ -234,7 +234,7 @@ namespace PlenBotLogUploader
                         Value = $"```{cleansesSummary.Render()}```"
                     };
                     // boon strips summary
-                    var boonStripsStats = reportJSON.ExtraJSON.Players
+                    var boonStripsStats = reportJSON.ExtraJson.Players
                         .Where(x => !x.FriendNPC && !x.NotInSquad && (x.Support[0].BoonStrips > 0))
                         .OrderByDescending(x => x.Support[0].BoonStrips)
                         .Take(10)
@@ -284,7 +284,7 @@ namespace PlenBotLogUploader
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                             || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                            || (!webhook.Team.IsSatisfied(reportJSON.ExtraJSON)))
+                            || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
                         {
                             continue;
                         }
@@ -301,12 +301,13 @@ namespace PlenBotLogUploader
                 {
                     mainLink.AddToText(">:> Unable to execute active webhooks.");
                 }
+                return;
             }
             else // not WvW
             {
                 var bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : string.Empty)}";
                 var successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
-                var extraJSON = (reportJSON.ExtraJSON is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJSON.RecordedBy}\nDuration: {reportJSON.ExtraJSON.Duration}\nElite Insights version: {reportJSON.ExtraJSON.EliteInsightsVersion}\n";
+                var extraJSON = (reportJSON.ExtraJson is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}\n";
                 var icon = string.Empty;
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
                 if (bossData is not null)
@@ -320,16 +321,16 @@ namespace PlenBotLogUploader
                     Url = icon
                 };
                 var timestampDateTime = DateTime.UtcNow;
-                if (reportJSON.ExtraJSON is not null)
+                if (reportJSON.ExtraJson is not null)
                 {
-                    timestampDateTime = reportJSON.ExtraJSON.TimeStart;
+                    timestampDateTime = reportJSON.ExtraJson.TimeStart;
                 }
                 var timestamp = timestampDateTime.ToString("o");
                 var discordContentEmbed = new DiscordApiJsonContentEmbed()
                 {
                     Title = bossName,
                     Url = reportJSON.ConfigAwarePermalink,
-                    Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
+                    Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
                     Colour = colour,
                     TimeStamp = timestamp,
                     Thumbnail = discordContentEmbedThumbnail
@@ -342,7 +343,7 @@ namespace PlenBotLogUploader
                 {
                     Title = bossName,
                     Url = reportJSON.ConfigAwarePermalink,
-                    Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.EVTC.Type}{reportJSON.EVTC.Version}",
+                    Description = $"{extraJSON}Result: {successString}\narcdps version: {reportJSON.Evtc.Type}{reportJSON.Evtc.Version}",
                     Colour = colour,
                     TimeStamp = timestamp,
                     Thumbnail = discordContentEmbedThumbnail
@@ -350,7 +351,7 @@ namespace PlenBotLogUploader
                 if (reportJSON.Players.Values.Count <= 10)
                 {
                     var fields = new List<DiscordApiJsonContentEmbedField>();
-                    if (reportJSON.ExtraJSON is null)
+                    if (reportJSON.ExtraJson is null)
                     {
                         foreach (var player in reportJSON.Players.Values)
                         {
@@ -365,7 +366,7 @@ namespace PlenBotLogUploader
                         playerNames.SetColumnWidthRange(1, 20, 20);
                         playerNames.AddCell("Character");
                         playerNames.AddCell("Account name");
-                        foreach (var player in reportJSON.ExtraJSON.Players.Where(x => !x.FriendNPC).OrderBy(x => x.Name))
+                        foreach (var player in reportJSON.ExtraJson.Players.Where(x => !x.FriendNPC).OrderBy(x => x.Name))
                         {
                             playerNames.AddCell($"{player.Name}");
                             playerNames.AddCell($"{player.Account}");
@@ -375,11 +376,11 @@ namespace PlenBotLogUploader
                             Name = "Players in squad/group:",
                             Value = $"```{playerNames.Render()}```"
                         });
-                        var numberOfRealTargers = reportJSON.ExtraJSON.Targets
+                        var numberOfRealTargers = reportJSON.ExtraJson.Targets
                             .Count(x => !x.IsFake);
                         // damage summary
-                        var targetDps = reportJSON.ExtraJSON.GetPlayerTargetDPS();
-                        var damageStats = reportJSON.ExtraJSON.Players
+                        var targetDps = reportJSON.ExtraJson.GetPlayerTargetDPS();
+                        var damageStats = reportJSON.ExtraJson.Players
                             .Where(x => !x.FriendNPC)
                             .Select(x => new
                             {
@@ -433,7 +434,7 @@ namespace PlenBotLogUploader
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                             || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                            || (!webhook.Team.IsSatisfied(reportJSON.ExtraJSON)))
+                            || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
                         {
                             continue;
                         }
@@ -467,7 +468,7 @@ namespace PlenBotLogUploader
             {
                 foreach (var webhook in logSessionSettings.SelectedWebhooks)
                 {
-                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.ExtraJSON)).ToList(), logSessionSettings);
+                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.ExtraJson)).ToList(), logSessionSettings);
                     await SendDiscordMessageWebhooksAsync(webhook, discordEmbeds, logSessionSettings.ContentText);
                 }
             }
@@ -475,7 +476,7 @@ namespace PlenBotLogUploader
             {
                 foreach (var webhook in allWebhooks.Values.Where(x => x.Active))
                 {
-                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.ExtraJSON)).ToList(), logSessionSettings);
+                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.ExtraJson)).ToList(), logSessionSettings);
                     await SendDiscordMessageWebhooksAsync(webhook, discordEmbeds, logSessionSettings.ContentText);
                 }
             }
@@ -534,35 +535,38 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
         {
-            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
+            if (listViewDiscordWebhooks.SelectedItems.Count == 0)
             {
-                var selected = listViewDiscordWebhooks.SelectedItems[0];
-                if (int.TryParse(selected.Name, out int reservedId))
-                {
-                    listViewDiscordWebhooks.Items.RemoveByKey(reservedId.ToString());
-                    allWebhooks.Remove(reservedId);
-                }
+                return;
+            }
+            var selected = listViewDiscordWebhooks.SelectedItems[0];
+            if (int.TryParse(selected.Name, out var reservedId))
+            {
+                listViewDiscordWebhooks.Items.RemoveByKey(reservedId.ToString());
+                allWebhooks.Remove(reservedId);
             }
         }
 
         private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
         {
-            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
+            if (listViewDiscordWebhooks.SelectedItems.Count == 0)
             {
-                var selected = listViewDiscordWebhooks.SelectedItems[0];
-                if (int.TryParse(selected.Name, out int reservedId))
-                {
-                    new FormEditDiscordWebhook(this, allWebhooks[reservedId], reservedId).ShowDialog();
-                }
+                return;
+            }
+            var selected = listViewDiscordWebhooks.SelectedItems[0];
+            if (int.TryParse(selected.Name, out var reservedId))
+            {
+                new FormEditDiscordWebhook(this, allWebhooks[reservedId], reservedId).ShowDialog();
             }
         }
 
         private void ListViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (int.TryParse(e.Item.Name, out int reservedId))
+            if (!int.TryParse(e.Item.Name, out var reservedId))
             {
-                allWebhooks[reservedId].Active = e.Item.Checked;
+                return;
             }
+            allWebhooks[reservedId].Active = e.Item.Checked;
         }
 
         private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -575,20 +579,22 @@ namespace PlenBotLogUploader
 
         private async void ToolStripMenuItemTest_Click(object sender, EventArgs e)
         {
-            if (listViewDiscordWebhooks.SelectedItems.Count > 0)
+            if (listViewDiscordWebhooks.SelectedItems.Count == 0)
             {
-                var selected = listViewDiscordWebhooks.SelectedItems[0];
-                if (int.TryParse(selected.Name, out int reservedId))
-                {
-                    if (await allWebhooks[reservedId].TestWebhookAsync(mainLink.HttpClientController))
-                    {
-                        MessageBox.Show("Webhook is valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Webhook is not valid.\nCheck your URL.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                return;
+            }
+            var selected = listViewDiscordWebhooks.SelectedItems[0];
+            if (!int.TryParse(selected.Name, out var reservedId))
+            {
+                return;
+            }
+            if (await allWebhooks[reservedId].TestWebhookAsync(mainLink.HttpClientController))
+            {
+                MessageBox.Show("Webhook is valid.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Webhook is not valid.\nCheck your URL.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

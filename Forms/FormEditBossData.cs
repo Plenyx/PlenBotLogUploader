@@ -73,108 +73,113 @@ namespace PlenBotLogUploader
 
         private void FormEditBossData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (int.TryParse(textBoxBossID.Text, out int bossId) && !string.IsNullOrWhiteSpace(textBoxBossName.Text.Trim()))
+            if (!int.TryParse(textBoxBossID.Text, out var bossId) && !string.IsNullOrWhiteSpace(textBoxBossName.Text.Trim()))
             {
-                if (data is null)
+                return;
+            }
+            if (data is null)
+            {
+                var existingBoss = Bosses.All.Find(x => x.BossId.Equals(bossId));
+                if (existingBoss is not null)
                 {
-                    var existingBoss = Bosses.All.Find(x => x.BossId.Equals(bossId));
-                    if (existingBoss is not null)
+                    var result = MessageBox.Show($"There is an already existing definition for this boss:\n\n{existingBoss.BossId}: {existingBoss.Name} ({existingBoss.Type})\n\nDo you wish to save this boss with the identical identification?", "Identical identification with an already existing boss", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.No)
                     {
-                        var result = MessageBox.Show($"There is an already existing definition for this boss:\n\n{existingBoss.BossId}: {existingBoss.Name} ({existingBoss.Type})\n\nDo you wish to save this boss with the identical identification?", "Identical identification with an already existing boss", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                        if (result == DialogResult.No)
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
+                        e.Cancel = true;
+                        return;
                     }
-                    var boss = new BossData()
-                    {
-                        BossId = bossId,
-                        Name = textBoxBossName.Text,
-                        InternalDescription = textBoxInternalDescription.Text,
-                        SuccessMsg = textBoxSuccessMsg.Text,
-                        FailMsg = textBoxFailMsg.Text,
-                        Icon = textBoxIcon.Text,
-                        Type = BossTypeSwitch,
-                        Event = checkBoxEvent.Checked,
-                    };
-                    Bosses.All.Add(boss);
-                    editLink.listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
                 }
-                else
+                var boss = new BossData()
                 {
-                    if (!data.BossId.Equals(bossId))
+                    BossId = bossId,
+                    Name = textBoxBossName.Text,
+                    InternalDescription = textBoxInternalDescription.Text,
+                    SuccessMsg = textBoxSuccessMsg.Text,
+                    FailMsg = textBoxFailMsg.Text,
+                    Icon = textBoxIcon.Text,
+                    Type = BossTypeSwitch,
+                    Event = checkBoxEvent.Checked,
+                };
+                Bosses.All.Add(boss);
+                editLink.listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
+                return;
+            }
+            if (!data.BossId.Equals(bossId))
+            {
+                var existingBoss = Bosses.All.Find(x => x.BossId.Equals(bossId));
+                if (existingBoss is not null)
+                {
+                    var result = MessageBox.Show($"There is an already existing definition for this boss:\n\n{existingBoss.BossId}: {existingBoss.Name} ({existingBoss.Type})\n\nDo you wish to save this boss with the identical identification?", "Identical identification with an already existing boss", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.No)
                     {
-                        var existingBoss = Bosses.All.Find(x => x.BossId.Equals(bossId));
-                        if (existingBoss is not null)
-                        {
-                            var result = MessageBox.Show($"There is an already existing definition for this boss:\n\n{existingBoss.BossId}: {existingBoss.Name} ({existingBoss.Type})\n\nDo you wish to save this boss with the identical identification?", "Identical identification with an already existing boss", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (result == DialogResult.No)
-                            {
-                                e.Cancel = true;
-                                return;
-                            }
-                        }
+                        e.Cancel = true;
+                        return;
                     }
-                    data.BossId = bossId;
-                    data.Name = textBoxBossName.Text;
-                    data.InternalDescription = textBoxInternalDescription.Text;
-                    data.SuccessMsg = textBoxSuccessMsg.Text;
-                    data.FailMsg = textBoxFailMsg.Text;
-                    data.Icon = textBoxIcon.Text;
-                    data.Type = BossTypeSwitch;
-                    data.Event = checkBoxEvent.Checked;
-                    (data as IListViewItemInfo<BossData>)?.UpdateItems();
                 }
             }
+            data.BossId = bossId;
+            data.Name = textBoxBossName.Text;
+            data.InternalDescription = textBoxInternalDescription.Text;
+            data.SuccessMsg = textBoxSuccessMsg.Text;
+            data.FailMsg = textBoxFailMsg.Text;
+            data.Icon = textBoxIcon.Text;
+            data.Type = BossTypeSwitch;
+            data.Event = checkBoxEvent.Checked;
+            (data as IListViewItemInfo<BossData>)?.UpdateItems();
         }
 
         private void RadioButtonTypeNone_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonTypeNone.Checked)
+            if (!radioButtonTypeNone.Checked)
             {
-                BossTypeSwitch = BossType.None;
+                return;
             }
+            BossTypeSwitch = BossType.None;
         }
 
         private void RadioButtonTypeRaid_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonTypeRaid.Checked)
+            if (!radioButtonTypeRaid.Checked)
             {
-                BossTypeSwitch = BossType.Raid;
+                return;
             }
+            BossTypeSwitch = BossType.Raid;
         }
 
         private void RadioButtonTypeFractal_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonTypeFractal.Checked)
+            if (!radioButtonTypeFractal.Checked)
             {
-                BossTypeSwitch = BossType.Fractal;
+                return;
             }
+            BossTypeSwitch = BossType.Fractal;
         }
 
         private void RadioButtonTypeStrike_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonTypeStrike.Checked)
+            if (!radioButtonTypeStrike.Checked)
             {
-                BossTypeSwitch = BossType.Strike;
+                return;
             }
+            BossTypeSwitch = BossType.Strike;
         }
 
         private void RadioButtonTypeGolem_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonTypeGolem.Checked)
+            if (!radioButtonTypeGolem.Checked)
             {
-                BossTypeSwitch = BossType.Golem;
+                return;
             }
+            BossTypeSwitch = BossType.Golem;
         }
 
         private void RadioButtonTypeWvW_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonTypeWvW.Checked)
+            if (!radioButtonTypeWvW.Checked)
             {
-                BossTypeSwitch = BossType.WvW;
+                return;
             }
+            BossTypeSwitch = BossType.WvW;
         }
     }
 }

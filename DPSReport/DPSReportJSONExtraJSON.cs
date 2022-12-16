@@ -44,7 +44,7 @@ namespace PlenBotLogUploader.DpsReport
         [JsonProperty("players")]
         internal Player[] Players { get; set; }
 
-        internal Target PossiblyLastTarget => Targets.OrderByDescending(x => x.TotalHealth).FirstOrDefault(x => x.HealthPercentBurned <= 99);
+        internal Target PossiblyLastTarget => Targets.OrderByDescending(x => x.TotalHealth).FirstOrDefault(x => x.HealthPercentBurned <= 98.4);
 
         internal Dictionary<Player, int> GetPlayerTargetDPS()
         {

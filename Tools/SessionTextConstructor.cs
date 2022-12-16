@@ -43,39 +43,39 @@ namespace PlenBotLogUploader.Tools
 
             var RaidLogs = (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing)) ?
                 reportsJSON
-                    .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
-                    .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
-                    .OrderBy(x => Bosses.GetWingForBoss(x.LogData.EVTC.BossId))
+                    .Where(x => Bosses.GetWingForBoss(x.Evtc.BossId) > 0)
+                    .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.Evtc.BossId) })
+                    .OrderBy(x => Bosses.GetWingForBoss(x.LogData.Evtc.BossId))
                     .ThenBy(x => Bosses.GetBossOrder(x.LogData.Encounter.BossId))
                     .ThenBy(x => x.LogData.UploadTime)
                     .ToArray() :
                 reportsJSON
-                    .Where(x => Bosses.GetWingForBoss(x.EVTC.BossId) > 0)
-                    .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.EVTC.BossId) })
+                    .Where(x => Bosses.GetWingForBoss(x.Evtc.BossId) > 0)
+                    .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.Evtc.BossId) })
                     .OrderBy(x => x.LogData.UploadTime)
                     .ToArray();
             var FractalLogs = reportsJSON
                 .Where(x => Bosses.All
-                    .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.Fractal)))
+                    .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Fractal)))
                 .ToArray();
             var StrikeLogs = reportsJSON
                 .Where(x => Bosses.All
-                    .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.Strike)))
+                    .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Strike)))
                 .ToArray();
             var GolemLogs = reportsJSON
                 .Where(x => Bosses.All
-                    .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.Golem)))
+                    .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Golem)))
                 .ToArray();
             var WvWLogs = reportsJSON
                 .Where(x => Bosses.All
-                    .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.WvW)))
+                    .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.WvW)))
                 .ToArray();
             var OtherLogs = reportsJSON
                 .Where(x =>
                     Bosses.All
-                        .Any(y => y.BossId.Equals(x.EVTC.BossId) && y.Type.Equals(BossType.None)) ||
+                        .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.None)) ||
                     !Bosses.All
-                        .Any(y => y.BossId.Equals(x.EVTC.BossId)))
+                        .Any(y => y.BossId.Equals(x.Evtc.BossId)))
                 .ToArray();
 
             var durationText = $"Session duration: **{logSessionSettings.ElapsedTime}**";
@@ -97,7 +97,7 @@ namespace PlenBotLogUploader.Tools
                         {
                             bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : string.Empty);
                         }
-                        var duration = (data.LogData.ExtraJSON is null) ? string.Empty : $" {data.LogData.ExtraJSON.Duration}";
+                        var duration = (data.LogData.ExtraJson is null) ? string.Empty : $" {data.LogData.ExtraJson.Duration}";
                         string successText = string.Empty;
                         if (logSessionSettings.ShowSuccess)
                         {
@@ -148,12 +148,12 @@ namespace PlenBotLogUploader.Tools
                     var lastWing = 0;
                     foreach (var data in RaidLogs.AsSpan())
                     {
-                        if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.EVTC.BossId)))
+                        if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.Evtc.BossId)))
                         {
                             builderSuccessFailure.Append("**").Append(Bosses.GetWingName(data.RaidWing)).Append(" (wing ").Append(data.RaidWing).Append(")**\n");
                             builderSuccess.Append("**").Append(Bosses.GetWingName(data.RaidWing)).Append(" (wing ").Append(data.RaidWing).Append(")**\n");
                             builderFailure.Append("**").Append(Bosses.GetWingName(data.RaidWing)).Append(" (wing ").Append(data.RaidWing).Append(")**\n");
-                            lastWing = Bosses.GetWingForBoss(data.LogData.EVTC.BossId);
+                            lastWing = Bosses.GetWingForBoss(data.LogData.Evtc.BossId);
                         }
                         var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : string.Empty);
                         var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
@@ -161,7 +161,7 @@ namespace PlenBotLogUploader.Tools
                         {
                             bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : string.Empty);
                         }
-                        var duration = (data.LogData.ExtraJSON is null) ? string.Empty : $" {data.LogData.ExtraJSON.Duration}";
+                        var duration = (data.LogData.ExtraJson is null) ? string.Empty : $" {data.LogData.ExtraJson.Duration}";
                         string successText = string.Empty;
                         if (logSessionSettings.ShowSuccess)
                         {
@@ -233,7 +233,7 @@ namespace PlenBotLogUploader.Tools
                     {
                         bossName = bossData.Name + (log.ChallengeMode ? " CM" : string.Empty);
                     }
-                    var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
+                    var duration = (log.ExtraJson is null) ? string.Empty : $" {log.ExtraJson.Duration}";
                     string successText = string.Empty;
                     if (logSessionSettings.ShowSuccess)
                     {
@@ -304,7 +304,7 @@ namespace PlenBotLogUploader.Tools
                     {
                         bossName = bossData.Name;
                     }
-                    var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
+                    var duration = (log.ExtraJson is null) ? string.Empty : $" {log.ExtraJson.Duration}";
                     string successText = string.Empty;
                     if (logSessionSettings.ShowSuccess)
                     {
@@ -406,14 +406,14 @@ namespace PlenBotLogUploader.Tools
                 if (logSessionSettings.MakeWvWSummaryEmbed)
                 {
                     var totalEnemyKills = WvWLogs.Select(x =>
-                        x.ExtraJSON?.Players
+                        x.ExtraJson?.Players
                             .Where(y => !y.FriendNPC && !y.NotInSquad)
                             .Select(y => y.StatsTargets.Select(z => z[0].Killed).Sum())
                             .Sum()
                         ?? 0)
                     .Sum();
                     var totalSquadDeaths = WvWLogs.Select(x =>
-                        x.ExtraJSON?.Players
+                        x.ExtraJson?.Players
                             .Where(y => !y.FriendNPC && !y.NotInSquad)
                             .Select(y => y.Defenses[0].DeadCount)
                             .Sum()
@@ -499,7 +499,7 @@ namespace PlenBotLogUploader.Tools
                     {
                         bossName = bossData.Name;
                     }
-                    var duration = (log.ExtraJSON is null) ? string.Empty : $" {log.ExtraJSON.Duration}";
+                    var duration = (log.ExtraJson is null) ? string.Empty : $" {log.ExtraJson.Duration}";
                     string successText = string.Empty;
                     if (logSessionSettings.ShowSuccess)
                     {

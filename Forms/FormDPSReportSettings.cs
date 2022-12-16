@@ -34,15 +34,15 @@ namespace PlenBotLogUploader
             Hide();
             if (radioButtonB.Checked)
             {
-                ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.B;
+                ApplicationSettings.Current.Upload.DPSReportServer = DpsReportServer.B;
             }
             else if (radioButtonA.Checked)
             {
-                ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.A;
+                ApplicationSettings.Current.Upload.DPSReportServer = DpsReportServer.A;
             }
             else
             {
-                ApplicationSettings.Current.Upload.DPSReportServer = DPSReportServer.Main;
+                ApplicationSettings.Current.Upload.DPSReportServer = DpsReportServer.Main;
             }
             ApplicationSettings.Current.Save();
         }

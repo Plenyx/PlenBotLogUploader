@@ -45,15 +45,16 @@ namespace PlenBotLogUploader
         private void ButtonResetSettings_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Are you sure you want to reset all the bosses?\nThis will undo all Discord webhook icon and Twitch messages settings and reset them to their default state.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result.Equals(DialogResult.Yes))
+            if (!result.Equals(DialogResult.Yes))
             {
-                listViewBosses.Items.Clear();
-                Bosses.All.Clear();
-                Bosses.All.AddRange(Bosses.GetDefaultSettingsForBossesAsDictionary());
-                foreach (var boss in Bosses.All.AsSpan())
-                {
-                    listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
-                }
+                return;
+            }
+            listViewBosses.Items.Clear();
+            Bosses.All.Clear();
+            Bosses.All.AddRange(Bosses.GetDefaultSettingsForBossesAsDictionary());
+            foreach (var boss in Bosses.All.AsSpan())
+            {
+                listViewBosses.Items.Add(new ListViewItemCustom<BossData>() { Item = boss });
             }
         }
 
@@ -65,23 +66,26 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemEditBoss_Click(object sender, EventArgs e)
         {
-            if ((listViewBosses.SelectedItems.Count > 0) && (listViewBosses.SelectedItems[0] is ListViewItemCustom<BossData> item))
+            if ((listViewBosses.SelectedItems.Count == 0) || (listViewBosses.SelectedItems[0] is not ListViewItemCustom<BossData> item))
             {
-                new FormEditBossData(this, item.Item).ShowDialog();
+                return;
             }
+            new FormEditBossData(this, item.Item).ShowDialog();
         }
 
         private void ToolStripMenuItemDeleteBoss_Click(object sender, EventArgs e)
         {
-            if ((listViewBosses.SelectedItems.Count > 0) && (listViewBosses.SelectedItems[0] is ListViewItemCustom<BossData> item))
+            if ((listViewBosses.SelectedItems.Count == 0) || (listViewBosses.SelectedItems[0] is not ListViewItemCustom<BossData> item))
             {
-                var result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result.Equals(DialogResult.Yes))
-                {
-                    listViewBosses.Items.RemoveByKey(item.Name);
-                    Bosses.All.Remove(item.Item);
-                }
+                return;
             }
+            var result = MessageBox.Show("Are you sure you want to delete this boss?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (!result.Equals(DialogResult.Yes))
+            {
+                return;
+            }
+            listViewBosses.Items.RemoveByKey(item.Name);
+            Bosses.All.Remove(item.Item);
         }
 
         private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
