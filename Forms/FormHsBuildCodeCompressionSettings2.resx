@@ -57,7 +57,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Change how BuildCodes for the '!buld' command are compressed. More is usually better because it shortens the link, but it does technically change some minute details about the build, so you can turn them off.</value>
+  <data name="labelCompressionSettings.Text" xml:space="preserve">
+    <value>Change how Hardstuck build codes are compressed here. More compression is usually better because it shortens the URL link, but it does technically change some minute details about the build. If you want to preserve all build information, you can disable the compression here.
+</value>
   </data>
 </root>

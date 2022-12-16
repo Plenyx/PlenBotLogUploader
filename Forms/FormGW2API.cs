@@ -92,16 +92,18 @@ namespace PlenBotLogUploader
                     try
                     {
                         var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
-                        if(settings.BuildCodes.DemoteRunes) {
+                        if (settings.BuildCodes.DemoteRunes)
+                        {
                             code.Rune = Static.LegendaryToSuperior(code.Rune);
-						}
-                        if(settings.BuildCodes.DemoteSigils) {
-						    code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
-						    code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
-						    code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
-						    code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
-						}
-						Static.Compress(code, settings.BuildCodes.Compression);
+                        }
+                        if (settings.BuildCodes.DemoteSigils)
+                        {
+                            code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
+                            code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
+                            code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
+                            code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
+                        }
+                        Static.Compress(code, settings.BuildCodes.Compression);
                         mainLink.AddToText($"https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}");
                     }
                     catch (InvalidAccessTokenException)
@@ -127,7 +129,7 @@ namespace PlenBotLogUploader
 
         private void ButtonBuildCodeCompressionSettings_Click(object sender, EventArgs e)
         {
-            (new FormHSBuildCodeCompressionSettings()).Show();
+            (new FormHsBuildCodeCompressionSettings2()).ShowDialog();
         }
     }
 }
