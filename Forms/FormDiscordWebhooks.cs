@@ -60,8 +60,8 @@ namespace PlenBotLogUploader
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
                 var extraJSONFightName = (reportJSON.ExtraJson is null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJson.FightName;
-                var extraJSON = (reportJSON.ExtraJson is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}";
-                var icon = string.Empty;
+                var extraJSON = (reportJSON.ExtraJson is null) ? "" : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}";
+                var icon = "";
                 var bossData = Bosses.GetBossDataFromId(1);
                 if (bossData is not null)
                 {
@@ -305,14 +305,14 @@ namespace PlenBotLogUploader
             }
             else // not WvW
             {
-                var bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : string.Empty)}";
+                var bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : "")}";
                 var successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
-                var extraJSON = (reportJSON.ExtraJson is null) ? string.Empty : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}\n";
-                var icon = string.Empty;
+                var extraJSON = (reportJSON.ExtraJson is null) ? "" : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}\n";
+                var icon = "";
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
                 if (bossData is not null)
                 {
-                    bossName = bossData.Name + (reportJSON.ChallengeMode ? " CM" : string.Empty);
+                    bossName = bossData.Name + (reportJSON.ChallengeMode ? " CM" : "");
                     icon = bossData.Icon;
                 }
                 var colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;
@@ -405,7 +405,7 @@ namespace PlenBotLogUploader
                             dpsTargetSummary.AddCell($"{player.Player.Name} ({player.Player.ProfessionShort})");
                             dpsTargetSummary.AddCell($"{player.DPS.ParseAsK()}", tableCellRightAlign);
                         }
-                        dpsTargetSummary.AddCell(string.Empty);
+                        dpsTargetSummary.AddCell("");
                         dpsTargetSummary.AddCell("Total");
                         var totalDPS = damageStats
                             .Select(x => x.DPS)

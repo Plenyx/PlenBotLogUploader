@@ -42,7 +42,7 @@ namespace PlenBotLogUploader
                 {
                     arcIsInstalled = false;
                     checkBoxModuleEnabled.Checked = false;
-                    ApplicationSettings.Current.GW2Location = string.Empty;
+                    ApplicationSettings.Current.GW2Location = "";
                     ApplicationSettings.Current.Save();
                 }
             }
@@ -50,7 +50,7 @@ namespace PlenBotLogUploader
             {
                 arcIsInstalled = false;
                 checkBoxModuleEnabled.Checked = false;
-                ApplicationSettings.Current.GW2Location = string.Empty;
+                ApplicationSettings.Current.GW2Location = "";
                 ApplicationSettings.Current.Save();
             }
             foreach (var component in availableComponents.AsSpan())

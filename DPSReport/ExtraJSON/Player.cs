@@ -16,7 +16,7 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
         [JsonProperty("profession")]
         internal string Profession { get; set; }
 
-        internal string ProfessionShort => (!string.IsNullOrWhiteSpace(Profession) && Profession.Length > 2) ? Profession[..3] : string.Empty;
+        internal string ProfessionShort => (!string.IsNullOrWhiteSpace(Profession) && Profession.Length > 2) ? Profession[..3] : "";
 
         [JsonProperty("friendlyNPC")]
         internal bool FriendNPC { get; set; }

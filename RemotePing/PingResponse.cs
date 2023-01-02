@@ -11,6 +11,6 @@ namespace PlenBotLogUploader.RemotePing
         internal int? UserId { get; set; }
 
         [JsonProperty("log_id")]
-        internal string LogId { get; set; } = string.Empty;
+        internal string LogId { get; set; } = "";
     }
 }

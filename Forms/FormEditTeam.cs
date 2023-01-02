@@ -23,7 +23,7 @@ namespace PlenBotLogUploader
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             Text = (teamData is null) ? "Add a new team" : "Edit an existing team";
-            textBoxName.Text = teamData?.Name ?? string.Empty;
+            textBoxName.Text = teamData?.Name ?? "";
             this.teamData ??= new Team() { ID = reservedId, Name = textBoxName.Text, MainCondition = new TeamCondition() { Limiter = TeamLimiter.Exact, LimiterValue = 0, AccountNames = new List<string>() } };
         }
 
@@ -39,7 +39,7 @@ namespace PlenBotLogUploader
                 teamsLink.listBoxTeams.Items.Add(allTeams[reservedId]);
             }
             teamData.Name = textBoxName.Text;
-            teamsLink.listBoxTeams.DisplayMember = string.Empty;
+            teamsLink.listBoxTeams.DisplayMember = "";
             teamsLink.listBoxTeams.DisplayMember = "Name";
         }
 

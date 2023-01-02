@@ -28,7 +28,7 @@ namespace PlenBotLogUploader.DpsReport
         /// Internal description of the boss, only visible in the Uploader app
         /// </summary>
         [JsonProperty("internalDescription")]
-        internal string InternalDescription { get; set; } = string.Empty;
+        internal string InternalDescription { get; set; } = "";
 
         /// <summary>
         /// Twitch message when encounter is a success
@@ -46,7 +46,7 @@ namespace PlenBotLogUploader.DpsReport
         /// Icon used for Discord webhooks
         /// </summary>
         [JsonProperty("icon")]
-        internal string Icon { get; set; } = string.Empty;
+        internal string Icon { get; set; } = "";
 
         /// <summary>
         /// Type of the boss
@@ -64,7 +64,7 @@ namespace PlenBotLogUploader.DpsReport
 
         string IListViewItemInfo<BossData>.NameToDisplay => BossId.ToString();
 
-        string IListViewItemInfo<BossData>.TextToDisplay => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : string.Empty);
+        string IListViewItemInfo<BossData>.TextToDisplay => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : "");
 
         bool IListViewItemInfo<BossData>.CheckedToDisplay => false;
 
@@ -83,7 +83,7 @@ namespace PlenBotLogUploader.DpsReport
             format = format.Replace("<pulls>", pullCounter.ToString());
             format = ((reportJSON.ExtraJson is not null) && (reportJSON.ExtraJson.PossiblyLastTarget is not null))
                 ? format.Replace("<percent>", $"{reportJSON.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(reportJSON.ExtraJson.PossiblyLastTarget.RemainingHealthPercent, 2)}%)")
-                : format.Replace("<percent>", string.Empty);
+                : format.Replace("<percent>", "");
             return format;
         }
     }

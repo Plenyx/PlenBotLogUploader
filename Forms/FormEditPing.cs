@@ -23,10 +23,10 @@ namespace PlenBotLogUploader
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             Text = (addNew) ? "Add a new ping configuration" : "Edit an existing ping configuration";
-            textBoxName.Text = config?.Name ?? string.Empty;
-            textBoxURL.Text = config?.URL ?? string.Empty;
+            textBoxName.Text = config?.Name ?? "";
+            textBoxURL.Text = config?.URL ?? "";
             textBoxAuthName.Text = config?.Authentication.AuthName ?? "Bearer";
-            textBoxAuthToken.Text = config?.Authentication.AuthToken ?? string.Empty;
+            textBoxAuthToken.Text = config?.Authentication.AuthToken ?? "";
             switch (config?.Method ?? PingMethod.Post)
             {
                 case PingMethod.Get:
@@ -57,7 +57,7 @@ namespace PlenBotLogUploader
 
         private void FormPing_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (textBoxName.Text == string.Empty)
+            if (textBoxName.Text == "")
             {
                 return;
             }
@@ -78,7 +78,7 @@ namespace PlenBotLogUploader
                 }
                 var auth = new PingAuthentication()
                 {
-                    Active = textBoxAuthToken.Text != string.Empty,
+                    Active = textBoxAuthToken.Text != "",
                     UseAsAuth = radioButtonUseAuthField.Checked,
                     AuthName = textBoxAuthName.Text,
                     AuthToken = textBoxAuthToken.Text
@@ -108,7 +108,7 @@ namespace PlenBotLogUploader
                 {
                     pingLink.AllPings[reservedId].Method = PingMethod.Post;
                 }
-                pingLink.AllPings[reservedId].Authentication.Active = textBoxAuthToken.Text.Trim() != string.Empty;
+                pingLink.AllPings[reservedId].Authentication.Active = textBoxAuthToken.Text.Trim() != "";
                 pingLink.AllPings[reservedId].Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
                 pingLink.AllPings[reservedId].Authentication.AuthName = textBoxAuthName.Text;
                 pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxAuthToken.Text;
@@ -133,7 +133,7 @@ namespace PlenBotLogUploader
             }
             var auth = new PingAuthentication()
             {
-                Active = textBoxAuthToken.Text.Trim() != string.Empty,
+                Active = textBoxAuthToken.Text.Trim() != "",
                 UseAsAuth = radioButtonUseAuthField.Checked,
                 AuthName = textBoxAuthName.Text,
                 AuthToken = textBoxAuthToken.Text

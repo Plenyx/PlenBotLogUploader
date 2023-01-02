@@ -68,7 +68,7 @@ namespace PlenBotLogUploader
                         groupBoxSubConditions.Visible = false;
                         break;
                 }
-                textBoxAccountNames.Text = ((Condition.AccountNames?.Count ?? 0) > 0) ? Condition.AccountNames.Aggregate((x, y) => x + Environment.NewLine + y) : string.Empty;
+                textBoxAccountNames.Text = ((Condition.AccountNames?.Count ?? 0) > 0) ? Condition.AccountNames.Aggregate((x, y) => x + Environment.NewLine + y) : "";
                 textBoxConditionVisual.Text = Condition.Draw();
             }
             radioButtonLimiterOR.CheckedChanged += RadioButtonLimiterOR_CheckedChanged;
@@ -83,7 +83,7 @@ namespace PlenBotLogUploader
 
         private void RedrawCondition()
         {
-            textBoxConditionVisual.Text = Condition.Draw() ?? string.Empty;
+            textBoxConditionVisual.Text = Condition.Draw() ?? "";
             ChangeFormText();
             listBoxSubConditions.Items.Clear();
             listBoxSubConditions.Items.AddRange(Condition.Subconditions.ToArray());

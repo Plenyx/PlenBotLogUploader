@@ -12,7 +12,7 @@ namespace PlenBotLogUploader.Teams
     internal sealed class TeamCondition
     {
         #region definitions
-        private string _description = string.Empty;
+        private string _description = "";
         private TeamLimiter _limiter = TeamLimiter.Exact;
         private int _limiterValue = 0;
         private List<string> _accountNames = new();
@@ -154,21 +154,21 @@ namespace PlenBotLogUploader.Teams
             {
                 case TeamLimiter.AND:
                 case TeamLimiter.OR:
-                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append(Limiter).AppendLine(":");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : "").Append(Limiter).AppendLine(":");
                     result.Append(string.Concat(Subconditions.Select(x => x.Draw(intent + 4))));
                     break;
                 case TeamLimiter.CommanderName:
-                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Any commander from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : "").Append("Any commander from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
                     break;
                 case TeamLimiter.Except:
-                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Except any from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : "").Append("Except any from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
                     break;
                 case TeamLimiter.Exact:
-                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("Exactly ").Append(LimiterValue).Append(" from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : "").Append("Exactly ").Append(LimiterValue).Append(" from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
                     break;
                 // at least
                 default:
-                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : string.Empty).Append("At least ").Append(LimiterValue).Append(" from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
+                    result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : "").Append("At least ").Append(LimiterValue).Append(" from: [").AppendJoin(", ", AccountNames?.Select(x => $"\"{x}\"") ?? Array.Empty<string>()).AppendLine("]");
                     break;
             }
             return result.ToString();

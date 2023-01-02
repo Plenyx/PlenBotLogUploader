@@ -148,11 +148,11 @@ namespace PlenBotLogUploader.ArcDps
             {
                 using var stream = File.OpenRead(ApplicationSettings.Current.GW2Location + RelativeLocation);
                 var hash = md5.ComputeHash(stream);
-                return BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
+                return BitConverter.ToString(hash).Replace("-", "").ToLower();
             }
             catch
             {
-                return string.Empty;
+                return "";
             }
         }
     }

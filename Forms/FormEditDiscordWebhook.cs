@@ -27,8 +27,8 @@ namespace PlenBotLogUploader
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             Text = (data is null) ? "Add a new webhook" : "Edit an existing webhook";
-            textBoxName.Text = data?.Name ?? string.Empty;
-            textBoxUrl.Text = data?.URL ?? string.Empty;
+            textBoxName.Text = data?.Name ?? "";
+            textBoxUrl.Text = data?.URL ?? "";
             switch (data?.SuccessFailToggle ?? DiscordWebhookDataSuccessToggle.OnSuccessAndFailure)
             {
                 case DiscordWebhookDataSuccessToggle.OnSuccessOnly:

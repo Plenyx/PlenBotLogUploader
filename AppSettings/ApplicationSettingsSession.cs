@@ -6,7 +6,7 @@ namespace PlenBotLogUploader.AppSettings
     internal sealed class ApplicationSettingsSession
     {
         [JsonProperty("message")]
-        internal string Message { get; set; } = string.Empty;
+        internal string Message { get; set; } = "";
 
         [JsonProperty("name")]
         internal string Name { get; set; } = "Log session";

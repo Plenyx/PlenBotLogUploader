@@ -15,7 +15,7 @@ namespace PlenBotLogUploader.AppSettings
         #region load & save functionality
         internal static ApplicationSettings Current { get; private set; }
 
-        internal static string FileName { get; } = "app_settings.json";
+        internal static string FileName => "app_settings.json";
 
         internal static string LocalDir { get; set; }
 
@@ -76,10 +76,10 @@ namespace PlenBotLogUploader.AppSettings
         internal ApplicationSettingsGw2Bot GW2Bot { get; set; } = new ApplicationSettingsGw2Bot();
 
         [JsonProperty("gw2Location")]
-        internal string GW2Location { get; set; } = string.Empty;
+        internal string GW2Location { get; set; } = "";
 
         [JsonProperty("logsLocation")]
-        internal string LogsLocation { get; set; } = string.Empty;
+        internal string LogsLocation { get; set; } = "";
 
         [JsonProperty("mainFormSize")]
         internal System.Drawing.Size MainFormSize { get; set; } = new System.Drawing.Size(649, 784);

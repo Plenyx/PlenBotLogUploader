@@ -81,14 +81,14 @@ namespace PlenBotLogUploader
             {
                 var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
                 File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv",
-                    $"{reportJSON.ExtraJson?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJson?.Duration ?? string.Empty};{reportJSON.ExtraJson?.RecordedBy ?? string.Empty};{reportJSON.ExtraJson?.EliteInsightsVersion ?? string.Empty};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.ConfigAwarePermalink};{reportJSON.UserToken}\n");
+                    $"{reportJSON.ExtraJson?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJson?.Duration ?? ""};{reportJSON.ExtraJson?.RecordedBy ?? ""};{reportJSON.ExtraJson?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.ConfigAwarePermalink};{reportJSON.UserToken}\n");
             }
             _ = SendSessionWebhooks(logSessionSettings);
         }
 
         private string CleanSessionName()
         {
-            var sessionNameFormatted = textBoxSessionName.Text.ToLower().Replace(" ", string.Empty);
+            var sessionNameFormatted = textBoxSessionName.Text.ToLower().Replace(" ", "");
             foreach (var character in Path.GetInvalidFileNameChars().AsSpan())
             {
                 if (!character.Equals('/'))

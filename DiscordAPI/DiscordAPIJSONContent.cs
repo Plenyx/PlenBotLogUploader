@@ -12,7 +12,7 @@ namespace PlenBotLogUploader.DiscordApi
         /// the message contents (up to 2000 characters)
         /// </summary>
         [JsonProperty("content")]
-        internal string Content { get; set; } = string.Empty;
+        internal string Content { get; set; } = "";
 
         /// <summary>
         /// embedded (Discord) rich content

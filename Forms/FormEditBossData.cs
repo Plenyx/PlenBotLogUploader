@@ -61,12 +61,12 @@ namespace PlenBotLogUploader
             this.data = data;
             Icon = Properties.Resources.AppIcon;
             Text = (data is null) ? "Add a new boss" : $"{data.Name} ({data.BossId})";
-            textBoxBossID.Text = data?.BossId.ToString() ?? string.Empty;
-            textBoxBossName.Text = data?.Name ?? string.Empty;
-            textBoxInternalDescription.Text = data?.InternalDescription ?? string.Empty;
+            textBoxBossID.Text = data?.BossId.ToString() ?? "";
+            textBoxBossName.Text = data?.Name ?? "";
+            textBoxInternalDescription.Text = data?.InternalDescription ?? "";
             textBoxSuccessMsg.Text = data?.SuccessMsg ?? ApplicationSettings.Current.BossTemplate.SuccessText;
             textBoxFailMsg.Text = data?.FailMsg ?? ApplicationSettings.Current.BossTemplate.FailText;
-            textBoxIcon.Text = data?.Icon ?? string.Empty;
+            textBoxIcon.Text = data?.Icon ?? "";
             BossTypeSwitch = data?.Type ?? BossType.None;
             checkBoxEvent.Checked = data?.Event ?? false;
         }

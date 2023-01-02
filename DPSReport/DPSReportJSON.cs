@@ -88,7 +88,7 @@ namespace PlenBotLogUploader.DpsReport
         /// <summary>
         /// the URL ID used in dps.report
         /// </summary>
-        internal string UrlId => (!string.IsNullOrWhiteSpace(Permalink) && (Permalink.IndexOf("dps.report/") != -1)) ? Permalink[(Permalink.IndexOf("dps.report/") + 11)..] : string.Empty;
+        internal string UrlId => (!string.IsNullOrWhiteSpace(Permalink) && (Permalink.IndexOf("dps.report/") != -1)) ? Permalink[(Permalink.IndexOf("dps.report/") + 11)..] : "";
 
         /// <summary>
         /// whether the enouncter was in challenge mode

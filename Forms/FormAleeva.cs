@@ -151,10 +151,10 @@ namespace PlenBotLogUploader
                 }
                 else
                 {
-                    AleevaAccessToken = string.Empty;
+                    AleevaAccessToken = "";
                     controller.DefaultRequestHeaders.Authorization = null;
                     AleevaAccessTokenExpires = DateTime.Now;
-                    ApplicationSettings.Current.Aleeva.RefreshToken = string.Empty;
+                    ApplicationSettings.Current.Aleeva.RefreshToken = "";
                     ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
                     ApplicationSettings.Current.Save();
                 }
@@ -245,10 +245,10 @@ namespace PlenBotLogUploader
                 Invoke(DeauthoriseAleeva);
                 return;
             }
-            AleevaAccessToken = string.Empty;
+            AleevaAccessToken = "";
             AleevaAccessTokenExpires = DateTime.Now;
             AleevaAuthorised = false;
-            ApplicationSettings.Current.Aleeva.RefreshToken = string.Empty;
+            ApplicationSettings.Current.Aleeva.RefreshToken = "";
             ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
             ApplicationSettings.Current.Save();
         }
@@ -396,7 +396,7 @@ namespace PlenBotLogUploader
 
         private void AddChannelsToView()
         {
-            comboBoxChannel.Text = string.Empty;
+            comboBoxChannel.Text = "";
             comboBoxChannel.Items.Clear();
             foreach (var channel in aleevaServerChannels.AsSpan())
             {
