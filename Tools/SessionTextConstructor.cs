@@ -302,7 +302,7 @@ namespace PlenBotLogUploader.Tools
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
                     if (bossData is not null)
                     {
-                        bossName = bossData.Name;
+                        bossName = bossData.Name + (log.ChallengeMode ? " CM" : "");
                     }
                     var duration = (log.ExtraJson is not null) ? $" {log.ExtraJson.Duration}" : "";
                     string successText = "";
