@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.GitHub;
-using PlenBotLogUploader.Gw2Api;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
@@ -29,7 +28,7 @@ namespace PlenBotLogUploader
         #region definitions
         // properties
         internal List<DpsReportJson> SessionLogs { get; } = new List<DpsReportJson>();
-        internal bool ChannelJoined { get; set; } = false;
+        internal bool TwitchChannelJoined { get; set; } = false;
         internal HttpClientController HttpClientController { get; } = new HttpClientController();
         internal bool StartedMinimised { get; private set; } = false;
         internal MumbleReader MumbleReader { get; set; }
@@ -70,7 +69,8 @@ namespace PlenBotLogUploader
         private readonly FormGW2Bot gw2botLink;
         private readonly FormTeams teamsLink;
         private readonly List<string> allSessionLogs = new();
-        private readonly Regex songCommandRegex = new(@"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
+        private readonly Regex songSmartCommandRegex = new(@"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
+        private readonly Regex buildSmartCommandRegex = new(@"(?:(?:build)){1}(?:(?:\?)|(?: is))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
         private SemaphoreSlim semaphore;
         private TwitchIrcClient chatConnect;
         private FileSystemWatcher watcher = new() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
@@ -252,7 +252,7 @@ namespace PlenBotLogUploader
                 twitchCommandsLink.textBoxLastLogCommand.Text = ApplicationSettings.Current.Twitch.Commands.LastLogCommand;
                 twitchCommandsLink.checkBoxSongEnable.Checked = ApplicationSettings.Current.Twitch.Commands.SongEnabled;
                 twitchCommandsLink.textBoxSongCommand.Text = ApplicationSettings.Current.Twitch.Commands.SongCommand;
-                twitchCommandsLink.checkBoxSongSmartRecognition.Checked = ApplicationSettings.Current.Twitch.Commands.SmartRecognition;
+                twitchCommandsLink.checkBoxSongSmartRecognition.Checked = ApplicationSettings.Current.Twitch.Commands.SongSmartRecognition;
                 twitchCommandsLink.checkBoxGW2IgnEnable.Checked = ApplicationSettings.Current.Twitch.Commands.IGNEnabled;
                 twitchCommandsLink.textBoxGW2Ign.Text = ApplicationSettings.Current.Twitch.Commands.IGNCommand;
                 twitchCommandsLink.checkBoxPullCounterEnable.Checked = ApplicationSettings.Current.Twitch.Commands.PullCounterEnabled;
@@ -703,7 +703,7 @@ namespace PlenBotLogUploader
         #region log upload and processing
         internal async Task SendLogToTwitchChatAsync(DpsReportJson reportJSON, bool bypassMessage = false)
         {
-            if (!ChannelJoined || !checkBoxPostToTwitch.Checked || bypassMessage || !IsStreamingSoftwareRunning())
+            if (!TwitchChannelJoined || !checkBoxPostToTwitch.Checked || bypassMessage || !IsStreamingSoftwareRunning())
             {
                 return;
             }
@@ -1027,7 +1027,7 @@ namespace PlenBotLogUploader
         {
             if (e.NewState == IrcStates.Disconnected)
             {
-                ChannelJoined = false;
+                TwitchChannelJoined = false;
                 AddToText("<-?-> DISCONNECTED FROM TWITCH");
                 if (InvokeRequired)
                 {
@@ -1073,7 +1073,7 @@ namespace PlenBotLogUploader
             if (e.NewState == IrcStates.ChannelJoined)
             {
                 AddToText("<-?-> CHANNEL JOINED");
-                ChannelJoined = true;
+                TwitchChannelJoined = true;
                 return;
             }
             if (e.NewState == IrcStates.ChannelLeaving)
@@ -1096,9 +1096,14 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && songCommandRegex.IsMatch(e.Message.ChannelMessage))
+            if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && songSmartCommandRegex.IsMatch(e.Message.ChannelMessage))
             {
                 await SpotifySongCheck();
+                return;
+            }
+            if (twitchCommandsLink.checkBoxGW2BuildEnable.Checked && twitchCommandsLink.checkBoxGW2BuildSmartRecognition.Checked && buildSmartCommandRegex.IsMatch(e.Message.ChannelMessage))
+            {
+                await GenerateBuildCode();
                 return;
             }
             var indexOfSpace = e.Message.ChannelMessage.IndexOf(' ');
@@ -1111,62 +1116,7 @@ namespace PlenBotLogUploader
             }
             if (command.Equals(twitchCommandsLink.textBoxGW2Build.Text.ToLower()) && twitchCommandsLink.checkBoxGW2BuildEnable.Checked)
             {
-                AddToText("> (GW2) BUILD COMMAND USED");
-                MumbleReader?.Update();
-                if (string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
-                {
-                    AddToText("Read from Mumble Link has failed, is the game running?");
-                    return;
-                }
-                _ = Task.Run(async () =>
-                {
-                    foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
-                    {
-                        await apiKey.GetCharacters(HttpClientController);
-                    }
-                    var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
-                    if (trueApiKey == null)
-                    {
-                        AddToText($"No api key could be found for character '{MumbleReader.Data.Identity.Name}'");
-                        return;
-                    }
-
-                    try
-                    {
-                        var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
-                        if (ApplicationSettings.Current.BuildCodes.DemoteRunes)
-                        {
-                            code.Rune = Static.LegendaryToSuperior(code.Rune);
-                        }
-                        if (ApplicationSettings.Current.BuildCodes.DemoteSigils)
-                        {
-                            code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
-                            code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
-                            code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
-                            code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
-                        }
-                        Static.Compress(code, ApplicationSettings.Current.BuildCodes.Compression);
-                        var message = $"Link to the build: https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, message);
-                    }
-                    catch (InvalidAccessTokenException)
-                    {
-                        AddToText("GW2 API access token is not valid.");
-                    }
-                    catch (MissingScopesException)
-                    {
-                        var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
-                        AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
-                    }
-                    catch (NotFoundException)
-                    {
-                        AddToText($"The currently logged in character ('{MumbleReader.Data.Identity.Name}') could be found using the GW2 API access token '{trueApiKey.Name}'");
-                    }
-                    catch (Exception ex)
-                    {
-                        AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
-                    }
-                });
+                await GenerateBuildCode();
                 return;
             }
             if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
@@ -1194,34 +1144,7 @@ namespace PlenBotLogUploader
             }
             if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2IgnEnable.Checked)
             {
-                AddToText("> (GW2) IGN COMMAND USED");
-                MumbleReader?.Update();
-                if (string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
-                {
-                    return;
-                }
-                _ = Task.Run(async () =>
-                {
-                    foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
-                    {
-                        await apiKey.GetCharacters(HttpClientController);
-                    }
-                    var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
-                    if (trueApiKey is null)
-                    {
-                        return;
-                    }
-                    using var gw2Api = new Gw2ApiHelper(trueApiKey.APIKey);
-                    var userInfo = await gw2Api.GetUserInfoAsync();
-                    if ((userInfo is not null) && Gw2.AllServers.TryGetValue(userInfo.World, out var playerWorld))
-                    {
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
-                    }
-                    else
-                    {
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "An error has occured while getting the user name from an API key.");
-                    }
-                });
+                await GenerateBuildCode();
                 return;
             }
         }
@@ -1242,6 +1165,62 @@ namespace PlenBotLogUploader
             catch
             {
                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "Spotify is not running.");
+            }
+        }
+
+        private async Task GenerateBuildCode()
+        {
+            AddToText("> (GW2) IGN COMMAND USED");
+            MumbleReader?.Update();
+            if (string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
+            {
+                return;
+            }
+            foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+            {
+                await apiKey.GetCharacters(HttpClientController);
+            }
+            var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+            if (trueApiKey == null)
+            {
+                AddToText($"No api key could be found for character '{MumbleReader.Data.Identity.Name}'");
+                return;
+            }
+
+            try
+            {
+                var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                if (ApplicationSettings.Current.BuildCodes.DemoteRunes)
+                {
+                    code.Rune = Static.LegendaryToSuperior(code.Rune);
+                }
+                if (ApplicationSettings.Current.BuildCodes.DemoteSigils)
+                {
+                    code.WeaponSet1.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil1);
+                    code.WeaponSet1.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet1.Sigil2);
+                    code.WeaponSet2.Sigil1 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil1);
+                    code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
+                }
+                Static.Compress(code, ApplicationSettings.Current.BuildCodes.Compression);
+                var message = $"Link to the build: https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
+                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, message);
+            }
+            catch (InvalidAccessTokenException)
+            {
+                AddToText("GW2 API access token is not valid.");
+            }
+            catch (MissingScopesException)
+            {
+                var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
+                AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
+            }
+            catch (NotFoundException)
+            {
+                AddToText($"The currently logged in character ('{MumbleReader.Data.Identity.Name}') could be found using the GW2 API access token '{trueApiKey.Name}'");
+            }
+            catch (Exception ex)
+            {
+                AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
             }
         }
         #endregion

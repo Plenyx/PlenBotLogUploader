@@ -45,6 +45,7 @@
             this.textBoxPullCounter = new System.Windows.Forms.TextBox();
             this.checkBoxPullCounterEnable = new System.Windows.Forms.CheckBox();
             this.groupBoxGW2Build = new System.Windows.Forms.GroupBox();
+            this.checkBoxGW2BuildSmartRecognition = new System.Windows.Forms.CheckBox();
             this.textBoxGW2Build = new System.Windows.Forms.TextBox();
             this.checkBoxGW2BuildEnable = new System.Windows.Forms.CheckBox();
             this.labelBuildInfo = new System.Windows.Forms.Label();
@@ -67,10 +68,10 @@
             // checkBoxUploaderEnable
             // 
             this.checkBoxUploaderEnable.AutoSize = true;
-            this.checkBoxUploaderEnable.Location = new System.Drawing.Point(9, 31);
-            this.checkBoxUploaderEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBoxUploaderEnable.Location = new System.Drawing.Point(8, 23);
+            this.checkBoxUploaderEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxUploaderEnable.Name = "checkBoxUploaderEnable";
-            this.checkBoxUploaderEnable.Size = new System.Drawing.Size(147, 24);
+            this.checkBoxUploaderEnable.Size = new System.Drawing.Size(119, 19);
             this.checkBoxUploaderEnable.TabIndex = 0;
             this.checkBoxUploaderEnable.Text = "enable command";
             this.checkBoxUploaderEnable.UseVisualStyleBackColor = true;
@@ -78,10 +79,10 @@
             // checkBoxLastLogEnable
             // 
             this.checkBoxLastLogEnable.AutoSize = true;
-            this.checkBoxLastLogEnable.Location = new System.Drawing.Point(9, 29);
-            this.checkBoxLastLogEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBoxLastLogEnable.Location = new System.Drawing.Point(8, 22);
+            this.checkBoxLastLogEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxLastLogEnable.Name = "checkBoxLastLogEnable";
-            this.checkBoxLastLogEnable.Size = new System.Drawing.Size(147, 24);
+            this.checkBoxLastLogEnable.Size = new System.Drawing.Size(119, 19);
             this.checkBoxLastLogEnable.TabIndex = 1;
             this.checkBoxLastLogEnable.Text = "enable command";
             this.checkBoxLastLogEnable.UseVisualStyleBackColor = true;
@@ -90,42 +91,42 @@
             // 
             this.groupBoxUploader.Controls.Add(this.textBoxUploaderCommand);
             this.groupBoxUploader.Controls.Add(this.checkBoxUploaderEnable);
-            this.groupBoxUploader.Location = new System.Drawing.Point(7, 9);
-            this.groupBoxUploader.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxUploader.Location = new System.Drawing.Point(6, 7);
+            this.groupBoxUploader.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxUploader.Name = "groupBoxUploader";
-            this.groupBoxUploader.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxUploader.Size = new System.Drawing.Size(271, 108);
+            this.groupBoxUploader.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxUploader.Size = new System.Drawing.Size(237, 81);
             this.groupBoxUploader.TabIndex = 2;
             this.groupBoxUploader.TabStop = false;
             this.groupBoxUploader.Text = "!uploader";
             // 
             // textBoxUploaderCommand
             // 
-            this.textBoxUploaderCommand.Location = new System.Drawing.Point(9, 66);
-            this.textBoxUploaderCommand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxUploaderCommand.Location = new System.Drawing.Point(8, 50);
+            this.textBoxUploaderCommand.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxUploaderCommand.Name = "textBoxUploaderCommand";
-            this.textBoxUploaderCommand.Size = new System.Drawing.Size(254, 27);
+            this.textBoxUploaderCommand.Size = new System.Drawing.Size(223, 23);
             this.textBoxUploaderCommand.TabIndex = 1;
             // 
             // groupBoxLastLog
             // 
             this.groupBoxLastLog.Controls.Add(this.textBoxLastLogCommand);
             this.groupBoxLastLog.Controls.Add(this.checkBoxLastLogEnable);
-            this.groupBoxLastLog.Location = new System.Drawing.Point(7, 244);
-            this.groupBoxLastLog.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxLastLog.Location = new System.Drawing.Point(6, 183);
+            this.groupBoxLastLog.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxLastLog.Name = "groupBoxLastLog";
-            this.groupBoxLastLog.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxLastLog.Size = new System.Drawing.Size(271, 104);
+            this.groupBoxLastLog.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxLastLog.Size = new System.Drawing.Size(237, 78);
             this.groupBoxLastLog.TabIndex = 3;
             this.groupBoxLastLog.TabStop = false;
             this.groupBoxLastLog.Text = "!lastlog";
             // 
             // textBoxLastLogCommand
             // 
-            this.textBoxLastLogCommand.Location = new System.Drawing.Point(8, 64);
-            this.textBoxLastLogCommand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxLastLogCommand.Location = new System.Drawing.Point(7, 48);
+            this.textBoxLastLogCommand.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxLastLogCommand.Name = "textBoxLastLogCommand";
-            this.textBoxLastLogCommand.Size = new System.Drawing.Size(255, 27);
+            this.textBoxLastLogCommand.Size = new System.Drawing.Size(224, 23);
             this.textBoxLastLogCommand.TabIndex = 2;
             // 
             // groupBoxSong
@@ -133,11 +134,11 @@
             this.groupBoxSong.Controls.Add(this.checkBoxSongSmartRecognition);
             this.groupBoxSong.Controls.Add(this.textBoxSongCommand);
             this.groupBoxSong.Controls.Add(this.checkBoxSongEnable);
-            this.groupBoxSong.Location = new System.Drawing.Point(7, 9);
-            this.groupBoxSong.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxSong.Location = new System.Drawing.Point(6, 7);
+            this.groupBoxSong.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxSong.Name = "groupBoxSong";
-            this.groupBoxSong.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxSong.Size = new System.Drawing.Size(271, 141);
+            this.groupBoxSong.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxSong.Size = new System.Drawing.Size(237, 106);
             this.groupBoxSong.TabIndex = 4;
             this.groupBoxSong.TabStop = false;
             this.groupBoxSong.Text = "(Spotify) !song";
@@ -145,29 +146,29 @@
             // checkBoxSongSmartRecognition
             // 
             this.checkBoxSongSmartRecognition.AutoSize = true;
-            this.checkBoxSongSmartRecognition.Location = new System.Drawing.Point(9, 106);
-            this.checkBoxSongSmartRecognition.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBoxSongSmartRecognition.Location = new System.Drawing.Point(8, 80);
+            this.checkBoxSongSmartRecognition.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxSongSmartRecognition.Name = "checkBoxSongSmartRecognition";
-            this.checkBoxSongSmartRecognition.Size = new System.Drawing.Size(190, 24);
+            this.checkBoxSongSmartRecognition.Size = new System.Drawing.Size(153, 19);
             this.checkBoxSongSmartRecognition.TabIndex = 2;
             this.checkBoxSongSmartRecognition.Text = "Smart !song recognition";
             this.checkBoxSongSmartRecognition.UseVisualStyleBackColor = true;
             // 
             // textBoxSongCommand
             // 
-            this.textBoxSongCommand.Location = new System.Drawing.Point(9, 65);
-            this.textBoxSongCommand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxSongCommand.Location = new System.Drawing.Point(8, 49);
+            this.textBoxSongCommand.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxSongCommand.Name = "textBoxSongCommand";
-            this.textBoxSongCommand.Size = new System.Drawing.Size(254, 27);
+            this.textBoxSongCommand.Size = new System.Drawing.Size(223, 23);
             this.textBoxSongCommand.TabIndex = 1;
             // 
             // checkBoxSongEnable
             // 
             this.checkBoxSongEnable.AutoSize = true;
-            this.checkBoxSongEnable.Location = new System.Drawing.Point(9, 29);
-            this.checkBoxSongEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBoxSongEnable.Location = new System.Drawing.Point(8, 22);
+            this.checkBoxSongEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxSongEnable.Name = "checkBoxSongEnable";
-            this.checkBoxSongEnable.Size = new System.Drawing.Size(147, 24);
+            this.checkBoxSongEnable.Size = new System.Drawing.Size(119, 19);
             this.checkBoxSongEnable.TabIndex = 0;
             this.checkBoxSongEnable.Text = "enable command";
             this.checkBoxSongEnable.UseVisualStyleBackColor = true;
@@ -176,30 +177,30 @@
             // 
             this.groupBoxGW2IGN.Controls.Add(this.textBoxGW2Ign);
             this.groupBoxGW2IGN.Controls.Add(this.checkBoxGW2IgnEnable);
-            this.groupBoxGW2IGN.Location = new System.Drawing.Point(7, 8);
-            this.groupBoxGW2IGN.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxGW2IGN.Location = new System.Drawing.Point(6, 6);
+            this.groupBoxGW2IGN.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxGW2IGN.Name = "groupBoxGW2IGN";
-            this.groupBoxGW2IGN.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxGW2IGN.Size = new System.Drawing.Size(274, 109);
+            this.groupBoxGW2IGN.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxGW2IGN.Size = new System.Drawing.Size(240, 82);
             this.groupBoxGW2IGN.TabIndex = 5;
             this.groupBoxGW2IGN.TabStop = false;
             this.groupBoxGW2IGN.Text = "!ign";
             // 
             // textBoxGW2Ign
             // 
-            this.textBoxGW2Ign.Location = new System.Drawing.Point(9, 68);
-            this.textBoxGW2Ign.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxGW2Ign.Location = new System.Drawing.Point(8, 51);
+            this.textBoxGW2Ign.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxGW2Ign.Name = "textBoxGW2Ign";
-            this.textBoxGW2Ign.Size = new System.Drawing.Size(257, 27);
+            this.textBoxGW2Ign.Size = new System.Drawing.Size(225, 23);
             this.textBoxGW2Ign.TabIndex = 1;
             // 
             // checkBoxGW2IgnEnable
             // 
             this.checkBoxGW2IgnEnable.AutoSize = true;
-            this.checkBoxGW2IgnEnable.Location = new System.Drawing.Point(9, 32);
-            this.checkBoxGW2IgnEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBoxGW2IgnEnable.Location = new System.Drawing.Point(8, 24);
+            this.checkBoxGW2IgnEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxGW2IgnEnable.Name = "checkBoxGW2IgnEnable";
-            this.checkBoxGW2IgnEnable.Size = new System.Drawing.Size(147, 24);
+            this.checkBoxGW2IgnEnable.Size = new System.Drawing.Size(119, 19);
             this.checkBoxGW2IgnEnable.TabIndex = 0;
             this.checkBoxGW2IgnEnable.Text = "enable command";
             this.checkBoxGW2IgnEnable.UseVisualStyleBackColor = true;
@@ -208,72 +209,84 @@
             // 
             this.groupBoxPullCounter.Controls.Add(this.textBoxPullCounter);
             this.groupBoxPullCounter.Controls.Add(this.checkBoxPullCounterEnable);
-            this.groupBoxPullCounter.Location = new System.Drawing.Point(7, 126);
-            this.groupBoxPullCounter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxPullCounter.Location = new System.Drawing.Point(6, 94);
+            this.groupBoxPullCounter.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxPullCounter.Name = "groupBoxPullCounter";
-            this.groupBoxPullCounter.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxPullCounter.Size = new System.Drawing.Size(271, 108);
+            this.groupBoxPullCounter.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxPullCounter.Size = new System.Drawing.Size(237, 81);
             this.groupBoxPullCounter.TabIndex = 6;
             this.groupBoxPullCounter.TabStop = false;
             this.groupBoxPullCounter.Text = "!pulls";
             // 
             // textBoxPullCounter
             // 
-            this.textBoxPullCounter.Location = new System.Drawing.Point(9, 65);
-            this.textBoxPullCounter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxPullCounter.Location = new System.Drawing.Point(8, 49);
+            this.textBoxPullCounter.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPullCounter.Name = "textBoxPullCounter";
-            this.textBoxPullCounter.Size = new System.Drawing.Size(254, 27);
+            this.textBoxPullCounter.Size = new System.Drawing.Size(223, 23);
             this.textBoxPullCounter.TabIndex = 1;
             // 
             // checkBoxPullCounterEnable
             // 
             this.checkBoxPullCounterEnable.AutoSize = true;
-            this.checkBoxPullCounterEnable.Location = new System.Drawing.Point(8, 30);
-            this.checkBoxPullCounterEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBoxPullCounterEnable.Location = new System.Drawing.Point(7, 22);
+            this.checkBoxPullCounterEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxPullCounterEnable.Name = "checkBoxPullCounterEnable";
-            this.checkBoxPullCounterEnable.Size = new System.Drawing.Size(147, 24);
+            this.checkBoxPullCounterEnable.Size = new System.Drawing.Size(119, 19);
             this.checkBoxPullCounterEnable.TabIndex = 0;
             this.checkBoxPullCounterEnable.Text = "enable command";
             this.checkBoxPullCounterEnable.UseVisualStyleBackColor = true;
             // 
             // groupBoxGW2Build
             // 
+            this.groupBoxGW2Build.Controls.Add(this.checkBoxGW2BuildSmartRecognition);
             this.groupBoxGW2Build.Controls.Add(this.textBoxGW2Build);
             this.groupBoxGW2Build.Controls.Add(this.checkBoxGW2BuildEnable);
-            this.groupBoxGW2Build.Location = new System.Drawing.Point(7, 126);
-            this.groupBoxGW2Build.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxGW2Build.Location = new System.Drawing.Point(6, 94);
+            this.groupBoxGW2Build.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxGW2Build.Name = "groupBoxGW2Build";
-            this.groupBoxGW2Build.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxGW2Build.Size = new System.Drawing.Size(274, 111);
+            this.groupBoxGW2Build.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBoxGW2Build.Size = new System.Drawing.Size(240, 106);
             this.groupBoxGW2Build.TabIndex = 7;
             this.groupBoxGW2Build.TabStop = false;
             this.groupBoxGW2Build.Text = "!build";
             // 
+            // checkBoxGW2BuildSmartRecognition
+            // 
+            this.checkBoxGW2BuildSmartRecognition.AutoSize = true;
+            this.checkBoxGW2BuildSmartRecognition.Location = new System.Drawing.Point(7, 80);
+            this.checkBoxGW2BuildSmartRecognition.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxGW2BuildSmartRecognition.Name = "checkBoxGW2BuildSmartRecognition";
+            this.checkBoxGW2BuildSmartRecognition.Size = new System.Drawing.Size(154, 19);
+            this.checkBoxGW2BuildSmartRecognition.TabIndex = 3;
+            this.checkBoxGW2BuildSmartRecognition.Text = "Smart !build recognition";
+            this.checkBoxGW2BuildSmartRecognition.UseVisualStyleBackColor = true;
+            // 
             // textBoxGW2Build
             // 
-            this.textBoxGW2Build.Location = new System.Drawing.Point(8, 65);
-            this.textBoxGW2Build.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxGW2Build.Location = new System.Drawing.Point(7, 49);
+            this.textBoxGW2Build.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxGW2Build.Name = "textBoxGW2Build";
-            this.textBoxGW2Build.Size = new System.Drawing.Size(258, 27);
+            this.textBoxGW2Build.Size = new System.Drawing.Size(226, 23);
             this.textBoxGW2Build.TabIndex = 2;
             // 
             // checkBoxGW2BuildEnable
             // 
             this.checkBoxGW2BuildEnable.AutoSize = true;
-            this.checkBoxGW2BuildEnable.Location = new System.Drawing.Point(9, 29);
-            this.checkBoxGW2BuildEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBoxGW2BuildEnable.Location = new System.Drawing.Point(8, 22);
+            this.checkBoxGW2BuildEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxGW2BuildEnable.Name = "checkBoxGW2BuildEnable";
-            this.checkBoxGW2BuildEnable.Size = new System.Drawing.Size(147, 24);
+            this.checkBoxGW2BuildEnable.Size = new System.Drawing.Size(119, 19);
             this.checkBoxGW2BuildEnable.TabIndex = 0;
             this.checkBoxGW2BuildEnable.Text = "enable command";
             this.checkBoxGW2BuildEnable.UseVisualStyleBackColor = true;
             // 
             // labelBuildInfo
             // 
-            this.labelBuildInfo.Location = new System.Drawing.Point(7, 242);
+            this.labelBuildInfo.Location = new System.Drawing.Point(6, 204);
             this.labelBuildInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelBuildInfo.Name = "labelBuildInfo";
-            this.labelBuildInfo.Size = new System.Drawing.Size(274, 109);
+            this.labelBuildInfo.Size = new System.Drawing.Size(240, 65);
             this.labelBuildInfo.TabIndex = 3;
             this.labelBuildInfo.Text = "Must have at least one GW2 API key set";
             this.labelBuildInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -283,11 +296,10 @@
             this.tabControlTwitchCommands.Controls.Add(this.tabPageUploader);
             this.tabControlTwitchCommands.Controls.Add(this.tabPageGW2API);
             this.tabControlTwitchCommands.Controls.Add(this.tabPageMusic);
-            this.tabControlTwitchCommands.Location = new System.Drawing.Point(12, 14);
-            this.tabControlTwitchCommands.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabControlTwitchCommands.Location = new System.Drawing.Point(10, 10);
             this.tabControlTwitchCommands.Name = "tabControlTwitchCommands";
             this.tabControlTwitchCommands.SelectedIndex = 0;
-            this.tabControlTwitchCommands.Size = new System.Drawing.Size(293, 405);
+            this.tabControlTwitchCommands.Size = new System.Drawing.Size(256, 304);
             this.tabControlTwitchCommands.TabIndex = 9;
             // 
             // tabPageUploader
@@ -296,11 +308,10 @@
             this.tabPageUploader.Controls.Add(this.groupBoxUploader);
             this.tabPageUploader.Controls.Add(this.groupBoxPullCounter);
             this.tabPageUploader.Controls.Add(this.groupBoxLastLog);
-            this.tabPageUploader.Location = new System.Drawing.Point(4, 29);
-            this.tabPageUploader.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabPageUploader.Location = new System.Drawing.Point(4, 24);
             this.tabPageUploader.Name = "tabPageUploader";
-            this.tabPageUploader.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPageUploader.Size = new System.Drawing.Size(285, 372);
+            this.tabPageUploader.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageUploader.Size = new System.Drawing.Size(248, 276);
             this.tabPageUploader.TabIndex = 0;
             this.tabPageUploader.Text = "Uploader";
             // 
@@ -310,10 +321,9 @@
             this.tabPageGW2API.Controls.Add(this.labelBuildInfo);
             this.tabPageGW2API.Controls.Add(this.groupBoxGW2IGN);
             this.tabPageGW2API.Controls.Add(this.groupBoxGW2Build);
-            this.tabPageGW2API.Location = new System.Drawing.Point(4, 29);
-            this.tabPageGW2API.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabPageGW2API.Location = new System.Drawing.Point(4, 24);
             this.tabPageGW2API.Name = "tabPageGW2API";
-            this.tabPageGW2API.Size = new System.Drawing.Size(285, 372);
+            this.tabPageGW2API.Size = new System.Drawing.Size(248, 276);
             this.tabPageGW2API.TabIndex = 2;
             this.tabPageGW2API.Text = "GW2 API";
             // 
@@ -321,23 +331,22 @@
             // 
             this.tabPageMusic.BackColor = System.Drawing.Color.White;
             this.tabPageMusic.Controls.Add(this.groupBoxSong);
-            this.tabPageMusic.Location = new System.Drawing.Point(4, 29);
-            this.tabPageMusic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabPageMusic.Location = new System.Drawing.Point(4, 24);
             this.tabPageMusic.Name = "tabPageMusic";
-            this.tabPageMusic.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPageMusic.Size = new System.Drawing.Size(285, 372);
+            this.tabPageMusic.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMusic.Size = new System.Drawing.Size(248, 276);
             this.tabPageMusic.TabIndex = 1;
             this.tabPageMusic.Text = "Song recognition";
             // 
             // FormTwitchCommands
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(317, 434);
+            this.ClientSize = new System.Drawing.Size(277, 326);
             this.Controls.Add(this.tabControlTwitchCommands);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormTwitchCommands";
@@ -390,5 +399,6 @@
         private System.Windows.Forms.TabPage tabPageUploader;
         private System.Windows.Forms.TabPage tabPageMusic;
         private System.Windows.Forms.TabPage tabPageGW2API;
+        internal System.Windows.Forms.CheckBox checkBoxGW2BuildSmartRecognition;
     }
 }

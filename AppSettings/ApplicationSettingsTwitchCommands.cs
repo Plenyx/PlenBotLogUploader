@@ -10,6 +10,9 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("buildCommand")]
         internal string BuildCommand { get; set; } = "!build";
 
+        [JsonProperty("smartBuildRecognition")]
+        internal bool BuildSmartRecognition { get; set; } = true;
+
         [JsonProperty("ignEnabled")]
         internal bool IGNEnabled { get; set; } = false;
 
@@ -35,7 +38,7 @@ namespace PlenBotLogUploader.AppSettings
         internal string SongCommand { get; set; } = "!song";
 
         [JsonProperty("smartSongRecognition")]
-        internal bool SmartRecognition { get; set; } = true;
+        internal bool SongSmartRecognition { get; set; } = true;
 
         [JsonProperty("uploaderEnabled")]
         internal bool UploaderEnabled { get; set; } = true;
