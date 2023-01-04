@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.GitHub;
+using PlenBotLogUploader.Gw2Api;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
@@ -1144,7 +1145,35 @@ namespace PlenBotLogUploader
             }
             if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2IgnEnable.Checked)
             {
-                await GenerateBuildCode();
+                AddToText("> (GW2) IGN COMMAND USED");
+                MumbleReader?.Update();
+                if (string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
+                {
+                    AddToText("Read from Mumble Link has failed, is the game running?");
+                    return;
+                }
+                _ = Task.Run(async () =>
+                {
+                    foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                    {
+                        await apiKey.GetCharacters(HttpClientController);
+                    }
+                    var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+                    if (trueApiKey is null)
+                    {
+                        return;
+                    }
+                    using var gw2Api = new Gw2ApiHelper(trueApiKey.APIKey);
+                    var userInfo = await gw2Api.GetUserInfoAsync();
+                    if ((userInfo is not null) && Gw2.AllServers.TryGetValue(userInfo.World, out var playerWorld))
+                    {
+                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
+                    }
+                    else
+                    {
+                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "An error has occured while getting the user name from an API key.");
+                    }
+                });
                 return;
             }
         }
@@ -1170,10 +1199,11 @@ namespace PlenBotLogUploader
 
         private async Task GenerateBuildCode()
         {
-            AddToText("> (GW2) IGN COMMAND USED");
+            AddToText("> (GW2) BUILD COMMAND USED");
             MumbleReader?.Update();
             if (string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
             {
+                AddToText("Read from Mumble Link has failed, is the game running?");
                 return;
             }
             foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
