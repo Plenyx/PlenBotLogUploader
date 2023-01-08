@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader
 {
-    partial class FormAleeva
+    partial class FormEditAleeva
     {
         /// <summary>
         /// Required designer variable.

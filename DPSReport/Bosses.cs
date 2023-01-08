@@ -19,13 +19,13 @@ namespace PlenBotLogUploader.DpsReport
         private static List<BossData> _all;
 
         /// <summary>
-        /// Returns the main dictionary with all encounters.
+        /// Returns a list with all encounters.
         /// </summary>
-        /// <returns>A dictionary with all encounters</returns>
+        /// <returns>A list with all encounters.</returns>
         internal static List<BossData> All => _all ??= new List<BossData>();
 
         /// <summary>
-        /// Loads BossData from specified json file.
+        /// Loads a list of BossData from a specified json file.
         /// </summary>
         /// <param name="filePath">The json file form which the data is loaded.</param>
         /// <returns>A Dictionary containing the loaded BossData.</returns>

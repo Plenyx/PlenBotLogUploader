@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormAleeva : Form
+    public partial class FormEditAleeva : Form
     {
         #region definitions
         // properties
@@ -66,7 +66,7 @@ namespace PlenBotLogUploader
         private readonly List<AleevaChannel> aleevaServerChannels = new();
         #endregion
 
-        internal FormAleeva(FormMain mainLink)
+        internal FormEditAleeva(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

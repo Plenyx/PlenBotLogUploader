@@ -66,7 +66,7 @@ namespace PlenBotLogUploader
         private readonly FormTwitchCommands twitchCommandsLink;
         private readonly FormLogSession logSessionLink;
         private readonly FormGW2API gw2APILink;
-        private readonly FormAleeva aleevaLink;
+        private readonly FormEditAleeva aleevaLink;
         private readonly FormGW2Bot gw2botLink;
         private readonly FormTeams teamsLink;
         private readonly List<string> allSessionLogs = new();
@@ -112,7 +112,7 @@ namespace PlenBotLogUploader
             twitchCommandsLink = new FormTwitchCommands();
             logSessionLink = new FormLogSession(this);
             gw2APILink = new FormGW2API(this);
-            aleevaLink = new FormAleeva(this);
+            aleevaLink = new FormEditAleeva(this);
             gw2botLink = new FormGW2Bot(this);
             teamsLink = new FormTeams();
             MumbleReader = new MumbleReader(false);
