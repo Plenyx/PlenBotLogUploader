@@ -115,7 +115,7 @@ namespace PlenBotLogUploader
             }
             foreach (var integration in AleevaIntegrations.All)
             {
-                if (!integration.Active || !(integration.Team?.IsSatisfied(reportJson.ExtraJson) ?? false))
+                if (!integration.Active || !integration.Valid || !(integration.Team?.IsSatisfied(reportJson.ExtraJson) ?? false))
                 {
                     continue;
                 }
@@ -131,6 +131,12 @@ namespace PlenBotLogUploader
         {
             if (e.Item is not ListViewItemCustom<AleevaIntegration> itemIntegration)
             {
+                return;
+            }
+            if (e.Item.Checked && !itemIntegration.Item.Valid)
+            {
+                e.Item.Checked = false;
+                MessageBox.Show("For Aleeva integration to work you must set both a server and a channel.\nPlease edit the integration first to include both to be able to activate the integration.", "Unable to activate Aleeva integration", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             itemIntegration.Item.Active = e.Item.Checked;

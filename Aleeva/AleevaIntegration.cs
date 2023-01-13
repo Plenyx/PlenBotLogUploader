@@ -57,11 +57,13 @@ namespace PlenBotLogUploader.Aleeva
 
         private Team _team;
 
+        internal bool Valid => !string.IsNullOrWhiteSpace(Server) && !string.IsNullOrWhiteSpace(Channel);
+
         internal List<ListViewItemCustom<AleevaIntegration>> connectedItems;
 
         string IListViewItemInfo<AleevaIntegration>.NameToDisplay => Name;
 
-        string IListViewItemInfo<AleevaIntegration>.TextToDisplay => Name;
+        string IListViewItemInfo<AleevaIntegration>.TextToDisplay => ((!string.IsNullOrWhiteSpace(Name)) ? Name : (!string.IsNullOrWhiteSpace(Channel) ? $"C{Channel}" : $"S{Server}"));
 
         bool IListViewItemInfo<AleevaIntegration>.CheckedToDisplay => Active;
 

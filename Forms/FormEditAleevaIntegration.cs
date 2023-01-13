@@ -15,13 +15,16 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // fields
-        private readonly bool emptyInput;
         private readonly FormMain mainLink;
         private readonly FormAleevaIntegrations aleevaLink;
         private readonly AleevaIntegration data;
         private readonly HttpClientController controller;
         private readonly List<AleevaServer> aleevaServers = new();
         private readonly List<AleevaChannel> aleevaServerChannels = new();
+
+        private string selectedServer = "";
+        private string selectedChannel = "";
+        private Team selectedTeam = (Teams.Teams.All.Count > 0) ? Teams.Teams.All[0] : null;
         #endregion
 
         internal FormEditAleevaIntegration(FormMain mainLink, FormAleevaIntegrations aleevaLink, HttpClientController controller, AleevaIntegration data)
@@ -35,19 +38,15 @@ namespace PlenBotLogUploader
             textBoxName.Text = data?.Name;
             checkBoxSendNotification.Checked = data?.SendNotification ?? false;
             checkBoxOnlySuccessful.Checked = data?.SendOnSuccessOnly ?? false;
-            comboBoxServer.Text = data?.Server;
-            comboBoxChannel.Text = data?.Channel;
+            comboBoxServer.Text = selectedServer = data?.Server;
+            comboBoxChannel.Text = selectedChannel = data?.Channel;
             if (data is not null)
             {
                 _ = AleevaLoadServers();
             }
-            textBoxName.TextChanged += TextBoxName_TextChanged;
-            checkBoxSendNotification.CheckedChanged += CheckBoxSendNotification_CheckedChanged;
-            checkBoxOnlySuccessful.CheckedChanged += CheckBoxOnlySuccessful_CheckedChanged;
             comboBoxServer.SelectedIndexChanged += ComboBoxServer_SelectedIndexChanged;
             comboBoxChannel.SelectedIndexChanged += ComboBoxChannel_SelectedIndexChanged;
-            emptyInput = data is null;
-            this.data = data ?? new AleevaIntegration();
+            this.data = data;
             ApplicationSettings.Current.Aleeva.AuthorisedChanged += OnAuthoriseResult;
         }
 
@@ -62,11 +61,41 @@ namespace PlenBotLogUploader
 
         private void FormAleeva_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ApplicationSettings.Current.Aleeva.AuthorisedChanged -= OnAuthoriseResult;
-            if (emptyInput)
+            if (string.IsNullOrWhiteSpace(textBoxName.Text) && string.IsNullOrWhiteSpace(selectedServer) && string.IsNullOrWhiteSpace(selectedChannel))
             {
-                AleevaIntegrations.All.Add(data);
+                return;
             }
+            if (!string.IsNullOrWhiteSpace(selectedServer) && string.IsNullOrWhiteSpace(selectedChannel))
+            {
+                var dialog = MessageBox.Show("You have selected a server but not selected a channel.\nThis configuration will not work, you must set both the server and the notification channel.\n\nDo you want to save the current state anyway?", "Do you want to save an incomplete integration?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                if (dialog.Equals(DialogResult.No))
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+            ApplicationSettings.Current.Aleeva.AuthorisedChanged -= OnAuthoriseResult;
+            var activeState = !string.IsNullOrWhiteSpace(selectedServer) && !string.IsNullOrWhiteSpace(selectedChannel);
+            if (data is null)
+            {
+                AleevaIntegrations.All.Add(new AleevaIntegration()
+                {
+                    Active = activeState,
+                    Name = textBoxName.Text,
+                    Server = selectedServer,
+                    Channel = selectedChannel,
+                    SendNotification = checkBoxSendNotification.Checked,
+                    SendOnSuccessOnly = checkBoxOnlySuccessful.Checked,
+                });
+                aleevaLink.RedrawAleevaIntegrations();
+                return;
+            }
+            data.Active = activeState;
+            data.Name = textBoxName.Text;
+            data.Server = selectedServer;
+            data.Channel = selectedChannel;
+            data.SendNotification = checkBoxSendNotification.Checked;
+            data.SendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
             aleevaLink.RedrawAleevaIntegrations();
         }
 
@@ -105,10 +134,10 @@ namespace PlenBotLogUploader
                     aleevaServers.AddRange(servers);
                 }
                 AddServersToView();
-                comboBoxServer.Text = (!string.IsNullOrWhiteSpace(data.Server) ? aleevaServers.Find(x => x.ID.Equals(data.Server))?.ToString() : "");
-                if (!string.IsNullOrWhiteSpace(data.Server))
+                comboBoxServer.Text = (!string.IsNullOrWhiteSpace(selectedServer) ? aleevaServers.Find(x => x.ID.Equals(selectedServer))?.ToString() : "");
+                if (!string.IsNullOrWhiteSpace(selectedServer))
                 {
-                    await AleevaLoadChannels(data.Server);
+                    await AleevaLoadChannels(selectedServer);
                 }
             }
             catch (Exception e)
@@ -125,7 +154,7 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            data.Server = server.ID;
+            selectedServer = server.ID;
             await AleevaLoadChannels(server.ID);
         }
 
@@ -155,7 +184,7 @@ namespace PlenBotLogUploader
                     aleevaServerChannels.AddRange(channels);
                 }
                 AddChannelsToView();
-                comboBoxChannel.Text = (!string.IsNullOrWhiteSpace(data.Channel) ? aleevaServerChannels.Find(x => x.ID.Equals(data.Channel))?.ToString() : "");
+                comboBoxChannel.Text = (!string.IsNullOrWhiteSpace(selectedChannel) ? aleevaServerChannels.Find(x => x.ID.Equals(selectedChannel))?.ToString() : "");
             }
             catch (Exception ex)
             {
@@ -169,17 +198,7 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            data.Channel = channel.ID;
-        }
-
-        private void CheckBoxSendNotification_CheckedChanged(object sender, EventArgs e)
-        {
-            data.SendNotification = checkBoxSendNotification.Checked;
-        }
-
-        private void CheckBoxOnlySuccessful_CheckedChanged(object sender, EventArgs e)
-        {
-            data.SendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
+            selectedChannel = channel.ID;
         }
 
         private void FormAleeva_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
@@ -196,12 +215,12 @@ namespace PlenBotLogUploader
             {
                 comboBoxSelectedTeam.Items.Add(team);
             }
-            comboBoxSelectedTeam.SelectedItem = data.Team ?? teams[0];
+            comboBoxSelectedTeam.SelectedItem = selectedTeam ?? teams[0];
         }
 
         private void ComboBoxSelectedTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
-            data.Team = (comboBoxSelectedTeam.SelectedItem as Team) ?? Teams.Teams.All[0];
+            selectedTeam = (comboBoxSelectedTeam.SelectedItem as Team) ?? Teams.Teams.All[0];
         }
 
         private void AddServersToView()
@@ -220,11 +239,6 @@ namespace PlenBotLogUploader
             {
                 comboBoxChannel.Items.Add(channel);
             }
-        }
-
-        private void TextBoxName_TextChanged(object sender, EventArgs e)
-        {
-            data.Name = textBoxName.Text;
         }
     }
 }
