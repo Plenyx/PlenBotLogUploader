@@ -47,7 +47,7 @@ namespace PlenBotLogUploader.DiscordApi
         internal int[] BossesDisable { get; set; }
 
         [JsonProperty("teamId")]
-        internal int TeamID { get; set; } = 0;
+        internal int TeamId { get; set; } = 0;
 
         /// <summary>
         /// A selected webhook team, with which the webhook should evaluate itself
@@ -56,7 +56,7 @@ namespace PlenBotLogUploader.DiscordApi
         {
             get
             {
-                if ((_team is null) && Teams.Teams.All.TryGetValue(TeamID, out var team))
+                if ((_team is null) && Teams.Teams.All.TryGetValue(TeamId, out var team))
                 {
                     _team = team;
                 }
@@ -65,7 +65,7 @@ namespace PlenBotLogUploader.DiscordApi
             set
             {
                 _team = value;
-                TeamID = value.ID;
+                TeamId = value.ID;
             }
         }
 

@@ -66,7 +66,7 @@ namespace PlenBotLogUploader
         private readonly FormTwitchCommands twitchCommandsLink;
         private readonly FormLogSession logSessionLink;
         private readonly FormGW2API gw2APILink;
-        private readonly FormEditAleeva aleevaLink;
+        private readonly FormAleevaIntegrations aleevaLink;
         private readonly FormGW2Bot gw2botLink;
         private readonly FormTeams teamsLink;
         private readonly List<string> allSessionLogs = new();
@@ -112,7 +112,7 @@ namespace PlenBotLogUploader
             twitchCommandsLink = new FormTwitchCommands();
             logSessionLink = new FormLogSession(this);
             gw2APILink = new FormGW2API(this);
-            aleevaLink = new FormEditAleeva(this);
+            aleevaLink = new FormAleevaIntegrations(this);
             gw2botLink = new FormGW2Bot(this);
             teamsLink = new FormTeams();
             MumbleReader = new MumbleReader(false);
@@ -822,9 +822,9 @@ namespace PlenBotLogUploader
                         await ExecuteAllDiscordWebhooks(reportJson);
                         // remote server ping
                         await pingsLink.ExecuteAllPingsAsync(reportJson);
-                        // aleeva pings
-                        await aleevaLink.PostLogToAleeva(reportJson);
-                        // gw2bot pings
+                        // aleeva integration
+                        await aleevaLink.ExecuteAllActiveAleevaIntegrations(reportJson);
+                        // gw2bot integration
                         await gw2botLink.PostLogToGW2Bot(reportJson);
                         // report success
                         AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
@@ -1093,7 +1093,7 @@ namespace PlenBotLogUploader
 
         protected async void ReadMessagesAsync(object sender, IrcMessageEventArgs e)
         {
-            if ((e is null) || (e.Message is null) || !e.Message.IsChannelMessage)
+            if ((e is null) || (e.Message?.IsChannelMessage != true))
             {
                 return;
             }

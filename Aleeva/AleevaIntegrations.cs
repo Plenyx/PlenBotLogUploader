@@ -59,5 +59,21 @@ namespace PlenBotLogUploader.Aleeva
 
             File.WriteAllText(JsonFileLocation, jsonString, Encoding.UTF8);
         }
+
+        internal static List<AleevaIntegration> LoadAleevaIntegrations()
+        {
+            try
+            {
+                if (File.Exists(JsonFileLocation))
+                {
+                    return FromJsonFile(JsonFileLocation);
+                }
+                return All;
+            }
+            catch
+            {
+                return All;
+            }
+        }
     }
 }
