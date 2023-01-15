@@ -1,4 +1,5 @@
 ﻿using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.Tools;
 using System;
 using System.Windows.Forms;
 using static Hardstuck.GuildWars2.BuildCodes.V2.Static;
@@ -15,18 +16,26 @@ namespace PlenBotLogUploader
             var settings = ApplicationSettings.Current.BuildCodes;
             checkBoxDemoteRunes.Checked = settings.DemoteRunes;
             checkBoxDemoteSigils.Checked = settings.DemoteSigils;
-            foreach (var option in Enum.GetValues<CompressionOptions>())
+            foreach (var compressionOption in HsBuildCodesCompressionSettingsHelperClass.All.AsSpan())
             {
-                if ((option == CompressionOptions.ALL) || (option == CompressionOptions.NONE))
-                {
-                    continue;
-                }
-                checkboxListCompressionOptions.Items.Add(option, settings.Compression.HasFlag(option));
+                checkboxListCompressionOptions.Items.Add(compressionOption, settings.Compression.HasFlag(compressionOption.Value));
             }
+            checkBoxDemoteRunes.CheckedChanged += CheckBoxDemoteRunes_CheckedChanged;
+            checkBoxDemoteSigils.CheckedChanged += CheckBoxDemoteSigils_CheckedChanged;
+            checkboxListCompressionOptions.ItemCheck += CheckboxListCompressionOptions_ItemCheck;
         }
 
-        private void CheckBoxDemoteRunes_CheckedChanged(object s, EventArgs e) => ApplicationSettings.Current.BuildCodes.DemoteRunes = checkBoxDemoteRunes.Checked;
-        private void CheckBoxDemoteSigils_CheckedChanged(object s, EventArgs e) => ApplicationSettings.Current.BuildCodes.DemoteSigils = checkBoxDemoteSigils.Checked;
+        private void CheckBoxDemoteRunes_CheckedChanged(object s, EventArgs e)
+        {
+            ApplicationSettings.Current.BuildCodes.DemoteRunes = checkBoxDemoteRunes.Checked;
+            ApplicationSettings.Current.Save();
+        }
+
+        private void CheckBoxDemoteSigils_CheckedChanged(object s, EventArgs e)
+        {
+            ApplicationSettings.Current.BuildCodes.DemoteSigils = checkBoxDemoteSigils.Checked;
+            ApplicationSettings.Current.Save();
+        }
 
         private void CheckboxListCompressionOptions_ItemCheck(object s, ItemCheckEventArgs e)
         {
@@ -40,6 +49,7 @@ namespace PlenBotLogUploader
             {
                 ApplicationSettings.Current.BuildCodes.Compression &= ~compressionOption;
             }
+            ApplicationSettings.Current.Save();
         }
     }
 }

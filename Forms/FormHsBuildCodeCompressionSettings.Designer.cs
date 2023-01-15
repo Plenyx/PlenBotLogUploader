@@ -53,7 +53,6 @@
             this.checkBoxDemoteRunes.TabIndex = 1;
             this.checkBoxDemoteRunes.Text = "Demote Runes from Legendary to Superior";
             this.checkBoxDemoteRunes.UseVisualStyleBackColor = true;
-            this.checkBoxDemoteRunes.CheckedChanged += new System.EventHandler(this.CheckBoxDemoteRunes_CheckedChanged);
             // 
             // checkBoxDemoteSigils
             // 
@@ -65,7 +64,6 @@
             this.checkBoxDemoteSigils.TabIndex = 2;
             this.checkBoxDemoteSigils.Text = "Demote Sigils from Legendary to Superior";
             this.checkBoxDemoteSigils.UseVisualStyleBackColor = true;
-            this.checkBoxDemoteSigils.CheckedChanged += new System.EventHandler(this.CheckBoxDemoteSigils_CheckedChanged);
             // 
             // checkboxListCompressionOptions
             // 
@@ -75,7 +73,6 @@
             this.checkboxListCompressionOptions.Name = "checkboxListCompressionOptions";
             this.checkboxListCompressionOptions.Size = new System.Drawing.Size(302, 158);
             this.checkboxListCompressionOptions.TabIndex = 3;
-            this.checkboxListCompressionOptions.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.CheckboxListCompressionOptions_ItemCheck);
             // 
             // FormHsBuildCodeCompressionSettings
             // 
