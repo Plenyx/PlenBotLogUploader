@@ -16,6 +16,7 @@
         Xera = 16246,
         TwistedCastle = 16247,
         Ensolyss = 16948,
+        Escort = 16253,
         MAMA = 17021,
         Siax = 17028,
         Deimos = 17154,

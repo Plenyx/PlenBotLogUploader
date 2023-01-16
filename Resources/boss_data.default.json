@@ -180,6 +180,13 @@
     "Event": false
   },
   {
+    "BossId": 16253,
+    "Name": "McLeod the Silent",
+    "Icon": "https://wiki.guildwars2.com/images/b/b5/Mini_McLeod_the_Silent.png",
+    "Type": 1,
+    "Event": false
+  },
+  {
     "BossId": 19676,
     "Name": "Large Kitty Golem",
     "SuccessMsg": "Golem log: <log>",
