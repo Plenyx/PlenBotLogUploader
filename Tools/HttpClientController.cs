@@ -10,7 +10,7 @@ namespace PlenBotLogUploader.Tools
 {
     internal sealed class HttpClientController : HttpClient
     {
-        #region init
+        #region definitions
         /// <summary>
         /// The initial settings by HttpClientController child of HttpClient.
         /// </summary>

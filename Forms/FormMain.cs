@@ -20,7 +20,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TwitchIRCClient;
+using TwitchIrcClient;
 
 namespace PlenBotLogUploader
 {
@@ -73,7 +73,7 @@ namespace PlenBotLogUploader
         private readonly Regex songSmartCommandRegex = new(@"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
         private readonly Regex buildSmartCommandRegex = new(@"(?:(?:build)){1}(?:(?:\?)|(?: is))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
         private SemaphoreSlim semaphore;
-        private TwitchIrcClient chatConnect;
+        private TwitchChatClient chatConnect;
         private FileSystemWatcher watcher = new() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
         private int reconnectedFailCounter = 0;
         private int recentUploadFailCounter = 0;
@@ -278,14 +278,14 @@ namespace PlenBotLogUploader
                 {
                     if (ApplicationSettings.Current.Twitch.Custom.Enabled)
                     {
-                        chatConnect = new TwitchIrcClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
+                        chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
                     }
                     else
                     {
-                        chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                        chatConnect = new TwitchChatClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
                     }
-                    chatConnect.ReceiveMessage += ReadMessagesAsync;
-                    chatConnect.StateChange += OnIrcStateChanged;
+                    chatConnect.ReceivedMessage += ReadMessagesAsync;
+                    chatConnect.StateChanged += OnIrcStateChanged;
                     chatConnect.BeginConnection();
                 }
                 else
@@ -964,14 +964,14 @@ namespace PlenBotLogUploader
             checkBoxPostToTwitch.Enabled = true;
             if (ApplicationSettings.Current.Twitch.Custom.Enabled)
             {
-                chatConnect = new TwitchIrcClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
+                chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
             }
             else
             {
-                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                chatConnect = new TwitchChatClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
             }
-            chatConnect.ReceiveMessage += ReadMessagesAsync;
-            chatConnect.StateChange += OnIrcStateChanged;
+            chatConnect.ReceivedMessage += ReadMessagesAsync;
+            chatConnect.StateChanged += OnIrcStateChanged;
             await chatConnect.BeginConnectionAsync();
             ApplicationSettings.Current.Twitch.ConnectToTwitch = true;
             ApplicationSettings.Current.Save();
@@ -984,8 +984,8 @@ namespace PlenBotLogUploader
                 Invoke(DisconnectTwitchBot);
                 return;
             }
-            chatConnect.ReceiveMessage -= ReadMessagesAsync;
-            chatConnect.StateChange -= OnIrcStateChanged;
+            chatConnect.ReceivedMessage -= ReadMessagesAsync;
+            chatConnect.StateChanged -= OnIrcStateChanged;
             chatConnect.Dispose();
             chatConnect = null;
             AddToText("<-?-> CONNECTION CLOSED");
@@ -1007,26 +1007,26 @@ namespace PlenBotLogUploader
                 Invoke(delegate { _ = ReconnectTwitchBot(); });
                 return;
             }
-            chatConnect.ReceiveMessage -= ReadMessagesAsync;
-            chatConnect.StateChange -= OnIrcStateChanged;
+            chatConnect.ReceivedMessage -= ReadMessagesAsync;
+            chatConnect.StateChanged -= OnIrcStateChanged;
             chatConnect.Dispose();
             chatConnect = null;
             if (ApplicationSettings.Current.Twitch.Custom.Enabled)
             {
-                chatConnect = new TwitchIrcClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
+                chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
             }
             else
             {
-                chatConnect = new TwitchIrcClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
+                chatConnect = new TwitchChatClient("gw2loguploader", "oauth:ycgqr3dyef7gp5r8uk7d5jz30nbrc6");
             }
-            chatConnect.ReceiveMessage += ReadMessagesAsync;
-            chatConnect.StateChange += OnIrcStateChanged;
+            chatConnect.ReceivedMessage += ReadMessagesAsync;
+            chatConnect.StateChanged += OnIrcStateChanged;
             await chatConnect.BeginConnectionAsync();
         }
 
-        protected async void OnIrcStateChanged(object sender, IrcChangedEventArgs e)
+        protected async void OnIrcStateChanged(object sender, IrcState newState, string channelName)
         {
-            if (e.NewState == IrcStates.Disconnected)
+            if (newState.Equals(IrcState.Disconnected))
             {
                 TwitchChannelJoined = false;
                 AddToText("<-?-> DISCONNECTED FROM TWITCH");
@@ -1051,12 +1051,12 @@ namespace PlenBotLogUploader
                 }
                 return;
             }
-            if (e.NewState == IrcStates.Connecting)
+            if (newState.Equals(IrcState.Connecting))
             {
                 AddToText("<-?-> BOT CONNECTING TO TWITCH");
                 return;
             }
-            if (e.NewState == IrcStates.Connected)
+            if (newState.Equals(IrcState.Connected))
             {
                 AddToText("<-?-> CONNECTION ESTABILISHED");
                 reconnectedFailCounter = 0;
@@ -1066,23 +1066,23 @@ namespace PlenBotLogUploader
                 }
                 return;
             }
-            if (e.NewState == IrcStates.ChannelJoining)
+            if (newState.Equals(IrcState.ChannelJoining))
             {
-                AddToText($"<-?-> TRYING TO JOIN CHANNEL {e.Channel.ToUpper()}");
+                AddToText($"<-?-> TRYING TO JOIN CHANNEL {channelName.ToUpper()}");
                 return;
             }
-            if (e.NewState == IrcStates.ChannelJoined)
+            if (newState.Equals(IrcState.ChannelJoined))
             {
                 AddToText("<-?-> CHANNEL JOINED");
                 TwitchChannelJoined = true;
                 return;
             }
-            if (e.NewState == IrcStates.ChannelLeaving)
+            if (newState.Equals(IrcState.ChannelLeaving))
             {
-                AddToText($"<-?-> LEAVING CHANNEL {e.Channel.ToUpper()}");
+                AddToText($"<-?-> LEAVING CHANNEL {channelName.ToUpper()}");
                 return;
             }
-            if (e.NewState == IrcStates.FailedConnection)
+            if (newState.Equals(IrcState.FailedConnection))
             {
                 AddToText("<-?-> FAILED TO CONNECT TO TWITCH");
                 DisconnectTwitchBot();
@@ -1091,24 +1091,24 @@ namespace PlenBotLogUploader
             AddToText("<-?-> UNRECOGNISED IRC STATE RECEIVED");
         }
 
-        protected async void ReadMessagesAsync(object sender, IrcMessageEventArgs e)
+        protected async void ReadMessagesAsync(object sender, IrcMessage ircMessage)
         {
-            if ((e is null) || (e.Message?.IsChannelMessage != true))
+            if ((ircMessage is null) || (ircMessage?.IsChannelMessage != true))
             {
                 return;
             }
-            if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && songSmartCommandRegex.IsMatch(e.Message.ChannelMessage))
+            if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && songSmartCommandRegex.IsMatch(ircMessage.ChannelMessage))
             {
                 await SpotifySongCheck();
                 return;
             }
-            if (twitchCommandsLink.checkBoxGW2BuildEnable.Checked && twitchCommandsLink.checkBoxGW2BuildSmartRecognition.Checked && buildSmartCommandRegex.IsMatch(e.Message.ChannelMessage))
+            if (twitchCommandsLink.checkBoxGW2BuildEnable.Checked && twitchCommandsLink.checkBoxGW2BuildSmartRecognition.Checked && buildSmartCommandRegex.IsMatch(ircMessage.ChannelMessage))
             {
                 await GenerateBuildCode();
                 return;
             }
-            var indexOfSpace = e.Message.ChannelMessage.IndexOf(' ');
-            var command = (indexOfSpace == -1) ? e.Message.ChannelMessage.ToLower() : e.Message.ChannelMessage[0..indexOfSpace].ToLower();
+            var indexOfSpace = ircMessage.ChannelMessage.IndexOf(' ');
+            var command = (indexOfSpace == -1) ? ircMessage.ChannelMessage.ToLower() : ircMessage.ChannelMessage[0..indexOfSpace].ToLower();
             if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
             {
                 AddToText("> UPLOADER COMMAND USED");
