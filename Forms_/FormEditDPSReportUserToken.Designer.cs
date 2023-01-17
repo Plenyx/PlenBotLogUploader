@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader
 {
-    partial class FormEditDPSReportUserToken
+    partial class FormEditDpsReportUserToken
     {
         /// <summary>
         /// Required designer variable.

@@ -8,13 +8,13 @@ using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormGW2API : Form
+    public partial class FormGw2Api : Form
     {
         #region definitions
         private readonly FormMain mainLink;
         #endregion
 
-        internal FormGW2API(FormMain mainLink)
+        internal FormGw2Api(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();
@@ -42,7 +42,7 @@ namespace PlenBotLogUploader
         {
             if (listBoxAPIKeys.SelectedItem is ApplicationSettingsGw2Api item)
             {
-                new FormEditGW2API(this, item).ShowDialog();
+                new FormEditGw2Api(this, item).ShowDialog();
             }
             listBoxAPIKeys.SelectedItem = null;
         }
@@ -54,9 +54,9 @@ namespace PlenBotLogUploader
             toolStripMenuItemRemoveKey.Enabled = !toggle;
         }
 
-        private void ToolStripMenuItemAddKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, null)).ShowDialog();
+        private void ToolStripMenuItemAddKey_Click(object sender, EventArgs e) => (new FormEditGw2Api(this, null)).ShowDialog();
 
-        private void ToolStripMenuItemEditKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, (ApplicationSettingsGw2Api)listBoxAPIKeys.SelectedItem)).ShowDialog();
+        private void ToolStripMenuItemEditKey_Click(object sender, EventArgs e) => (new FormEditGw2Api(this, (ApplicationSettingsGw2Api)listBoxAPIKeys.SelectedItem)).ShowDialog();
 
         private void ToolStripMenuItemRemoveKey_Click(object sender, EventArgs e)
         {
@@ -65,7 +65,7 @@ namespace PlenBotLogUploader
             RedrawList();
         }
 
-        private void ButtonAddAPIKey_Click(object sender, EventArgs e) => (new FormEditGW2API(this, null)).ShowDialog();
+        private void ButtonAddAPIKey_Click(object sender, EventArgs e) => (new FormEditGw2Api(this, null)).ShowDialog();
 
         private void ButtonGetHardStuckCode_Click(object sender, EventArgs e)
         {

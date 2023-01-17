@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormGW2Bot : Form
+    public partial class FormGw2Bot : Form
     {
         #region definitions
         private readonly FormMain mainLink;
@@ -21,7 +21,7 @@ namespace PlenBotLogUploader
         private readonly HttpClientController controller = new();
         #endregion
 
-        internal FormGW2Bot(FormMain mainLink)
+        internal FormGw2Bot(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();

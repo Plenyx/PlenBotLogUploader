@@ -5,14 +5,14 @@ using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormDPSReportSettings : Form
+    public partial class FormDpsReportSettings : Form
     {
         #region definitions
         // fields
         private readonly FormMain mainLink;
         #endregion
 
-        internal FormDPSReportSettings(FormMain mainLink)
+        internal FormDpsReportSettings(FormMain mainLink)
         {
             this.mainLink = mainLink;
             InitializeComponent();
@@ -64,11 +64,11 @@ namespace PlenBotLogUploader
             checkedListBoxUserTokens.SelectedItem = null;
         }
 
-        private void ButtonAddUserToken_Click(object sender, EventArgs e) => (new FormEditDPSReportUserToken(this, mainLink.HttpClientController)).ShowDialog();
+        private void ButtonAddUserToken_Click(object sender, EventArgs e) => (new FormEditDpsReportUserToken(this, mainLink.HttpClientController)).ShowDialog();
 
-        private void ToolStripMenuItemAddUserToken_Click(object sender, EventArgs e) => (new FormEditDPSReportUserToken(this, mainLink.HttpClientController)).ShowDialog();
+        private void ToolStripMenuItemAddUserToken_Click(object sender, EventArgs e) => (new FormEditDpsReportUserToken(this, mainLink.HttpClientController)).ShowDialog();
 
-        private void ToolStripMenuItemEditUserToken_Click(object sender, EventArgs e) => (new FormEditDPSReportUserToken(this, mainLink.HttpClientController, (ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.SelectedItem)).ShowDialog();
+        private void ToolStripMenuItemEditUserToken_Click(object sender, EventArgs e) => (new FormEditDpsReportUserToken(this, mainLink.HttpClientController, (ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.SelectedItem)).ShowDialog();
 
         private void ToolStripMenuItemDeleteUserToken_Click(object sender, EventArgs e)
         {

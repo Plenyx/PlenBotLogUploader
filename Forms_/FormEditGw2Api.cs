@@ -7,15 +7,15 @@ using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormEditGW2API : Form
+    public partial class FormEditGw2Api : Form
     {
         #region definitions
         private readonly HttpClientController httpClientController = new();
         private ApplicationSettingsGw2Api data = null;
-        private readonly FormGW2API gw2apiLink;
+        private readonly FormGw2Api gw2apiLink;
         #endregion
 
-        internal FormEditGW2API(FormGW2API gw2apiLink, ApplicationSettingsGw2Api data)
+        internal FormEditGw2Api(FormGw2Api gw2apiLink, ApplicationSettingsGw2Api data)
         {
             this.gw2apiLink = gw2apiLink;
             InitializeComponent();

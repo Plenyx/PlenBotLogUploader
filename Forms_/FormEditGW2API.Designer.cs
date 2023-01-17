@@ -1,6 +1,6 @@
 ﻿namespace PlenBotLogUploader
 {
-    partial class FormEditGW2API
+    partial class FormEditGw2Api
     {
         /// <summary>
         /// Required designer variable.

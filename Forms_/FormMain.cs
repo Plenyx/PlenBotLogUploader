@@ -57,7 +57,7 @@ namespace PlenBotLogUploader
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
-        private readonly FormDPSReportSettings dpsReportSettingsLink;
+        private readonly FormDpsReportSettings dpsReportSettingsLink;
         private readonly FormCustomName customNameLink;
         private readonly FormArcPluginManager arcPluginManagerLink;
         private readonly FormBossData bossDataLink;
@@ -65,9 +65,9 @@ namespace PlenBotLogUploader
         private readonly FormPings pingsLink;
         private readonly FormTwitchCommands twitchCommandsLink;
         private readonly FormLogSession logSessionLink;
-        private readonly FormGW2API gw2APILink;
+        private readonly FormGw2Api gw2APILink;
         private readonly FormAleevaIntegrations aleevaLink;
-        private readonly FormGW2Bot gw2botLink;
+        private readonly FormGw2Bot gw2botLink;
         private readonly FormTeams teamsLink;
         private readonly List<string> allSessionLogs = new();
         private readonly Regex songSmartCommandRegex = new(@"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
@@ -103,7 +103,7 @@ namespace PlenBotLogUploader
             Text = $"{Text} r{ApplicationSettings.Version}";
             notifyIconTray.Text = $"{notifyIconTray.Text} r{ApplicationSettings.Version}";
             twitchNameLink = new FormTwitchNameSetup(this);
-            dpsReportSettingsLink = new FormDPSReportSettings(this);
+            dpsReportSettingsLink = new FormDpsReportSettings(this);
             customNameLink = new FormCustomName(this);
             pingsLink = new FormPings(this);
             arcPluginManagerLink = new FormArcPluginManager(this);
@@ -111,9 +111,9 @@ namespace PlenBotLogUploader
             discordWebhooksLink = new FormDiscordWebhooks(this);
             twitchCommandsLink = new FormTwitchCommands();
             logSessionLink = new FormLogSession(this);
-            gw2APILink = new FormGW2API(this);
+            gw2APILink = new FormGw2Api(this);
             aleevaLink = new FormAleevaIntegrations(this);
-            gw2botLink = new FormGW2Bot(this);
+            gw2botLink = new FormGw2Bot(this);
             teamsLink = new FormTeams();
             MumbleReader = new MumbleReader(false);
             #region tooltips

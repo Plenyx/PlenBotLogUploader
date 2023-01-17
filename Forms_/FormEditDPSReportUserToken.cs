@@ -6,11 +6,11 @@ using System.Windows.Forms;
 
 namespace PlenBotLogUploader
 {
-    public partial class FormEditDPSReportUserToken : Form
+    public partial class FormEditDpsReportUserToken : Form
     {
         #region definitions
         // fields
-        private readonly FormDPSReportSettings settingsLink;
+        private readonly FormDpsReportSettings settingsLink;
         private readonly HttpClientController httpClientController;
         private ApplicationSettingsUploadUserToken data;
 
@@ -18,7 +18,7 @@ namespace PlenBotLogUploader
         private const string dpsReportUserTokenURL = "https://dps.report/getUserToken";
         #endregion
 
-        internal FormEditDPSReportUserToken(FormDPSReportSettings settingsLink, HttpClientController httpClientController, ApplicationSettingsUploadUserToken data = null)
+        internal FormEditDpsReportUserToken(FormDpsReportSettings settingsLink, HttpClientController httpClientController, ApplicationSettingsUploadUserToken data = null)
         {
             this.settingsLink = settingsLink;
             this.httpClientController = httpClientController;
