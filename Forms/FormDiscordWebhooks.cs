@@ -434,6 +434,7 @@ namespace PlenBotLogUploader
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                             || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                             || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
+                            || (!webhook.AllowUnknownBossIds && (bossData is null))
                             || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
                         {
                             continue;

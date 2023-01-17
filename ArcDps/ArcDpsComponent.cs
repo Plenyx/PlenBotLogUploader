@@ -14,9 +14,9 @@ namespace PlenBotLogUploader.ArcDps
     [JsonObject(MemberSerialization.OptIn)]
     internal sealed class ArcDpsComponent
     {
-        private static List<ArcDpsComponent> _All;
+        private static List<ArcDpsComponent> _all;
 
-        internal static List<ArcDpsComponent> All => _All ??= new List<ArcDpsComponent>();
+        internal static List<ArcDpsComponent> All => _all ??= new List<ArcDpsComponent>();
 
         internal static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All, Formatting.Indented));
 
@@ -25,7 +25,7 @@ namespace PlenBotLogUploader.ArcDps
             if (File.Exists($"{applicationDirectory}arcdps_components.json"))
             {
                 var componentsFile = File.ReadAllText($"{applicationDirectory}arcdps_components.json");
-                _All = JsonConvert.DeserializeObject<List<ArcDpsComponent>>(componentsFile);
+                _all = JsonConvert.DeserializeObject<List<ArcDpsComponent>>(componentsFile);
             }
             return All;
         }

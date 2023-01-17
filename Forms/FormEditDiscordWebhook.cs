@@ -42,6 +42,7 @@ namespace PlenBotLogUploader
                     break;
             }
             checkBoxPlayers.Checked = data?.ShowPlayers ?? true;
+            checkBoxAllowUnknownBossIds.Checked = data?.AllowUnknownBossIds ?? false;
             var bosses = Bosses.All
                 .OrderBy(x => x.Type)
                 .ThenBy(x => x.Name)
@@ -75,7 +76,17 @@ namespace PlenBotLogUploader
             }
             if (data is null)
             {
-                allWebhooks[reservedId] = new DiscordWebhookData() { Active = true, Name = textBoxName.Text, Url = textBoxUrl.Text, SuccessFailToggle = successFailToggle, ShowPlayers = checkBoxPlayers.Checked, BossesDisable = ConvertCheckboxListToList(), Team = (Team)comboBoxTeam.SelectedItem };
+                allWebhooks[reservedId] = new DiscordWebhookData()
+                {
+                    Active = true,
+                    Name = textBoxName.Text,
+                    Url = textBoxUrl.Text,
+                    SuccessFailToggle = successFailToggle,
+                    ShowPlayers = checkBoxPlayers.Checked,
+                    BossesDisable = ConvertCheckboxListToList(),
+                    AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked,
+                    Team = comboBoxTeam.SelectedItem as Team,
+                };
                 discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
                 return;
             }
@@ -86,7 +97,8 @@ namespace PlenBotLogUploader
             webhook.SuccessFailToggle = successFailToggle;
             webhook.ShowPlayers = checkBoxPlayers.Checked;
             webhook.BossesDisable = ConvertCheckboxListToList();
-            webhook.Team = (Team)comboBoxTeam.SelectedItem;
+            webhook.AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked;
+            webhook.Team = comboBoxTeam.SelectedItem as Team;
             discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
         }
 

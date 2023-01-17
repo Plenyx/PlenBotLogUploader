@@ -46,6 +46,9 @@ namespace PlenBotLogUploader.DiscordApi
         [JsonProperty("disabledBosses")]
         internal int[] BossesDisable { get; set; }
 
+        [JsonProperty("allowUnknownBossIds")]
+        internal bool AllowUnknownBossIds { get; set; } = false;
+
         [JsonProperty("teamId")]
         internal int TeamId { get; set; } = 0;
 
