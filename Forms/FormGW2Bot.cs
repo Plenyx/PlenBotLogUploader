@@ -42,7 +42,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Gw2Bot.Enabled = checkBoxModuleEnabled.Checked;
             ApplicationSettings.Current.Gw2Bot.ApiKey = textBoxAPIKey.Text;
             ApplicationSettings.Current.Gw2Bot.SendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
-            ApplicationSettings.Current.Gw2Bot.SelectedTeamId = (comboBoxSelectedTeam.SelectedItem as Team)?.Id ?? 0;
+            ApplicationSettings.Current.Gw2Bot.TeamId = (comboBoxSelectedTeam.SelectedItem as Team)?.Id ?? 0;
             ApplicationSettings.Current.Save();
             controller.DefaultRequestHeaders.Authorization = (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Gw2Bot.ApiKey)) ? new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApplicationSettings.Current.Gw2Bot.ApiKey) : null;
         }
@@ -55,9 +55,9 @@ namespace PlenBotLogUploader
             {
                 return true;
             }
-            if ((ApplicationSettings.Current.Gw2Bot.SelectedTeamId > 0) &&
-                Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Gw2Bot.SelectedTeamId) &&
-                !Teams.Teams.All[ApplicationSettings.Current.Gw2Bot.SelectedTeamId].IsSatisfied(reportJSON.ExtraJson) &&
+            if ((ApplicationSettings.Current.Gw2Bot.TeamId > 0) &&
+                Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Gw2Bot.TeamId) &&
+                !Teams.Teams.All[ApplicationSettings.Current.Gw2Bot.TeamId].IsSatisfied(reportJSON.ExtraJson) &&
                 checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
             {
                 return true;
@@ -95,7 +95,7 @@ namespace PlenBotLogUploader
             comboBoxSelectedTeam.Items.Clear();
             var teams = Teams.Teams.All;
             comboBoxSelectedTeam.Items.AddRange(teams.Values.ToArray());
-            comboBoxSelectedTeam.SelectedItem = (ApplicationSettings.Current.Gw2Bot.SelectedTeamId > 0) ? teams[ApplicationSettings.Current.Gw2Bot.SelectedTeamId] : teams[0];
+            comboBoxSelectedTeam.SelectedItem = (ApplicationSettings.Current.Gw2Bot.TeamId > 0) ? teams[ApplicationSettings.Current.Gw2Bot.TeamId] : teams[0];
         }
     }
 }
