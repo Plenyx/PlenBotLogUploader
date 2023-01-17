@@ -150,7 +150,7 @@
             // checkBoxAllowUnknownBossIds
             // 
             this.checkBoxAllowUnknownBossIds.AutoSize = true;
-            this.checkBoxAllowUnknownBossIds.Location = new System.Drawing.Point(7, 227);
+            this.checkBoxAllowUnknownBossIds.Location = new System.Drawing.Point(8, 227);
             this.checkBoxAllowUnknownBossIds.Name = "checkBoxAllowUnknownBossIds";
             this.checkBoxAllowUnknownBossIds.Size = new System.Drawing.Size(256, 19);
             this.checkBoxAllowUnknownBossIds.TabIndex = 13;
