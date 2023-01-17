@@ -42,7 +42,7 @@ namespace PlenBotLogUploader
                 {
                     arcIsInstalled = false;
                     checkBoxModuleEnabled.Checked = false;
-                    ApplicationSettings.Current.GW2Location = "";
+                    ApplicationSettings.Current.Gw2Location = "";
                     ApplicationSettings.Current.Save();
                 }
             }
@@ -50,7 +50,7 @@ namespace PlenBotLogUploader
             {
                 arcIsInstalled = false;
                 checkBoxModuleEnabled.Checked = false;
-                ApplicationSettings.Current.GW2Location = "";
+                ApplicationSettings.Current.Gw2Location = "";
                 ApplicationSettings.Current.Save();
             }
             foreach (var component in availableComponents.AsSpan())
@@ -207,11 +207,11 @@ namespace PlenBotLogUploader
             var location = Path.GetDirectoryName(dialog.FileName);
             if (File.Exists(location + @"\addonLoader.dll"))
             {
-                ApplicationSettings.Current.ArcUpdate.UseAL = true;
+                ApplicationSettings.Current.ArcUpdate.UseAddonLoader = true;
                 checkBoxUseAL.Checked = true;
                 labelStatusText.Text = "Addon Loader found. Using Addon Loader";
             }
-            ApplicationSettings.Current.GW2Location = location;
+            ApplicationSettings.Current.Gw2Location = location;
             ApplicationSettings.Current.Save();
             if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)))
             {
@@ -231,7 +231,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAL ? @"\addons\arcdps\gw2addon_arcdps.dll" : @"\d3d11.dll";
+                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAddonLoader ? @"\addons\arcdps\gw2addon_arcdps.dll" : @"\d3d11.dll";
                 var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
                 if (!component.IsInstalled())
                 {
@@ -253,7 +253,7 @@ namespace PlenBotLogUploader
                 if (processes.Length == 0)
                 {
                     var component = ArcDpsComponent.All.Find(x => x.Type.Equals(item.Type));
-                    File.Delete(ApplicationSettings.Current.GW2Location + component.RelativeLocation);
+                    File.Delete(ApplicationSettings.Current.Gw2Location + component.RelativeLocation);
                     ArcDpsComponent.All.RemoveAll(x => x.Type.Equals(component.Type));
                 }
                 else
@@ -264,7 +264,7 @@ namespace PlenBotLogUploader
             }
             else if (e.NewValue.Equals(CheckState.Checked))
             {
-                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAL ? $@"\addons\arcdps\{item.DefaultFileName}" : $@"\{item.DefaultFileName}";
+                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAddonLoader ? $@"\addons\arcdps\{item.DefaultFileName}" : $@"\{item.DefaultFileName}";
                 var component = new ArcDpsComponent() { Type = item.Type, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
                 ArcDpsComponent.All.Add(component);
                 await component.DownloadComponent(httpController);
@@ -284,7 +284,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
             groupBoxModuleControls.Enabled = toggle;
             checkedListBoxArcDpsPlugins.Enabled = toggle;
-            if (Visible && toggle && (string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Location)))
+            if (Visible && toggle && (string.IsNullOrWhiteSpace(ApplicationSettings.Current.Gw2Location)))
             {
                 ButtonChangeGW2Location_Click(this, EventArgs.Empty);
             }
@@ -324,7 +324,7 @@ namespace PlenBotLogUploader
 
         private void CheckBoxUseAL_CheckedChanged(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.ArcUpdate.UseAL = checkBoxUseAL.Checked;
+            ApplicationSettings.Current.ArcUpdate.UseAddonLoader = checkBoxUseAL.Checked;
             ApplicationSettings.Current.Save();
         }
     }

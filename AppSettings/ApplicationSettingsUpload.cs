@@ -9,12 +9,12 @@ namespace PlenBotLogUploader.AppSettings
         internal bool Anonymous { get; set; } = false;
 
         [JsonProperty("detailedWvW")]
-        internal bool DetailedWvW { get; set; } = false;
+        internal bool DetailedWvw { get; set; } = false;
 
         [JsonProperty("dpsReportServer")]
-        internal DpsReportServer DPSReportServer { get; set; } = DpsReportServer.Main;
+        internal DpsReportServer DpsReportServer { get; set; } = DpsReportServer.Main;
 
-        internal string DPSReportServerLink => DPSReportServer switch
+        internal string DPSReportServerLink => DpsReportServer switch
         {
             DpsReportServer.A => "http://a.dps.report",
             DpsReportServer.B => "https://b.dps.report",
@@ -22,7 +22,7 @@ namespace PlenBotLogUploader.AppSettings
         };
 
         [JsonProperty("dpsReportUserTokens")]
-        internal List<ApplicationSettingsUploadUserToken> DPSReportUserTokens { get; set; } = new();
+        internal List<ApplicationSettingsUploadUserToken> DpsReportUserTokens { get; set; } = new();
 
         [JsonProperty("enabled")]
         internal bool Enabled { get; set; } = true;
@@ -34,6 +34,6 @@ namespace PlenBotLogUploader.AppSettings
         internal bool PostLogsToTwitchOnlySuccess { get; set; } = true;
 
         [JsonProperty("saveToCSVEnabled")]
-        internal bool SaveToCSVEnabled { get; set; } = true;
+        internal bool SaveToCsvEnabled { get; set; } = true;
     }
 }

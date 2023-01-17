@@ -71,26 +71,26 @@ namespace PlenBotLogUploader.ArcDps
         {
             if (!string.IsNullOrWhiteSpace(DownloadLink))
             {
-                return await httpController.DownloadFileAsync(DownloadLink, $"{ApplicationSettings.Current.GW2Location}{RelativeLocation}");
+                return await httpController.DownloadFileAsync(DownloadLink, $"{ApplicationSettings.Current.Gw2Location}{RelativeLocation}");
             }
             if (!string.IsNullOrWhiteSpace(Repository))
             {
-                var dll = LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadURL;
+                var dll = LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadUrl;
                 if (dll is null)
                 {
                     await GetGitHubRelease(httpController);
-                    dll = (LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadURL);
+                    dll = (LatestRelease?.Assets?.FirstOrDefault(x => x.Name.EndsWith(".dll"))?.DownloadUrl);
                     if (dll is null)
                     {
                         return false;
                     }
                 }
-                return await httpController.DownloadFileAsync(dll, ApplicationSettings.Current.GW2Location + RelativeLocation);
+                return await httpController.DownloadFileAsync(dll, ApplicationSettings.Current.Gw2Location + RelativeLocation);
             }
             return false;
         }
 
-        internal bool IsInstalled() => File.Exists(ApplicationSettings.Current.GW2Location + RelativeLocation);
+        internal bool IsInstalled() => File.Exists(ApplicationSettings.Current.Gw2Location + RelativeLocation);
 
         internal bool IsCurrentVersion(string version)
         {
@@ -133,7 +133,7 @@ namespace PlenBotLogUploader.ArcDps
         {
             try
             {
-                return new FileInfo(ApplicationSettings.Current.GW2Location + RelativeLocation).Length;
+                return new FileInfo(ApplicationSettings.Current.Gw2Location + RelativeLocation).Length;
             }
             catch
             {
@@ -146,7 +146,7 @@ namespace PlenBotLogUploader.ArcDps
             using var md5 = System.Security.Cryptography.MD5.Create();
             try
             {
-                using var stream = File.OpenRead(ApplicationSettings.Current.GW2Location + RelativeLocation);
+                using var stream = File.OpenRead(ApplicationSettings.Current.Gw2Location + RelativeLocation);
                 var hash = md5.ComputeHash(stream);
                 return BitConverter.ToString(hash).Replace("-", "").ToLower();
             }

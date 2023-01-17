@@ -134,7 +134,7 @@ namespace PlenBotLogUploader
                     aleevaServers.AddRange(servers);
                 }
                 AddServersToView();
-                comboBoxServer.Text = (!string.IsNullOrWhiteSpace(selectedServer) ? aleevaServers.Find(x => x.ID.Equals(selectedServer))?.ToString() : "");
+                comboBoxServer.Text = (!string.IsNullOrWhiteSpace(selectedServer) ? aleevaServers.Find(x => x.Id.Equals(selectedServer))?.ToString() : "");
                 if (!string.IsNullOrWhiteSpace(selectedServer))
                 {
                     await AleevaLoadChannels(selectedServer);
@@ -154,8 +154,8 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            selectedServer = server.ID;
-            await AleevaLoadChannels(server.ID);
+            selectedServer = server.Id;
+            await AleevaLoadChannels(server.Id);
         }
 
         private async Task AleevaLoadChannels(string serverId)
@@ -184,7 +184,7 @@ namespace PlenBotLogUploader
                     aleevaServerChannels.AddRange(channels);
                 }
                 AddChannelsToView();
-                comboBoxChannel.Text = (!string.IsNullOrWhiteSpace(selectedChannel) ? aleevaServerChannels.Find(x => x.ID.Equals(selectedChannel))?.ToString() : "");
+                comboBoxChannel.Text = (!string.IsNullOrWhiteSpace(selectedChannel) ? aleevaServerChannels.Find(x => x.Id.Equals(selectedChannel))?.ToString() : "");
             }
             catch (Exception ex)
             {
@@ -198,7 +198,7 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            selectedChannel = channel.ID;
+            selectedChannel = channel.Id;
         }
 
         private void FormAleeva_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)

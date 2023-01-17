@@ -60,8 +60,14 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("arcUpdate")]
         internal ApplicationSettingsArcUpdate ArcUpdate { get; set; } = new ApplicationSettingsArcUpdate();
 
+        [JsonProperty("autoUpdate")]
+        internal bool AutoUpdate { get; set; } = false;
+
         [JsonProperty("bossTemplate")]
         internal ApplicationSettingsBossTemplate BossTemplate { get; set; } = new ApplicationSettingsBossTemplate();
+
+        [JsonProperty("buildCodes")]
+        internal ApplicationSettingsBuildCodes BuildCodes { get; set; } = new();
 
         [JsonProperty("firstApplicationRun")]
         internal bool FirstApplicationRun { get; set; } = true;
@@ -70,13 +76,13 @@ namespace PlenBotLogUploader.AppSettings
         internal bool FirstTimeMinimised { get; set; } = false;
 
         [JsonProperty("gw2APIKeys")]
-        internal List<ApplicationSettingsGw2Api> GW2APIs { get; set; } = new List<ApplicationSettingsGw2Api>();
+        internal List<ApplicationSettingsGw2Api> Gw2Apis { get; set; } = new List<ApplicationSettingsGw2Api>();
 
         [JsonProperty("gw2Bot")]
-        internal ApplicationSettingsGw2Bot GW2Bot { get; set; } = new ApplicationSettingsGw2Bot();
+        internal ApplicationSettingsGw2Bot Gw2Bot { get; set; } = new ApplicationSettingsGw2Bot();
 
         [JsonProperty("gw2Location")]
-        internal string GW2Location { get; set; } = "";
+        internal string Gw2Location { get; set; } = "";
 
         [JsonProperty("logsLocation")]
         internal string LogsLocation { get; set; } = "";
@@ -93,9 +99,6 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("minimiseToTry")]
         internal bool MinimiseToTray { get; set; } = true;
 
-        [JsonProperty("autoUpdate")]
-        internal bool AutoUpdate { get; set; } = false;
-
         [JsonProperty("session")]
         internal ApplicationSettingsSession Session { get; set; } = new ApplicationSettingsSession();
 
@@ -107,9 +110,6 @@ namespace PlenBotLogUploader.AppSettings
 
         [JsonProperty("upload")]
         internal ApplicationSettingsUpload Upload { get; set; } = new ApplicationSettingsUpload();
-
-        [JsonProperty("buildCodes")]
-        internal ApplicationSettingsBuildCodes BuildCodes { get; set; } = new();
         #endregion
     }
 }

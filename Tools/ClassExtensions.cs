@@ -19,7 +19,7 @@ namespace PlenBotLogUploader.Tools
             {
                 return $"{(span.Days * 24) + span.Hours}h {span.Minutes}m {span.Seconds}s";
             }
-            else if (span.Minutes > 0)
+            if (span.Minutes > 0)
             {
                 return $"{span.Minutes}m {span.Seconds}s";
             }

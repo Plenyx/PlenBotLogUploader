@@ -7,10 +7,10 @@ namespace PlenBotLogUploader.Teams
     internal sealed class Team
     {
         /// <summary>
-        /// ID of the team, for internal use
+        /// Id of the team, for internal use
         /// </summary>
         [JsonProperty("id")]
-        internal int ID { get; set; }
+        internal int Id { get; set; }
 
         /// <summary>
         /// Name of the webhook team
@@ -37,7 +37,7 @@ namespace PlenBotLogUploader.Teams
             var parsedData = JsonConvert.DeserializeObject<IEnumerable<Team>>(jsonData)
                              ?? throw new JsonException("Could not parse json to WebhookData");
 
-            var result = parsedData.Select(x => (Key: x.ID, TeamData: x))
+            var result = parsedData.Select(x => (Key: x.Id, TeamData: x))
                 .ToDictionary(x => x.Key, x => x.TeamData);
 
             foreach (var team in result.Values)
@@ -48,6 +48,6 @@ namespace PlenBotLogUploader.Teams
             return result;
         }
 
-        internal bool Equals(Team other) => (ID == other.ID) && (Name == other.Name);
+        internal bool Equals(Team other) => (Id == other.Id) && (Name == other.Name);
     }
 }

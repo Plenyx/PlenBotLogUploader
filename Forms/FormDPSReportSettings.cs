@@ -17,9 +17,9 @@ namespace PlenBotLogUploader
             this.mainLink = mainLink;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count(x => x.Active) > 1)
+            if (ApplicationSettings.Current.Upload.DpsReportUserTokens.Count(x => x.Active) > 1)
             {
-                foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens)
+                foreach (var userToken in ApplicationSettings.Current.Upload.DpsReportUserTokens)
                 {
                     userToken.Active = false;
                 }
@@ -34,15 +34,15 @@ namespace PlenBotLogUploader
             Hide();
             if (radioButtonB.Checked)
             {
-                ApplicationSettings.Current.Upload.DPSReportServer = DpsReportServer.B;
+                ApplicationSettings.Current.Upload.DpsReportServer = DpsReportServer.B;
             }
             else if (radioButtonA.Checked)
             {
-                ApplicationSettings.Current.Upload.DPSReportServer = DpsReportServer.A;
+                ApplicationSettings.Current.Upload.DpsReportServer = DpsReportServer.A;
             }
             else
             {
-                ApplicationSettings.Current.Upload.DPSReportServer = DpsReportServer.Main;
+                ApplicationSettings.Current.Upload.DpsReportServer = DpsReportServer.Main;
             }
             ApplicationSettings.Current.Save();
         }
@@ -51,7 +51,7 @@ namespace PlenBotLogUploader
         {
             checkedListBoxUserTokens.ItemCheck -= CheckedListBoxUserTokens_ItemCheck;
             checkedListBoxUserTokens.Items.Clear();
-            foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToArray())
+            foreach (var userToken in ApplicationSettings.Current.Upload.DpsReportUserTokens.OrderBy(x => x.Name).ToArray())
             {
                 checkedListBoxUserTokens.Items.Add(userToken, userToken.Active);
             }
@@ -72,7 +72,7 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemDeleteUserToken_Click(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.Upload.DPSReportUserTokens.Remove((ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.SelectedItem);
+            ApplicationSettings.Current.Upload.DpsReportUserTokens.Remove((ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.SelectedItem);
             ApplicationSettings.Current.Save();
             RedrawList();
         }

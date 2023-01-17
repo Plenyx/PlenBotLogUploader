@@ -36,7 +36,7 @@ namespace PlenBotLogUploader
             Hide();
             ApplicationSettings.Current.Session.Name = textBoxSessionName.Text;
             ApplicationSettings.Current.Session.Message = textBoxSessionContent.Text;
-            ApplicationSettings.Current.Session.MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked;
+            ApplicationSettings.Current.Session.MakeWvwSummaryEmbed = checkBoxMakeWvWSummary.Checked;
             ApplicationSettings.Current.Save();
         }
 
@@ -70,7 +70,7 @@ namespace PlenBotLogUploader
                 ElapsedTime = elapsedTime,
                 ElapsedTimeSpan = elapsedTimeSpan,
                 SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.Wing,
-                MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
+                MakeWvwSummaryEmbed = checkBoxMakeWvWSummary.Checked,
                 UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
                 SelectedWebhooks = ConvertCheckboxListToList()
             };
@@ -151,9 +151,9 @@ namespace PlenBotLogUploader
                 var item = checkedListBoxSelectedWebhooks.Items[i];
                 if ((item is DiscordWebhooksHelperClass discordWebhookHelper) &&
                     checkedListBoxSelectedWebhooks.GetItemChecked(i) &&
-                    allWebhooks.ContainsKey(discordWebhookHelper.WebhookID))
+                    allWebhooks.ContainsKey(discordWebhookHelper.WebhookId))
                 {
-                    list.Add(allWebhooks[discordWebhookHelper.WebhookID]);
+                    list.Add(allWebhooks[discordWebhookHelper.WebhookId]);
                 }
             }
             return list;
@@ -165,7 +165,7 @@ namespace PlenBotLogUploader
             var allWebhooks = DiscordWebhooks.All;
             foreach (var webhookNumber in allWebhooks.Keys)
             {
-                checkedListBoxSelectedWebhooks.Items.Add(new DiscordWebhooksHelperClass() { WebhookID = webhookNumber, Text = $"{allWebhooks[webhookNumber].Name}" }, allWebhooks[webhookNumber].Active);
+                checkedListBoxSelectedWebhooks.Items.Add(new DiscordWebhooksHelperClass() { WebhookId = webhookNumber, Text = $"{allWebhooks[webhookNumber].Name}" }, allWebhooks[webhookNumber].Active);
             }
         }
 

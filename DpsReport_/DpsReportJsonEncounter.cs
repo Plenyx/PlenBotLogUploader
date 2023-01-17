@@ -26,10 +26,10 @@ namespace PlenBotLogUploader.DpsReport
         internal string Boss { get; set; }
 
         [JsonProperty("isCm")]
-        internal bool? IsCM { get; set; }
+        internal bool? IsCm { get; set; }
 
         [JsonProperty("gw2Build")]
-        internal int? Gw2Build { get; set; }
+        internal int? GameBuild { get; set; }
 
         [JsonProperty("jsonAvailable")]
         internal bool? JsonAvailable { get; set; }

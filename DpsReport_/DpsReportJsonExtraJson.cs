@@ -24,19 +24,19 @@ namespace PlenBotLogUploader.DpsReport
         internal string Duration { get; set; }
 
         [JsonProperty("triggerID")]
-        internal int TriggerID { get; set; }
+        internal int TriggerId { get; set; }
 
         [JsonProperty("fightName")]
         internal string FightName { get; set; }
 
         [JsonProperty("gw2Build")]
-        internal int GW2Build { get; set; }
+        internal int GameBuild { get; set; }
 
         [JsonProperty("fightIcon")]
         internal string FightIcon { get; set; }
 
         [JsonProperty("isCM")]
-        internal bool IsCM { get; set; }
+        internal bool IsCm { get; set; }
 
         [JsonProperty("targets")]
         internal Target[] Targets { get; set; }
@@ -52,7 +52,7 @@ namespace PlenBotLogUploader.DpsReport
             foreach (var player in Players.AsSpan())
             {
                 var damage = player.DpsTargets
-                    .Select(x => x[0].DPS)
+                    .Select(x => x[0].Dps)
                     .Sum();
                 dict.Add(player, damage);
             }

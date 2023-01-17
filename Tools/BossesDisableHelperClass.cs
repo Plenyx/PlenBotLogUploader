@@ -2,7 +2,7 @@
 {
     internal sealed class BossesDisableHelperClass
     {
-        internal int BossID { get; set; }
+        internal int BossId { get; set; }
 
         internal string Text { get; set; }
 

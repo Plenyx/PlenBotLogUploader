@@ -11,6 +11,6 @@ namespace PlenBotLogUploader.GitHub
         internal long Size { get; set; }
 
         [JsonProperty("browser_download_url")]
-        internal string DownloadURL { get; set; }
+        internal string DownloadUrl { get; set; }
     }
 }

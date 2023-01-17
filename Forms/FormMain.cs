@@ -169,7 +169,7 @@ namespace PlenBotLogUploader
                 {
                     twitchNameLink.textBoxChannelUrl.Text = $"https://twitch.tv/{ApplicationSettings.Current.Twitch.ChannelName}/";
                 }
-                switch (ApplicationSettings.Current.Upload.DPSReportServer)
+                switch (ApplicationSettings.Current.Upload.DpsReportServer)
                 {
                     case DpsReportServer.A:
                         dpsReportSettingsLink.radioButtonA.Checked = true;
@@ -209,11 +209,11 @@ namespace PlenBotLogUploader
                 {
                     checkBoxAnonymiseReports.Checked = true;
                 }
-                if (ApplicationSettings.Current.Upload.DetailedWvW)
+                if (ApplicationSettings.Current.Upload.DetailedWvw)
                 {
                     checkBoxDetailedWvW.Checked = true;
                 }
-                if (ApplicationSettings.Current.Upload.SaveToCSVEnabled)
+                if (ApplicationSettings.Current.Upload.SaveToCsvEnabled)
                 {
                     checkBoxSaveLogsToCSV.Checked = true;
                 }
@@ -222,14 +222,14 @@ namespace PlenBotLogUploader
                     customNameLink.checkBoxCustomNameEnable.Checked = true;
                     ApplicationSettings.Current.Twitch.Custom.Name = ApplicationSettings.Current.Twitch.Custom.Name.ToLower();
                     customNameLink.textBoxCustomName.Text = ApplicationSettings.Current.Twitch.Custom.Name;
-                    customNameLink.textBoxCustomOAuth.Text = ApplicationSettings.Current.Twitch.Custom.OAuthPassword;
+                    customNameLink.textBoxCustomOAuth.Text = ApplicationSettings.Current.Twitch.Custom.OauthPassword;
                 }
                 arcPluginManagerLink.checkBoxEnableNotifications.Checked = ApplicationSettings.Current.ArcUpdate.Notifications;
-                if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.GW2Location))
+                if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Gw2Location))
                 {
-                    if (File.Exists($@"{ApplicationSettings.Current.GW2Location}\Gw2-64.exe") || File.Exists($@"{ApplicationSettings.Current.GW2Location}\Gw2.exe") || File.Exists($@"{ApplicationSettings.Current.GW2Location}\Guild Wars 2.exe"))
+                    if (File.Exists($@"{ApplicationSettings.Current.Gw2Location}\Gw2-64.exe") || File.Exists($@"{ApplicationSettings.Current.Gw2Location}\Gw2.exe") || File.Exists($@"{ApplicationSettings.Current.Gw2Location}\Guild Wars 2.exe"))
                     {
-                        if (ApplicationSettings.Current.ArcUpdate.UseAL)
+                        if (ApplicationSettings.Current.ArcUpdate.UseAddonLoader)
                         {
                             arcPluginManagerLink.checkBoxUseAL.Checked = true;
                         }
@@ -242,7 +242,7 @@ namespace PlenBotLogUploader
                     else
                     {
                         ShowBalloon("arcdps plugin manager", "There has been an error locating the main Guild Wars 2 folder, try changing the directory again.", 6500);
-                        ApplicationSettings.Current.GW2Location = "";
+                        ApplicationSettings.Current.Gw2Location = "";
                     }
                 }
                 twitchCommandsLink.checkBoxGW2BuildEnable.Checked = ApplicationSettings.Current.Twitch.Commands.BuildEnabled;
@@ -254,8 +254,8 @@ namespace PlenBotLogUploader
                 twitchCommandsLink.checkBoxSongEnable.Checked = ApplicationSettings.Current.Twitch.Commands.SongEnabled;
                 twitchCommandsLink.textBoxSongCommand.Text = ApplicationSettings.Current.Twitch.Commands.SongCommand;
                 twitchCommandsLink.checkBoxSongSmartRecognition.Checked = ApplicationSettings.Current.Twitch.Commands.SongSmartRecognition;
-                twitchCommandsLink.checkBoxGW2IgnEnable.Checked = ApplicationSettings.Current.Twitch.Commands.IGNEnabled;
-                twitchCommandsLink.textBoxGW2Ign.Text = ApplicationSettings.Current.Twitch.Commands.IGNCommand;
+                twitchCommandsLink.checkBoxGW2IgnEnable.Checked = ApplicationSettings.Current.Twitch.Commands.IgnEnabled;
+                twitchCommandsLink.textBoxGW2Ign.Text = ApplicationSettings.Current.Twitch.Commands.IgnCommand;
                 twitchCommandsLink.checkBoxPullCounterEnable.Checked = ApplicationSettings.Current.Twitch.Commands.PullCounterEnabled;
                 twitchCommandsLink.textBoxPullCounter.Text = ApplicationSettings.Current.Twitch.Commands.PullCounterCommand;
                 logSessionLink.textBoxSessionName.Text = ApplicationSettings.Current.Session.Name;
@@ -264,7 +264,7 @@ namespace PlenBotLogUploader
                 logSessionLink.textBoxSessionContent.Text = ApplicationSettings.Current.Session.Message;
                 logSessionLink.radioButtonSortByUpload.Checked = ApplicationSettings.Current.Session.Sort == LogSessionSortBy.UploadTime;
                 logSessionLink.checkBoxSaveToFile.Checked = ApplicationSettings.Current.Session.SaveToFile;
-                logSessionLink.checkBoxMakeWvWSummary.Checked = ApplicationSettings.Current.Session.MakeWvWSummaryEmbed;
+                logSessionLink.checkBoxMakeWvWSummary.Checked = ApplicationSettings.Current.Session.MakeWvwSummaryEmbed;
                 discordWebhooksLink.checkBoxShortenThousands.Checked = ApplicationSettings.Current.ShortenThousands;
                 if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.RefreshToken) && (DateTime.Now < ApplicationSettings.Current.Aleeva.RefreshTokenExpire))
                 {
@@ -278,7 +278,7 @@ namespace PlenBotLogUploader
                 {
                     if (ApplicationSettings.Current.Twitch.Custom.Enabled)
                     {
-                        chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
+                        chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OauthPassword);
                     }
                     else
                     {
@@ -658,7 +658,7 @@ namespace PlenBotLogUploader
 
         protected async Task ValidateGW2Tokens()
         {
-            foreach (var apiKey in ApplicationSettings.Current.GW2APIs)
+            foreach (var apiKey in ApplicationSettings.Current.Gw2Apis)
             {
                 await apiKey.ValidateToken(HttpClientController);
             }
@@ -708,7 +708,7 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJson?.TriggerID ?? reportJSON.Encounter.BossId);
+            var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJson?.TriggerId ?? reportJSON.Encounter.BossId);
             if (bossData is null)
             {
                 lastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
@@ -770,7 +770,7 @@ namespace PlenBotLogUploader
                                 if (extraJson is not null)
                                 {
                                     reportJson.ExtraJson = extraJson;
-                                    bossId = reportJson.ExtraJson.TriggerID;
+                                    bossId = reportJson.ExtraJson.TriggerId;
                                     lastLogBossCM = reportJson.ChallengeMode;
                                 }
                                 else
@@ -783,7 +783,7 @@ namespace PlenBotLogUploader
                                 AddToText(">:> Extra JSON available but couldn't be obtained.");
                             }
                         }
-                        if (ApplicationSettings.Current.Upload.SaveToCSVEnabled)
+                        if (ApplicationSettings.Current.Upload.SaveToCsvEnabled)
                         {
                             try
                             {
@@ -911,15 +911,15 @@ namespace PlenBotLogUploader
                 "json=1",
                 "generator=ei"
             };
-            if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count(x => x.Active) == 1)
+            if (ApplicationSettings.Current.Upload.DpsReportUserTokens.Count(x => x.Active) == 1)
             {
-                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DPSReportUserTokens.Find(x => x.Active).UserToken}");
+                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DpsReportUserTokens.Find(x => x.Active).UserToken}");
             }
             if (ApplicationSettings.Current.Upload.Anonymous)
             {
                 urlParameters.Add("anonymous=true");
             }
-            if (ApplicationSettings.Current.Upload.DetailedWvW)
+            if (ApplicationSettings.Current.Upload.DetailedWvw)
             {
                 urlParameters.Add("detailedwvw=true");
             }
@@ -964,7 +964,7 @@ namespace PlenBotLogUploader
             checkBoxPostToTwitch.Enabled = true;
             if (ApplicationSettings.Current.Twitch.Custom.Enabled)
             {
-                chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
+                chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OauthPassword);
             }
             else
             {
@@ -1013,7 +1013,7 @@ namespace PlenBotLogUploader
             chatConnect = null;
             if (ApplicationSettings.Current.Twitch.Custom.Enabled)
             {
-                chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OAuthPassword);
+                chatConnect = new TwitchChatClient(ApplicationSettings.Current.Twitch.Custom.Name, ApplicationSettings.Current.Twitch.Custom.OauthPassword);
             }
             else
             {
@@ -1154,16 +1154,16 @@ namespace PlenBotLogUploader
                 }
                 _ = Task.Run(async () =>
                 {
-                    foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                    foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.Where(x => x.Valid))
                     {
                         await apiKey.GetCharacters(HttpClientController);
                     }
-                    var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+                    var trueApiKey = ApplicationSettings.Current.Gw2Apis.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
                     if (trueApiKey is null)
                     {
                         return;
                     }
-                    using var gw2Api = new Gw2ApiHelper(trueApiKey.APIKey);
+                    using var gw2Api = new Gw2ApiHelper(trueApiKey.ApiKey);
                     var userInfo = await gw2Api.GetUserInfoAsync();
                     if ((userInfo is not null) && Gw2.AllServers.TryGetValue(userInfo.World, out var playerWorld))
                     {
@@ -1206,11 +1206,11 @@ namespace PlenBotLogUploader
                 AddToText("Read from Mumble Link has failed, is the game running?");
                 return;
             }
-            foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+            foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.Where(x => x.Valid))
             {
                 await apiKey.GetCharacters(HttpClientController);
             }
-            var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+            var trueApiKey = ApplicationSettings.Current.Gw2Apis.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
             if (trueApiKey == null)
             {
                 AddToText($"No api key could be found for character '{MumbleReader.Data.Identity.Name}'");
@@ -1219,7 +1219,7 @@ namespace PlenBotLogUploader
 
             try
             {
-                var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.ApiKey);
                 if (ApplicationSettings.Current.BuildCodes.DemoteRunes)
                 {
                     code.Rune = Static.LegendaryToSuperior(code.Rune);
@@ -1241,7 +1241,7 @@ namespace PlenBotLogUploader
             }
             catch (MissingScopesException)
             {
-                var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
+                var missingScopes = APILoader.ValidateScopes(trueApiKey.ApiKey);
                 AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
             }
             catch (NotFoundException)
@@ -1259,12 +1259,12 @@ namespace PlenBotLogUploader
         internal void RedrawUserTokenContext()
         {
             toolStripMenuItemDPSReportUserTokens.DropDownItems.Clear();
-            if (ApplicationSettings.Current.Upload.DPSReportUserTokens.Count == 0)
+            if (ApplicationSettings.Current.Upload.DpsReportUserTokens.Count == 0)
             {
                 toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItem() { Enabled = false, Text = "No user tokens defined" });
                 return;
             }
-            foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens.OrderBy(x => x.Name).ToArray())
+            foreach (var userToken in ApplicationSettings.Current.Upload.DpsReportUserTokens.OrderBy(x => x.Name).ToArray())
             {
                 var index = toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken>() { Checked = userToken.Active, Text = userToken.Name, LinkedObject = userToken });
                 toolStripMenuItemDPSReportUserTokens.DropDownItems[index].Click += UserTokenButtonClicked;
@@ -1277,7 +1277,7 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            foreach (var userToken in ApplicationSettings.Current.Upload.DPSReportUserTokens.AsSpan())
+            foreach (var userToken in ApplicationSettings.Current.Upload.DpsReportUserTokens.AsSpan())
             {
                 userToken.Active = false;
             }
@@ -1507,7 +1507,7 @@ namespace PlenBotLogUploader
             }
             buttonUpdate.Enabled = false;
             AddToText(">>> Downloading the update...");
-            var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals(Process.GetCurrentProcess().ProcessName.Contains("netv6") ? netv6DownloadName : standaloneDownloadName)).DownloadURL;
+            var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals(Process.GetCurrentProcess().ProcessName.Contains("netv6") ? netv6DownloadName : standaloneDownloadName)).DownloadUrl;
             if (downloadUrl is null)
             {
                 AddToText(">>> Something went wrong with the download. Please try again later.");
@@ -1585,13 +1585,13 @@ namespace PlenBotLogUploader
 
         private void CheckBoxDetailedWvW_CheckedChanged(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.Upload.DetailedWvW = checkBoxDetailedWvW.Checked;
+            ApplicationSettings.Current.Upload.DetailedWvw = checkBoxDetailedWvW.Checked;
             ApplicationSettings.Current.Save();
         }
 
         private void CheckBoxSaveLogsToCSV_CheckedChanged(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.Upload.SaveToCSVEnabled = checkBoxSaveLogsToCSV.Checked;
+            ApplicationSettings.Current.Upload.SaveToCsvEnabled = checkBoxSaveLogsToCSV.Checked;
             ApplicationSettings.Current.Save();
         }
         #endregion

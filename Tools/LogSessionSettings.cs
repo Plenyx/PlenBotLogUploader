@@ -39,7 +39,7 @@ namespace PlenBotLogUploader.Tools
         /// <summary>
         /// Make the WvW summary embed appended to the beginning of the session texts
         /// </summary>
-        internal bool MakeWvWSummaryEmbed { get; set; }
+        internal bool MakeWvwSummaryEmbed { get; set; }
 
         /// <summary>
         /// Whether to use SelectedWebhooks for the session ping instead of all active sessions

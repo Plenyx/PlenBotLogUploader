@@ -12,17 +12,17 @@ namespace PlenBotLogUploader.AppSettings
         internal string Name { get; set; }
 
         [JsonProperty("apikey")]
-        internal string APIKey { get; set; }
+        internal string ApiKey { get; set; }
 
         internal bool Valid { get; set; } = true;
 
         internal List<string> Characters { get; set; } = new List<string>();
 
-        public override string ToString() => $"{Name}{(!Valid ? " (token not valid)" : "")}";
+        public override string ToString() => Name + (!Valid ? " (token not valid)" : "");
 
         internal async Task<bool> ValidateToken(HttpClientController httpClientController)
         {
-            using var response = await httpClientController.GetAsync($"https://api.guildwars2.com/v2/tokeninfo?access_token={APIKey}");
+            using var response = await httpClientController.GetAsync($"https://api.guildwars2.com/v2/tokeninfo?access_token={ApiKey}");
             Valid = response.IsSuccessStatusCode;
             return Valid;
         }
@@ -33,7 +33,7 @@ namespace PlenBotLogUploader.AppSettings
             {
                 return;
             }
-            using var response = await httpClientController.GetAsync($"https://api.guildwars2.com/v2/characters?access_token={APIKey}");
+            using var response = await httpClientController.GetAsync($"https://api.guildwars2.com/v2/characters?access_token={ApiKey}");
             if (!response.IsSuccessStatusCode)
             {
                 Valid = false;

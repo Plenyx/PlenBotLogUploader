@@ -26,7 +26,7 @@ namespace PlenBotLogUploader.DiscordApi
         /// URL of the webhook
         /// </summary>
         [JsonProperty("url")]
-        internal string URL { get; set; }
+        internal string Url { get; set; }
 
         /// <summary>
         /// Indicates whether the webhook is executed only if the ecounter is a success
@@ -65,7 +65,7 @@ namespace PlenBotLogUploader.DiscordApi
             set
             {
                 _team = value;
-                TeamId = value.ID;
+                TeamId = value.Id;
             }
         }
 
@@ -80,7 +80,7 @@ namespace PlenBotLogUploader.DiscordApi
         {
             try
             {
-                var response = await httpController.DownloadFileToStringAsync(URL);
+                var response = await httpController.DownloadFileToStringAsync(Url);
                 var pingTest = JsonConvert.DeserializeObject<DiscordApiJsonWebhookResponse>(response);
                 return pingTest?.Success ?? false;
             }

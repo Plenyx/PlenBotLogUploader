@@ -31,11 +31,11 @@ namespace PlenBotLogUploader
         internal void RedrawList()
         {
             listBoxAPIKeys.Items.Clear();
-            foreach (var apiKey in ApplicationSettings.Current.GW2APIs.AsSpan())
+            foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.AsSpan())
             {
                 listBoxAPIKeys.Items.Add(apiKey);
             }
-            buttonGetHardstuckBuildLink.Enabled = ApplicationSettings.Current.GW2APIs.Count > 0;
+            buttonGetHardstuckBuildLink.Enabled = ApplicationSettings.Current.Gw2Apis.Count > 0;
         }
 
         private void ListBoxAPIKeys_DoubleClick(object sender, EventArgs e)
@@ -60,7 +60,7 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemRemoveKey_Click(object sender, EventArgs e)
         {
-            ApplicationSettings.Current.GW2APIs.Remove((ApplicationSettingsGw2Api)listBoxAPIKeys.SelectedItem);
+            ApplicationSettings.Current.Gw2Apis.Remove((ApplicationSettingsGw2Api)listBoxAPIKeys.SelectedItem);
             ApplicationSettings.Current.Save();
             RedrawList();
         }
@@ -77,22 +77,22 @@ namespace PlenBotLogUploader
             _ = Task.Run(async () =>
             {
                 using var httpClientController = new HttpClientController();
-                foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.Where(x => x.Valid))
                 {
                     await apiKey.GetCharacters(httpClientController);
                 }
-                var trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                var trueApiKey = ApplicationSettings.Current.Gw2Apis.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                 if (trueApiKey is null)
                 {
-                    foreach (var apiKey in ApplicationSettings.Current.GW2APIs.Where(x => x.Valid))
+                    foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.Where(x => x.Valid))
                     {
                         await apiKey.GetCharacters(httpClientController, true);
                     }
-                    trueApiKey = ApplicationSettings.Current.GW2APIs.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
+                    trueApiKey = ApplicationSettings.Current.Gw2Apis.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                 }
                 try
                 {
-                    var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.APIKey);
+                    var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.ApiKey);
                     if (ApplicationSettings.Current.BuildCodes.DemoteRunes)
                     {
                         code.Rune = Static.LegendaryToSuperior(code.Rune);
@@ -113,7 +113,7 @@ namespace PlenBotLogUploader
                 }
                 catch (MissingScopesException)
                 {
-                    var missingScopes = APILoader.ValidateScopes(trueApiKey.APIKey);
+                    var missingScopes = APILoader.ValidateScopes(trueApiKey.ApiKey);
                     mainLink.AddToText($"GW2 API access token is missing the following required scopes: {string.Join(", ", missingScopes)}.");
                 }
                 catch (NotFoundException)

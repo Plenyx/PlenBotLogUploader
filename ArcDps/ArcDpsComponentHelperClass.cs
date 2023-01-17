@@ -13,7 +13,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "Mechanics",
                 FullName = "Mechanics log",
                 LinkName = "knoxfighter/GW2-ArcDPS-Mechanics-Log",
-                LinkURL = "https://github.com/knoxfighter/GW2-ArcDPS-Mechanics-Log/",
+                LinkUrl = "https://github.com/knoxfighter/GW2-ArcDPS-Mechanics-Log/",
                 Author = "MarsEdge, modified by knoxfighter",
                 Type = ArcDpsComponentType.Mechanics,
                 Provider = "GitHub",
@@ -25,7 +25,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "Boon table",
                 FullName = "Boon table",
                 LinkName = "knoxfighter/GW2-ArcDPS-Boon-Table",
-                LinkURL = "https://github.com/knoxfighter/GW2-ArcDPS-Boon-Table/",
+                LinkUrl = "https://github.com/knoxfighter/GW2-ArcDPS-Boon-Table/",
                 Author = "MarsEdge, modified by knoxfighter",
                 Type = ArcDpsComponentType.BoonTable,
                 Provider = "GitHub",
@@ -37,7 +37,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "Killproof.me",
                 FullName = "Killproof.me arcdps plugin",
                 LinkName = "knoxfighter/arcdps-killproof.me-plugin",
-                LinkURL = "https://github.com/knoxfighter/arcdps-killproof.me-plugin/",
+                LinkUrl = "https://github.com/knoxfighter/arcdps-killproof.me-plugin/",
                 Author = "knoxfighter",
                 Type = ArcDpsComponentType.KPme,
                 Provider = "GitHub",
@@ -49,7 +49,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "Heal stats",
                 FullName = "Heal stats",
                 LinkName = "Krappa322/arcdps_healing_stats",
-                LinkURL = "https://github.com/Krappa322/arcdps_healing_stats/",
+                LinkUrl = "https://github.com/Krappa322/arcdps_healing_stats/",
                 Author = "Krappa322",
                 Type = ArcDpsComponentType.HealStats,
                 Provider = "GitHub",
@@ -61,7 +61,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "Scrolling combat text",
                 FullName = "Scrolling combat text",
                 LinkName = "Artenuvielle/GW2-SCT",
-                LinkURL = "https://github.com/Artenuvielle/GW2-SCT/",
+                LinkUrl = "https://github.com/Artenuvielle/GW2-SCT/",
                 Author = "Artenuvielle",
                 Type = ArcDpsComponentType.SCT,
                 Provider = "GitHub",
@@ -73,7 +73,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "ArcDps Clears",
                 FullName = "ArcDps clears",
                 LinkName = "gw2scratch/arcdps-clears",
-                LinkURL = "https://github.com/gw2scratch/arcdps-clears/",
+                LinkUrl = "https://github.com/gw2scratch/arcdps-clears/",
                 Author = "Sejsel",
                 Type = ArcDpsComponentType.Clears,
                 Provider = "GitHub",
@@ -85,7 +85,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "Food Reminder",
                 FullName = "Food Reminder",
                 LinkName = "Zerthox/arcdps-food-reminder",
-                LinkURL = "https://github.com/Zerthox/arcdps-food-reminder/",
+                LinkUrl = "https://github.com/Zerthox/arcdps-food-reminder/",
                 Author = "Zerthox",
                 Type = ArcDpsComponentType.FoodReminder,
                 Provider = "GitHub",
@@ -97,7 +97,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "Commander's Toolkit",
                 FullName = "Commander's Toolkit",
                 LinkName = "RaidcoreGG/GW2-CommandersToolkit",
-                LinkURL = "https://github.com/RaidcoreGG/GW2-CommandersToolkit/",
+                LinkUrl = "https://github.com/RaidcoreGG/GW2-CommandersToolkit/",
                 Author = "DeltaxHunter",
                 Type = ArcDpsComponentType.CommandersToolkit,
                 Provider = "GitHub",
@@ -109,7 +109,7 @@ namespace PlenBotLogUploader.ArcDps
                 Name = "Know Thy Enemy",
                 FullName = "Know Thy Enemy",
                 LinkName = "typedeck0/Know-thy-enemy",
-                LinkURL = "https://github.com/typedeck0/Know-thy-enemy/",
+                LinkUrl = "https://github.com/typedeck0/Know-thy-enemy/",
                 Author = "typedeck",
                 Type = ArcDpsComponentType.KnowThyEnemy,
                 Provider = "GitHub",
@@ -128,7 +128,7 @@ namespace PlenBotLogUploader.ArcDps
 
         internal string LinkName { get; set; }
 
-        internal string LinkURL { get; set; }
+        internal string LinkUrl { get; set; }
 
         internal string License { get; set; }
 
@@ -151,7 +151,7 @@ namespace PlenBotLogUploader.ArcDps
             _ => "d3d11.dll",
         };
 
-        internal bool IsInstalled => File.Exists(ApplicationSettings.Current.GW2Location + DefaultFileName);
+        internal bool IsInstalled => File.Exists(ApplicationSettings.Current.Gw2Location + DefaultFileName);
 
         public override string ToString() => $"{Name} by {Author}";
     }

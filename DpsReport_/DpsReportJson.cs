@@ -13,7 +13,7 @@ namespace PlenBotLogUploader.DpsReport
         /// DPSReport ID
         /// </summary>
         [JsonProperty("id")]
-        internal string ID { get; set; }
+        internal string Id { get; set; }
 
         /// <summary>
         /// URL to DPSReport
@@ -93,6 +93,6 @@ namespace PlenBotLogUploader.DpsReport
         /// <summary>
         /// whether the enouncter was in challenge mode
         /// </summary>
-        internal bool ChallengeMode => (ExtraJson?.IsCM ?? false) || (Encounter?.IsCM ?? false);
+        internal bool ChallengeMode => (ExtraJson?.IsCm ?? false) || (Encounter?.IsCm ?? false);
     }
 }

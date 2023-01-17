@@ -92,21 +92,21 @@ namespace PlenBotLogUploader
                 {
                     // squad summary
                     var squadPlayers = reportJSON.ExtraJson.Players
-                        .Count(x => !x.FriendNPC && !x.NotInSquad);
+                        .Count(x => !x.FriendlyNpc && !x.NotInSquad);
                     var squadDamage = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendNPC && !x.NotInSquad)
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad)
                         .Select(x => x.DpsTargets.Sum(y => y.Sum(z => z.Damage)))
                         .Sum();
                     var squadDps = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendNPC && !x.NotInSquad)
-                        .Select(x => x.DpsTargets.Sum(y => y.Sum(z => z.DPS)))
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad)
+                        .Select(x => x.DpsTargets.Sum(y => y.Sum(z => z.Dps)))
                         .Sum();
                     var squadDowns = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendNPC && !x.NotInSquad)
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad)
                         .Select(x => x.Defenses[0].DownCount)
                         .Sum();
                     var squadDeaths = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendNPC && !x.NotInSquad)
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad)
                         .Select(x => x.Defenses[0].DeadCount)
                         .Sum();
                     var squadSummary = new TextTable(5, tableStyle, tableBorders);
@@ -146,14 +146,14 @@ namespace PlenBotLogUploader
                             .Sum();
                         var enemyDps = reportJSON.ExtraJson.Targets
                             .Where(x => !x.IsFake)
-                            .Select(x => x.DpsAll[0].DPS)
+                            .Select(x => x.DpsAll[0].Dps)
                             .Sum();
                         var enemyDowns = reportJSON.ExtraJson.Players
-                            .Where(x => !x.FriendNPC && !x.NotInSquad)
+                            .Where(x => !x.FriendlyNpc && !x.NotInSquad)
                             .Select(x => x.StatsTargets.Select(y => y[0].Downed).Sum())
                             .Sum();
                         var enemyDeaths = reportJSON.ExtraJson.Players
-                            .Where(x => !x.FriendNPC && !x.NotInSquad)
+                            .Where(x => !x.FriendlyNpc && !x.NotInSquad)
                             .Select(x => x.StatsTargets.Select(y => y[0].Killed).Sum())
                             .Sum();
                         var enemySummary = new TextTable(5, tableStyle, tableBorders);
@@ -180,7 +180,7 @@ namespace PlenBotLogUploader
                     }
                     // damage summary
                     var damageStats = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendNPC && !x.NotInSquad && (x.DpsTargets.Sum(y => y[0].Damage) > 0))
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.DpsTargets.Sum(y => y[0].Damage) > 0))
                         .OrderByDescending(x => x.DpsTargets.Sum(y => y[0].Damage))
                         .Take(10)
                         .ToArray();
@@ -200,7 +200,7 @@ namespace PlenBotLogUploader
                         damageSummary.AddCell($"{rank}", tableCellCenterAlign);
                         damageSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
                         damageSummary.AddCell($"{player.DpsTargets.Sum(y => y[0].Damage).ParseAsK()}", tableCellRightAlign);
-                        damageSummary.AddCell($"{player.DpsTargets.Sum(y => y[0].DPS).ParseAsK()}", tableCellRightAlign);
+                        damageSummary.AddCell($"{player.DpsTargets.Sum(y => y[0].Dps).ParseAsK()}", tableCellRightAlign);
                     }
                     var damageField = new DiscordApiJsonContentEmbedField()
                     {
@@ -209,7 +209,7 @@ namespace PlenBotLogUploader
                     };
                     // cleanses summary
                     var cleansesStats = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendNPC && !x.NotInSquad && (x.Support[0].CondiCleanseTotal > 0))
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.Support[0].CondiCleanseTotal > 0))
                         .OrderByDescending(x => x.Support[0].CondiCleanseTotal)
                         .Take(10)
                         .ToArray();
@@ -235,7 +235,7 @@ namespace PlenBotLogUploader
                     };
                     // boon strips summary
                     var boonStripsStats = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendNPC && !x.NotInSquad && (x.Support[0].BoonStrips > 0))
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.Support[0].BoonStrips > 0))
                         .OrderByDescending(x => x.Support[0].BoonStrips)
                         .Take(10)
                         .ToArray();
@@ -288,7 +288,7 @@ namespace PlenBotLogUploader
                         {
                             continue;
                         }
-                        var uri = new Uri(webhook.URL);
+                        var uri = new Uri(webhook.Url);
                         using var content = new StringContent(jsonContentWvW, Encoding.UTF8, "application/json");
                         using var response = await mainLink.HttpClientController.PostAsync(uri, content);
                     }
@@ -366,7 +366,7 @@ namespace PlenBotLogUploader
                         playerNames.SetColumnWidthRange(1, 20, 20);
                         playerNames.AddCell("Character");
                         playerNames.AddCell("Account name");
-                        foreach (var player in reportJSON.ExtraJson.Players.Where(x => !x.FriendNPC).OrderBy(x => x.Name))
+                        foreach (var player in reportJSON.ExtraJson.Players.Where(x => !x.FriendlyNpc).OrderBy(x => x.Name))
                         {
                             playerNames.AddCell($"{player.Name}");
                             playerNames.AddCell($"{player.Account}");
@@ -381,11 +381,11 @@ namespace PlenBotLogUploader
                         // damage summary
                         var targetDps = reportJSON.ExtraJson.GetPlayerTargetDPS();
                         var damageStats = reportJSON.ExtraJson.Players
-                            .Where(x => !x.FriendNPC)
+                            .Where(x => !x.FriendlyNpc)
                             .Select(x => new
                             {
                                 Player = x,
-                                DPS = (numberOfRealTargers > 0) ? targetDps[x] : x.DpsAll[0].DPS
+                                DPS = (numberOfRealTargers > 0) ? targetDps[x] : x.DpsAll[0].Dps
                             })
                             .OrderByDescending(x => x.DPS)
                             .Take(10)
@@ -438,7 +438,7 @@ namespace PlenBotLogUploader
                         {
                             continue;
                         }
-                        var uri = new Uri(webhook.URL);
+                        var uri = new Uri(webhook.Url);
                         if (webhook.ShowPlayers)
                         {
                             using var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json");
@@ -523,7 +523,7 @@ namespace PlenBotLogUploader
                     jsonContent = jsonContentFailure;
                 }
 
-                var uri = new Uri(webhook.URL);
+                var uri = new Uri(webhook.Url);
                 using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 await mainLink.HttpClientController.PostAsync(uri, content);
             }

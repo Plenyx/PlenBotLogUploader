@@ -81,7 +81,7 @@ namespace PlenBotLogUploader.DpsReport
             format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);
             format = format.Replace("<log>", reportJSON.ConfigAwarePermalink);
             format = format.Replace("<pulls>", pullCounter.ToString());
-            format = ((reportJSON.ExtraJson is not null) && (reportJSON.ExtraJson.PossiblyLastTarget is not null))
+            format = (reportJSON.ExtraJson?.PossiblyLastTarget is not null)
                 ? format.Replace("<percent>", $"{reportJSON.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(reportJSON.ExtraJson.PossiblyLastTarget.RemainingHealthPercent, 2)}%)")
                 : format.Replace("<percent>", "");
             return format;

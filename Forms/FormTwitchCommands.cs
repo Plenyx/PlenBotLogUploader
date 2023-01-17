@@ -25,8 +25,8 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Twitch.Commands.SongEnabled = checkBoxSongEnable.Checked;
             ApplicationSettings.Current.Twitch.Commands.SongCommand = textBoxSongCommand.Text;
             ApplicationSettings.Current.Twitch.Commands.SongSmartRecognition = checkBoxSongSmartRecognition.Checked;
-            ApplicationSettings.Current.Twitch.Commands.IGNEnabled = checkBoxGW2IgnEnable.Checked;
-            ApplicationSettings.Current.Twitch.Commands.IGNCommand = textBoxGW2Ign.Text;
+            ApplicationSettings.Current.Twitch.Commands.IgnEnabled = checkBoxGW2IgnEnable.Checked;
+            ApplicationSettings.Current.Twitch.Commands.IgnCommand = textBoxGW2Ign.Text;
             ApplicationSettings.Current.Twitch.Commands.PullCounterEnabled = checkBoxPullCounterEnable.Checked;
             ApplicationSettings.Current.Twitch.Commands.PullCounterCommand = textBoxPullCounter.Text;
             ApplicationSettings.Current.Save();

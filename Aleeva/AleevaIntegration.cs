@@ -23,17 +23,17 @@ namespace PlenBotLogUploader.Aleeva
         [JsonProperty("channel")]
         internal string Channel { get; set; } = "";
 
-        [JsonProperty("server")]
-        internal string Server { get; set; } = "";
-
-        [JsonProperty("teamId")]
-        internal int TeamId { get; set; } = 0;
-
         [JsonProperty("sendNotification")]
         internal bool SendNotification { get; set; } = false;
 
         [JsonProperty("sendOnSuccessOnly")]
         internal bool SendOnSuccessOnly { get; set; } = false;
+
+        [JsonProperty("server")]
+        internal string Server { get; set; } = "";
+
+        [JsonProperty("teamId")]
+        internal int TeamId { get; set; } = 0;
 
         /// <summary>
         /// A selected integration team, with which the Aleeva integration should evaluate itself
@@ -51,7 +51,7 @@ namespace PlenBotLogUploader.Aleeva
             set
             {
                 _team = value;
-                TeamId = value.ID;
+                TeamId = value.Id;
             }
         }
 

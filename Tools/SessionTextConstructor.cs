@@ -79,9 +79,9 @@ namespace PlenBotLogUploader.Tools
                 .ToArray();
 
             var durationText = $"Session duration: **{logSessionSettings.ElapsedTime}**";
-            var builderSuccessFailure = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
-            var builderSuccess = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
-            var builderFailure = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvWSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
+            var builderSuccessFailure = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvwSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
+            var builderSuccess = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvwSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
+            var builderFailure = ((WvWLogs.Length > 0) && logSessionSettings.MakeWvwSummaryEmbed) ? new StringBuilder() : new StringBuilder($"{durationText}\n\n");
             int messageSuccessFailureCount = 0, messageSuccessCount = 0, messageFailureCount = 0;
 
             if (RaidLogs.Length > 0)
@@ -403,18 +403,18 @@ namespace PlenBotLogUploader.Tools
             }
             if (WvWLogs.Length > 0)
             {
-                if (logSessionSettings.MakeWvWSummaryEmbed)
+                if (logSessionSettings.MakeWvwSummaryEmbed)
                 {
                     var totalEnemyKills = WvWLogs.Select(x =>
                         x.ExtraJson?.Players
-                            .Where(y => !y.FriendNPC && !y.NotInSquad)
+                            .Where(y => !y.FriendlyNpc && !y.NotInSquad)
                             .Select(y => y.StatsTargets.Select(z => z[0].Killed).Sum())
                             .Sum()
                         ?? 0)
                     .Sum();
                     var totalSquadDeaths = WvWLogs.Select(x =>
                         x.ExtraJson?.Players
-                            .Where(y => !y.FriendNPC && !y.NotInSquad)
+                            .Where(y => !y.FriendlyNpc && !y.NotInSquad)
                             .Select(y => y.Defenses[0].DeadCount)
                             .Sum()
                         ?? 0)

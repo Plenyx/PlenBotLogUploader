@@ -39,7 +39,7 @@ namespace PlenBotLogUploader
             {
                 if (data is not null)
                 {
-                    ApplicationSettings.Current.Upload.DPSReportUserTokens.Remove(data);
+                    ApplicationSettings.Current.Upload.DpsReportUserTokens.Remove(data);
                     ApplicationSettings.Current.Save();
                 }
                 settingsLink.RedrawList();
@@ -48,7 +48,7 @@ namespace PlenBotLogUploader
             if (data is null)
             {
                 data = new ApplicationSettingsUploadUserToken() { Active = false, Name = textBoxName.Text, UserToken = textBoxUserToken.Text };
-                ApplicationSettings.Current.Upload.DPSReportUserTokens.Add(data);
+                ApplicationSettings.Current.Upload.DpsReportUserTokens.Add(data);
             }
             else
             {

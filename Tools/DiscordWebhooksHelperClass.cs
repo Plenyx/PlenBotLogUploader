@@ -2,7 +2,7 @@
 {
     internal sealed class DiscordWebhooksHelperClass
     {
-        internal int WebhookID { get; set; }
+        internal int WebhookId { get; set; }
 
         internal string Text { get; set; }
 

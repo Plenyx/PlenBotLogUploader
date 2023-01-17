@@ -24,7 +24,7 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             allTeams = LoadTeams();
 
-            teamIdsKey = allTeams.Values.Select(x => x.ID).OrderByDescending(x => x).First() + 1;
+            teamIdsKey = allTeams.Values.Select(x => x.Id).OrderByDescending(x => x).First() + 1;
 
             foreach (var key in allTeams.Keys.Skip(1).ToArray())
             {
@@ -70,7 +70,7 @@ namespace PlenBotLogUploader
                 webhook.Team = allTeams.Values.First();
             }
             listBoxTeams.SelectedItem = null;
-            allTeams.Remove(item.ID);
+            allTeams.Remove(item.Id);
             listBoxTeams.Items.Remove(item);
         }
 
@@ -78,7 +78,7 @@ namespace PlenBotLogUploader
         {
             var item = (Team)listBoxTeams.SelectedItem;
             listBoxTeams.SelectedItem = null;
-            new FormEditTeam(this, item, item.ID).ShowDialog();
+            new FormEditTeam(this, item, item.Id).ShowDialog();
         }
 
         private void ListBoxTeams_DoubleClick(object sender, EventArgs e)
@@ -86,7 +86,7 @@ namespace PlenBotLogUploader
             if (listBoxTeams.SelectedItem is not null)
             {
                 var item = (Team)listBoxTeams.SelectedItem;
-                new FormEditTeam(this, item, item.ID).ShowDialog();
+                new FormEditTeam(this, item, item.Id).ShowDialog();
             }
             listBoxTeams.SelectedItem = null;
         }

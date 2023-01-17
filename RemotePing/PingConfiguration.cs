@@ -16,7 +16,7 @@ namespace PlenBotLogUploader.RemotePing
         internal string Name { get; set; } = "";
 
         [JsonProperty("url")]
-        internal string URL { get; set; } = "";
+        internal string Url { get; set; } = "";
 
         [JsonProperty("method")]
         internal PingMethod Method { get; set; } = PingMethod.Post;
@@ -55,8 +55,8 @@ namespace PlenBotLogUploader.RemotePing
                 try
                 {
                     using var responseMessage = (configuration.Method.Equals(PingMethod.Put)) ?
-                        await controller.PutAsync(configuration.URL, content) :
-                        await controller.PostAsync(configuration.URL, content);
+                        await controller.PutAsync(configuration.Url, content) :
+                        await controller.PostAsync(configuration.Url, content);
                     var response = await responseMessage.Content.ReadAsStringAsync();
                     var statusJSON = JsonConvert.DeserializeObject<PingResponse>(response);
                     if (responseMessage.IsSuccessStatusCode)
@@ -76,15 +76,15 @@ namespace PlenBotLogUploader.RemotePing
             }
             else if (configuration.Method.Equals(PingMethod.Get) || configuration.Method.Equals(PingMethod.Delete))
             {
-                var fullLink = $"{configuration.URL}?";
+                var fullLink = $"{configuration.Url}?";
                 if (reportJSON is not null)
                 {
                     var success = (reportJSON.Encounter.Success ?? false) ? "1" : "0";
                     var encounterInfo = $"bossId={reportJSON.Encounter.BossId}&success={success}&arcVersion={reportJSON.Evtc.Type}{reportJSON.Evtc.Version}&permalink={System.Web.HttpUtility.UrlEncode(reportJSON.ConfigAwarePermalink)}";
                     fullLink += encounterInfo;
-                    if (configuration.URL.Contains('?'))
+                    if (configuration.Url.Contains('?'))
                     {
-                        fullLink = $"{configuration.URL}&{encounterInfo}";
+                        fullLink = $"{configuration.Url}&{encounterInfo}";
                     }
                 }
                 if (configuration.Authentication.Active)

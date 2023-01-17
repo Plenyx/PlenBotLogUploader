@@ -24,7 +24,7 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             Text = (addNew) ? "Add a new ping configuration" : "Edit an existing ping configuration";
             textBoxName.Text = config?.Name ?? "";
-            textBoxURL.Text = config?.URL ?? "";
+            textBoxURL.Text = config?.Url ?? "";
             textBoxAuthName.Text = config?.Authentication.AuthName ?? "Bearer";
             textBoxAuthToken.Text = config?.Authentication.AuthToken ?? "";
             switch (config?.Method ?? PingMethod.Post)
@@ -83,7 +83,7 @@ namespace PlenBotLogUploader
                     AuthName = textBoxAuthName.Text,
                     AuthToken = textBoxAuthToken.Text
                 };
-                pingLink.AllPings[reservedId] = new PingConfiguration() { Active = false, Name = textBoxName.Text, URL = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
+                pingLink.AllPings[reservedId] = new PingConfiguration() { Active = false, Name = textBoxName.Text, Url = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
                 pingLink.listViewPings.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
                 return;
             }
@@ -91,7 +91,7 @@ namespace PlenBotLogUploader
             {
                 pingLink.AllPings[reservedId].Active = config.Active;
                 pingLink.AllPings[reservedId].Name = textBoxName.Text;
-                pingLink.AllPings[reservedId].URL = textBoxURL.Text;
+                pingLink.AllPings[reservedId].Url = textBoxURL.Text;
                 if (radioButtonMethodPut.Checked)
                 {
                     pingLink.AllPings[reservedId].Method = PingMethod.Put;
@@ -138,7 +138,7 @@ namespace PlenBotLogUploader
                 AuthName = textBoxAuthName.Text,
                 AuthToken = textBoxAuthToken.Text
             };
-            var tempPing = new PingConfiguration() { Active = false, Name = textBoxName.Text, URL = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
+            var tempPing = new PingConfiguration() { Active = false, Name = textBoxName.Text, Url = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
             var result = await tempPing.PingServerAsync(null, null);
             if (result)
             {

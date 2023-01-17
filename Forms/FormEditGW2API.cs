@@ -25,7 +25,7 @@ namespace PlenBotLogUploader
             {
                 this.data = data;
                 textBoxAPIKeyName.Text = data.Name;
-                textBoxAPIKeyKey.Text = data.APIKey;
+                textBoxAPIKeyKey.Text = data.ApiKey;
                 labelIsTokenValid.Text = "Verifying the token...";
             }
         }
@@ -36,7 +36,7 @@ namespace PlenBotLogUploader
             {
                 if (data is not null)
                 {
-                    ApplicationSettings.Current.GW2APIs.Remove(data);
+                    ApplicationSettings.Current.Gw2Apis.Remove(data);
                     ApplicationSettings.Current.Save();
                     gw2apiLink.RedrawList();
                 }
@@ -45,14 +45,14 @@ namespace PlenBotLogUploader
             }
             if (data is null)
             {
-                data = new ApplicationSettingsGw2Api() { Name = textBoxAPIKeyName.Text, APIKey = textBoxAPIKeyKey.Text };
-                ApplicationSettings.Current.GW2APIs.Add(data);
+                data = new ApplicationSettingsGw2Api() { Name = textBoxAPIKeyName.Text, ApiKey = textBoxAPIKeyKey.Text };
+                ApplicationSettings.Current.Gw2Apis.Add(data);
                 ApplicationSettings.Current.Save();
             }
             else
             {
                 data.Name = textBoxAPIKeyName.Text;
-                data.APIKey = textBoxAPIKeyKey.Text;
+                data.ApiKey = textBoxAPIKeyKey.Text;
                 ApplicationSettings.Current.Save();
             }
             await data.ValidateToken(httpClientController);

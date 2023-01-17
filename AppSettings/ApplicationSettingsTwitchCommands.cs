@@ -14,10 +14,10 @@ namespace PlenBotLogUploader.AppSettings
         internal bool BuildSmartRecognition { get; set; } = true;
 
         [JsonProperty("ignEnabled")]
-        internal bool IGNEnabled { get; set; } = false;
+        internal bool IgnEnabled { get; set; } = false;
 
         [JsonProperty("ignCommand")]
-        internal string IGNCommand { get; set; } = "!ign";
+        internal string IgnCommand { get; set; } = "!ign";
 
         [JsonProperty("lastLogEnabled")]
         internal bool LastLogEnabled { get; set; } = false;
