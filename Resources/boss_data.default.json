@@ -1,426 +1,427 @@
 ﻿[
   {
-    "BossId": 24033,
-    "Name": "Aetherblade Hideout",
-    "Icon": "https://i.imgur.com/UZmW8Sd.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 24033,
+    "name": "Aetherblade Hideout",
+    "icon": "https://i.imgur.com/UZmW8Sd.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 23254,
-    "Name": "Ai, Keeper of the Peak",
-    "Icon": "https://plenbot.net/img/ai_icon.png",
-    "Type": 2,
-    "Event": false
+    "bossId": 23254,
+    "name": "Ai, Keeper of the Peak",
+    "icon": "https://i.imgur.com/3mlCdI9.png",
+    "type": 2,
+    "isEvent": false
   },
   {
-    "BossId": 23957,
-    "Name": "Ankka",
-    "Icon": "https://i.imgur.com/orWH6qw.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 23957,
+    "name": "Ankka",
+    "icon": "https://i.imgur.com/orWH6qw.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 17759,
-    "Name": "Arkk",
-    "Icon": "https://i.imgur.com/u6vv8cW.png",
-    "Type": 2,
-    "Event": false
+    "bossId": 17759,
+    "name": "Arkk",
+    "icon": "https://i.imgur.com/u6vv8cW.png",
+    "type": 2,
+    "isEvent": false
   },
   {
-    "BossId": 17949,
-    "Name": "Artsariiv",
-    "Icon": "",
-    "Type": 2,
-    "Event": false
+    "bossId": 17949,
+    "name": "Artsariiv",
+    "icon": "",
+    "type": 2,
+    "isEvent": false
   },
   {
-    "BossId": 16088,
-    "Name": "Bandit Trio",
-    "InternalDescription": "Berg",
-    "Icon": "https://i.imgur.com/UZZQUdf.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 16088,
+    "name": "Bandit Trio",
+    "internalDescription": "Berg",
+    "icon": "https://i.imgur.com/UZZQUdf.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 16125,
-    "Name": "Bandit Trio",
-    "InternalDescription": "Narella",
-    "Icon": "https://i.imgur.com/UZZQUdf.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 16125,
+    "name": "Bandit Trio",
+    "internalDescription": "Narella",
+    "icon": "https://i.imgur.com/UZZQUdf.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 16137,
-    "Name": "Bandit Trio",
-    "InternalDescription": "Zane",
-    "Icon": "https://i.imgur.com/UZZQUdf.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 16137,
+    "name": "Bandit Trio",
+    "internalDescription": "Zane",
+    "icon": "https://i.imgur.com/UZZQUdf.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 22521,
-    "Name": "Boneskinner",
-    "Icon": "https://i.imgur.com/meYwQmA.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 22521,
+    "name": "Boneskinner",
+    "icon": "https://i.imgur.com/meYwQmA.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 19691,
-    "Name": "Broken King",
-    "Icon": "https://i.imgur.com/FNgUmvL.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 19691,
+    "name": "Broken King",
+    "icon": "https://i.imgur.com/FNgUmvL.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 17194,
-    "Name": "Cairn the Indomitable",
-    "Icon": "https://wiki.guildwars2.com/images/b/b8/Mini_Cairn_the_Indomitable.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 17194,
+    "name": "Cairn the Indomitable",
+    "icon": "https://wiki.guildwars2.com/images/b/b8/Mini_Cairn_the_Indomitable.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 22006,
-    "Name": "Cardinal Adina",
-    "Icon": "https://wiki.guildwars2.com/images/a/a0/Mini_Earth_Djinn.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 22006,
+    "name": "Cardinal Adina",
+    "icon": "https://wiki.guildwars2.com/images/a/a0/Mini_Earth_Djinn.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 21964,
-    "Name": "Cardinal Sabir",
-    "Icon": "https://wiki.guildwars2.com/images/f/fc/Mini_Air_Djinn.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 21964,
+    "name": "Cardinal Sabir",
+    "icon": "https://wiki.guildwars2.com/images/f/fc/Mini_Air_Djinn.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 43974,
-    "Name": "Conjured Amalgamate",
-    "Icon": "https://plenbot.net/img/amalgamate.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 43974,
+    "name": "Conjured Amalgamate",
+    "icon": "https://i.imgur.com/eLyIWd2.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 17154,
-    "Name": "Deimos",
-    "Icon": "https://wiki.guildwars2.com/images/e/e0/Mini_Ragged_White_Mantle_Figurehead.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 17154,
+    "name": "Deimos",
+    "icon": "https://wiki.guildwars2.com/images/e/e0/Mini_Ragged_White_Mantle_Figurehead.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 19450,
-    "Name": "Dhuum",
-    "Icon": "https://wiki.guildwars2.com/images/e/e4/Mini_Dhuum.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 19450,
+    "name": "Dhuum",
+    "icon": "https://wiki.guildwars2.com/images/e/e4/Mini_Dhuum.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 19536,
-    "Name": "Eater of Souls",
-    "Icon": "https://i.imgur.com/Sd6Az8M.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 19536,
+    "name": "Eater of Souls",
+    "icon": "https://i.imgur.com/Sd6Az8M.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 16948,
-    "Name": "Ensolyss of the Endless Torment",
-    "Icon": "https://i.imgur.com/GUTNuyP.png",
-    "Type": 2,
-    "Event": false
+    "bossId": 16948,
+    "name": "Ensolyss of the Endless Torment",
+    "icon": "https://i.imgur.com/GUTNuyP.png",
+    "type": 2,
+    "isEvent": false
   },
   {
-    "BossId": 19844,
-    "Name": "Eyes of Fate & Judgement",
-    "InternalDescription": "Fate",
-    "Icon": "https://i.imgur.com/kAgdoa5.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 19844,
+    "name": "Eyes of Fate & Judgement",
+    "internalDescription": "Fate",
+    "icon": "https://i.imgur.com/kAgdoa5.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 19651,
-    "Name": "Eyes of Judgement & Fate",
-    "InternalDescription": "Judgement",
-    "Icon": "https://i.imgur.com/kAgdoa5.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 19651,
+    "name": "Eyes of Judgement & Fate",
+    "internalDescription": "Judgement",
+    "icon": "https://i.imgur.com/kAgdoa5.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 22492,
-    "Name": "Fraenir of Jormag",
-    "Icon": "https://dps.report/cache/https_wiki.guildwars2.com_images_thumb_6_67_Fraenir_of_Jormag.jpg_208px-Fraenir_of_Jormag.jpg",
-    "Type": 3,
-    "Event": false
+    "bossId": 22492,
+    "name": "Fraenir of Jormag",
+    "icon": "https://wiki.guildwars2.com/images/6/67/Fraenir_of_Jormag.jpg",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 21333,
-    "Name": "Freezie",
-    "Icon": "https://dps.report/cache/https_wiki.guildwars2.com_images_thumb_8_8b_Freezie.jpg_189px-Freezie.jpg",
-    "Type": 3,
-    "Event": false
+    "bossId": 21333,
+    "name": "Freezie",
+    "icon": "https://wiki.guildwars2.com/images/thumb/8/8b/Freezie.jpg/800px-Freezie.jpg",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 15429,
-    "Name": "Gorseval",
-    "Icon": "https://wiki.guildwars2.com/images/d/d1/Mini_Gorseval_the_Multifarious.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 15429,
+    "name": "Gorseval",
+    "icon": "https://wiki.guildwars2.com/images/d/d1/Mini_Gorseval_the_Multifarious.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 22154,
-    "Name": "Icebrood Construct",
-    "Icon": "https://wiki.guildwars2.com/images/e/e2/Icebrood_Construct.jpg",
-    "Type": 3,
-    "Event": false
+    "bossId": 22154,
+    "name": "Icebrood Construct",
+    "icon": "https://wiki.guildwars2.com/images/e/e2/Icebrood_Construct.jpg",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 16235,
-    "Name": "Keep Construct",
-    "Icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Keep_Construct.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 16235,
+    "name": "Keep Construct",
+    "icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Keep_Construct.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 16253,
-    "Name": "McLeod the Silent",
-    "SuccessMsg": "Escort log: <log>",
-    "FailMsg": "Escort log: <log>",
-    "Icon": "https://wiki.guildwars2.com/images/b/b5/Mini_McLeod_the_Silent.png",
-    "Type": 1,
-    "Event": true
+    "bossId": 19676,
+    "name": "Large Kitty Golem",
+    "successMsg": "Golem log: <log>",
+    "failMsg": "Golem log: <log>",
+    "icon": "https://wiki.guildwars2.com/images/4/47/Mini_Baron_von_Scrufflebutt.png",
+    "type": 4,
+    "isEvent": false
   },
   {
-    "BossId": 19676,
-    "Name": "Large Kitty Golem",
-    "SuccessMsg": "Golem log: <log>",
-    "FailMsg": "Golem log: <log>",
-    "Icon": "https://wiki.guildwars2.com/images/4/47/Mini_Baron_von_Scrufflebutt.png",
-    "Type": 4,
-    "Event": false
+    "bossId": 21089,
+    "name": "Largos Twins",
+    "internalDescription": "Kenut",
+    "icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 21089,
-    "Name": "Largos Twins",
-    "InternalDescription": "Kenut",
-    "Icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 21105,
+    "name": "Largos Twins",
+    "internalDescription": "Nikare",
+    "icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 21105,
-    "Name": "Largos Twins",
-    "InternalDescription": "Nikare",
-    "Icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Kenut.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 17021,
+    "name": "M.A.M.A.",
+    "icon": "https://i.imgur.com/1h7HOII.png",
+    "type": 2,
+    "isEvent": false
   },
   {
-    "BossId": 17021,
-    "Name": "M.A.M.A.",
-    "Icon": "https://i.imgur.com/1h7HOII.png",
-    "Type": 2,
-    "Event": false
+    "bossId": 16115,
+    "name": "Matthias Gabrel",
+    "icon": "https://wiki.guildwars2.com/images/5/5d/Mini_Matthias_Abomination.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 16115,
-    "Name": "Matthias Gabrel",
-    "Icon": "https://wiki.guildwars2.com/images/5/5d/Mini_Matthias_Abomination.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 16253,
+    "name": "McLeod the Silent",
+    "internalDescription": "Escort",
+    "successMsg": "Escort log: <log> | Wipe counter: <pulls>",
+    "failMsg": "Escort log: <log> | Wipe counter: <pulls>",
+    "icon": "https://wiki.guildwars2.com/images/b/b5/Mini_McLeod_the_Silent.png",
+    "type": 1,
+    "isEvent": true
   },
   {
-    "BossId": 19645,
-    "Name": "Medium Kitty Golem",
-    "SuccessMsg": "Golem log: <log>",
-    "FailMsg": "Golem log: <log>",
-    "Icon": "https://wiki.guildwars2.com/images/c/cb/Mini_Mister_Mittens.png",
-    "Type": 4,
-    "Event": false
+    "bossId": 19645,
+    "name": "Medium Kitty Golem",
+    "successMsg": "Golem log: <log>",
+    "failMsg": "Golem log: <log>",
+    "icon": "https://wiki.guildwars2.com/images/c/cb/Mini_Mister_Mittens.png",
+    "type": 4,
+    "isEvent": false
   },
   {
-    "BossId": 24266,
-    "Name": "Minister Li",
-    "InternalDescription": "Challenge Mode",
-    "Icon": "https://i.imgur.com/7OutZup.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 24266,
+    "name": "Minister Li",
+    "internalDescription": "Challenge Mode",
+    "icon": "https://i.imgur.com/7OutZup.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 24485,
-    "Name": "Minister Li",
-    "Icon": "https://i.imgur.com/7OutZup.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 24485,
+    "name": "Minister Li",
+    "icon": "https://i.imgur.com/7OutZup.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 17172,
-    "Name": "Mursaat Overseer",
-    "Icon": "https://wiki.guildwars2.com/images/c/c8/Mini_Mursaat_Overseer.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 17172,
+    "name": "Mursaat Overseer",
+    "icon": "https://wiki.guildwars2.com/images/c/c8/Mini_Mursaat_Overseer.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 20934,
-    "Name": "Qadim",
-    "Icon": "https://wiki.guildwars2.com/images/f/f2/Mini_Qadim.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 20934,
+    "name": "Qadim",
+    "icon": "https://wiki.guildwars2.com/images/f/f2/Mini_Qadim.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 22000,
-    "Name": "Qadim the Peerless",
-    "Icon": "https://wiki.guildwars2.com/images/8/8b/Mini_Qadim_the_Peerless.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 22000,
+    "name": "Qadim the Peerless",
+    "icon": "https://wiki.guildwars2.com/images/8/8b/Mini_Qadim_the_Peerless.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 19828,
-    "Name": "River of Souls",
-    "SuccessMsg": "River of Souls log: <log>",
-    "FailMsg": "River of Souls log: <log> | Wipe counter: <pulls>",
-    "Icon": "",
-    "Type": 1,
-    "Event": true
+    "bossId": 19828,
+    "name": "River of Souls",
+    "successMsg": "River of Souls log: <log>",
+    "failMsg": "River of Souls log: <log> | Wipe counter: <pulls>",
+    "icon": "https://wiki.guildwars2.com/images/7/7b/Gold_River_of_Souls_Trophy.jpg",
+    "type": 1,
+    "isEvent": true
   },
   {
-    "BossId": 15375,
-    "Name": "Sabetha the Saboteur",
-    "Icon": "https://wiki.guildwars2.com/images/5/54/Mini_Sabetha.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 15375,
+    "name": "Sabetha the Saboteur",
+    "icon": "https://wiki.guildwars2.com/images/5/54/Mini_Sabetha.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 17188,
-    "Name": "Samarog",
-    "Icon": "https://wiki.guildwars2.com/images/f/f0/Mini_Samarog.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 17188,
+    "name": "Samarog",
+    "icon": "https://wiki.guildwars2.com/images/f/f0/Mini_Samarog.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 17028,
-    "Name": "Siax the Corrupted",
-    "Icon": "https://i.imgur.com/5C60cQb.png",
-    "Type": 2,
-    "Event": false
+    "bossId": 17028,
+    "name": "Siax the Corrupted",
+    "icon": "https://i.imgur.com/5C60cQb.png",
+    "type": 2,
+    "isEvent": false
   },
   {
-    "BossId": 17632,
-    "Name": "Skorvald the Shattered",
-    "Icon": "https://i.imgur.com/IOPAHRE.png",
-    "Type": 2,
-    "Event": false
+    "bossId": 17632,
+    "name": "Skorvald the Shattered",
+    "icon": "https://i.imgur.com/IOPAHRE.png",
+    "type": 2,
+    "isEvent": false
   },
   {
-    "BossId": 16123,
-    "Name": "Slothasor",
-    "Icon": "https://wiki.guildwars2.com/images/1/12/Mini_Slothasor.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 16123,
+    "name": "Slothasor",
+    "icon": "https://wiki.guildwars2.com/images/1/12/Mini_Slothasor.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 19767,
-    "Name": "Soulless Horror",
-    "Icon": "https://wiki.guildwars2.com/images/d/d4/Mini_Desmina.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 19767,
+    "name": "Soulless Horror",
+    "icon": "https://wiki.guildwars2.com/images/d/d4/Mini_Desmina.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 16199,
-    "Name": "Standard Kitty Golem",
-    "SuccessMsg": "Golem log: <log>",
-    "FailMsg": "Golem log: <log>",
-    "Icon": "https://wiki.guildwars2.com/images/8/8f/Mini_Professor_Mew.png",
-    "Type": 4,
-    "Event": false
+    "bossId": 16199,
+    "name": "Standard Kitty Golem",
+    "successMsg": "Golem log: <log>",
+    "failMsg": "Golem log: <log>",
+    "icon": "https://wiki.guildwars2.com/images/8/8f/Mini_Professor_Mew.png",
+    "type": 4,
+    "isEvent": false
   },
   {
-    "BossId": 43488,
-    "Name": "The Dragonvoid",
-    "Icon": "https://i.imgur.com/gZRqzlr.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 43488,
+    "name": "The Dragonvoid",
+    "icon": "https://i.imgur.com/gZRqzlr.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 22343,
-    "Name": "The Voice and the Claw of the Fallen",
-    "Icon": "https://i.imgur.com/lNXXbnC.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 22343,
+    "name": "The Voice and the Claw of the Fallen",
+    "icon": "https://i.imgur.com/lNXXbnC.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 16247,
-    "Name": "Twisted Castle",
-    "SuccessMsg": "Twisted Castle log: <log>",
-    "FailMsg": "Twisted Castle log: <log> | Wipe counter: <pulls>",
-    "Icon": "",
-    "Type": 1,
-    "Event": true
+    "bossId": 16247,
+    "name": "Twisted Castle",
+    "successMsg": "Twisted Castle log: <log>",
+    "failMsg": "Twisted Castle log: <log> | Wipe counter: <pulls>",
+    "icon": "https://i.imgur.com/xpQnu35.png",
+    "type": 1,
+    "isEvent": true
   },
   {
-    "BossId": 15438,
-    "Name": "Vale Guardian",
-    "Icon": "https://wiki.guildwars2.com/images/f/fb/Mini_Vale_Guardian.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 15438,
+    "name": "Vale Guardian",
+    "icon": "https://wiki.guildwars2.com/images/f/fb/Mini_Vale_Guardian.png",
+    "type": 1,
+    "isEvent": false
   },
   {
-    "BossId": 22836,
-    "Name": "Varinia Stormsounder",
-    "Icon": "https://i.imgur.com/r9b2oww.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 22836,
+    "name": "Varinia Stormsounder",
+    "icon": "https://i.imgur.com/r9b2oww.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 25413,
-    "Name": "Watchknight Triumvirate",
-    "Icon": "https://i.imgur.com/Q2g9aLD.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 25413,
+    "name": "Watchknight Triumvirate",
+    "icon": "https://i.imgur.com/Q2g9aLD.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 25414,
-    "Name": "Watchknight Triumvirate",
-    "InternalDescription": "Challenge Mode - Vermillion",
-    "Icon": "https://i.imgur.com/Q2g9aLD.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 25414,
+    "name": "Watchknight Triumvirate",
+    "internalDescription": "Challenge Mode - Vermillion",
+    "icon": "https://i.imgur.com/Q2g9aLD.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 25416,
-    "Name": "Watchknight Triumvirate",
-    "InternalDescription": "Challenge Mode - Arsenite",
-    "Icon": "https://i.imgur.com/Q2g9aLD.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 25416,
+    "name": "Watchknight Triumvirate",
+    "internalDescription": "Challenge Mode - Arsenite",
+    "icon": "https://i.imgur.com/Q2g9aLD.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 25423,
-    "Name": "Watchknight Triumvirate",
-    "InternalDescription": "Challenge Mode - Indigo",
-    "Icon": "https://i.imgur.com/Q2g9aLD.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 25423,
+    "name": "Watchknight Triumvirate",
+    "internalDescription": "Challenge Mode - Indigo",
+    "icon": "https://i.imgur.com/Q2g9aLD.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 22711,
-    "Name": "Whisper of Jormag",
-    "Icon": "https://wiki.guildwars2.com/images/c/c0/Mini_Whisper_of_Jormag.png",
-    "Type": 3,
-    "Event": false
+    "bossId": 22711,
+    "name": "Whisper of Jormag",
+    "icon": "https://wiki.guildwars2.com/images/c/c0/Mini_Whisper_of_Jormag.png",
+    "type": 3,
+    "isEvent": false
   },
   {
-    "BossId": 1,
-    "Name": "World vs World",
-    "SuccessMsg": "WvW log: <log>",
-    "FailMsg": "WvW log: <log>",
-    "Icon": "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png",
-    "Type": 5,
-    "Event": false
+    "bossId": 1,
+    "name": "World vs World",
+    "successMsg": "WvW log: <log>",
+    "failMsg": "WvW log: <log>",
+    "icon": "https://wiki.guildwars2.com/images/5/54/Commander_tag_%28blue%29.png",
+    "type": 5,
+    "isEvent": false
   },
   {
-    "BossId": 16246,
-    "Name": "Xera",
-    "Icon": "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png",
-    "Type": 1,
-    "Event": false
+    "bossId": 16246,
+    "name": "Xera",
+    "icon": "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png",
+    "type": 1,
+    "isEvent": false
   }
 ]
