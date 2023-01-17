@@ -2,6 +2,7 @@
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Tools;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace PlenBotLogUploader
@@ -181,5 +182,7 @@ namespace PlenBotLogUploader
             }
             BossTypeSwitch = BossType.WvW;
         }
+
+        private void ButtonOpenIconLink_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = textBoxIcon.Text });
     }
 }

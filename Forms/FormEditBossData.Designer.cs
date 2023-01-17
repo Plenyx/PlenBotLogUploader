@@ -55,6 +55,7 @@
             this.radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
             this.radioButtonTypeNone = new System.Windows.Forms.RadioButton();
+            this.buttonOpenIconLink = new System.Windows.Forms.Button();
             this.groupBoxCrucial.SuspendLayout();
             this.groupBoxOtherSettings.SuspendLayout();
             this.groupBoxBossType.SuspendLayout();
@@ -101,7 +102,7 @@
             this.textBoxIcon.Location = new System.Drawing.Point(9, 252);
             this.textBoxIcon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxIcon.Name = "textBoxIcon";
-            this.textBoxIcon.Size = new System.Drawing.Size(515, 27);
+            this.textBoxIcon.Size = new System.Drawing.Size(423, 27);
             this.textBoxIcon.TabIndex = 4;
             // 
             // labelIcon
@@ -187,6 +188,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            this.groupBoxOtherSettings.Controls.Add(this.buttonOpenIconLink);
             this.groupBoxOtherSettings.Controls.Add(this.labelWPercent);
             this.groupBoxOtherSettings.Controls.Add(this.labelWPulls);
             this.groupBoxOtherSettings.Controls.Add(this.labelWLog);
@@ -362,6 +364,16 @@
             this.radioButtonTypeNone.UseVisualStyleBackColor = true;
             this.radioButtonTypeNone.CheckedChanged += new System.EventHandler(this.RadioButtonTypeNone_CheckedChanged);
             // 
+            // buttonOpenIconLink
+            // 
+            this.buttonOpenIconLink.Location = new System.Drawing.Point(439, 252);
+            this.buttonOpenIconLink.Name = "buttonOpenIconLink";
+            this.buttonOpenIconLink.Size = new System.Drawing.Size(81, 29);
+            this.buttonOpenIconLink.TabIndex = 11;
+            this.buttonOpenIconLink.Text = "Open link";
+            this.buttonOpenIconLink.UseVisualStyleBackColor = true;
+            this.buttonOpenIconLink.Click += new System.EventHandler(this.ButtonOpenIconLink_Click);
+            // 
             // FormEditBossData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -418,5 +430,6 @@
         private System.Windows.Forms.Label labelBossInternalDescription;
         private System.Windows.Forms.TextBox textBoxInternalDescription;
         private System.Windows.Forms.Label labelWPercent;
+        private System.Windows.Forms.Button buttonOpenIconLink;
     }
 }
