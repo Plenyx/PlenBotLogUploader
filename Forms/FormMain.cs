@@ -767,7 +767,7 @@ namespace PlenBotLogUploader
                             {
                                 var jsonString = await HttpClientController.DownloadFileToStringAsync($"{ApplicationSettings.Current.Upload.DPSReportServerLink}/getJson?permalink={reportJson.ConfigAwarePermalink}");
                                 var extraJson = JsonConvert.DeserializeObject<DpsReportJsonExtraJson>(jsonString);
-                                if (extraJson is not null)
+                                if (extraJson?.Duration != null)
                                 {
                                     reportJson.ExtraJson = extraJson;
                                     bossId = reportJson.ExtraJson.TriggerId;
