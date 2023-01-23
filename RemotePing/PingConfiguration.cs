@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Hardstuck.Http;
+using Newtonsoft.Json;
 using PlenBotLogUploader.DpsReport;
-using PlenBotLogUploader.Tools;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;

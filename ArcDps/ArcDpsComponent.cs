@@ -1,4 +1,5 @@
 ﻿using Hardstuck.GuildWars2;
+using Hardstuck.Http;
 using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.GitHub;
@@ -71,7 +72,7 @@ namespace PlenBotLogUploader.ArcDps
         {
             if (!string.IsNullOrWhiteSpace(DownloadLink))
             {
-                return await httpController.DownloadFileAsync(DownloadLink, $"{ApplicationSettings.Current.Gw2Location}{RelativeLocation}");
+                return await httpController.DownloadFileAsync(DownloadLink, ApplicationSettings.Current.Gw2Location + RelativeLocation);
             }
             if (!string.IsNullOrWhiteSpace(Repository))
             {

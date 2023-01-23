@@ -1,4 +1,5 @@
 ﻿using Hardstuck.GuildWars2.BuildCodes.V2;
+using Hardstuck.Http;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Tools;
 using System;

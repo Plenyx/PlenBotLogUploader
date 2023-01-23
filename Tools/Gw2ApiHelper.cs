@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Hardstuck.Http;
+using Newtonsoft.Json;
 using PlenBotLogUploader.Gw2Api;
 using System;
 using System.Threading.Tasks;

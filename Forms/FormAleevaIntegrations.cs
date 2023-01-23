@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.Aleeva;
+﻿using Hardstuck.Http;
+using PlenBotLogUploader.Aleeva;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Tools;

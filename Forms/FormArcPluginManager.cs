@@ -1,4 +1,5 @@
-﻿using PlenBotLogUploader.AppSettings;
+﻿using Hardstuck.Http;
+using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.ArcDps;
 using PlenBotLogUploader.Tools;
 using System;

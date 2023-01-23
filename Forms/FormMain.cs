@@ -1,5 +1,6 @@
 ﻿using Hardstuck.GuildWars2.BuildCodes.V2;
 using Hardstuck.GuildWars2.MumbleLink;
+using Hardstuck.Http;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;

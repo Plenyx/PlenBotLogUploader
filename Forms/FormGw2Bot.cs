@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Hardstuck.Http;
+using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Gw2Bot;
 using PlenBotLogUploader.Teams;
-using PlenBotLogUploader.Tools;
 using System;
 using System.Linq;
 using System.Net.Http;

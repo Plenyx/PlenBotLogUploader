@@ -1,8 +1,12 @@
-﻿using PlenBotLogUploader.AppSettings;
+﻿using Hardstuck.Http;
+using Newtonsoft.Json;
+using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.GitHub;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.Tools
 {
@@ -33,5 +37,18 @@ namespace PlenBotLogUploader.Tools
         internal static string ParseAsK(this int number) => ParseDoubleAsK(number);
 
         internal static ReadOnlySpan<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
+
+        internal static async Task<GitHubReleaseLatest> GetGitHubLatestReleaseAsync(this HttpClientController controller, string repository)
+        {
+            try
+            {
+                var response = await controller.DownloadFileToStringAsync($"https://api.github.com/repos/{repository}/releases/latest");
+                return JsonConvert.DeserializeObject<GitHubReleaseLatest>(response);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
