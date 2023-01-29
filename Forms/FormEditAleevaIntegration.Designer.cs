@@ -84,7 +84,7 @@
             // checkBoxOnlySuccessful
             // 
             this.checkBoxOnlySuccessful.AutoSize = true;
-            this.checkBoxOnlySuccessful.Location = new System.Drawing.Point(152, 29);
+            this.checkBoxOnlySuccessful.Location = new System.Drawing.Point(284, 29);
             this.checkBoxOnlySuccessful.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.checkBoxOnlySuccessful.Name = "checkBoxOnlySuccessful";
             this.checkBoxOnlySuccessful.Size = new System.Drawing.Size(213, 24);
@@ -98,9 +98,9 @@
             this.checkBoxSendNotification.Location = new System.Drawing.Point(8, 29);
             this.checkBoxSendNotification.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.checkBoxSendNotification.Name = "checkBoxSendNotification";
-            this.checkBoxSendNotification.Size = new System.Drawing.Size(144, 24);
+            this.checkBoxSendNotification.Size = new System.Drawing.Size(266, 24);
             this.checkBoxSendNotification.TabIndex = 0;
-            this.checkBoxSendNotification.Text = "Send notification";
+            this.checkBoxSendNotification.Text = "Post the log to the selected channel";
             this.checkBoxSendNotification.UseVisualStyleBackColor = true;
             // 
             // groupBoxChannel
