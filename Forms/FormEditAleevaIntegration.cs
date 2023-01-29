@@ -41,6 +41,7 @@ namespace PlenBotLogUploader
             checkBoxOnlySuccessful.Checked = data?.SendOnSuccessOnly ?? false;
             comboBoxServer.Text = selectedServer = data?.Server;
             comboBoxChannel.Text = selectedChannel = data?.Channel;
+            selectedTeam = data?.Team ?? selectedTeam;
             if (data is not null)
             {
                 _ = AleevaLoadServers();
@@ -85,6 +86,7 @@ namespace PlenBotLogUploader
                     Name = textBoxName.Text,
                     Server = selectedServer,
                     Channel = selectedChannel,
+                    Team = selectedTeam,
                     SendNotification = checkBoxSendNotification.Checked,
                     SendOnSuccessOnly = checkBoxOnlySuccessful.Checked,
                 });
@@ -95,6 +97,7 @@ namespace PlenBotLogUploader
             data.Name = textBoxName.Text;
             data.Server = selectedServer;
             data.Channel = selectedChannel;
+            data.Team = selectedTeam;
             data.SendNotification = checkBoxSendNotification.Checked;
             data.SendOnSuccessOnly = checkBoxOnlySuccessful.Checked;
             aleevaLink.RedrawAleevaIntegrations();
@@ -216,7 +219,7 @@ namespace PlenBotLogUploader
             {
                 comboBoxSelectedTeam.Items.Add(team);
             }
-            comboBoxSelectedTeam.SelectedItem = selectedTeam ?? teams[0];
+            comboBoxSelectedTeam.SelectedItem = selectedTeam;
         }
 
         private void ComboBoxSelectedTeam_SelectedIndexChanged(object sender, EventArgs e)
