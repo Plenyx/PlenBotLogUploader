@@ -82,7 +82,7 @@ namespace PlenBotLogUploader.DpsReport
             format = format.Replace("<log>", reportJSON.ConfigAwarePermalink);
             format = format.Replace("<pulls>", pullCounter.ToString());
             format = (reportJSON.ExtraJson?.PossiblyLastTarget is not null)
-                ? format.Replace("<percent>", $"{reportJSON.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(reportJSON.ExtraJson.PossiblyLastTarget.RemainingHealthPercent, 2)}%)")
+                ? format.Replace("<percent>", $"{reportJSON.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(100 - reportJSON.ExtraJson.PossiblyLastTarget.HealthPercentBurned, 2)}%)")
                 : format.Replace("<percent>", "");
             return format;
         }

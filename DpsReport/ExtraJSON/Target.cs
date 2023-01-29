@@ -27,7 +27,5 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
 
         [JsonProperty("healthPercentBurned")]
         internal double HealthPercentBurned { get; set; }
-
-        internal double RemainingHealthPercent => 100 - HealthPercentBurned;
     }
 }
