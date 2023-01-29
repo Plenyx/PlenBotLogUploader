@@ -269,7 +269,7 @@ namespace PlenBotLogUploader
                 discordWebhooksLink.checkBoxShortenThousands.Checked = ApplicationSettings.Current.ShortenThousands;
                 if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.RefreshToken) && (DateTime.Now < ApplicationSettings.Current.Aleeva.RefreshTokenExpire))
                 {
-                    Task.Run(() => aleevaLink.GetAleevaTokenFromRefreshToken());
+                    Task.Run(aleevaLink.GetAleevaTokenFromRefreshToken);
                 }
                 if (ApplicationSettings.Current.LogsLocation.Equals("") || !Directory.Exists(ApplicationSettings.Current.LogsLocation))
                 {
