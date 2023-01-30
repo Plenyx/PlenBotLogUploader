@@ -222,7 +222,7 @@
     "bossId": 16253,
     "name": "McLeod the Silent",
     "internalDescription": "Escort",
-    "successMsg": "Escort log: <log> | Wipe counter: <pulls>",
+    "successMsg": "Escort log: <log>",
     "failMsg": "Escort log: <log> | Wipe counter: <pulls>",
     "icon": "https://wiki.guildwars2.com/images/b/b5/Mini_McLeod_the_Silent.png",
     "type": 1,
