@@ -274,32 +274,36 @@ namespace PlenBotLogUploader
                 {
                     Embeds = new List<DiscordApiJsonContentEmbed>() { discordContentEmbed }
                 };
-                try
+                var jsonContentWvW = JsonConvert.SerializeObject(discordContentWvW);
+                foreach (var key in allWebhooks.Keys)
                 {
-                    var jsonContentWvW = JsonConvert.SerializeObject(discordContentWvW);
-                    foreach (var key in allWebhooks.Keys)
+                    var webhook = allWebhooks[key];
+                    if (!webhook.Active
+                        || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
+                        || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
+                        || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
+                        || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
                     {
-                        var webhook = allWebhooks[key];
-                        if (!webhook.Active
-                            || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
-                            || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
-                            || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                            || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
+                    try
+                    {
                         var uri = new Uri(webhook.Url);
                         using var content = new StringContent(jsonContentWvW, Encoding.UTF8, "application/json");
                         using var response = await mainLink.HttpClientController.PostAsync(uri, content);
                     }
-                    if (allWebhooks.Count > 0)
+                    catch (UriFormatException ex)
                     {
-                        mainLink.AddToText(">:> All active webhooks successfully executed.");
+                        mainLink.AddToText($">:> An error has occured while processing URL for the webhook \"{webhook.Name}\": {ex.Message}");
+                    }
+                    catch (Exception ex)
+                    {
+                        mainLink.AddToText($">:> An error has occured while processing the webhook \"{webhook.Name}\": {ex.Message}");
                     }
                 }
-                catch
+                if (allWebhooks.Count > 0)
                 {
-                    mainLink.AddToText(">:> Unable to execute active webhooks.");
+                    mainLink.AddToText(">:> All active webhooks executed.");
                 }
                 return;
             }
@@ -423,22 +427,22 @@ namespace PlenBotLogUploader
                 {
                     Embeds = new List<DiscordApiJsonContentEmbed>() { discordContentEmbedForPlayers }
                 };
-                try
+                var jsonContentWithoutPlayers = JsonConvert.SerializeObject(discordContentWithoutPlayers);
+                var jsonContentWithPlayers = JsonConvert.SerializeObject(discordContentWithPlayers);
+                foreach (var key in allWebhooks.Keys)
                 {
-                    var jsonContentWithoutPlayers = JsonConvert.SerializeObject(discordContentWithoutPlayers);
-                    var jsonContentWithPlayers = JsonConvert.SerializeObject(discordContentWithPlayers);
-                    foreach (var key in allWebhooks.Keys)
+                    var webhook = allWebhooks[key];
+                    if (!webhook.Active
+                        || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
+                        || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
+                        || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
+                        || (!webhook.AllowUnknownBossIds && (bossData is null))
+                        || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
                     {
-                        var webhook = allWebhooks[key];
-                        if (!webhook.Active
-                            || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
-                            || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
-                            || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                            || (!webhook.AllowUnknownBossIds && (bossData is null))
-                            || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
+                    try
+                    {
                         var uri = new Uri(webhook.Url);
                         if (webhook.ShowPlayers)
                         {
@@ -451,14 +455,19 @@ namespace PlenBotLogUploader
                             await mainLink.HttpClientController.PostAsync(uri, content);
                         }
                     }
-                    if (allWebhooks.Count > 0)
+                    catch (UriFormatException ex)
                     {
-                        mainLink.AddToText(">:> All active webhooks successfully executed.");
+                        mainLink.AddToText($">:> An error has occured while processing URL for the webhook \"{webhook.Name}\": {ex.Message}");
                     }
+                    catch (Exception ex)
+                    {
+                        mainLink.AddToText($">:> An error has occured while processing the webhook \"{webhook.Name}\": {ex.Message}");
+                    }
+
                 }
-                catch
+                if (allWebhooks.Count > 0)
                 {
-                    mainLink.AddToText(">:> Unable to execute active webhooks.");
+                    mainLink.AddToText(">:> All active webhooks executed.");
                 }
             }
         }
