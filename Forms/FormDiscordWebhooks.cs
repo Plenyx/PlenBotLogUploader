@@ -463,7 +463,6 @@ namespace PlenBotLogUploader
                     {
                         mainLink.AddToText($">:> An error has occured while processing the webhook \"{webhook.Name}\": {ex.Message}");
                     }
-
                 }
                 if (allWebhooks.Count > 0)
                 {
