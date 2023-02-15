@@ -69,7 +69,7 @@ namespace PlenBotLogUploader
             this.checkedListBoxArcDpsPlugins.Location = new System.Drawing.Point(249, 18);
             this.checkedListBoxArcDpsPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.checkedListBoxArcDpsPlugins.Name = "checkedListBoxArcDpsPlugins";
-            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(354, 198);
+            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(354, 220);
             this.checkedListBoxArcDpsPlugins.Sorted = true;
             this.checkedListBoxArcDpsPlugins.TabIndex = 2;
             this.checkedListBoxArcDpsPlugins.SelectedIndexChanged += new System.EventHandler(this.CheckedListBoxArcDpsPlugins_SelectedIndexChanged);

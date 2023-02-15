@@ -12,5 +12,6 @@
         Clears = 8,
         CommandersToolkit = 9,
         KnowThyEnemy = 10,
+        BHUDBridge = 11,
     }
 }
