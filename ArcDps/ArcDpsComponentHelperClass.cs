@@ -116,7 +116,7 @@ namespace PlenBotLogUploader.ArcDps
                 License = "CC0-1.0 license",
                 Description = "Tired of commanders saying \"They're twice our size!\"? Well now you can put a number on it!\r\n\r\nCounts the amount and type of player enemies (that your squad hits or is hit by) in an arcdps fight instance (resets when arcdps does). - typedeck",
             },
-            new ArcDpsComponentHelperClass()
+            /*new ArcDpsComponentHelperClass()
             {
                 Name = "Blish HUD Bridge",
                 FullName = "Blish HUD Bridge",
@@ -127,7 +127,7 @@ namespace PlenBotLogUploader.ArcDps
                 Provider = "GitHub",
                 License = "Apache-2.0",
                 Description = "This is a plugin that uses the Arcdps Combat API and exposes some of the data to Blish HUD. - greaka",
-            },
+            },*/
         };
 
         internal string Name { get; set; }
