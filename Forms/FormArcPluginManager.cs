@@ -35,10 +35,9 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             var availableComponents = ArcDpsComponentHelperClass.All;
             var arcIsInstalled = true;
-            var arcInstalledComponent = installedComponents.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
-            if (arcInstalledComponent)
+            var arcdps = installedComponents.Find(x => x.Type.Equals(ArcDpsComponentType.ArcDps));
+            if (arcdps is not null)
             {
-                var arcdps = installedComponents.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
                 if (!arcdps.IsInstalled())
                 {
                     arcIsInstalled = false;
@@ -56,10 +55,10 @@ namespace PlenBotLogUploader
             }
             foreach (var component in availableComponents.AsSpan())
             {
-                var installed = arcIsInstalled && installedComponents.Any(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
+                var installed = arcIsInstalled && installedComponents.Any(x => x.Type.Equals(component.Type));
                 if (installed)
                 {
-                    var installedComponent = installedComponents.First(x => x.Type.Equals(component.Type) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
+                    var installedComponent = installedComponents.First(x => x.Type.Equals(component.Type));
                     if (!installedComponent.IsInstalled())
                     {
                         installed = false;
@@ -214,16 +213,16 @@ namespace PlenBotLogUploader
             }
             ApplicationSettings.Current.Gw2Location = location;
             ApplicationSettings.Current.Save();
-            if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode)))
+            if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps)))
             {
-                var component = ArcDpsComponent.All.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps) && x.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode));
+                var component = ArcDpsComponent.All.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps));
                 if (!component.IsInstalled())
                 {
                     await component.DownloadComponent(httpController);
 
                     foreach (var comp in ArcDpsComponent.All)
                     {
-                        if (comp.RenderMode.Equals(ApplicationSettings.Current.ArcUpdate.RenderMode) && !comp.IsInstalled())
+                        if (!comp.IsInstalled())
                         {
                             await comp.DownloadComponent(httpController);
                         }
@@ -233,7 +232,7 @@ namespace PlenBotLogUploader
             else
             {
                 var relLoc = ApplicationSettings.Current.ArcUpdate.UseAddonLoader ? @"\addons\arcdps\gw2addon_arcdps.dll" : @"\d3d11.dll";
-                var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
+                var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RelativeLocation = relLoc };
                 if (!component.IsInstalled())
                 {
                     await component.DownloadComponent(httpController);
@@ -266,7 +265,7 @@ namespace PlenBotLogUploader
             else if (e.NewValue.Equals(CheckState.Checked))
             {
                 var relLoc = ApplicationSettings.Current.ArcUpdate.UseAddonLoader ? $@"\addons\arcdps\{item.DefaultFileName}" : $@"\{item.DefaultFileName}";
-                var component = new ArcDpsComponent() { Type = item.Type, RenderMode = ApplicationSettings.Current.ArcUpdate.RenderMode, RelativeLocation = relLoc };
+                var component = new ArcDpsComponent() { Type = item.Type, RelativeLocation = relLoc };
                 ArcDpsComponent.All.Add(component);
                 await component.DownloadComponent(httpController);
             }

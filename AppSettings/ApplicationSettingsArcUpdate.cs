@@ -15,9 +15,6 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("useAL")]
         internal bool UseAddonLoader { get; set; } = false;
 
-        [JsonProperty("renderMode")]
-        internal GameRenderMode RenderMode { get; set; } = GameRenderMode.DX11;
-
         [JsonProperty("lastUpdateCheck")]
         internal DateTime LastUpdateCheck { get; set; } = DateTime.Now;
     }
