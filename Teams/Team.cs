@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.Tools;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +31,7 @@ namespace PlenBotLogUploader.Teams
         /// <returns>A string that represents the current object.</returns>
         public override string ToString() => Name;
 
-        internal bool IsSatisfied(DpsReport.DpsReportJsonExtraJson extraJSON) => MainCondition?.IsSatisfied(extraJSON) ?? false;
+        internal bool IsSatisfied(List<LogPlayer> players) => MainCondition?.IsSatisfied(players) ?? false;
 
         internal static IDictionary<int, Team> FromJsonString(string jsonData)
         {

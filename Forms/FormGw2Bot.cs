@@ -4,7 +4,9 @@ using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Gw2Bot;
 using PlenBotLogUploader.Teams;
+using PlenBotLogUploader.Tools;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -49,7 +51,7 @@ namespace PlenBotLogUploader
 
         private void FormGW2Bot_FormClosed(object sender, FormClosedEventArgs e) => controller.Dispose();
 
-        internal async Task<bool> PostLogToGW2Bot(DpsReportJson reportJSON)
+        internal async Task<bool> PostLogToGW2Bot(DpsReportJson reportJSON, List<LogPlayer> players)
         {
             if (!checkBoxModuleEnabled.Checked)
             {
@@ -57,7 +59,7 @@ namespace PlenBotLogUploader
             }
             if ((ApplicationSettings.Current.Gw2Bot.TeamId > 0) &&
                 Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Gw2Bot.TeamId) &&
-                !Teams.Teams.All[ApplicationSettings.Current.Gw2Bot.TeamId].IsSatisfied(reportJSON.ExtraJson) &&
+                !Teams.Teams.All[ApplicationSettings.Current.Gw2Bot.TeamId].IsSatisfied(players) &&
                 checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
             {
                 return true;

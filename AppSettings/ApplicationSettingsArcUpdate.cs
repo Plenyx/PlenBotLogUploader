@@ -1,5 +1,4 @@
-﻿using Hardstuck.GuildWars2;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 
 namespace PlenBotLogUploader.AppSettings

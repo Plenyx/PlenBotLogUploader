@@ -70,7 +70,7 @@ namespace PlenBotLogUploader.Aleeva
 
         List<ListViewItemCustom<AleevaIntegration>> IListViewItemInfo<AleevaIntegration>.ConnectedItems => connectedItems ??= new();
 
-        internal async Task PostLogToAleeva(FormMain mainLink, HttpClientController controller, DpsReportJson reportJSON)
+        internal async Task PostLogToAleeva(FormMain mainLink, HttpClientController controller, DpsReportJson reportJSON, List<LogPlayer> players)
         {
             if (!ApplicationSettings.Current.Aleeva.Authorised)
             {
@@ -81,7 +81,7 @@ namespace PlenBotLogUploader.Aleeva
                 await AleevaStatics.GetAleevaTokenFromRefreshToken(mainLink, controller);
             }
             if ((SendOnSuccessOnly && !(reportJSON.Encounter.Success ?? false)) ||
-                (!(Team?.IsSatisfied(reportJSON.ExtraJson) ?? false)))
+                (!(Team?.IsSatisfied(players) ?? false)))
             {
                 return;
             }

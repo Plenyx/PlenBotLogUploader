@@ -55,7 +55,7 @@ namespace PlenBotLogUploader
             DiscordWebhooks.SaveToJson(allWebhooks, DiscordWebhooks.JsonFileLocation);
         }
 
-        internal async Task ExecuteAllActiveWebhooksAsync(DpsReportJson reportJSON)
+        internal async Task ExecuteAllActiveWebhooksAsync(DpsReportJson reportJSON, List<LogPlayer> players)
         {
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
@@ -282,7 +282,7 @@ namespace PlenBotLogUploader
                         || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !(reportJSON.Encounter.Success ?? false))
                         || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                         || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
-                        || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
+                        || (!webhook.Team.IsSatisfied(players)))
                     {
                         continue;
                     }
@@ -357,10 +357,22 @@ namespace PlenBotLogUploader
                     var fields = new List<DiscordApiJsonContentEmbedField>();
                     if (reportJSON.ExtraJson is null)
                     {
+                        // player list
+                        var playerNames = new TextTable(2, tableStyle, tableBorders);
+                        playerNames.SetColumnWidthRange(0, 21, 21);
+                        playerNames.SetColumnWidthRange(1, 20, 20);
+                        playerNames.AddCell("Character");
+                        playerNames.AddCell("Account name");
                         foreach (var player in reportJSON.Players.Values)
                         {
-                            fields.Add(new DiscordApiJsonContentEmbedField() { Name = player.CharacterName, Value = $"```\n{player.DisplayName}\n\n{Players.ResolveSpecName(player.Profession, player.EliteSpec)}\n```", Inline = true });
+                            playerNames.AddCell($"{player.CharacterName}");
+                            playerNames.AddCell($"{player.DisplayName}");
                         }
+                        fields.Add(new DiscordApiJsonContentEmbedField()
+                        {
+                            Name = "Players in squad/group:",
+                            Value = $"```{playerNames.Render()}```"
+                        });
                     }
                     else
                     {
@@ -437,7 +449,7 @@ namespace PlenBotLogUploader
                         || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && (reportJSON.Encounter.Success ?? false))
                         || (webhook.BossesDisable.Contains(reportJSON.Encounter.BossId))
                         || (!webhook.AllowUnknownBossIds && (bossData is null))
-                        || (!webhook.Team.IsSatisfied(reportJSON.ExtraJson)))
+                        || (!webhook.Team.IsSatisfied(players)))
                     {
                         continue;
                     }
@@ -477,7 +489,7 @@ namespace PlenBotLogUploader
             {
                 foreach (var webhook in logSessionSettings.SelectedWebhooks)
                 {
-                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.ExtraJson)).ToList(), logSessionSettings);
+                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.GetLogPlayers())).ToList(), logSessionSettings);
                     await SendDiscordMessageWebhooksAsync(webhook, discordEmbeds, logSessionSettings.ContentText);
                 }
             }
@@ -485,7 +497,7 @@ namespace PlenBotLogUploader
             {
                 foreach (var webhook in allWebhooks.Values.Where(x => x.Active))
                 {
-                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.ExtraJson)).ToList(), logSessionSettings);
+                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.GetLogPlayers())).ToList(), logSessionSettings);
                     await SendDiscordMessageWebhooksAsync(webhook, discordEmbeds, logSessionSettings.ContentText);
                 }
             }

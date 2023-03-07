@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
+using PlenBotLogUploader.Tools;
+using System;
 using System.Collections.Generic;
 
 namespace PlenBotLogUploader.DpsReport
@@ -94,5 +96,32 @@ namespace PlenBotLogUploader.DpsReport
         /// whether the enouncter was in challenge mode
         /// </summary>
         internal bool ChallengeMode => (ExtraJson?.IsCm ?? false) || (Encounter?.IsCm ?? false);
+
+        internal List<LogPlayer> GetLogPlayers()
+        {
+            var list = new List<LogPlayer>();
+            if (ExtraJson is null)
+            {
+                foreach (var player in Players.Values)
+                {
+                    list.Add(new LogPlayer()
+                    {
+                        Name = player.CharacterName,
+                        Account = player.DisplayName,
+                    });
+                }
+                return list;
+            }
+            foreach (var player in ExtraJson.Players.AsSpan())
+            {
+                list.Add(new LogPlayer()
+                {
+                    Name = player.Name,
+                    Account = player.Account,
+                    IsCommander = player.IsCommander,
+                });
+            }
+            return list;
+        }
     }
 }

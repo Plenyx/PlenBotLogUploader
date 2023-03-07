@@ -110,18 +110,18 @@ namespace PlenBotLogUploader.Teams
             }
         }
 
-        internal bool IsSatisfied(DpsReport.DpsReportJsonExtraJson extraJSON)
+        internal bool IsSatisfied(List<LogPlayer> players)
         {
-            if (extraJSON is null)
+            if (players is null)
             {
                 return false;
             }
-            var sumOfTeamMembers = AccountNames.Select(x => extraJSON.Players.Count(y => y.Account.Equals(x))).Sum();
+            var sumOfTeamMembers = AccountNames.Select(x => players.Count(y => y.Account.Equals(x))).Sum();
             return Limiter switch
             {
-                TeamLimiter.AND => Subconditions.Count(x => x.IsSatisfied(extraJSON)) == Subconditions.Count,
-                TeamLimiter.OR => Subconditions.Any(x => x.IsSatisfied(extraJSON)),
-                TeamLimiter.CommanderName => extraJSON.Players.Any(x => x.IsCommander && AccountNames.Contains(x.Account)),
+                TeamLimiter.AND => Subconditions.Count(x => x.IsSatisfied(players)) == Subconditions.Count,
+                TeamLimiter.OR => Subconditions.Any(x => x.IsSatisfied(players)),
+                TeamLimiter.CommanderName => players.Any(x => x.IsCommander && AccountNames.Contains(x.Account)),
                 TeamLimiter.Exact => sumOfTeamMembers == LimiterValue,
                 TeamLimiter.Except => sumOfTeamMembers == 0,
                 // at least

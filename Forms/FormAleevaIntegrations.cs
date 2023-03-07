@@ -4,6 +4,7 @@ using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.Tools;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -108,7 +109,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        internal async Task ExecuteAllActiveAleevaIntegrations(DpsReportJson reportJson)
+        internal async Task ExecuteAllActiveAleevaIntegrations(DpsReportJson reportJson, List<LogPlayer> players)
         {
             if (!ApplicationSettings.Current.Aleeva.Authorised)
             {
@@ -116,11 +117,11 @@ namespace PlenBotLogUploader
             }
             foreach (var integration in AleevaIntegrations.All)
             {
-                if (!integration.Active || !integration.Valid || !(integration.Team?.IsSatisfied(reportJson.ExtraJson) ?? false))
+                if (!integration.Active || !integration.Valid || !(integration.Team?.IsSatisfied(players) ?? false))
                 {
                     continue;
                 }
-                await integration.PostLogToAleeva(mainLink, controller, reportJson);
+                await integration.PostLogToAleeva(mainLink, controller, reportJson, players);
             }
             if (AleevaIntegrations.All.Count > 0)
             {

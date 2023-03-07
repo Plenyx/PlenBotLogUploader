@@ -43,13 +43,13 @@ namespace PlenBotLogUploader
                 {
                     buttonUpdate.Invoke(() =>
                     {
-                        buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
+                        buttonUpdate.Text = (value) ? "Update the uploader" : "Check for updates";
                         buttonUpdate.NotifyDefault(value);
                     });
                 }
                 else
                 {
-                    buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
+                    buttonUpdate.Text = (value) ? "Update the uploader" : "Check for updates";
                     buttonUpdate.NotifyDefault(value);
                 }
                 _updateFound = value;
@@ -782,6 +782,8 @@ namespace PlenBotLogUploader
                             catch
                             {
                                 AddToText(">:> Extra JSON available but couldn't be obtained.");
+                                reportJson.ExtraJson = null;
+                                bossId = reportJson.Encounter.BossId;
                             }
                         }
                         if (ApplicationSettings.Current.Upload.SaveToCsvEnabled)
@@ -819,14 +821,15 @@ namespace PlenBotLogUploader
                         {
                             await SendLogToTwitchChatAsync(reportJson, bypassMessage);
                         }
+                        var players = reportJson.GetLogPlayers();
                         // Discord webhooks & log sessions
-                        await ExecuteAllDiscordWebhooks(reportJson);
+                        await ExecuteAllDiscordWebhooks(reportJson, players);
                         // remote server ping
                         await pingsLink.ExecuteAllPingsAsync(reportJson);
                         // aleeva integration
-                        await aleevaLink.ExecuteAllActiveAleevaIntegrations(reportJson);
+                        await aleevaLink.ExecuteAllActiveAleevaIntegrations(reportJson, players);
                         // gw2bot integration
-                        await gw2botLink.PostLogToGW2Bot(reportJson);
+                        await gw2botLink.PostLogToGW2Bot(reportJson, players);
                         // report success
                         AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
                     }
@@ -865,7 +868,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        internal async Task ExecuteAllDiscordWebhooks(DpsReportJson reportJson)
+        internal async Task ExecuteAllDiscordWebhooks(DpsReportJson reportJson, List<LogPlayer> players)
         {
             if (logSessionLink.SessionRunning)
             {
@@ -879,12 +882,12 @@ namespace PlenBotLogUploader
                 }
                 if (!logSessionLink.checkBoxSupressWebhooks.Checked)
                 {
-                    await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJson);
+                    await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJson, players);
                 }
             }
             else
             {
-                await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJson);
+                await discordWebhooksLink.ExecuteAllActiveWebhooksAsync(reportJson, players);
             }
         }
 
