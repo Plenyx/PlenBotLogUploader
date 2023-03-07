@@ -119,13 +119,13 @@ namespace PlenBotLogUploader
             MumbleReader = new MumbleReader(false);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
-            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to Twitch channel if properly connected to it and OBS is running.");
-            toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel if properly connected to it.");
-            toolTip.SetToolTip(checkBoxAnonymiseReports, "If checked, the log will be generated with fake names and accounts.");
-            toolTip.SetToolTip(checkBoxDetailedWvW, "If checked, extended per-target reports will be generated. (might cause some issues)");
+            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to connected Twitch channel while a streaming software is running.");
+            toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel.");
+            toolTip.SetToolTip(checkBoxAnonymiseReports, "If checked, the logs will be generated with fake names and accounts.");
+            toolTip.SetToolTip(checkBoxDetailedWvW, "If checked, extended per-target log reports will be generated. (might cause some issues)");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             toolTip.SetToolTip(buttonCopyApplicationSession, "Copies all the logs uploaded during the application session into the clipboard.");
-            toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the app.");
+            toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the application.");
             toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
             #endregion
             try
