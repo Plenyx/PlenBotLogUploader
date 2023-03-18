@@ -39,15 +39,15 @@ namespace PlenBotLogUploader
                         groupBoxAccountNames.Visible = false;
                         groupBoxSubConditions.Visible = true;
                         break;
+                    case TeamLimiter.NOT:
+                        radioButtonLimiterNOT.Checked = true;
+                        textBoxLimiterValue.Enabled = false;
+                        textBoxAccountNames.Enabled = false;
+                        groupBoxAccountNames.Visible = false;
+                        groupBoxSubConditions.Visible = true;
+                        break;
                     case TeamLimiter.CommanderName:
                         radioButtonLimiterCommanderName.Checked = true;
-                        textBoxLimiterValue.Enabled = false;
-                        textBoxAccountNames.Enabled = true;
-                        groupBoxAccountNames.Visible = true;
-                        groupBoxSubConditions.Visible = false;
-                        break;
-                    case TeamLimiter.Except:
-                        radioButtonLimiterExcept.Checked = true;
                         textBoxLimiterValue.Enabled = false;
                         textBoxAccountNames.Enabled = true;
                         groupBoxAccountNames.Visible = true;
@@ -73,8 +73,8 @@ namespace PlenBotLogUploader
             }
             radioButtonLimiterOR.CheckedChanged += RadioButtonLimiterOR_CheckedChanged;
             radioButtonLimiterAND.CheckedChanged += RadioButtonLimiterAND_CheckedChanged;
+            radioButtonLimiterNOT.CheckedChanged += RadioButtonLimiterNOT_CheckedChanged;
             radioButtonLimiterCommanderName.CheckedChanged += RadioButtonLimiterCommanderName_CheckedChanged;
-            radioButtonLimiterExcept.CheckedChanged += RadioButtonLimiterExcept_CheckedChanged;
             radioButtonLimiterExact.CheckedChanged += RadioButtonLimiterExact_CheckedChanged;
             radioButtonLimiterAtLeast.CheckedChanged += RadioButtonLimiterAtLeast_CheckedChanged;
             textBoxAccountNames.TextChanged += TextBoxAccountNames_TextChanged;
@@ -87,6 +87,9 @@ namespace PlenBotLogUploader
             ChangeFormText();
             listBoxSubConditions.Items.Clear();
             listBoxSubConditions.Items.AddRange(Condition.Subconditions.ToArray());
+            var addSubConditionToggle = !Condition.Limiter.Equals(TeamLimiter.NOT) || (Condition.Subconditions.Count == 0);
+            buttonAddSubCondition.Enabled = addSubConditionToggle;
+            toolStripMenuItemAdd.Enabled = addSubConditionToggle;
         }
 
         private void ChangeFormText()
@@ -121,20 +124,6 @@ namespace PlenBotLogUploader
             }
             Condition.Limiter = TeamLimiter.Exact;
             textBoxLimiterValue.Enabled = true;
-            textBoxAccountNames.Enabled = true;
-            groupBoxAccountNames.Visible = true;
-            groupBoxSubConditions.Visible = false;
-            RedrawCondition();
-        }
-
-        private void RadioButtonLimiterExcept_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!radioButtonLimiterExcept.Checked)
-            {
-                return;
-            }
-            Condition.Limiter = TeamLimiter.Except;
-            textBoxLimiterValue.Enabled = false;
             textBoxAccountNames.Enabled = true;
             groupBoxAccountNames.Visible = true;
             groupBoxSubConditions.Visible = false;
@@ -176,6 +165,19 @@ namespace PlenBotLogUploader
                 return;
             }
             Condition.Limiter = TeamLimiter.OR;
+            textBoxLimiterValue.Enabled = false;
+            textBoxAccountNames.Enabled = false;
+            groupBoxAccountNames.Visible = false;
+            groupBoxSubConditions.Visible = true;
+            RedrawCondition();
+        }
+        private void RadioButtonLimiterNOT_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButtonLimiterNOT.Checked)
+            {
+                return;
+            }
+            Condition.Limiter = TeamLimiter.NOT;
             textBoxLimiterValue.Enabled = false;
             textBoxAccountNames.Enabled = false;
             groupBoxAccountNames.Visible = false;
@@ -253,5 +255,6 @@ namespace PlenBotLogUploader
         private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => AddNewSubCondition();
 
         private void ListBoxSubConditions_DoubleClick(object sender, EventArgs e) => EditSubCondition();
+
     }
 }

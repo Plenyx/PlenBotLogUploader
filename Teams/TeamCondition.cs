@@ -121,6 +121,7 @@ namespace PlenBotLogUploader.Teams
             {
                 TeamLimiter.AND => Subconditions.Count(x => x.IsSatisfied(players)) == Subconditions.Count,
                 TeamLimiter.OR => Subconditions.Any(x => x.IsSatisfied(players)),
+                TeamLimiter.NOT => Subconditions.Count(x => !x.IsSatisfied(players)) == Subconditions.Count,
                 TeamLimiter.CommanderName => players.Any(x => x.IsCommander && AccountNames.Contains(x.Account)),
                 TeamLimiter.Exact => sumOfTeamMembers == LimiterValue,
                 TeamLimiter.Except => sumOfTeamMembers == 0,
@@ -137,6 +138,7 @@ namespace PlenBotLogUploader.Teams
                 {
                     TeamLimiter.AND => $"[AND from {Subconditions?.Count ?? 0}]",
                     TeamLimiter.OR => $"[OR from {Subconditions?.Count ?? 0}]",
+                    TeamLimiter.NOT => $"[NOT]",
                     TeamLimiter.CommanderName => $"[Any commander from {AccountNames?.Count ?? 0}]",
                     TeamLimiter.Except => $"[Except {AccountNames?.Count ?? 0}]",
                     TeamLimiter.Exact => $"[Exactly {LimiterValue} from {AccountNames?.Count ?? 0}]",
@@ -154,6 +156,7 @@ namespace PlenBotLogUploader.Teams
             {
                 case TeamLimiter.AND:
                 case TeamLimiter.OR:
+                case TeamLimiter.NOT:
                     result.Append(!string.IsNullOrWhiteSpace(Description) ? $"[{Description}] " : "").Append(Limiter).AppendLine(":");
                     result.Append(string.Concat(Subconditions.Select(x => x.Draw(intent + 4))));
                     break;

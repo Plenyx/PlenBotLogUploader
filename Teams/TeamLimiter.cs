@@ -8,5 +8,6 @@
         Exact = 3,
         Except = 4,
         CommanderName = 5,
+        NOT = 6,
     }
 }
