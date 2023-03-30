@@ -57,10 +57,10 @@ namespace PlenBotLogUploader
             {
                 return true;
             }
-            if ((ApplicationSettings.Current.Gw2Bot.TeamId > 0) &&
+            if (((ApplicationSettings.Current.Gw2Bot.TeamId > 0) &&
                 Teams.Teams.All.ContainsKey(ApplicationSettings.Current.Gw2Bot.TeamId) &&
-                !Teams.Teams.All[ApplicationSettings.Current.Gw2Bot.TeamId].IsSatisfied(players) &&
-                checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false))
+                !Teams.Teams.All[ApplicationSettings.Current.Gw2Bot.TeamId].IsSatisfied(players)) ||
+                (checkBoxOnlySuccessful.Checked && !(reportJSON.Encounter.Success ?? false)))
             {
                 return true;
             }
