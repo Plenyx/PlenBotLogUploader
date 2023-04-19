@@ -58,7 +58,7 @@ namespace PlenBotLogUploader.Gw2Api
             { 2205, new Gw2Server { Id = 2205, Name = "Drakkar Lake [DE]" } },
             { 2206, new Gw2Server { Id = 2206, Name = "Miller's Sound [DE]" } },
             { 2207, new Gw2Server { Id = 2207, Name = "Dzagonur [DE]" } },
-            { 2301, new Gw2Server { Id = 2301, Name = "Baruch Bay [SP]" } }
+            { 2301, new Gw2Server { Id = 2301, Name = "Baruch Bay [SP]" } },
         };
     }
 }

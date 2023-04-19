@@ -19,7 +19,7 @@ namespace PlenBotLogUploader.Aleeva
             var aleeva = new AleevaAuthToken()
             {
                 RefreshToken = ApplicationSettings.Current.Aleeva.RefreshToken,
-                GrantType = "refresh_token"
+                GrantType = "refresh_token",
             };
             var uri = new Uri($"{ApiBaseUrl}/auth/token");
             var aleevaKeyValues = new List<KeyValuePair<string, string>>
@@ -28,7 +28,7 @@ namespace PlenBotLogUploader.Aleeva
                 new ("client_id", aleeva.ClientId),
                 new ("client_secret", aleeva.ClientSecret),
                 new ("refresh_token", aleeva.RefreshToken),
-                new ("scopes", "report:write server:read channel:read")
+                new ("scopes", "report:write server:read channel:read"),
             };
             try
             {
@@ -67,7 +67,7 @@ namespace PlenBotLogUploader.Aleeva
                 new ("client_id", aleeva.ClientId),
                 new ("client_secret", aleeva.ClientSecret),
                 new ("access_code", aleeva.AccessCode),
-                new ("scopes", "report:write server:read channel:read")
+                new ("scopes", "report:write server:read channel:read"),
             };
             try
             {

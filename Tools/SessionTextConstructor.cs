@@ -31,7 +31,7 @@ namespace PlenBotLogUploader.Tools
                 Description = text,
                 Colour = 32768,
                 TimeStamp = DateTime.UtcNow.ToString("o"),
-                Thumbnail = defaultThumbnail
+                Thumbnail = defaultThumbnail,
             };
 
         internal static DiscordEmbeds ConstructSessionEmbeds(List<DpsReportJson> reportsJSON, LogSessionSettings logSessionSettings)
