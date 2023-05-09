@@ -557,7 +557,7 @@ namespace PlenBotLogUploader
                 }
                 UpdateFound = true;
                 latestRelease = await HttpClientController.GetGitHubLatestReleaseAsync("HardstuckGuild/PlenBotLogUploader");
-                if (appStartup && ApplicationSettings.Current.AutoUpdate)
+                if (appStartup && ApplicationSettings.Current.AutoUpdate && latestRelease is not null)
                 {
                     await PerformUpdate(appStartup);
                     return;
@@ -909,25 +909,22 @@ namespace PlenBotLogUploader
 
         private static string CreateDPSReportLink()
         {
-            var baseUrl = $"{ApplicationSettings.Current.Upload.DPSReportServerLink}/uploadContent";
-            var urlParameters = new List<string>()
-            {
-                "json=1",
-                "generator=ei"
-            };
+            var builder = new StringBuilder();
+            builder.Append(ApplicationSettings.Current.Upload.DPSReportServerLink).Append("/uploadContent");
+            builder.Append("?json=1&generator=ei");
             if (ApplicationSettings.Current.Upload.DpsReportUserTokens.Count(x => x.Active) == 1)
             {
-                urlParameters.Add($"userToken={ApplicationSettings.Current.Upload.DpsReportUserTokens.Find(x => x.Active).UserToken}");
+                builder.Append("&userToken=").Append(ApplicationSettings.Current.Upload.DpsReportUserTokens.Find(x => x.Active).UserToken);
             }
             if (ApplicationSettings.Current.Upload.Anonymous)
             {
-                urlParameters.Add("anonymous=true");
+                builder.Append("&anonymous=true");
             }
             if (ApplicationSettings.Current.Upload.DetailedWvw)
             {
-                urlParameters.Add("detailedwvw=true");
+                builder.Append("&detailedwvw=true");
             }
-            return baseUrl + '?' + string.Join('&', urlParameters);
+            return builder.ToString();
         }
         #endregion
 

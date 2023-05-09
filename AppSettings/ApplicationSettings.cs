@@ -48,9 +48,9 @@ namespace PlenBotLogUploader.AppSettings
             return sett;
         }
 
-        internal static bool Exists() => File.Exists($"{LocalDir}{FileName}");
-        internal static ApplicationSettings Load() => DeserialiseFromFile($"{LocalDir}{FileName}");
-        internal void Save() => SerialiseToFile($"{LocalDir}{FileName}");
+        internal static bool Exists() => File.Exists(LocalDir + FileName);
+        internal static ApplicationSettings Load() => DeserialiseFromFile(LocalDir + FileName);
+        internal void Save() => SerialiseToFile(LocalDir + FileName);
         #endregion
 
         #region internal properties
