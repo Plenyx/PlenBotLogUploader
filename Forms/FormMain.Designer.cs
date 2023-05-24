@@ -85,6 +85,7 @@
             tabControlSettings = new System.Windows.Forms.TabControl();
             tabPageMainSettings = new System.Windows.Forms.TabPage();
             tabPageOtherSettings = new System.Windows.Forms.TabPage();
+            timerFailedLogsReupload = new System.Windows.Forms.Timer(components);
             groupBoxTwitchSettings.SuspendLayout();
             groupBoxArcdpsLogs.SuspendLayout();
             contextMenuStripIcon.SuspendLayout();
@@ -698,6 +699,11 @@
             tabPageOtherSettings.TabIndex = 1;
             tabPageOtherSettings.Text = "Other settings";
             // 
+            // timerFailedLogsReupload
+            // 
+            timerFailedLogsReupload.Interval = 900000;
+            timerFailedLogsReupload.Tick += TimerFailedLogsReupload_Tick;
+            // 
             // FormMain
             // 
             AllowDrop = true;
@@ -788,6 +794,7 @@
         private System.Windows.Forms.TabControl tabControlSettings;
         private System.Windows.Forms.TabPage tabPageMainSettings;
         private System.Windows.Forms.TabPage tabPageOtherSettings;
+        private System.Windows.Forms.Timer timerFailedLogsReupload;
     }
 }
 

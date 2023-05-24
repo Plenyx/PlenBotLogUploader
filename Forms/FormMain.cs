@@ -655,6 +655,7 @@ namespace PlenBotLogUploader
                     }
                 }
             }
+            LogReuploader.ProcessLogs(HttpUploadLogAsync);
         }
 
         protected async Task ValidateGW2Tokens()
@@ -832,6 +833,12 @@ namespace PlenBotLogUploader
                         await gw2botLink.PostLogToGW2Bot(reportJson, players);
                         // report success
                         AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
+                        // remove from failed logs if present
+                        var removed = LogReuploader.FailedLogs.Remove(file);
+                        if (removed)
+                        {
+                            LogReuploader.SaveFailedLogs();
+                        }
                     }
                     catch (Exception e)
                     {
@@ -845,7 +852,12 @@ namespace PlenBotLogUploader
                     if (recentUploadFailCounter > 3)
                     {
                         Interlocked.Exchange(ref recentUploadFailCounter, 0);
-                        AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}, aborting.");
+                        AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}, will try again in 15m.");
+                        LogReuploader.FailedLogs.Add(file);
+                        LogReuploader.SaveFailedLogs();
+                        timerFailedLogsReupload.Enabled = true;
+                        timerFailedLogsReupload.Stop();
+                        timerFailedLogsReupload.Start();
                     }
                     else
                     {
@@ -1555,6 +1567,13 @@ namespace PlenBotLogUploader
             timerCheckUpdate.Stop();
             timerCheckUpdate.Enabled = false;
             _ = NewReleaseCheckAsync(false, true);
+        }
+
+        private void TimerFailedLogsReupload_Tick(object sender, EventArgs e)
+        {
+            timerFailedLogsReupload.Stop();
+            timerFailedLogsReupload.Enabled = false;
+            LogReuploader.ProcessLogs(HttpUploadLogAsync);
         }
 
         private void ComboBoxMaxUploads_SelectedIndexChanged(object sender, EventArgs e)

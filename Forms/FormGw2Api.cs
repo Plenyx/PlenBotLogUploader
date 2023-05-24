@@ -91,6 +91,7 @@ namespace PlenBotLogUploader
                     }
                     trueApiKey = ApplicationSettings.Current.Gw2Apis.Find(x => x.Characters.Contains(mainLink.MumbleReader.Data.Identity.Name));
                 }
+                mainLink.AddToText(">:> Generating a Hardstuck build code for the current character...");
                 try
                 {
                     var code = await APILoader.LoadBuildCodeFromCurrentCharacter(trueApiKey.ApiKey);
