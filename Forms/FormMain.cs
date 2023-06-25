@@ -744,6 +744,16 @@ namespace PlenBotLogUploader
                     using var responseMessage = await HttpClientController.PostAsync(uri, content);
                     if (!responseMessage.IsSuccessStatusCode)
                     {
+                        if ((int)responseMessage.StatusCode == 429)
+                        {
+                            AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with Too-Many-Logs-Per-Minute error (429). Log will be reuploaded in 15 minutes.");
+                            LogReuploader.FailedLogs.Add(file);
+                            LogReuploader.SaveFailedLogs();
+                            timerFailedLogsReupload.Enabled = true;
+                            timerFailedLogsReupload.Stop();
+                            timerFailedLogsReupload.Start();
+                            return;
+                        }
                         AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with an non-ok status code ({(int)responseMessage.StatusCode})");
                         return;
                     }
