@@ -5,15 +5,13 @@ If you need any help to set-up the bot, be up-to-date with latest features or ha
 
 *Maintained by @Plenyx & @sobrinth.*
 
-**Fully standalone or requires .NET 6.0 - Desktop Runtime ([link](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)) if using netv6 version**
-
 ## Installation ([download](https://github.com/HardstuckGuild/PlenBotLogUploader/releases)) | [Screenshots](https://plenbot.net/uploader/?utm_source=github&utm_medium=referral&utm_campaign=readme)
 
 ### **Video tutorials:** [Quick setup with Discord webhooks](https://www.youtube.com/watch?v=EsMy0yKdjXk) | [Advanced setup, Twitch, log sessions, arcdps plugin manager](https://www.youtube.com/watch?v=plGFNL4kuZY)
 
 To install the uploader, I recommend creating a new folder and putting the executable in.
 
-The uploader will create a file called "uploaded_logs.csv" which will contain all previous and latest upload links with additional data.
+The uploader will create a file called "uploaded_logs.csv" which will contain all upload links with additional data.
 
 For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username "gw2loguploader". Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
 

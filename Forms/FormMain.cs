@@ -89,8 +89,7 @@ namespace PlenBotLogUploader
         // constants
         private const int minFileSize = 8192;
         private const string plenbotVersionFileURL = "https://raw.githubusercontent.com/HardstuckGuild/PlenBotLogUploader/master/VERSION";
-        private const string netv6DownloadName = "PlenBotLogUploader.netv6.exe";
-        private const string standaloneDownloadName = "PlenBotLogUploader.exe";
+        private const string plenbotDownloadName = "PlenBotLogUploader.exe";
         #endregion
 
         #region constructor
@@ -1520,7 +1519,7 @@ namespace PlenBotLogUploader
             }
             buttonUpdate.Enabled = false;
             AddToText(">>> Downloading the update...");
-            var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals(Process.GetCurrentProcess().ProcessName.Contains("netv6") ? netv6DownloadName : standaloneDownloadName)).DownloadUrl;
+            var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals(plenbotDownloadName))?.DownloadUrl;
             if (downloadUrl is null)
             {
                 AddToText(">>> Something went wrong with the download. Please try again later.");
