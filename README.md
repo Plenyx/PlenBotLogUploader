@@ -1,11 +1,11 @@
-# PlenBotLogUploader [![Build and test](https://github.com/HardstuckGuild/PlenBotLogUploader/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/HardstuckGuild/PlenBotLogUploader/actions/workflows/build-and-test.yml) ![GitHub release (latest by date)](https://img.shields.io/github/downloads/HardstuckGuild/PlenBotLogUploader/latest/total?label=latest%20release%20downloads&style=flat-square) ![GitHub all releases](https://img.shields.io/github/downloads/HardstuckGuild/PlenBotLogUploader/total?label=total%20downloads&style=flat-square)
+# PlenBotLogUploader [![Build and test](https://github.com/Plenyx/PlenBotLogUploader/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/HardstuckGuild/PlenBotLogUploader/actions/workflows/build-and-test.yml) ![GitHub release (latest by date)](https://img.shields.io/github/downloads/HardstuckGuild/PlenBotLogUploader/latest/total?label=latest%20release%20downloads&style=flat-square) ![GitHub all releases](https://img.shields.io/github/downloads/HardstuckGuild/PlenBotLogUploader/total?label=total%20downloads&style=flat-square)
 The all-in-one solution for all your arcdps logs.
 
 If you need any help to set-up the bot, be up-to-date with latest features or have a direct contact with other users of the uploader, you can join a special Discord server "[PlenBot support line](https://discord.gg/khMDaym)"!
 
 *Maintained by @Plenyx & @sobrinth.*
 
-## Installation ([download](https://github.com/HardstuckGuild/PlenBotLogUploader/releases)) | [Screenshots](https://plenbot.net/uploader/?utm_source=github&utm_medium=referral&utm_campaign=readme)
+## Installation ([download](https://github.com/Plenyx/PlenBotLogUploader/releases)) | [Screenshots](https://plenbot.net/uploader/?utm_source=github&utm_medium=referral&utm_campaign=readme)
 
 ### **Video tutorials:** [Quick setup with Discord webhooks](https://www.youtube.com/watch?v=EsMy0yKdjXk) | [Advanced setup, Twitch, log sessions, arcdps plugin manager](https://www.youtube.com/watch?v=plGFNL4kuZY)
 
@@ -70,4 +70,4 @@ I plan to finish the following features:
 ## Remote server ping
 Remote server ping allows you to send log data to a custom REST server.
 
-If you wish to use your own REST server, follow the [remote server readme](https://github.com/HardstuckGuild/PlenBotLogUploader/blob/main/remote-server/README.md).
+If you wish to use your own REST server, follow the [remote server readme](https://github.com/Plenyx/PlenBotLogUploader/blob/main/remote-server/README.md).
