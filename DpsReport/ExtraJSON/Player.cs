@@ -27,6 +27,18 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
         [JsonProperty("support")]
         internal PlayerSupport[] Support { get; set; }
 
+        /// <summary>
+        /// Healing stats from extension
+        /// </summary>
+        [JsonProperty("extHealingStats")]
+        internal ExtHealingStats ExtHealingStats { get; set; }
+
+        /// <summary>
+        /// Barrier stats from extension
+        /// </summary>
+        [JsonProperty("extBarrierStats")]
+        internal ExtBarrierStats ExtBarrierStats { get; set; }
+
         [JsonProperty("name")]
         internal string Name { get; set; }
 

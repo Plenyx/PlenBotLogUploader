@@ -259,12 +259,69 @@ namespace PlenBotLogUploader
                         Name = "Boon strips summary:",
                         Value = $"```{boonStripsSummary.Render()}```"
                     };
+
+                    // healing summary
+                    var healingStats = reportJSON.ExtraJson.Players
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.ExtHealingStats?.OutgoingHealing?[0]?.Healing > 0))
+                        .OrderByDescending(x => x.ExtHealingStats.OutgoingHealing[0].Healing)
+                        .Take(10)
+                        .ToArray();
+                    var healingSummary = new TextTable(3, tableStyle, tableBorders);
+                    healingSummary.SetColumnWidthRange(0, 3, 3);
+                    healingSummary.SetColumnWidthRange(1, 27, 27);
+                    healingSummary.SetColumnWidthRange(2, 12, 12);
+                    healingSummary.AddCell("#", tableCellCenterAlign);
+                    healingSummary.AddCell("Name");
+                    healingSummary.AddCell("Healing", tableCellRightAlign);
+                    rank = 0;
+                    foreach (var player in healingStats)
+                    {
+                        rank++;
+                        healingSummary.AddCell($"{rank}", tableCellCenterAlign);
+                        healingSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
+                        healingSummary.AddCell($"{player.ExtHealingStats.OutgoingHealing[0].Healing}", tableCellRightAlign);
+                    }
+                    var healingField = new DiscordApiJsonContentEmbedField()
+                    {
+                        Name = "Healing summary:",
+                        Value = $"```{healingSummary.Render()}```"
+                    };
+
+                    // barrier summary
+                    var barrierStats = reportJSON.ExtraJson.Players
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.ExtBarrierStats?.OutgoingBarrier?[0]?.Barrier > 0))
+                        .OrderByDescending(x => x.ExtBarrierStats.OutgoingBarrier[0].Barrier)
+                        .Take(10)
+                        .ToArray();
+                    var barrierSummary = new TextTable(3, tableStyle, tableBorders);
+                    barrierSummary.SetColumnWidthRange(0, 3, 3);
+                    barrierSummary.SetColumnWidthRange(1, 27, 27);
+                    barrierSummary.SetColumnWidthRange(2, 12, 12);
+                    barrierSummary.AddCell("#", tableCellCenterAlign);
+                    barrierSummary.AddCell("Name");
+                    barrierSummary.AddCell("Barrier", tableCellRightAlign);
+                    rank = 0;
+                    foreach (var player in barrierStats)
+                    {
+                        rank++;
+                        barrierSummary.AddCell($"{rank}", tableCellCenterAlign);
+                        barrierSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
+                        barrierSummary.AddCell($"{player.ExtBarrierStats.OutgoingBarrier[0].Barrier}", tableCellRightAlign);
+                    }
+                    var barrierField = new DiscordApiJsonContentEmbedField()
+                    {
+                        Name = "Barrier summary:",
+                        Value = $"```{barrierSummary.Render()}```"
+                    };
+
                     // add the fields
                     discordContentEmbed.Fields = new List<DiscordApiJsonContentEmbedField>()
                     {
                         squadField,
                         enemyField,
                         damageField,
+                        healingField,
+                        barrierField,
                         cleansesField,
                         boonStripsField
                     };
