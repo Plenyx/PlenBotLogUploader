@@ -262,8 +262,8 @@ namespace PlenBotLogUploader
 
                     // healing summary
                     var healingStats = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.ExtHealingStats?.OutgoingHealing?[0]?.Healing > 0))
-                        .OrderByDescending(x => x.ExtHealingStats.OutgoingHealing[0].Healing)
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.ExtHealingStats?.OutgoingHealingAllies?.Any() == true))
+                        .OrderByDescending(x => x.ExtHealingStats.OutgoingHealingAllies.Aggregate(0, (sum, next) => sum + (next.FirstOrDefault()?.Healing ?? 0), sum => sum))
                         .Take(10)
                         .ToArray();
                     var healingSummary = new TextTable(3, tableStyle, tableBorders);
@@ -279,7 +279,7 @@ namespace PlenBotLogUploader
                         rank++;
                         healingSummary.AddCell($"{rank}", tableCellCenterAlign);
                         healingSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                        healingSummary.AddCell($"{player.ExtHealingStats.OutgoingHealing[0].Healing}", tableCellRightAlign);
+                        healingSummary.AddCell($"{player.ExtHealingStats.OutgoingHealingAllies.Aggregate(0, (sum, next) => sum + (next.FirstOrDefault()?.Healing ?? 0), sum => sum)}", tableCellRightAlign);
                     }
                     var healingField = new DiscordApiJsonContentEmbedField()
                     {
@@ -289,8 +289,8 @@ namespace PlenBotLogUploader
 
                     // barrier summary
                     var barrierStats = reportJSON.ExtraJson.Players
-                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.ExtBarrierStats?.OutgoingBarrier?[0]?.Barrier > 0))
-                        .OrderByDescending(x => x.ExtBarrierStats.OutgoingBarrier[0].Barrier)
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && (x.ExtBarrierStats?.OutgoingBarrierAllies?.Any() == true))
+                        .OrderByDescending(x => x.ExtBarrierStats.OutgoingBarrierAllies.Aggregate(0, (sum, next) => sum + (next.FirstOrDefault()?.Barrier ?? 0), sum => sum))
                         .Take(10)
                         .ToArray();
                     var barrierSummary = new TextTable(3, tableStyle, tableBorders);
@@ -306,7 +306,7 @@ namespace PlenBotLogUploader
                         rank++;
                         barrierSummary.AddCell($"{rank}", tableCellCenterAlign);
                         barrierSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
-                        barrierSummary.AddCell($"{player.ExtBarrierStats.OutgoingBarrier[0].Barrier}", tableCellRightAlign);
+                        barrierSummary.AddCell($"{player.ExtBarrierStats.OutgoingBarrierAllies.Aggregate(0, (sum, next) => sum + (next.FirstOrDefault()?.Barrier ?? 0), sum => sum)}", tableCellRightAlign);
                     }
                     var barrierField = new DiscordApiJsonContentEmbedField()
                     {
