@@ -57,6 +57,8 @@
         WatchknightTriumvirateCMVermilion = 25414,
         WatchknightTriumvirateCMArsenite = 25416,
         WatchknightTriumvirateCMIndigo = 25423,
+        Kanaxai = 25572,
+        KanaxaiCM = 25577,
         TheDragonvoid = 43488,
         ConjuredAmalgamate = 43974,
     }

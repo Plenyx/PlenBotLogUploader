@@ -173,6 +173,21 @@
     "isEvent": false
   },
   {
+    "bossId": 25572,
+    "name": "Kanaxai",
+    "icon": "https://i.imgur.com/AxKZDs8.png",
+    "type": 2,
+    "isEvent": false
+  },
+  {
+    "bossId": 25577,
+    "name": "Kanaxai",
+    "internalDescription": "Challenge Mode",
+    "icon": "https://i.imgur.com/AxKZDs8.png",
+    "type": 2,
+    "isEvent": false
+  },
+  {
     "bossId": 16235,
     "name": "Keep Construct",
     "icon": "https://wiki.guildwars2.com/images/e/ea/Mini_Keep_Construct.png",
