@@ -181,12 +181,15 @@ namespace PlenBotLogUploader
                             Value = $"```{enemySummary.Render()}```"
                         };
 
-                        enemyClasses = reportJSON.ExtraJson.Targets
+                        if (allWebhooks?.Any(w => w.Value?.ClassEmojis?.Any() == true) == true)
+                        {
+                            enemyClasses = reportJSON.ExtraJson.Targets
                             .Where(x => x.EnemyPlayer)
                             .GroupBy(x => x.Name.Split(' ').FirstOrDefault().ToUpper())
                             .OrderByDescending(x => x.Count())
                             .Select(x => $"{x.Count()} {{{x.Key}}}")
                             .ToList();
+                        }
                     }
                     // damage summary
                     var damageStats = reportJSON.ExtraJson.Players
