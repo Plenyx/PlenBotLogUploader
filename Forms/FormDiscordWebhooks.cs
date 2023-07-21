@@ -136,6 +136,9 @@ namespace PlenBotLogUploader
                         Name = "Enemy summary:",
                         Value = "```Summary could not have been generated.\nToggle detailed WvW to enable this feature.```"
                     };
+
+                    var enemyClasses = new List<string>();
+
                     if (reportJSON.ExtraJson.Targets.Length > 1)
                     {
                         var enemyPlayers = reportJSON.ExtraJson.Targets
@@ -177,6 +180,13 @@ namespace PlenBotLogUploader
                             Name = "Enemy summary:",
                             Value = $"```{enemySummary.Render()}```"
                         };
+
+                        enemyClasses = reportJSON.ExtraJson.Targets
+                            .Where(x => x.EnemyPlayer)
+                            .GroupBy(x => x.Name.Split(' ').FirstOrDefault().ToUpper())
+                            .OrderByDescending(x => x.Count())
+                            .Select(x => $"{x.Count()} {{{x.Key}}}")
+                            .ToList();
                     }
                     // damage summary
                     var damageStats = reportJSON.ExtraJson.Players
@@ -315,16 +325,59 @@ namespace PlenBotLogUploader
                     };
 
                     // add the fields
-                    discordContentEmbed.Fields = new List<DiscordApiJsonContentEmbedField>()
+                    discordContentEmbed.Fields = new List<DiscordApiJsonContentEmbedField>();
+
+                    discordContentEmbed.Fields.Add(squadField);
+                    discordContentEmbed.Fields.Add(enemyField);
+
+                    if (enemyClasses.Count > 0)
                     {
-                        squadField,
-                        enemyField,
-                        damageField,
-                        healingField,
-                        barrierField,
-                        cleansesField,
-                        boonStripsField
-                    };
+                        discordContentEmbed.Fields.Add(new DiscordApiJsonContentEmbedField
+                        {
+                            Name = string.Join("    ", enemyClasses.Take(4)),
+                            Value = "",
+                            Inline = true
+                        });
+                    }
+                    if (enemyClasses.Count > 4)
+                    {
+                        discordContentEmbed.Fields.Add(new DiscordApiJsonContentEmbedField
+                        {
+                            Name = string.Join("    ", enemyClasses.Skip(4).Take(4)),
+                            Value = "",
+                            Inline = true
+                        });
+                    }
+                    if (enemyClasses.Count > 8)
+                    {
+                        discordContentEmbed.Fields.Add(new DiscordApiJsonContentEmbedField
+                        {
+                            Name = "",
+                            Value = "",
+                            Inline = false
+                        });
+                        discordContentEmbed.Fields.Add(new DiscordApiJsonContentEmbedField
+                        {
+                            Name = $"  {string.Join("     ", enemyClasses.Skip(8).Take(4))}",
+                            Value = "",
+                            Inline = true
+                        });
+                    }
+                    if (enemyClasses.Count > 12)
+                    {
+                        discordContentEmbed.Fields.Add(new DiscordApiJsonContentEmbedField
+                        {
+                            Name = string.Join("    ", enemyClasses.Skip(12).Take(4)),
+                            Value = "",
+                            Inline = true
+                        });
+                    }
+
+                    discordContentEmbed.Fields.Add(damageField);
+                    discordContentEmbed.Fields.Add(healingField);
+                    discordContentEmbed.Fields.Add(barrierField);
+                    discordContentEmbed.Fields.Add(cleansesField);
+                    discordContentEmbed.Fields.Add(boonStripsField);                    
                 }
                 // post to discord
                 var discordContentWvW = new DiscordApiJsonContent()
@@ -345,6 +398,10 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
+                        foreach (var (className, emojiCode) in webhook.ClassEmojis)
+                        {
+                            jsonContentWvW = jsonContentWvW.Replace($"{{{className}}}", emojiCode);
+                        }
                         var uri = new Uri(webhook.Url);
                         using var content = new StringContent(jsonContentWvW, Encoding.UTF8, "application/json");
                         using var response = await mainLink.HttpClientController.PostAsync(uri, content);

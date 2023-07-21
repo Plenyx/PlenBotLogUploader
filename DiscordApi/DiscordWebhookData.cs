@@ -52,6 +52,9 @@ namespace PlenBotLogUploader.DiscordApi
         [JsonProperty("teamId")]
         internal int TeamId { get; set; } = 0;
 
+        [JsonProperty("classEmojis")]
+        internal List<(string className, string emojiCode)> ClassEmojis { get; set; } = new List<(string className, string emojiCode)> { };
+
         /// <summary>
         /// A selected webhook team, with which the webhook should evaluate itself
         /// </summary>
