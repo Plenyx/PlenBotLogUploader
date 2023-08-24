@@ -66,11 +66,10 @@ namespace PlenBotLogUploader
             }
             try
             {
-                var uri = new Uri($"{gw2botAPIBaseUrl}/evtc/notification");
                 var logObject = new Gw2BotAddReport() { LogLink = reportJSON.ConfigAwarePermalink };
                 var jsonLogObject = JsonConvert.SerializeObject(logObject);
                 using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
-                using var response = await controller.PostAsync(uri, content);
+                using var response = await controller.PostAsync($"{gw2botAPIBaseUrl}/evtc/notification", content);
                 if (!response.IsSuccessStatusCode)
                 {
                     mainLink.AddToText($"??>> There was an error with GW2Bot while trying to post the log. Status code on response: {response.StatusCode}");

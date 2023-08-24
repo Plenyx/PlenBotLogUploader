@@ -288,9 +288,8 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        var uri = new Uri(webhook.Url);
                         using var content = new StringContent(jsonContentWvW, Encoding.UTF8, "application/json");
-                        using var response = await mainLink.HttpClientController.PostAsync(uri, content);
+                        using var response = await mainLink.HttpClientController.PostAsync(webhook.Url, content);
                     }
                     catch (UriFormatException ex)
                     {
@@ -455,16 +454,15 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        var uri = new Uri(webhook.Url);
                         if (webhook.ShowPlayers)
                         {
                             using var content = new StringContent(jsonContentWithPlayers, Encoding.UTF8, "application/json");
-                            await mainLink.HttpClientController.PostAsync(uri, content);
+                            await mainLink.HttpClientController.PostAsync(webhook.Url, content);
                         }
                         else
                         {
                             using var content = new StringContent(jsonContentWithoutPlayers, Encoding.UTF8, "application/json");
-                            await mainLink.HttpClientController.PostAsync(uri, content);
+                            await mainLink.HttpClientController.PostAsync(webhook.Url, content);
                         }
                     }
                     catch (UriFormatException ex)
@@ -544,9 +542,8 @@ namespace PlenBotLogUploader
                     jsonContent = jsonContentFailure;
                 }
 
-                var uri = new Uri(webhook.Url);
                 using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                await mainLink.HttpClientController.PostAsync(uri, content);
+                await mainLink.HttpClientController.PostAsync(webhook.Url, content);
             }
             catch
             {

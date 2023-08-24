@@ -21,7 +21,6 @@ namespace PlenBotLogUploader.Aleeva
                 RefreshToken = ApplicationSettings.Current.Aleeva.RefreshToken,
                 GrantType = "refresh_token",
             };
-            var uri = new Uri($"{ApiBaseUrl}/auth/token");
             var aleevaKeyValues = new List<KeyValuePair<string, string>>
             {
                 new ("grant_type", aleeva.GrantType),
@@ -33,7 +32,7 @@ namespace PlenBotLogUploader.Aleeva
             try
             {
                 using var content = new FormUrlEncodedContent(aleevaKeyValues);
-                using var response = await controller.PostAsync(uri, content);
+                using var response = await controller.PostAsync($"{ApiBaseUrl}/auth/token", content);
                 var responseMessage = await response.Content.ReadAsStringAsync();
                 var responseToken = JsonConvert.DeserializeObject<AleevaAuthTokenResponse>(responseMessage);
                 ApplicationSettings.Current.Aleeva.Authorised = responseToken.IsSuccess;
@@ -60,7 +59,6 @@ namespace PlenBotLogUploader.Aleeva
         internal static async Task GetAleevaTokenFromAccessCode(FormMain mainLink, HttpClientController controller, string access_code)
         {
             var aleeva = new AleevaAuthToken() { AccessCode = access_code, GrantType = "access_code" };
-            var uri = new Uri($"{ApiBaseUrl}/auth/token");
             var aleevaKeyValues = new List<KeyValuePair<string, string>>
             {
                 new ("grant_type", aleeva.GrantType),
@@ -72,7 +70,7 @@ namespace PlenBotLogUploader.Aleeva
             try
             {
                 using var content = new FormUrlEncodedContent(aleevaKeyValues);
-                using var response = await mainLink.HttpClientController.PostAsync(uri, content);
+                using var response = await mainLink.HttpClientController.PostAsync($"{ApiBaseUrl}/auth/token", content);
                 var responseMessage = await response.Content.ReadAsStringAsync();
                 var responseToken = JsonConvert.DeserializeObject<AleevaAuthTokenResponse>(responseMessage);
                 ApplicationSettings.Current.Aleeva.Authorised = responseToken.IsSuccess;

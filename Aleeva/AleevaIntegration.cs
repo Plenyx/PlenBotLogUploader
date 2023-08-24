@@ -87,7 +87,6 @@ namespace PlenBotLogUploader.Aleeva
             }
             try
             {
-                var uri = new Uri($"{AleevaStatics.ApiBaseUrl}/report");
                 var logObject = new AleevaAddReport() { DpsReportPermalink = reportJSON.ConfigAwarePermalink, SendNotification = SendNotification };
                 if (SendNotification)
                 {
@@ -96,7 +95,7 @@ namespace PlenBotLogUploader.Aleeva
                 }
                 var jsonLogObject = JsonConvert.SerializeObject(logObject);
                 using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
-                await controller.PostAsync(uri, content);
+                await controller.PostAsync($"{AleevaStatics.ApiBaseUrl}/report", content);
             }
             catch
             {

@@ -740,8 +740,7 @@ namespace PlenBotLogUploader
                 content.Add(contentStream, "file", Path.GetFileName(file));
                 try
                 {
-                    var uri = new Uri(CreateDPSReportLink());
-                    using var responseMessage = await HttpClientController.PostAsync(uri, content);
+                    using var responseMessage = await HttpClientController.PostAsync(CreateDPSReportLink(), content);
                     if (!responseMessage.IsSuccessStatusCode)
                     {
                         if ((int)responseMessage.StatusCode == 429)

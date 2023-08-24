@@ -129,8 +129,7 @@ namespace PlenBotLogUploader
                 {
                     comboBoxChannel.Items.Clear();
                 }
-                var uri = new Uri($"{AleevaStatics.ApiBaseUrl}/server?mode=UPLOADS");
-                using var response = await controller.GetAsync(uri);
+                using var response = await controller.GetAsync($"{AleevaStatics.ApiBaseUrl}/server?mode=UPLOADS");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseMessage = await response.Content.ReadAsStringAsync();
@@ -179,8 +178,7 @@ namespace PlenBotLogUploader
                 {
                     comboBoxChannel.Items.Clear();
                 }
-                var uri = new Uri($"{AleevaStatics.ApiBaseUrl}/server/{serverId}/channel?mode=UPLOADS");
-                using var response = await controller.GetAsync(uri);
+                using var response = await controller.GetAsync($"{AleevaStatics.ApiBaseUrl}/server/{serverId}/channel?mode=UPLOADS");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseMessage = await response.Content.ReadAsStringAsync();
