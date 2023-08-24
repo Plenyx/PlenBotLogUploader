@@ -59,6 +59,8 @@
         WatchknightTriumvirateCMIndigo = 25423,
         Kanaxai = 25572,
         KanaxaiCM = 25577,
+        Dagda = 25705,
+        Cerus = 25989,
         TheDragonvoid = 43488,
         ConjuredAmalgamate = 43974,
     }

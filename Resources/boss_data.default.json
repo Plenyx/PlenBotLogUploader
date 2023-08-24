@@ -94,10 +94,24 @@
     "isEvent": false
   },
   {
+    "bossId": 25989,
+    "name": "Cerus",
+    "icon": "https://i.imgur.com/1cGN1UT.png",
+    "type": 3,
+    "isEvent": false
+  },
+  {
     "bossId": 43974,
     "name": "Conjured Amalgamate",
     "icon": "https://i.imgur.com/eLyIWd2.png",
     "type": 1,
+    "isEvent": false
+  },
+  {
+    "bossId": 25705,
+    "name": "Dagda",
+    "icon": "https://i.imgur.com/v6vjRsH.png",
+    "type": 3,
     "isEvent": false
   },
   {
