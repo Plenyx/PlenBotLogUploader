@@ -104,18 +104,6 @@ namespace PlenBotLogUploader.ArcDps
                 License = "MIT",
                 Description = "An addon to help with squad management. - DeltaxHunter",
             },
-            new ArcDpsComponentHelperClass()
-            {
-                Name = "Know Thy Enemy",
-                FullName = "Know Thy Enemy",
-                LinkName = "typedeck0/Know-thy-enemy",
-                LinkUrl = "https://github.com/typedeck0/Know-thy-enemy/",
-                Author = "typedeck",
-                Type = ArcDpsComponentType.KnowThyEnemy,
-                Provider = "GitHub",
-                License = "CC0-1.0 license",
-                Description = "Tired of commanders saying \"They're twice our size!\"? Well now you can put a number on it!\r\n\r\nCounts the amount and type of player enemies (that your squad hits or is hit by) in an arcdps fight instance (resets when arcdps does). - typedeck",
-            },
             /*new ArcDpsComponentHelperClass()
             {
                 Name = "Blish HUD Bridge",
@@ -158,7 +146,6 @@ namespace PlenBotLogUploader.ArcDps
             ArcDpsComponentType.Clears => "d3d11_arcdps_clears.dll",
             ArcDpsComponentType.FoodReminder => "d3d11_arcdps_food_reminder.dll",
             ArcDpsComponentType.CommandersToolkit => "d3d11_arcdps_commanders_toolkit.dll",
-            ArcDpsComponentType.KnowThyEnemy => "d3d11_arcdps_know_thy_enemy.dll",
             ArcDpsComponentType.BHUDBridge => "d3d11_arcdps_bhud.dll",
             // arcdps
             _ => "d3d11.dll",

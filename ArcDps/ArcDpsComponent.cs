@@ -46,7 +46,6 @@ namespace PlenBotLogUploader.ArcDps
             ArcDpsComponentType.Clears => "gw2scratch/arcdps-clears",
             ArcDpsComponentType.FoodReminder => "Zerthox/arcdps-food-reminder",
             ArcDpsComponentType.CommandersToolkit => "RaidcoreGG/GW2-CommandersToolkit",
-            ArcDpsComponentType.KnowThyEnemy => "typedeck0/Know-thy-enemy",
             ArcDpsComponentType.BHUDBridge => "blish-hud/arcdps-bhud",
             _ => null,
         };
@@ -102,7 +101,7 @@ namespace PlenBotLogUploader.ArcDps
             }
             if ((Type == ArcDpsComponentType.HealStats) || (Type == ArcDpsComponentType.SCT) || (Type == ArcDpsComponentType.Mechanics) || (Type == ArcDpsComponentType.BoonTable) ||
                 (Type == ArcDpsComponentType.KPme) || (Type == ArcDpsComponentType.Clears) || (Type == ArcDpsComponentType.FoodReminder) || (Type == ArcDpsComponentType.CommandersToolkit) ||
-                (Type == ArcDpsComponentType.KnowThyEnemy) || (Type == ArcDpsComponentType.BHUDBridge))
+                (Type == ArcDpsComponentType.BHUDBridge))
             {
                 return GetFileSize().ToString().Equals(version);
             }
