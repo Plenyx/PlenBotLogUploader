@@ -38,6 +38,15 @@ namespace PlenBotLogUploader.Tools
 
         internal static ReadOnlySpan<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
 
+        internal static void AddRange<T>(this List<T> list, params T[] items)
+        {
+            if (list == null)
+            {
+                return;
+            }
+            list.AddRange(items);
+        }
+
         internal static async Task<GitHubReleaseLatest> GetGitHubLatestReleaseAsync(this HttpClientController controller, string repository)
         {
             try

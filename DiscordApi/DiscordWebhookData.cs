@@ -35,10 +35,10 @@ namespace PlenBotLogUploader.DiscordApi
         internal DiscordWebhookDataSuccessToggle SuccessFailToggle { get; set; } = DiscordWebhookDataSuccessToggle.OnSuccessAndFailure;
 
         /// <summary>
-        /// Indicates whether players are showed in the webhook
+        /// Indicates what type of summary is shown on the webhook
         /// </summary>
-        [JsonProperty("showPlayers")]
-        internal bool ShowPlayers { get; set; } = true;
+        [JsonProperty("summaryType")]
+        internal DiscordWebhookDataLogSummaryType SummaryType { get; set; } = DiscordWebhookDataLogSummaryType.SquadAndPlayers;
 
         /// <summary>
         /// A list containing boss ids which are omitted to be posted via webhook

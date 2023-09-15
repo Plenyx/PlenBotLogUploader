@@ -41,7 +41,21 @@ namespace PlenBotLogUploader
                     radioButtonOnlySuccessAndFail.Checked = true;
                     break;
             }
-            checkBoxPlayers.Checked = data?.ShowPlayers ?? true;
+            switch (data?.SummaryType ?? DiscordWebhookDataLogSummaryType.SquadAndPlayers)
+            {
+                case DiscordWebhookDataLogSummaryType.SquadAndPlayers:
+                    radioButtonLogSummarySquadAndPlayers.Checked = true;
+                    break;
+                case DiscordWebhookDataLogSummaryType.SquadOnly:
+                    radioButtonLogSummarySquad.Checked = true;
+                    break;
+                case DiscordWebhookDataLogSummaryType.PlayersOnly:
+                    radioButtonLogSummaryPlayers.Checked = true;
+                    break;
+                default:
+                    radioButtonLogSummaryNone.Checked = true;
+                    break;
+            }
             checkBoxAllowUnknownBossIds.Checked = data?.AllowUnknownBossIds ?? false;
             var bosses = Bosses.All
                 .OrderBy(x => x.Type)
@@ -74,6 +88,19 @@ namespace PlenBotLogUploader
             {
                 successFailToggle = DiscordWebhookDataSuccessToggle.OnFailOnly;
             }
+            var summaryType = DiscordWebhookDataLogSummaryType.SquadAndPlayers;
+            if (radioButtonLogSummaryNone.Checked)
+            {
+                summaryType = DiscordWebhookDataLogSummaryType.None;
+            }
+            else if (radioButtonLogSummaryPlayers.Checked)
+            {
+                summaryType = DiscordWebhookDataLogSummaryType.PlayersOnly;
+            }
+            else if (radioButtonLogSummarySquad.Checked)
+            {
+                summaryType = DiscordWebhookDataLogSummaryType.SquadOnly;
+            }
             if (data is null)
             {
                 allWebhooks[reservedId] = new DiscordWebhookData()
@@ -82,7 +109,7 @@ namespace PlenBotLogUploader
                     Name = textBoxName.Text,
                     Url = textBoxUrl.Text,
                     SuccessFailToggle = successFailToggle,
-                    ShowPlayers = checkBoxPlayers.Checked,
+                    SummaryType = summaryType,
                     BossesDisable = ConvertCheckboxListToList(),
                     AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked,
                     Team = comboBoxTeam.SelectedItem as Team,
@@ -95,7 +122,7 @@ namespace PlenBotLogUploader
             webhook.Name = textBoxName.Text;
             webhook.Url = textBoxUrl.Text;
             webhook.SuccessFailToggle = successFailToggle;
-            webhook.ShowPlayers = checkBoxPlayers.Checked;
+            webhook.SummaryType = summaryType;
             webhook.BossesDisable = ConvertCheckboxListToList();
             webhook.AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked;
             webhook.Team = comboBoxTeam.SelectedItem as Team;
