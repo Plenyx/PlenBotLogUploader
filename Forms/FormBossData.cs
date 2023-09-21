@@ -108,7 +108,10 @@ namespace PlenBotLogUploader
                 {
                     Bosses.FromJsonFile(Bosses.JsonFileLocation);
                 }
-                Bosses.GetDefaultSettingsForBossesAsDictionary();
+                else
+                {
+                    Bosses.GetDefaultSettingsForBossesAsDictionary();
+                }
             }
             catch
             {
