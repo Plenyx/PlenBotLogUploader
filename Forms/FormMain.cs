@@ -75,7 +75,7 @@ namespace PlenBotLogUploader
         private readonly Regex buildSmartCommandRegex = new(@"(?:(?:build)){1}(?:(?:\?)|(?: is))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
         private SemaphoreSlim semaphore;
         private TwitchChatClient chatConnect;
-        private FileSystemWatcher watcher = new() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
+        private readonly ArcLogsChangeObserver watcher;
         private int reconnectedFailCounter = 0;
         private int recentUploadFailCounter = 0;
         private int logsCount = 0;
@@ -116,6 +116,7 @@ namespace PlenBotLogUploader
             gw2botLink = new FormGw2Bot(this);
             teamsLink = new FormTeams();
             MumbleReader = new MumbleReader(false);
+            watcher = new ArcLogsChangeObserver(OnLogCreated);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to connected Twitch channel while a streaming software is running.");
@@ -153,9 +154,7 @@ namespace PlenBotLogUploader
                     if (Directory.Exists(ApplicationSettings.Current.LogsLocation))
                     {
                         LogsScan(ApplicationSettings.Current.LogsLocation);
-                        watcher.Path = ApplicationSettings.Current.LogsLocation;
-                        watcher.Renamed += OnLogCreated;
-                        watcher.EnableRaisingEvents = true;
+                        watcher.InitAndStart(ApplicationSettings.Current.LogsLocation, ApplicationSettings.Current.UsePollingForLogs ? ArcLogsChangeObserver.Mode.Polling : default);
                         buttonOpenLogs.Enabled = true;
                     }
                     else
@@ -316,7 +315,7 @@ namespace PlenBotLogUploader
                 /* Subscribe to field changes events, otherwise they would trigger on load */
                 checkBoxPostToTwitch.CheckedChanged += CheckBoxPostToTwitch_CheckedChanged;
                 checkBoxUploadLogs.CheckedChanged += CheckBoxUploadAll_CheckedChanged;
-                checkBoxTrayMinimiseToIcon.CheckedChanged += CheckBoxTrayMinimiseToIcon_CheckedChanged;
+                checkBoxTrayMinimiseToIcon.CheckedChanged += CheckBoxTrayMinimizeToIcon_CheckedChanged;
                 checkBoxTwitchOnlySuccess.CheckedChanged += CheckBoxTwitchOnlySuccess_CheckedChanged;
                 checkBoxStartWhenWindowsStarts.CheckedChanged += CheckBoxStartWhenWindowsStarts_CheckedChanged;
                 checkBoxAnonymiseReports.CheckedChanged += CheckBoxAnonymiseReports_CheckedChanged;
@@ -364,7 +363,7 @@ namespace PlenBotLogUploader
                 Hide();
                 if (ApplicationSettings.Current.FirstTimeMinimised)
                 {
-                    ShowBalloon("Uploader minimised", "Double click the icon to bring back the uploader.\nYou can also right click for quick settings.", 6500);
+                    ShowBalloon("Uploader minimized", "Double click the icon to bring back the uploader.\nYou can also right click for quick settings.", 6500);
                     ApplicationSettings.Current.FirstTimeMinimised = false;
                     ApplicationSettings.Current.Save();
                 }
@@ -441,13 +440,8 @@ namespace PlenBotLogUploader
         #endregion
 
         #region main program methods
-        // triggeres when a file is renamed within the folder, renaming is the last process done by arcdps to create evtc or zevtc files
-        private async void OnLogCreated(object sender, FileSystemEventArgs e)
+        private async void OnLogCreated(FileInfo file)
         {
-            if (!e.FullPath.EndsWith(".evtc") && !e.FullPath.EndsWith(".zevtc"))
-            {
-                return;
-            }
             logsCount++;
             if (!checkBoxUploadLogs.Checked)
             {
@@ -455,17 +449,17 @@ namespace PlenBotLogUploader
             }
             try
             {
-                if (new FileInfo(e.FullPath).Length >= minFileSize)
+                if (file.Length >= minFileSize)
                 {
-                    var zipfilelocation = e.FullPath;
+                    var zipfilelocation = file.FullName;
                     var archived = false;
                     // a workaround so arcdps can release the file for read access
                     Thread.Sleep(1000);
-                    if (!e.FullPath.EndsWith(".zevtc"))
+                    if (!file.FullName.EndsWith(".zevtc"))
                     {
-                        zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(e.FullPath)}.zevtc";
+                        zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(file.FullName)}.zevtc";
                         using var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create);
-                        zipfile.CreateEntryFromFile(@e.FullPath, Path.GetFileName(e.FullPath));
+                        zipfile.CreateEntryFromFile(file.FullName, file.Name);
                         archived = true;
                     }
                     try
@@ -489,7 +483,7 @@ namespace PlenBotLogUploader
             catch
             {
                 logsCount--;
-                AddToText($">:> Unable to upload the file: {e.FullPath}");
+                AddToText($">:> Unable to upload the file: {file.FullName}");
             }
             UpdateLogCount();
         }
@@ -1339,22 +1333,22 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
             logsCount = 0;
             LogsScan(ApplicationSettings.Current.LogsLocation);
-            watcher.Renamed -= OnLogCreated;
-            watcher.Dispose();
-            watcher = null;
-            watcher = new FileSystemWatcher()
-            {
-                Path = ApplicationSettings.Current.LogsLocation,
-                Filter = "*.*",
-                IncludeSubdirectories = true,
-                NotifyFilter = NotifyFilters.FileName
-            };
-            watcher.Renamed += OnLogCreated;
-            watcher.EnableRaisingEvents = true;
+            if(watcher.IsRunning)
+                watcher.ChangeRootPath(ApplicationSettings.Current.LogsLocation);
+            else
+                watcher.InitAndStart(ApplicationSettings.Current.LogsLocation, ApplicationSettings.Current.UsePollingForLogs ? ArcLogsChangeObserver.Mode.Polling : default);
             buttonOpenLogs.Enabled = true;
         }
 
-        private void CheckBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxUsePolling_CheckedChanged(object sender, System.EventArgs e)
+        {
+            watcher.ChangeMode(checkBoxUsePolling.Checked ? ArcLogsChangeObserver.Mode.Polling : default);
+
+            ApplicationSettings.Current.UsePollingForLogs = checkBoxUsePolling.Checked;
+            ApplicationSettings.Current.Save();
+        }
+
+        private void CheckBoxTrayMinimizeToIcon_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.MinimiseToTray = checkBoxTrayMinimiseToIcon.Checked;
             ApplicationSettings.Current.Save();
@@ -1624,4 +1618,138 @@ namespace PlenBotLogUploader
         }
         #endregion
     }
+
+    #nullable enable
+    /// The only important part about this is that you really should change the path to something invalid.
+    class ArcLogsChangeObserver : IDisposable
+    {
+        readonly Action<FileInfo> callback;
+        string?                   rootPath;
+
+        FileSystemWatcher?        watcher;
+        Thread?                   pollThread;
+        CancellationTokenSource?  pollThreadCTS;
+
+        public ArcLogsChangeObserver(Action<FileInfo> logCreatedCallback)
+        {
+            callback = logCreatedCallback;
+        }
+
+        public void InitAndStart(string rootPath, Mode mode = default)
+        {
+            if(pollThread != null || watcher != null) return;
+
+            this.rootPath = rootPath;
+            ChangeMode(mode);
+        }
+
+        public bool IsRunning => rootPath != null;
+
+		public void ChangeMode(Mode newMode)
+		{
+            if(newMode == Mode.Polling)
+            {
+                if(pollThread != null) return;
+
+                watcher?.Dispose();
+                watcher = null;
+
+                pollThreadCTS = new();
+                pollThread = new(EnterPollThread) {
+                    IsBackground = true,
+                    Name         = "Arc Logs Polling",
+                };
+                pollThread.Start();
+            }
+            else
+            {
+                if(watcher != null) return;
+
+                if(pollThread != null)
+                {
+                    pollThreadCTS!.Cancel();
+                    pollThread.Join();
+                    pollThread = null;
+                }
+
+                watcher = new() {
+                    Filter                = "*.*",
+                    IncludeSubdirectories = true,
+                    NotifyFilter          = NotifyFilters.FileName,
+                };
+                // renaming is the last process done by arcdps to create evtc or zevtc files
+                watcher.Renamed += OnWatcherEvent;
+                if(rootPath != null)
+                {
+                    watcher.Path                = rootPath;
+                    watcher.EnableRaisingEvents = true;
+                }
+            }
+        }
+
+        public void ChangeRootPath(string newPath)
+        {
+            rootPath = newPath;
+            
+            if(watcher != null)
+            {
+                watcher.Path = newPath;
+            }
+        }
+
+		void OnWatcherEvent(object sender, FileSystemEventArgs e)
+        {
+            if (!e.FullPath.EndsWith(".evtc") && !e.FullPath.EndsWith(".zevtc")) return;
+
+            callback(new(e.FullPath));
+        }
+
+        void EnterPollThread()
+        {
+            var cancellationToken = pollThreadCTS!.Token;
+            var pathCache = new HashSet<string>(512); //arbitrary initial size to prevent some early reallocations
+
+            for(var initialRound = true; !cancellationToken.IsCancellationRequested; initialRound = false)
+            {
+                foreach(var filePath in Directory.EnumerateFiles(rootPath!, "*.*", SearchOption.AllDirectories))
+                {
+                    if (!filePath.EndsWith(".evtc") && !filePath.EndsWith(".zevtc")) continue;
+
+                    if(!pathCache.Contains(filePath)) {
+                        if(!initialRound)
+                        {
+                            callback(new(filePath));
+                        }
+                        pathCache.Add(filePath);
+                    }
+                }
+
+                //TODO: Remove entries that no longer exist on disk to prevent eccessive memory use.
+                // As long as you restart plenbot every now and then this isn't going to be a problem, so i couldn't be bothered for now.
+            }
+        }
+
+
+        bool disposed = false;
+        public void Dispose()
+        {
+            if(disposed) return;
+            disposed = true;
+
+            watcher?.Dispose();
+            if(pollThread != null)
+            {
+                pollThreadCTS!.Cancel();
+                pollThread.Join();
+            }
+        }
+
+
+        public enum Mode
+        {
+            FileSystemWatcher = default,
+            Polling,
+        }
+    }
+    #nullable restore
 }

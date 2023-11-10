@@ -87,6 +87,9 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("logsLocation")]
         internal string LogsLocation { get; set; } = "";
 
+        [JsonProperty("usePollingForLogs")]
+        internal bool UsePollingForLogs { get; set; } = false;
+
         [JsonProperty("mainFormSize")]
         internal System.Drawing.Size MainFormSize { get; set; } = new System.Drawing.Size(649, 784);
 
