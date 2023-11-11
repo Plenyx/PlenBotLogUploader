@@ -43,13 +43,13 @@ namespace PlenBotLogUploader
                 {
                     buttonUpdate.Invoke(() =>
                     {
-                        buttonUpdate.Text = (value) ? "Update the uploader" : "Check for updates";
+                        buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
                         buttonUpdate.NotifyDefault(value);
                     });
                 }
                 else
                 {
-                    buttonUpdate.Text = (value) ? "Update the uploader" : "Check for updates";
+                    buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
                     buttonUpdate.NotifyDefault(value);
                 }
                 _updateFound = value;
@@ -154,7 +154,7 @@ namespace PlenBotLogUploader
                     if (Directory.Exists(ApplicationSettings.Current.LogsLocation))
                     {
                         LogsScan(ApplicationSettings.Current.LogsLocation);
-                        watcher.InitAndStart(ApplicationSettings.Current.LogsLocation, ApplicationSettings.Current.UsePollingForLogs ? ArcLogsChangeObserver.Mode.Polling : default);
+                        watcher.InitAndStart(ApplicationSettings.Current.LogsLocation, ApplicationSettings.Current.UsePollingForLogs ? ArcLogsChangeObserverMode.Polling : default);
                         buttonOpenLogs.Enabled = true;
                     }
                     else
@@ -215,6 +215,10 @@ namespace PlenBotLogUploader
                 if (ApplicationSettings.Current.Upload.SaveToCsvEnabled)
                 {
                     checkBoxSaveLogsToCSV.Checked = true;
+                }
+                if (ApplicationSettings.Current.UsePollingForLogs)
+                {
+                    checkBoxUsePolling.Checked = true;
                 }
                 if (ApplicationSettings.Current.Twitch.Custom.Enabled)
                 {
@@ -315,12 +319,13 @@ namespace PlenBotLogUploader
                 /* Subscribe to field changes events, otherwise they would trigger on load */
                 checkBoxPostToTwitch.CheckedChanged += CheckBoxPostToTwitch_CheckedChanged;
                 checkBoxUploadLogs.CheckedChanged += CheckBoxUploadAll_CheckedChanged;
-                checkBoxTrayMinimiseToIcon.CheckedChanged += CheckBoxTrayMinimizeToIcon_CheckedChanged;
+                checkBoxTrayMinimiseToIcon.CheckedChanged += CheckBoxTrayMinimiseToIcon_CheckedChanged;
                 checkBoxTwitchOnlySuccess.CheckedChanged += CheckBoxTwitchOnlySuccess_CheckedChanged;
                 checkBoxStartWhenWindowsStarts.CheckedChanged += CheckBoxStartWhenWindowsStarts_CheckedChanged;
                 checkBoxAnonymiseReports.CheckedChanged += CheckBoxAnonymiseReports_CheckedChanged;
                 checkBoxDetailedWvW.CheckedChanged += CheckBoxDetailedWvW_CheckedChanged;
                 checkBoxSaveLogsToCSV.CheckedChanged += CheckBoxSaveLogsToCSV_CheckedChanged;
+                checkBoxUsePolling.CheckedChanged += CheckBoxUsePolling_CheckedChanged;
                 comboBoxMaxUploads.SelectedIndexChanged += ComboBoxMaxUploads_SelectedIndexChanged;
                 checkBoxAutoUpdate.CheckedChanged += CheckBoxAutoUpdate_CheckedChanged;
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += logSessionLink.CheckBoxSupressWebhooks_CheckedChanged;
@@ -363,7 +368,7 @@ namespace PlenBotLogUploader
                 Hide();
                 if (ApplicationSettings.Current.FirstTimeMinimised)
                 {
-                    ShowBalloon("Uploader minimized", "Double click the icon to bring back the uploader.\nYou can also right click for quick settings.", 6500);
+                    ShowBalloon("Uploader minimised", "Double click the icon to bring back the uploader.\nYou can also right click for quick settings.", 6500);
                     ApplicationSettings.Current.FirstTimeMinimised = false;
                     ApplicationSettings.Current.Save();
                 }
@@ -1149,7 +1154,7 @@ namespace PlenBotLogUploader
                 AddToText("> PULLS COMMAND USED");
                 if (lastLogBossId > 0)
                 {
-                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{Bosses.GetBossDataFromId(lastLogBossId).Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
+                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{Bosses.GetBossDataFromId(lastLogBossId).Name}{(lastLogBossCM ? " CM" : "")} | Current pull: {lastLogPullCounter}");
                 }
                 return;
             }
@@ -1333,22 +1338,26 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
             logsCount = 0;
             LogsScan(ApplicationSettings.Current.LogsLocation);
-            if(watcher.IsRunning)
+            if (watcher.IsRunning)
+            {
                 watcher.ChangeRootPath(ApplicationSettings.Current.LogsLocation);
+            }
             else
-                watcher.InitAndStart(ApplicationSettings.Current.LogsLocation, ApplicationSettings.Current.UsePollingForLogs ? ArcLogsChangeObserver.Mode.Polling : default);
+            {
+                watcher.InitAndStart(ApplicationSettings.Current.LogsLocation, ApplicationSettings.Current.UsePollingForLogs ? ArcLogsChangeObserverMode.Polling : default);
+            }
             buttonOpenLogs.Enabled = true;
         }
 
         private void CheckBoxUsePolling_CheckedChanged(object sender, System.EventArgs e)
         {
-            watcher.ChangeMode(checkBoxUsePolling.Checked ? ArcLogsChangeObserver.Mode.Polling : default);
+            watcher.ChangeMode(checkBoxUsePolling.Checked ? ArcLogsChangeObserverMode.Polling : default);
 
             ApplicationSettings.Current.UsePollingForLogs = checkBoxUsePolling.Checked;
             ApplicationSettings.Current.Save();
         }
 
-        private void CheckBoxTrayMinimizeToIcon_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.MinimiseToTray = checkBoxTrayMinimiseToIcon.Checked;
             ApplicationSettings.Current.Save();
@@ -1618,138 +1627,4 @@ namespace PlenBotLogUploader
         }
         #endregion
     }
-
-    #nullable enable
-    /// The only important part about this is that you really should change the path to something invalid.
-    class ArcLogsChangeObserver : IDisposable
-    {
-        readonly Action<FileInfo> callback;
-        string?                   rootPath;
-
-        FileSystemWatcher?        watcher;
-        Thread?                   pollThread;
-        CancellationTokenSource?  pollThreadCTS;
-
-        public ArcLogsChangeObserver(Action<FileInfo> logCreatedCallback)
-        {
-            callback = logCreatedCallback;
-        }
-
-        public void InitAndStart(string rootPath, Mode mode = default)
-        {
-            if(pollThread != null || watcher != null) return;
-
-            this.rootPath = rootPath;
-            ChangeMode(mode);
-        }
-
-        public bool IsRunning => rootPath != null;
-
-		public void ChangeMode(Mode newMode)
-		{
-            if(newMode == Mode.Polling)
-            {
-                if(pollThread != null) return;
-
-                watcher?.Dispose();
-                watcher = null;
-
-                pollThreadCTS = new();
-                pollThread = new(EnterPollThread) {
-                    IsBackground = true,
-                    Name         = "Arc Logs Polling",
-                };
-                pollThread.Start();
-            }
-            else
-            {
-                if(watcher != null) return;
-
-                if(pollThread != null)
-                {
-                    pollThreadCTS!.Cancel();
-                    pollThread.Join();
-                    pollThread = null;
-                }
-
-                watcher = new() {
-                    Filter                = "*.*",
-                    IncludeSubdirectories = true,
-                    NotifyFilter          = NotifyFilters.FileName,
-                };
-                // renaming is the last process done by arcdps to create evtc or zevtc files
-                watcher.Renamed += OnWatcherEvent;
-                if(rootPath != null)
-                {
-                    watcher.Path                = rootPath;
-                    watcher.EnableRaisingEvents = true;
-                }
-            }
-        }
-
-        public void ChangeRootPath(string newPath)
-        {
-            rootPath = newPath;
-            
-            if(watcher != null)
-            {
-                watcher.Path = newPath;
-            }
-        }
-
-		void OnWatcherEvent(object sender, FileSystemEventArgs e)
-        {
-            if (!e.FullPath.EndsWith(".evtc") && !e.FullPath.EndsWith(".zevtc")) return;
-
-            callback(new(e.FullPath));
-        }
-
-        void EnterPollThread()
-        {
-            var cancellationToken = pollThreadCTS!.Token;
-            var pathCache = new HashSet<string>(512); //arbitrary initial size to prevent some early reallocations
-
-            for(var initialRound = true; !cancellationToken.IsCancellationRequested; initialRound = false)
-            {
-                foreach(var filePath in Directory.EnumerateFiles(rootPath!, "*.*", SearchOption.AllDirectories))
-                {
-                    if (!filePath.EndsWith(".evtc") && !filePath.EndsWith(".zevtc")) continue;
-
-                    if(!pathCache.Contains(filePath)) {
-                        if(!initialRound)
-                        {
-                            callback(new(filePath));
-                        }
-                        pathCache.Add(filePath);
-                    }
-                }
-
-                //TODO: Remove entries that no longer exist on disk to prevent eccessive memory use.
-                // As long as you restart plenbot every now and then this isn't going to be a problem, so i couldn't be bothered for now.
-            }
-        }
-
-
-        bool disposed = false;
-        public void Dispose()
-        {
-            if(disposed) return;
-            disposed = true;
-
-            watcher?.Dispose();
-            if(pollThread != null)
-            {
-                pollThreadCTS!.Cancel();
-                pollThread.Join();
-            }
-        }
-
-
-        public enum Mode
-        {
-            FileSystemWatcher = default,
-            Polling,
-        }
-    }
-    #nullable restore
 }

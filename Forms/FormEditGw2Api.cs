@@ -89,7 +89,7 @@ namespace PlenBotLogUploader
             timerCheckToken.Stop();
             timerCheckToken.Enabled = false;
             using var response = await httpClientController.GetAsync($"https://api.guildwars2.com/v2/tokeninfo?access_token={textBoxAPIKeyKey.Text}");
-            labelIsTokenValid.Text = (response.IsSuccessStatusCode) ? "Token is valid." : "Token is not valid.";
+            labelIsTokenValid.Text = response.IsSuccessStatusCode ? "Token is valid." : "Token is not valid.";
         }
     }
 }

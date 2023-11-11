@@ -41,7 +41,7 @@ namespace PlenBotLogUploader.Tools
             var discordEmbedsFailure = new List<DiscordApiJsonContentEmbed>();
             DiscordApiJsonContentEmbed discordEmbedSummary = null;
 
-            var RaidLogs = (logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing)) ?
+            var RaidLogs = logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing) ?
                 reportsJSON
                     .Where(x => Bosses.GetWingForBoss(x.Evtc.BossId) > 0)
                     .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.Evtc.BossId) })

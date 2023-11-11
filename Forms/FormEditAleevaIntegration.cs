@@ -137,7 +137,7 @@ namespace PlenBotLogUploader
                     aleevaServers.AddRange(servers);
                 }
                 AddServersToView();
-                comboBoxServer.Text = (!string.IsNullOrWhiteSpace(selectedServer) ? aleevaServers.Find(x => x.Id.Equals(selectedServer))?.ToString() : "");
+                comboBoxServer.Text = !string.IsNullOrWhiteSpace(selectedServer) ? aleevaServers.Find(x => x.Id.Equals(selectedServer))?.ToString() : "";
                 if (!string.IsNullOrWhiteSpace(selectedServer))
                 {
                     await AleevaLoadChannels(selectedServer);
@@ -186,7 +186,7 @@ namespace PlenBotLogUploader
                     aleevaServerChannels.AddRange(channels);
                 }
                 AddChannelsToView();
-                comboBoxChannel.Text = (!string.IsNullOrWhiteSpace(selectedChannel) ? aleevaServerChannels.Find(x => x.Id.Equals(selectedChannel))?.ToString() : "");
+                comboBoxChannel.Text = !string.IsNullOrWhiteSpace(selectedChannel) ? aleevaServerChannels.Find(x => x.Id.Equals(selectedChannel))?.ToString() : "";
             }
             catch (Exception ex)
             {

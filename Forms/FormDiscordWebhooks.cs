@@ -443,7 +443,7 @@ namespace PlenBotLogUploader
                 if (!webhook.Active
                     || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !success)
                     || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && success)
-                    || (webhook.BossesDisable.Contains(bossId))
+                    || webhook.BossesDisable.Contains(bossId)
                     || (!webhook.AllowUnknownBossIds && (bossData is null))
                     || (!webhook.Team.IsSatisfied(players)))
                 {
@@ -451,7 +451,7 @@ namespace PlenBotLogUploader
                 }
                 try
                 {
-                    var jsonToSend = (webhook.SummaryType) switch
+                    var jsonToSend = webhook.SummaryType switch
                     {
                         DiscordWebhookDataLogSummaryType.None => jsonContentNone,
                         DiscordWebhookDataLogSummaryType.SquadOnly => jsonContentSquad,

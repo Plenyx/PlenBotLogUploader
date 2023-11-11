@@ -55,9 +55,9 @@ namespace PlenBotLogUploader
             toolStripMenuItemRemoveKey.Enabled = !toggle;
         }
 
-        private void ToolStripMenuItemAddKey_Click(object sender, EventArgs e) => (new FormEditGw2Api(this, null)).ShowDialog();
+        private void ToolStripMenuItemAddKey_Click(object sender, EventArgs e) => new FormEditGw2Api(this, null).ShowDialog();
 
-        private void ToolStripMenuItemEditKey_Click(object sender, EventArgs e) => (new FormEditGw2Api(this, (ApplicationSettingsGw2Api)listBoxAPIKeys.SelectedItem)).ShowDialog();
+        private void ToolStripMenuItemEditKey_Click(object sender, EventArgs e) => new FormEditGw2Api(this, (ApplicationSettingsGw2Api)listBoxAPIKeys.SelectedItem).ShowDialog();
 
         private void ToolStripMenuItemRemoveKey_Click(object sender, EventArgs e)
         {
@@ -66,7 +66,7 @@ namespace PlenBotLogUploader
             RedrawList();
         }
 
-        private void ButtonAddAPIKey_Click(object sender, EventArgs e) => (new FormEditGw2Api(this, null)).ShowDialog();
+        private void ButtonAddAPIKey_Click(object sender, EventArgs e) => new FormEditGw2Api(this, null).ShowDialog();
 
         private void ButtonGetHardStuckCode_Click(object sender, EventArgs e)
         {
@@ -131,7 +131,7 @@ namespace PlenBotLogUploader
 
         private void ButtonBuildCodeCompressionSettings_Click(object sender, EventArgs e)
         {
-            (new FormHsBuildCodeCompressionSettings()).ShowDialog();
+            new FormHsBuildCodeCompressionSettings().ShowDialog();
         }
     }
 }

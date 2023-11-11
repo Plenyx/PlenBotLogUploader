@@ -62,7 +62,7 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="TextTableFormatter.NET" Version="2.0.1" />
     <PackageReference Include="TwitchIrcClient" Version="1.2.2" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.5" />
   </ItemGroup>
   <ItemGroup>
       <SupportedPlatform Include="windows" />
