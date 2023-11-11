@@ -43,13 +43,13 @@ namespace PlenBotLogUploader
                 {
                     buttonUpdate.Invoke(() =>
                     {
-                        buttonUpdate.Text = (value) ? "Update the uploader" : "Check for updates";
+                        buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
                         buttonUpdate.NotifyDefault(value);
                     });
                 }
                 else
                 {
-                    buttonUpdate.Text = (value) ? "Update the uploader" : "Check for updates";
+                    buttonUpdate.Text = value ? "Update the uploader" : "Check for updates";
                     buttonUpdate.NotifyDefault(value);
                 }
                 _updateFound = value;
@@ -75,7 +75,7 @@ namespace PlenBotLogUploader
         private readonly Regex buildSmartCommandRegex = new(@"(?:(?:build)){1}(?:(?:\?)|(?: is))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
         private SemaphoreSlim semaphore;
         private TwitchChatClient chatConnect;
-        private FileSystemWatcher watcher = new() { Filter = "*.*", IncludeSubdirectories = true, NotifyFilter = NotifyFilters.FileName };
+        private readonly ArcLogsChangeObserver watcher;
         private int reconnectedFailCounter = 0;
         private int recentUploadFailCounter = 0;
         private int logsCount = 0;
@@ -117,6 +117,7 @@ namespace PlenBotLogUploader
             gw2botLink = new FormGw2Bot(this);
             teamsLink = new FormTeams();
             MumbleReader = new MumbleReader(false);
+            watcher = new ArcLogsChangeObserver(OnLogCreated);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
             toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to connected Twitch channel while a streaming software is running.");
@@ -154,9 +155,7 @@ namespace PlenBotLogUploader
                     if (Directory.Exists(ApplicationSettings.Current.LogsLocation))
                     {
                         LogsScan(ApplicationSettings.Current.LogsLocation);
-                        watcher.Path = ApplicationSettings.Current.LogsLocation;
-                        watcher.Renamed += OnLogCreated;
-                        watcher.EnableRaisingEvents = true;
+                        watcher.InitAndStart(ApplicationSettings.Current.LogsLocation, ApplicationSettings.Current.UsePollingForLogs ? ArcLogsChangeObserverMode.Polling : default);
                         buttonOpenLogs.Enabled = true;
                     }
                     else
@@ -225,6 +224,10 @@ namespace PlenBotLogUploader
                 if (ApplicationSettings.Current.Upload.SaveToCsvEnabled)
                 {
                     checkBoxSaveLogsToCSV.Checked = true;
+                }
+                if (ApplicationSettings.Current.UsePollingForLogs)
+                {
+                    checkBoxUsePolling.Checked = true;
                 }
                 if (ApplicationSettings.Current.Twitch.Custom.Enabled)
                 {
@@ -331,6 +334,7 @@ namespace PlenBotLogUploader
                 checkBoxAnonymiseReports.CheckedChanged += CheckBoxAnonymiseReports_CheckedChanged;
                 checkBoxDetailedWvW.CheckedChanged += CheckBoxDetailedWvW_CheckedChanged;
                 checkBoxSaveLogsToCSV.CheckedChanged += CheckBoxSaveLogsToCSV_CheckedChanged;
+                checkBoxUsePolling.CheckedChanged += CheckBoxUsePolling_CheckedChanged;
                 comboBoxMaxUploads.SelectedIndexChanged += ComboBoxMaxUploads_SelectedIndexChanged;
                 checkBoxAutoUpdate.CheckedChanged += CheckBoxAutoUpdate_CheckedChanged;
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += logSessionLink.CheckBoxSupressWebhooks_CheckedChanged;
@@ -450,13 +454,8 @@ namespace PlenBotLogUploader
         #endregion
 
         #region main program methods
-        // triggeres when a file is renamed within the folder, renaming is the last process done by arcdps to create evtc or zevtc files
-        private async void OnLogCreated(object sender, FileSystemEventArgs e)
+        private async void OnLogCreated(FileInfo file)
         {
-            if (!e.FullPath.EndsWith(".evtc") && !e.FullPath.EndsWith(".zevtc"))
-            {
-                return;
-            }
             logsCount++;
             if (!checkBoxUploadLogs.Checked)
             {
@@ -464,17 +463,17 @@ namespace PlenBotLogUploader
             }
             try
             {
-                if (new FileInfo(e.FullPath).Length >= minFileSize)
+                if (file.Length >= minFileSize)
                 {
-                    var zipfilelocation = e.FullPath;
+                    var zipfilelocation = file.FullName;
                     var archived = false;
                     // a workaround so arcdps can release the file for read access
                     Thread.Sleep(1000);
-                    if (!e.FullPath.EndsWith(".zevtc"))
+                    if (!file.FullName.EndsWith(".zevtc"))
                     {
-                        zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(e.FullPath)}.zevtc";
+                        zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(file.FullName)}.zevtc";
                         using var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create);
-                        zipfile.CreateEntryFromFile(@e.FullPath, Path.GetFileName(e.FullPath));
+                        zipfile.CreateEntryFromFile(file.FullName, file.Name);
                         archived = true;
                     }
                     try
@@ -498,7 +497,7 @@ namespace PlenBotLogUploader
             catch
             {
                 logsCount--;
-                AddToText($">:> Unable to upload the file: {e.FullPath}");
+                AddToText($">:> Unable to upload the file: {file.FullName}");
             }
             UpdateLogCount();
         }
@@ -1189,7 +1188,7 @@ namespace PlenBotLogUploader
                 AddToText("> PULLS COMMAND USED");
                 if (lastLogBossId > 0)
                 {
-                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{Bosses.GetBossDataFromId(lastLogBossId).Name}{((lastLogBossCM) ? " CM" : "")} | Current pull: {lastLogPullCounter}");
+                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{Bosses.GetBossDataFromId(lastLogBossId).Name}{(lastLogBossCM ? " CM" : "")} | Current pull: {lastLogPullCounter}");
                 }
                 return;
             }
@@ -1373,19 +1372,23 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
             logsCount = 0;
             LogsScan(ApplicationSettings.Current.LogsLocation);
-            watcher.Renamed -= OnLogCreated;
-            watcher.Dispose();
-            watcher = null;
-            watcher = new FileSystemWatcher()
+            if (watcher.IsRunning)
             {
-                Path = ApplicationSettings.Current.LogsLocation,
-                Filter = "*.*",
-                IncludeSubdirectories = true,
-                NotifyFilter = NotifyFilters.FileName
-            };
-            watcher.Renamed += OnLogCreated;
-            watcher.EnableRaisingEvents = true;
+                watcher.ChangeRootPath(ApplicationSettings.Current.LogsLocation);
+            }
+            else
+            {
+                watcher.InitAndStart(ApplicationSettings.Current.LogsLocation, ApplicationSettings.Current.UsePollingForLogs ? ArcLogsChangeObserverMode.Polling : default);
+            }
             buttonOpenLogs.Enabled = true;
+        }
+
+        private void CheckBoxUsePolling_CheckedChanged(object sender, System.EventArgs e)
+        {
+            watcher.ChangeMode(checkBoxUsePolling.Checked ? ArcLogsChangeObserverMode.Polling : default);
+
+            ApplicationSettings.Current.UsePollingForLogs = checkBoxUsePolling.Checked;
+            ApplicationSettings.Current.Save();
         }
 
         private void CheckBoxTrayMinimiseToIcon_CheckedChanged(object sender, EventArgs e)

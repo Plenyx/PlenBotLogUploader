@@ -54,7 +54,7 @@ namespace PlenBotLogUploader.RemotePing
                 using var content = new FormUrlEncodedContent(fields);
                 try
                 {
-                    using var responseMessage = (configuration.Method.Equals(PingMethod.Put)) ?
+                    using var responseMessage = configuration.Method.Equals(PingMethod.Put) ?
                         await controller.PutAsync(configuration.Url, content) :
                         await controller.PostAsync(configuration.Url, content);
                     var response = await responseMessage.Content.ReadAsStringAsync();
@@ -100,7 +100,7 @@ namespace PlenBotLogUploader.RemotePing
                 }
                 try
                 {
-                    using var responseMessage = (configuration.Method.Equals(PingMethod.Delete)) ?
+                    using var responseMessage = configuration.Method.Equals(PingMethod.Delete) ?
                         await controller.DeleteAsync(fullLink) :
                         await controller.GetAsync(fullLink);
                     var response = await responseMessage.Content.ReadAsStringAsync();

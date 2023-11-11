@@ -64,11 +64,11 @@ namespace PlenBotLogUploader
             checkedListBoxUserTokens.SelectedItem = null;
         }
 
-        private void ButtonAddUserToken_Click(object sender, EventArgs e) => (new FormEditDpsReportUserToken(this, mainLink.HttpClientController)).ShowDialog();
+        private void ButtonAddUserToken_Click(object sender, EventArgs e) => new FormEditDpsReportUserToken(this, mainLink.HttpClientController).ShowDialog();
 
-        private void ToolStripMenuItemAddUserToken_Click(object sender, EventArgs e) => (new FormEditDpsReportUserToken(this, mainLink.HttpClientController)).ShowDialog();
+        private void ToolStripMenuItemAddUserToken_Click(object sender, EventArgs e) => new FormEditDpsReportUserToken(this, mainLink.HttpClientController).ShowDialog();
 
-        private void ToolStripMenuItemEditUserToken_Click(object sender, EventArgs e) => (new FormEditDpsReportUserToken(this, mainLink.HttpClientController, (ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.SelectedItem)).ShowDialog();
+        private void ToolStripMenuItemEditUserToken_Click(object sender, EventArgs e) => new FormEditDpsReportUserToken(this, mainLink.HttpClientController, (ApplicationSettingsUploadUserToken)checkedListBoxUserTokens.SelectedItem).ShowDialog();
 
         private void ToolStripMenuItemDeleteUserToken_Click(object sender, EventArgs e)
         {

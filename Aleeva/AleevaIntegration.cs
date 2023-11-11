@@ -64,7 +64,7 @@ namespace PlenBotLogUploader.Aleeva
 
         string IListViewItemInfo<AleevaIntegration>.NameToDisplay => Name;
 
-        string IListViewItemInfo<AleevaIntegration>.TextToDisplay => ((!string.IsNullOrWhiteSpace(Name)) ? Name : (!string.IsNullOrWhiteSpace(Channel) ? $"C{Channel}" : $"S{Server}"));
+        string IListViewItemInfo<AleevaIntegration>.TextToDisplay => (!string.IsNullOrWhiteSpace(Name)) ? Name : (!string.IsNullOrWhiteSpace(Channel) ? $"C{Channel}" : $"S{Server}");
 
         bool IListViewItemInfo<AleevaIntegration>.CheckedToDisplay => Active;
 

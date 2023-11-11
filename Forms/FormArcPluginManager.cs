@@ -284,7 +284,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Save();
             groupBoxModuleControls.Enabled = toggle;
             checkedListBoxArcDpsPlugins.Enabled = toggle;
-            if (Visible && toggle && (string.IsNullOrWhiteSpace(ApplicationSettings.Current.Gw2Location)))
+            if (Visible && toggle && string.IsNullOrWhiteSpace(ApplicationSettings.Current.Gw2Location))
             {
                 ButtonChangeGW2Location_Click(this, EventArgs.Empty);
             }

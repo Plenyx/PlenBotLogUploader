@@ -46,19 +46,19 @@ namespace PlenBotLogUploader
             groupBoxAleevaStatus.Enabled = toggle;
             if (groupBoxAleevaStatus.InvokeRequired)
             {
-                groupBoxAleevaStatus.Invoke((Action)(() => groupBoxAleevaStatus.Text = (toggle) ? "Status: Aleeva successfully authorised" : "Status: Not authorised"));
+                groupBoxAleevaStatus.Invoke((Action)(() => groupBoxAleevaStatus.Text = toggle ? "Status: Aleeva successfully authorised" : "Status: Not authorised"));
             }
             else
             {
-                groupBoxAleevaStatus.Text = (toggle) ? "Status: Aleeva successfully authorised" : "Status: Not authorised";
+                groupBoxAleevaStatus.Text = toggle ? "Status: Aleeva successfully authorised" : "Status: Not authorised";
             }
             if (buttonGetBearerFromAccess.InvokeRequired)
             {
-                buttonGetBearerFromAccess.Invoke((Action)(() => buttonGetBearerFromAccess.Text = (toggle) ? "Deauthorise" : "Authorise"));
+                buttonGetBearerFromAccess.Invoke((Action)(() => buttonGetBearerFromAccess.Text = toggle ? "Deauthorise" : "Authorise"));
             }
             else
             {
-                buttonGetBearerFromAccess.Text = (toggle) ? "Deauthorise" : "Authorise";
+                buttonGetBearerFromAccess.Text = toggle ? "Deauthorise" : "Authorise";
             }
             if (textBoxAccessCode.InvokeRequired)
             {

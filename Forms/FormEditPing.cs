@@ -22,7 +22,7 @@ namespace PlenBotLogUploader
             this.addNew = addNew;
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
-            Text = (addNew) ? "Add a new ping configuration" : "Edit an existing ping configuration";
+            Text = addNew ? "Add a new ping configuration" : "Edit an existing ping configuration";
             textBoxName.Text = config?.Name ?? "";
             textBoxURL.Text = config?.Url ?? "";
             textBoxAuthName.Text = config?.Authentication.AuthName ?? "Bearer";
