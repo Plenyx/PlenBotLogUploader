@@ -80,6 +80,7 @@ namespace PlenBotLogUploader
         private int recentUploadFailCounter = 0;
         private int logsCount = 0;
         private string lastLogMessage = "";
+        private readonly string twitchChatWarning = "Streaming software not running! Activate one to be able to post to Twitch chat.\nThis warning will disappear once the streaming software is found and a log has been uploaded.";
         private int lastLogBossId = 0;
         private int lastLogPullCounter = 0;
         private bool lastLogBossCM = false;
@@ -195,6 +196,14 @@ namespace PlenBotLogUploader
                     if (ApplicationSettings.Current.Upload.PostLogsToTwitchOnlySuccess)
                     {
                         checkBoxTwitchOnlySuccess.Checked = true;
+                    }
+                    if (!IsStreamingSoftwareRunning())
+                    {
+                        postToTwitchChatErrorProvider.SetError(checkBoxPostToTwitch, twitchChatWarning);
+                    }
+                    if (!checkBoxPostToTwitch.Checked)
+                    {
+                        postToTwitchChatErrorProvider.Dispose();
                     }
                 }
                 if (ApplicationSettings.Current.MinimiseToTray)
@@ -707,6 +716,7 @@ namespace PlenBotLogUploader
         {
             if (!TwitchChannelJoined || !checkBoxPostToTwitch.Checked || bypassMessage || !IsStreamingSoftwareRunning())
             {
+                UpdateTwitchChatWarning(true);
                 return;
             }
             var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJson?.TriggerId ?? reportJSON.Encounter.BossId);
@@ -714,6 +724,7 @@ namespace PlenBotLogUploader
             {
                 lastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
+                UpdateTwitchChatWarning(false);
                 return;
             }
             var format = bossData.TwitchMessageFormat(reportJSON, lastLogPullCounter);
@@ -721,6 +732,29 @@ namespace PlenBotLogUploader
             {
                 lastLogMessage = format;
                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
+                UpdateTwitchChatWarning(false);
+            }
+        }
+
+        /// <summary>
+        /// Update the warning provider status linked to the allowance of posting logs to the Twitch chat.
+        /// </summary>
+        /// <param name="displayWarning">Wether the warning should be shown or not.</param>
+        internal void UpdateTwitchChatWarning(bool displayWarning)
+        {
+            if (displayWarning)
+            {
+                Invoke(new Action(() =>
+                {
+                    postToTwitchChatErrorProvider.SetError(checkBoxPostToTwitch, twitchChatWarning);
+                }));
+            }
+            else
+            {
+                Invoke(new Action(() =>
+                {
+                    postToTwitchChatErrorProvider.Dispose();
+                }));
             }
         }
 
@@ -1369,6 +1403,15 @@ namespace PlenBotLogUploader
             if (!checkBoxPostToTwitch.Checked)
             {
                 checkBoxTwitchOnlySuccess.Checked = false;
+                UpdateTwitchChatWarning(false);
+            }
+            else if (IsStreamingSoftwareRunning())
+            {
+                UpdateTwitchChatWarning(false);
+            }
+            else
+            {
+                UpdateTwitchChatWarning(true);
             }
         }
 
