@@ -87,6 +87,7 @@
             tabPageMainSettings = new System.Windows.Forms.TabPage();
             tabPageOtherSettings = new System.Windows.Forms.TabPage();
             timerFailedLogsReupload = new System.Windows.Forms.Timer(components);
+            postToTwitchChatErrorProvider = new System.Windows.Forms.ErrorProvider(components);
             groupBoxTwitchSettings.SuspendLayout();
             groupBoxArcdpsLogs.SuspendLayout();
             contextMenuStripIcon.SuspendLayout();
@@ -95,6 +96,7 @@
             tabControlSettings.SuspendLayout();
             tabPageMainSettings.SuspendLayout();
             tabPageOtherSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)postToTwitchChatErrorProvider).BeginInit();
             SuspendLayout();
             // 
             // groupBoxTwitchSettings
@@ -717,8 +719,12 @@
             timerFailedLogsReupload.Interval = 900000;
             timerFailedLogsReupload.Tick += TimerFailedLogsReupload_Tick;
             // 
-            // FormMain
+            // postToTwitchChatErrorProvider
             // 
+            postToTwitchChatErrorProvider.ContainerControl = this;
+            // 
+            // FormMain
+            //
             AllowDrop = true;
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -745,6 +751,7 @@
             tabControlSettings.ResumeLayout(false);
             tabPageMainSettings.ResumeLayout(false);
             tabPageOtherSettings.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)postToTwitchChatErrorProvider).EndInit();
             ResumeLayout(false);
         }
 
@@ -808,6 +815,7 @@
         private System.Windows.Forms.TabPage tabPageMainSettings;
         private System.Windows.Forms.TabPage tabPageOtherSettings;
         private System.Windows.Forms.Timer timerFailedLogsReupload;
+        private System.Windows.Forms.ErrorProvider postToTwitchChatErrorProvider;
         private System.Windows.Forms.CheckBox checkBoxUsePolling;
     }
 }
