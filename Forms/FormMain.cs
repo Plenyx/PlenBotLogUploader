@@ -241,10 +241,6 @@ namespace PlenBotLogUploader
                 {
                     if (File.Exists($@"{ApplicationSettings.Current.Gw2Location}\Gw2-64.exe") || File.Exists($@"{ApplicationSettings.Current.Gw2Location}\Gw2.exe") || File.Exists($@"{ApplicationSettings.Current.Gw2Location}\Guild Wars 2.exe"))
                     {
-                        if (ApplicationSettings.Current.ArcUpdate.UseAddonLoader)
-                        {
-                            arcPluginManagerLink.checkBoxUseAL.Checked = true;
-                        }
                         if (ApplicationSettings.Current.ArcUpdate.Enabled)
                         {
                             arcPluginManagerLink.checkBoxModuleEnabled.Checked = true;

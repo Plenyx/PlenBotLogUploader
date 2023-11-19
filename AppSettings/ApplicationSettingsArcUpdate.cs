@@ -11,8 +11,15 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("notifications")]
         internal bool Notifications { get; set; } = true;
 
-        [JsonProperty("useAL")]
-        internal bool UseAddonLoader { get; set; } = false;
+        [JsonProperty("chainLoad")]
+        internal ApplicationSettingsArcUpdateChainLoad ChainLoad { get; set; }
+
+        internal string ArcPathChainLoaded => ChainLoad switch
+        {
+            ApplicationSettingsArcUpdateChainLoad.AddonLoader => @"\addons\arcdps\gw2addon_arcdps.dll",
+            ApplicationSettingsArcUpdateChainLoad.Nexus => @"\d3d11_chainload.dll",
+            _ => @"\d3d11.dll",
+        };
 
         [JsonProperty("lastUpdateCheck")]
         internal DateTime LastUpdateCheck { get; set; } = DateTime.Now;

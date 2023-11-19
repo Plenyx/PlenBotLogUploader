@@ -67,10 +67,24 @@ namespace PlenBotLogUploader
                 }
                 checkedListBoxArcDpsPlugins.Items.Add(component, installed);
             }
+            switch (ApplicationSettings.Current.ArcUpdate.ChainLoad)
+            {
+                case ApplicationSettingsArcUpdateChainLoad.AddonLoader:
+                    radioButtonChainLoadAL.Checked = true;
+                    break;
+                case ApplicationSettingsArcUpdateChainLoad.Nexus:
+                    radioButtonChainLoadNexus.Checked = true;
+                    break;
+                default:
+                    break;
+            }
             itemCheckHandler = new ItemCheckEventHandler(CheckedListBoxArcDpsPlugins_ItemCheck);
             checkChangedHandler = new EventHandler(CheckBoxEnableNotifications_CheckedChanged);
             checkedListBoxArcDpsPlugins.ItemCheck += itemCheckHandler;
             checkBoxEnableNotifications.CheckedChanged += checkChangedHandler;
+            radioButtonChainLoadNone.CheckedChanged += RadioButtonChainLoadNone_CheckedChanged;
+            radioButtonChainLoadAL.CheckedChanged += RadioButtonChainLoadAL_CheckedChanged;
+            radioButtonChainLoadNexus.CheckedChanged += RadioButtonChainLoadNexus_CheckedChanged;
             ArcDpsComponent.SerialiseAll(ApplicationSettings.LocalDir);
         }
 
@@ -207,9 +221,19 @@ namespace PlenBotLogUploader
             var location = Path.GetDirectoryName(dialog.FileName);
             if (File.Exists(location + @"\addonLoader.dll"))
             {
-                ApplicationSettings.Current.ArcUpdate.UseAddonLoader = true;
-                checkBoxUseAL.Checked = true;
+                ApplicationSettings.Current.ArcUpdate.ChainLoad = ApplicationSettingsArcUpdateChainLoad.AddonLoader;
+                radioButtonChainLoadAL.Checked = true;
                 labelStatusText.Text = "Addon Loader found. Using Addon Loader";
+            }
+            if (File.Exists(location + @"\d3d11.dll"))
+            {
+                var fileVersionInfo = FileVersionInfo.GetVersionInfo(location + @"\d3d11.dll");
+                if (fileVersionInfo.ProductName == "Nexus")
+                {
+                    ApplicationSettings.Current.ArcUpdate.ChainLoad = ApplicationSettingsArcUpdateChainLoad.Nexus;
+                    radioButtonChainLoadNexus.Checked = true;
+                    labelStatusText.Text = "Nexus found. Using Nexus addon host";
+                }
             }
             ApplicationSettings.Current.Gw2Location = location;
             ApplicationSettings.Current.Save();
@@ -231,8 +255,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAddonLoader ? @"\addons\arcdps\gw2addon_arcdps.dll" : @"\d3d11.dll";
-                var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RelativeLocation = relLoc };
+                var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RelativeLocation = ApplicationSettings.Current.ArcUpdate.ArcPathChainLoaded };
                 if (!component.IsInstalled())
                 {
                     await component.DownloadComponent(httpController);
@@ -264,8 +287,7 @@ namespace PlenBotLogUploader
             }
             else if (e.NewValue.Equals(CheckState.Checked))
             {
-                var relLoc = ApplicationSettings.Current.ArcUpdate.UseAddonLoader ? $@"\addons\arcdps\{item.DefaultFileName}" : $@"\{item.DefaultFileName}";
-                var component = new ArcDpsComponent() { Type = item.Type, RelativeLocation = relLoc };
+                var component = new ArcDpsComponent() { Type = item.Type, RelativeLocation = ApplicationSettings.Current.ArcUpdate.ArcPathChainLoaded };
                 ArcDpsComponent.All.Add(component);
                 await component.DownloadComponent(httpController);
             }
@@ -322,10 +344,47 @@ namespace PlenBotLogUploader
             buttonShowPluginInfo.Enabled = checkedListBoxArcDpsPlugins.SelectedIndex > -1;
         }
 
-        private void CheckBoxUseAL_CheckedChanged(object sender, EventArgs e)
+        private async Task ChangeArcDpsPathBasedOnChainLoad()
         {
-            ApplicationSettings.Current.ArcUpdate.UseAddonLoader = checkBoxUseAL.Checked;
+            if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps)))
+            {
+                var component = ArcDpsComponent.All.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps));
+                component.RelativeLocation = ApplicationSettings.Current.ArcUpdate.ArcPathChainLoaded;
+                await component.DownloadComponent(httpController);
+            }
+        }
+
+        private void RadioButtonChainLoadNone_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButtonChainLoadNone.Checked)
+            {
+                return;
+            }
+            ApplicationSettings.Current.ArcUpdate.ChainLoad = ApplicationSettingsArcUpdateChainLoad.None;
             ApplicationSettings.Current.Save();
+            _ = ChangeArcDpsPathBasedOnChainLoad();
+        }
+
+        private void RadioButtonChainLoadAL_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButtonChainLoadAL.Checked)
+            {
+                return;
+            }
+            ApplicationSettings.Current.ArcUpdate.ChainLoad = ApplicationSettingsArcUpdateChainLoad.AddonLoader;
+            ApplicationSettings.Current.Save();
+            _ = ChangeArcDpsPathBasedOnChainLoad();
+        }
+
+        private void RadioButtonChainLoadNexus_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButtonChainLoadNexus.Checked)
+            {
+                return;
+            }
+            ApplicationSettings.Current.ArcUpdate.ChainLoad = ApplicationSettingsArcUpdateChainLoad.Nexus;
+            ApplicationSettings.Current.Save();
+            _ = ChangeArcDpsPathBasedOnChainLoad();
         }
     }
 }

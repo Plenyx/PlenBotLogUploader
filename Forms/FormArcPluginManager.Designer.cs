@@ -29,175 +29,212 @@ namespace PlenBotLogUploader
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.buttonChangeGW2Location = new System.Windows.Forms.Button();
-            this.timerCheckUpdates = new System.Windows.Forms.Timer(this.components);
-            this.checkedListBoxArcDpsPlugins = new System.Windows.Forms.CheckedListBox();
-            this.checkBoxModuleEnabled = new System.Windows.Forms.CheckBox();
-            this.groupBoxModuleEnabled = new System.Windows.Forms.GroupBox();
-            this.groupBoxModuleControls = new System.Windows.Forms.GroupBox();
-            this.checkBoxUseAL = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnableNotifications = new System.Windows.Forms.CheckBox();
-            this.buttonCheckNow = new System.Windows.Forms.Button();
-            this.labelStatusText = new System.Windows.Forms.Label();
-            this.buttonShowPluginInfo = new System.Windows.Forms.Button();
-            this.toolTipAL = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBoxModuleEnabled.SuspendLayout();
-            this.groupBoxModuleControls.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            buttonChangeGW2Location = new System.Windows.Forms.Button();
+            timerCheckUpdates = new System.Windows.Forms.Timer(components);
+            checkedListBoxArcDpsPlugins = new System.Windows.Forms.CheckedListBox();
+            checkBoxModuleEnabled = new System.Windows.Forms.CheckBox();
+            groupBoxModuleEnabled = new System.Windows.Forms.GroupBox();
+            groupBoxModuleControls = new System.Windows.Forms.GroupBox();
+            groupBoxChainLoad = new System.Windows.Forms.GroupBox();
+            radioButtonChainLoadNexus = new System.Windows.Forms.RadioButton();
+            radioButtonChainLoadAL = new System.Windows.Forms.RadioButton();
+            radioButtonChainLoadNone = new System.Windows.Forms.RadioButton();
+            checkBoxEnableNotifications = new System.Windows.Forms.CheckBox();
+            buttonCheckNow = new System.Windows.Forms.Button();
+            labelStatusText = new System.Windows.Forms.Label();
+            buttonShowPluginInfo = new System.Windows.Forms.Button();
+            toolTipAL = new System.Windows.Forms.ToolTip(components);
+            groupBoxModuleEnabled.SuspendLayout();
+            groupBoxModuleControls.SuspendLayout();
+            groupBoxChainLoad.SuspendLayout();
+            SuspendLayout();
             // 
             // buttonChangeGW2Location
             // 
-            this.buttonChangeGW2Location.Location = new System.Drawing.Point(8, 29);
-            this.buttonChangeGW2Location.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonChangeGW2Location.Name = "buttonChangeGW2Location";
-            this.buttonChangeGW2Location.Size = new System.Drawing.Size(209, 35);
-            this.buttonChangeGW2Location.TabIndex = 0;
-            this.buttonChangeGW2Location.Text = "Change GW2 location";
-            this.buttonChangeGW2Location.UseVisualStyleBackColor = true;
-            this.buttonChangeGW2Location.Click += new System.EventHandler(this.ButtonChangeGW2Location_Click);
+            buttonChangeGW2Location.Location = new System.Drawing.Point(8, 29);
+            buttonChangeGW2Location.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buttonChangeGW2Location.Name = "buttonChangeGW2Location";
+            buttonChangeGW2Location.Size = new System.Drawing.Size(209, 35);
+            buttonChangeGW2Location.TabIndex = 0;
+            buttonChangeGW2Location.Text = "Change GW2 location";
+            buttonChangeGW2Location.UseVisualStyleBackColor = true;
+            buttonChangeGW2Location.Click += ButtonChangeGW2Location_Click;
             // 
             // timerCheckUpdates
             // 
-            this.timerCheckUpdates.Interval = 9000000;
-            this.timerCheckUpdates.Tick += new System.EventHandler(this.TimerCheckUpdates_Tick);
+            timerCheckUpdates.Interval = 9000000;
+            timerCheckUpdates.Tick += TimerCheckUpdates_Tick;
             // 
             // checkedListBoxArcDpsPlugins
             // 
-            this.checkedListBoxArcDpsPlugins.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.checkedListBoxArcDpsPlugins.Enabled = false;
-            this.checkedListBoxArcDpsPlugins.Location = new System.Drawing.Point(249, 18);
-            this.checkedListBoxArcDpsPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.checkedListBoxArcDpsPlugins.Name = "checkedListBoxArcDpsPlugins";
-            this.checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(354, 220);
-            this.checkedListBoxArcDpsPlugins.Sorted = true;
-            this.checkedListBoxArcDpsPlugins.TabIndex = 2;
-            this.checkedListBoxArcDpsPlugins.SelectedIndexChanged += new System.EventHandler(this.CheckedListBoxArcDpsPlugins_SelectedIndexChanged);
+            checkedListBoxArcDpsPlugins.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            checkedListBoxArcDpsPlugins.Enabled = false;
+            checkedListBoxArcDpsPlugins.Location = new System.Drawing.Point(249, 18);
+            checkedListBoxArcDpsPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            checkedListBoxArcDpsPlugins.Name = "checkedListBoxArcDpsPlugins";
+            checkedListBoxArcDpsPlugins.Size = new System.Drawing.Size(354, 286);
+            checkedListBoxArcDpsPlugins.Sorted = true;
+            checkedListBoxArcDpsPlugins.TabIndex = 2;
+            checkedListBoxArcDpsPlugins.SelectedIndexChanged += CheckedListBoxArcDpsPlugins_SelectedIndexChanged;
             // 
             // checkBoxModuleEnabled
             // 
-            this.checkBoxModuleEnabled.AutoSize = true;
-            this.checkBoxModuleEnabled.Location = new System.Drawing.Point(8, 29);
-            this.checkBoxModuleEnabled.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.checkBoxModuleEnabled.Name = "checkBoxModuleEnabled";
-            this.checkBoxModuleEnabled.Size = new System.Drawing.Size(131, 24);
-            this.checkBoxModuleEnabled.TabIndex = 3;
-            this.checkBoxModuleEnabled.Text = "enable module";
-            this.checkBoxModuleEnabled.UseVisualStyleBackColor = true;
-            this.checkBoxModuleEnabled.CheckedChanged += new System.EventHandler(this.CheckBoxModuleEnabled_CheckedChanged);
+            checkBoxModuleEnabled.AutoSize = true;
+            checkBoxModuleEnabled.Location = new System.Drawing.Point(8, 29);
+            checkBoxModuleEnabled.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            checkBoxModuleEnabled.Name = "checkBoxModuleEnabled";
+            checkBoxModuleEnabled.Size = new System.Drawing.Size(131, 24);
+            checkBoxModuleEnabled.TabIndex = 3;
+            checkBoxModuleEnabled.Text = "enable module";
+            checkBoxModuleEnabled.UseVisualStyleBackColor = true;
+            checkBoxModuleEnabled.CheckedChanged += CheckBoxModuleEnabled_CheckedChanged;
             // 
             // groupBoxModuleEnabled
             // 
-            this.groupBoxModuleEnabled.Controls.Add(this.checkBoxModuleEnabled);
-            this.groupBoxModuleEnabled.Location = new System.Drawing.Point(16, 18);
-            this.groupBoxModuleEnabled.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxModuleEnabled.Name = "groupBoxModuleEnabled";
-            this.groupBoxModuleEnabled.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxModuleEnabled.Size = new System.Drawing.Size(225, 68);
-            this.groupBoxModuleEnabled.TabIndex = 4;
-            this.groupBoxModuleEnabled.TabStop = false;
-            this.groupBoxModuleEnabled.Text = "arcdps plugin manager";
+            groupBoxModuleEnabled.Controls.Add(checkBoxModuleEnabled);
+            groupBoxModuleEnabled.Location = new System.Drawing.Point(16, 18);
+            groupBoxModuleEnabled.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            groupBoxModuleEnabled.Name = "groupBoxModuleEnabled";
+            groupBoxModuleEnabled.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            groupBoxModuleEnabled.Size = new System.Drawing.Size(225, 68);
+            groupBoxModuleEnabled.TabIndex = 4;
+            groupBoxModuleEnabled.TabStop = false;
+            groupBoxModuleEnabled.Text = "arcdps plugin manager";
             // 
             // groupBoxModuleControls
             // 
-            this.groupBoxModuleControls.Controls.Add(this.checkBoxUseAL);
-            this.groupBoxModuleControls.Controls.Add(this.checkBoxEnableNotifications);
-            this.groupBoxModuleControls.Controls.Add(this.buttonCheckNow);
-            this.groupBoxModuleControls.Controls.Add(this.buttonChangeGW2Location);
-            this.groupBoxModuleControls.Enabled = false;
-            this.groupBoxModuleControls.Location = new System.Drawing.Point(16, 95);
-            this.groupBoxModuleControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxModuleControls.Name = "groupBoxModuleControls";
-            this.groupBoxModuleControls.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxModuleControls.Size = new System.Drawing.Size(225, 186);
-            this.groupBoxModuleControls.TabIndex = 5;
-            this.groupBoxModuleControls.TabStop = false;
-            this.groupBoxModuleControls.Text = "Module controls";
+            groupBoxModuleControls.Controls.Add(groupBoxChainLoad);
+            groupBoxModuleControls.Controls.Add(checkBoxEnableNotifications);
+            groupBoxModuleControls.Controls.Add(buttonCheckNow);
+            groupBoxModuleControls.Controls.Add(buttonChangeGW2Location);
+            groupBoxModuleControls.Enabled = false;
+            groupBoxModuleControls.Location = new System.Drawing.Point(16, 95);
+            groupBoxModuleControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            groupBoxModuleControls.Name = "groupBoxModuleControls";
+            groupBoxModuleControls.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            groupBoxModuleControls.Size = new System.Drawing.Size(225, 250);
+            groupBoxModuleControls.TabIndex = 5;
+            groupBoxModuleControls.TabStop = false;
+            groupBoxModuleControls.Text = "Module controls";
             // 
-            // checkBoxUseAL
+            // groupBoxChainLoad
             // 
-            this.checkBoxUseAL.AutoSize = true;
-            this.checkBoxUseAL.Location = new System.Drawing.Point(8, 74);
-            this.checkBoxUseAL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.checkBoxUseAL.Name = "checkBoxUseAL";
-            this.checkBoxUseAL.Size = new System.Drawing.Size(152, 24);
-            this.checkBoxUseAL.TabIndex = 3;
-            this.checkBoxUseAL.Text = "use Addon Loader";
-            this.toolTipAL.SetToolTip(this.checkBoxUseAL, "Check this if you use the Addon Manager for other Addons such as GW2Radial alread" +
-        "y");
-            this.checkBoxUseAL.UseVisualStyleBackColor = true;
-            this.checkBoxUseAL.CheckedChanged += new System.EventHandler(this.CheckBoxUseAL_CheckedChanged);
+            groupBoxChainLoad.Controls.Add(radioButtonChainLoadNexus);
+            groupBoxChainLoad.Controls.Add(radioButtonChainLoadAL);
+            groupBoxChainLoad.Controls.Add(radioButtonChainLoadNone);
+            groupBoxChainLoad.Location = new System.Drawing.Point(8, 72);
+            groupBoxChainLoad.Name = "groupBoxChainLoad";
+            groupBoxChainLoad.Size = new System.Drawing.Size(209, 109);
+            groupBoxChainLoad.TabIndex = 9;
+            groupBoxChainLoad.TabStop = false;
+            groupBoxChainLoad.Text = "Chainload settings";
+            // 
+            // radioButtonChainLoadNexus
+            // 
+            radioButtonChainLoadNexus.AutoSize = true;
+            radioButtonChainLoadNexus.Location = new System.Drawing.Point(6, 79);
+            radioButtonChainLoadNexus.Name = "radioButtonChainLoadNexus";
+            radioButtonChainLoadNexus.Size = new System.Drawing.Size(98, 24);
+            radioButtonChainLoadNexus.TabIndex = 2;
+            radioButtonChainLoadNexus.TabStop = true;
+            radioButtonChainLoadNexus.Text = "Use Nexus";
+            radioButtonChainLoadNexus.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonChainLoadAL
+            // 
+            radioButtonChainLoadAL.AutoSize = true;
+            radioButtonChainLoadAL.Location = new System.Drawing.Point(6, 50);
+            radioButtonChainLoadAL.Name = "radioButtonChainLoadAL";
+            radioButtonChainLoadAL.Size = new System.Drawing.Size(153, 24);
+            radioButtonChainLoadAL.TabIndex = 1;
+            radioButtonChainLoadAL.TabStop = true;
+            radioButtonChainLoadAL.Text = "Use Addon Loader";
+            radioButtonChainLoadAL.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonChainLoadNone
+            // 
+            radioButtonChainLoadNone.AutoSize = true;
+            radioButtonChainLoadNone.Checked = true;
+            radioButtonChainLoadNone.Location = new System.Drawing.Point(6, 22);
+            radioButtonChainLoadNone.Name = "radioButtonChainLoadNone";
+            radioButtonChainLoadNone.Size = new System.Drawing.Size(119, 24);
+            radioButtonChainLoadNone.TabIndex = 0;
+            radioButtonChainLoadNone.TabStop = true;
+            radioButtonChainLoadNone.Text = "No chainload";
+            radioButtonChainLoadNone.UseVisualStyleBackColor = true;
             // 
             // checkBoxEnableNotifications
             // 
-            this.checkBoxEnableNotifications.AutoSize = true;
-            this.checkBoxEnableNotifications.Location = new System.Drawing.Point(8, 106);
-            this.checkBoxEnableNotifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.checkBoxEnableNotifications.Name = "checkBoxEnableNotifications";
-            this.checkBoxEnableNotifications.Size = new System.Drawing.Size(213, 24);
-            this.checkBoxEnableNotifications.TabIndex = 2;
-            this.checkBoxEnableNotifications.Text = "enable update notifications";
-            this.checkBoxEnableNotifications.UseVisualStyleBackColor = true;
-            this.checkBoxEnableNotifications.CheckedChanged += new System.EventHandler(this.CheckBoxEnableNotifications_CheckedChanged);
+            checkBoxEnableNotifications.AutoSize = true;
+            checkBoxEnableNotifications.Location = new System.Drawing.Point(8, 185);
+            checkBoxEnableNotifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            checkBoxEnableNotifications.Name = "checkBoxEnableNotifications";
+            checkBoxEnableNotifications.Size = new System.Drawing.Size(213, 24);
+            checkBoxEnableNotifications.TabIndex = 2;
+            checkBoxEnableNotifications.Text = "enable update notifications";
+            checkBoxEnableNotifications.UseVisualStyleBackColor = true;
+            checkBoxEnableNotifications.CheckedChanged += CheckBoxEnableNotifications_CheckedChanged;
             // 
             // buttonCheckNow
             // 
-            this.buttonCheckNow.Location = new System.Drawing.Point(8, 142);
-            this.buttonCheckNow.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonCheckNow.Name = "buttonCheckNow";
-            this.buttonCheckNow.Size = new System.Drawing.Size(209, 35);
-            this.buttonCheckNow.TabIndex = 1;
-            this.buttonCheckNow.Text = "Check now";
-            this.buttonCheckNow.UseVisualStyleBackColor = true;
-            this.buttonCheckNow.Click += new System.EventHandler(this.ButtonCheckNow_Click);
+            buttonCheckNow.Location = new System.Drawing.Point(8, 210);
+            buttonCheckNow.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buttonCheckNow.Name = "buttonCheckNow";
+            buttonCheckNow.Size = new System.Drawing.Size(209, 35);
+            buttonCheckNow.TabIndex = 1;
+            buttonCheckNow.Text = "Check now";
+            buttonCheckNow.UseVisualStyleBackColor = true;
+            buttonCheckNow.Click += ButtonCheckNow_Click;
             // 
             // labelStatusText
             // 
-            this.labelStatusText.Location = new System.Drawing.Point(15, 286);
-            this.labelStatusText.Margin = new System.Windows.Forms.Padding(0);
-            this.labelStatusText.Name = "labelStatusText";
-            this.labelStatusText.Size = new System.Drawing.Size(588, 35);
-            this.labelStatusText.TabIndex = 6;
-            this.labelStatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelStatusText.Location = new System.Drawing.Point(16, 350);
+            labelStatusText.Margin = new System.Windows.Forms.Padding(0);
+            labelStatusText.Name = "labelStatusText";
+            labelStatusText.Size = new System.Drawing.Size(588, 35);
+            labelStatusText.TabIndex = 6;
+            labelStatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // buttonShowPluginInfo
             // 
-            this.buttonShowPluginInfo.Enabled = false;
-            this.buttonShowPluginInfo.Location = new System.Drawing.Point(245, 246);
-            this.buttonShowPluginInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonShowPluginInfo.Name = "buttonShowPluginInfo";
-            this.buttonShowPluginInfo.Size = new System.Drawing.Size(358, 35);
-            this.buttonShowPluginInfo.TabIndex = 8;
-            this.buttonShowPluginInfo.Text = "Show plugin information";
-            this.buttonShowPluginInfo.UseVisualStyleBackColor = true;
-            this.buttonShowPluginInfo.Click += new System.EventHandler(this.ButtonShowPluginInfo_Click);
+            buttonShowPluginInfo.Enabled = false;
+            buttonShowPluginInfo.Location = new System.Drawing.Point(245, 305);
+            buttonShowPluginInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buttonShowPluginInfo.Name = "buttonShowPluginInfo";
+            buttonShowPluginInfo.Size = new System.Drawing.Size(358, 35);
+            buttonShowPluginInfo.TabIndex = 8;
+            buttonShowPluginInfo.Text = "Show plugin information";
+            buttonShowPluginInfo.UseVisualStyleBackColor = true;
+            buttonShowPluginInfo.Click += ButtonShowPluginInfo_Click;
             // 
             // FormArcPluginManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(612, 335);
-            this.Controls.Add(this.buttonShowPluginInfo);
-            this.Controls.Add(this.labelStatusText);
-            this.Controls.Add(this.groupBoxModuleControls);
-            this.Controls.Add(this.groupBoxModuleEnabled);
-            this.Controls.Add(this.checkedListBoxArcDpsPlugins);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormArcPluginManager";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "arcdps plugin manager";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormArcPluginManager_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormArcPluginManager_FormClosed);
-            this.groupBoxModuleEnabled.ResumeLayout(false);
-            this.groupBoxModuleEnabled.PerformLayout();
-            this.groupBoxModuleControls.ResumeLayout(false);
-            this.groupBoxModuleControls.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.White;
+            ClientSize = new System.Drawing.Size(612, 393);
+            Controls.Add(buttonShowPluginInfo);
+            Controls.Add(labelStatusText);
+            Controls.Add(groupBoxModuleControls);
+            Controls.Add(groupBoxModuleEnabled);
+            Controls.Add(checkedListBoxArcDpsPlugins);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormArcPluginManager";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "arcdps plugin manager";
+            FormClosing += FormArcPluginManager_FormClosing;
+            FormClosed += FormArcPluginManager_FormClosed;
+            groupBoxModuleEnabled.ResumeLayout(false);
+            groupBoxModuleEnabled.PerformLayout();
+            groupBoxModuleControls.ResumeLayout(false);
+            groupBoxModuleControls.PerformLayout();
+            groupBoxChainLoad.ResumeLayout(false);
+            groupBoxChainLoad.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -212,7 +249,10 @@ namespace PlenBotLogUploader
         private System.Windows.Forms.Button buttonShowPluginInfo;
         internal System.Windows.Forms.CheckBox checkBoxModuleEnabled;
         internal System.Windows.Forms.CheckBox checkBoxEnableNotifications;
-        internal System.Windows.Forms.CheckBox checkBoxUseAL;
         private System.Windows.Forms.ToolTip toolTipAL;
+        private System.Windows.Forms.GroupBox groupBoxChainLoad;
+        private System.Windows.Forms.RadioButton radioButtonChainLoadNexus;
+        private System.Windows.Forms.RadioButton radioButtonChainLoadAL;
+        private System.Windows.Forms.RadioButton radioButtonChainLoadNone;
     }
 }
