@@ -90,7 +90,6 @@ namespace PlenBotLogUploader
         private const int minFileSize = 8192;
         private const string plenbotVersionFileURL = "https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION";
         private const string plenbotDownloadName = "PlenBotLogUploader.exe";
-        private const string twitchChatWarning = "Streaming software not running! Activate one to be able to post to Twitch chat.\nThis warning will disappear once the streaming software is found and a log has been uploaded.";
 
         // partials
         [GeneratedRegex(@"(?:(?:build)){1}(?:(?:\?)|(?: is))+", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant)]
@@ -126,8 +125,9 @@ namespace PlenBotLogUploader
             watcher = new ArcLogsChangeObserver(OnLogCreated);
             #region tooltips
             toolTip.SetToolTip(checkBoxUploadLogs, "If checked, all created logs will be uploaded.");
-            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to connected Twitch channel while a streaming software is running.");
+            toolTip.SetToolTip(checkBoxPostToTwitch, "If checked, logs will be posted to connected Twitch channel.");
             toolTip.SetToolTip(checkBoxTwitchOnlySuccess, "If checked, only successful logs will be linked to Twitch channel.");
+            toolTip.SetToolTip(checkBoxOnlyWhenStreamSoftwareRunning, "If checked, logs will be posted to connected Twitch channel only if a streaming software is running like OBS Studio, Twitch Studio or XSplit.");
             toolTip.SetToolTip(checkBoxAnonymiseReports, "If checked, the logs will be generated with fake names and accounts.");
             toolTip.SetToolTip(checkBoxDetailedWvW, "If checked, extended per-target log reports will be generated. (might cause some issues)");
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
@@ -202,13 +202,9 @@ namespace PlenBotLogUploader
                     {
                         checkBoxTwitchOnlySuccess.Checked = true;
                     }
-                    if (!IsStreamingSoftwareRunning())
+                    if (ApplicationSettings.Current.Upload.PostLogsToTwitchOnlyWithStreamingSoftware)
                     {
-                        postToTwitchChatErrorProvider.SetError(checkBoxPostToTwitch, twitchChatWarning);
-                    }
-                    if (!checkBoxPostToTwitch.Checked)
-                    {
-                        postToTwitchChatErrorProvider.Dispose();
+                        checkBoxOnlyWhenStreamSoftwareRunning.Checked = true;
                     }
                 }
                 if (ApplicationSettings.Current.MinimiseToTray)
@@ -332,6 +328,7 @@ namespace PlenBotLogUploader
                 checkBoxUploadLogs.CheckedChanged += CheckBoxUploadAll_CheckedChanged;
                 checkBoxTrayMinimiseToIcon.CheckedChanged += CheckBoxTrayMinimiseToIcon_CheckedChanged;
                 checkBoxTwitchOnlySuccess.CheckedChanged += CheckBoxTwitchOnlySuccess_CheckedChanged;
+                checkBoxOnlyWhenStreamSoftwareRunning.CheckedChanged += CheckBoxOnlyWhenStreamSoftwareRunning_CheckedChanged;
                 checkBoxStartWhenWindowsStarts.CheckedChanged += CheckBoxStartWhenWindowsStarts_CheckedChanged;
                 checkBoxAnonymiseReports.CheckedChanged += CheckBoxAnonymiseReports_CheckedChanged;
                 checkBoxDetailedWvW.CheckedChanged += CheckBoxDetailedWvW_CheckedChanged;
@@ -715,9 +712,8 @@ namespace PlenBotLogUploader
         #region log upload and processing
         internal async Task SendLogToTwitchChatAsync(DpsReportJson reportJSON, bool bypassMessage = false)
         {
-            if (!TwitchChannelJoined || !checkBoxPostToTwitch.Checked || bypassMessage || !IsStreamingSoftwareRunning())
+            if (!TwitchChannelJoined || !checkBoxPostToTwitch.Checked || bypassMessage || (ApplicationSettings.Current.Upload.PostLogsToTwitchOnlyWithStreamingSoftware && !IsStreamingSoftwareRunning()))
             {
-                UpdateTwitchChatWarning(true);
                 return;
             }
             var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJson?.TriggerId ?? reportJSON.Encounter.BossId);
@@ -725,7 +721,6 @@ namespace PlenBotLogUploader
             {
                 lastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
-                UpdateTwitchChatWarning(false);
                 return;
             }
             var format = bossData.TwitchMessageFormat(reportJSON, lastLogPullCounter);
@@ -733,29 +728,6 @@ namespace PlenBotLogUploader
             {
                 lastLogMessage = format;
                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
-                UpdateTwitchChatWarning(false);
-            }
-        }
-
-        /// <summary>
-        /// Update the warning provider status linked to the allowance of posting logs to the Twitch chat.
-        /// </summary>
-        /// <param name="displayWarning">Wether the warning should be shown or not.</param>
-        internal void UpdateTwitchChatWarning(bool displayWarning)
-        {
-            if (displayWarning)
-            {
-                Invoke(new Action(() =>
-                {
-                    postToTwitchChatErrorProvider.SetError(checkBoxPostToTwitch, twitchChatWarning);
-                }));
-            }
-            else
-            {
-                Invoke(new Action(() =>
-                {
-                    postToTwitchChatErrorProvider.Dispose();
-                }));
             }
         }
 
@@ -1408,15 +1380,6 @@ namespace PlenBotLogUploader
             if (!checkBoxPostToTwitch.Checked)
             {
                 checkBoxTwitchOnlySuccess.Checked = false;
-                UpdateTwitchChatWarning(false);
-            }
-            else if (IsStreamingSoftwareRunning())
-            {
-                UpdateTwitchChatWarning(false);
-            }
-            else
-            {
-                UpdateTwitchChatWarning(true);
             }
         }
 
@@ -1668,6 +1631,12 @@ namespace PlenBotLogUploader
         private void CheckBoxSaveLogsToCSV_CheckedChanged(object sender, EventArgs e)
         {
             ApplicationSettings.Current.Upload.SaveToCsvEnabled = checkBoxSaveLogsToCSV.Checked;
+            ApplicationSettings.Current.Save();
+        }
+
+        private void CheckBoxOnlyWhenStreamSoftwareRunning_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.Upload.PostLogsToTwitchOnlyWithStreamingSoftware = checkBoxOnlyWhenStreamSoftwareRunning.Checked;
             ApplicationSettings.Current.Save();
         }
         #endregion

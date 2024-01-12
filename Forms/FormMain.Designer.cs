@@ -28,6 +28,7 @@
         {
             components = new System.ComponentModel.Container();
             groupBoxTwitchSettings = new System.Windows.Forms.GroupBox();
+            checkBoxOnlyWhenStreamSoftwareRunning = new System.Windows.Forms.CheckBox();
             buttonTwitchCommands = new System.Windows.Forms.Button();
             checkBoxTwitchOnlySuccess = new System.Windows.Forms.CheckBox();
             buttonDisConnectTwitch = new System.Windows.Forms.Button();
@@ -87,7 +88,6 @@
             tabPageMainSettings = new System.Windows.Forms.TabPage();
             tabPageOtherSettings = new System.Windows.Forms.TabPage();
             timerFailedLogsReupload = new System.Windows.Forms.Timer(components);
-            postToTwitchChatErrorProvider = new System.Windows.Forms.ErrorProvider(components);
             groupBoxTwitchSettings.SuspendLayout();
             groupBoxArcdpsLogs.SuspendLayout();
             contextMenuStripIcon.SuspendLayout();
@@ -96,11 +96,11 @@
             tabControlSettings.SuspendLayout();
             tabPageMainSettings.SuspendLayout();
             tabPageOtherSettings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)postToTwitchChatErrorProvider).BeginInit();
             SuspendLayout();
             // 
             // groupBoxTwitchSettings
             // 
+            groupBoxTwitchSettings.Controls.Add(checkBoxOnlyWhenStreamSoftwareRunning);
             groupBoxTwitchSettings.Controls.Add(buttonTwitchCommands);
             groupBoxTwitchSettings.Controls.Add(checkBoxTwitchOnlySuccess);
             groupBoxTwitchSettings.Controls.Add(buttonDisConnectTwitch);
@@ -117,6 +117,16 @@
             groupBoxTwitchSettings.TabStop = false;
             groupBoxTwitchSettings.Text = "Twitch settings";
             // 
+            // checkBoxOnlyWhenStreamSoftwareRunning
+            // 
+            checkBoxOnlyWhenStreamSoftwareRunning.AutoSize = true;
+            checkBoxOnlyWhenStreamSoftwareRunning.Location = new System.Drawing.Point(11, 113);
+            checkBoxOnlyWhenStreamSoftwareRunning.Name = "checkBoxOnlyWhenStreamSoftwareRunning";
+            checkBoxOnlyWhenStreamSoftwareRunning.Size = new System.Drawing.Size(273, 24);
+            checkBoxOnlyWhenStreamSoftwareRunning.TabIndex = 13;
+            checkBoxOnlyWhenStreamSoftwareRunning.Text = "post only if streaming app is running";
+            checkBoxOnlyWhenStreamSoftwareRunning.UseVisualStyleBackColor = true;
+            // 
             // buttonTwitchCommands
             // 
             buttonTwitchCommands.Location = new System.Drawing.Point(8, 185);
@@ -132,7 +142,7 @@
             // 
             checkBoxTwitchOnlySuccess.AutoSize = true;
             checkBoxTwitchOnlySuccess.Enabled = false;
-            checkBoxTwitchOnlySuccess.Location = new System.Drawing.Point(11, 105);
+            checkBoxTwitchOnlySuccess.Location = new System.Drawing.Point(11, 90);
             checkBoxTwitchOnlySuccess.Margin = new System.Windows.Forms.Padding(5);
             checkBoxTwitchOnlySuccess.Name = "checkBoxTwitchOnlySuccess";
             checkBoxTwitchOnlySuccess.Size = new System.Drawing.Size(193, 24);
@@ -177,7 +187,7 @@
             // 
             checkBoxPostToTwitch.AutoSize = true;
             checkBoxPostToTwitch.Enabled = false;
-            checkBoxPostToTwitch.Location = new System.Drawing.Point(11, 69);
+            checkBoxPostToTwitch.Location = new System.Drawing.Point(11, 66);
             checkBoxPostToTwitch.Margin = new System.Windows.Forms.Padding(5);
             checkBoxPostToTwitch.Name = "checkBoxPostToTwitch";
             checkBoxPostToTwitch.Size = new System.Drawing.Size(214, 24);
@@ -651,7 +661,7 @@
             richTextBoxMainConsole.BackColor = System.Drawing.Color.White;
             richTextBoxMainConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             richTextBoxMainConsole.Dock = System.Windows.Forms.DockStyle.Fill;
-            richTextBoxMainConsole.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            richTextBoxMainConsole.Font = new System.Drawing.Font("Segoe UI", 12F);
             richTextBoxMainConsole.Location = new System.Drawing.Point(5, 5);
             richTextBoxMainConsole.Margin = new System.Windows.Forms.Padding(5);
             richTextBoxMainConsole.Name = "richTextBoxMainConsole";
@@ -719,12 +729,8 @@
             timerFailedLogsReupload.Interval = 900000;
             timerFailedLogsReupload.Tick += TimerFailedLogsReupload_Tick;
             // 
-            // postToTwitchChatErrorProvider
-            // 
-            postToTwitchChatErrorProvider.ContainerControl = this;
-            // 
             // FormMain
-            //
+            // 
             AllowDrop = true;
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -751,7 +757,6 @@
             tabControlSettings.ResumeLayout(false);
             tabPageMainSettings.ResumeLayout(false);
             tabPageOtherSettings.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)postToTwitchChatErrorProvider).EndInit();
             ResumeLayout(false);
         }
 
@@ -815,8 +820,8 @@
         private System.Windows.Forms.TabPage tabPageMainSettings;
         private System.Windows.Forms.TabPage tabPageOtherSettings;
         private System.Windows.Forms.Timer timerFailedLogsReupload;
-        private System.Windows.Forms.ErrorProvider postToTwitchChatErrorProvider;
         private System.Windows.Forms.CheckBox checkBoxUsePolling;
+        private System.Windows.Forms.CheckBox checkBoxOnlyWhenStreamSoftwareRunning;
     }
 }
 
