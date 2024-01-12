@@ -60,7 +60,7 @@ namespace PlenBotLogUploader.Aleeva
 
         internal bool Valid => !string.IsNullOrWhiteSpace(Server) && !string.IsNullOrWhiteSpace(Channel);
 
-        internal List<ListViewItemCustom<AleevaIntegration>> connectedItems;
+        internal List<ListViewItemCustom<AleevaIntegration>> _connectedItems = [];
 
         string IListViewItemInfo<AleevaIntegration>.NameToDisplay => Name;
 
@@ -68,7 +68,7 @@ namespace PlenBotLogUploader.Aleeva
 
         bool IListViewItemInfo<AleevaIntegration>.CheckedToDisplay => Active;
 
-        List<ListViewItemCustom<AleevaIntegration>> IListViewItemInfo<AleevaIntegration>.ConnectedItems => connectedItems ??= new();
+        List<ListViewItemCustom<AleevaIntegration>> IListViewItemInfo<AleevaIntegration>.ConnectedItems => _connectedItems;
 
         internal async Task PostLogToAleeva(FormMain mainLink, HttpClientController controller, DpsReportJson reportJSON, List<LogPlayer> players)
         {

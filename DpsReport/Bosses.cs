@@ -16,13 +16,13 @@ namespace PlenBotLogUploader.DpsReport
     {
         internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\boss_data.json";
 
-        private static List<BossData> _all;
+        private static List<BossData> _all = [];
 
         /// <summary>
         /// Returns a list with all encounters.
         /// </summary>
         /// <returns>A list with all encounters.</returns>
-        internal static List<BossData> All => _all ??= new List<BossData>();
+        internal static List<BossData> All => _all;
 
         /// <summary>
         /// Loads a list of BossData from a specified json file.

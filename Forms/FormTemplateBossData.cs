@@ -8,9 +8,6 @@ namespace PlenBotLogUploader
 {
     public partial class FormTemplateBossData : Form
     {
-        #region definitions
-        #endregion
-
         internal FormTemplateBossData()
         {
             InitializeComponent();

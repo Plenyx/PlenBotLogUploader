@@ -271,7 +271,7 @@ namespace PlenBotLogUploader
                 // post to discord
                 var discordContentWvW = new DiscordApiJsonContent()
                 {
-                    Embeds = new List<DiscordApiJsonContentEmbed>() { discordContentEmbed }
+                    Embeds = [discordContentEmbed]
                 };
                 discordContentWvW.Embeds[0].Fields = discordContentEmbedSquadAndPlayers;
                 var jsonContentWvWSquadAndPlayers = JsonConvert.SerializeObject(discordContentWvW);
@@ -415,7 +415,7 @@ namespace PlenBotLogUploader
                 }
                 var discordContent = new DiscordApiJsonContent()
                 {
-                    Embeds = new List<DiscordApiJsonContentEmbed>() { discordContentEmbed }
+                    Embeds = [discordContentEmbed],
                 };
                 discordContent.Embeds[0].Fields = discordContentEmbedSquadAndPlayers;
                 var jsonContentSquadAndPlayers = JsonConvert.SerializeObject(discordContent);

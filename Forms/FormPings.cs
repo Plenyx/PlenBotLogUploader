@@ -18,7 +18,7 @@ namespace PlenBotLogUploader
         #region definitions
         // properties
         private static readonly string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
-        internal IDictionary<int, PingConfiguration> AllPings { get; set; }
+        internal IDictionary<int, PingConfiguration> AllPings { get; init; }
 
         // fields
         private readonly FormMain mainLink;

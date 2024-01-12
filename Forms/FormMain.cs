@@ -29,9 +29,9 @@ namespace PlenBotLogUploader
     {
         #region definitions
         // properties
-        internal List<DpsReportJson> SessionLogs { get; } = new List<DpsReportJson>();
+        internal List<DpsReportJson> SessionLogs { get; } = [];
         internal bool TwitchChannelJoined { get; set; } = false;
-        internal HttpClientController HttpClientController { get; } = new HttpClientController();
+        internal HttpClientController HttpClientController { get; } = new();
         internal bool StartedMinimised { get; private set; } = false;
         internal MumbleReader MumbleReader { get; set; }
         internal bool UpdateFound
@@ -70,9 +70,9 @@ namespace PlenBotLogUploader
         private readonly FormAleevaIntegrations aleevaLink;
         private readonly FormGw2Bot gw2botLink;
         private readonly FormTeams teamsLink;
-        private readonly List<string> allSessionLogs = new();
-        private readonly Regex songSmartCommandRegex = new(@"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
-        private readonly Regex buildSmartCommandRegex = new(@"(?:(?:build)){1}(?:(?:\?)|(?: is))+", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline);
+        private readonly List<string> allSessionLogs = [];
+        private readonly Regex songSmartCommandRegex = songRegex();
+        private readonly Regex buildSmartCommandRegex = buildRegex();
         private SemaphoreSlim semaphore;
         private TwitchChatClient chatConnect;
         private readonly ArcLogsChangeObserver watcher;
@@ -80,7 +80,6 @@ namespace PlenBotLogUploader
         private int recentUploadFailCounter = 0;
         private int logsCount = 0;
         private string lastLogMessage = "";
-        private readonly string twitchChatWarning = "Streaming software not running! Activate one to be able to post to Twitch chat.\nThis warning will disappear once the streaming software is found and a log has been uploaded.";
         private int lastLogBossId = 0;
         private int lastLogPullCounter = 0;
         private bool lastLogBossCM = false;
@@ -91,6 +90,13 @@ namespace PlenBotLogUploader
         private const int minFileSize = 8192;
         private const string plenbotVersionFileURL = "https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION";
         private const string plenbotDownloadName = "PlenBotLogUploader.exe";
+        private const string twitchChatWarning = "Streaming software not running! Activate one to be able to post to Twitch chat.\nThis warning will disappear once the streaming software is found and a log has been uploaded.";
+
+        // partials
+        [GeneratedRegex(@"(?:(?:build)){1}(?:(?:\?)|(?: is))+", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant)]
+        private static partial Regex buildRegex();
+        [GeneratedRegex(@"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant)]
+        private static partial Regex songRegex();
         #endregion
 
         #region constructor

@@ -24,7 +24,7 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
             Text = (teamData is null) ? "Add a new team" : "Edit an existing team";
             textBoxName.Text = teamData?.Name ?? "";
-            this.teamData ??= new Team() { Id = reservedId, Name = textBoxName.Text, MainCondition = new TeamCondition() { Limiter = TeamLimiter.Exact, LimiterValue = 0, AccountNames = new List<string>() } };
+            this.teamData ??= new Team() { Id = reservedId, Name = textBoxName.Text, MainCondition = new TeamCondition() { Limiter = TeamLimiter.Exact, LimiterValue = 0, AccountNames = [] } };
         }
 
         private void FormEditTeam_FormClosing(object sender, FormClosingEventArgs e)

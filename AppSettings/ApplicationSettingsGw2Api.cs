@@ -16,7 +16,7 @@ namespace PlenBotLogUploader.AppSettings
 
         internal bool Valid { get; set; } = true;
 
-        internal List<string> Characters { get; set; } = new List<string>();
+        internal List<string> Characters { get; set; } = [];
 
         public override string ToString() => Name + (!Valid ? " (token not valid)" : "");
 
@@ -37,7 +37,7 @@ namespace PlenBotLogUploader.AppSettings
             if (!response.IsSuccessStatusCode)
             {
                 Valid = false;
-                Characters = new List<string>();
+                Characters = [];
                 return;
             }
             var responseMessage = await response.Content.ReadAsStringAsync();

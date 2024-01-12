@@ -15,8 +15,8 @@ namespace PlenBotLogUploader.Teams
         private string _description = "";
         private TeamLimiter _limiter = TeamLimiter.Exact;
         private int _limiterValue = 0;
-        private List<string> _accountNames = new();
-        private List<TeamCondition> _subconditions = new();
+        private List<string> _accountNames = [];
+        private List<TeamCondition> _subconditions = [];
         #endregion
 
         /// <summary>

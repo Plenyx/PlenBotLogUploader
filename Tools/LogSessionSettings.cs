@@ -49,6 +49,6 @@ namespace PlenBotLogUploader.Tools
         /// <summary>
         /// Selected webhooks to be executed
         /// </summary>
-        internal List<DiscordWebhookData> SelectedWebhooks { get; set; } = new();
+        internal List<DiscordWebhookData> SelectedWebhooks { get; set; } = [];
     }
 }

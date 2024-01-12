@@ -10,18 +10,18 @@ namespace PlenBotLogUploader.DiscordApi
     {
         internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
 
-        private static IDictionary<int, DiscordWebhookData> _All;
+        private static IDictionary<int, DiscordWebhookData> _all = new Dictionary<int, DiscordWebhookData>();
         /// <summary>
         /// Returns the main dictionary with all webhooks.
         /// </summary>
         /// <returns>A dictionary with all webhooks</returns>
-        internal static IDictionary<int, DiscordWebhookData> All => _All ??= new Dictionary<int, DiscordWebhookData>();
+        internal static IDictionary<int, DiscordWebhookData> All => _all;
 
         private static IDictionary<int, DiscordWebhookData> FromJsonFile(string filePath)
         {
             var jsonData = File.ReadAllText(filePath);
 
-            _All = DiscordWebhookData.FromJsonString(jsonData);
+            _all = DiscordWebhookData.FromJsonString(jsonData);
 
             return All;
         }

@@ -14,13 +14,13 @@ namespace PlenBotLogUploader.Aleeva
     {
         internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\aleeva_integrations.json";
 
-        private static List<AleevaIntegration> _all;
+        private static List<AleevaIntegration> _all = [];
 
         /// <summary>
         /// Returns the list with all Aleeva integrations.
         /// </summary>
         /// <returns>A list with all Aleeva integrations.</returns>
-        internal static List<AleevaIntegration> All => _all ??= new List<AleevaIntegration>();
+        internal static List<AleevaIntegration> All => _all;
 
         /// <summary>
         /// Loads a list of AleevaIntegration from a specified json file.

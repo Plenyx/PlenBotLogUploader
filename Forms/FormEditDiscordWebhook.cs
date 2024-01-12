@@ -16,7 +16,6 @@ namespace PlenBotLogUploader
         private readonly FormDiscordWebhooks discordPingLink;
         private readonly DiscordWebhookData data;
         private readonly int reservedId;
-        private readonly IDictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
         #endregion
 
         internal FormEditDiscordWebhook(FormDiscordWebhooks discordPingLink, DiscordWebhookData data, int reservedId)
@@ -103,7 +102,7 @@ namespace PlenBotLogUploader
             }
             if (data is null)
             {
-                allWebhooks[reservedId] = new DiscordWebhookData()
+                DiscordWebhooks.All[reservedId] = new DiscordWebhookData()
                 {
                     Active = true,
                     Name = textBoxName.Text,
@@ -117,7 +116,7 @@ namespace PlenBotLogUploader
                 discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
                 return;
             }
-            var webhook = allWebhooks[reservedId];
+            var webhook = DiscordWebhooks.All[reservedId];
             webhook.Active = data.Active;
             webhook.Name = textBoxName.Text;
             webhook.Url = textBoxUrl.Text;

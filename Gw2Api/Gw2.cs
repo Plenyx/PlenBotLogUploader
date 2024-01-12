@@ -4,9 +4,7 @@ namespace PlenBotLogUploader.Gw2Api
 {
     internal static class Gw2
     {
-        private static Dictionary<int, Gw2Server> _AllServers;
-
-        internal static Dictionary<int, Gw2Server> AllServers => _AllServers ??= new()
+        private static readonly Dictionary<int, Gw2Server> _allServers = new()
         {
             { 1001, new Gw2Server { Id = 1001, Name = "Anvil Rock" } },
             { 1002, new Gw2Server { Id = 1002, Name = "Borlis Pass" } },
@@ -60,5 +58,7 @@ namespace PlenBotLogUploader.Gw2Api
             { 2207, new Gw2Server { Id = 2207, Name = "Dzagonur [DE]" } },
             { 2301, new Gw2Server { Id = 2301, Name = "Baruch Bay [SP]" } },
         };
+
+        internal static Dictionary<int, Gw2Server> AllServers => _allServers;
     }
 }

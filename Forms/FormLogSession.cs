@@ -151,9 +151,9 @@ namespace PlenBotLogUploader
                 var item = checkedListBoxSelectedWebhooks.Items[i];
                 if ((item is DiscordWebhooksHelperClass discordWebhookHelper) &&
                     checkedListBoxSelectedWebhooks.GetItemChecked(i) &&
-                    allWebhooks.ContainsKey(discordWebhookHelper.WebhookId))
+                    allWebhooks.TryGetValue(discordWebhookHelper.WebhookId, out DiscordWebhookData discordWebhookData))
                 {
-                    list.Add(allWebhooks[discordWebhookHelper.WebhookId]);
+                    list.Add(discordWebhookData);
                 }
             }
             return list;

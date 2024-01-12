@@ -15,7 +15,7 @@ namespace PlenBotLogUploader.Tools
                 if (_all is null)
                 {
 
-                    _all = new List<HsBuildCodesCompressionSettingsHelperClass>();
+                    _all = [];
                     foreach (var compressionOption in Enum.GetValues<CompressionOptions>().AsSpan())
                     {
                         if (compressionOption.Equals(CompressionOptions.ALL) || compressionOption.Equals(CompressionOptions.NONE))

@@ -10,6 +10,8 @@ namespace PlenBotLogUploader
         #region definitions
         // fields
         private readonly FormMain mainLink;
+
+        private static readonly string[] twitchTvSeparator = ["twitch.tv/"];
         #endregion
 
         internal FormTwitchNameSetup(FormMain mainLink)
@@ -19,10 +21,11 @@ namespace PlenBotLogUploader
             Icon = Properties.Resources.AppIcon;
         }
 
+
         private async void ButtonNext_Click(object sender, EventArgs e)
         {
             var channelInput = textBoxChannelUrl.Text.ToLower();
-            var channelUrlSplit = channelInput.Split(new string[] { "twitch.tv/" }, StringSplitOptions.None);
+            var channelUrlSplit = channelInput.Split(twitchTvSeparator, StringSplitOptions.None);
             if (channelUrlSplit.Length > 1)
             {
                 var channelName = channelUrlSplit[1].Split('/')[0];

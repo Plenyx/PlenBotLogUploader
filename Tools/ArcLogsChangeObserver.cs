@@ -6,19 +6,14 @@ using System.Threading;
 namespace PlenBotLogUploader.Tools
 {
 #nullable enable
-    internal class ArcLogsChangeObserver : IDisposable
+    internal class ArcLogsChangeObserver(Action<FileInfo> logCreatedCallback) : IDisposable
     {
         private bool disposed = false;
-        private readonly Action<FileInfo> callback;
+        private readonly Action<FileInfo> callback = logCreatedCallback;
         private string? rootPath;
         private FileSystemWatcher? watcher;
         private Thread? pollThread;
         private CancellationTokenSource? pollThreadCTS;
-
-        public ArcLogsChangeObserver(Action<FileInfo> logCreatedCallback)
-        {
-            callback = logCreatedCallback;
-        }
 
         public void InitAndStart(string rootPath, ArcLogsChangeObserverMode mode = default)
         {

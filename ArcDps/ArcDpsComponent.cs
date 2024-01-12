@@ -14,9 +14,9 @@ namespace PlenBotLogUploader.ArcDps
     [JsonObject(MemberSerialization.OptIn)]
     internal sealed class ArcDpsComponent
     {
-        private static List<ArcDpsComponent> _all;
+        private static List<ArcDpsComponent> _all = [];
 
-        internal static List<ArcDpsComponent> All => _all ??= new List<ArcDpsComponent>();
+        internal static List<ArcDpsComponent> All => _all;
 
         internal static void SerialiseAll(string applicationDirectory) => File.WriteAllText($"{applicationDirectory}arcdps_components.json", JsonConvert.SerializeObject(All, Formatting.Indented));
 

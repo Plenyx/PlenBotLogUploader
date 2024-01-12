@@ -20,8 +20,8 @@ namespace PlenBotLogUploader
         private readonly FormAleevaIntegrations aleevaLink;
         private readonly AleevaIntegration data;
         private readonly HttpClientController controller;
-        private readonly List<AleevaServer> aleevaServers = new();
-        private readonly List<AleevaChannel> aleevaServerChannels = new();
+        private readonly List<AleevaServer> aleevaServers = [];
+        private readonly List<AleevaChannel> aleevaServerChannels = [];
 
         private string selectedServer = "";
         private string selectedChannel = "";

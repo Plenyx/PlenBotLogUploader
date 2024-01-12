@@ -10,13 +10,13 @@ namespace PlenBotLogUploader.Teams
     {
         internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\teams.json";
 
-        private static IDictionary<int, Team> _All;
+        private static IDictionary<int, Team> _all = new Dictionary<int, Team>();
 
         /// <summary>
         /// Returns the main dictionary with all webhook teams.
         /// </summary>
         /// <returns>A dictionary with all webhook teams</returns>
-        internal static IDictionary<int, Team> All => _All ??= new Dictionary<int, Team>();
+        internal static IDictionary<int, Team> All => _all;
 
         internal static IDictionary<int, Team> ResetDictionary()
         {
@@ -36,7 +36,7 @@ namespace PlenBotLogUploader.Teams
         {
             var jsonData = File.ReadAllText(filePath);
 
-            _All = Team.FromJsonString(jsonData);
+            _all = Team.FromJsonString(jsonData);
 
             return All;
         }

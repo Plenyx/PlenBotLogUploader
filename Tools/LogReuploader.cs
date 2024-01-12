@@ -12,6 +12,11 @@ namespace PlenBotLogUploader.Tools
         internal static readonly string fileLocation = $@"{ApplicationSettings.LocalDir}\faileduploads.txt";
 
         private static List<string> _failedLogs;
+        private static readonly Dictionary<string, string> postData = new()
+            {
+                { "generator", "ei" },
+                { "json", "1" }
+            };
 
         internal static List<string> FailedLogs
         {
@@ -27,12 +32,12 @@ namespace PlenBotLogUploader.Tools
                         }
                         catch
                         {
-                            _failedLogs = new List<string>();
+                            _failedLogs = [];
                         }
                     }
                     else
                     {
-                        _failedLogs = new List<string>();
+                        _failedLogs = [];
                     }
                 }
                 return _failedLogs;
@@ -53,11 +58,6 @@ namespace PlenBotLogUploader.Tools
 
         internal static void ProcessLogs(Func<string, Dictionary<string, string>, bool, Task> process)
         {
-            var postData = new Dictionary<string, string>()
-            {
-                { "generator", "ei" },
-                { "json", "1" }
-            };
             foreach (var fileName in FailedLogs.ToArray().AsSpan())
             {
                 if (!File.Exists(fileName))

@@ -60,7 +60,7 @@ namespace PlenBotLogUploader.DpsReport
         [JsonProperty("isEvent")]
         internal bool Event { get; set; } = false;
 
-        internal List<ListViewItemCustom<BossData>> connectedItems;
+        internal List<ListViewItemCustom<BossData>> _connectedItems = [];
 
         string IListViewItemInfo<BossData>.NameToDisplay => BossId.ToString();
 
@@ -68,7 +68,7 @@ namespace PlenBotLogUploader.DpsReport
 
         bool IListViewItemInfo<BossData>.CheckedToDisplay => false;
 
-        List<ListViewItemCustom<BossData>> IListViewItemInfo<BossData>.ConnectedItems => connectedItems ??= new();
+        List<ListViewItemCustom<BossData>> IListViewItemInfo<BossData>.ConnectedItems => _connectedItems;
 
         /// <summary>
         /// Formats Twitch message based on the DPSReport's JSON response.

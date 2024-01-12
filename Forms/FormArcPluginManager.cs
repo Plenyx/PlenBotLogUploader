@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,7 +18,7 @@ namespace PlenBotLogUploader
         // fields
         private readonly FormMain mainLink;
         private readonly HttpClientController httpController = new();
-        private readonly List<ArcDpsComponent> componentsToUpdate = new();
+        private readonly List<ArcDpsComponent> componentsToUpdate = [];
         private int gw2Instances = 0;
         private bool updateManual = false;
         private bool updateRunning = false;
@@ -55,10 +54,10 @@ namespace PlenBotLogUploader
             }
             foreach (var component in availableComponents.AsSpan())
             {
-                var installed = arcIsInstalled && installedComponents.Any(x => x.Type.Equals(component.Type));
+                var installedComponent = installedComponents.Find(x => x.Type.Equals(component.Type));
+                var installed = arcIsInstalled && installedComponent is not null;
                 if (installed)
                 {
-                    var installedComponent = installedComponents.First(x => x.Type.Equals(component.Type));
                     if (!installedComponent.IsInstalled())
                     {
                         installed = false;
@@ -237,9 +236,9 @@ namespace PlenBotLogUploader
             }
             ApplicationSettings.Current.Gw2Location = location;
             ApplicationSettings.Current.Save();
-            if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps)))
+            var component = ArcDpsComponent.All.Find(x => x.Type.Equals(ArcDpsComponentType.ArcDps));
+            if (component is not null)
             {
-                var component = ArcDpsComponent.All.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps));
                 if (!component.IsInstalled())
                 {
                     await component.DownloadComponent(httpController);
@@ -255,7 +254,7 @@ namespace PlenBotLogUploader
             }
             else
             {
-                var component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RelativeLocation = ApplicationSettings.Current.ArcUpdate.ArcPathChainLoaded };
+                component = new ArcDpsComponent() { Type = ArcDpsComponentType.ArcDps, RelativeLocation = ApplicationSettings.Current.ArcUpdate.ArcPathChainLoaded };
                 if (!component.IsInstalled())
                 {
                     await component.DownloadComponent(httpController);
@@ -346,9 +345,9 @@ namespace PlenBotLogUploader
 
         private async Task ChangeArcDpsPathBasedOnChainLoad()
         {
-            if (ArcDpsComponent.All.Any(x => x.Type.Equals(ArcDpsComponentType.ArcDps)))
+            var component = ArcDpsComponent.All.Find(x => x.Type.Equals(ArcDpsComponentType.ArcDps));
+            if (component is not null)
             {
-                var component = ArcDpsComponent.All.First(x => x.Type.Equals(ArcDpsComponentType.ArcDps));
                 component.RelativeLocation = ApplicationSettings.Current.ArcUpdate.ArcPathChainLoaded;
                 await component.DownloadComponent(httpController);
             }

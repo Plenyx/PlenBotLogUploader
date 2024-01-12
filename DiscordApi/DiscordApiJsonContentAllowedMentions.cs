@@ -4,7 +4,7 @@ namespace PlenBotLogUploader.DiscordApi
 {
     internal sealed class DiscordApiJsonContentAllowedMentions
     {
-        private static readonly string[] allMentions = new string[] { "roles", "users", "everyone" };
+        private static readonly string[] allMentions = ["roles", "users", "everyone"];
 
         /// <summary>
         /// list of allowed mention types
