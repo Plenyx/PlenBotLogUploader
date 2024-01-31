@@ -166,7 +166,7 @@
             this.labelWPercent.Name = "labelWPercent";
             this.labelWPercent.Size = new System.Drawing.Size(344, 20);
             this.labelWPercent.TabIndex = 11;
-            this.labelWPercent.Text = "<percent> - the % of the encounter (experimental)";
+            this.labelWPercent.Text = "<percent> - the % of the encounter";
             // 
             // FormTemplateBossData
             // 
