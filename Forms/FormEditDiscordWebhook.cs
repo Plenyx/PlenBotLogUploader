@@ -125,7 +125,12 @@ namespace PlenBotLogUploader
             webhook.BossesDisable = ConvertCheckboxListToList();
             webhook.AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked;
             webhook.Team = comboBoxTeam.SelectedItem as Team;
-            discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = data.Active };
+            discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem()
+            {
+                Name = reservedId.ToString(),
+                Text = textBoxName.Text,
+                Checked = data.Active,
+            };
         }
 
         private int[] ConvertCheckboxListToList()

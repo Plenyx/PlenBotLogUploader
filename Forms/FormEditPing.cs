@@ -81,10 +81,22 @@ namespace PlenBotLogUploader
                     Active = textBoxAuthToken.Text != "",
                     UseAsAuth = radioButtonUseAuthField.Checked,
                     AuthName = textBoxAuthName.Text,
-                    AuthToken = textBoxAuthToken.Text
+                    AuthToken = textBoxAuthToken.Text,
                 };
-                pingLink.AllPings[reservedId] = new PingConfiguration() { Active = false, Name = textBoxName.Text, Url = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
-                pingLink.listViewPings.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = false });
+                pingLink.AllPings[reservedId] = new PingConfiguration()
+                {
+                    Active = false,
+                    Name = textBoxName.Text,
+                    Url = textBoxURL.Text,
+                    Method = chosenMethod,
+                    Authentication = auth,
+                };
+                pingLink.listViewPings.Items.Add(new ListViewItem()
+                {
+                    Name = reservedId.ToString(),
+                    Text = textBoxName.Text,
+                    Checked = false,
+                });
                 return;
             }
             if (pingLink.AllPings.ContainsKey(reservedId))
@@ -112,7 +124,12 @@ namespace PlenBotLogUploader
                 pingLink.AllPings[reservedId].Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
                 pingLink.AllPings[reservedId].Authentication.AuthName = textBoxAuthName.Text;
                 pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxAuthToken.Text;
-                pingLink.listViewPings.Items[pingLink.listViewPings.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = config.Active };
+                pingLink.listViewPings.Items[pingLink.listViewPings.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem()
+                {
+                    Name = reservedId.ToString(),
+                    Text = textBoxName.Text,
+                    Checked = config.Active,
+                };
             }
         }
 
@@ -138,7 +155,14 @@ namespace PlenBotLogUploader
                 AuthName = textBoxAuthName.Text,
                 AuthToken = textBoxAuthToken.Text
             };
-            var tempPing = new PingConfiguration() { Active = false, Name = textBoxName.Text, Url = textBoxURL.Text, Method = chosenMethod, Authentication = auth };
+            var tempPing = new PingConfiguration()
+            {
+                Active = false,
+                Name = textBoxName.Text,
+                Url = textBoxURL.Text,
+                Method = chosenMethod,
+                Authentication = auth,
+            };
             var result = await tempPing.PingServerAsync(null, null);
             if (result)
             {

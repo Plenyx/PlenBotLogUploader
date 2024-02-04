@@ -72,7 +72,7 @@ namespace PlenBotLogUploader
                 SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.Wing,
                 MakeWvwSummaryEmbed = checkBoxMakeWvWSummary.Checked,
                 UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
-                SelectedWebhooks = ConvertCheckboxListToList()
+                SelectedWebhooks = ConvertCheckboxListToList(),
             };
             var sessionNameFormatted = CleanSessionName();
             var fileName = $"{((!string.IsNullOrWhiteSpace(sessionNameFormatted)) ? $"{sessionNameFormatted} " : "")}{sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";

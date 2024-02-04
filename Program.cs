@@ -30,7 +30,12 @@ namespace PlenBotLogUploader
                     if (otherProcesses.Length == 0)
                     {
                         File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = localDir + args[2], Arguments = "-m -finishupdate" });
+                        Process.Start(new ProcessStartInfo()
+                        {
+                            UseShellExecute = true,
+                            FileName = localDir + args[2],
+                            Arguments = "-m -finishupdate",
+                        });
                         return;
                     }
                     else
@@ -50,7 +55,12 @@ namespace PlenBotLogUploader
                             }
                         }
                         File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = localDir + args[2], Arguments = "-m -finishupdate" });
+                        Process.Start(new ProcessStartInfo()
+                        {
+                            UseShellExecute = true,
+                            FileName = localDir + args[2],
+                            Arguments = "-m -finishupdate",
+                        });
                         return;
                     }
                 }
@@ -66,7 +76,12 @@ namespace PlenBotLogUploader
                     if (otherProcesses.Length == 0)
                     {
                         File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = localDir + args[2], Arguments = "-finishupdate" });
+                        Process.Start(new ProcessStartInfo()
+                        {
+                            UseShellExecute = true,
+                            FileName = localDir + args[2],
+                            Arguments = "-finishupdate",
+                        });
                         return;
                     }
                     else
@@ -86,7 +101,12 @@ namespace PlenBotLogUploader
                             }
                         }
                         File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = localDir + args[2], Arguments = "-finishupdate" });
+                        Process.Start(new ProcessStartInfo()
+                        {
+                            UseShellExecute = true,
+                            FileName = localDir + args[2],
+                            Arguments = "-finishupdate",
+                        });
                         return;
                     }
                 }

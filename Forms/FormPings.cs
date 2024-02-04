@@ -40,7 +40,7 @@ namespace PlenBotLogUploader
                 {
                     Name = ping.Key.ToString(),
                     Text = ping.Value.Name,
-                    Checked = ping.Value.Active
+                    Checked = ping.Value.Active,
                 });
             }
         }

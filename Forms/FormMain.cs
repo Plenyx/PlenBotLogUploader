@@ -85,6 +85,11 @@ namespace PlenBotLogUploader
         private bool lastLogBossCM = false;
         private bool _updateFound = false;
         private GitHubReleaseLatest latestRelease = null;
+        private Dictionary<string, string> defaultPostData = new()
+        {
+            { "generator", "ei" },
+            { "json", "1" },
+        };
 
         // constants
         private const int minFileSize = 8192;
@@ -415,11 +420,6 @@ namespace PlenBotLogUploader
 
         protected async Task DoDragDropFile(string file)
         {
-            var postData = new Dictionary<string, string>()
-            {
-                { "generator", "ei" },
-                { "json", "1" }
-            };
             if (File.Exists(file) && (file.EndsWith(".evtc") || file.EndsWith(".zevtc")))
             {
                 var archived = false;
@@ -433,7 +433,7 @@ namespace PlenBotLogUploader
                 }
                 try
                 {
-                    await HttpUploadLogAsync(zipfilelocation, postData, true);
+                    await HttpUploadLogAsync(zipfilelocation, defaultPostData, true);
                 }
                 catch
                 {
@@ -477,12 +477,7 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        var postData = new Dictionary<string, string>()
-                        {
-                            { "generator", "ei" },
-                            { "json", "1" }
-                        };
-                        await HttpUploadLogAsync(zipfilelocation, postData);
+                        await HttpUploadLogAsync(zipfilelocation, defaultPostData);
                     }
                     finally
                     {
@@ -622,11 +617,6 @@ namespace PlenBotLogUploader
                 }
                 return;
             }
-            var postData = new Dictionary<string, string>()
-            {
-                { "generator", "ei" },
-                { "json", "1" }
-            };
             foreach (var arg in args)
             {
                 if (arg.Equals(Application.ExecutablePath))
@@ -646,7 +636,7 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        await HttpUploadLogAsync(zipfilelocation, postData);
+                        await HttpUploadLogAsync(zipfilelocation, defaultPostData);
                     }
                     catch
                     {
@@ -764,7 +754,7 @@ namespace PlenBotLogUploader
                         return;
                     }
                     var response = await responseMessage.Content.ReadAsStringAsync();
-                    // workaround for deserialisation application crash if the player list is an empty array, in case the log being corrupted
+                    // workaround for deserialisation and consequent application crash if the player list is an empty array, in case the log being corrupted
                     response = response?.Replace("\"players\": []", "\"players\": {}");
                     try
                     {
@@ -1289,12 +1279,21 @@ namespace PlenBotLogUploader
             toolStripMenuItemDPSReportUserTokens.DropDownItems.Clear();
             if (ApplicationSettings.Current.Upload.DpsReportUserTokens.Count == 0)
             {
-                toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItem() { Enabled = false, Text = "No user tokens defined" });
+                toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItem()
+                {
+                    Enabled = false,
+                    Text = "No user tokens defined",
+                });
                 return;
             }
             foreach (var userToken in ApplicationSettings.Current.Upload.DpsReportUserTokens.OrderBy(x => x.Name).ToArray())
             {
-                var index = toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken>() { Checked = userToken.Active, Text = userToken.Name, LinkedObject = userToken });
+                var index = toolStripMenuItemDPSReportUserTokens.DropDownItems.Add(new ToolStripMenuItemCustom<ApplicationSettingsUploadUserToken>()
+                {
+                    Checked = userToken.Active,
+                    Text = userToken.Name,
+                    LinkedObject = userToken,
+                });
                 toolStripMenuItemDPSReportUserTokens.DropDownItems[index].Click += UserTokenButtonClicked;
             }
         }
@@ -1336,7 +1335,10 @@ namespace PlenBotLogUploader
 
         private void ButtonLogsLocation_Click(object sender, EventArgs e)
         {
-            using var dialog = new FolderBrowserDialog() { Description = "Select the arcdps folder containing the combat logs.\nThe default location is in \"My Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\\"" };
+            using var dialog = new FolderBrowserDialog()
+            {
+                Description = "Select the arcdps folder containing the combat logs.\nThe default location is in \"My Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs\\\"",
+            };
             var result = dialog.ShowDialog();
             if (!result.Equals(DialogResult.OK) || string.IsNullOrWhiteSpace(dialog.SelectedPath))
             {
@@ -1418,7 +1420,11 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemPostToTwitch_CheckedChanged(object sender, EventArgs e) => checkBoxPostToTwitch.Checked = toolStripMenuItemPostToTwitch.Checked;
 
-        private void ButtonOpenLogs_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = ApplicationSettings.Current.LogsLocation });
+        private void ButtonOpenLogs_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo()
+        {
+            UseShellExecute = true,
+            FileName = ApplicationSettings.Current.LogsLocation,
+        });
 
         private void OpenDPSReportSettings()
         {
@@ -1553,7 +1559,12 @@ namespace PlenBotLogUploader
                 buttonUpdate.Enabled = true;
                 return;
             }
-            Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe", Arguments = $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{((appStartup && StartedMinimised) ? " -m" : "")}" });
+            Process.Start(new ProcessStartInfo()
+            {
+                UseShellExecute = true,
+                FileName = $"{ApplicationSettings.LocalDir}PlenBotLogUploader_Update.exe",
+                Arguments = $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{((appStartup && StartedMinimised) ? " -m" : "")}",
+            });
             ExitApp();
         }
 
@@ -1575,7 +1586,11 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = ApplicationSettings.LocalDir });
+            Process.Start(new ProcessStartInfo()
+            {
+                UseShellExecute = true,
+                FileName = ApplicationSettings.LocalDir,
+            });
             var reset = new ApplicationSettings();
             reset.Save();
             ExitApp();

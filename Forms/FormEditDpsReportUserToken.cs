@@ -48,7 +48,12 @@ namespace PlenBotLogUploader
             }
             if (data is null)
             {
-                data = new ApplicationSettingsUploadUserToken() { Active = false, Name = textBoxName.Text, UserToken = textBoxUserToken.Text };
+                data = new ApplicationSettingsUploadUserToken()
+                {
+                    Active = false,
+                    Name = textBoxName.Text,
+                    UserToken = textBoxUserToken.Text,
+                };
                 ApplicationSettings.Current.Upload.DpsReportUserTokens.Add(data);
             }
             else
