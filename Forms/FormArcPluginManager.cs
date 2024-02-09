@@ -286,7 +286,7 @@ namespace PlenBotLogUploader
             }
             else if (e.NewValue.Equals(CheckState.Checked))
             {
-                var component = new ArcDpsComponent() { Type = item.Type, RelativeLocation = ApplicationSettings.Current.ArcUpdate.ArcPathChainLoaded };
+                var component = new ArcDpsComponent() { Type = item.Type, RelativeLocation = $"\\{item.DefaultFileName}" };
                 ArcDpsComponent.All.Add(component);
                 await component.DownloadComponent(httpController);
             }
