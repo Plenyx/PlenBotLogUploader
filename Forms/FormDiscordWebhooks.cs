@@ -294,8 +294,8 @@ namespace PlenBotLogUploader
             {
                 var bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : "")}";
                 var successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
-                var lastTarget = reportJSON?.ExtraJson?.PossiblyLastTarget;
-                var extraJSON = (reportJSON.ExtraJson is null) ? "" : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}\n{lastTarget.Name} ({Math.Round(100 - lastTarget.HealthPercentBurned, 2)}%)\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}\n";
+                var lastTarget = (reportJSON?.ExtraJson?.PossiblyLastTarget is not null) ? $"\n{reportJSON.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(100 - reportJSON.ExtraJson.PossiblyLastTarget.HealthPercentBurned, 2)}%)" : "";
+                var extraJSON = (reportJSON.ExtraJson is null) ? "" : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}{lastTarget}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}\n";
                 var icon = "";
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
                 if (bossData is not null)
