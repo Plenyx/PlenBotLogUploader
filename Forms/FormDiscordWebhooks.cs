@@ -132,13 +132,13 @@ namespace PlenBotLogUploader
                     var squadField = new DiscordApiJsonContentEmbedField()
                     {
                         Name = "Squad summary:",
-                        Value = $"```{squadSummary.Render()}```"
+                        Value = $"```{squadSummary.Render()}```",
                     };
                     // enemy summary field
                     var enemyField = new DiscordApiJsonContentEmbedField()
                     {
                         Name = "Enemy summary:",
-                        Value = "```Summary could not have been generated.\nToggle detailed WvW to enable this feature.```"
+                        Value = "```Summary could not have been generated.\nToggle detailed WvW to enable this feature.```",
                     };
                     if (reportJSON.ExtraJson.Targets.Length > 1)
                     {

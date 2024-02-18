@@ -36,7 +36,7 @@ namespace PlenBotLogUploader
             Hide();
             ApplicationSettings.Current.Session.Name = textBoxSessionName.Text;
             ApplicationSettings.Current.Session.Message = textBoxSessionContent.Text;
-            ApplicationSettings.Current.Session.MakeWvwSummaryEmbed = checkBoxMakeWvWSummary.Checked;
+            ApplicationSettings.Current.Session.MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked;
             ApplicationSettings.Current.Save();
         }
 
@@ -70,7 +70,7 @@ namespace PlenBotLogUploader
                 ElapsedTime = elapsedTime,
                 ElapsedTimeSpan = elapsedTimeSpan,
                 SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.Wing,
-                MakeWvwSummaryEmbed = checkBoxMakeWvWSummary.Checked,
+                MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
                 UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
                 SelectedWebhooks = ConvertCheckboxListToList(),
             };
@@ -165,7 +165,11 @@ namespace PlenBotLogUploader
             var allWebhooks = DiscordWebhooks.All;
             foreach (var webhookNumber in allWebhooks.Keys)
             {
-                checkedListBoxSelectedWebhooks.Items.Add(new DiscordWebhooksHelperClass() { WebhookId = webhookNumber, Text = $"{allWebhooks[webhookNumber].Name}" }, allWebhooks[webhookNumber].Active);
+                checkedListBoxSelectedWebhooks.Items.Add(new DiscordWebhooksHelperClass()
+                {
+                    WebhookId = webhookNumber,
+                    Text = $"{allWebhooks[webhookNumber].Name}",
+                }, allWebhooks[webhookNumber].Active);
             }
         }
 
