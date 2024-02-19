@@ -37,6 +37,7 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Session.Name = textBoxSessionName.Text;
             ApplicationSettings.Current.Session.Message = textBoxSessionContent.Text;
             ApplicationSettings.Current.Session.MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked;
+            ApplicationSettings.Current.Session.EnableWvWLogList = checkBoxEnableWvWLogList.Checked;
             ApplicationSettings.Current.Save();
         }
 
@@ -71,6 +72,7 @@ namespace PlenBotLogUploader
                 ElapsedTimeSpan = elapsedTimeSpan,
                 SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.Wing,
                 MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
+                EnableWvWLogList = checkBoxEnableWvWLogList.Checked,
                 UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
                 SelectedWebhooks = ConvertCheckboxListToList(),
             };

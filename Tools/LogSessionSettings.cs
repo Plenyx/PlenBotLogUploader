@@ -42,6 +42,11 @@ namespace PlenBotLogUploader.Tools
         internal bool MakeWvWSummaryEmbed { get; set; }
 
         /// <summary>
+        /// Enable showing of an embed for all WvW logs
+        /// </summary>
+        internal bool EnableWvWLogList { get; set; }
+
+        /// <summary>
         /// Whether to use SelectedWebhooks for the session ping instead of all active sessions
         /// </summary>
         internal bool UseSelectedWebhooksInstead { get; set; }

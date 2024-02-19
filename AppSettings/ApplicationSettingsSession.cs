@@ -20,6 +20,9 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("makeWvWSummaryEmbed")]
         internal bool MakeWvWSummaryEmbed { get; set; } = true;
 
+        [JsonProperty("enableWvWLogList")]
+        internal bool EnableWvWLogList { get; set; } = true;
+
         [JsonProperty("sort")]
         internal LogSessionSortBy Sort { get; set; } = LogSessionSortBy.Wing;
 
