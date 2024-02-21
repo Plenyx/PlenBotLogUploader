@@ -60,7 +60,7 @@ namespace PlenBotLogUploader
             if (reportJSON.Encounter.BossId.Equals(1)) // WvW
             {
                 var extraJSONFightName = (reportJSON.ExtraJson is null) ? reportJSON.Encounter.Boss : reportJSON.ExtraJson.FightName;
-                var extraJSON = (reportJSON.ExtraJson is null) ? "" : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}";
+                var extraJSON = (reportJSON.ExtraJson is null) ? "" : $"Recorded by: {reportJSON.ExtraJson.RecordedByAccountName}\nDuration: {reportJSON.ExtraJson.Duration}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}";
                 var icon = "";
                 var bossData = Bosses.GetBossDataFromId(1);
                 if (bossData is not null)
@@ -295,7 +295,7 @@ namespace PlenBotLogUploader
                 var bossName = $"{reportJSON.Encounter.Boss}{(reportJSON.ChallengeMode ? " CM" : "")}";
                 var successString = (reportJSON.Encounter.Success ?? false) ? ":white_check_mark:" : "❌";
                 var lastTarget = (reportJSON?.ExtraJson?.PossiblyLastTarget is not null) ? $"\n{reportJSON.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(100 - reportJSON.ExtraJson.PossiblyLastTarget.HealthPercentBurned, 2)}%)" : "";
-                var extraJSON = (reportJSON.ExtraJson is null) ? "" : $"Recorded by: {reportJSON.ExtraJson.RecordedBy}\nDuration: {reportJSON.ExtraJson.Duration}{lastTarget}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}\n";
+                var extraJSON = (reportJSON.ExtraJson is null) ? "" : $"Recorded by: {reportJSON.ExtraJson.RecordedByAccountName}\nDuration: {reportJSON.ExtraJson.Duration}{lastTarget}\nElite Insights version: {reportJSON.ExtraJson.EliteInsightsVersion}\n";
                 var icon = "";
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
                 if (bossData is not null)

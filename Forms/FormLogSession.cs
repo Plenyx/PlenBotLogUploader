@@ -83,7 +83,7 @@ namespace PlenBotLogUploader
             {
                 var success = (reportJSON.Encounter.Success ?? false) ? "true" : "false";
                 File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv",
-                    $"{reportJSON.ExtraJson?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJson?.Duration ?? ""};{reportJSON.ExtraJson?.RecordedBy ?? ""};{reportJSON.ExtraJson?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.ConfigAwarePermalink};{reportJSON.UserToken}\n");
+                    $"{reportJSON.ExtraJson?.FightName ?? reportJSON.Encounter.Boss};{reportJSON.Encounter.BossId};{success};{reportJSON.ExtraJson?.Duration ?? ""};{reportJSON.ExtraJson?.RecordedByAccountName ?? ""};{reportJSON.ExtraJson?.EliteInsightsVersion ?? ""};{reportJSON.Evtc.Type}{reportJSON.Evtc.Version};{reportJSON.ConfigAwarePermalink};{reportJSON.UserToken}\n");
             }
             _ = SendSessionWebhooks(logSessionSettings);
         }

@@ -58,5 +58,7 @@ namespace PlenBotLogUploader.DpsReport
             }
             return dict;
         }
+
+        internal string RecordedByAccountName => Players.FirstOrDefault(x => x.Name == RecordedBy)?.Account ?? RecordedBy;
     }
 }
