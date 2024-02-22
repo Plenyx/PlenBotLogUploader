@@ -5,6 +5,6 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
     internal class StatsBarrier
     {
         [JsonProperty("outgoingBarrier")]
-        internal StatsBarrierOutgoingBarrier OutgoingBarrier { get; set; }
+        internal OutgoingBarrier OutgoingBarrier { get; set; }
     }
 }

@@ -45,10 +45,10 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
         [JsonProperty("defenses")]
         internal Defenses[] Defenses { get; set; }
 
-        [JsonProperty("statsHealing")]
+        [JsonProperty("extHealingStats")]
         internal StatsHealing StatsHealing { get; set; }
 
-        [JsonProperty("statsBarrier")]
+        [JsonProperty("extBarrierStats")]
         internal StatsBarrier StatsBarrier { get; set; }
     }
 }
