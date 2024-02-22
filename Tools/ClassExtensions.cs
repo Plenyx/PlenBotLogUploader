@@ -36,6 +36,8 @@ namespace PlenBotLogUploader.Tools
 
         internal static string ParseAsK(this int number) => ParseDoubleAsK(number);
 
+        internal static string ParseAsK(this long number) => ParseDoubleAsK(number);
+
         internal static ReadOnlySpan<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
 
         internal static void AddRange<T>(this List<T> list, params T[] items)

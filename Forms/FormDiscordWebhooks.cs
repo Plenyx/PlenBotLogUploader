@@ -134,7 +134,7 @@ namespace PlenBotLogUploader
                         Name = "Squad summary:",
                         Value = $"```{squadSummary.Render()}```",
                     };
-                    // enemy summary field
+                    // enemy summary
                     var enemyField = new DiscordApiJsonContentEmbedField()
                     {
                         Name = "Enemy summary:",
@@ -263,10 +263,62 @@ namespace PlenBotLogUploader
                         Name = "Boon strips summary:",
                         Value = $"```{boonStripsSummary.Render()}```",
                     };
+                    // healing summary
+                    var healingStats = reportJSON.ExtraJson.Players
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && ((x.StatsHealing?.TotalHealingOnSquad ?? 0) > 0))
+                        .OrderByDescending(x => x.StatsHealing?.TotalHealingOnSquad ?? 0)
+                        .Take(10)
+                        .ToArray();
+                    var healingSummary = new TextTable(3, tableStyle, tableBorders);
+                    healingSummary.SetColumnWidthRange(0, 3, 3);
+                    healingSummary.SetColumnWidthRange(1, 27, 27);
+                    healingSummary.SetColumnWidthRange(2, 12, 12);
+                    healingSummary.AddCell("#", tableCellCenterAlign);
+                    healingSummary.AddCell("Name");
+                    healingSummary.AddCell("Healing", tableCellRightAlign);
+                    rank = 0;
+                    foreach (var player in healingStats)
+                    {
+                        rank++;
+                        healingSummary.AddCell($"{rank}", tableCellCenterAlign);
+                        healingSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
+                        healingSummary.AddCell($"{(player.StatsHealing?.TotalHealingOnSquad ?? 0).ParseAsK()}", tableCellRightAlign);
+                    }
+                    var healingField = new DiscordApiJsonContentEmbedField()
+                    {
+                        Name = "Healing summary:",
+                        Value = $"```{healingSummary.Render()}```",
+                    };
+                    // barrier summary
+                    var barrierStats = reportJSON.ExtraJson.Players
+                        .Where(x => !x.FriendlyNpc && !x.NotInSquad && ((x.StatsBarrier?.TotalBarrierOnSquad ?? 0) > 0))
+                        .OrderByDescending(x => x.StatsBarrier?.TotalBarrierOnSquad ?? 0)
+                        .Take(10)
+                        .ToArray();
+                    var barrierSummary = new TextTable(3, tableStyle, tableBorders);
+                    barrierSummary.SetColumnWidthRange(0, 3, 3);
+                    barrierSummary.SetColumnWidthRange(1, 27, 27);
+                    barrierSummary.SetColumnWidthRange(2, 12, 12);
+                    barrierSummary.AddCell("#", tableCellCenterAlign);
+                    barrierSummary.AddCell("Name");
+                    barrierSummary.AddCell("Barrier", tableCellRightAlign);
+                    rank = 0;
+                    foreach (var player in barrierStats)
+                    {
+                        rank++;
+                        barrierSummary.AddCell($"{rank}", tableCellCenterAlign);
+                        barrierSummary.AddCell($"{player.Name} ({player.ProfessionShort})");
+                        barrierSummary.AddCell($"{(player.StatsBarrier?.TotalBarrierOnSquad ?? 0).ParseAsK()}", tableCellRightAlign);
+                    }
+                    var barrierField = new DiscordApiJsonContentEmbedField()
+                    {
+                        Name = "Barrier summary:",
+                        Value = $"```{barrierSummary.Render()}```",
+                    };
                     // add the fields
-                    discordContentEmbedSquadAndPlayers.AddRange(squadField, enemyField, damageField, cleansesField, boonStripsField);
+                    discordContentEmbedSquadAndPlayers.AddRange(squadField, enemyField, damageField, cleansesField, boonStripsField, healingField, barrierField);
                     discordContentEmbedSquad.AddRange(squadField, enemyField);
-                    discordContentEmbedPlayers.AddRange(damageField, cleansesField, boonStripsField);
+                    discordContentEmbedPlayers.AddRange(damageField, cleansesField, boonStripsField, healingField, barrierField);
                 }
                 // post to discord
                 var discordContentWvW = new DiscordApiJsonContent()
