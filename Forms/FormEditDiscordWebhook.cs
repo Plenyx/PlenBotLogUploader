@@ -68,7 +68,11 @@ namespace PlenBotLogUploader
             comboBoxTeam.SelectedItem = data?.Team ?? teams[0];
             foreach (var boss in bosses.AsSpan())
             {
-                checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass() { BossId = boss.BossId, Text = $"{boss.Type}: {boss.Name} ({boss.BossId})" }, data?.IsBossEnabled(boss.BossId) ?? true);
+                checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass()
+                {
+                    BossId = boss.BossId,
+                    Text = $"{boss.Type}: {boss.Name} ({boss.BossId})" + (((boss.InternalDescription?.Length ?? 0) > 0) ? $" [{boss.InternalDescription}]" : null)
+                }, data?.IsBossEnabled(boss.BossId) ?? true);
             }
         }
 
