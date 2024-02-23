@@ -46,7 +46,14 @@ namespace PlenBotLogUploader.Tools
             {
                 return;
             }
-            list.AddRange(items);
+            foreach (var item in items.AsSpan())
+            {
+                if (item is null)
+                {
+                    continue;
+                }
+                list.Add(item);
+            }
         }
 
         internal static async Task<GitHubReleaseLatest> GetGitHubLatestReleaseAsync(this HttpClientController controller, string repository)

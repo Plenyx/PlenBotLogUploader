@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System.Linq;
+using System;
 
 namespace PlenBotLogUploader.DpsReport.ExtraJson
 {
@@ -11,6 +11,20 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
         [JsonProperty("outgoingBarrierAllies")]
         internal OutgoingBarrier[][] OutgoingBarrierAllies { get; set; }
 
-        internal long TotalBarrierOnSquad => OutgoingBarrierAllies.Sum(x => x.Sum(y => y.Barrier));
+        internal long TotalBarrierOnSquad
+        {
+            get
+            {
+                long result = 0;
+                foreach (var squadMember in OutgoingBarrierAllies.AsSpan())
+                {
+                    foreach (var squadMemberPhase in squadMember.AsSpan())
+                    {
+                        result += squadMemberPhase.Barrier;
+                    }
+                }
+                return result;
+            }
+        }
     }
 }
