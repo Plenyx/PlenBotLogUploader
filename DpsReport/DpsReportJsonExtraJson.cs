@@ -14,6 +14,9 @@ namespace PlenBotLogUploader.DpsReport
         [JsonProperty("recordedBy")]
         internal string RecordedBy { get; set; }
 
+        [JsonProperty("recordedAccountBy")]
+        internal string RecordedByAccountName { get; set; }
+
         [JsonProperty("timeStart")]
         internal DateTime TimeStart { get; set; }
 
@@ -58,7 +61,5 @@ namespace PlenBotLogUploader.DpsReport
             }
             return dict;
         }
-
-        internal string RecordedByAccountName => Players.FirstOrDefault(x => x.Name == RecordedBy)?.Account ?? RecordedBy;
     }
 }

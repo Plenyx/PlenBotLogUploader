@@ -113,11 +113,16 @@ namespace PlenBotLogUploader
                     Url = textBoxUrl.Text,
                     SuccessFailToggle = successFailToggle,
                     SummaryType = summaryType,
-                    BossesDisable = ConvertCheckboxListToList(),
+                    BossesDisable = ConvertCheckboxListToArrayOfBossIds(),
                     AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked,
                     Team = comboBoxTeam.SelectedItem as Team,
                 };
-                discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem() { Name = reservedId.ToString(), Text = textBoxName.Text, Checked = true });
+                discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem()
+                {
+                    Name = reservedId.ToString(),
+                    Text = textBoxName.Text,
+                    Checked = true,
+                });
                 return;
             }
             var webhook = DiscordWebhooks.All[reservedId];
@@ -126,7 +131,7 @@ namespace PlenBotLogUploader
             webhook.Url = textBoxUrl.Text;
             webhook.SuccessFailToggle = successFailToggle;
             webhook.SummaryType = summaryType;
-            webhook.BossesDisable = ConvertCheckboxListToList();
+            webhook.BossesDisable = ConvertCheckboxListToArrayOfBossIds();
             webhook.AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked;
             webhook.Team = comboBoxTeam.SelectedItem as Team;
             discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem()
@@ -137,7 +142,7 @@ namespace PlenBotLogUploader
             };
         }
 
-        private int[] ConvertCheckboxListToList()
+        private int[] ConvertCheckboxListToArrayOfBossIds()
         {
             var list = new List<int>();
             for (var i = 0; i < checkedListBoxBossesEnable.Items.Count; i++)
