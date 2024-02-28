@@ -545,18 +545,27 @@ namespace PlenBotLogUploader.Tools
             }
             if (!builderSuccessFailure.ToString().EndsWith("***\n"))
             {
-                messageSuccessFailureCount++;
-                discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                if (builderSuccessFailure.Length != 0)
+                {
+                    messageSuccessFailureCount++;
+                    discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessFailureCount > 1) ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
+                }
             }
             if (!builderSuccess.ToString().EndsWith("***\n"))
             {
-                messageSuccessCount++;
-                discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                if (builderSuccess.Length != 0)
+                {
+                    messageSuccessCount++;
+                    discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageSuccessCount > 1) ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
+                }
             }
             if (!builderFailure.ToString().EndsWith("***\n"))
             {
-                messageFailureCount++;
-                discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                if (builderFailure.Length != 0)
+                {
+                    messageFailureCount++;
+                    discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + ((messageFailureCount > 1) ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
+                }
             }
             if (discordEmbedSummary is not null)
             {
