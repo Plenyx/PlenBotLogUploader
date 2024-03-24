@@ -17,10 +17,10 @@ namespace PlenBotLogUploader.DpsReport
         [JsonProperty("recordedAccountBy")]
         internal string RecordedByAccountName { get; set; }
 
-        [JsonProperty("timeStart")]
+        [JsonProperty("timeStartStd")]
         internal DateTime TimeStart { get; set; }
 
-        [JsonProperty("timeEnd")]
+        [JsonProperty("timeEndStd")]
         internal DateTime TimeEnd { get; set; }
 
         [JsonProperty("duration")]
