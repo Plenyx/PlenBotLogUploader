@@ -360,7 +360,7 @@ namespace PlenBotLogUploader
                 var bossData = Bosses.GetBossDataFromId(reportJSON.Encounter.BossId);
                 if (bossData is not null)
                 {
-                    bossName = bossData.Name + (reportJSON.ChallengeMode ? " CM" : "");
+                    bossName = bossData.FightName(reportJSON);
                     icon = bossData.Icon;
                 }
                 var colour = (reportJSON.Encounter.Success ?? false) ? 32768 : 16711680;

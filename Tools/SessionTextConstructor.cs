@@ -95,7 +95,7 @@ namespace PlenBotLogUploader.Tools
                         var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
                         if (bossData is not null)
                         {
-                            bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : "");
+                            bossName = bossData.FightName(data.LogData);
                         }
                         var duration = (data.LogData.ExtraJson is null) ? "" : $" {data.LogData.ExtraJson.Duration}";
                         string successText = "";
@@ -159,7 +159,7 @@ namespace PlenBotLogUploader.Tools
                         var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
                         if (bossData is not null)
                         {
-                            bossName = bossData.Name + (data.LogData.ChallengeMode ? " CM" : "");
+                            bossName = bossData.FightName(data.LogData);
                         }
                         var duration = (data.LogData.ExtraJson is null) ? "" : $" {data.LogData.ExtraJson.Duration}";
                         string successText = "";
@@ -231,7 +231,7 @@ namespace PlenBotLogUploader.Tools
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
                     if (bossData is not null)
                     {
-                        bossName = bossData.Name + (log.ChallengeMode ? " CM" : "");
+                        bossName = bossData.FightName(log);
                     }
                     var duration = (log.ExtraJson is not null) ? $" {log.ExtraJson.Duration}" : "";
                     string successText = "";
@@ -302,7 +302,7 @@ namespace PlenBotLogUploader.Tools
                     var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
                     if (bossData is not null)
                     {
-                        bossName = bossData.Name + (log.ChallengeMode ? " CM" : "");
+                        bossName = bossData.FightName(log);
                     }
                     var duration = (log.ExtraJson is not null) ? $" {log.ExtraJson.Duration}" : "";
                     string successText = "";

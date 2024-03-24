@@ -3,6 +3,7 @@ using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace PlenBotLogUploader.DpsReport
 {
@@ -70,6 +71,20 @@ namespace PlenBotLogUploader.DpsReport
 
         List<ListViewItemCustom<BossData>> IListViewItemInfo<BossData>.ConnectedItems => _connectedItems;
 
+        internal string FightName(DpsReportJson reportJSON)
+        {
+            var builder = new StringBuilder(Name);
+            if (reportJSON.ChallengeMode)
+            {
+                if (reportJSON?.ExtraJson?.IsLegendaryCm ?? false)
+                {
+                    builder.Append("Legendary ");
+                }
+                builder.Append("CM");
+            }
+            return builder.ToString();
+        }
+
         /// <summary>
         /// Formats Twitch message based on the DPSReport's JSON response.
         /// </summary>
@@ -78,7 +93,7 @@ namespace PlenBotLogUploader.DpsReport
         internal string TwitchMessageFormat(DpsReportJson reportJSON, int pullCounter)
         {
             var format = (reportJSON.Encounter.Success ?? false) ? SuccessMsg : FailMsg;
-            format = format.Replace("<boss>", reportJSON.ChallengeMode ? $"{Name} CM" : Name);
+            format = format.Replace("<boss>", FightName(reportJSON));
             format = format.Replace("<log>", reportJSON.ConfigAwarePermalink);
             format = format.Replace("<pulls>", pullCounter.ToString());
             format = (reportJSON.ExtraJson?.PossiblyLastTarget is not null)

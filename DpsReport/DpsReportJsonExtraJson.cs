@@ -47,7 +47,37 @@ namespace PlenBotLogUploader.DpsReport
         [JsonProperty("players")]
         internal Player[] Players { get; set; }
 
-        internal Target PossiblyLastTarget => Targets.OrderByDescending(x => x.TotalHealth).FirstOrDefault(x => x.HealthPercentBurned <= 98.6);
+        internal Target PossiblyLastTarget
+        {
+            get
+            {
+                if (TriggerId == (int)BossIds.Cerus)
+                {
+                    return TargetsByTotalHealth.FirstOrDefault();
+                }
+                return TargetsByTotalHealth.FirstOrDefault(x => x.HealthPercentBurned <= 98.6);
+            }
+        }
+
+        private Target[] TargetsByTotalHealth => Targets.OrderByDescending(x => x.TotalHealth).ToArray();
+
+
+        internal bool IsLegendaryCm
+        {
+            get
+            {
+                if (TriggerId != (int)BossIds.Cerus)
+                {
+                    return false;
+                }
+                var cerus = TargetsByTotalHealth.FirstOrDefault();
+                if (cerus is null)
+                {
+                    return false;
+                }
+                return cerus.TotalHealth >= 120_000_000;
+            }
+        }
 
         internal Dictionary<Player, int> GetPlayerTargetDPS()
         {
