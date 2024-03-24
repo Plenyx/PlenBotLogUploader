@@ -53,11 +53,16 @@
             radioButtonLogSummarySquadAndPlayers = new System.Windows.Forms.RadioButton();
             radioButtonLogSummarySquad = new System.Windows.Forms.RadioButton();
             radioButtonLogSummaryNone = new System.Windows.Forms.RadioButton();
+            groupBoxIncludeCheckboxes = new System.Windows.Forms.GroupBox();
+            checkBoxIncludeNormalLogs = new System.Windows.Forms.CheckBox();
+            checkBoxIncludeChallengeModeLogs = new System.Windows.Forms.CheckBox();
+            checkBoxIncludeLegendaryChallengeModeLogs = new System.Windows.Forms.CheckBox();
             groupBoxWebhookInfo.SuspendLayout();
             groupBoxBossesEnable.SuspendLayout();
             groupBoxConditionalPost.SuspendLayout();
             groupBoxTeam.SuspendLayout();
             groupBoxLogSummaries.SuspendLayout();
+            groupBoxIncludeCheckboxes.SuspendLayout();
             SuspendLayout();
             // 
             // labelName
@@ -103,7 +108,7 @@
             checkedListBoxBossesEnable.Location = new System.Drawing.Point(8, 29);
             checkedListBoxBossesEnable.Margin = new System.Windows.Forms.Padding(5);
             checkedListBoxBossesEnable.Name = "checkedListBoxBossesEnable";
-            checkedListBoxBossesEnable.Size = new System.Drawing.Size(505, 330);
+            checkedListBoxBossesEnable.Size = new System.Drawing.Size(505, 396);
             checkedListBoxBossesEnable.TabIndex = 6;
             // 
             // groupBoxWebhookInfo
@@ -135,7 +140,7 @@
             groupBoxBossesEnable.Margin = new System.Windows.Forms.Padding(5);
             groupBoxBossesEnable.Name = "groupBoxBossesEnable";
             groupBoxBossesEnable.Padding = new System.Windows.Forms.Padding(5);
-            groupBoxBossesEnable.Size = new System.Drawing.Size(523, 436);
+            groupBoxBossesEnable.Size = new System.Drawing.Size(523, 508);
             groupBoxBossesEnable.TabIndex = 8;
             groupBoxBossesEnable.TabStop = false;
             groupBoxBossesEnable.Text = "Only upload for selected bosses";
@@ -143,7 +148,7 @@
             // checkBoxAllowUnknownBossIds
             // 
             checkBoxAllowUnknownBossIds.AutoSize = true;
-            checkBoxAllowUnknownBossIds.Location = new System.Drawing.Point(8, 364);
+            checkBoxAllowUnknownBossIds.Location = new System.Drawing.Point(10, 436);
             checkBoxAllowUnknownBossIds.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             checkBoxAllowUnknownBossIds.Name = "checkBoxAllowUnknownBossIds";
             checkBoxAllowUnknownBossIds.Size = new System.Drawing.Size(316, 24);
@@ -153,7 +158,7 @@
             // 
             // buttonUnSelectAllGolems
             // 
-            buttonUnSelectAllGolems.Location = new System.Drawing.Point(361, 391);
+            buttonUnSelectAllGolems.Location = new System.Drawing.Point(363, 463);
             buttonUnSelectAllGolems.Margin = new System.Windows.Forms.Padding(5);
             buttonUnSelectAllGolems.Name = "buttonUnSelectAllGolems";
             buttonUnSelectAllGolems.Size = new System.Drawing.Size(72, 35);
@@ -164,7 +169,7 @@
             // 
             // buttonUnSelectWvW
             // 
-            buttonUnSelectWvW.Location = new System.Drawing.Point(441, 391);
+            buttonUnSelectWvW.Location = new System.Drawing.Point(443, 463);
             buttonUnSelectWvW.Margin = new System.Windows.Forms.Padding(5);
             buttonUnSelectWvW.Name = "buttonUnSelectWvW";
             buttonUnSelectWvW.Size = new System.Drawing.Size(72, 35);
@@ -175,7 +180,7 @@
             // 
             // buttonUnSelectAllFractals
             // 
-            buttonUnSelectAllFractals.Location = new System.Drawing.Point(201, 391);
+            buttonUnSelectAllFractals.Location = new System.Drawing.Point(203, 463);
             buttonUnSelectAllFractals.Margin = new System.Windows.Forms.Padding(5);
             buttonUnSelectAllFractals.Name = "buttonUnSelectAllFractals";
             buttonUnSelectAllFractals.Size = new System.Drawing.Size(72, 35);
@@ -186,7 +191,7 @@
             // 
             // buttonUnSelectAllStrikes
             // 
-            buttonUnSelectAllStrikes.Location = new System.Drawing.Point(281, 391);
+            buttonUnSelectAllStrikes.Location = new System.Drawing.Point(283, 463);
             buttonUnSelectAllStrikes.Margin = new System.Windows.Forms.Padding(5);
             buttonUnSelectAllStrikes.Name = "buttonUnSelectAllStrikes";
             buttonUnSelectAllStrikes.Size = new System.Drawing.Size(72, 35);
@@ -197,7 +202,7 @@
             // 
             // buttonUnSelectAllRaids
             // 
-            buttonUnSelectAllRaids.Location = new System.Drawing.Point(121, 391);
+            buttonUnSelectAllRaids.Location = new System.Drawing.Point(123, 463);
             buttonUnSelectAllRaids.Margin = new System.Windows.Forms.Padding(5);
             buttonUnSelectAllRaids.Name = "buttonUnSelectAllRaids";
             buttonUnSelectAllRaids.Size = new System.Drawing.Size(72, 35);
@@ -208,7 +213,7 @@
             // 
             // buttonUnSelectAll
             // 
-            buttonUnSelectAll.Location = new System.Drawing.Point(6, 391);
+            buttonUnSelectAll.Location = new System.Drawing.Point(8, 463);
             buttonUnSelectAll.Margin = new System.Windows.Forms.Padding(5);
             buttonUnSelectAll.Name = "buttonUnSelectAll";
             buttonUnSelectAll.Size = new System.Drawing.Size(107, 35);
@@ -270,7 +275,7 @@
             // groupBoxTeam
             // 
             groupBoxTeam.Controls.Add(comboBoxTeam);
-            groupBoxTeam.Location = new System.Drawing.Point(16, 383);
+            groupBoxTeam.Location = new System.Drawing.Point(16, 455);
             groupBoxTeam.Margin = new System.Windows.Forms.Padding(5);
             groupBoxTeam.Name = "groupBoxTeam";
             groupBoxTeam.Padding = new System.Windows.Forms.Padding(5);
@@ -347,12 +352,57 @@
             radioButtonLogSummaryNone.Text = "None";
             radioButtonLogSummaryNone.UseVisualStyleBackColor = true;
             // 
+            // groupBoxIncludeCheckboxes
+            // 
+            groupBoxIncludeCheckboxes.Controls.Add(checkBoxIncludeLegendaryChallengeModeLogs);
+            groupBoxIncludeCheckboxes.Controls.Add(checkBoxIncludeChallengeModeLogs);
+            groupBoxIncludeCheckboxes.Controls.Add(checkBoxIncludeNormalLogs);
+            groupBoxIncludeCheckboxes.Location = new System.Drawing.Point(16, 382);
+            groupBoxIncludeCheckboxes.Margin = new System.Windows.Forms.Padding(5);
+            groupBoxIncludeCheckboxes.Name = "groupBoxIncludeCheckboxes";
+            groupBoxIncludeCheckboxes.Padding = new System.Windows.Forms.Padding(5);
+            groupBoxIncludeCheckboxes.Size = new System.Drawing.Size(523, 63);
+            groupBoxIncludeCheckboxes.TabIndex = 10;
+            groupBoxIncludeCheckboxes.TabStop = false;
+            groupBoxIncludeCheckboxes.Text = "Include all ...";
+            // 
+            // checkBoxIncludeNormalLogs
+            // 
+            checkBoxIncludeNormalLogs.AutoSize = true;
+            checkBoxIncludeNormalLogs.Location = new System.Drawing.Point(11, 28);
+            checkBoxIncludeNormalLogs.Name = "checkBoxIncludeNormalLogs";
+            checkBoxIncludeNormalLogs.Size = new System.Drawing.Size(153, 24);
+            checkBoxIncludeNormalLogs.TabIndex = 0;
+            checkBoxIncludeNormalLogs.Text = "normal mode logs";
+            checkBoxIncludeNormalLogs.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxIncludeChallengeModeLogs
+            // 
+            checkBoxIncludeChallengeModeLogs.AutoSize = true;
+            checkBoxIncludeChallengeModeLogs.Location = new System.Drawing.Point(219, 28);
+            checkBoxIncludeChallengeModeLogs.Name = "checkBoxIncludeChallengeModeLogs";
+            checkBoxIncludeChallengeModeLogs.Size = new System.Drawing.Size(85, 24);
+            checkBoxIncludeChallengeModeLogs.TabIndex = 1;
+            checkBoxIncludeChallengeModeLogs.Text = "CM logs";
+            checkBoxIncludeChallengeModeLogs.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxIncludeLegendaryChallengeModeLogs
+            // 
+            checkBoxIncludeLegendaryChallengeModeLogs.AutoSize = true;
+            checkBoxIncludeLegendaryChallengeModeLogs.Location = new System.Drawing.Point(357, 28);
+            checkBoxIncludeLegendaryChallengeModeLogs.Name = "checkBoxIncludeLegendaryChallengeModeLogs";
+            checkBoxIncludeLegendaryChallengeModeLogs.Size = new System.Drawing.Size(155, 24);
+            checkBoxIncludeLegendaryChallengeModeLogs.TabIndex = 2;
+            checkBoxIncludeLegendaryChallengeModeLogs.Text = "legendary CM logs";
+            checkBoxIncludeLegendaryChallengeModeLogs.UseVisualStyleBackColor = true;
+            // 
             // FormEditDiscordWebhook
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
-            ClientSize = new System.Drawing.Size(1083, 467);
+            ClientSize = new System.Drawing.Size(1083, 536);
+            Controls.Add(groupBoxIncludeCheckboxes);
             Controls.Add(groupBoxLogSummaries);
             Controls.Add(groupBoxTeam);
             Controls.Add(groupBoxConditionalPost);
@@ -375,6 +425,8 @@
             groupBoxTeam.ResumeLayout(false);
             groupBoxLogSummaries.ResumeLayout(false);
             groupBoxLogSummaries.PerformLayout();
+            groupBoxIncludeCheckboxes.ResumeLayout(false);
+            groupBoxIncludeCheckboxes.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -405,5 +457,9 @@
         private System.Windows.Forms.RadioButton radioButtonLogSummarySquadAndPlayers;
         private System.Windows.Forms.RadioButton radioButtonLogSummarySquad;
         private System.Windows.Forms.RadioButton radioButtonLogSummaryPlayers;
+        private System.Windows.Forms.GroupBox groupBoxIncludeCheckboxes;
+        private System.Windows.Forms.CheckBox checkBoxIncludeLegendaryChallengeModeLogs;
+        private System.Windows.Forms.CheckBox checkBoxIncludeChallengeModeLogs;
+        private System.Windows.Forms.CheckBox checkBoxIncludeNormalLogs;
     }
 }

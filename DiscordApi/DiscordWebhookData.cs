@@ -52,6 +52,15 @@ namespace PlenBotLogUploader.DiscordApi
         [JsonProperty("teamId")]
         internal int TeamId { get; set; } = 0;
 
+        [JsonProperty("includeNormalLogs")]
+        internal bool IncludeNormalLogs { get; set; } = true;
+
+        [JsonProperty("includeChallengeModeLogs")]
+        internal bool IncludeChallengeModeLogs { get; set; } = true;
+
+        [JsonProperty("includeLegendaryChallengeModeLogs")]
+        internal bool IncludeLegendaryChallengeModeLogs { get; set; } = true;
+
         /// <summary>
         /// A selected webhook team, with which the webhook should evaluate itself
         /// </summary>

@@ -74,6 +74,9 @@ namespace PlenBotLogUploader
                     Text = $"{boss.Type}: {boss.Name} ({boss.BossId})" + (((boss.InternalDescription?.Length ?? 0) > 0) ? $" [{boss.InternalDescription}]" : null)
                 }, data?.IsBossEnabled(boss.BossId) ?? true);
             }
+            checkBoxIncludeNormalLogs.Checked = data?.IncludeNormalLogs ?? true;
+            checkBoxIncludeChallengeModeLogs.Checked = data?.IncludeChallengeModeLogs ?? true;
+            checkBoxIncludeLegendaryChallengeModeLogs.Checked = data?.IncludeLegendaryChallengeModeLogs ?? true;
         }
 
         private void FormEditDiscordWebhook_FormClosing(object sender, FormClosingEventArgs e)
@@ -116,6 +119,9 @@ namespace PlenBotLogUploader
                     BossesDisable = ConvertCheckboxListToArrayOfBossIds(),
                     AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked,
                     Team = comboBoxTeam.SelectedItem as Team,
+                    IncludeNormalLogs = checkBoxIncludeNormalLogs.Checked,
+                    IncludeChallengeModeLogs = checkBoxIncludeChallengeModeLogs.Checked,
+                    IncludeLegendaryChallengeModeLogs = checkBoxIncludeLegendaryChallengeModeLogs.Checked,
                 };
                 discordPingLink.listViewDiscordWebhooks.Items.Add(new ListViewItem()
                 {
@@ -134,6 +140,9 @@ namespace PlenBotLogUploader
             webhook.BossesDisable = ConvertCheckboxListToArrayOfBossIds();
             webhook.AllowUnknownBossIds = checkBoxAllowUnknownBossIds.Checked;
             webhook.Team = comboBoxTeam.SelectedItem as Team;
+            webhook.IncludeNormalLogs = checkBoxIncludeNormalLogs.Checked;
+            webhook.IncludeChallengeModeLogs = checkBoxIncludeChallengeModeLogs.Checked;
+            webhook.IncludeLegendaryChallengeModeLogs = checkBoxIncludeLegendaryChallengeModeLogs.Checked;
             discordPingLink.listViewDiscordWebhooks.Items[discordPingLink.listViewDiscordWebhooks.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem()
             {
                 Name = reservedId.ToString(),

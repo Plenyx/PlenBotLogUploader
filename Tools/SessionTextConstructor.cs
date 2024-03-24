@@ -573,7 +573,13 @@ namespace PlenBotLogUploader.Tools
                 discordEmbedsSuccess.Insert(0, discordEmbedSummary);
                 discordEmbedsFailure.Insert(0, discordEmbedSummary);
             }
-            return new DiscordEmbeds() { Summary = discordEmbedSummary, SuccessFailure = discordEmbedsSuccessFailure, Success = discordEmbedsSuccess, Failure = discordEmbedsFailure };
+            return new DiscordEmbeds()
+            {
+                Summary = discordEmbedSummary,
+                SuccessFailure = discordEmbedsSuccessFailure,
+                Success = discordEmbedsSuccess,
+                Failure = discordEmbedsFailure,
+            };
         }
 
         public class DiscordEmbeds

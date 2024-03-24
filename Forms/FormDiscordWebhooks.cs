@@ -342,7 +342,12 @@ namespace PlenBotLogUploader
                 discordContentWvW.Embeds[0].Fields = discordContentEmbedNone;
                 var jsonContentWvWNone = JsonConvert.SerializeObject(discordContentWvW);
 
-                await SendLogViaWebhooks(reportJSON.Encounter.Success ?? false, reportJSON.Encounter.BossId, bossData, players, jsonContentWvWNone, jsonContentWvWSquad, jsonContentWvWPlayers, jsonContentWvWSquadAndPlayers);
+                await SendLogViaWebhooks(reportJSON.Encounter.Success ?? false,
+                    reportJSON.Encounter.BossId,
+                    false,
+                    false,
+                    bossData, players,
+                    jsonContentWvWNone, jsonContentWvWSquad, jsonContentWvWPlayers, jsonContentWvWSquadAndPlayers);
 
                 if (allWebhooks.Count > 0)
                 {
@@ -487,7 +492,12 @@ namespace PlenBotLogUploader
                 discordContent.Embeds[0].Fields = discordContentEmbedNone;
                 var jsonContentNone = JsonConvert.SerializeObject(discordContent);
 
-                await SendLogViaWebhooks(reportJSON.Encounter.Success ?? false, reportJSON.Encounter.BossId, bossData, players, jsonContentNone, jsonContentSquad, jsonContentPlayers, jsonContentSquadAndPlayers);
+                await SendLogViaWebhooks(reportJSON.Encounter.Success ?? false,
+                    reportJSON.Encounter.BossId,
+                    reportJSON.ChallengeMode,
+                    reportJSON?.ExtraJson?.IsLegendaryCm ?? false,
+                    bossData, players,
+                    jsonContentNone, jsonContentSquad, jsonContentPlayers, jsonContentSquadAndPlayers);
 
                 if (allWebhooks.Count > 0)
                 {
@@ -496,7 +506,7 @@ namespace PlenBotLogUploader
             }
         }
 
-        internal async Task SendLogViaWebhooks(bool success, int bossId, BossData bossData, List<LogPlayer> players, string jsonContentNone, string jsonContentSquad, string jsonContentPlayers, string jsonContentSquadAndPlayers)
+        internal async Task SendLogViaWebhooks(bool success, int bossId, bool isCm, bool isLegendaryCm, BossData bossData, List<LogPlayer> players, string jsonContentNone, string jsonContentSquad, string jsonContentPlayers, string jsonContentSquadAndPlayers)
         {
             foreach (var key in allWebhooks.Keys)
             {
@@ -504,6 +514,9 @@ namespace PlenBotLogUploader
                 if (!webhook.Active
                     || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnSuccessOnly) && !success)
                     || (webhook.SuccessFailToggle.Equals(DiscordWebhookDataSuccessToggle.OnFailOnly) && success)
+                    || (!webhook.IncludeNormalLogs && !isCm)
+                    || (!webhook.IncludeChallengeModeLogs && isCm && !isLegendaryCm)
+                    || (!webhook.IncludeLegendaryChallengeModeLogs && isLegendaryCm)
                     || webhook.BossesDisable.Contains(bossId)
                     || (!webhook.AllowUnknownBossIds && (bossData is null))
                     || (!webhook.Team.IsSatisfied(players)))
