@@ -260,6 +260,7 @@ namespace PlenBotLogUploader
                         ApplicationSettings.Current.Gw2Location = "";
                     }
                 }
+                checkBoxCloseToTrayIcon.Checked = ApplicationSettings.Current.CloseToTray;
                 twitchCommandsLink.checkBoxGW2BuildEnable.Checked = ApplicationSettings.Current.Twitch.Commands.BuildEnabled;
                 twitchCommandsLink.textBoxGW2Build.Text = ApplicationSettings.Current.Twitch.Commands.BuildCommand;
                 twitchCommandsLink.checkBoxUploaderEnable.Checked = ApplicationSettings.Current.Twitch.Commands.UploaderEnabled;
@@ -342,6 +343,7 @@ namespace PlenBotLogUploader
                 checkBoxUsePolling.CheckedChanged += CheckBoxUsePolling_CheckedChanged;
                 comboBoxMaxUploads.SelectedIndexChanged += ComboBoxMaxUploads_SelectedIndexChanged;
                 checkBoxAutoUpdate.CheckedChanged += CheckBoxAutoUpdate_CheckedChanged;
+                checkBoxCloseToTrayIcon.CheckedChanged += CheckBoxCloseToTrayIcon_CheckedChanged;
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += logSessionLink.CheckBoxSupressWebhooks_CheckedChanged;
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += logSessionLink.CheckBoxOnlySuccess_CheckedChanged;
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += logSessionLink.CheckBoxSaveToFile_CheckedChanged;
@@ -1360,7 +1362,7 @@ namespace PlenBotLogUploader
             buttonOpenLogs.Enabled = true;
         }
 
-        private void CheckBoxUsePolling_CheckedChanged(object sender, System.EventArgs e)
+        private void CheckBoxUsePolling_CheckedChanged(object sender, EventArgs e)
         {
             watcher.ChangeMode(checkBoxUsePolling.Checked ? ArcLogsChangeObserverMode.Polling : default);
 
@@ -1654,6 +1656,21 @@ namespace PlenBotLogUploader
         {
             ApplicationSettings.Current.Upload.PostLogsToTwitchOnlyWithStreamingSoftware = checkBoxOnlyWhenStreamSoftwareRunning.Checked;
             ApplicationSettings.Current.Save();
+        }
+
+        private void CheckBoxCloseToTrayIcon_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplicationSettings.Current.CloseToTray = checkBoxCloseToTrayIcon.Checked;
+            ApplicationSettings.Current.Save();
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (ApplicationSettings.Current.CloseToTray)
+            {
+                WindowState = FormWindowState.Minimized;
+                e.Cancel = true;
+            }
         }
         #endregion
     }

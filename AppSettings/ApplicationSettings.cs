@@ -102,6 +102,9 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("minimiseToTry")]
         internal bool MinimiseToTray { get; set; } = true;
 
+        [JsonProperty("closeToTry")]
+        internal bool CloseToTray { get; set; } = false;
+
         [JsonProperty("session")]
         internal ApplicationSettingsSession Session { get; set; } = new ApplicationSettingsSession();
 

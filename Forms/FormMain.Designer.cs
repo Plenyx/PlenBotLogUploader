@@ -68,6 +68,7 @@
             toolStripSeparatorFour = new System.Windows.Forms.ToolStripSeparator();
             toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            checkBoxCloseToTrayIcon = new System.Windows.Forms.CheckBox();
             checkBoxAutoUpdate = new System.Windows.Forms.CheckBox();
             buttonTeamsSettings = new System.Windows.Forms.Button();
             buttonGW2BotSettings = new System.Windows.Forms.Button();
@@ -362,7 +363,7 @@
             // 
             // buttonUpdate
             // 
-            buttonUpdate.Location = new System.Drawing.Point(6, 524);
+            buttonUpdate.Location = new System.Drawing.Point(8, 527);
             buttonUpdate.Margin = new System.Windows.Forms.Padding(5);
             buttonUpdate.Name = "buttonUpdate";
             buttonUpdate.Size = new System.Drawing.Size(295, 35);
@@ -489,6 +490,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            groupBoxOtherSettings.Controls.Add(checkBoxCloseToTrayIcon);
             groupBoxOtherSettings.Controls.Add(checkBoxAutoUpdate);
             groupBoxOtherSettings.Controls.Add(buttonTeamsSettings);
             groupBoxOtherSettings.Controls.Add(buttonGW2BotSettings);
@@ -512,10 +514,21 @@
             groupBoxOtherSettings.TabStop = false;
             groupBoxOtherSettings.Text = "Other settings";
             // 
+            // checkBoxCloseToTrayIcon
+            // 
+            checkBoxCloseToTrayIcon.AutoSize = true;
+            checkBoxCloseToTrayIcon.Location = new System.Drawing.Point(11, 54);
+            checkBoxCloseToTrayIcon.Margin = new System.Windows.Forms.Padding(5);
+            checkBoxCloseToTrayIcon.Name = "checkBoxCloseToTrayIcon";
+            checkBoxCloseToTrayIcon.Size = new System.Drawing.Size(144, 24);
+            checkBoxCloseToTrayIcon.TabIndex = 17;
+            checkBoxCloseToTrayIcon.Text = "close to tray icon";
+            checkBoxCloseToTrayIcon.UseVisualStyleBackColor = true;
+            // 
             // checkBoxAutoUpdate
             // 
             checkBoxAutoUpdate.AutoSize = true;
-            checkBoxAutoUpdate.Location = new System.Drawing.Point(7, 494);
+            checkBoxAutoUpdate.Location = new System.Drawing.Point(9, 497);
             checkBoxAutoUpdate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             checkBoxAutoUpdate.Name = "checkBoxAutoUpdate";
             checkBoxAutoUpdate.Size = new System.Drawing.Size(261, 24);
@@ -525,7 +538,7 @@
             // 
             // buttonTeamsSettings
             // 
-            buttonTeamsSettings.Location = new System.Drawing.Point(6, 272);
+            buttonTeamsSettings.Location = new System.Drawing.Point(8, 275);
             buttonTeamsSettings.Margin = new System.Windows.Forms.Padding(5);
             buttonTeamsSettings.Name = "buttonTeamsSettings";
             buttonTeamsSettings.Size = new System.Drawing.Size(295, 35);
@@ -538,7 +551,7 @@
             // 
             buttonGW2BotSettings.Image = Properties.Resources.gw2bot_icon16;
             buttonGW2BotSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonGW2BotSettings.Location = new System.Drawing.Point(6, 227);
+            buttonGW2BotSettings.Location = new System.Drawing.Point(8, 230);
             buttonGW2BotSettings.Margin = new System.Windows.Forms.Padding(5);
             buttonGW2BotSettings.Name = "buttonGW2BotSettings";
             buttonGW2BotSettings.Size = new System.Drawing.Size(295, 35);
@@ -551,7 +564,7 @@
             // 
             buttonAleevaSettings.Image = Properties.Resources.aleeva_icon16;
             buttonAleevaSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonAleevaSettings.Location = new System.Drawing.Point(6, 182);
+            buttonAleevaSettings.Location = new System.Drawing.Point(8, 185);
             buttonAleevaSettings.Margin = new System.Windows.Forms.Padding(5);
             buttonAleevaSettings.Name = "buttonAleevaSettings";
             buttonAleevaSettings.Size = new System.Drawing.Size(295, 35);
@@ -562,7 +575,7 @@
             // 
             // buttonGW2API
             // 
-            buttonGW2API.Location = new System.Drawing.Point(6, 317);
+            buttonGW2API.Location = new System.Drawing.Point(8, 320);
             buttonGW2API.Margin = new System.Windows.Forms.Padding(5);
             buttonGW2API.Name = "buttonGW2API";
             buttonGW2API.Size = new System.Drawing.Size(295, 35);
@@ -576,7 +589,7 @@
             comboBoxMaxUploads.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             comboBoxMaxUploads.FormattingEnabled = true;
             comboBoxMaxUploads.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" });
-            comboBoxMaxUploads.Location = new System.Drawing.Point(177, 100);
+            comboBoxMaxUploads.Location = new System.Drawing.Point(179, 103);
             comboBoxMaxUploads.Margin = new System.Windows.Forms.Padding(5);
             comboBoxMaxUploads.Name = "comboBoxMaxUploads";
             comboBoxMaxUploads.Size = new System.Drawing.Size(123, 28);
@@ -585,7 +598,7 @@
             // labelMaximumUploads
             // 
             labelMaximumUploads.AutoSize = true;
-            labelMaximumUploads.Location = new System.Drawing.Point(8, 105);
+            labelMaximumUploads.Location = new System.Drawing.Point(10, 108);
             labelMaximumUploads.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             labelMaximumUploads.Name = "labelMaximumUploads";
             labelMaximumUploads.Size = new System.Drawing.Size(168, 20);
@@ -594,7 +607,7 @@
             // 
             // buttonReset
             // 
-            buttonReset.Location = new System.Drawing.Point(6, 452);
+            buttonReset.Location = new System.Drawing.Point(8, 455);
             buttonReset.Margin = new System.Windows.Forms.Padding(5);
             buttonReset.Name = "buttonReset";
             buttonReset.Size = new System.Drawing.Size(295, 35);
@@ -606,7 +619,7 @@
             // checkBoxStartWhenWindowsStarts
             // 
             checkBoxStartWhenWindowsStarts.AutoSize = true;
-            checkBoxStartWhenWindowsStarts.Location = new System.Drawing.Point(11, 65);
+            checkBoxStartWhenWindowsStarts.Location = new System.Drawing.Point(11, 79);
             checkBoxStartWhenWindowsStarts.Margin = new System.Windows.Forms.Padding(5);
             checkBoxStartWhenWindowsStarts.Name = "checkBoxStartWhenWindowsStarts";
             checkBoxStartWhenWindowsStarts.Size = new System.Drawing.Size(244, 24);
@@ -616,7 +629,7 @@
             // 
             // buttonDiscordWebhooks
             // 
-            buttonDiscordWebhooks.Location = new System.Drawing.Point(6, 137);
+            buttonDiscordWebhooks.Location = new System.Drawing.Point(8, 140);
             buttonDiscordWebhooks.Margin = new System.Windows.Forms.Padding(5);
             buttonDiscordWebhooks.Name = "buttonDiscordWebhooks";
             buttonDiscordWebhooks.Size = new System.Drawing.Size(295, 35);
@@ -627,7 +640,7 @@
             // 
             // buttonArcDpsPluginManager
             // 
-            buttonArcDpsPluginManager.Location = new System.Drawing.Point(6, 362);
+            buttonArcDpsPluginManager.Location = new System.Drawing.Point(8, 365);
             buttonArcDpsPluginManager.Margin = new System.Windows.Forms.Padding(5);
             buttonArcDpsPluginManager.Name = "buttonArcDpsPluginManager";
             buttonArcDpsPluginManager.Size = new System.Drawing.Size(295, 35);
@@ -638,7 +651,7 @@
             // 
             // buttonPingSettings
             // 
-            buttonPingSettings.Location = new System.Drawing.Point(6, 407);
+            buttonPingSettings.Location = new System.Drawing.Point(8, 410);
             buttonPingSettings.Margin = new System.Windows.Forms.Padding(5);
             buttonPingSettings.Name = "buttonPingSettings";
             buttonPingSettings.Size = new System.Drawing.Size(295, 35);
@@ -742,6 +755,7 @@
             Name = "FormMain";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "PlenBot Log Uploader";
+            FormClosing += FormMain_FormClosing;
             FormClosed += FormMain_FormClosed;
             Load += FormMain_Load;
             DragDrop += FormMain_DragDrop;
@@ -822,6 +836,7 @@
         private System.Windows.Forms.Timer timerFailedLogsReupload;
         private System.Windows.Forms.CheckBox checkBoxUsePolling;
         private System.Windows.Forms.CheckBox checkBoxOnlyWhenStreamSoftwareRunning;
+        private System.Windows.Forms.CheckBox checkBoxCloseToTrayIcon;
     }
 }
 
