@@ -78,9 +78,9 @@ namespace PlenBotLogUploader.DpsReport
             {
                 if (reportJSON?.ExtraJson?.IsLegendaryCm ?? false)
                 {
-                    builder.Append("Legendary ");
+                    builder.Append(" Legendary");
                 }
-                builder.Append("CM");
+                builder.Append(" CM");
             }
             return builder.ToString();
         }
