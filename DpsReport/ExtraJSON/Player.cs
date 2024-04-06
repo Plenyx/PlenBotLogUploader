@@ -60,6 +60,10 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
                 {
                     return "Virt";
                 }
+                if ("Firebrand".Equals(Profession))
+                {
+                    return "FB";
+                }
                 return (!string.IsNullOrWhiteSpace(Profession) && Profession.Length > 2) ? Profession[..3] : "";
             }
         }
