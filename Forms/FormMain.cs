@@ -85,11 +85,12 @@ namespace PlenBotLogUploader
         private bool lastLogBossCM = false;
         private bool _updateFound = false;
         private GitHubReleaseLatest latestRelease = null;
-        private Dictionary<string, string> defaultPostData = new()
+        private readonly Dictionary<string, string> defaultPostData = new()
         {
             { "generator", "ei" },
             { "json", "1" },
         };
+        private bool bypassCloseToTray = false;
 
         // constants
         private const int minFileSize = 8192;
@@ -597,6 +598,7 @@ namespace PlenBotLogUploader
                 Invoke(ExitApp);
                 return;
             }
+            bypassCloseToTray = true;
             Close();
             Application.Exit();
         }
@@ -1419,7 +1421,11 @@ namespace PlenBotLogUploader
 
         private void ToolStripMenuItemUploadLogs_CheckedChanged(object sender, EventArgs e) => checkBoxUploadLogs.Checked = toolStripMenuItemUploadLogs.Checked;
 
-        private void ToolStripMenuItemExit_Click(object sender, EventArgs e) => Close();
+        private void ToolStripMenuItemExit_Click(object sender, EventArgs e)
+        {
+            bypassCloseToTray = true;
+            Close();
+        }
 
         private void ToolStripMenuItemPostToTwitch_CheckedChanged(object sender, EventArgs e) => checkBoxPostToTwitch.Checked = toolStripMenuItemPostToTwitch.Checked;
 
@@ -1666,7 +1672,7 @@ namespace PlenBotLogUploader
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (ApplicationSettings.Current.CloseToTray)
+            if (ApplicationSettings.Current.CloseToTray && !bypassCloseToTray)
             {
                 WindowState = FormWindowState.Minimized;
                 e.Cancel = true;

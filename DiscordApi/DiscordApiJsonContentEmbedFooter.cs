@@ -12,12 +12,21 @@ namespace PlenBotLogUploader.DiscordApi
         /// footer text
         /// </summary>
         [JsonProperty("text")]
-        internal string Text { get; set; } = $"PlenBot Log Uploader r.{ApplicationSettings.Version}";
+        internal string Text { get; set; }
 
         /// <summary>
         /// url of the footer icon (only supports http(s) and attachments)
         /// </summary>
         [JsonProperty("icon_url")]
-        internal string IconUrl { get; set; } = "https://plenbot.net/uploader/img/favicon.png";
+        internal string IconUrl { get; set; }
+
+        internal static DiscordApiJsonContentEmbedFooter WithCredit()
+        {
+            return new()
+            {
+                Text = $"PlenBot Log Uploader r.{ApplicationSettings.Version}",
+                IconUrl = "https://plenbot.net/uploader/img/favicon.png",
+            };
+        }
     }
 }

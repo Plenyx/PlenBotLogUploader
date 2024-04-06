@@ -60,7 +60,7 @@ namespace PlenBotLogUploader.DiscordApi
         /// footer information
         /// </summary>
         [JsonProperty("footer")]
-        internal DiscordApiJsonContentEmbedFooter Footer { get; set; } = new DiscordApiJsonContentEmbedFooter();
+        internal DiscordApiJsonContentEmbedFooter Footer { get; set; } = DiscordApiJsonContentEmbedFooter.WithCredit();
 
         /// <summary>
         /// fields information
