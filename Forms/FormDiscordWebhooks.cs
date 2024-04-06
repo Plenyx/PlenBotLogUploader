@@ -87,6 +87,13 @@ namespace PlenBotLogUploader
                     TimeStamp = timestamp,
                     Thumbnail = discordContentEmbedThumbnail,
                 };
+                var discordContentEmbedSpacer = new DiscordApiJsonContentEmbed()
+                {
+                    Title = "Log data",
+                    Description = DiscordApiJsonContent.Spacer,
+                    Colour = colour,
+                    TimeStamp = timestamp,
+                };
                 // fields
                 var discordContentEmbedSquadAndPlayers = new List<DiscordApiJsonContentEmbedField>();
                 var discordContentEmbedSquad = new List<DiscordApiJsonContentEmbedField>();
@@ -331,16 +338,18 @@ namespace PlenBotLogUploader
                 // post to discord
                 var discordContentWvW = new DiscordApiJsonContent()
                 {
-                    Embeds = [discordContentEmbed]
+                    Embeds = [discordContentEmbed],
                 };
-                discordContentWvW.Embeds[0].Fields = discordContentEmbedSquadAndPlayers;
-                var jsonContentWvWSquadAndPlayers = JsonConvert.SerializeObject(discordContentWvW);
-                discordContentWvW.Embeds[0].Fields = discordContentEmbedSquad;
-                var jsonContentWvWSquad = JsonConvert.SerializeObject(discordContentWvW);
-                discordContentWvW.Embeds[0].Fields = discordContentEmbedPlayers;
-                var jsonContentWvWPlayers = JsonConvert.SerializeObject(discordContentWvW);
                 discordContentWvW.Embeds[0].Fields = discordContentEmbedNone;
                 var jsonContentWvWNone = JsonConvert.SerializeObject(discordContentWvW);
+                discordContentWvW.Embeds.Add(discordContentEmbedSpacer);
+
+                discordContentWvW.Embeds[1].Fields = discordContentEmbedSquadAndPlayers;
+                var jsonContentWvWSquadAndPlayers = JsonConvert.SerializeObject(discordContentWvW);
+                discordContentWvW.Embeds[1].Fields = discordContentEmbedSquad;
+                var jsonContentWvWSquad = JsonConvert.SerializeObject(discordContentWvW);
+                discordContentWvW.Embeds[1].Fields = discordContentEmbedPlayers;
+                var jsonContentWvWPlayers = JsonConvert.SerializeObject(discordContentWvW);
 
                 await SendLogViaWebhooks(reportJSON.Encounter.Success ?? false,
                     reportJSON.Encounter.BossId,
@@ -388,6 +397,13 @@ namespace PlenBotLogUploader
                     TimeStamp = timestamp,
                     Thumbnail = discordContentEmbedThumbnail,
                 };
+                var discordContentEmbedSpacer = new DiscordApiJsonContentEmbed()
+                {
+                    Title = "Log data",
+                    Description = DiscordApiJsonContent.Spacer,
+                    Colour = colour,
+                    TimeStamp = timestamp,
+                };
                 var discordContentEmbedSquadAndPlayers = new List<DiscordApiJsonContentEmbedField>();
                 var discordContentEmbedSquad = new List<DiscordApiJsonContentEmbedField>();
                 var discordContentEmbedPlayers = new List<DiscordApiJsonContentEmbedField>();
@@ -419,8 +435,8 @@ namespace PlenBotLogUploader
                     {
                         // player list
                         var playerNames = new TextTable(2, tableStyle, tableBorders);
-                        playerNames.SetColumnWidthRange(0, 21, 21);
-                        playerNames.SetColumnWidthRange(1, 20, 20);
+                        playerNames.SetColumnWidthRange(0, 23, 23);
+                        playerNames.SetColumnWidthRange(1, 23, 23);
                         playerNames.AddCell("Character");
                         playerNames.AddCell("Account name");
                         foreach (var player in reportJSON.ExtraJson.Players.Where(x => !x.FriendlyNpc).OrderBy(x => x.Name))
@@ -451,8 +467,8 @@ namespace PlenBotLogUploader
                             .ToArray();
                         var dpsTargetSummary = new TextTable(3, tableStyle, TableVisibleBorders.HEADER_AND_FOOTER);
                         dpsTargetSummary.SetColumnWidthRange(0, 5, 5);
-                        dpsTargetSummary.SetColumnWidthRange(1, 27, 27);
-                        dpsTargetSummary.SetColumnWidthRange(2, 8, 8);
+                        dpsTargetSummary.SetColumnWidthRange(1, 31, 31);
+                        dpsTargetSummary.SetColumnWidthRange(2, 10, 10);
                         dpsTargetSummary.AddCell("#", tableCellCenterAlign);
                         dpsTargetSummary.AddCell("Name");
                         dpsTargetSummary.AddCell("DPS", tableCellRightAlign);
@@ -479,18 +495,21 @@ namespace PlenBotLogUploader
                         discordContentEmbedPlayers.Add(playersEmbedField);
                     }
                 }
+
                 var discordContent = new DiscordApiJsonContent()
                 {
                     Embeds = [discordContentEmbed],
                 };
-                discordContent.Embeds[0].Fields = discordContentEmbedSquadAndPlayers;
-                var jsonContentSquadAndPlayers = JsonConvert.SerializeObject(discordContent);
-                discordContent.Embeds[0].Fields = discordContentEmbedSquad;
-                var jsonContentSquad = JsonConvert.SerializeObject(discordContent);
-                discordContent.Embeds[0].Fields = discordContentEmbedPlayers;
-                var jsonContentPlayers = JsonConvert.SerializeObject(discordContent);
                 discordContent.Embeds[0].Fields = discordContentEmbedNone;
+                discordContent.Embeds.Add(discordContentEmbedSpacer);
                 var jsonContentNone = JsonConvert.SerializeObject(discordContent);
+
+                discordContent.Embeds[1].Fields = discordContentEmbedSquadAndPlayers;
+                var jsonContentSquadAndPlayers = JsonConvert.SerializeObject(discordContent);
+                discordContent.Embeds[1].Fields = discordContentEmbedSquad;
+                var jsonContentSquad = JsonConvert.SerializeObject(discordContent);
+                discordContent.Embeds[1].Fields = discordContentEmbedPlayers;
+                var jsonContentPlayers = JsonConvert.SerializeObject(discordContent);
 
                 await SendLogViaWebhooks(reportJSON.Encounter.Success ?? false,
                     reportJSON.Encounter.BossId,

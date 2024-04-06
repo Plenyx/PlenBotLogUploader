@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text;
 
 namespace PlenBotLogUploader.DiscordApi
 {
@@ -8,6 +9,27 @@ namespace PlenBotLogUploader.DiscordApi
     /// </summary>
     internal sealed class DiscordApiJsonContent
     {
+        private static string _spacer = null;
+
+        internal static string Spacer
+        {
+            get
+            {
+                if (_spacer is null)
+                {
+                    var spacerBuilder = new StringBuilder();
+
+                    for (int i = 0; i < 26; i++)
+                    {
+                        spacerBuilder.Append("〰️");
+                    }
+
+                    _spacer = spacerBuilder.ToString();
+                }
+                return _spacer;
+            }
+        }
+
         /// <summary>
         /// the message contents (up to 2000 characters)
         /// </summary>
