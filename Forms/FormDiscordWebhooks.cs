@@ -89,7 +89,7 @@ namespace PlenBotLogUploader
                 };
                 var discordContentEmbedSpacer = new DiscordApiJsonContentEmbed()
                 {
-                    Title = "Log data",
+                    Title = "Log summary",
                     Description = DiscordApiJsonContent.Spacer,
                     Colour = colour,
                     TimeStamp = timestamp,
@@ -121,9 +121,9 @@ namespace PlenBotLogUploader
                         .Select(x => x.Defenses[0].DeadCount)
                         .Sum();
                     var squadSummary = new TextTable(5, tableStyle, tableBorders);
-                    squadSummary.SetColumnWidthRange(0, 3, 3);
-                    squadSummary.SetColumnWidthRange(1, 10, 10);
-                    squadSummary.SetColumnWidthRange(2, 10, 10);
+                    squadSummary.SetColumnWidthRange(0, 4, 4);
+                    squadSummary.SetColumnWidthRange(1, 13, 13);
+                    squadSummary.SetColumnWidthRange(2, 11, 11);
                     squadSummary.SetColumnWidthRange(3, 8, 8);
                     squadSummary.SetColumnWidthRange(4, 8, 8);
                     squadSummary.AddCell("#", tableCellCenterAlign);
@@ -168,9 +168,9 @@ namespace PlenBotLogUploader
                             .Select(x => x.StatsTargets.Select(y => y[0].Killed).Sum())
                             .Sum();
                         var enemySummary = new TextTable(5, tableStyle, tableBorders);
-                        enemySummary.SetColumnWidthRange(0, 3, 3);
-                        enemySummary.SetColumnWidthRange(1, 10, 10);
-                        enemySummary.SetColumnWidthRange(2, 10, 10);
+                        enemySummary.SetColumnWidthRange(0, 4, 4);
+                        enemySummary.SetColumnWidthRange(1, 13, 13);
+                        enemySummary.SetColumnWidthRange(2, 11, 11);
                         enemySummary.SetColumnWidthRange(3, 8, 8);
                         enemySummary.SetColumnWidthRange(4, 8, 8);
                         enemySummary.AddCell("#", tableCellCenterAlign);
@@ -197,9 +197,9 @@ namespace PlenBotLogUploader
                         .ToArray();
                     var damageSummary = new TextTable(4, tableStyle, tableBorders);
                     damageSummary.SetColumnWidthRange(0, 3, 3);
-                    damageSummary.SetColumnWidthRange(1, 25, 25);
-                    damageSummary.SetColumnWidthRange(2, 7, 7);
-                    damageSummary.SetColumnWidthRange(3, 6, 6);
+                    damageSummary.SetColumnWidthRange(1, 22, 22);
+                    damageSummary.SetColumnWidthRange(2, 11, 11);
+                    damageSummary.SetColumnWidthRange(3, 9, 9);
                     damageSummary.AddCell("#", tableCellCenterAlign);
                     damageSummary.AddCell("Name");
                     damageSummary.AddCell("DMG", tableCellRightAlign);
@@ -226,8 +226,8 @@ namespace PlenBotLogUploader
                         .ToArray();
                     var cleansesSummary = new TextTable(3, tableStyle, tableBorders);
                     cleansesSummary.SetColumnWidthRange(0, 3, 3);
-                    cleansesSummary.SetColumnWidthRange(1, 27, 27);
-                    cleansesSummary.SetColumnWidthRange(2, 12, 12);
+                    cleansesSummary.SetColumnWidthRange(1, 29, 29);
+                    cleansesSummary.SetColumnWidthRange(2, 14, 14);
                     cleansesSummary.AddCell("#", tableCellCenterAlign);
                     cleansesSummary.AddCell("Name");
                     cleansesSummary.AddCell("Cleanses", tableCellRightAlign);
@@ -252,8 +252,8 @@ namespace PlenBotLogUploader
                         .ToArray();
                     var boonStripsSummary = new TextTable(3, tableStyle, tableBorders);
                     boonStripsSummary.SetColumnWidthRange(0, 3, 3);
-                    boonStripsSummary.SetColumnWidthRange(1, 27, 27);
-                    boonStripsSummary.SetColumnWidthRange(2, 12, 12);
+                    boonStripsSummary.SetColumnWidthRange(1, 29, 29);
+                    boonStripsSummary.SetColumnWidthRange(2, 14, 14);
                     boonStripsSummary.AddCell("#", tableCellCenterAlign);
                     boonStripsSummary.AddCell("Name");
                     boonStripsSummary.AddCell("Strips", tableCellRightAlign);
@@ -281,8 +281,8 @@ namespace PlenBotLogUploader
                             .ToArray();
                         var healingSummary = new TextTable(3, tableStyle, tableBorders);
                         healingSummary.SetColumnWidthRange(0, 3, 3);
-                        healingSummary.SetColumnWidthRange(1, 27, 27);
-                        healingSummary.SetColumnWidthRange(2, 12, 12);
+                        healingSummary.SetColumnWidthRange(1, 29, 29);
+                        healingSummary.SetColumnWidthRange(2, 14, 14);
                         healingSummary.AddCell("#", tableCellCenterAlign);
                         healingSummary.AddCell("Name");
                         healingSummary.AddCell("Healing", tableCellRightAlign);
@@ -311,8 +311,8 @@ namespace PlenBotLogUploader
                             .ToArray();
                         var barrierSummary = new TextTable(3, tableStyle, tableBorders);
                         barrierSummary.SetColumnWidthRange(0, 3, 3);
-                        barrierSummary.SetColumnWidthRange(1, 27, 27);
-                        barrierSummary.SetColumnWidthRange(2, 12, 12);
+                        barrierSummary.SetColumnWidthRange(1, 29, 29);
+                        barrierSummary.SetColumnWidthRange(2, 14, 14);
                         barrierSummary.AddCell("#", tableCellCenterAlign);
                         barrierSummary.AddCell("Name");
                         barrierSummary.AddCell("Barrier", tableCellRightAlign);
@@ -399,7 +399,7 @@ namespace PlenBotLogUploader
                 };
                 var discordContentEmbedSpacer = new DiscordApiJsonContentEmbed()
                 {
-                    Title = "Log data",
+                    Title = "Log summary",
                     Description = DiscordApiJsonContent.Spacer,
                     Colour = colour,
                     TimeStamp = timestamp,
