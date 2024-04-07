@@ -501,8 +501,8 @@ namespace PlenBotLogUploader
                     Embeds = [discordContentEmbed],
                 };
                 discordContent.Embeds[0].Fields = discordContentEmbedNone;
-                discordContent.Embeds.Add(discordContentEmbedSpacer);
                 var jsonContentNone = JsonConvert.SerializeObject(discordContent);
+                discordContent.Embeds.Add(discordContentEmbedSpacer);
 
                 discordContent.Embeds[1].Fields = discordContentEmbedSquadAndPlayers;
                 var jsonContentSquadAndPlayers = JsonConvert.SerializeObject(discordContent);
