@@ -93,9 +93,14 @@ namespace PlenBotLogUploader.DpsReport
         internal string UrlId => Permalink?[(Permalink.IndexOf("dps.report/") + 11)..] ?? "";
 
         /// <summary>
-        /// whether the enouncter was in challenge mode
+        /// whether the encounter was in challenge mode
         /// </summary>
         internal bool ChallengeMode => (ExtraJson?.IsCm ?? false) || (Encounter?.IsCm ?? false);
+
+        /// <summary>
+        /// whether the encounter was in legendary challenge mode
+        /// </summary>
+        internal bool LegendaryChallengeMode => ExtraJson?.IsLegendaryCm ?? false;
 
         internal List<LogPlayer> GetLogPlayers()
         {

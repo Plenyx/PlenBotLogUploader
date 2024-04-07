@@ -76,7 +76,7 @@ namespace PlenBotLogUploader.DpsReport
             var builder = new StringBuilder(Name);
             if (reportJSON.ChallengeMode)
             {
-                if (reportJSON?.ExtraJson?.IsLegendaryCm ?? false)
+                if (reportJSON.LegendaryChallengeMode)
                 {
                     builder.Append(" Legendary");
                 }

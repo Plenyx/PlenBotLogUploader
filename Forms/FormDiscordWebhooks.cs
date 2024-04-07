@@ -514,7 +514,7 @@ namespace PlenBotLogUploader
                 await SendLogViaWebhooks(reportJSON.Encounter.Success ?? false,
                     reportJSON.Encounter.BossId,
                     reportJSON.ChallengeMode,
-                    reportJSON?.ExtraJson?.IsLegendaryCm ?? false,
+                    reportJSON.LegendaryChallengeMode,
                     bossData, players,
                     jsonContentNone, jsonContentSquad, jsonContentPlayers, jsonContentSquadAndPlayers);
 

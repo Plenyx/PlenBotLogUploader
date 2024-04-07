@@ -41,6 +41,9 @@ namespace PlenBotLogUploader.DpsReport
         [JsonProperty("isCM")]
         internal bool IsCm { get; set; }
 
+        [JsonProperty("isLegendaryCM")]
+        internal bool IsLegendaryCm { get; set; }
+
         [JsonProperty("targets")]
         internal Target[] Targets { get; set; }
 
@@ -59,25 +62,7 @@ namespace PlenBotLogUploader.DpsReport
             }
         }
 
-        private Target[] TargetsByTotalHealth => Targets.OrderByDescending(x => x.TotalHealth).ToArray();
-
-
-        internal bool IsLegendaryCm
-        {
-            get
-            {
-                if (TriggerId != (int)BossIds.Cerus)
-                {
-                    return false;
-                }
-                var cerus = TargetsByTotalHealth.FirstOrDefault();
-                if (cerus is null)
-                {
-                    return false;
-                }
-                return cerus.TotalHealth >= 120_000_000;
-            }
-        }
+        private IOrderedEnumerable<Target> TargetsByTotalHealth => Targets.OrderByDescending(x => x.TotalHealth);
 
         internal Dictionary<Player, int> GetPlayerTargetDPS()
         {
