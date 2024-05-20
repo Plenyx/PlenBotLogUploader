@@ -17,7 +17,7 @@ namespace PlenBotLogUploader.AppSettings
         internal string ArcPathChainLoaded => ChainLoad switch
         {
             ApplicationSettingsArcUpdateChainLoad.AddonLoader => @"\addons\arcdps\gw2addon_arcdps.dll",
-            ApplicationSettingsArcUpdateChainLoad.Nexus => @"\d3d11_chainload.dll",
+            ApplicationSettingsArcUpdateChainLoad.Nexus => @"\addons\arcdps.dll",
             _ => @"\d3d11.dll",
         };
 
