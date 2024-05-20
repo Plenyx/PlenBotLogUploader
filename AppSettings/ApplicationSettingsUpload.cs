@@ -12,7 +12,7 @@ namespace PlenBotLogUploader.AppSettings
         internal bool DetailedWvw { get; set; } = false;
 
         [JsonProperty("dpsReportServer")]
-        internal DpsReportServer DpsReportServer { get; set; } = DpsReportServer.Main;
+        internal DpsReportServer DpsReportServer { get; set; } = DpsReportServer.B;
 
         internal string DPSReportServerLink => DpsReportServer switch
         {
