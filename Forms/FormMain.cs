@@ -609,23 +609,35 @@ namespace PlenBotLogUploader
             var args = Environment.GetCommandLineArgs();
             if (args.Length <= 1)
             {
+                LogReuploader.ProcessLogs(HttpUploadLogAsync);
                 return;
             }
-            if (((args.Length == 2) || (args.Length == 3)) && args[1].Equals("-m"))
-            {
-                StartedMinimised = true;
-                WindowState = FormWindowState.Minimized;
-                if (checkBoxTrayMinimiseToIcon.Checked)
-                {
-                    ShowInTaskbar = false;
-                    Hide();
-                }
-                return;
-            }
+            var argCount = 0;
+            var skipOne = false;
             foreach (var arg in args)
             {
-                if (arg.Equals(Application.ExecutablePath))
+                argCount++;
+                if (skipOne || arg.Equals(Application.ExecutablePath))
                 {
+                    continue;
+                }
+                if (arg.Equals("-m"))
+                {
+                    StartedMinimised = true;
+                    WindowState = FormWindowState.Minimized;
+                    if (checkBoxTrayMinimiseToIcon.Checked)
+                    {
+                        ShowInTaskbar = false;
+                        Hide();
+                    }
+                }
+                if (arg.Equals("-ml"))
+                {
+                    if (args.Length > argCount)
+                    {
+                        MumbleReader = new MumbleReader(false, args[argCount + 1]);
+                        skipOne = true;
+                    }
                     continue;
                 }
                 if (File.Exists(arg) && (arg.EndsWith(".evtc") || arg.EndsWith(".zevtc")))
