@@ -61,6 +61,9 @@
         KanaxaiCM = 25577,
         Dagda = 25705,
         Cerus = 25989,
+        DemonBrothersDeimos = 26226,
+        Eparch = 26231,
+        DemonBrothersCerus = 26257,
         TheDragonvoid = 43488,
         ConjuredAmalgamate = 43974,
     }

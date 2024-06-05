@@ -122,6 +122,22 @@
     "isEvent": false
   },
   {
+    "bossId": 26257,
+    "name": "Demon Brothers",
+    "internalDescription": "Cerus",
+    "icon": "",
+    "type": 2,
+    "isEvent": false
+  },
+  {
+    "bossId": 26226,
+    "name": "Demon Brothers",
+    "internalDescription": "Deimos",
+    "icon": "",
+    "type": 2,
+    "isEvent": false
+  },
+  {
     "bossId": 19450,
     "name": "Dhuum",
     "icon": "https://wiki.guildwars2.com/images/e/e4/Mini_Dhuum.png",
@@ -139,6 +155,13 @@
     "bossId": 16948,
     "name": "Ensolyss of the Endless Torment",
     "icon": "https://i.imgur.com/GUTNuyP.png",
+    "type": 2,
+    "isEvent": false
+  },
+  {
+    "bossId": 26231,
+    "name": "Eparch",
+    "icon": "",
     "type": 2,
     "isEvent": false
   },
