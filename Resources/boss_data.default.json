@@ -125,7 +125,7 @@
     "bossId": 26257,
     "name": "Demon Brothers",
     "internalDescription": "Cerus",
-    "icon": "",
+    "icon": "https://i.imgur.com/fzqnnCR.png",
     "type": 2,
     "isEvent": false
   },
@@ -133,7 +133,7 @@
     "bossId": 26226,
     "name": "Demon Brothers",
     "internalDescription": "Deimos",
-    "icon": "",
+    "icon": "https://i.imgur.com/fzqnnCR.png",
     "type": 2,
     "isEvent": false
   },
@@ -161,7 +161,7 @@
   {
     "bossId": 26231,
     "name": "Eparch",
-    "icon": "",
+    "icon": "https://wiki.guildwars2.com/images/5/5a/Mini_Eparch.png",
     "type": 2,
     "isEvent": false
   },
