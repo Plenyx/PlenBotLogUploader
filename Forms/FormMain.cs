@@ -612,11 +612,11 @@ namespace PlenBotLogUploader
                 LogReuploader.ProcessLogs(HttpUploadLogAsync);
                 return;
             }
-            var argCount = 0;
+            var argIndex = -1;
             var skipOne = false;
             foreach (var arg in args)
             {
-                argCount++;
+                argIndex++;
                 if (skipOne || arg.Equals(Application.ExecutablePath))
                 {
                     continue;
@@ -633,9 +633,9 @@ namespace PlenBotLogUploader
                 }
                 if (arg.Equals("-ml"))
                 {
-                    if (args.Length > argCount)
+                    if (args.Length > (argIndex + 1))
                     {
-                        MumbleReader = new MumbleReader(false, args[argCount + 1]);
+                        MumbleReader = new MumbleReader(false, args[argIndex + 1]);
                         skipOne = true;
                     }
                     continue;
