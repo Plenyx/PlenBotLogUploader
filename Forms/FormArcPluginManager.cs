@@ -30,6 +30,10 @@ namespace PlenBotLogUploader
         {
             this.mainLink = mainLink;
             var installedComponents = ArcDpsComponent.DeserialiseAll(ApplicationSettings.LocalDir);
+            if (installedComponents is null)
+            {
+                installedComponents = new();
+            }
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             var availableComponents = ArcDpsComponentHelperClass.All;
