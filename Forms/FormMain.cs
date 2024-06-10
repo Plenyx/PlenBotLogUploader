@@ -758,9 +758,20 @@ namespace PlenBotLogUploader
                     if (!responseMessage.IsSuccessStatusCode)
                     {
                         var statusCode = (int)responseMessage.StatusCode;
-                        if ((statusCode == 408) || (statusCode == 429))
+                        if ((statusCode == 408) || (statusCode == 429) || (statusCode >= 500))
                         {
-                            AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with Too-Many-Logs-Per-Minute error (429). Log will be reuploaded in 15 minutes.");
+                            if (statusCode == 408)
+                            {
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a Timeout error (408). Log will be reuploaded shortly.");
+                            }
+                            if (statusCode == 429)
+                            {
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with Too-Many-Logs-Per-Minute error (429). Log will be reuploaded shortly.");
+                            }
+                            if (statusCode >= 500)
+                            {
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a server error (>500). Log will be reuploaded shortly.");
+                            }
                             LogReuploader.FailedLogs.Add(file);
                             LogReuploader.SaveFailedLogs();
                             timerFailedLogsReupload.Enabled = true;
