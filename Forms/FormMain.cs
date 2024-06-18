@@ -77,7 +77,7 @@ namespace PlenBotLogUploader
         private TwitchChatClient chatConnect;
         private readonly ArcLogsChangeObserver watcher;
         private int reconnectedFailCounter = 0;
-        private int recentUploadFailCounter = 0;
+        private readonly Dictionary<string, int> uploadFailCounters = [];
         private int logsCount = 0;
         private string lastLogMessage = "";
         private int lastLogBossId = 0;
@@ -882,27 +882,37 @@ namespace PlenBotLogUploader
                 catch
                 {
                     AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
-                    Interlocked.Increment(ref recentUploadFailCounter);
-                    if (recentUploadFailCounter > 3)
+                    if (uploadFailCounters.TryGetValue(file, out int uploadFailCounter))
                     {
-                        Interlocked.Exchange(ref recentUploadFailCounter, 0);
-                        AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}, will try again in 15m.");
-                        LogReuploader.FailedLogs.Add(file);
-                        LogReuploader.SaveFailedLogs();
-                        timerFailedLogsReupload.Enabled = true;
-                        timerFailedLogsReupload.Stop();
-                        timerFailedLogsReupload.Start();
+                        uploadFailCounters[file]++;
+                        if (uploadFailCounter > 3)
+                        {
+                            uploadFailCounters.Remove(file);
+                            AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}, will try again in 15m.");
+                            LogReuploader.FailedLogs.Add(file);
+                            LogReuploader.SaveFailedLogs();
+                            timerFailedLogsReupload.Enabled = true;
+                            timerFailedLogsReupload.Stop();
+                            timerFailedLogsReupload.Start();
+                        }
+                        else
+                        {
+                            var delay = uploadFailCounter switch
+                            {
+                                3 => 45000,
+                                2 => 15000,
+                                _ => 3000,
+                            };
+                            AddToText($">:> Retrying in {delay / 1000}s...");
+                            await Task.Delay(delay);
+                            await HttpUploadLogAsync(file, postData, bypassMessage);
+                        }
                     }
                     else
                     {
-                        var delay = recentUploadFailCounter switch
-                        {
-                            3 => 45000,
-                            2 => 15000,
-                            _ => 3000,
-                        };
-                        AddToText($">:> Retrying in {delay / 1000}s...");
-                        await Task.Delay(delay);
+                        uploadFailCounters.Add(file, 1);
+                        AddToText($">:> Retrying in 3s...");
+                        await Task.Delay(3000);
                         await HttpUploadLogAsync(file, postData, bypassMessage);
                     }
                 }
