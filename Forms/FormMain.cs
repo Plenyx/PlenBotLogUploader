@@ -779,17 +779,6 @@ namespace PlenBotLogUploader
                             timerFailedLogsReupload.Start();
                             return;
                         }
-                        if (statusCode == 403)
-                        {
-                            // remove from failed logs if present
-                            var removed = LogReuploader.FailedLogs.Remove(file);
-                            if (removed)
-                            {
-                                LogReuploader.SaveFailedLogs();
-                            }
-                            AddToText($">:> Ignoring file {Path.GetFileName(file)}, dps.report is unable to process it.");
-                            return;
-                        }
                         AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with an non-ok status code ({(int)responseMessage.StatusCode}).");
                         return;
                     }
