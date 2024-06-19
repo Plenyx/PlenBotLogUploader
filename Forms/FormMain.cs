@@ -1713,7 +1713,12 @@ namespace PlenBotLogUploader
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (ApplicationSettings.Current.CloseToTray && !bypassCloseToTray)
+            if (WindowState == FormWindowState.Minimized)
+            {
+                // shutdown during minimised status is permitted
+                e.Cancel = false;
+            }
+            else if (ApplicationSettings.Current.CloseToTray && !bypassCloseToTray)
             {
                 WindowState = FormWindowState.Minimized;
                 e.Cancel = true;
