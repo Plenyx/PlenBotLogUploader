@@ -790,8 +790,15 @@ namespace PlenBotLogUploader
                         var reportJson = JsonConvert.DeserializeObject<DpsReportJson>(response);
                         if (!string.IsNullOrEmpty(reportJson.Error))
                         {
-                            AddToText($">:> Unable to process file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJson.Error}");
-                            return;
+                            AddToText($">:> Error processing file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJson.Error}");
+                            if (string.IsNullOrWhiteSpace(reportJson.Permalink))
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                AddToText($">:> Despite the error, log link has been generated, processing upload...");
+                            }
                         }
                         bossId = reportJson.Encounter.BossId;
                         var success = (reportJson.Encounter.Success ?? false) ? "true" : "false";
