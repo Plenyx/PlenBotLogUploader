@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PlenBotLogUploader.Tools
@@ -56,16 +57,21 @@ namespace PlenBotLogUploader.Tools
             }
         }
 
-        internal static void ProcessLogs(Func<string, Dictionary<string, string>, bool, Task> process)
+        internal static async Task ProcessLogs(SemaphoreSlim semaphore, Func<string, Dictionary<string, string>, bool, Task> process)
         {
-            foreach (var fileName in FailedLogs.ToArray().AsSpan())
+            foreach (var fileName in FailedLogs.ToArray())
             {
                 if (!File.Exists(fileName))
                 {
                     FailedLogs.Remove(fileName);
                     continue;
                 }
-                _ = process(fileName, postData, false);
+                await Task.Run(async () =>
+                {
+                    semaphore.Wait();
+                    await process(fileName, postData, false);
+                    semaphore.Release();
+                });
             }
         }
     }

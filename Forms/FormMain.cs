@@ -609,7 +609,7 @@ namespace PlenBotLogUploader
             var args = Environment.GetCommandLineArgs();
             if (args.Length <= 1)
             {
-                LogReuploader.ProcessLogs(HttpUploadLogAsync);
+                await LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
                 return;
             }
             var argIndex = -1;
@@ -668,7 +668,7 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            LogReuploader.ProcessLogs(HttpUploadLogAsync);
+            await LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
         }
 
         protected async Task ValidateGW2Tokens()
@@ -1664,11 +1664,11 @@ namespace PlenBotLogUploader
             _ = NewReleaseCheckAsync(false, true);
         }
 
-        private void TimerFailedLogsReupload_Tick(object sender, EventArgs e)
+        private async void TimerFailedLogsReupload_Tick(object sender, EventArgs e)
         {
             timerFailedLogsReupload.Stop();
             timerFailedLogsReupload.Enabled = false;
-            LogReuploader.ProcessLogs(HttpUploadLogAsync);
+            await LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
         }
 
         private void ComboBoxMaxUploads_SelectedIndexChanged(object sender, EventArgs e)
