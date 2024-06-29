@@ -758,19 +758,23 @@ namespace PlenBotLogUploader
                     if (!responseMessage.IsSuccessStatusCode)
                     {
                         var statusCode = (int)responseMessage.StatusCode;
-                        if ((statusCode == 408) || (statusCode == 429) || (statusCode >= 500))
+                        if ((statusCode == 403) || (statusCode == 408) || (statusCode == 429) || (statusCode >= 500))
                         {
-                            if (statusCode == 408)
+                            if (statusCode == 403)
+                            {
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a Forbidden error (403). Log will be reuploaded shortly.");
+                            }
+                            else if (statusCode == 408)
                             {
                                 AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a Timeout error (408). Log will be reuploaded shortly.");
                             }
-                            if (statusCode == 429)
+                            else if (statusCode == 429)
                             {
-                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with Too-Many-Logs-Per-Minute error (429). Log will be reuploaded shortly.");
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with Too-Many-Logs-Per-Minute error (429). Log will be reuploaded after a delay.");
                             }
-                            if (statusCode >= 500)
+                            else if (statusCode >= 500)
                             {
-                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a server error (>500). Log will be reuploaded shortly.");
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a server processing error (>500). Log will be reuploaded after a delay.");
                             }
                             LogReuploader.FailedLogs.Add(file);
                             LogReuploader.SaveFailedLogs();
