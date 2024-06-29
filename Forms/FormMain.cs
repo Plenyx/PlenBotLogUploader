@@ -787,8 +787,6 @@ namespace PlenBotLogUploader
                         return;
                     }
                     var response = await responseMessage.Content.ReadAsStringAsync();
-                    // workaround for deserialisation and consequent application crash if the player list is an empty array, in case the log being corrupted
-                    response = response?.Replace("\"players\": []", "\"players\": {}");
                     try
                     {
                         var reportJson = JsonConvert.DeserializeObject<DpsReportJson>(response);
