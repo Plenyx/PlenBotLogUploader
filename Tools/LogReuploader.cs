@@ -12,14 +12,14 @@ namespace PlenBotLogUploader.Tools
     {
         internal static readonly string fileLocation = $@"{ApplicationSettings.LocalDir}\faileduploads.txt";
 
-        private static List<string> _failedLogs;
+        private static HashSet<string> _failedLogs;
         private static readonly Dictionary<string, string> postData = new()
             {
                 { "generator", "ei" },
                 { "json", "1" }
             };
 
-        internal static List<string> FailedLogs
+        internal static HashSet<string> FailedLogs
         {
             get
             {
@@ -29,7 +29,7 @@ namespace PlenBotLogUploader.Tools
                     {
                         try
                         {
-                            _failedLogs = File.ReadAllLines(fileLocation).Where(File.Exists).Distinct().ToList();
+                            _failedLogs = File.ReadAllLines(fileLocation).Where(File.Exists).ToHashSet();
                         }
                         catch
                         {

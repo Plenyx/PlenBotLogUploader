@@ -746,7 +746,6 @@ namespace PlenBotLogUploader
             AddToText($">:> Uploading {Path.GetFileName(file)}");
             var request = new RestRequest(CreateDPSReportLink());
             request.AddBody(postData);
-            var bossId = 1;
             try
             {
                 request.AddFile("file", file);
@@ -799,7 +798,7 @@ namespace PlenBotLogUploader
                                 AddToText($">:> Despite the error, log link has been generated, processing upload...");
                             }
                         }
-                        bossId = reportJson.Encounter.BossId;
+                        var bossId = reportJson.Encounter.BossId;
                         var success = (reportJson.Encounter.Success ?? false) ? "true" : "false";
                         lastLogBossCM = reportJson.ChallengeMode;
                         // extra JSON from Elite Insights
@@ -891,10 +890,10 @@ namespace PlenBotLogUploader
                     if (uploadFailCounters.TryGetValue(file, out int uploadFailCounter))
                     {
                         uploadFailCounters[file]++;
-                        if (uploadFailCounter > 3)
+                        if (uploadFailCounter > 4)
                         {
                             uploadFailCounters.Remove(file);
-                            AddToText($">:> Upload retry failed 3 times for {Path.GetFileName(file)}, will try again in 15m.");
+                            AddToText($">:> Upload retry failed 4 times for {Path.GetFileName(file)}, will try again in 15 minutes.");
                             LogReuploader.FailedLogs.Add(file);
                             LogReuploader.SaveFailedLogs();
                             timerFailedLogsReupload.Enabled = true;
@@ -905,8 +904,9 @@ namespace PlenBotLogUploader
                         {
                             var delay = uploadFailCounter switch
                             {
-                                3 => 45000,
-                                2 => 15000,
+                                4 => 180000,
+                                3 => 90000,
+                                2 => 30000,
                                 _ => 3000,
                             };
                             AddToText($">:> Retrying in {delay / 1000}s...");
