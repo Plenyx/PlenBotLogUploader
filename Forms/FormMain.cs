@@ -16,7 +16,6 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -376,6 +375,7 @@ namespace PlenBotLogUploader
             chatConnect?.Dispose();
             semaphore?.Dispose();
             HttpClientController?.Dispose();
+            logPoster?.Dispose();
             watcher?.Dispose();
             MumbleReader?.Dispose();
         }
