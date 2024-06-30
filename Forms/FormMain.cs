@@ -8,6 +8,7 @@ using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.GitHub;
 using PlenBotLogUploader.Gw2Api;
 using PlenBotLogUploader.Tools;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -73,6 +74,7 @@ namespace PlenBotLogUploader
         private readonly List<string> allSessionLogs = [];
         private readonly Regex songSmartCommandRegex = songRegex();
         private readonly Regex buildSmartCommandRegex = buildRegex();
+        private readonly RestClient logPoster;
         private SemaphoreSlim semaphore;
         private TwitchChatClient chatConnect;
         private readonly ArcLogsChangeObserver watcher;
@@ -141,6 +143,7 @@ namespace PlenBotLogUploader
             toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the application.");
             toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
             #endregion
+            logPoster = new RestClient();
             try
             {
                 Size = ApplicationSettings.Current.MainFormSize;
@@ -740,21 +743,16 @@ namespace PlenBotLogUploader
 
         internal async Task HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
-            using var content = new MultipartFormDataContent();
-            foreach (var key in postData.Keys)
-            {
-                content.Add(new StringContent(postData[key]), key);
-            }
             AddToText($">:> Uploading {Path.GetFileName(file)}");
+            var request = new RestRequest(CreateDPSReportLink());
+            request.AddBody(postData);
             var bossId = 1;
             try
             {
-                using var inputStream = File.OpenRead(file);
-                using var contentStream = new StreamContent(inputStream);
-                content.Add(contentStream, "file", Path.GetFileName(file));
+                request.AddFile("file", file);
                 try
                 {
-                    using var responseMessage = await HttpClientController.PostAsync(CreateDPSReportLink(), content);
+                    var responseMessage = await logPoster.PostAsync(request);
                     if (!responseMessage.IsSuccessStatusCode)
                     {
                         var statusCode = (int)responseMessage.StatusCode;
@@ -786,10 +784,9 @@ namespace PlenBotLogUploader
                         AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with an non-ok status code ({(int)responseMessage.StatusCode}).");
                         return;
                     }
-                    var response = await responseMessage.Content.ReadAsStringAsync();
                     try
                     {
-                        var reportJson = JsonConvert.DeserializeObject<DpsReportJson>(response);
+                        var reportJson = JsonConvert.DeserializeObject<DpsReportJson>(responseMessage.Content);
                         if (!string.IsNullOrEmpty(reportJson.Error))
                         {
                             AddToText($">:> Error processing file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJson.Error}");
