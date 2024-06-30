@@ -29,7 +29,7 @@ namespace PlenBotLogUploader.Tools
                     {
                         try
                         {
-                            _failedLogs = File.ReadAllLines(fileLocation).Where(File.Exists).ToList();
+                            _failedLogs = File.ReadAllLines(fileLocation).Where(File.Exists).Distinct().ToList();
                         }
                         catch
                         {
