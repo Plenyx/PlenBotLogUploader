@@ -612,7 +612,7 @@ namespace PlenBotLogUploader
             var args = Environment.GetCommandLineArgs();
             if (args.Length <= 1)
             {
-                await LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
+                await HandleLogReuploads();
                 return;
             }
             var argIndex = -1;
@@ -671,7 +671,7 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            await LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
+            await HandleLogReuploads();
         }
 
         protected async Task ValidateGW2Tokens()
@@ -755,7 +755,7 @@ namespace PlenBotLogUploader
                     if (!responseMessage.IsSuccessStatusCode)
                     {
                         var statusCode = (int)responseMessage.StatusCode;
-                        if ((statusCode == 403) || (statusCode == 408) || (statusCode == 429) || (statusCode >= 500))
+                        if ((statusCode == 403) || (statusCode == 408))
                         {
                             if (statusCode == 403)
                             {
@@ -765,19 +765,22 @@ namespace PlenBotLogUploader
                             {
                                 AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a Timeout error (408). Log will be reuploaded shortly.");
                             }
-                            else if (statusCode == 429)
+                            await HandleQuickLogUploadRetry(file, postData, bypassMessage);
+                            return;
+                        }
+                        else if ((statusCode == 429) || (statusCode >= 500))
+                        {
+                            if (statusCode == 429)
                             {
-                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with Too-Many-Logs-Per-Minute error (429). Log will be reuploaded after a delay.");
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with Too-Many-Logs-Per-Minute error (429). Log has been added to the reuploader queue.");
                             }
                             else if (statusCode >= 500)
                             {
-                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a server processing error (>500). Log will be reuploaded after a delay.");
+                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a server processing error (>=500). Log has been added to the reuploader queue.");
                             }
                             LogReuploader.FailedLogs.Add(file);
                             LogReuploader.SaveFailedLogs();
-                            timerFailedLogsReupload.Enabled = true;
-                            timerFailedLogsReupload.Stop();
-                            timerFailedLogsReupload.Start();
+                            EnsureReuploadTimerStart();
                             return;
                         }
                         AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with an non-ok status code ({(int)responseMessage.StatusCode}).");
@@ -887,45 +890,50 @@ namespace PlenBotLogUploader
                 catch
                 {
                     AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report not responding");
-                    if (uploadFailCounters.TryGetValue(file, out int uploadFailCounter))
-                    {
-                        uploadFailCounters[file]++;
-                        if (uploadFailCounter > 4)
-                        {
-                            uploadFailCounters.Remove(file);
-                            AddToText($">:> Upload retry failed 4 times for {Path.GetFileName(file)}, will try again in 15 minutes.");
-                            LogReuploader.FailedLogs.Add(file);
-                            LogReuploader.SaveFailedLogs();
-                            timerFailedLogsReupload.Enabled = true;
-                            timerFailedLogsReupload.Stop();
-                            timerFailedLogsReupload.Start();
-                        }
-                        else
-                        {
-                            var delay = uploadFailCounter switch
-                            {
-                                4 => 180000,
-                                3 => 90000,
-                                2 => 30000,
-                                _ => 3000,
-                            };
-                            AddToText($">:> Retrying in {delay / 1000}s...");
-                            await Task.Delay(delay);
-                            await HttpUploadLogAsync(file, postData, bypassMessage);
-                        }
-                    }
-                    else
-                    {
-                        uploadFailCounters.Add(file, 1);
-                        AddToText($">:> Retrying in 3s...");
-                        await Task.Delay(3000);
-                        await HttpUploadLogAsync(file, postData, bypassMessage);
-                    }
+                    await HandleQuickLogUploadRetry(file, postData, bypassMessage);
                 }
             }
             catch
             {
                 Thread.Sleep(1000);
+                await HttpUploadLogAsync(file, postData, bypassMessage);
+            }
+        }
+
+        internal async Task HandleQuickLogUploadRetry(string file, Dictionary<string, string> postData, bool bypassMessage)
+        {
+            if (uploadFailCounters.TryGetValue(file, out int uploadFailCounter))
+            {
+                if (uploadFailCounter > 4)
+                {
+                    uploadFailCounters.Remove(file);
+                    AddToText($">:> Upload retry failed 4 times for {Path.GetFileName(file)}, will try again during log reupload timer.");
+                    LogReuploader.FailedLogs.Add(file);
+                    LogReuploader.SaveFailedLogs();
+                    timerFailedLogsReupload.Enabled = true;
+                    timerFailedLogsReupload.Stop();
+                    timerFailedLogsReupload.Start();
+                }
+                else
+                {
+                    uploadFailCounters[file]++;
+                    var delay = uploadFailCounters[file] switch
+                    {
+                        4 => 180000,
+                        3 => 90000,
+                        2 => 30000,
+                        _ => 3000,
+                    };
+                    AddToText($">:> Retrying in {delay / 1000}s...");
+                    await Task.Delay(delay);
+                    await HttpUploadLogAsync(file, postData, bypassMessage);
+                }
+            }
+            else
+            {
+                uploadFailCounters.Add(file, 1);
+                AddToText($">:> Retrying in 3s...");
+                await Task.Delay(3000);
                 await HttpUploadLogAsync(file, postData, bypassMessage);
             }
         }
@@ -1661,9 +1669,40 @@ namespace PlenBotLogUploader
 
         private async void TimerFailedLogsReupload_Tick(object sender, EventArgs e)
         {
+            await HandleReuploadTimerStop();
+        }
+
+        private void EnsureReuploadTimerStart()
+        {
+            if (timerFailedLogsReupload.Enabled)
+            {
+                return;
+            }
+            timerFailedLogsReupload.Enabled = true;
             timerFailedLogsReupload.Stop();
+            timerFailedLogsReupload.Start();
+        }
+
+        private async Task HandleReuploadTimerStop()
+        {
+            if (!timerFailedLogsReupload.Enabled)
+            {
+                return;
+            }
             timerFailedLogsReupload.Enabled = false;
+            timerFailedLogsReupload.Stop();
+            await HandleLogReuploads();
+        }
+
+        private async Task HandleLogReuploads()
+        {
+            if (LogReuploader.FailedLogs.Count == 0)
+            {
+                return;
+            }
+            AddToText($">:> Starting log reuploads of {LogReuploader.FailedLogs.Count} log{(LogReuploader.FailedLogs.Count > 1 ? "s" : "")}...");
             await LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
+            AddToText(">:> Log reuploading has ended.");
         }
 
         private void ComboBoxMaxUploads_SelectedIndexChanged(object sender, EventArgs e)
