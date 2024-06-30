@@ -69,7 +69,7 @@ namespace PlenBotLogUploader.Tools
                 await Task.Run(async () =>
                 {
                     semaphore.Wait();
-                    await process(fileName, postData, false);
+                    await process(fileName, postData, true);
                     semaphore.Release();
                 });
             }
