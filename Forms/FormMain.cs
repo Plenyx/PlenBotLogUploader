@@ -788,7 +788,9 @@ namespace PlenBotLogUploader
                     }
                     try
                     {
-                        var reportJson = JsonConvert.DeserializeObject<DpsReportJson>(responseMessage.Content);
+                        var messageContent = responseMessage.Content;
+                        messageContent = messageContent?.Replace("\"players\": []", "\"players\": {}");
+                        var reportJson = JsonConvert.DeserializeObject<DpsReportJson>(messageContent);
                         if (!string.IsNullOrEmpty(reportJson.Error))
                         {
                             AddToText($">:> Error processing file {Path.GetFileName(file)}, dps.report responded with following error message: {reportJson.Error}");
