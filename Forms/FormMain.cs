@@ -8,6 +8,7 @@ using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.GitHub;
 using PlenBotLogUploader.Gw2Api;
 using PlenBotLogUploader.Tools;
+using PlenBotLogUploader.Twitch;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -71,8 +71,6 @@ namespace PlenBotLogUploader
         private readonly FormGw2Bot gw2botLink;
         private readonly FormTeams teamsLink;
         private readonly List<string> allSessionLogs = [];
-        private readonly Regex songSmartCommandRegex = songRegex();
-        private readonly Regex buildSmartCommandRegex = buildRegex();
         private readonly RestClient logPoster;
         private SemaphoreSlim semaphore;
         private TwitchChatClient chatConnect;
@@ -80,9 +78,33 @@ namespace PlenBotLogUploader
         private int reconnectedFailCounter = 0;
         private readonly Dictionary<string, int> uploadFailCounters = [];
         private int logsCount = 0;
-        private string lastLogMessage = "";
+        private string _lastLogMessage = "";
+        private string LastLogMessage
+        {
+            get
+            {
+                return _lastLogMessage;
+            }
+            set
+            {
+                _lastLogMessage = value;
+                twitchCommandReplacements["%lastLog%"] = value;
+            }
+        }
         private int lastLogBossId = 0;
-        private int lastLogPullCounter = 0;
+        private int _lastLogPullCounter = 0;
+        private int LastLogPullCounter
+        {
+            get
+            {
+                return _lastLogPullCounter;
+            }
+            set
+            {
+                _lastLogPullCounter = value;
+                twitchCommandReplacements["%pullCounter%"] = value.ToString();
+            }
+        }
         private bool lastLogBossCM = false;
         private bool _updateFound = false;
         private GitHubReleaseLatest latestRelease = null;
@@ -91,18 +113,18 @@ namespace PlenBotLogUploader
             { "generator", "ei" },
             { "json", "1" },
         };
+        private readonly Dictionary<string, string> twitchCommandReplacements = new()
+        {
+            { "%appVersion%", ApplicationSettings.Version.ToString() },
+            { "%pullCounter%", "0" },
+            { "%lastLog%", "No log has been posted yet." },
+        };
         private bool bypassCloseToTray = false;
 
         // constants
         private const int minFileSize = 8192;
         private const string plenbotVersionFileURL = "https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION";
         private const string plenbotDownloadName = "PlenBotLogUploader.exe";
-
-        // partials
-        [GeneratedRegex(@"(?:(?:build)){1}(?:(?:\?)|(?: is))+", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant)]
-        private static partial Regex buildRegex();
-        [GeneratedRegex(@"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant)]
-        private static partial Regex songRegex();
         #endregion
 
         #region constructor
@@ -140,7 +162,6 @@ namespace PlenBotLogUploader
             toolTip.SetToolTip(labelMaximumUploads, "Sets the maximum allowed uploads for drag & drop.");
             toolTip.SetToolTip(buttonCopyApplicationSession, "Copies all the logs uploaded during the application session into the clipboard.");
             toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the application.");
-            toolTip.SetToolTip(twitchCommandsLink.checkBoxSongEnable, "If checked, the given command will output current song from Spotify to Twitch chat.");
             #endregion
             logPoster = new RestClient();
             try
@@ -264,19 +285,6 @@ namespace PlenBotLogUploader
                     }
                 }
                 checkBoxCloseToTrayIcon.Checked = ApplicationSettings.Current.CloseToTray;
-                twitchCommandsLink.checkBoxGW2BuildEnable.Checked = ApplicationSettings.Current.Twitch.Commands.BuildEnabled;
-                twitchCommandsLink.textBoxGW2Build.Text = ApplicationSettings.Current.Twitch.Commands.BuildCommand;
-                twitchCommandsLink.checkBoxUploaderEnable.Checked = ApplicationSettings.Current.Twitch.Commands.UploaderEnabled;
-                twitchCommandsLink.textBoxUploaderCommand.Text = ApplicationSettings.Current.Twitch.Commands.UploaderCommand;
-                twitchCommandsLink.checkBoxLastLogEnable.Checked = ApplicationSettings.Current.Twitch.Commands.LastLogEnabled;
-                twitchCommandsLink.textBoxLastLogCommand.Text = ApplicationSettings.Current.Twitch.Commands.LastLogCommand;
-                twitchCommandsLink.checkBoxSongEnable.Checked = ApplicationSettings.Current.Twitch.Commands.SongEnabled;
-                twitchCommandsLink.textBoxSongCommand.Text = ApplicationSettings.Current.Twitch.Commands.SongCommand;
-                twitchCommandsLink.checkBoxSongSmartRecognition.Checked = ApplicationSettings.Current.Twitch.Commands.SongSmartRecognition;
-                twitchCommandsLink.checkBoxGW2IgnEnable.Checked = ApplicationSettings.Current.Twitch.Commands.IgnEnabled;
-                twitchCommandsLink.textBoxGW2Ign.Text = ApplicationSettings.Current.Twitch.Commands.IgnCommand;
-                twitchCommandsLink.checkBoxPullCounterEnable.Checked = ApplicationSettings.Current.Twitch.Commands.PullCounterEnabled;
-                twitchCommandsLink.textBoxPullCounter.Text = ApplicationSettings.Current.Twitch.Commands.PullCounterCommand;
                 logSessionLink.textBoxSessionName.Text = ApplicationSettings.Current.Session.Name;
                 logSessionLink.checkBoxSupressWebhooks.Checked = ApplicationSettings.Current.Session.SupressWebhooks;
                 logSessionLink.checkBoxOnlySuccess.Checked = ApplicationSettings.Current.Session.OnlySuccess;
@@ -729,15 +737,15 @@ namespace PlenBotLogUploader
             var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJson?.TriggerId ?? reportJSON.Encounter.BossId);
             if (bossData is null)
             {
-                lastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
-                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
+                _lastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
+                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, _lastLogMessage);
                 return;
             }
-            var format = bossData.TwitchMessageFormat(reportJSON, lastLogPullCounter);
+            var format = bossData.TwitchMessageFormat(reportJSON, LastLogPullCounter);
             if (!string.IsNullOrWhiteSpace(format))
             {
-                lastLogMessage = format;
-                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
+                _lastLogMessage = format;
+                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, _lastLogMessage);
             }
         }
 
@@ -846,13 +854,13 @@ namespace PlenBotLogUploader
                         // save to clipboard list
                         allSessionLogs.Add(reportJson.ConfigAwarePermalink);
                         // Twitch chat
-                        lastLogMessage = $"Link to the last log: {reportJson.ConfigAwarePermalink}";
+                        _lastLogMessage = $"Link to the last log: {reportJson.ConfigAwarePermalink}";
                         if (lastLogBossId != bossId)
                         {
-                            lastLogPullCounter = 0;
+                            LastLogPullCounter = 0;
                         }
                         lastLogBossId = bossId;
-                        lastLogPullCounter = (reportJson.Encounter.Success ?? false) ? 0 : lastLogPullCounter + 1;
+                        LastLogPullCounter = (reportJson.Encounter.Success ?? false) ? 0 : LastLogPullCounter + 1;
                         AddToText($">:> {reportJson.ConfigAwarePermalink}");
                         if (checkBoxTwitchOnlySuccess.Checked && (reportJson.Encounter.Success ?? false))
                         {
@@ -1170,121 +1178,95 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            if (twitchCommandsLink.checkBoxSongEnable.Checked && twitchCommandsLink.checkBoxSongSmartRecognition.Checked && songSmartCommandRegex.IsMatch(ircMessage.ChannelMessage))
+            var twitchCommands = TwitchCommands.FindResponsesForInput(ircMessage.ChannelMessage);
+            if (twitchCommands.Count == 0)
             {
-                await SpotifySongCheck();
                 return;
             }
-            if (twitchCommandsLink.checkBoxGW2BuildEnable.Checked && twitchCommandsLink.checkBoxGW2BuildSmartRecognition.Checked && buildSmartCommandRegex.IsMatch(ircMessage.ChannelMessage))
+            foreach (var twitchCommand in twitchCommands)
             {
-                await GenerateBuildCode();
-                return;
-            }
-            var indexOfSpace = ircMessage.ChannelMessage.IndexOf(' ');
-            var command = (indexOfSpace == -1) ? ircMessage.ChannelMessage.ToLower() : ircMessage.ChannelMessage[0..indexOfSpace].ToLower();
-            if (command.Equals(twitchCommandsLink.textBoxUploaderCommand.Text.ToLower()) && twitchCommandsLink.checkBoxUploaderEnable.Checked)
-            {
-                AddToText("> UPLOADER COMMAND USED");
-                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"PlenBot Log Uploader r{ApplicationSettings.Version} | https://plenbot.net/uploader/ | https://github.com/Plenyx/PlenBotLogUploader/");
-                return;
-            }
-            if (command.Equals(twitchCommandsLink.textBoxGW2Build.Text.ToLower()) && twitchCommandsLink.checkBoxGW2BuildEnable.Checked)
-            {
-                await GenerateBuildCode();
-                return;
-            }
-            if (command.Equals(twitchCommandsLink.textBoxLastLogCommand.Text.ToLower()) && twitchCommandsLink.checkBoxLastLogEnable.Checked)
-            {
-                AddToText("> LAST LOG COMMAND USED");
-                if (!string.IsNullOrWhiteSpace(lastLogMessage))
+                AddToText($"> \"{twitchCommand.Name}\" TWITCH COMMAND USED");
+                var reply = twitchCommand.FormattedResponse(ircMessage.UserName.Split('!')[0], twitchCommandReplacements);
+                if (reply is null)
                 {
-                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, lastLogMessage);
-                }
-                return;
-            }
-            if (command.Equals(twitchCommandsLink.textBoxPullCounter.Text.ToLower()) && twitchCommandsLink.checkBoxPullCounterEnable.Checked)
-            {
-                AddToText("> PULLS COMMAND USED");
-                if (lastLogBossId > 0)
-                {
-                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"{Bosses.GetBossDataFromId(lastLogBossId).Name}{(lastLogBossCM ? " CM" : "")} | Current pull: {lastLogPullCounter}");
-                }
-                return;
-            }
-            if (command.Equals(twitchCommandsLink.textBoxSongCommand.Text.ToLower()) && twitchCommandsLink.checkBoxSongEnable.Checked)
-            {
-                await SpotifySongCheck();
-                return;
-            }
-            if (command.Equals(twitchCommandsLink.textBoxGW2Ign.Text.ToLower()) && twitchCommandsLink.checkBoxGW2IgnEnable.Checked)
-            {
-                AddToText("> (GW2) IGN COMMAND USED");
-                MumbleReader?.Update();
-                if (string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
-                {
-                    AddToText("Read from Mumble Link has failed, is the game running?");
                     return;
                 }
-                _ = Task.Run(async () =>
+                if (reply.Contains("%spotifySong%"))
                 {
-                    foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.Where(x => x.Valid))
-                    {
-                        await apiKey.GetCharacters(HttpClientController);
-                    }
-                    var trueApiKey = ApplicationSettings.Current.Gw2Apis.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
-                    if (trueApiKey is null)
-                    {
-                        return;
-                    }
-                    using var gw2Api = new Gw2ApiHelper(trueApiKey.ApiKey);
-                    var userInfo = await gw2Api.GetUserInfoAsync();
-                    if (userInfo is not null)
-                    {
-                        if (Gw2.AllServers.TryGetValue(userInfo.World ?? 0, out var playerWorld))
-                        {
-                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})");
-                        }
-                        else
-                        {
-                            await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, $"GW2 Account name: {userInfo.Name})");
-                        }
-                    }
-                    else
-                    {
-                        await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "An error has occured while getting the user name from an API key.");
-                    }
-                });
-                return;
+                    reply = reply.Replace("%spotifySong%", SpotifySongCheck());
+                }
+                if (reply.Contains("%gw2Build%"))
+                {
+                    reply = reply.Replace("%gw2Build%", await GenerateBuildCode() ?? "Link could not be generated.");
+                }
+                if (reply.Contains("%gw2Ign%"))
+                {
+                    reply = reply.Replace("%gw2Ign%", await GenerateIgnResponse() ?? "IGN could not be obtained.");
+                }
+                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, reply);
             }
         }
 
-        private async Task SpotifySongCheck()
+        private string SpotifySongCheck()
         {
-            AddToText("> (Spotify) SONG COMMAND USED");
             try
             {
                 var spotifyProcess = Array.Find(Process.GetProcessesByName("Spotify"), x => !string.IsNullOrWhiteSpace(x.MainWindowTitle));
                 if (spotifyProcess.MainWindowTitle.Contains("Spotify"))
                 {
-                    await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "No song is being played.");
-                    return;
+                    return "No song is being played.";
                 }
-                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, spotifyProcess.MainWindowTitle);
+                return spotifyProcess.MainWindowTitle;
             }
             catch
             {
-                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, "Spotify is not running.");
+                return "Spotify is not running.";
             }
         }
 
-        private async Task GenerateBuildCode()
+        private async Task<string> GenerateIgnResponse()
         {
-            AddToText("> (GW2) BUILD COMMAND USED");
             MumbleReader?.Update();
             if (string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
             {
                 AddToText("Read from Mumble Link has failed, is the game running?");
-                return;
+                return null;
+            }
+            foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.Where(x => x.Valid))
+            {
+                await apiKey.GetCharacters(HttpClientController);
+            }
+            var trueApiKey = ApplicationSettings.Current.Gw2Apis.Find(x => x.Characters.Contains(MumbleReader.Data.Identity.Name));
+            if (trueApiKey is null)
+            {
+                return null;
+            }
+            using var gw2Api = new Gw2ApiHelper(trueApiKey.ApiKey);
+            var userInfo = await gw2Api.GetUserInfoAsync();
+            if (userInfo is not null)
+            {
+                if (Gw2.AllServers.TryGetValue(userInfo.World ?? 0, out var playerWorld))
+                {
+                    return $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})";
+                }
+                else
+                {
+                    return $"GW2 Account name: {userInfo.Name})";
+                }
+            }
+            else
+            {
+                return "An error has occured while getting the user name from an API key.";
+            }
+        }
+
+        private async Task<string> GenerateBuildCode()
+        {
+            MumbleReader?.Update();
+            if (string.IsNullOrWhiteSpace(MumbleReader?.Data.Identity?.Name))
+            {
+                AddToText("Read from Mumble Link has failed, is the game running?");
+                return null;
             }
             foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.Where(x => x.Valid))
             {
@@ -1294,7 +1276,7 @@ namespace PlenBotLogUploader
             if (trueApiKey == null)
             {
                 AddToText($"No api key could be found for character '{MumbleReader.Data.Identity.Name}'");
-                return;
+                return null;
             }
 
             try
@@ -1312,8 +1294,8 @@ namespace PlenBotLogUploader
                     code.WeaponSet2.Sigil2 = Static.LegendaryToSuperior(code.WeaponSet2.Sigil2);
                 }
                 Static.Compress(code, ApplicationSettings.Current.BuildCodes.Compression);
-                var message = $"Link to the build: https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
-                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, message);
+                var message = $"https://hardstuck.gg/gw2/builds/?b={TextLoader.WriteBuildCode(code)}";
+                return message;
             }
             catch (InvalidAccessTokenException)
             {
@@ -1332,6 +1314,7 @@ namespace PlenBotLogUploader
             {
                 AddToText($"A unexpected error occured. {ex.GetType()}: {ex.Message}");
             }
+            return null;
         }
         #endregion
 
