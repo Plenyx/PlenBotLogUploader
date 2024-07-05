@@ -29,11 +29,7 @@ namespace PlenBotLogUploader
         internal FormArcPluginManager(FormMain mainLink)
         {
             this.mainLink = mainLink;
-            var installedComponents = ArcDpsComponent.DeserialiseAll(ApplicationSettings.LocalDir);
-            if (installedComponents is null)
-            {
-                installedComponents = new();
-            }
+            var installedComponents = ArcDpsComponent.DeserialiseAll(ApplicationSettings.LocalDir) ?? new();
             InitializeComponent();
             Icon = Properties.Resources.AppIcon;
             var availableComponents = ArcDpsComponentHelperClass.All;
