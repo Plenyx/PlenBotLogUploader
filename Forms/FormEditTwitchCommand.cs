@@ -1,5 +1,6 @@
 ﻿using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.Twitch;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace PlenBotLogUploader.Forms
@@ -10,6 +11,8 @@ namespace PlenBotLogUploader.Forms
         // fields
         private readonly FormTwitchCommands editLink;
         private readonly TwitchCommand data;
+        // consts
+        private const string variableListLink = "https://github.com/Plenyx/PlenBotLogUploader/blob/main/Twitch/TwitchResponseVariables.md";
         #endregion
 
         internal FormEditTwitchCommand(FormTwitchCommands editLink, TwitchCommand data)
@@ -57,5 +60,7 @@ namespace PlenBotLogUploader.Forms
                 (data as IListViewItemInfo<TwitchCommand>).UpdateItems();
             }
         }
+
+        private void LinkLabelInfoLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => Process.Start(new ProcessStartInfo() { UseShellExecute = true, FileName = variableListLink });
     }
 }

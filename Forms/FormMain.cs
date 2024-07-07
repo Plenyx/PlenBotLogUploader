@@ -118,6 +118,7 @@ namespace PlenBotLogUploader
             { "%appVersion%", ApplicationSettings.Version.ToString() },
             { "%pullCounter%", "0" },
             { "%lastLog%", "No log has been posted yet." },
+            { "%channel%", "" },
         };
         private bool bypassCloseToTray = false;
 
@@ -1150,12 +1151,14 @@ namespace PlenBotLogUploader
             if (newState.Equals(IrcState.ChannelJoining))
             {
                 AddToText($"<-?-> TRYING TO JOIN CHANNEL {channelName.ToUpper()}");
+                twitchCommandReplacements["%channel%"] = "";
                 return;
             }
             if (newState.Equals(IrcState.ChannelJoined))
             {
                 AddToText("<-?-> CHANNEL JOINED");
                 TwitchChannelJoined = true;
+                twitchCommandReplacements["%channel%"] = ApplicationSettings.Current.Twitch.ChannelName;
                 return;
             }
             if (newState.Equals(IrcState.ChannelLeaving))
@@ -1185,11 +1188,16 @@ namespace PlenBotLogUploader
             }
             foreach (var twitchCommand in twitchCommands)
             {
+                var commandTriggerTwitchName = ircMessage.UserName.Split('!')[0];
                 AddToText($"> \"{twitchCommand.Name}\" TWITCH COMMAND USED");
-                var reply = twitchCommand.FormattedResponse(ircMessage.UserName.Split('!')[0], twitchCommandReplacements);
+                var reply = twitchCommand.FormattedResponse(commandTriggerTwitchName, twitchCommandReplacements);
                 if (reply is null)
                 {
                     return;
+                }
+                if (reply.Contains("%sender%"))
+                {
+                    reply = reply.Replace("%sender%", commandTriggerTwitchName);
                 }
                 if (reply.Contains("%spotifySong%"))
                 {

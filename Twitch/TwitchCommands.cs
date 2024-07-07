@@ -31,7 +31,7 @@ namespace PlenBotLogUploader.Twitch
             },
             new()
             {
-                Enabled = true,
+                Enabled = false,
                 Name = "!song",
                 IsRegex = false,
                 Command = "!song",
@@ -40,7 +40,7 @@ namespace PlenBotLogUploader.Twitch
             },
             new()
             {
-                Enabled = true,
+                Enabled = false,
                 Name = "Smart song recognition",
                 IsRegex = true,
                 Command = @"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+",
@@ -49,7 +49,7 @@ namespace PlenBotLogUploader.Twitch
             },
             new()
             {
-                Enabled = true,
+                Enabled = false,
                 Name = "!ign",
                 IsRegex = false,
                 Command = "!ign",
@@ -58,7 +58,7 @@ namespace PlenBotLogUploader.Twitch
             },
             new()
             {
-                Enabled = true,
+                Enabled = false,
                 Name = "!build",
                 IsRegex = false,
                 Command = "!build",
@@ -67,7 +67,7 @@ namespace PlenBotLogUploader.Twitch
             },
             new()
             {
-                Enabled = true,
+                Enabled = false,
                 Name = "Smart build recognition",
                 IsRegex = true,
                 Command = @"(?:(?:build)){1}(?:(?:\?)|(?: is))+",

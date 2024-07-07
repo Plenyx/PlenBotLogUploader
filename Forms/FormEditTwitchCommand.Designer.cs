@@ -38,6 +38,8 @@
             groupBoxResponseType = new System.Windows.Forms.GroupBox();
             radioButtonResponseTypeReplyAt = new System.Windows.Forms.RadioButton();
             radioButtonResponseTypeReplyPlain = new System.Windows.Forms.RadioButton();
+            labelInfoNonLink = new System.Windows.Forms.Label();
+            linkLabelInfoLink = new System.Windows.Forms.LinkLabel();
             groupBoxTwichCommandName.SuspendLayout();
             groupBoxCommandTrigger.SuspendLayout();
             groupBoxResponse.SuspendLayout();
@@ -107,7 +109,7 @@
             groupBoxResponse.Size = new System.Drawing.Size(533, 112);
             groupBoxResponse.TabIndex = 13;
             groupBoxResponse.TabStop = false;
-            groupBoxResponse.Text = "Twitch command reply";
+            groupBoxResponse.Text = "Twitch command response";
             // 
             // textBoxResponse
             // 
@@ -153,12 +155,35 @@
             radioButtonResponseTypeReplyPlain.Text = "Plain";
             radioButtonResponseTypeReplyPlain.UseVisualStyleBackColor = true;
             // 
+            // labelInfoNonLink
+            // 
+            labelInfoNonLink.AutoSize = true;
+            labelInfoNonLink.Location = new System.Drawing.Point(59, 432);
+            labelInfoNonLink.Name = "labelInfoNonLink";
+            labelInfoNonLink.Size = new System.Drawing.Size(418, 20);
+            labelInfoNonLink.TabIndex = 15;
+            labelInfoNonLink.Text = "For all available variables for responses please look up the list";
+            // 
+            // linkLabelInfoLink
+            // 
+            linkLabelInfoLink.AutoSize = true;
+            linkLabelInfoLink.Location = new System.Drawing.Point(472, 432);
+            linkLabelInfoLink.Name = "linkLabelInfoLink";
+            linkLabelInfoLink.Size = new System.Drawing.Size(38, 20);
+            linkLabelInfoLink.TabIndex = 16;
+            linkLabelInfoLink.TabStop = true;
+            linkLabelInfoLink.Text = "here";
+            linkLabelInfoLink.VisitedLinkColor = System.Drawing.Color.Blue;
+            linkLabelInfoLink.LinkClicked += LinkLabelInfoLink_LinkClicked;
+            // 
             // FormEditTwitchCommand
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
-            ClientSize = new System.Drawing.Size(558, 532);
+            ClientSize = new System.Drawing.Size(558, 461);
+            Controls.Add(linkLabelInfoLink);
+            Controls.Add(labelInfoNonLink);
             Controls.Add(groupBoxResponseType);
             Controls.Add(groupBoxResponse);
             Controls.Add(groupBoxCommandTrigger);
@@ -178,6 +203,7 @@
             groupBoxResponseType.ResumeLayout(false);
             groupBoxResponseType.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -192,5 +218,7 @@
         private System.Windows.Forms.GroupBox groupBoxResponseType;
         private System.Windows.Forms.RadioButton radioButtonResponseTypeReplyAt;
         private System.Windows.Forms.RadioButton radioButtonResponseTypeReplyPlain;
+        private System.Windows.Forms.Label labelInfoNonLink;
+        private System.Windows.Forms.LinkLabel linkLabelInfoLink;
     }
 }
