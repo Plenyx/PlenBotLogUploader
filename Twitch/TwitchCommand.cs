@@ -69,7 +69,7 @@ namespace PlenBotLogUploader.Twitch
             if (ResponseType == TwitchResponseType.ReplyAt)
             {
                 var builder = new StringBuilder();
-                builder.Append('@').Append(receiver).Append(':').Append(' ');
+                builder.Append('@').Append(receiver).Append(' ');
                 prepend = builder.ToString();
             }
             if (string.IsNullOrWhiteSpace(response))

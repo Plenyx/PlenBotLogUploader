@@ -56,7 +56,7 @@
             groupBoxTwichCommandName.Size = new System.Drawing.Size(533, 66);
             groupBoxTwichCommandName.TabIndex = 11;
             groupBoxTwichCommandName.TabStop = false;
-            groupBoxTwichCommandName.Text = "Twitch command name";
+            groupBoxTwichCommandName.Text = "Twitch command name (will not save unless it is set)";
             // 
             // textBoxTwitchCommandName
             // 
