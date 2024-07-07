@@ -15,8 +15,8 @@ namespace PlenBotLogUploader.Twitch
         [JsonProperty("name")]
         internal string Name { get; set; } = string.Empty;
 
-        [JsonProperty("isRegex")]
-        internal bool IsRegex { get; set; } = false;
+        [JsonProperty("isRegEx")]
+        internal bool IsRegEx { get; set; } = false;
 
         private string _command = string.Empty;
         [JsonProperty("command")]
@@ -31,7 +31,7 @@ namespace PlenBotLogUploader.Twitch
                 if ((_command != value) && (value is not null))
                 {
                     _command = value;
-                    Regex = IsRegex ? new Regex(_command, RegexOptions.CultureInvariant | RegexOptions.Multiline | RegexOptions.IgnoreCase) : null;
+                    Regex = IsRegEx ? new Regex(_command, RegexOptions.CultureInvariant | RegexOptions.Multiline | RegexOptions.IgnoreCase) : null;
                 }
             }
         }

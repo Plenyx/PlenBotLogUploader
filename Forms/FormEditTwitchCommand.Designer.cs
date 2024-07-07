@@ -31,7 +31,7 @@
             groupBoxTwichCommandName = new System.Windows.Forms.GroupBox();
             textBoxTwitchCommandName = new System.Windows.Forms.TextBox();
             groupBoxCommandTrigger = new System.Windows.Forms.GroupBox();
-            checkBoxIsRegex = new System.Windows.Forms.CheckBox();
+            checkBoxIsRegEx = new System.Windows.Forms.CheckBox();
             textBoxTwitchCommandCommand = new System.Windows.Forms.TextBox();
             groupBoxResponse = new System.Windows.Forms.GroupBox();
             textBoxResponse = new System.Windows.Forms.TextBox();
@@ -68,7 +68,7 @@
             // 
             // groupBoxCommandTrigger
             // 
-            groupBoxCommandTrigger.Controls.Add(checkBoxIsRegex);
+            groupBoxCommandTrigger.Controls.Add(checkBoxIsRegEx);
             groupBoxCommandTrigger.Controls.Add(textBoxTwitchCommandCommand);
             groupBoxCommandTrigger.Location = new System.Drawing.Point(13, 90);
             groupBoxCommandTrigger.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -79,15 +79,15 @@
             groupBoxCommandTrigger.TabStop = false;
             groupBoxCommandTrigger.Text = "Twitch command trigger";
             // 
-            // checkBoxIsRegex
+            // checkBoxIsRegEx
             // 
-            checkBoxIsRegex.AutoSize = true;
-            checkBoxIsRegex.Location = new System.Drawing.Point(7, 110);
-            checkBoxIsRegex.Name = "checkBoxIsRegex";
-            checkBoxIsRegex.Size = new System.Drawing.Size(147, 24);
-            checkBoxIsRegex.TabIndex = 8;
-            checkBoxIsRegex.Text = "Is a Regex trigger";
-            checkBoxIsRegex.UseVisualStyleBackColor = true;
+            checkBoxIsRegEx.AutoSize = true;
+            checkBoxIsRegEx.Location = new System.Drawing.Point(7, 110);
+            checkBoxIsRegEx.Name = "checkBoxIsRegEx";
+            checkBoxIsRegEx.Size = new System.Drawing.Size(447, 24);
+            checkBoxIsRegEx.TabIndex = 8;
+            checkBoxIsRegEx.Text = "Is a regular expression (RegEx) trigger (will always ignore case)";
+            checkBoxIsRegEx.UseVisualStyleBackColor = true;
             // 
             // textBoxTwitchCommandCommand
             // 
@@ -212,7 +212,7 @@
         private System.Windows.Forms.TextBox textBoxTwitchCommandName;
         private System.Windows.Forms.GroupBox groupBoxCommandTrigger;
         private System.Windows.Forms.TextBox textBoxTwitchCommandCommand;
-        private System.Windows.Forms.CheckBox checkBoxIsRegex;
+        private System.Windows.Forms.CheckBox checkBoxIsRegEx;
         private System.Windows.Forms.GroupBox groupBoxResponse;
         private System.Windows.Forms.TextBox textBoxResponse;
         private System.Windows.Forms.GroupBox groupBoxResponseType;

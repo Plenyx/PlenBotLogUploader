@@ -11,6 +11,6 @@ Twitch response variables are special pieces of text you can include in your Twi
 | `%appVersion%` | r.94 | The current version of the application |
 | `%lastLog%` | r.94 | The latest log message bot posted to the channel |
 | `%pullCounter%` | r.94 | The current number of pulls on the last recorded log |
-| `%spotifySong%` | r.94 | The currently playing song on spotify |
+| `%spotifySong%` | r.94 | The currently playing song on Spotify |
 | `%gw2Ign%` | r.94 | Returns the In-Game account Name for the currently played character. Requires MumbleLink setup and inserted appropriate GW2 API keys |
 | `%gw2Build%` | r.94 | Returns the currently played build for the currently played character. Requires MumbleLink setup and inserted appropriate GW2 API keys |

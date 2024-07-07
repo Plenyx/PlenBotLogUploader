@@ -15,7 +15,7 @@ namespace PlenBotLogUploader.Twitch
             {
                 Enabled = true,
                 Name = "!uploader",
-                IsRegex = false,
+                IsRegEx = false,
                 Command = "!uploader",
                 Response = "PlenBot Log Uploader r%appVersion% | https://plenbot.net/uploader/ | https://github.com/Plenyx/PlenBotLogUploader/",
                 ResponseType = TwitchResponseType.ReplyAt,
@@ -24,7 +24,7 @@ namespace PlenBotLogUploader.Twitch
             {
                 Enabled = true,
                 Name = "!lastlog",
-                IsRegex = false,
+                IsRegEx = false,
                 Command = "!lastlog",
                 Response = "%lastLog%",
                 ResponseType = TwitchResponseType.ReplyAt,
@@ -33,7 +33,7 @@ namespace PlenBotLogUploader.Twitch
             {
                 Enabled = false,
                 Name = "!song",
-                IsRegex = false,
+                IsRegEx = false,
                 Command = "!song",
                 Response = "%spotifySong%",
                 ResponseType = TwitchResponseType.ReplyAt,
@@ -42,7 +42,7 @@ namespace PlenBotLogUploader.Twitch
             {
                 Enabled = false,
                 Name = "Smart song recognition",
-                IsRegex = true,
+                IsRegEx = true,
                 Command = @"(?:(?:song)|(?:music)){1}(?:(?:\?)|(?: is)|(?: name))+",
                 Response = "%spotifySong%",
                 ResponseType = TwitchResponseType.ReplyAt,
@@ -51,7 +51,7 @@ namespace PlenBotLogUploader.Twitch
             {
                 Enabled = false,
                 Name = "!ign",
-                IsRegex = false,
+                IsRegEx = false,
                 Command = "!ign",
                 Response = "%gw2Ign%",
                 ResponseType = TwitchResponseType.ReplyAt,
@@ -60,7 +60,7 @@ namespace PlenBotLogUploader.Twitch
             {
                 Enabled = false,
                 Name = "!build",
-                IsRegex = false,
+                IsRegEx = false,
                 Command = "!build",
                 Response = "%gw2Build%",
                 ResponseType = TwitchResponseType.ReplyAt,
@@ -69,7 +69,7 @@ namespace PlenBotLogUploader.Twitch
             {
                 Enabled = false,
                 Name = "Smart build recognition",
-                IsRegex = true,
+                IsRegEx = true,
                 Command = @"(?:(?:build)){1}(?:(?:\?)|(?: is))+",
                 Response = "%gw2Build%",
                 ResponseType = TwitchResponseType.ReplyAt,
@@ -95,7 +95,7 @@ namespace PlenBotLogUploader.Twitch
         {
             var responses = new List<TwitchCommand>();
             var enabled = _all.Where(x => x.Enabled).ToArray();
-            responses.AddRange(enabled.Where(x => x.IsRegex && (x.Regex?.IsMatch(input) ?? false)));
+            responses.AddRange(enabled.Where(x => x.IsRegEx && (x.Regex?.IsMatch(input) ?? false)));
             responses.AddRange(enabled.Where(x => input.StartsWith(x.Command)));
             return responses;
         }

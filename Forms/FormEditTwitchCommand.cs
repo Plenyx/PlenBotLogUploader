@@ -23,7 +23,7 @@ namespace PlenBotLogUploader.Forms
             Icon = Properties.Resources.AppIcon;
             Text = (data is null) ? "Add a Twitch command" : $"Edit the Twitch command: {data.Name}";
             textBoxTwitchCommandName.Text = data?.Name ?? "";
-            checkBoxIsRegex.Checked = data?.IsRegex ?? false;
+            checkBoxIsRegEx.Checked = data?.IsRegEx ?? false;
             textBoxTwitchCommandCommand.Text = data?.Command ?? "";
             textBoxResponse.Text = data?.Response ?? "";
             radioButtonResponseTypeReplyPlain.Checked = (data?.ResponseType ?? TwitchResponseType.ReplyAt) == TwitchResponseType.Plain;
@@ -42,7 +42,7 @@ namespace PlenBotLogUploader.Forms
                 {
                     Enabled = false,
                     Name = textBoxTwitchCommandName.Text,
-                    IsRegex = checkBoxIsRegex.Checked,
+                    IsRegEx = checkBoxIsRegEx.Checked,
                     Command = textBoxTwitchCommandCommand.Text,
                     Response = textBoxResponse.Text,
                     ResponseType = radioButtonResponseTypeReplyAt.Checked ? TwitchResponseType.ReplyAt : TwitchResponseType.Plain,
@@ -53,7 +53,7 @@ namespace PlenBotLogUploader.Forms
             else
             {
                 data.Name = textBoxTwitchCommandName.Text;
-                data.IsRegex = checkBoxIsRegex.Checked;
+                data.IsRegEx = checkBoxIsRegEx.Checked;
                 data.Command = textBoxTwitchCommandCommand.Text;
                 data.Response = textBoxResponse.Text;
                 data.ResponseType = radioButtonResponseTypeReplyAt.Checked ? TwitchResponseType.ReplyAt : TwitchResponseType.Plain;
