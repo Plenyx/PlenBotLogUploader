@@ -778,6 +778,11 @@ namespace PlenBotLogUploader
                                         AddToText($">:> Due to an Elite Insights error while processing the log file, it will not be automatically reuploaded. Is the log file corrupted?");
                                         return;
                                     }
+                                    if (reportJson?.Error?.Contains("An identical file was uploaded recently") ?? false)
+                                    {
+                                        AddToText($">:> To prevent same log regeneration, the upload try will not be automatically reuploaded.");
+                                        return;
+                                    }
                                 }
                                 else
                                 {
