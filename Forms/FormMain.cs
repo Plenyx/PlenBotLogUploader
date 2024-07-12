@@ -753,14 +753,15 @@ namespace PlenBotLogUploader
         internal async Task HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
             AddToText($">:> Uploading {Path.GetFileName(file)}");
-            var request = new RestRequest(CreateDPSReportLink());
+            var request = new RestRequest(CreateDPSReportLink(), Method.Post);
             request.AddBody(postData);
+            request.RequestFormat = DataFormat.Json;
             try
             {
                 request.AddFile("file", file);
                 try
                 {
-                    var responseMessage = await logPoster.PostAsync(request);
+                    var responseMessage = await logPoster.ExecuteAsync(request);
                     if (!responseMessage.IsSuccessStatusCode)
                     {
                         var statusCode = (int)responseMessage.StatusCode;
@@ -768,7 +769,20 @@ namespace PlenBotLogUploader
                         {
                             if (statusCode == 403)
                             {
-                                AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a Forbidden error (403). Log will be reuploaded shortly.");
+                                if (responseMessage.Content is not null)
+                                {
+                                    var reportJson = JsonConvert.DeserializeObject<DpsReportJson>(responseMessage.Content.Replace("\"players\": []", "\"players\": {}"));
+                                    AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a Forbidden error (403) and the following message: {reportJson.Error}");
+                                    if (reportJson?.Error?.Contains("EI Failure") ?? false)
+                                    {
+                                        AddToText($">:> Due to an Elite Insights error while processing the log file, it will not be automatically reuploaded. Is the log file corrupted?");
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with a Forbidden error (403). Log will be reuploaded shortly.");
+                                }
                             }
                             else if (statusCode == 408)
                             {
