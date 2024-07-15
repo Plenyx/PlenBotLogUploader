@@ -783,6 +783,11 @@ namespace PlenBotLogUploader
                                         AddToText($">:> To prevent same log regeneration, the upload try will not be automatically reuploaded.");
                                         return;
                                     }
+                                    if (reportJson?.Error?.Contains("Encounter is too short") ?? false)
+                                    {
+                                        AddToText($">:> Encounter is too short to generate a valid log, the upload try will not be automatically reuploaded.");
+                                        return;
+                                    }
                                 }
                                 else
                                 {
