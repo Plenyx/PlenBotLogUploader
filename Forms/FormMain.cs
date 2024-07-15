@@ -753,9 +753,12 @@ namespace PlenBotLogUploader
         internal async Task HttpUploadLogAsync(string file, Dictionary<string, string> postData, bool bypassMessage = false)
         {
             AddToText($">:> Uploading {Path.GetFileName(file)}");
-            var request = new RestRequest(CreateDPSReportLink(), Method.Post);
+            var request = new RestRequest(CreateDPSReportLink(), Method.Post)
+            {
+                RequestFormat = DataFormat.Json,
+                Timeout = TimeSpan.FromMinutes(8),
+            };
             request.AddBody(postData);
-            request.RequestFormat = DataFormat.Json;
             try
             {
                 request.AddFile("file", file);
