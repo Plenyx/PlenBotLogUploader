@@ -57,6 +57,16 @@ namespace PlenBotLogUploader.Tools
             }
         }
 
+        internal static bool RemovedLogAndSave(string file)
+        {
+            var removed = FailedLogs.Remove(file);
+            if (removed)
+            {
+                SaveFailedLogs();
+            }
+            return removed;
+        }
+
         internal static async Task ProcessLogs(SemaphoreSlim semaphore, Func<string, Dictionary<string, string>, bool, Task> process)
         {
             foreach (var fileName in FailedLogs.ToArray())

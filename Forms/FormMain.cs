@@ -779,16 +779,19 @@ namespace PlenBotLogUploader
                                     if (reportJson?.Error?.Contains("EI Failure") ?? false)
                                     {
                                         AddToText($">:> Due to an Elite Insights error while processing the log file, it will not be automatically reuploaded. Is the log file corrupted?");
+                                        LogReuploader.RemovedLogAndSave(file);
                                         return;
                                     }
                                     if (reportJson?.Error?.Contains("An identical file was uploaded recently") ?? false)
                                     {
                                         AddToText($">:> To prevent same log regeneration, the upload try will not be automatically reuploaded.");
+                                        LogReuploader.RemovedLogAndSave(file);
                                         return;
                                     }
                                     if (reportJson?.Error?.Contains("Encounter is too short") ?? false)
                                     {
                                         AddToText($">:> Encounter is too short to generate a valid log, the upload try will not be automatically reuploaded.");
+                                        LogReuploader.RemovedLogAndSave(file);
                                         return;
                                     }
                                 }
@@ -914,11 +917,7 @@ namespace PlenBotLogUploader
                         // report success
                         AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
                         // remove from failed logs if present
-                        var removed = LogReuploader.FailedLogs.Remove(file);
-                        if (removed)
-                        {
-                            LogReuploader.SaveFailedLogs();
-                        }
+                        LogReuploader.RemovedLogAndSave(file);
                     }
                     catch (Exception e)
                     {
