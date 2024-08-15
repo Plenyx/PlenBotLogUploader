@@ -13,7 +13,7 @@ namespace PlenBotLogUploader.Gw2Api
         [JsonProperty("world")]
         internal int? World { get; set; }
 
-        [JsonProperty("wvw_rank")]
-        internal int WvwRank { get; set; }
+        [JsonProperty("wvw")]
+        internal Gw2AccountWvw Wvw { get; set; }
     }
 }

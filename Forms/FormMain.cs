@@ -1279,9 +1279,9 @@ namespace PlenBotLogUploader
             var userInfo = await gw2Api.GetUserInfoAsync();
             if (userInfo is not null)
             {
-                if (Gw2.AllServers.TryGetValue(userInfo.World ?? 0, out var playerWorld))
+                if (Gw2.AllServers.TryGetValue(userInfo.Wvw?.TeamId ?? (userInfo.World ?? 0), out var playerWorld))
                 {
-                    return $"GW2 Account name: {userInfo.Name} | Server: {playerWorld.Name} ({playerWorld.Region})";
+                    return $"GW2 Account name: {userInfo.Name} | WvW team: {playerWorld.Name} ({playerWorld.Region})";
                 }
                 else
                 {
