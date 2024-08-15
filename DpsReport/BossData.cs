@@ -76,11 +76,12 @@ namespace PlenBotLogUploader.DpsReport
             var builder = new StringBuilder(Name);
             if (reportJSON.ChallengeMode)
             {
+                builder.Append(' ');
                 if (reportJSON.LegendaryChallengeMode)
                 {
-                    builder.Append(" Legendary");
+                    builder.Append('L');
                 }
-                builder.Append(" CM");
+                builder.Append("CM");
             }
             return builder.ToString();
         }
