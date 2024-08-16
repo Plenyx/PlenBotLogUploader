@@ -46,7 +46,7 @@
             buttonCopyApplicationSession = new System.Windows.Forms.Button();
             buttonSession = new System.Windows.Forms.Button();
             buttonOpenLogs = new System.Windows.Forms.Button();
-            buttonDPSReportServer = new System.Windows.Forms.Button();
+            buttonDpsReportServer = new System.Windows.Forms.Button();
             labelLocationInfo = new System.Windows.Forms.Label();
             buttonLogsLocation = new System.Windows.Forms.Button();
             buttonUpdate = new System.Windows.Forms.Button();
@@ -237,7 +237,7 @@
             groupBoxArcdpsLogs.Controls.Add(buttonSession);
             groupBoxArcdpsLogs.Controls.Add(buttonBossData);
             groupBoxArcdpsLogs.Controls.Add(buttonOpenLogs);
-            groupBoxArcdpsLogs.Controls.Add(buttonDPSReportServer);
+            groupBoxArcdpsLogs.Controls.Add(buttonDpsReportServer);
             groupBoxArcdpsLogs.Controls.Add(labelLocationInfo);
             groupBoxArcdpsLogs.Controls.Add(buttonLogsLocation);
             groupBoxArcdpsLogs.Controls.Add(checkBoxUploadLogs);
@@ -248,7 +248,7 @@
             groupBoxArcdpsLogs.Size = new System.Drawing.Size(309, 334);
             groupBoxArcdpsLogs.TabIndex = 5;
             groupBoxArcdpsLogs.TabStop = false;
-            groupBoxArcdpsLogs.Text = "arcdps logs and DPS.report";
+            groupBoxArcdpsLogs.Text = "arcdps logs and dps.report";
             // 
             // checkBoxUsePolling
             // 
@@ -328,16 +328,16 @@
             buttonOpenLogs.UseVisualStyleBackColor = true;
             buttonOpenLogs.Click += ButtonOpenLogs_Click;
             // 
-            // buttonDPSReportServer
+            // buttonDpsReportServer
             // 
-            buttonDPSReportServer.Location = new System.Drawing.Point(8, 202);
-            buttonDPSReportServer.Margin = new System.Windows.Forms.Padding(5);
-            buttonDPSReportServer.Name = "buttonDPSReportServer";
-            buttonDPSReportServer.Size = new System.Drawing.Size(145, 35);
-            buttonDPSReportServer.TabIndex = 1;
-            buttonDPSReportServer.Text = "DPS.report settings";
-            buttonDPSReportServer.UseVisualStyleBackColor = true;
-            buttonDPSReportServer.Click += ButtonDPSReportServer_Click;
+            buttonDpsReportServer.Location = new System.Drawing.Point(8, 202);
+            buttonDpsReportServer.Margin = new System.Windows.Forms.Padding(5);
+            buttonDpsReportServer.Name = "buttonDpsReportServer";
+            buttonDpsReportServer.Size = new System.Drawing.Size(145, 35);
+            buttonDpsReportServer.TabIndex = 1;
+            buttonDpsReportServer.Text = "dps.report settings";
+            buttonDpsReportServer.UseVisualStyleBackColor = true;
+            buttonDpsReportServer.Click += ButtonDPSReportServer_Click;
             // 
             // labelLocationInfo
             // 
@@ -393,7 +393,7 @@
             contextMenuStripIcon.ImageScalingSize = new System.Drawing.Size(20, 20);
             contextMenuStripIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItemUploadLogs, toolStripMenuItemPostToTwitch, toolStripSeparatorOne, toolStripMenuItemDPSReportUserTokens, toolStripSeparatorTwo, toolStripMenuItemOpenDPSReportServer, toolStripMenuItemOpenCustomName, toolStripMenuItemOpenTwitchCommands, toolStripMenuItemOpenArcDpsPluginManager, toolStripSeparatorThree, toolStripMenuItemDiscordWebhooks, toolStripMenuItemOpenPingSettings, toolStripSeparatorFour, toolStripMenuItemExit });
             contextMenuStripIcon.Name = "contextMenuStripIcon";
-            contextMenuStripIcon.Size = new System.Drawing.Size(272, 268);
+            contextMenuStripIcon.Size = new System.Drawing.Size(272, 296);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -431,7 +431,7 @@
             // 
             toolStripMenuItemOpenDPSReportServer.Name = "toolStripMenuItemOpenDPSReportServer";
             toolStripMenuItemOpenDPSReportServer.Size = new System.Drawing.Size(271, 24);
-            toolStripMenuItemOpenDPSReportServer.Text = "Open DPS.report settings";
+            toolStripMenuItemOpenDPSReportServer.Text = "Open dps.report settings";
             toolStripMenuItemOpenDPSReportServer.Click += ToolStripMenuItemOpenDPSReportServer_Click;
             // 
             // toolStripMenuItemOpenCustomName
@@ -780,7 +780,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPostToTwitch;
         private System.Windows.Forms.Button buttonOpenLogs;
         private System.Windows.Forms.Button buttonCustomName;
-        private System.Windows.Forms.Button buttonDPSReportServer;
+        private System.Windows.Forms.Button buttonDpsReportServer;
         private System.Windows.Forms.CheckBox checkBoxTrayMinimiseToIcon;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenDPSReportServer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenCustomName;
