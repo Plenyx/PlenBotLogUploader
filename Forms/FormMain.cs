@@ -633,7 +633,7 @@ namespace PlenBotLogUploader
             var args = Environment.GetCommandLineArgs();
             if (args.Length <= 1)
             {
-                await HandleLogReuploads();
+                HandleLogReuploads();
                 return;
             }
             var argIndex = -1;
@@ -692,7 +692,7 @@ namespace PlenBotLogUploader
                     }
                 }
             }
-            await HandleLogReuploads();
+            HandleLogReuploads();
         }
 
         protected async Task ValidateGW2Tokens()
@@ -1696,7 +1696,7 @@ namespace PlenBotLogUploader
 
         private void TimerFailedLogsReupload_Elapsed(object sender, EventArgs e)
         {
-            _ = HandleLogReuploads();
+            HandleLogReuploads();
         }
 
         private void EnsureReuploadTimerStart()
@@ -1708,14 +1708,14 @@ namespace PlenBotLogUploader
             timerFailedLogsReupload.Start();
         }
 
-        private async Task HandleLogReuploads()
+        private void HandleLogReuploads()
         {
             if (LogReuploader.FailedLogs.Count == 0)
             {
                 return;
             }
             AddToText($">:> Starting log reuploads of {LogReuploader.FailedLogs.Count} log{(LogReuploader.FailedLogs.Count > 1 ? "s" : "")}...");
-            await LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
+            LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
             AddToText(">:> Log reuploading has ended.");
         }
 

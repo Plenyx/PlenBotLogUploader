@@ -67,9 +67,9 @@ namespace PlenBotLogUploader.Tools
             return removed;
         }
 
-        internal static async Task ProcessLogs(SemaphoreSlim semaphore, Func<string, Dictionary<string, string>, bool, Task> process)
+        internal static void ProcessLogs(SemaphoreSlim semaphore, Func<string, Dictionary<string, string>, bool, Task> process)
         {
-            foreach (var fileName in FailedLogs.ToArray())
+            foreach (var fileName in FailedLogs.ToArray().AsSpan())
             {
                 if (!File.Exists(fileName))
                 {
