@@ -74,6 +74,7 @@ namespace PlenBotLogUploader
                 MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
                 EnableWvWLogList = checkBoxEnableWvWLogList.Checked,
                 UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
+                ExcludeSelectedWebhooksInstead = radioButtonExcludeSelectedWebhooks.Checked,
                 SelectedWebhooks = ConvertCheckboxListToList(),
             };
             var sessionNameFormatted = CleanSessionName();
@@ -177,13 +178,34 @@ namespace PlenBotLogUploader
 
         private void RadioButtonOnlySelectedWebhooks_CheckedChanged(object sender, EventArgs e)
         {
-            groupBoxSelectedWebhooks.Enabled = radioButtonOnlySelectedWebhooks.Checked;
-            if (groupBoxSelectedWebhooks.Enabled)
+            if (!radioButtonOnlySelectedWebhooks.Checked)
             {
-                ReloadWebhooks();
+                return;
             }
+            groupBoxSelectedWebhooks.Enabled = true;
+            ReloadWebhooks();
+        }
+
+        private void RadioButtonExcludeSelectedWebhooks_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButtonExcludeSelectedWebhooks.Checked)
+            {
+                return;
+            }
+            groupBoxSelectedWebhooks.Enabled = true;
+            ReloadWebhooks();
         }
 
         private void ButtonReloadWebhooks_Click(object sender, EventArgs e) => ReloadWebhooks();
+
+        private void RadioButtonAllActive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButtonAllActive.Checked)
+            {
+                return;
+            }
+            groupBoxSelectedWebhooks.Enabled = false;
+            checkedListBoxSelectedWebhooks.Items.Clear();
+        }
     }
 }

@@ -576,6 +576,14 @@ namespace PlenBotLogUploader
                     await SendDiscordMessageWebhooksAsync(webhook, discordEmbeds, logSessionSettings.ContentText);
                 }
             }
+            else if (logSessionSettings.ExcludeSelectedWebhooksInstead)
+            {
+                foreach (var webhook in allWebhooks.Values.Except(logSessionSettings.SelectedWebhooks))
+                {
+                    var discordEmbeds = SessionTextConstructor.ConstructSessionEmbeds(reportsJSON.Where(x => webhook.Team.IsSatisfied(x.GetLogPlayers())).ToList(), logSessionSettings);
+                    await SendDiscordMessageWebhooksAsync(webhook, discordEmbeds, logSessionSettings.ContentText);
+                }
+            }
             else
             {
                 foreach (var webhook in allWebhooks.Values.Where(x => x.Active))
@@ -587,6 +595,10 @@ namespace PlenBotLogUploader
             if (logSessionSettings.UseSelectedWebhooksInstead && logSessionSettings.SelectedWebhooks.Count > 0)
             {
                 mainLink.AddToText(">:> All selected webhooks successfully executed with finished log session.");
+            }
+            else if (logSessionSettings.ExcludeSelectedWebhooksInstead && logSessionSettings.SelectedWebhooks.Count > 0)
+            {
+                mainLink.AddToText(">:> All non-selected webhooks successfully executed with finished log session.");
             }
             else if (allWebhooks.Count > 0)
             {

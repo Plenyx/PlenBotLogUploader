@@ -52,6 +52,11 @@ namespace PlenBotLogUploader.Tools
         internal bool UseSelectedWebhooksInstead { get; set; }
 
         /// <summary>
+        /// Whether to not use SelectedWebhooks for the session ping instead of all active sessions
+        /// </summary>
+        internal bool ExcludeSelectedWebhooksInstead { get; set; }
+
+        /// <summary>
         /// Selected webhooks to be executed
         /// </summary>
         internal List<DiscordWebhookData> SelectedWebhooks { get; set; } = [];

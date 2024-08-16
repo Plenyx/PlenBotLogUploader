@@ -37,18 +37,19 @@
             groupBoxSessionSettings = new System.Windows.Forms.GroupBox();
             checkBoxSaveToFile = new System.Windows.Forms.CheckBox();
             groupBoxDiscordWebhooks = new System.Windows.Forms.GroupBox();
+            checkBoxEnableWvWLogList = new System.Windows.Forms.CheckBox();
             checkBoxMakeWvWSummary = new System.Windows.Forms.CheckBox();
             radioButtonSortByUpload = new System.Windows.Forms.RadioButton();
             labelSessionContent = new System.Windows.Forms.Label();
             textBoxSessionContent = new System.Windows.Forms.TextBox();
             radioButtonSortByWing = new System.Windows.Forms.RadioButton();
             groupBoxWebhookTypeSelection = new System.Windows.Forms.GroupBox();
+            radioButtonExcludeSelectedWebhooks = new System.Windows.Forms.RadioButton();
             groupBoxSelectedWebhooks = new System.Windows.Forms.GroupBox();
             buttonReloadWebhooks = new System.Windows.Forms.Button();
             checkedListBoxSelectedWebhooks = new System.Windows.Forms.CheckedListBox();
             radioButtonOnlySelectedWebhooks = new System.Windows.Forms.RadioButton();
             radioButtonAllActive = new System.Windows.Forms.RadioButton();
-            checkBoxEnableWvWLogList = new System.Windows.Forms.CheckBox();
             groupBoxSessionSettings.SuspendLayout();
             groupBoxDiscordWebhooks.SuspendLayout();
             groupBoxWebhookTypeSelection.SuspendLayout();
@@ -163,6 +164,17 @@
             groupBoxDiscordWebhooks.TabStop = false;
             groupBoxDiscordWebhooks.Text = "Discord webhook settings";
             // 
+            // checkBoxEnableWvWLogList
+            // 
+            checkBoxEnableWvWLogList.AutoSize = true;
+            checkBoxEnableWvWLogList.Location = new System.Drawing.Point(8, 209);
+            checkBoxEnableWvWLogList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            checkBoxEnableWvWLogList.Name = "checkBoxEnableWvWLogList";
+            checkBoxEnableWvWLogList.Size = new System.Drawing.Size(222, 24);
+            checkBoxEnableWvWLogList.TabIndex = 9;
+            checkBoxEnableWvWLogList.Text = "post the list for all WvW logs";
+            checkBoxEnableWvWLogList.UseVisualStyleBackColor = true;
+            // 
             // checkBoxMakeWvWSummary
             // 
             checkBoxMakeWvWSummary.AutoSize = true;
@@ -221,6 +233,7 @@
             // 
             // groupBoxWebhookTypeSelection
             // 
+            groupBoxWebhookTypeSelection.Controls.Add(radioButtonExcludeSelectedWebhooks);
             groupBoxWebhookTypeSelection.Controls.Add(groupBoxSelectedWebhooks);
             groupBoxWebhookTypeSelection.Controls.Add(radioButtonOnlySelectedWebhooks);
             groupBoxWebhookTypeSelection.Controls.Add(radioButtonAllActive);
@@ -233,19 +246,31 @@
             groupBoxWebhookTypeSelection.TabStop = false;
             groupBoxWebhookTypeSelection.Text = "Select which Webhooks to execute for session";
             // 
+            // radioButtonExcludeSelectedWebhooks
+            // 
+            radioButtonExcludeSelectedWebhooks.AutoSize = true;
+            radioButtonExcludeSelectedWebhooks.Location = new System.Drawing.Point(9, 92);
+            radioButtonExcludeSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            radioButtonExcludeSelectedWebhooks.Name = "radioButtonExcludeSelectedWebhooks";
+            radioButtonExcludeSelectedWebhooks.Size = new System.Drawing.Size(295, 24);
+            radioButtonExcludeSelectedWebhooks.TabIndex = 4;
+            radioButtonExcludeSelectedWebhooks.Text = "Exclude selected webhooks from the list";
+            radioButtonExcludeSelectedWebhooks.UseVisualStyleBackColor = true;
+            radioButtonExcludeSelectedWebhooks.CheckedChanged += RadioButtonExcludeSelectedWebhooks_CheckedChanged;
+            // 
             // groupBoxSelectedWebhooks
             // 
             groupBoxSelectedWebhooks.Controls.Add(buttonReloadWebhooks);
             groupBoxSelectedWebhooks.Controls.Add(checkedListBoxSelectedWebhooks);
             groupBoxSelectedWebhooks.Enabled = false;
-            groupBoxSelectedWebhooks.Location = new System.Drawing.Point(9, 106);
+            groupBoxSelectedWebhooks.Location = new System.Drawing.Point(9, 132);
             groupBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             groupBoxSelectedWebhooks.Name = "groupBoxSelectedWebhooks";
             groupBoxSelectedWebhooks.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            groupBoxSelectedWebhooks.Size = new System.Drawing.Size(311, 340);
+            groupBoxSelectedWebhooks.Size = new System.Drawing.Size(311, 312);
             groupBoxSelectedWebhooks.TabIndex = 3;
             groupBoxSelectedWebhooks.TabStop = false;
-            groupBoxSelectedWebhooks.Text = "Selected Webhooks";
+            groupBoxSelectedWebhooks.Text = "The list of selected webhooks";
             // 
             // buttonReloadWebhooks
             // 
@@ -265,7 +290,7 @@
             checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(8, 72);
             checkedListBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             checkedListBoxSelectedWebhooks.Name = "checkedListBoxSelectedWebhooks";
-            checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(293, 242);
+            checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(293, 220);
             checkedListBoxSelectedWebhooks.TabIndex = 2;
             // 
             // radioButtonOnlySelectedWebhooks
@@ -274,9 +299,9 @@
             radioButtonOnlySelectedWebhooks.Location = new System.Drawing.Point(9, 62);
             radioButtonOnlySelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             radioButtonOnlySelectedWebhooks.Name = "radioButtonOnlySelectedWebhooks";
-            radioButtonOnlySelectedWebhooks.Size = new System.Drawing.Size(276, 24);
+            radioButtonOnlySelectedWebhooks.Size = new System.Drawing.Size(274, 24);
             radioButtonOnlySelectedWebhooks.TabIndex = 1;
-            radioButtonOnlySelectedWebhooks.Text = "Only selected Webhooks from the list";
+            radioButtonOnlySelectedWebhooks.Text = "Only selected webhooks from the list";
             radioButtonOnlySelectedWebhooks.UseVisualStyleBackColor = true;
             radioButtonOnlySelectedWebhooks.CheckedChanged += RadioButtonOnlySelectedWebhooks_CheckedChanged;
             // 
@@ -287,22 +312,12 @@
             radioButtonAllActive.Location = new System.Drawing.Point(9, 31);
             radioButtonAllActive.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             radioButtonAllActive.Name = "radioButtonAllActive";
-            radioButtonAllActive.Size = new System.Drawing.Size(225, 24);
+            radioButtonAllActive.Size = new System.Drawing.Size(223, 24);
             radioButtonAllActive.TabIndex = 0;
             radioButtonAllActive.TabStop = true;
-            radioButtonAllActive.Text = "All currently active Webhooks";
+            radioButtonAllActive.Text = "All currently active webhooks";
             radioButtonAllActive.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxEnableWvWLogList
-            // 
-            checkBoxEnableWvWLogList.AutoSize = true;
-            checkBoxEnableWvWLogList.Location = new System.Drawing.Point(8, 209);
-            checkBoxEnableWvWLogList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            checkBoxEnableWvWLogList.Name = "checkBoxEnableWvWLogList";
-            checkBoxEnableWvWLogList.Size = new System.Drawing.Size(222, 24);
-            checkBoxEnableWvWLogList.TabIndex = 9;
-            checkBoxEnableWvWLogList.Text = "post the list for all WvW logs";
-            checkBoxEnableWvWLogList.UseVisualStyleBackColor = true;
+            radioButtonAllActive.CheckedChanged += RadioButtonAllActive_CheckedChanged;
             // 
             // FormLogSession
             // 
@@ -355,5 +370,6 @@
         internal System.Windows.Forms.RadioButton radioButtonSortByWing;
         internal System.Windows.Forms.CheckBox checkBoxSaveToFile;
         internal System.Windows.Forms.CheckBox checkBoxEnableWvWLogList;
+        private System.Windows.Forms.RadioButton radioButtonExcludeSelectedWebhooks;
     }
 }
