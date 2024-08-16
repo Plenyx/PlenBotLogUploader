@@ -196,8 +196,6 @@ namespace PlenBotLogUploader
             ReloadWebhooks();
         }
 
-        private void ButtonReloadWebhooks_Click(object sender, EventArgs e) => ReloadWebhooks();
-
         private void RadioButtonAllActive_CheckedChanged(object sender, EventArgs e)
         {
             if (!radioButtonAllActive.Checked)
@@ -206,6 +204,24 @@ namespace PlenBotLogUploader
             }
             groupBoxSelectedWebhooks.Enabled = false;
             checkedListBoxSelectedWebhooks.Items.Clear();
+        }
+
+        private void ButtonReloadWebhooks_Click(object sender, EventArgs e) => ReloadWebhooks();
+
+        private void ButtonUnSelectAllWebhooks_Click(object sender, EventArgs e)
+        {
+            if (checkedListBoxSelectedWebhooks.CheckedItems.Count == checkedListBoxSelectedWebhooks.Items.Count)
+            {
+                for (int i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
+                {
+                    checkedListBoxSelectedWebhooks.SetItemChecked(i, false);
+                }
+                return;
+            }
+            for (int i = 0; i < checkedListBoxSelectedWebhooks.Items.Count; i++)
+            {
+                checkedListBoxSelectedWebhooks.SetItemChecked(i, true);
+            }
         }
     }
 }

@@ -50,6 +50,7 @@
             checkedListBoxSelectedWebhooks = new System.Windows.Forms.CheckedListBox();
             radioButtonOnlySelectedWebhooks = new System.Windows.Forms.RadioButton();
             radioButtonAllActive = new System.Windows.Forms.RadioButton();
+            buttonUnSelectAllWebhooks = new System.Windows.Forms.Button();
             groupBoxSessionSettings.SuspendLayout();
             groupBoxDiscordWebhooks.SuspendLayout();
             groupBoxWebhookTypeSelection.SuspendLayout();
@@ -260,6 +261,7 @@
             // 
             // groupBoxSelectedWebhooks
             // 
+            groupBoxSelectedWebhooks.Controls.Add(buttonUnSelectAllWebhooks);
             groupBoxSelectedWebhooks.Controls.Add(buttonReloadWebhooks);
             groupBoxSelectedWebhooks.Controls.Add(checkedListBoxSelectedWebhooks);
             groupBoxSelectedWebhooks.Enabled = false;
@@ -290,7 +292,7 @@
             checkedListBoxSelectedWebhooks.Location = new System.Drawing.Point(8, 72);
             checkedListBoxSelectedWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             checkedListBoxSelectedWebhooks.Name = "checkedListBoxSelectedWebhooks";
-            checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(293, 220);
+            checkedListBoxSelectedWebhooks.Size = new System.Drawing.Size(293, 198);
             checkedListBoxSelectedWebhooks.TabIndex = 2;
             // 
             // radioButtonOnlySelectedWebhooks
@@ -318,6 +320,16 @@
             radioButtonAllActive.Text = "All currently active webhooks";
             radioButtonAllActive.UseVisualStyleBackColor = true;
             radioButtonAllActive.CheckedChanged += RadioButtonAllActive_CheckedChanged;
+            // 
+            // buttonUnSelectAllWebhooks
+            // 
+            buttonUnSelectAllWebhooks.Location = new System.Drawing.Point(7, 275);
+            buttonUnSelectAllWebhooks.Name = "buttonUnSelectAllWebhooks";
+            buttonUnSelectAllWebhooks.Size = new System.Drawing.Size(296, 29);
+            buttonUnSelectAllWebhooks.TabIndex = 4;
+            buttonUnSelectAllWebhooks.Text = "(Un)select all webhooks";
+            buttonUnSelectAllWebhooks.UseVisualStyleBackColor = true;
+            buttonUnSelectAllWebhooks.Click += ButtonUnSelectAllWebhooks_Click;
             // 
             // FormLogSession
             // 
@@ -371,5 +383,6 @@
         internal System.Windows.Forms.CheckBox checkBoxSaveToFile;
         internal System.Windows.Forms.CheckBox checkBoxEnableWvWLogList;
         private System.Windows.Forms.RadioButton radioButtonExcludeSelectedWebhooks;
+        private System.Windows.Forms.Button buttonUnSelectAllWebhooks;
     }
 }
