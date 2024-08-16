@@ -81,14 +81,12 @@
             buttonDiscordWebhooks = new System.Windows.Forms.Button();
             buttonArcDpsPluginManager = new System.Windows.Forms.Button();
             buttonPingSettings = new System.Windows.Forms.Button();
-            timerCheckUpdate = new System.Windows.Forms.Timer(components);
             toolTip = new System.Windows.Forms.ToolTip(components);
             richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
             tabControlSettings = new System.Windows.Forms.TabControl();
             tabPageMainSettings = new System.Windows.Forms.TabPage();
             tabPageOtherSettings = new System.Windows.Forms.TabPage();
-            timerFailedLogsReupload = new System.Windows.Forms.Timer(components);
             groupBoxTwitchSettings.SuspendLayout();
             groupBoxArcdpsLogs.SuspendLayout();
             contextMenuStripIcon.SuspendLayout();
@@ -660,11 +658,6 @@
             buttonPingSettings.UseVisualStyleBackColor = true;
             buttonPingSettings.Click += ButtonPingSettings_Click;
             // 
-            // timerCheckUpdate
-            // 
-            timerCheckUpdate.Interval = 5400000;
-            timerCheckUpdate.Tick += TimerCheckUpdate_Tick;
-            // 
             // toolTip
             // 
             toolTip.ShowAlways = true;
@@ -737,11 +730,6 @@
             tabPageOtherSettings.TabIndex = 1;
             tabPageOtherSettings.Text = "Other settings";
             // 
-            // timerFailedLogsReupload
-            // 
-            timerFailedLogsReupload.Interval = 900000;
-            timerFailedLogsReupload.Tick += TimerFailedLogsReupload_Tick;
-            // 
             // FormMain
             // 
             AllowDrop = true;
@@ -809,7 +797,6 @@
         internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDiscordWebhooks;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.CheckBox checkBoxStartWhenWindowsStarts;
-        private System.Windows.Forms.Timer timerCheckUpdate;
         private System.Windows.Forms.Button buttonTwitchCommands;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenTwitchCommands;
         private System.Windows.Forms.ToolTip toolTip;
@@ -833,7 +820,6 @@
         private System.Windows.Forms.TabControl tabControlSettings;
         private System.Windows.Forms.TabPage tabPageMainSettings;
         private System.Windows.Forms.TabPage tabPageOtherSettings;
-        private System.Windows.Forms.Timer timerFailedLogsReupload;
         private System.Windows.Forms.CheckBox checkBoxUsePolling;
         private System.Windows.Forms.CheckBox checkBoxOnlyWhenStreamSoftwareRunning;
         private System.Windows.Forms.CheckBox checkBoxCloseToTrayIcon;

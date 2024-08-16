@@ -121,6 +121,18 @@ namespace PlenBotLogUploader
             { "%channel%", "" },
         };
         private bool bypassCloseToTray = false;
+        private readonly System.Timers.Timer timerFailedLogsReupload = new()
+        {
+            Enabled = false,
+            Interval = 900000,
+            AutoReset = false,
+        };
+        private readonly System.Timers.Timer timerCheckUpdate = new()
+        {
+            Enabled = false,
+            Interval = 5400000,
+            AutoReset = false,
+        };
 
         // constants
         private const int minFileSize = 8192;
@@ -360,6 +372,8 @@ namespace PlenBotLogUploader
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += logSessionLink.CheckBoxOnlySuccess_CheckedChanged;
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += logSessionLink.CheckBoxSaveToFile_CheckedChanged;
                 discordWebhooksLink.checkBoxShortenThousands.CheckedChanged += discordWebhooksLink.CheckBoxShortenThousands_CheckedChanged;
+                timerFailedLogsReupload.Elapsed += TimerFailedLogsReupload_Elapsed;
+                timerCheckUpdate.Elapsed += TimerCheckUpdate_Elapsed;
                 ApplicationSettings.Current.Save();
             }
             catch (Exception e)
@@ -558,7 +572,6 @@ namespace PlenBotLogUploader
                     {
                         AddToText(">>> Could not verify the version release.");
                     }
-                    timerCheckUpdate.Enabled = true;
                     timerCheckUpdate.Start();
                     return;
                 }
@@ -568,7 +581,6 @@ namespace PlenBotLogUploader
                     {
                         AddToText(">>> The uploader is up to date.");
                     }
-                    timerCheckUpdate.Enabled = true;
                     timerCheckUpdate.Start();
                     return;
                 }
@@ -947,9 +959,7 @@ namespace PlenBotLogUploader
                     AddToText($">:> Upload retry failed 4 times for {Path.GetFileName(file)}, will try again during log reupload timer.");
                     LogReuploader.FailedLogs.Add(file);
                     LogReuploader.SaveFailedLogs();
-                    timerFailedLogsReupload.Enabled = true;
-                    timerFailedLogsReupload.Stop();
-                    timerFailedLogsReupload.Start();
+                    EnsureReuploadTimerStart();
                 }
                 else
                 {
@@ -1679,16 +1689,14 @@ namespace PlenBotLogUploader
             ExitApp();
         }
 
-        private void TimerCheckUpdate_Tick(object sender, EventArgs e)
+        private void TimerCheckUpdate_Elapsed(object sender, EventArgs e)
         {
-            timerCheckUpdate.Stop();
-            timerCheckUpdate.Enabled = false;
             _ = NewReleaseCheckAsync(false, true);
         }
 
-        private async void TimerFailedLogsReupload_Tick(object sender, EventArgs e)
+        private void TimerFailedLogsReupload_Elapsed(object sender, EventArgs e)
         {
-            await HandleReuploadTimerStop();
+            _ = HandleLogReuploads();
         }
 
         private void EnsureReuploadTimerStart()
@@ -1697,20 +1705,7 @@ namespace PlenBotLogUploader
             {
                 return;
             }
-            timerFailedLogsReupload.Enabled = true;
-            timerFailedLogsReupload.Stop();
             timerFailedLogsReupload.Start();
-        }
-
-        private async Task HandleReuploadTimerStop()
-        {
-            if (!timerFailedLogsReupload.Enabled)
-            {
-                return;
-            }
-            timerFailedLogsReupload.Enabled = false;
-            timerFailedLogsReupload.Stop();
-            await HandleLogReuploads();
         }
 
         private async Task HandleLogReuploads()
