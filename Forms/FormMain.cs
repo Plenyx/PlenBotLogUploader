@@ -1231,11 +1231,11 @@ namespace PlenBotLogUploader
                 }
                 if (reply.Contains("%gw2Build%"))
                 {
-                    reply = reply.Replace("%gw2Build%", await GenerateBuildCode() ?? "Link could not be generated.");
+                    reply = reply.Replace("%gw2Build%", await GenerateBuildCode() ?? "Necessary data for Build link could not be obtained.");
                 }
                 if (reply.Contains("%gw2Ign%"))
                 {
-                    reply = reply.Replace("%gw2Ign%", await GenerateIgnResponse() ?? "IGN could not be obtained.");
+                    reply = reply.Replace("%gw2Ign%", await GenerateIgnResponse() ?? "Necessary data for IGN could not be obtained.");
                 }
                 await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, reply);
             }
