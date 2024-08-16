@@ -76,7 +76,7 @@ namespace PlenBotLogUploader.Tools
                     FailedLogs.Remove(fileName);
                     continue;
                 }
-                await Task.Run(async () =>
+                _ = Task.Run(async () =>
                 {
                     semaphore.Wait();
                     await process(fileName, postData, true);
