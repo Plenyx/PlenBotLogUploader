@@ -55,6 +55,30 @@ namespace PlenBotLogUploader
                 _updateFound = value;
             }
         }
+        private int LastLogPullCounter
+        {
+            get
+            {
+                return _lastLogPullCounter;
+            }
+            set
+            {
+                _lastLogPullCounter = value;
+                twitchCommandReplacements["%pullCounter%"] = value.ToString();
+            }
+        }
+        private string LastLogMessage
+        {
+            get
+            {
+                return _lastLogMessage;
+            }
+            set
+            {
+                _lastLogMessage = value;
+                twitchCommandReplacements["%lastLog%"] = value;
+            }
+        }
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
@@ -79,32 +103,8 @@ namespace PlenBotLogUploader
         private readonly Dictionary<string, int> uploadFailCounters = [];
         private int logsCount = 0;
         private string _lastLogMessage = "";
-        private string LastLogMessage
-        {
-            get
-            {
-                return _lastLogMessage;
-            }
-            set
-            {
-                _lastLogMessage = value;
-                twitchCommandReplacements["%lastLog%"] = value;
-            }
-        }
         private int lastLogBossId = 0;
         private int _lastLogPullCounter = 0;
-        private int LastLogPullCounter
-        {
-            get
-            {
-                return _lastLogPullCounter;
-            }
-            set
-            {
-                _lastLogPullCounter = value;
-                twitchCommandReplacements["%pullCounter%"] = value.ToString();
-            }
-        }
         private bool lastLogBossCM = false;
         private bool _updateFound = false;
         private GitHubReleaseLatest latestRelease = null;
