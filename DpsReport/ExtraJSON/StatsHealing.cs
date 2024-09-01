@@ -8,6 +8,11 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
         [JsonProperty("outgoingHealing")]
         internal OutgoingHealing[] OutgoingHealing { get; set; }
 
+        internal long TotalHealing
+        {
+            get => ((OutgoingHealing?.Length ?? 0) > 0) ? OutgoingHealing[0].Healing : 0;
+        }
+
         [JsonProperty("outgoingHealingAllies")]
         internal OutgoingHealing[][] OutgoingHealingAllies { get; set; }
 
@@ -18,10 +23,7 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
                 long result = 0;
                 foreach (var squadMember in OutgoingHealingAllies.AsSpan())
                 {
-                    foreach (var squadMemberPhase in squadMember.AsSpan())
-                    {
-                        result += squadMemberPhase.Healing;
-                    }
+                    result += ((squadMember?.Length ?? 0) > 0) ? squadMember[0].Healing : 0;
                 }
                 return result;
             }

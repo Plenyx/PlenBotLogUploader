@@ -8,6 +8,11 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
         [JsonProperty("outgoingBarrier")]
         internal OutgoingBarrier[] OutgoingBarrier { get; set; }
 
+        internal long TotalBarrier
+        {
+            get => ((OutgoingBarrier?.Length ?? 0) > 0) ? OutgoingBarrier[0].Barrier : 0;
+        }
+
         [JsonProperty("outgoingBarrierAllies")]
         internal OutgoingBarrier[][] OutgoingBarrierAllies { get; set; }
 
@@ -18,10 +23,7 @@ namespace PlenBotLogUploader.DpsReport.ExtraJson
                 long result = 0;
                 foreach (var squadMember in OutgoingBarrierAllies.AsSpan())
                 {
-                    foreach (var squadMemberPhase in squadMember.AsSpan())
-                    {
-                        result += squadMemberPhase.Barrier;
-                    }
+                    result += ((squadMember?.Length ?? 0) > 0) ? squadMember[0].Barrier : 0;
                 }
                 return result;
             }
