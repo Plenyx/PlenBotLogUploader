@@ -750,15 +750,15 @@ namespace PlenBotLogUploader
             var bossData = Bosses.GetBossDataFromId(reportJSON.ExtraJson?.TriggerId ?? reportJSON.Encounter.BossId);
             if (bossData is null)
             {
-                _lastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
-                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, _lastLogMessage);
+                LastLogMessage = $"Link to the last log: {reportJSON.ConfigAwarePermalink}";
+                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, LastLogMessage);
                 return;
             }
             var format = bossData.TwitchMessageFormat(reportJSON, LastLogPullCounter);
             if (!string.IsNullOrWhiteSpace(format))
             {
-                _lastLogMessage = format;
-                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, _lastLogMessage);
+                LastLogMessage = format;
+                await chatConnect.SendChatMessageAsync(ApplicationSettings.Current.Twitch.ChannelName, LastLogMessage);
             }
         }
 
@@ -897,7 +897,7 @@ namespace PlenBotLogUploader
                         // save to clipboard list
                         allSessionLogs.Add(reportJson.ConfigAwarePermalink);
                         // Twitch chat
-                        _lastLogMessage = $"Link to the last log: {reportJson.ConfigAwarePermalink}";
+                        LastLogMessage = $"Link to the last log: {reportJson.ConfigAwarePermalink}";
                         if (lastLogBossId != bossId)
                         {
                             LastLogPullCounter = 0;
