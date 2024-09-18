@@ -7,6 +7,7 @@ using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
 using PlenBotLogUploader.GitHub;
 using PlenBotLogUploader.Gw2Api;
+using PlenBotLogUploader.Gw2Wingman;
 using PlenBotLogUploader.Tools;
 using PlenBotLogUploader.Twitch;
 using RestSharp;
@@ -55,30 +56,31 @@ namespace PlenBotLogUploader
                 _updateFound = value;
             }
         }
-        private int LastLogPullCounter
+        internal int LastLogPullCounter
         {
             get
             {
                 return _lastLogPullCounter;
             }
-            set
+            private set
             {
                 _lastLogPullCounter = value;
                 twitchCommandReplacements["%pullCounter%"] = value.ToString();
             }
         }
-        private string LastLogMessage
+        internal string LastLogMessage
         {
             get
             {
                 return _lastLogMessage;
             }
-            set
+            private set
             {
                 _lastLogMessage = value;
                 twitchCommandReplacements["%lastLog%"] = value;
             }
         }
+        internal Gw2WingmanUploader Gw2WingmanUploader { get; set; } = new();
 
         // fields
         private readonly FormTwitchNameSetup twitchNameLink;
@@ -354,7 +356,11 @@ namespace PlenBotLogUploader
                         checkBoxStartWhenWindowsStarts.Checked = true;
                     }
                 }
-                /* Subscribe to field changes events, otherwise they would trigger on load */
+                if (ApplicationSettings.Current.Upload.UploadToWingman)
+                {
+                    checkBoxUploadToWingman.Checked = true;
+                }
+                // Subscribe to field changes events, otherwise they would trigger on load
                 checkBoxPostToTwitch.CheckedChanged += CheckBoxPostToTwitch_CheckedChanged;
                 checkBoxUploadLogs.CheckedChanged += CheckBoxUploadAll_CheckedChanged;
                 checkBoxTrayMinimiseToIcon.CheckedChanged += CheckBoxTrayMinimiseToIcon_CheckedChanged;
@@ -368,6 +374,7 @@ namespace PlenBotLogUploader
                 comboBoxMaxUploads.SelectedIndexChanged += ComboBoxMaxUploads_SelectedIndexChanged;
                 checkBoxAutoUpdate.CheckedChanged += CheckBoxAutoUpdate_CheckedChanged;
                 checkBoxCloseToTrayIcon.CheckedChanged += CheckBoxCloseToTrayIcon_CheckedChanged;
+                checkBoxUploadToWingman.CheckedChanged += CheckBoxUploadToWingman_CheckedChanged;
                 logSessionLink.checkBoxSupressWebhooks.CheckedChanged += logSessionLink.CheckBoxSupressWebhooks_CheckedChanged;
                 logSessionLink.checkBoxOnlySuccess.CheckedChanged += logSessionLink.CheckBoxOnlySuccess_CheckedChanged;
                 logSessionLink.checkBoxSaveToFile.CheckedChanged += logSessionLink.CheckBoxSaveToFile_CheckedChanged;
@@ -926,6 +933,8 @@ namespace PlenBotLogUploader
                         await aleevaLink.ExecuteAllActiveAleevaIntegrations(reportJson, players);
                         // gw2bot integration
                         await gw2botLink.PostLogToGW2Bot(reportJson, players);
+                        // crossupload to wingman
+                        await CrossUploadToWingman(file, reportJson?.ExtraJson);
                         // report success
                         AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
                         // remove from failed logs if present
@@ -1042,6 +1051,15 @@ namespace PlenBotLogUploader
                 builder.Append("&detailedwvw=true");
             }
             return builder.ToString();
+        }
+
+        private async Task CrossUploadToWingman(string file, DpsReportJsonExtraJson extraJson)
+        {
+            if (!ApplicationSettings.Current.Upload.UploadToWingman || !File.Exists(file) || (extraJson is null))
+            {
+                return;
+            }
+            AddToText(await Gw2WingmanUploader.Upload(file, extraJson));
         }
         #endregion
 
@@ -1782,6 +1800,17 @@ namespace PlenBotLogUploader
                 WindowState = FormWindowState.Minimized;
                 e.Cancel = true;
             }
+        }
+
+        private void CheckBoxUploadToWingman_CheckedChanged(object sender, EventArgs e)
+        {
+            var toggle = checkBoxUploadToWingman.Checked;
+            if (toggle)
+            {
+                MessageBox.Show("When uploading to gw2wingman, your log will be placed in log process queue that is identical to posting dps.report URL into the manual upload.\nYour log may be processed with several hours or days later.", "Uploading to gw2wingman", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            ApplicationSettings.Current.Upload.UploadToWingman = toggle;
+            ApplicationSettings.Current.Save();
         }
         #endregion
     }

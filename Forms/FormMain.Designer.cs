@@ -70,22 +70,26 @@
             groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             checkBoxCloseToTrayIcon = new System.Windows.Forms.CheckBox();
             checkBoxAutoUpdate = new System.Windows.Forms.CheckBox();
-            buttonTeamsSettings = new System.Windows.Forms.Button();
-            buttonGW2BotSettings = new System.Windows.Forms.Button();
-            buttonAleevaSettings = new System.Windows.Forms.Button();
             buttonGW2API = new System.Windows.Forms.Button();
             comboBoxMaxUploads = new System.Windows.Forms.ComboBox();
             labelMaximumUploads = new System.Windows.Forms.Label();
             buttonReset = new System.Windows.Forms.Button();
             checkBoxStartWhenWindowsStarts = new System.Windows.Forms.CheckBox();
-            buttonDiscordWebhooks = new System.Windows.Forms.Button();
             buttonArcDpsPluginManager = new System.Windows.Forms.Button();
+            buttonGW2BotSettings = new System.Windows.Forms.Button();
+            buttonAleevaSettings = new System.Windows.Forms.Button();
+            buttonDiscordWebhooks = new System.Windows.Forms.Button();
             buttonPingSettings = new System.Windows.Forms.Button();
             toolTip = new System.Windows.Forms.ToolTip(components);
             richTextBoxMainConsole = new System.Windows.Forms.RichTextBox();
             tableLayoutPanelMainForm = new System.Windows.Forms.TableLayoutPanel();
             tabControlSettings = new System.Windows.Forms.TabControl();
             tabPageMainSettings = new System.Windows.Forms.TabPage();
+            tabPageLogProcessing = new System.Windows.Forms.TabPage();
+            groupBoxLogProcessingDiscordBots = new System.Windows.Forms.GroupBox();
+            groupBoxLogProcessingAnalysis = new System.Windows.Forms.GroupBox();
+            checkBoxUploadToWingman = new System.Windows.Forms.CheckBox();
+            buttonTeamsSettings = new System.Windows.Forms.Button();
             tabPageOtherSettings = new System.Windows.Forms.TabPage();
             groupBoxTwitchSettings.SuspendLayout();
             groupBoxArcdpsLogs.SuspendLayout();
@@ -94,6 +98,9 @@
             tableLayoutPanelMainForm.SuspendLayout();
             tabControlSettings.SuspendLayout();
             tabPageMainSettings.SuspendLayout();
+            tabPageLogProcessing.SuspendLayout();
+            groupBoxLogProcessingDiscordBots.SuspendLayout();
+            groupBoxLogProcessingAnalysis.SuspendLayout();
             tabPageOtherSettings.SuspendLayout();
             SuspendLayout();
             // 
@@ -361,7 +368,7 @@
             // 
             // buttonUpdate
             // 
-            buttonUpdate.Location = new System.Drawing.Point(8, 527);
+            buttonUpdate.Location = new System.Drawing.Point(7, 303);
             buttonUpdate.Margin = new System.Windows.Forms.Padding(5);
             buttonUpdate.Name = "buttonUpdate";
             buttonUpdate.Size = new System.Drawing.Size(295, 35);
@@ -393,7 +400,7 @@
             contextMenuStripIcon.ImageScalingSize = new System.Drawing.Size(20, 20);
             contextMenuStripIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItemUploadLogs, toolStripMenuItemPostToTwitch, toolStripSeparatorOne, toolStripMenuItemDPSReportUserTokens, toolStripSeparatorTwo, toolStripMenuItemOpenDPSReportServer, toolStripMenuItemOpenCustomName, toolStripMenuItemOpenTwitchCommands, toolStripMenuItemOpenArcDpsPluginManager, toolStripSeparatorThree, toolStripMenuItemDiscordWebhooks, toolStripMenuItemOpenPingSettings, toolStripSeparatorFour, toolStripMenuItemExit });
             contextMenuStripIcon.Name = "contextMenuStripIcon";
-            contextMenuStripIcon.Size = new System.Drawing.Size(272, 296);
+            contextMenuStripIcon.Size = new System.Drawing.Size(272, 268);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -490,24 +497,19 @@
             // 
             groupBoxOtherSettings.Controls.Add(checkBoxCloseToTrayIcon);
             groupBoxOtherSettings.Controls.Add(checkBoxAutoUpdate);
-            groupBoxOtherSettings.Controls.Add(buttonTeamsSettings);
-            groupBoxOtherSettings.Controls.Add(buttonGW2BotSettings);
-            groupBoxOtherSettings.Controls.Add(buttonAleevaSettings);
             groupBoxOtherSettings.Controls.Add(buttonGW2API);
             groupBoxOtherSettings.Controls.Add(buttonUpdate);
             groupBoxOtherSettings.Controls.Add(comboBoxMaxUploads);
             groupBoxOtherSettings.Controls.Add(labelMaximumUploads);
             groupBoxOtherSettings.Controls.Add(buttonReset);
             groupBoxOtherSettings.Controls.Add(checkBoxStartWhenWindowsStarts);
-            groupBoxOtherSettings.Controls.Add(buttonDiscordWebhooks);
             groupBoxOtherSettings.Controls.Add(buttonArcDpsPluginManager);
             groupBoxOtherSettings.Controls.Add(checkBoxTrayMinimiseToIcon);
-            groupBoxOtherSettings.Controls.Add(buttonPingSettings);
             groupBoxOtherSettings.Location = new System.Drawing.Point(7, 8);
             groupBoxOtherSettings.Margin = new System.Windows.Forms.Padding(5);
             groupBoxOtherSettings.Name = "groupBoxOtherSettings";
             groupBoxOtherSettings.Padding = new System.Windows.Forms.Padding(5);
-            groupBoxOtherSettings.Size = new System.Drawing.Size(309, 569);
+            groupBoxOtherSettings.Size = new System.Drawing.Size(309, 347);
             groupBoxOtherSettings.TabIndex = 7;
             groupBoxOtherSettings.TabStop = false;
             groupBoxOtherSettings.Text = "Other settings";
@@ -526,7 +528,7 @@
             // checkBoxAutoUpdate
             // 
             checkBoxAutoUpdate.AutoSize = true;
-            checkBoxAutoUpdate.Location = new System.Drawing.Point(9, 497);
+            checkBoxAutoUpdate.Location = new System.Drawing.Point(8, 273);
             checkBoxAutoUpdate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             checkBoxAutoUpdate.Name = "checkBoxAutoUpdate";
             checkBoxAutoUpdate.Size = new System.Drawing.Size(261, 24);
@@ -534,46 +536,9 @@
             checkBoxAutoUpdate.Text = "automatically update the uploader";
             checkBoxAutoUpdate.UseVisualStyleBackColor = true;
             // 
-            // buttonTeamsSettings
-            // 
-            buttonTeamsSettings.Location = new System.Drawing.Point(8, 275);
-            buttonTeamsSettings.Margin = new System.Windows.Forms.Padding(5);
-            buttonTeamsSettings.Name = "buttonTeamsSettings";
-            buttonTeamsSettings.Size = new System.Drawing.Size(295, 35);
-            buttonTeamsSettings.TabIndex = 15;
-            buttonTeamsSettings.Text = "Setup Teams";
-            buttonTeamsSettings.UseVisualStyleBackColor = true;
-            buttonTeamsSettings.Click += ButtonTeamsSettings_Click;
-            // 
-            // buttonGW2BotSettings
-            // 
-            buttonGW2BotSettings.Image = Properties.Resources.gw2bot_icon16;
-            buttonGW2BotSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonGW2BotSettings.Location = new System.Drawing.Point(8, 230);
-            buttonGW2BotSettings.Margin = new System.Windows.Forms.Padding(5);
-            buttonGW2BotSettings.Name = "buttonGW2BotSettings";
-            buttonGW2BotSettings.Size = new System.Drawing.Size(295, 35);
-            buttonGW2BotSettings.TabIndex = 14;
-            buttonGW2BotSettings.Text = "GW2Bot integration";
-            buttonGW2BotSettings.UseVisualStyleBackColor = true;
-            buttonGW2BotSettings.Click += ButtonGW2BotSettings_Click;
-            // 
-            // buttonAleevaSettings
-            // 
-            buttonAleevaSettings.Image = Properties.Resources.aleeva_icon16;
-            buttonAleevaSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonAleevaSettings.Location = new System.Drawing.Point(8, 185);
-            buttonAleevaSettings.Margin = new System.Windows.Forms.Padding(5);
-            buttonAleevaSettings.Name = "buttonAleevaSettings";
-            buttonAleevaSettings.Size = new System.Drawing.Size(295, 35);
-            buttonAleevaSettings.TabIndex = 13;
-            buttonAleevaSettings.Text = "Aleeva integrations";
-            buttonAleevaSettings.UseVisualStyleBackColor = true;
-            buttonAleevaSettings.Click += ButtonAleevaSettings_Click;
-            // 
             // buttonGW2API
             // 
-            buttonGW2API.Location = new System.Drawing.Point(8, 320);
+            buttonGW2API.Location = new System.Drawing.Point(7, 141);
             buttonGW2API.Margin = new System.Windows.Forms.Padding(5);
             buttonGW2API.Name = "buttonGW2API";
             buttonGW2API.Size = new System.Drawing.Size(295, 35);
@@ -605,7 +570,7 @@
             // 
             // buttonReset
             // 
-            buttonReset.Location = new System.Drawing.Point(8, 455);
+            buttonReset.Location = new System.Drawing.Point(7, 231);
             buttonReset.Margin = new System.Windows.Forms.Padding(5);
             buttonReset.Name = "buttonReset";
             buttonReset.Size = new System.Drawing.Size(295, 35);
@@ -625,20 +590,9 @@
             checkBoxStartWhenWindowsStarts.Text = "start uploader on system startup";
             checkBoxStartWhenWindowsStarts.UseVisualStyleBackColor = true;
             // 
-            // buttonDiscordWebhooks
-            // 
-            buttonDiscordWebhooks.Location = new System.Drawing.Point(8, 140);
-            buttonDiscordWebhooks.Margin = new System.Windows.Forms.Padding(5);
-            buttonDiscordWebhooks.Name = "buttonDiscordWebhooks";
-            buttonDiscordWebhooks.Size = new System.Drawing.Size(295, 35);
-            buttonDiscordWebhooks.TabIndex = 4;
-            buttonDiscordWebhooks.Text = "Discord webhooks";
-            buttonDiscordWebhooks.UseVisualStyleBackColor = true;
-            buttonDiscordWebhooks.Click += ButtonDiscordWebhooks_Click;
-            // 
             // buttonArcDpsPluginManager
             // 
-            buttonArcDpsPluginManager.Location = new System.Drawing.Point(8, 365);
+            buttonArcDpsPluginManager.Location = new System.Drawing.Point(7, 186);
             buttonArcDpsPluginManager.Margin = new System.Windows.Forms.Padding(5);
             buttonArcDpsPluginManager.Name = "buttonArcDpsPluginManager";
             buttonArcDpsPluginManager.Size = new System.Drawing.Size(295, 35);
@@ -646,6 +600,43 @@
             buttonArcDpsPluginManager.Text = "arcdps plugin manager";
             buttonArcDpsPluginManager.UseVisualStyleBackColor = true;
             buttonArcDpsPluginManager.Click += ButtonArcDpsPluginManager_Click;
+            // 
+            // buttonGW2BotSettings
+            // 
+            buttonGW2BotSettings.Image = Properties.Resources.gw2bot_icon16;
+            buttonGW2BotSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            buttonGW2BotSettings.Location = new System.Drawing.Point(8, 73);
+            buttonGW2BotSettings.Margin = new System.Windows.Forms.Padding(5);
+            buttonGW2BotSettings.Name = "buttonGW2BotSettings";
+            buttonGW2BotSettings.Size = new System.Drawing.Size(295, 35);
+            buttonGW2BotSettings.TabIndex = 14;
+            buttonGW2BotSettings.Text = "GW2Bot integration";
+            buttonGW2BotSettings.UseVisualStyleBackColor = true;
+            buttonGW2BotSettings.Click += ButtonGW2BotSettings_Click;
+            // 
+            // buttonAleevaSettings
+            // 
+            buttonAleevaSettings.Image = Properties.Resources.aleeva_icon16;
+            buttonAleevaSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            buttonAleevaSettings.Location = new System.Drawing.Point(7, 28);
+            buttonAleevaSettings.Margin = new System.Windows.Forms.Padding(5);
+            buttonAleevaSettings.Name = "buttonAleevaSettings";
+            buttonAleevaSettings.Size = new System.Drawing.Size(295, 35);
+            buttonAleevaSettings.TabIndex = 13;
+            buttonAleevaSettings.Text = "Aleeva integrations";
+            buttonAleevaSettings.UseVisualStyleBackColor = true;
+            buttonAleevaSettings.Click += ButtonAleevaSettings_Click;
+            // 
+            // buttonDiscordWebhooks
+            // 
+            buttonDiscordWebhooks.Location = new System.Drawing.Point(8, 105);
+            buttonDiscordWebhooks.Margin = new System.Windows.Forms.Padding(5);
+            buttonDiscordWebhooks.Name = "buttonDiscordWebhooks";
+            buttonDiscordWebhooks.Size = new System.Drawing.Size(295, 35);
+            buttonDiscordWebhooks.TabIndex = 4;
+            buttonDiscordWebhooks.Text = "Discord webhooks";
+            buttonDiscordWebhooks.UseVisualStyleBackColor = true;
+            buttonDiscordWebhooks.Click += ButtonDiscordWebhooks_Click;
             // 
             // buttonPingSettings
             // 
@@ -699,6 +690,7 @@
             // tabControlSettings
             // 
             tabControlSettings.Controls.Add(tabPageMainSettings);
+            tabControlSettings.Controls.Add(tabPageLogProcessing);
             tabControlSettings.Controls.Add(tabPageOtherSettings);
             tabControlSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             tabControlSettings.Location = new System.Drawing.Point(485, 3);
@@ -718,6 +710,63 @@
             tabPageMainSettings.Size = new System.Drawing.Size(320, 654);
             tabPageMainSettings.TabIndex = 0;
             tabPageMainSettings.Text = "Main settings";
+            // 
+            // tabPageLogProcessing
+            // 
+            tabPageLogProcessing.BackColor = System.Drawing.Color.White;
+            tabPageLogProcessing.Controls.Add(groupBoxLogProcessingDiscordBots);
+            tabPageLogProcessing.Controls.Add(groupBoxLogProcessingAnalysis);
+            tabPageLogProcessing.Location = new System.Drawing.Point(4, 29);
+            tabPageLogProcessing.Name = "tabPageLogProcessing";
+            tabPageLogProcessing.Size = new System.Drawing.Size(320, 654);
+            tabPageLogProcessing.TabIndex = 2;
+            tabPageLogProcessing.Text = "Log processing";
+            // 
+            // groupBoxLogProcessingDiscordBots
+            // 
+            groupBoxLogProcessingDiscordBots.Controls.Add(buttonAleevaSettings);
+            groupBoxLogProcessingDiscordBots.Controls.Add(buttonGW2BotSettings);
+            groupBoxLogProcessingDiscordBots.Location = new System.Drawing.Point(7, 164);
+            groupBoxLogProcessingDiscordBots.Name = "groupBoxLogProcessingDiscordBots";
+            groupBoxLogProcessingDiscordBots.Size = new System.Drawing.Size(309, 117);
+            groupBoxLogProcessingDiscordBots.TabIndex = 1;
+            groupBoxLogProcessingDiscordBots.TabStop = false;
+            groupBoxLogProcessingDiscordBots.Text = "Discord bot integrations";
+            // 
+            // groupBoxLogProcessingAnalysis
+            // 
+            groupBoxLogProcessingAnalysis.Controls.Add(checkBoxUploadToWingman);
+            groupBoxLogProcessingAnalysis.Controls.Add(buttonTeamsSettings);
+            groupBoxLogProcessingAnalysis.Controls.Add(buttonDiscordWebhooks);
+            groupBoxLogProcessingAnalysis.Controls.Add(buttonPingSettings);
+            groupBoxLogProcessingAnalysis.Location = new System.Drawing.Point(7, 8);
+            groupBoxLogProcessingAnalysis.Name = "groupBoxLogProcessingAnalysis";
+            groupBoxLogProcessingAnalysis.Size = new System.Drawing.Size(309, 150);
+            groupBoxLogProcessingAnalysis.TabIndex = 0;
+            groupBoxLogProcessingAnalysis.TabStop = false;
+            groupBoxLogProcessingAnalysis.Text = "Log analysis";
+            // 
+            // checkBoxUploadToWingman
+            // 
+            checkBoxUploadToWingman.AutoSize = true;
+            checkBoxUploadToWingman.Location = new System.Drawing.Point(8, 26);
+            checkBoxUploadToWingman.Margin = new System.Windows.Forms.Padding(5);
+            checkBoxUploadToWingman.Name = "checkBoxUploadToWingman";
+            checkBoxUploadToWingman.Size = new System.Drawing.Size(189, 24);
+            checkBoxUploadToWingman.TabIndex = 17;
+            checkBoxUploadToWingman.Text = "upload to gw2wingman";
+            checkBoxUploadToWingman.UseVisualStyleBackColor = true;
+            // 
+            // buttonTeamsSettings
+            // 
+            buttonTeamsSettings.Location = new System.Drawing.Point(8, 60);
+            buttonTeamsSettings.Margin = new System.Windows.Forms.Padding(5);
+            buttonTeamsSettings.Name = "buttonTeamsSettings";
+            buttonTeamsSettings.Size = new System.Drawing.Size(295, 35);
+            buttonTeamsSettings.TabIndex = 16;
+            buttonTeamsSettings.Text = "Setup Teams";
+            buttonTeamsSettings.UseVisualStyleBackColor = true;
+            buttonTeamsSettings.Click += ButtonTeamsSettings_Click;
             // 
             // tabPageOtherSettings
             // 
@@ -758,6 +807,10 @@
             tableLayoutPanelMainForm.ResumeLayout(false);
             tabControlSettings.ResumeLayout(false);
             tabPageMainSettings.ResumeLayout(false);
+            tabPageLogProcessing.ResumeLayout(false);
+            groupBoxLogProcessingDiscordBots.ResumeLayout(false);
+            groupBoxLogProcessingAnalysis.ResumeLayout(false);
+            groupBoxLogProcessingAnalysis.PerformLayout();
             tabPageOtherSettings.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -813,7 +866,6 @@
         private System.Windows.Forms.CheckBox checkBoxSaveLogsToCSV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMainForm;
         private System.Windows.Forms.Button buttonGW2BotSettings;
-        private System.Windows.Forms.Button buttonTeamsSettings;
         private System.Windows.Forms.CheckBox checkBoxAutoUpdate;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorOne;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDPSReportUserTokens;
@@ -823,6 +875,11 @@
         private System.Windows.Forms.CheckBox checkBoxUsePolling;
         private System.Windows.Forms.CheckBox checkBoxOnlyWhenStreamSoftwareRunning;
         private System.Windows.Forms.CheckBox checkBoxCloseToTrayIcon;
+        private System.Windows.Forms.TabPage tabPageLogProcessing;
+        private System.Windows.Forms.GroupBox groupBoxLogProcessingAnalysis;
+        private System.Windows.Forms.Button buttonTeamsSettings;
+        private System.Windows.Forms.CheckBox checkBoxUploadToWingman;
+        private System.Windows.Forms.GroupBox groupBoxLogProcessingDiscordBots;
     }
 }
 

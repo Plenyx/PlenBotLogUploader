@@ -14,6 +14,9 @@ namespace PlenBotLogUploader.AppSettings
         [JsonProperty("dpsReportServer")]
         internal DpsReportServer DpsReportServer { get; set; } = DpsReportServer.B;
 
+        [JsonProperty("uploadToWingman")]
+        internal bool UploadToWingman { get; set; } = false;
+
         internal string DPSReportServerLink => DpsReportServer switch
         {
             DpsReportServer.A => "http://a.dps.report",
