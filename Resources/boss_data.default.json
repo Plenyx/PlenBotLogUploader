@@ -377,6 +377,13 @@
     "isEvent": false
   },
   {
+    "bossId": 47188,
+    "name": "Spirit Race",
+    "icon": "https://wiki.guildwars2.com/images/e/e5/Spirit_Thread.png",
+    "type": 1,
+    "isEvent": true
+  },
+  {
     "bossId": 16199,
     "name": "Standard Kitty Golem",
     "successMsg": "Golem log: <log>",
