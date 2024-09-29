@@ -91,6 +91,8 @@
             checkBoxUploadToWingman = new System.Windows.Forms.CheckBox();
             buttonTeamsSettings = new System.Windows.Forms.Button();
             tabPageOtherSettings = new System.Windows.Forms.TabPage();
+            groupBoxLogProcessingRemotePings = new System.Windows.Forms.GroupBox();
+            buttonRemoteServerPings = new System.Windows.Forms.Button();
             groupBoxTwitchSettings.SuspendLayout();
             groupBoxArcdpsLogs.SuspendLayout();
             contextMenuStripIcon.SuspendLayout();
@@ -102,6 +104,7 @@
             groupBoxLogProcessingDiscordBots.SuspendLayout();
             groupBoxLogProcessingAnalysis.SuspendLayout();
             tabPageOtherSettings.SuspendLayout();
+            groupBoxLogProcessingRemotePings.SuspendLayout();
             SuspendLayout();
             // 
             // groupBoxTwitchSettings
@@ -714,6 +717,7 @@
             // tabPageLogProcessing
             // 
             tabPageLogProcessing.BackColor = System.Drawing.Color.White;
+            tabPageLogProcessing.Controls.Add(groupBoxLogProcessingRemotePings);
             tabPageLogProcessing.Controls.Add(groupBoxLogProcessingDiscordBots);
             tabPageLogProcessing.Controls.Add(groupBoxLogProcessingAnalysis);
             tabPageLogProcessing.Location = new System.Drawing.Point(4, 29);
@@ -779,6 +783,26 @@
             tabPageOtherSettings.TabIndex = 1;
             tabPageOtherSettings.Text = "Other settings";
             // 
+            // groupBoxLogProcessingRemotePings
+            // 
+            groupBoxLogProcessingRemotePings.Controls.Add(buttonRemoteServerPings);
+            groupBoxLogProcessingRemotePings.Location = new System.Drawing.Point(7, 287);
+            groupBoxLogProcessingRemotePings.Name = "groupBoxLogProcessingRemotePings";
+            groupBoxLogProcessingRemotePings.Size = new System.Drawing.Size(309, 66);
+            groupBoxLogProcessingRemotePings.TabIndex = 2;
+            groupBoxLogProcessingRemotePings.TabStop = false;
+            groupBoxLogProcessingRemotePings.Text = "Sending logs to other entities";
+            // 
+            // buttonRemoteServerPings
+            // 
+            buttonRemoteServerPings.Location = new System.Drawing.Point(7, 26);
+            buttonRemoteServerPings.Name = "buttonRemoteServerPings";
+            buttonRemoteServerPings.Size = new System.Drawing.Size(296, 29);
+            buttonRemoteServerPings.TabIndex = 0;
+            buttonRemoteServerPings.Text = "Setup remote server pings";
+            buttonRemoteServerPings.UseVisualStyleBackColor = true;
+            buttonRemoteServerPings.Click += ButtonRemoteServerPings_Click;
+            // 
             // FormMain
             // 
             AllowDrop = true;
@@ -812,6 +836,7 @@
             groupBoxLogProcessingAnalysis.ResumeLayout(false);
             groupBoxLogProcessingAnalysis.PerformLayout();
             tabPageOtherSettings.ResumeLayout(false);
+            groupBoxLogProcessingRemotePings.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -880,6 +905,8 @@
         private System.Windows.Forms.Button buttonTeamsSettings;
         private System.Windows.Forms.CheckBox checkBoxUploadToWingman;
         private System.Windows.Forms.GroupBox groupBoxLogProcessingDiscordBots;
+        private System.Windows.Forms.GroupBox groupBoxLogProcessingRemotePings;
+        private System.Windows.Forms.Button buttonRemoteServerPings;
     }
 }
 

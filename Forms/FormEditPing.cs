@@ -41,11 +41,18 @@ namespace PlenBotLogUploader
                 case PingMethod.Put:
                     radioButtonMethodPut.Checked = true;
                     break;
+                case PingMethod.Patch:
+                    radioButtonMethodPatch.Checked = true;
+                    break;
                 default:
                     radioButtonMethodPost.Checked = true;
                     break;
             }
-            if (config?.Authentication.UseAsAuth ?? false)
+            if (!config?.Authentication.Active ?? true)
+            {
+                radioButtonNoAuthorization.Checked = true;
+            }
+            else if (config?.Authentication.UseAsAuth ?? false)
             {
                 radioButtonUseAuthField.Checked = true;
             }
@@ -57,7 +64,7 @@ namespace PlenBotLogUploader
 
         private void FormPing_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (textBoxName.Text == "")
+            if (string.IsNullOrWhiteSpace(textBoxName.Text))
             {
                 return;
             }
@@ -76,9 +83,13 @@ namespace PlenBotLogUploader
                 {
                     chosenMethod = PingMethod.Delete;
                 }
+                else if (radioButtonMethodPatch.Checked)
+                {
+                    chosenMethod = PingMethod.Patch;
+                }
                 var auth = new PingAuthentication()
                 {
-                    Active = textBoxAuthToken.Text != "",
+                    Active = !radioButtonNoAuthorization.Checked && (textBoxAuthToken.Text.Trim() != ""),
                     UseAsAuth = radioButtonUseAuthField.Checked,
                     AuthName = textBoxAuthName.Text,
                     AuthToken = textBoxAuthToken.Text,
@@ -116,11 +127,15 @@ namespace PlenBotLogUploader
                 {
                     pingLink.AllPings[reservedId].Method = PingMethod.Delete;
                 }
+                else if (radioButtonMethodPatch.Checked)
+                {
+                    pingLink.AllPings[reservedId].Method = PingMethod.Patch;
+                }
                 else
                 {
                     pingLink.AllPings[reservedId].Method = PingMethod.Post;
                 }
-                pingLink.AllPings[reservedId].Authentication.Active = textBoxAuthToken.Text.Trim() != "";
+                pingLink.AllPings[reservedId].Authentication.Active = !radioButtonNoAuthorization.Checked && textBoxAuthToken.Text.Trim() != "";
                 pingLink.AllPings[reservedId].Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
                 pingLink.AllPings[reservedId].Authentication.AuthName = textBoxAuthName.Text;
                 pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxAuthToken.Text;
@@ -148,12 +163,16 @@ namespace PlenBotLogUploader
             {
                 chosenMethod = PingMethod.Delete;
             }
+            else if (radioButtonMethodPatch.Checked)
+            {
+                chosenMethod = PingMethod.Patch;
+            }
             var auth = new PingAuthentication()
             {
-                Active = textBoxAuthToken.Text.Trim() != "",
+                Active = !radioButtonNoAuthorization.Checked && (textBoxAuthToken.Text.Trim() != ""),
                 UseAsAuth = radioButtonUseAuthField.Checked,
                 AuthName = textBoxAuthName.Text,
-                AuthToken = textBoxAuthToken.Text
+                AuthToken = textBoxAuthToken.Text,
             };
             var tempPing = new PingConfiguration()
             {
@@ -172,6 +191,13 @@ namespace PlenBotLogUploader
             {
                 MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+        }
+
+        private void RadioButtonNoAuthorization_CheckedChanged(object sender, EventArgs e)
+        {
+            var toggle = !radioButtonNoAuthorization.Checked;
+            textBoxAuthName.Enabled = toggle;
+            textBoxAuthToken.Enabled = toggle;
         }
     }
 }

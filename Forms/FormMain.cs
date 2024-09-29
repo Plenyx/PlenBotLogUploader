@@ -1812,6 +1812,11 @@ namespace PlenBotLogUploader
             ApplicationSettings.Current.Upload.UploadToWingman = toggle;
             ApplicationSettings.Current.Save();
         }
+
+        private void ButtonRemoteServerPings_Click(object sender, EventArgs e)
+        {
+            OpenRemotePingsSettings();
+        }
         #endregion
     }
 }

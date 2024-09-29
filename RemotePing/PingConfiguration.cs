@@ -30,7 +30,7 @@ namespace PlenBotLogUploader.RemotePing
         {
             var result = false;
             using var controller = new HttpClientController();
-            if (configuration.Method.Equals(PingMethod.Post) || configuration.Method.Equals(PingMethod.Put))
+            if (configuration.Method.Equals(PingMethod.Post) || configuration.Method.Equals(PingMethod.Put) || configuration.Method.Equals(PingMethod.Patch))
             {
                 var fields = new Dictionary<string, string>();
                 if (reportJSON is not null)
@@ -56,7 +56,9 @@ namespace PlenBotLogUploader.RemotePing
                 {
                     using var responseMessage = configuration.Method.Equals(PingMethod.Put) ?
                         await controller.PutAsync(configuration.Url, content) :
-                        await controller.PostAsync(configuration.Url, content);
+                            (configuration.Method.Equals(PingMethod.Patch) ?
+                                await controller.PatchAsync(configuration.Url, content) :
+                                await controller.PostAsync(configuration.Url, content));
                     var response = await responseMessage.Content.ReadAsStringAsync();
                     var statusJSON = JsonConvert.DeserializeObject<PingResponse>(response);
                     if (responseMessage.IsSuccessStatusCode)
