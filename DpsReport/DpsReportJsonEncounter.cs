@@ -28,8 +28,14 @@ namespace PlenBotLogUploader.DpsReport
         [JsonProperty("isCm")]
         internal bool? IsCm { get; set; }
 
+        [JsonProperty("isLegendaryCm")]
+        internal bool? IsLegendaryCm { get; set; }
+
+        [JsonProperty("emboldened")]
+        internal int? Emboldened { get; set; }
+
         [JsonProperty("gw2Build")]
-        internal int? GameBuild { get; set; }
+        internal ulong? GameBuild { get; set; }
 
         [JsonProperty("jsonAvailable")]
         internal bool? JsonAvailable { get; set; }

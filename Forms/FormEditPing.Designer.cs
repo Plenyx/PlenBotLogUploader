@@ -47,6 +47,7 @@
             groupBoxName = new System.Windows.Forms.GroupBox();
             textBoxName = new System.Windows.Forms.TextBox();
             buttonTestPing = new System.Windows.Forms.Button();
+            checkBoxSendDataAsJson = new System.Windows.Forms.CheckBox();
             groupBoxAuthorization.SuspendLayout();
             groupBoxUrl.SuspendLayout();
             groupBoxMethod.SuspendLayout();
@@ -271,12 +272,24 @@
             buttonTestPing.UseVisualStyleBackColor = true;
             buttonTestPing.Click += ButtonTestPing_Click;
             // 
+            // checkBoxSendDataAsJson
+            // 
+            checkBoxSendDataAsJson.AutoSize = true;
+            checkBoxSendDataAsJson.Location = new System.Drawing.Point(408, 305);
+            checkBoxSendDataAsJson.Name = "checkBoxSendDataAsJson";
+            checkBoxSendDataAsJson.Size = new System.Drawing.Size(155, 24);
+            checkBoxSendDataAsJson.TabIndex = 11;
+            checkBoxSendDataAsJson.Text = "Send data as JSON";
+            checkBoxSendDataAsJson.UseVisualStyleBackColor = true;
+            checkBoxSendDataAsJson.CheckedChanged += CheckBoxSendDataAsJson_CheckedChanged;
+            // 
             // FormEditPing
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
             ClientSize = new System.Drawing.Size(669, 354);
+            Controls.Add(checkBoxSendDataAsJson);
             Controls.Add(buttonTestPing);
             Controls.Add(groupBoxName);
             Controls.Add(groupBoxAuthorization);
@@ -299,6 +312,7 @@
             groupBoxName.ResumeLayout(false);
             groupBoxName.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -321,5 +335,6 @@
         private System.Windows.Forms.Button buttonTestPing;
         private System.Windows.Forms.RadioButton radioButtonNoAuthorization;
         private System.Windows.Forms.RadioButton radioButtonMethodPatch;
+        private System.Windows.Forms.CheckBox checkBoxSendDataAsJson;
     }
 }

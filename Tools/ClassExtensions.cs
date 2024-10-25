@@ -68,5 +68,7 @@ namespace PlenBotLogUploader.Tools
                 return null;
             }
         }
+
+        internal static string ToLocalTimeZoneString(this DateTime dateTime) => string.Format("{0:yyyy-MM-dd HH:mm:ss} GMT {1}", dateTime.ToLocalTime(), dateTime.ToLocalTime().ToString("%K"));
     }
 }

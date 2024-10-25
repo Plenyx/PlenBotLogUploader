@@ -32,13 +32,13 @@ namespace PlenBotLogUploader.DpsReport
         /// Time when the log was uploaded to DPSReport
         /// </summary>
         [JsonProperty("uploadTime")]
-        internal int UploadTime { get; set; }
+        internal ulong UploadTime { get; set; }
 
         /// <summary>
         /// Total time of the encounter, might be null
         /// </summary>
         [JsonProperty("encounterTime")]
-        internal int? EncounterTime { get; set; }
+        internal ulong? EncounterTime { get; set; }
 
         /// <summary>
         /// Log tool used with processing the log on DPSReport
@@ -100,7 +100,12 @@ namespace PlenBotLogUploader.DpsReport
         /// <summary>
         /// whether the encounter was in legendary challenge mode
         /// </summary>
-        internal bool LegendaryChallengeMode => ExtraJson?.IsLegendaryCm ?? false;
+        internal bool LegendaryChallengeMode => (ExtraJson?.IsLegendaryCm ?? false) || (Encounter?.IsLegendaryCm ?? false);
+
+        /// <summary>
+        /// whether the encounter was emboldened
+        /// </summary>
+        internal bool Emboldened => (Encounter.Emboldened ?? 0) > 0;
 
         internal List<LogPlayer> GetLogPlayers()
         {

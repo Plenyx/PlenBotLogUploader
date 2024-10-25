@@ -356,7 +356,10 @@ namespace PlenBotLogUploader
                     false,
                     false,
                     bossData, players,
-                    jsonContentWvWNone, jsonContentWvWSquad, jsonContentWvWPlayers, jsonContentWvWSquadAndPlayers);
+                    jsonContentWvWNone,
+                    jsonContentWvWSquad,
+                    jsonContentWvWPlayers,
+                    jsonContentWvWSquadAndPlayers);
 
                 if (allWebhooks.Count > 0)
                 {
@@ -515,8 +518,12 @@ namespace PlenBotLogUploader
                     reportJSON.Encounter.BossId,
                     reportJSON.ChallengeMode,
                     reportJSON.LegendaryChallengeMode,
-                    bossData, players,
-                    jsonContentNone, jsonContentSquad, jsonContentPlayers, jsonContentSquadAndPlayers);
+                    bossData,
+                    players,
+                    jsonContentNone,
+                    jsonContentSquad,
+                    jsonContentPlayers,
+                    jsonContentSquadAndPlayers);
 
                 if (allWebhooks.Count > 0)
                 {

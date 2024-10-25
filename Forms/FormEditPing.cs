@@ -60,6 +60,15 @@ namespace PlenBotLogUploader
             {
                 radioButtonUseNormalField.Checked = true;
             }
+            if (config?.SendDataAsJson ?? true)
+            {
+                checkBoxSendDataAsJson.Checked = true;
+                radioButtonUseNormalField.Enabled = false;
+                if (radioButtonUseNormalField.Checked)
+                {
+                    radioButtonNoAuthorization.Checked = true;
+                }
+            }
         }
 
         private void FormPing_FormClosing(object sender, FormClosingEventArgs e)
@@ -101,6 +110,7 @@ namespace PlenBotLogUploader
                     Url = textBoxURL.Text,
                     Method = chosenMethod,
                     Authentication = auth,
+                    SendDataAsJson = checkBoxSendDataAsJson.Enabled,
                 };
                 pingLink.listViewPings.Items.Add(new ListViewItem()
                 {
@@ -115,6 +125,7 @@ namespace PlenBotLogUploader
                 pingLink.AllPings[reservedId].Active = config.Active;
                 pingLink.AllPings[reservedId].Name = textBoxName.Text;
                 pingLink.AllPings[reservedId].Url = textBoxURL.Text;
+                pingLink.AllPings[reservedId].SendDataAsJson = checkBoxSendDataAsJson.Checked;
                 if (radioButtonMethodPut.Checked)
                 {
                     pingLink.AllPings[reservedId].Method = PingMethod.Put;
@@ -181,6 +192,7 @@ namespace PlenBotLogUploader
                 Url = textBoxURL.Text,
                 Method = chosenMethod,
                 Authentication = auth,
+                SendDataAsJson = checkBoxSendDataAsJson.Checked,
             };
             var result = await tempPing.PingServerAsync(null, null);
             if (result)
@@ -198,6 +210,16 @@ namespace PlenBotLogUploader
             var toggle = !radioButtonNoAuthorization.Checked;
             textBoxAuthName.Enabled = toggle;
             textBoxAuthToken.Enabled = toggle;
+        }
+
+        private void CheckBoxSendDataAsJson_CheckedChanged(object sender, EventArgs e)
+        {
+            var toggle = checkBoxSendDataAsJson.Checked;
+            radioButtonUseNormalField.Enabled = !toggle;
+            if (radioButtonUseNormalField.Checked && toggle)
+            {
+                radioButtonNoAuthorization.Checked = true;
+            }
         }
     }
 }

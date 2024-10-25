@@ -26,6 +26,12 @@ namespace PlenBotLogUploader.DpsReport
         [JsonProperty("duration")]
         internal string Duration { get; set; }
 
+        [JsonProperty("durationMs")]
+        internal ulong DurationMs { get; set; }
+
+        [JsonProperty("success")]
+        internal bool Succcess { get; set; }
+
         [JsonProperty("triggerID")]
         internal int TriggerId { get; set; }
 
@@ -33,7 +39,7 @@ namespace PlenBotLogUploader.DpsReport
         internal string FightName { get; set; }
 
         [JsonProperty("gw2Build")]
-        internal int GameBuild { get; set; }
+        internal ulong GameBuild { get; set; }
 
         [JsonProperty("fightIcon")]
         internal string FightIcon { get; set; }
@@ -49,6 +55,9 @@ namespace PlenBotLogUploader.DpsReport
 
         [JsonProperty("players")]
         internal Player[] Players { get; set; }
+
+        [JsonProperty("logErrors")]
+        internal string[] LogErrors { get; set; }
 
         internal Target PossiblyLastTarget
         {
