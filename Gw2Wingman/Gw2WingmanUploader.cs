@@ -11,10 +11,17 @@ namespace PlenBotLogUploader.Gw2Wingman
     internal class Gw2WingmanUploader
     {
         private const string uploadUrl = "https://gw2wingman.nevermindcreations.de/uploadEVTC";
-        private readonly HttpClientController httpClientController = new();
+        private readonly HttpClientController httpClientController = new()
+        {
+            Timeout = TimeSpan.FromSeconds(120),
+        };
 
         internal async Task<string> Upload(string file, DpsReportJsonExtraJson extraJson)
         {
+            if (extraJson.TriggerId == 1)
+            {
+                return ">:> Wingman upload has been skipped for a WvW log";
+            }
             var fileInfo = new FileInfo(file);
             try
             {
