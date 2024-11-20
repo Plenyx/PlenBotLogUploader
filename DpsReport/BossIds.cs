@@ -64,6 +64,9 @@
         DemonBrothersDeimos = 26226,
         Eparch = 26231,
         DemonBrothersCerus = 26257,
+        Ura = 26712,
+        Decima = 26774,
+        Greer = 26725,
         TheDragonvoid = 43488,
         ConjuredAmalgamate = 43974,
     }

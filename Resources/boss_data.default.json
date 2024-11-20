@@ -108,6 +108,13 @@
     "isEvent": false
   },
   {
+    "bossId": 26774,
+    "name": "Decima, the Stormsinger",
+    "icon": "",
+    "type": 1,
+    "isEvent": false
+  },
+  {
     "bossId": 25705,
     "name": "Dagda",
     "icon": "https://i.imgur.com/v6vjRsH.png",
@@ -199,6 +206,13 @@
     "bossId": 15429,
     "name": "Gorseval",
     "icon": "https://wiki.guildwars2.com/images/d/d1/Mini_Gorseval_the_Multifarious.png",
+    "type": 1,
+    "isEvent": false
+  },
+  {
+    "bossId": 26725,
+    "name": "Greer, the Blightbringer",
+    "icon": "",
     "type": 1,
     "isEvent": false
   },
@@ -414,6 +428,13 @@
     "icon": "https://i.imgur.com/xpQnu35.png",
     "type": 1,
     "isEvent": true
+  },
+  {
+    "bossId": 26712,
+    "name": "Ura, the Steamshrieker",
+    "icon": "",
+    "type": 1,
+    "isEvent": false
   },
   {
     "bossId": 15438,
