@@ -19,7 +19,12 @@ Where "**msg**" is used as a text response from the server and will be displayed
 ## Processing logs on the remote server
 For GET and DELETE methods, the fields are encoded *within the url request* (*/?bossId=...*)
 
-All of the data is sent as string via the url request except for the player list.
+These are the fields being sent:
+
+* "**permalink**" contains a direct link to a processed log on (a/b.)dps.report *as a string*
+* "**bossId**" contains the encounter (boss) id *as a string*
+* "**success**" contains "true" if the encounter was a success, "false" otherwise *as a string*
+* "**arcVersion**" contains the arcdps version used to create the original log *as a string*
 
 For POST and PUT methods, the fields are encoded as *application/x-www-form-urlencoded* (*/*)
 
@@ -27,7 +32,7 @@ These are the fields being sent:
 
 * "**permalink**" contains a direct link to a processed log on (a/b.)dps.report *as a string*
 * "**bossId**" contains the encounter (boss) id *as a string*
-* "**success**" contains true if the encounter was a success, false otherwise *as a string*
+* "**success**" contains "true" if the encounter was a success, "false" otherwise *as a string*
 * "**arcVersion**" contains the arcdps version used to create the original log *as a string*
 * "**gw2Build**" contains the GW2 build on which the log was created *as a string*
 * "**fightName**" contains the name of the encounter *as a string*
@@ -56,6 +61,7 @@ If you opt in to be send a JSON format rather then Key=Pair values, the format w
         "logErrors": (array of strings),
     }
 
+Additional fields when using JSON format:
 * "**logErrors**" contains a list of error message EI genarated
 
 ## Other links

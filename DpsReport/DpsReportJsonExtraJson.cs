@@ -63,7 +63,7 @@ namespace PlenBotLogUploader.DpsReport
         {
             get
             {
-                if (TriggerId == (int)BossIds.Cerus)
+                if ((TriggerId is (int)BossIds.Cerus) || (TriggerId is (int)BossIds.Decima))
                 {
                     return TargetsByTotalHealth.FirstOrDefault();
                 }

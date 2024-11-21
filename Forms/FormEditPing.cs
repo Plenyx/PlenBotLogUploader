@@ -120,12 +120,12 @@ namespace PlenBotLogUploader
                 });
                 return;
             }
-            if (pingLink.AllPings.ContainsKey(reservedId))
+            if (pingLink.AllPings.TryGetValue(reservedId, out PingConfiguration pingConfig))
             {
-                pingLink.AllPings[reservedId].Active = config.Active;
-                pingLink.AllPings[reservedId].Name = textBoxName.Text;
-                pingLink.AllPings[reservedId].Url = textBoxURL.Text;
-                pingLink.AllPings[reservedId].SendDataAsJson = checkBoxSendDataAsJson.Checked;
+                pingConfig.Active = config.Active;
+                pingConfig.Name = textBoxName.Text;
+                pingConfig.Url = textBoxURL.Text;
+                pingConfig.SendDataAsJson = checkBoxSendDataAsJson.Checked;
                 if (radioButtonMethodPut.Checked)
                 {
                     pingLink.AllPings[reservedId].Method = PingMethod.Put;
@@ -146,10 +146,11 @@ namespace PlenBotLogUploader
                 {
                     pingLink.AllPings[reservedId].Method = PingMethod.Post;
                 }
-                pingLink.AllPings[reservedId].Authentication.Active = !radioButtonNoAuthorization.Checked && textBoxAuthToken.Text.Trim() != "";
-                pingLink.AllPings[reservedId].Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
-                pingLink.AllPings[reservedId].Authentication.AuthName = textBoxAuthName.Text;
-                pingLink.AllPings[reservedId].Authentication.AuthToken = textBoxAuthToken.Text;
+
+                pingConfig.Authentication.Active = !radioButtonNoAuthorization.Checked && textBoxAuthToken.Text.Trim() != "";
+                pingConfig.Authentication.UseAsAuth = radioButtonUseAuthField.Checked;
+                pingConfig.Authentication.AuthName = textBoxAuthName.Text;
+                pingConfig.Authentication.AuthToken = textBoxAuthToken.Text;
                 pingLink.listViewPings.Items[pingLink.listViewPings.Items.IndexOfKey(reservedId.ToString())] = new ListViewItem()
                 {
                     Name = reservedId.ToString(),
