@@ -86,13 +86,13 @@
             tabControlSettings = new System.Windows.Forms.TabControl();
             tabPageMainSettings = new System.Windows.Forms.TabPage();
             tabPageLogProcessing = new System.Windows.Forms.TabPage();
+            groupBoxLogProcessingRemotePings = new System.Windows.Forms.GroupBox();
+            buttonRemoteServerPings = new System.Windows.Forms.Button();
             groupBoxLogProcessingDiscordBots = new System.Windows.Forms.GroupBox();
             groupBoxLogProcessingAnalysis = new System.Windows.Forms.GroupBox();
             checkBoxUploadToWingman = new System.Windows.Forms.CheckBox();
             buttonTeamsSettings = new System.Windows.Forms.Button();
             tabPageOtherSettings = new System.Windows.Forms.TabPage();
-            groupBoxLogProcessingRemotePings = new System.Windows.Forms.GroupBox();
-            buttonRemoteServerPings = new System.Windows.Forms.Button();
             groupBoxTwitchSettings.SuspendLayout();
             groupBoxArcdpsLogs.SuspendLayout();
             contextMenuStripIcon.SuspendLayout();
@@ -101,10 +101,10 @@
             tabControlSettings.SuspendLayout();
             tabPageMainSettings.SuspendLayout();
             tabPageLogProcessing.SuspendLayout();
+            groupBoxLogProcessingRemotePings.SuspendLayout();
             groupBoxLogProcessingDiscordBots.SuspendLayout();
             groupBoxLogProcessingAnalysis.SuspendLayout();
             tabPageOtherSettings.SuspendLayout();
-            groupBoxLogProcessingRemotePings.SuspendLayout();
             SuspendLayout();
             // 
             // groupBoxTwitchSettings
@@ -726,6 +726,26 @@
             tabPageLogProcessing.TabIndex = 2;
             tabPageLogProcessing.Text = "Log processing";
             // 
+            // groupBoxLogProcessingRemotePings
+            // 
+            groupBoxLogProcessingRemotePings.Controls.Add(buttonRemoteServerPings);
+            groupBoxLogProcessingRemotePings.Location = new System.Drawing.Point(7, 287);
+            groupBoxLogProcessingRemotePings.Name = "groupBoxLogProcessingRemotePings";
+            groupBoxLogProcessingRemotePings.Size = new System.Drawing.Size(309, 69);
+            groupBoxLogProcessingRemotePings.TabIndex = 2;
+            groupBoxLogProcessingRemotePings.TabStop = false;
+            groupBoxLogProcessingRemotePings.Text = "Sending logs to other entities";
+            // 
+            // buttonRemoteServerPings
+            // 
+            buttonRemoteServerPings.Location = new System.Drawing.Point(7, 26);
+            buttonRemoteServerPings.Name = "buttonRemoteServerPings";
+            buttonRemoteServerPings.Size = new System.Drawing.Size(295, 35);
+            buttonRemoteServerPings.TabIndex = 0;
+            buttonRemoteServerPings.Text = "Setup remote server pings";
+            buttonRemoteServerPings.UseVisualStyleBackColor = true;
+            buttonRemoteServerPings.Click += ButtonRemoteServerPings_Click;
+            // 
             // groupBoxLogProcessingDiscordBots
             // 
             groupBoxLogProcessingDiscordBots.Controls.Add(buttonAleevaSettings);
@@ -783,26 +803,6 @@
             tabPageOtherSettings.TabIndex = 1;
             tabPageOtherSettings.Text = "Other settings";
             // 
-            // groupBoxLogProcessingRemotePings
-            // 
-            groupBoxLogProcessingRemotePings.Controls.Add(buttonRemoteServerPings);
-            groupBoxLogProcessingRemotePings.Location = new System.Drawing.Point(7, 287);
-            groupBoxLogProcessingRemotePings.Name = "groupBoxLogProcessingRemotePings";
-            groupBoxLogProcessingRemotePings.Size = new System.Drawing.Size(309, 66);
-            groupBoxLogProcessingRemotePings.TabIndex = 2;
-            groupBoxLogProcessingRemotePings.TabStop = false;
-            groupBoxLogProcessingRemotePings.Text = "Sending logs to other entities";
-            // 
-            // buttonRemoteServerPings
-            // 
-            buttonRemoteServerPings.Location = new System.Drawing.Point(7, 26);
-            buttonRemoteServerPings.Name = "buttonRemoteServerPings";
-            buttonRemoteServerPings.Size = new System.Drawing.Size(296, 29);
-            buttonRemoteServerPings.TabIndex = 0;
-            buttonRemoteServerPings.Text = "Setup remote server pings";
-            buttonRemoteServerPings.UseVisualStyleBackColor = true;
-            buttonRemoteServerPings.Click += ButtonRemoteServerPings_Click;
-            // 
             // FormMain
             // 
             AllowDrop = true;
@@ -832,11 +832,11 @@
             tabControlSettings.ResumeLayout(false);
             tabPageMainSettings.ResumeLayout(false);
             tabPageLogProcessing.ResumeLayout(false);
+            groupBoxLogProcessingRemotePings.ResumeLayout(false);
             groupBoxLogProcessingDiscordBots.ResumeLayout(false);
             groupBoxLogProcessingAnalysis.ResumeLayout(false);
             groupBoxLogProcessingAnalysis.PerformLayout();
             tabPageOtherSettings.ResumeLayout(false);
-            groupBoxLogProcessingRemotePings.ResumeLayout(false);
             ResumeLayout(false);
         }
 
