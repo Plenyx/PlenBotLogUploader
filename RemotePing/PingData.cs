@@ -4,7 +4,7 @@ namespace PlenBotLogUploader.RemotePing
 {
     internal class PingData
     {
-        [JsonProperty("bossId")]
+        [JsonProperty("permalink")]
         internal string Permalink { get; set; }
 
         [JsonProperty("bossId")]
