@@ -1702,6 +1702,7 @@ namespace PlenBotLogUploader
                 UseShellExecute = true,
                 FileName = ApplicationSettings.LocalDir,
             });
+            File.Copy("app_settings.json", $"app_settings {DateTime.Now.ToString("yyyy-MM-dd HHmmss")}.json");
             var reset = new ApplicationSettings();
             reset.Save();
             ExitApp();

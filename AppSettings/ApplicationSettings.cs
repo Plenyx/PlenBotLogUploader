@@ -29,18 +29,41 @@ namespace PlenBotLogUploader.AppSettings
         private void SerialiseToFile(string saveLocation)
         {
             SettingsSaved?.Invoke(this, EventArgs.Empty);
-            File.WriteAllText(saveLocation, JsonConvert.SerializeObject(this, Formatting.Indented));
+            try
+            {
+                File.WriteAllText(saveLocation, JsonConvert.SerializeObject(this, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText("settingscrash.log", ex.Message);
+            }
         }
 
         private static ApplicationSettings DeserialiseFromFile(string loadLocation)
         {
             if (File.Exists(loadLocation))
             {
-                var json = File.ReadAllText(loadLocation);
-                var settings = JsonConvert.DeserializeObject<ApplicationSettings>(json);
-                if (settings is not null)
+                try
                 {
-                    return settings;
+                    var json = File.ReadAllText(loadLocation);
+                    var settings = JsonConvert.DeserializeObject<ApplicationSettings>(json);
+                    if (settings is not null)
+                    {
+                        return settings;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    File.AppendAllText("settingscrash.log", ex.Message);
+                }
+                try
+                {
+                    // error when loading occured, save previous settings before resetting
+                    File.Copy("app_settings.json", $"app_settings {DateTime.Now.ToString("yyyy-MM-dd HHmmss")}.json");
+                }
+                catch (Exception ex)
+                {
+                    File.AppendAllText("settingscrash.log", ex.Message);
                 }
             }
             var sett = new ApplicationSettings();
