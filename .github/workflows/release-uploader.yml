@@ -9,11 +9,11 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - name: Setup .NET 8
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     # This is a workaround for issue https://github.com/actions/virtual-environments/issues/1090,
@@ -33,7 +33,7 @@ jobs:
           mv artifacts/uploader/win64/PlenBotLogUploader.exe artifacts/uploader/win64/PlenBotLogUploader.netv8.exe
           mv artifacts/uploader/win64-sc/PlenBotLogUploader.exe artifacts/uploader/win64-sc/PlenBotLogUploader.exe
     - name: Prepare release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         draft: true
         files: |

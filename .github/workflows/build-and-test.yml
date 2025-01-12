@@ -11,11 +11,11 @@ jobs:
     # Do not run duplicate actions on pull_request.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - name: Setup .NET 8
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     # This is a workaround for issue https://github.com/actions/virtual-environments/issues/1090,
@@ -35,17 +35,17 @@ jobs:
           mkdir -p artifacts/pdb/uploader/win64/
           mv artifacts/uploader/win64/*.pdb artifacts/pdb/uploader/win64/
     - name: Upload PlenBotLogUploader (Windows)
-      uses: actions/upload-artifact@v3.1.1
+      uses: actions/upload-artifact@v4
       with:
         name: PlenBotLogUploader (Windows, netv8)
         path: artifacts/uploader/win64/PlenBotLogUploader.exe
     - name: Upload PlenBotLogUploader (Windows, self-contained)
-      uses: actions/upload-artifact@v3.1.1
+      uses: actions/upload-artifact@v4
       with:
         name: PlenBotLogUploader (Windows, self-contained)
         path: artifacts/uploader/win64-sc/PlenBotLogUploader.exe
     - name: Upload PDB files
-      uses: actions/upload-artifact@v3.1.1
+      uses: actions/upload-artifact@v4
       with:
         name: PDB files
         path: artifacts/pdb/
