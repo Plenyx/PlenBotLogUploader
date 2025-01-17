@@ -4,6 +4,7 @@
     {
         WvW = 1,
         Sabetha = 15375,
+        SpiritRace = 15415,
         Gorseval = 15429,
         ValeGuardian = 15438,
         BanditTrioBerg = 16088,

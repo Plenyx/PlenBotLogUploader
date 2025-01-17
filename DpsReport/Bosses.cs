@@ -104,7 +104,7 @@ namespace PlenBotLogUploader.DpsReport
         internal static int GetWingForBoss(int bossId)
             => bossId switch
             {
-                (int)BossIds.ValeGuardian or (int)BossIds.Gorseval or (int)BossIds.Sabetha => 1,
+                (int)BossIds.ValeGuardian or (int)BossIds.SpiritRace or (int)BossIds.Gorseval or (int)BossIds.Sabetha => 1,
                 (int)BossIds.Slothasor or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioZane or (int)BossIds.BanditTrioNarella or (int)BossIds.Matthias => 2,
                 (int)BossIds.Escort or (int)BossIds.KeepConstruct or (int)BossIds.TwistedCastle or (int)BossIds.Xera => 3,
                 (int)BossIds.Cairn or (int)BossIds.MursaatOverseer or (int)BossIds.Samarog or (int)BossIds.Deimos => 4,
@@ -124,9 +124,9 @@ namespace PlenBotLogUploader.DpsReport
             => bossId switch
             {
                 (int)BossIds.ValeGuardian or (int)BossIds.Slothasor or (int)BossIds.Escort or (int)BossIds.Cairn or (int)BossIds.SoullessHorror or (int)BossIds.ConjuredAmalgamate or (int)BossIds.CardinalAdina or (int)BossIds.Greer => 1,
-                (int)BossIds.Gorseval or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir or (int)BossIds.Decima => 2,
-                (int)BossIds.Matthias or (int)BossIds.TwistedCastle or (int)BossIds.Sabetha or (int)BossIds.Samarog or (int)BossIds.BrokenKing or (int)BossIds.Qadim or (int)BossIds.QadimThePeerless or (int)BossIds.Ura => 3,
-                (int)BossIds.Deimos or (int)BossIds.EaterOfSouls or (int)BossIds.Xera => 4,
+                (int)BossIds.SpiritRace or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir or (int)BossIds.Decima => 2,
+                (int)BossIds.Gorseval or (int)BossIds.Matthias or (int)BossIds.TwistedCastle or (int)BossIds.Samarog or (int)BossIds.BrokenKing or (int)BossIds.Qadim or (int)BossIds.QadimThePeerless or (int)BossIds.Ura => 3,
+                (int)BossIds.Sabetha or (int)BossIds.Xera or (int)BossIds.Deimos or (int)BossIds.EaterOfSouls => 4,
                 (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement => 5,
                 (int)BossIds.Dhuum => 6,
                 _ => 0,
