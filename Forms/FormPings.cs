@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
+using PlenBotLogUploader.Properties;
 using PlenBotLogUploader.RemotePing;
 using System;
 using System.Collections.Generic;
@@ -11,177 +12,164 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PlenBotLogUploader
+namespace PlenBotLogUploader;
+
+public partial class FormPings : Form
 {
-    public partial class FormPings : Form
+    // properties
+    private static readonly string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
+
+    // fields
+    private readonly FormMain mainLink;
+    private int settingsIdsKey;
+
+    internal FormPings(FormMain mainLink)
     {
-        #region definitions
-        // properties
-        private static readonly string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
-        internal IDictionary<int, PingConfiguration> AllPings { get; init; }
+        this.mainLink = mainLink;
+        InitializeComponent();
+        Icon = Resources.AppIcon;
+        AllPings = LoadPings();
 
-        // fields
-        private readonly FormMain mainLink;
-        private int settingsIdsKey;
-        #endregion
+        settingsIdsKey = AllPings.Count;
 
-        internal FormPings(FormMain mainLink)
+        foreach (var ping in AllPings)
         {
-            this.mainLink = mainLink;
-            InitializeComponent();
-            Icon = Properties.Resources.AppIcon;
-            AllPings = LoadPings();
-
-            settingsIdsKey = AllPings.Count;
-
-            foreach (var ping in AllPings)
+            listViewPings.Items.Add(new ListViewItem
             {
-                listViewPings.Items.Add(new ListViewItem
-                {
-                    Name = ping.Key.ToString(),
-                    Text = ping.Value.Name,
-                    Checked = ping.Value.Active,
-                });
+                Name = ping.Key.ToString(),
+                Text = ping.Value.Name,
+                Checked = ping.Value.Active,
+            });
+        }
+    }
+    internal IDictionary<int, PingConfiguration> AllPings { get; init; }
+
+    private static IDictionary<int, PingConfiguration> LoadFromJsonFile(string filePath)
+    {
+        var jsonData = File.ReadAllText(filePath);
+        var remotePingId = 1;
+
+        var parsedData = JsonConvert.DeserializeObject<IEnumerable<PingConfiguration>>(jsonData) ??
+                         throw new JsonException("Could not parse json to PingConfiguration");
+
+        var result = parsedData.Select(x => (Key: remotePingId++, PinConfiguration: x))
+            .ToDictionary(x => x.Key, x => x.PinConfiguration);
+
+        return result;
+    }
+
+    private static void SaveToJson(IEnumerable<PingConfiguration> pingConfigurations)
+    {
+        var jsonString = JsonConvert.SerializeObject(pingConfigurations, Formatting.Indented);
+
+        File.WriteAllText(PingJsonFileLocation, jsonString, Encoding.UTF8);
+    }
+
+    private void FormPings_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        e.Cancel = true;
+        Hide();
+        SaveToJson(AllPings.Values);
+    }
+
+    internal async Task ExecuteAllPingsAsync(DpsReportJson reportJson)
+    {
+        foreach (var key in AllPings.Keys)
+        {
+            if (AllPings[key].Active)
+            {
+                await AllPings[key].PingServerAsync(mainLink, reportJson);
             }
         }
+    }
 
-        private static IDictionary<int, PingConfiguration> LoadFromJsonFile(string filePath)
+    private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
+    {
+        if (listViewPings.SelectedItems.Count == 0)
         {
-            var jsonData = File.ReadAllText(filePath);
-            var remotePingId = 1;
-
-            var parsedData = JsonConvert.DeserializeObject<IEnumerable<PingConfiguration>>(jsonData) ??
-                             throw new JsonException("Could not parse json to PingConfiguration");
-
-            var result = parsedData.Select(x => (Key: remotePingId++, PinConfiguration: x))
-                .ToDictionary(x => x.Key, x => x.PinConfiguration);
-
-            return result;
+            return;
         }
-
-        private static void SaveToJson(IEnumerable<PingConfiguration> pingConfigurations)
+        var selected = listViewPings.SelectedItems[0];
+        if (!int.TryParse(selected.Name, out var reservedId))
         {
-            var jsonString = JsonConvert.SerializeObject(pingConfigurations, Formatting.Indented);
-
-            File.WriteAllText(PingJsonFileLocation, jsonString, Encoding.UTF8);
+            return;
         }
+        new FormEditPing(this, reservedId, false, AllPings[reservedId]).ShowDialog();
+    }
 
-        private void FormPings_FormClosing(object sender, FormClosingEventArgs e)
+    private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
+    {
+        if (listViewPings.SelectedItems.Count == 0)
         {
-            e.Cancel = true;
-            Hide();
-            SaveToJson(AllPings.Values);
+            return;
         }
-
-        internal void AddPing(PingConfiguration config)
+        var selected = listViewPings.SelectedItems[0];
+        if (!int.TryParse(selected.Name, out var reservedId))
         {
-            settingsIdsKey++;
-            AllPings.Add(settingsIdsKey, config);
+            return;
         }
+        listViewPings.Items.RemoveByKey(reservedId.ToString());
+        AllPings.Remove(reservedId);
+    }
 
-        internal async Task ExecuteAllPingsAsync(DpsReportJson reportJSON)
+    private void ContextMenuStripInteract_Opening(object sender, CancelEventArgs e)
+    {
+        var toggle = listViewPings.SelectedItems.Count > 0;
+        toolStripMenuItemEdit.Enabled = toggle;
+        toolStripMenuItemDelete.Enabled = toggle;
+        toolStripMenuItemTest.Enabled = toggle;
+    }
+
+    private void ListViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
+    {
+        if (!int.TryParse(e.Item.Name, out var reservedId))
         {
-            foreach (var key in AllPings.Keys)
-            {
-                if (AllPings[key].Active)
-                {
-                    await AllPings[key].PingServerAsync(mainLink, reportJSON);
-                }
-            }
+            return;
         }
+        AllPings[reservedId].Active = e.Item.Checked;
+    }
 
-        private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
+    private async void ToolStripMenuItemTest_Click(object sender, EventArgs e)
+    {
+        if (listViewPings.SelectedItems.Count == 0)
         {
-            if (listViewPings.SelectedItems.Count == 0)
-            {
-                return;
-            }
-            var selected = listViewPings.SelectedItems[0];
-            if (!int.TryParse(selected.Name, out var reservedId))
-            {
-                return;
-            }
-            new FormEditPing(this, reservedId, false, AllPings[reservedId]).ShowDialog();
+            return;
         }
-
-        private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
+        var selected = listViewPings.SelectedItems[0];
+        if (!int.TryParse(selected.Name, out var reservedId))
         {
-            if (listViewPings.SelectedItems.Count == 0)
-            {
-                return;
-            }
-            var selected = listViewPings.SelectedItems[0];
-            if (!int.TryParse(selected.Name, out var reservedId))
-            {
-                return;
-            }
-            listViewPings.Items.RemoveByKey(reservedId.ToString());
-            AllPings.Remove(reservedId);
+            return;
         }
-
-        private void ContextMenuStripInteract_Opening(object sender, CancelEventArgs e)
+        var result = await AllPings[reservedId].PingServerAsync(null, null);
+        if (result)
         {
-            var toggle = listViewPings.SelectedItems.Count > 0;
-            toolStripMenuItemEdit.Enabled = toggle;
-            toolStripMenuItemDelete.Enabled = toggle;
-            toolStripMenuItemTest.Enabled = toggle;
+            MessageBox.Show("Ping test successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-        private void ListViewDiscordWebhooks_ItemChecked(object sender, ItemCheckedEventArgs e)
+        else
         {
-            if (!int.TryParse(e.Item.Name, out var reservedId))
-            {
-                return;
-            }
-            AllPings[reservedId].Active = e.Item.Checked;
+            MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
+    }
 
-        private async void ToolStripMenuItemTest_Click(object sender, EventArgs e)
+    private void AddNewClick()
+    {
+        settingsIdsKey++;
+        new FormEditPing(this, settingsIdsKey, true, null).ShowDialog();
+    }
+
+    private void ButtonAddNew_Click(object sender, EventArgs e) => AddNewClick();
+
+    private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => AddNewClick();
+
+    private static IDictionary<int, PingConfiguration> LoadPings()
+    {
+        try
         {
-            if (listViewPings.SelectedItems.Count == 0)
-            {
-                return;
-            }
-            var selected = listViewPings.SelectedItems[0];
-            if (!int.TryParse(selected.Name, out var reservedId))
-            {
-                return;
-            }
-            var result = await AllPings[reservedId].PingServerAsync(null, null);
-            if (result)
-            {
-                MessageBox.Show("Ping test successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Ping test unsuccessful\nCheck your settings", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
+            return File.Exists(PingJsonFileLocation) ? LoadFromJsonFile(PingJsonFileLocation) : new Dictionary<int, PingConfiguration>();
         }
-
-        private void AddNewClick()
+        catch
         {
-            settingsIdsKey++;
-            new FormEditPing(this, settingsIdsKey, true, null).ShowDialog();
-        }
-
-        private void ButtonAddNew_Click(object sender, EventArgs e) => AddNewClick();
-
-        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => AddNewClick();
-
-        private static IDictionary<int, PingConfiguration> LoadPings()
-        {
-            try
-            {
-                if (File.Exists(PingJsonFileLocation))
-                {
-                    return LoadFromJsonFile(PingJsonFileLocation);
-                }
-                return new Dictionary<int, PingConfiguration>();
-            }
-            catch
-            {
-                return new Dictionary<int, PingConfiguration>();
-            }
+            return new Dictionary<int, PingConfiguration>();
         }
     }
 }

@@ -5,102 +5,101 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PlenBotLogUploader.DpsReport
+namespace PlenBotLogUploader.DpsReport;
+
+/// <summary>
+///     An object holding boss information
+/// </summary>
+[JsonObject(MemberSerialization.OptIn)]
+internal sealed class BossData : IListViewItemInfo<BossData>
 {
     /// <summary>
-    /// An object holding boss information
+    ///     ID of the encounter
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
-    internal sealed class BossData : IListViewItemInfo<BossData>
+    [JsonProperty("bossId")]
+    internal int BossId { get; set; }
+
+    /// <summary>
+    ///     Name of the encounter
+    /// </summary>
+    [JsonProperty("name")]
+    internal string Name { get; set; }
+
+    /// <summary>
+    ///     Internal description of the boss, only visible in the Uploader app
+    /// </summary>
+    [JsonProperty("internalDescription")]
+    internal string InternalDescription { get; set; } = "";
+
+    /// <summary>
+    ///     Twitch message when encounter is a success
+    /// </summary>
+    [JsonProperty("successMsg")]
+    internal string SuccessMsg { get; set; } = ApplicationSettings.Current.BossTemplate.SuccessText;
+
+    /// <summary>
+    ///     Twitch message when encounter is a failure
+    /// </summary>
+    [JsonProperty("failMsg")]
+    internal string FailMsg { get; set; } = ApplicationSettings.Current.BossTemplate.FailText;
+
+    /// <summary>
+    ///     Icon used for Discord webhooks
+    /// </summary>
+    [JsonProperty("icon")]
+    internal string Icon { get; set; } = "";
+
+    /// <summary>
+    ///     Type of the boss
+    /// </summary>
+    [JsonProperty("type")]
+    internal BossType Type { get; set; } = BossType.None;
+
+    /// <summary>
+    ///     Indication if the encounter is an event
+    /// </summary>
+    [JsonProperty("isEvent")]
+    internal bool Event { get; set; }
+
+    string IListViewItemInfo<BossData>.NameToDisplay => BossId.ToString();
+
+    string IListViewItemInfo<BossData>.TextToDisplay => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : "");
+
+    bool IListViewItemInfo<BossData>.CheckedToDisplay => false;
+
+    List<ListViewItemCustom<BossData>> IListViewItemInfo<BossData>.ConnectedItems { get; } = [];
+
+    internal string FightName(DpsReportJson reportJson)
     {
-        /// <summary>
-        /// ID of the encounter
-        /// </summary>
-        [JsonProperty("bossId")]
-        internal int BossId { get; set; }
-
-        /// <summary>
-        /// Name of the encounter
-        /// </summary>
-        [JsonProperty("name")]
-        internal string Name { get; set; }
-
-        /// <summary>
-        /// Internal description of the boss, only visible in the Uploader app
-        /// </summary>
-        [JsonProperty("internalDescription")]
-        internal string InternalDescription { get; set; } = "";
-
-        /// <summary>
-        /// Twitch message when encounter is a success
-        /// </summary>
-        [JsonProperty("successMsg")]
-        internal string SuccessMsg { get; set; } = ApplicationSettings.Current.BossTemplate.SuccessText;
-
-        /// <summary>
-        /// Twitch message when encounter is a failure
-        /// </summary>
-        [JsonProperty("failMsg")]
-        internal string FailMsg { get; set; } = ApplicationSettings.Current.BossTemplate.FailText;
-
-        /// <summary>
-        /// Icon used for Discord webhooks
-        /// </summary>
-        [JsonProperty("icon")]
-        internal string Icon { get; set; } = "";
-
-        /// <summary>
-        /// Type of the boss
-        /// </summary>
-        [JsonProperty("type")]
-        internal BossType Type { get; set; } = BossType.None;
-
-        /// <summary>
-        /// Indication if the encounter is an event
-        /// </summary>
-        [JsonProperty("isEvent")]
-        internal bool Event { get; set; } = false;
-
-        internal List<ListViewItemCustom<BossData>> _connectedItems = [];
-
-        string IListViewItemInfo<BossData>.NameToDisplay => BossId.ToString();
-
-        string IListViewItemInfo<BossData>.TextToDisplay => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : "");
-
-        bool IListViewItemInfo<BossData>.CheckedToDisplay => false;
-
-        List<ListViewItemCustom<BossData>> IListViewItemInfo<BossData>.ConnectedItems => _connectedItems;
-
-        internal string FightName(DpsReportJson reportJSON)
+        if (!reportJson.ChallengeMode)
         {
-            var builder = new StringBuilder(Name);
-            if (reportJSON.ChallengeMode)
-            {
-                builder.Append(' ');
-                if (reportJSON.LegendaryChallengeMode)
-                {
-                    builder.Append('L');
-                }
-                builder.Append("CM");
-            }
-            return builder.ToString();
+            return Name;
         }
-
-        /// <summary>
-        /// Formats Twitch message based on the DPSReport's JSON response.
-        /// </summary>
-        /// <param name="reportJSON">DPSReport's JSON response</param>
-        /// <returns>Formatted string</returns>
-        internal string TwitchMessageFormat(DpsReportJson reportJSON, int pullCounter)
+        var builder = new StringBuilder(Name);
+        builder.Append(' ');
+        if (reportJson.LegendaryChallengeMode)
         {
-            var format = (reportJSON.Encounter.Success ?? false) ? SuccessMsg : FailMsg;
-            format = format.Replace("<boss>", FightName(reportJSON));
-            format = format.Replace("<log>", reportJSON.ConfigAwarePermalink);
-            format = format.Replace("<pulls>", pullCounter.ToString());
-            format = (reportJSON.ExtraJson?.PossiblyLastTarget is not null)
-                ? format.Replace("<percent>", $"{reportJSON.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(100 - reportJSON.ExtraJson.PossiblyLastTarget.HealthPercentBurned, 2)}%)")
-                : format.Replace("<percent>", "");
-            return format;
+            builder.Append('L');
         }
+        builder.Append("CM");
+        return builder.ToString();
+    }
+
+    /// <summary>
+    ///     Formats Twitch message based on the dps.report's JSON response.
+    /// </summary>
+    /// <param name="reportJson">dps.report's JSON response</param>
+    /// <param name="pullCounter">the current pull counter</param>
+    /// <returns>Formatted string</returns>
+    internal string TwitchMessageFormat(DpsReportJson reportJson, int pullCounter)
+    {
+        var format = reportJson.Encounter.Success ?? false ? SuccessMsg : FailMsg;
+        format = format.Replace("<boss>", FightName(reportJson));
+        format = format.Replace("<log>", reportJson.ConfigAwarePermalink);
+        format = format.Replace("<pulls>", pullCounter.ToString());
+        format = reportJson.ExtraJson?.PossiblyLastTarget is not null
+            ? format.Replace("<percent>", $"{reportJson.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(100 - reportJson.ExtraJson.PossiblyLastTarget.HealthPercentBurned, 2)}%)")
+            : format.Replace("<percent>", "");
+        return format;
     }
 }

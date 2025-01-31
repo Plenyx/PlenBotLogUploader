@@ -6,136 +6,129 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace PlenBotLogUploader
+namespace PlenBotLogUploader;
+
+internal static class Program
 {
-    static class Program
+    /// <summary>
+    ///     The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    private static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        var currProcess = Process.GetCurrentProcess();
+        var processName = Path.GetFileNameWithoutExtension(Application.ExecutablePath.AsSpan()).ToString();
+        var otherProcesses = Process.GetProcessesByName(processName)
+            .Where(x => !x.Id.Equals(currProcess.Id))
+            .ToArray();
+        var args = Environment.GetCommandLineArgs();
+        var localDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
+        if (args.Length == 4)
         {
-            var currProcess = Process.GetCurrentProcess();
-            var processName = Path.GetFileNameWithoutExtension(Application.ExecutablePath.AsSpan()).ToString();
-            var otherProcesses = Process.GetProcessesByName(processName)
-                .Where(x => !x.Id.Equals(currProcess.Id))
-                .ToArray();
-            var args = Environment.GetCommandLineArgs();
-            var localDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
-            if (args.Length == 4)
+            if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase) && args[3].Equals("-m", StringComparison.OrdinalIgnoreCase))
             {
-                if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase) && args[3].Equals("-m", StringComparison.OrdinalIgnoreCase))
+                if (otherProcesses.Length == 0)
                 {
-                    if (otherProcesses.Length == 0)
+                    File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
+                    Process.Start(new ProcessStartInfo
                     {
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(new ProcessStartInfo()
-                        {
-                            UseShellExecute = true,
-                            FileName = localDir + args[2],
-                            Arguments = "-m -finishupdate",
-                        });
-                        return;
-                    }
-                    else
-                    {
-                        foreach (var process in otherProcesses.AsSpan())
-                        {
-                            try
-                            {
-                                if (!process.WaitForExit(350))
-                                {
-                                    process.Kill();
-                                }
-                            }
-                            catch
-                            {
-                                // do nothing
-                            }
-                        }
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(new ProcessStartInfo()
-                        {
-                            UseShellExecute = true,
-                            FileName = localDir + args[2],
-                            Arguments = "-m -finishupdate",
-                        });
-                        return;
-                    }
+                        UseShellExecute = true,
+                        FileName = localDir + args[2],
+                        Arguments = "-m -finishupdate",
+                    });
+                    return;
                 }
-            }
-            else if (args.Length == 3)
-            {
-                if (args[2].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
+                foreach (var process in otherProcesses.AsSpan())
                 {
-                    File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
-                }
-                else if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (otherProcesses.Length == 0)
+                    try
                     {
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(new ProcessStartInfo()
+                        if (!process.WaitForExit(350))
                         {
-                            UseShellExecute = true,
-                            FileName = localDir + args[2],
-                            Arguments = "-finishupdate",
-                        });
-                        return;
-                    }
-                    else
-                    {
-                        foreach (var process in otherProcesses.AsSpan())
-                        {
-                            try
-                            {
-                                if (!process.WaitForExit(350))
-                                {
-                                    process.Kill();
-                                }
-                            }
-                            catch
-                            {
-                                // do nothing
-                            }
-                        }
-                        File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
-                        Process.Start(new ProcessStartInfo()
-                        {
-                            UseShellExecute = true,
-                            FileName = localDir + args[2],
-                            Arguments = "-finishupdate",
-                        });
-                        return;
-                    }
-                }
-            }
-            else if (args.Length == 2)
-            {
-                if (args[1].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
-                {
-                    File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
-                }
-                else if (args[1].Equals("-resetsettings", StringComparison.OrdinalIgnoreCase))
-                {
-                    using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
-                    {
-                        if (registrySubKey.GetValue("PlenBot Log Uploader") is not null)
-                        {
-                            registrySubKey.DeleteValue("PlenBot Log Uploader");
+                            process.Kill();
                         }
                     }
-                    new ApplicationSettings().Save();
+                    catch
+                    {
+                        // do nothing
+                    }
                 }
+                File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
+                Process.Start(new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = localDir + args[2],
+                    Arguments = "-m -finishupdate",
+                });
+                return;
             }
-            if (otherProcesses.Length == 0)
+        }
+        else if (args.Length == 3)
+        {
+            if (args[2].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
             {
-                Application.EnableVisualStyles();
-                Application.SetHighDpiMode(HighDpiMode.SystemAware);
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new FormMain());
+                File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
             }
+            else if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase))
+            {
+                if (otherProcesses.Length == 0)
+                {
+                    File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
+                    Process.Start(new ProcessStartInfo
+                    {
+                        UseShellExecute = true,
+                        FileName = localDir + args[2],
+                        Arguments = "-finishupdate",
+                    });
+                    return;
+                }
+                foreach (var process in otherProcesses.AsSpan())
+                {
+                    try
+                    {
+                        if (!process.WaitForExit(350))
+                        {
+                            process.Kill();
+                        }
+                    }
+                    catch
+                    {
+                        // do nothing
+                    }
+                }
+                File.Copy(Application.ExecutablePath.Replace('/', '\\'), localDir + args[2], true);
+                Process.Start(new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = localDir + args[2],
+                    Arguments = "-finishupdate",
+                });
+                return;
+            }
+        }
+        else if (args.Length == 2)
+        {
+            if (args[1].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
+            {
+                File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
+            }
+            else if (args[1].Equals("-resetsettings", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                {
+                    if (registrySubKey.GetValue("PlenBot Log Uploader") is not null)
+                    {
+                        registrySubKey.DeleteValue("PlenBot Log Uploader");
+                    }
+                }
+                new ApplicationSettings().Save();
+            }
+        }
+        if (otherProcesses.Length == 0)
+        {
+            Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormMain());
         }
     }
 }

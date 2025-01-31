@@ -1,11 +1,10 @@
-﻿namespace PlenBotLogUploader.RemotePing
+﻿namespace PlenBotLogUploader.RemotePing;
+
+internal enum PingMethod
 {
-    internal enum PingMethod
-    {
-        Get = 0,
-        Post = 1,
-        Put = 2,
-        Delete = 3,
-        Patch = 4,
-    }
+    Get = 0,
+    Post = 1,
+    Put = 2,
+    Delete = 3,
+    Patch = 4,
 }

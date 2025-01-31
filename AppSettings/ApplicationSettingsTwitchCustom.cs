@@ -1,16 +1,15 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.AppSettings
+namespace PlenBotLogUploader.AppSettings;
+
+internal sealed class ApplicationSettingsTwitchCustom
 {
-    internal sealed class ApplicationSettingsTwitchCustom
-    {
-        [JsonProperty("enabled")]
-        internal bool Enabled { get; set; } = false;
+    [JsonProperty("enabled")]
+    internal bool Enabled { get; set; }
 
-        [JsonProperty("name")]
-        internal string Name { get; set; } = "";
+    [JsonProperty("name")]
+    internal string Name { get; set; } = "";
 
-        [JsonProperty("oauth")]
-        internal string OauthPassword { get; set; } = "";
-    }
+    [JsonProperty("oauth")]
+    internal string OauthPassword { get; set; } = "";
 }

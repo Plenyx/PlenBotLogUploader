@@ -1,8 +1,7 @@
-﻿namespace PlenBotLogUploader.Tools
+﻿namespace PlenBotLogUploader.Tools;
+
+internal enum LogSessionSortBy
 {
-    internal enum LogSessionSortBy
-    {
-        Wing = 0,
-        UploadTime = 1,
-    }
+    Wing = 0,
+    UploadTime = 1,
 }

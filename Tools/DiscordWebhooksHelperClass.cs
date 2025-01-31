@@ -1,11 +1,10 @@
-﻿namespace PlenBotLogUploader.Tools
+﻿namespace PlenBotLogUploader.Tools;
+
+internal sealed class DiscordWebhooksHelperClass
 {
-    internal sealed class DiscordWebhooksHelperClass
-    {
-        internal int WebhookId { get; set; }
+    internal int WebhookId { get; set; }
 
-        internal string Text { get; set; }
+    internal string Text { get; set; }
 
-        public override string ToString() => Text;
-    }
+    public override string ToString() => Text;
 }

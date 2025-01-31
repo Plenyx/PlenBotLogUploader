@@ -1,42 +1,44 @@
 ﻿using System.Windows.Forms;
 
-namespace PlenBotLogUploader.Tools
+namespace PlenBotLogUploader.Tools;
+
+internal sealed class ListViewItemCustom<T> : ListViewItem
+    where T : IListViewItemInfo<T>
 {
-    internal sealed class ListViewItemCustom<T> : ListViewItem
-        where T : IListViewItemInfo<T>
+    private T _item;
+
+    internal ListViewItemCustom() { }
+
+    internal ListViewItemCustom(T item)
     {
-        private T _item;
+        Item = item;
+    }
 
-        public T Item
+    public T Item
+    {
+        get => _item;
+        set
         {
-            get => _item;
-            set
-            {
-                _item = value;
-                SetUpItem();
-            }
+            _item = value;
+            SetUpItem();
         }
+    }
 
-        internal ListViewItemCustom() { }
+    internal void UpdateData()
+    {
+        Name = Item.NameToDisplay;
+        Text = Item.TextToDisplay;
+        Checked = Item.CheckedToDisplay;
+    }
 
-        internal ListViewItemCustom(T item) => Item = item;
-
-        internal void UpdateData()
+    private void SetUpItem()
+    {
+        if (!Item.ConnectedItems.Contains(this))
         {
-            Name = Item.NameToDisplay;
-            Text = Item.TextToDisplay;
-            Checked = Item.CheckedToDisplay;
+            Item.ConnectedItems.Add(this);
         }
-
-        private void SetUpItem()
-        {
-            if (!Item.ConnectedItems.Contains(this))
-            {
-                Item.ConnectedItems.Add(this);
-            }
-            Name = Item.NameToDisplay;
-            Text = Item.TextToDisplay;
-            Checked = Item.CheckedToDisplay;
-        }
+        Name = Item.NameToDisplay;
+        Text = Item.TextToDisplay;
+        Checked = Item.CheckedToDisplay;
     }
 }

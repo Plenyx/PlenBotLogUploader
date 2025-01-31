@@ -1,9 +1,8 @@
 ﻿using System.Windows.Forms;
 
-namespace PlenBotLogUploader.Tools
+namespace PlenBotLogUploader.Tools;
+
+internal sealed class ToolStripMenuItemCustom<T> : ToolStripMenuItem
 {
-    internal sealed class ToolStripMenuItemCustom<T> : ToolStripMenuItem
-    {
-        internal T LinkedObject { get; set; }
-    }
+    internal T LinkedObject { get; set; }
 }

@@ -4,79 +4,75 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PlenBotLogUploader.Twitch
+namespace PlenBotLogUploader.Twitch;
+
+[JsonObject(MemberSerialization.OptIn)]
+internal class TwitchCommand : IListViewItemInfo<TwitchCommand>
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    internal class TwitchCommand : IListViewItemInfo<TwitchCommand>
+    private string _command = "";
+
+    [JsonProperty("enabled")]
+    internal bool Enabled { get; set; }
+
+    [JsonProperty("name")]
+    internal string Name { get; set; } = "";
+
+    [JsonProperty("isRegEx")]
+    internal bool IsRegEx { get; set; }
+
+    [JsonProperty("command")]
+    internal string Command
     {
-        [JsonProperty("enabled")]
-        internal bool Enabled { get; set; } = false;
-
-        [JsonProperty("name")]
-        internal string Name { get; set; } = string.Empty;
-
-        [JsonProperty("isRegEx")]
-        internal bool IsRegEx { get; set; } = false;
-
-        private string _command = string.Empty;
-        [JsonProperty("command")]
-        internal string Command
+        get => _command;
+        set
         {
-            get
+            if (_command == value || value is null)
             {
-                return _command;
+                return;
             }
-            set
-            {
-                if ((_command != value) && (value is not null))
-                {
-                    _command = value;
-                    Regex = IsRegEx ? new Regex(_command, RegexOptions.CultureInvariant | RegexOptions.Multiline | RegexOptions.IgnoreCase) : null;
-                }
-            }
+            _command = value;
+            Regex = IsRegEx ? new Regex(_command, RegexOptions.CultureInvariant | RegexOptions.Multiline | RegexOptions.IgnoreCase) : null;
         }
+    }
 
-        internal Regex Regex { get; set; } = null;
+    internal Regex Regex { get; set; }
 
-        [JsonProperty("response")]
-        internal string Response { get; set; } = string.Empty;
+    [JsonProperty("response")]
+    internal string Response { get; set; } = "";
 
-        [JsonProperty("responseType")]
-        internal TwitchResponseType ResponseType { get; set; } = TwitchResponseType.Plain;
+    [JsonProperty("responseType")]
+    internal TwitchResponseType ResponseType { get; set; } = TwitchResponseType.Plain;
 
-        internal List<ListViewItemCustom<TwitchCommand>> _connectedItems = [];
+    string IListViewItemInfo<TwitchCommand>.NameToDisplay => Name;
 
-        string IListViewItemInfo<TwitchCommand>.NameToDisplay => Name;
+    string IListViewItemInfo<TwitchCommand>.TextToDisplay => Name;
 
-        string IListViewItemInfo<TwitchCommand>.TextToDisplay => Name;
+    bool IListViewItemInfo<TwitchCommand>.CheckedToDisplay => Enabled;
 
-        bool IListViewItemInfo<TwitchCommand>.CheckedToDisplay => Enabled;
+    List<ListViewItemCustom<TwitchCommand>> IListViewItemInfo<TwitchCommand>.ConnectedItems { get; } = [];
 
-        List<ListViewItemCustom<TwitchCommand>> IListViewItemInfo<TwitchCommand>.ConnectedItems => _connectedItems;
-
-        internal string FormattedResponse(string receiver, Dictionary<string, string> valuesToChange)
+    internal string FormattedResponse(string receiver, Dictionary<string, string> valuesToChange)
+    {
+        var response = Response;
+        if (string.IsNullOrWhiteSpace(response))
         {
-            var response = Response;
-            if (string.IsNullOrWhiteSpace(response))
-            {
-                return null;
-            }
-            foreach (var kvp in valuesToChange)
-            {
-                response = response.Replace(kvp.Key, kvp.Value);
-            }
-            var prepend = string.Empty;
-            if (ResponseType == TwitchResponseType.ReplyAt)
-            {
-                var builder = new StringBuilder();
-                builder.Append('@').Append(receiver).Append(' ');
-                prepend = builder.ToString();
-            }
-            if (string.IsNullOrWhiteSpace(response))
-            {
-                return null;
-            }
-            return prepend + response;
+            return null;
         }
+        foreach (var kvp in valuesToChange)
+        {
+            response = response.Replace(kvp.Key, kvp.Value);
+        }
+        var prepend = "";
+        if (ResponseType == TwitchResponseType.ReplyAt)
+        {
+            var builder = new StringBuilder();
+            builder.Append('@').Append(receiver).Append(' ');
+            prepend = builder.ToString();
+        }
+        if (string.IsNullOrWhiteSpace(response))
+        {
+            return null;
+        }
+        return prepend + response;
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace PlenBotLogUploader.Tools
+﻿namespace PlenBotLogUploader.Tools;
+
+internal enum ArcLogsChangeObserverMode
 {
-    internal enum ArcLogsChangeObserverMode
-    {
-        FileSystemWatcher = default,
-        Polling,
-    }
+    FileSystemWatcher = 0,
+    Polling = 1,
 }

@@ -3,155 +3,145 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace PlenBotLogUploader.Tools
-{
+namespace PlenBotLogUploader.Tools;
 #nullable enable
-    internal class ArcLogsChangeObserver(Action<FileInfo> logCreatedCallback) : IDisposable
+internal class ArcLogsChangeObserver(Action<FileInfo> logCreatedCallback) : IDisposable
+{
+    private bool _disposed;
+    private Thread? _pollThread;
+    private CancellationTokenSource? _pollThreadCts;
+    private string? _rootPath;
+    private FileSystemWatcher? _watcher;
+    public bool IsRunning => _rootPath is not null;
+    public void Dispose()
     {
-        private bool disposed = false;
-        private readonly Action<FileInfo> callback = logCreatedCallback;
-        private string? rootPath;
-        private FileSystemWatcher? watcher;
-        private Thread? pollThread;
-        private CancellationTokenSource? pollThreadCTS;
-
-        public void InitAndStart(string rootPath, ArcLogsChangeObserverMode mode = default)
+        if (_disposed)
         {
-            if ((pollThread is not null) || (watcher is not null))
+            return;
+        }
+        _disposed = true;
+
+        _watcher?.Dispose();
+        if (_pollThread is not null)
+        {
+            _pollThreadCts!.Cancel();
+            _pollThread.Interrupt();
+            _pollThread.Join();
+        }
+    }
+    public void InitAndStart(string rootPath, ArcLogsChangeObserverMode mode = default)
+    {
+        if (_pollThread is not null || _watcher is not null)
+        {
+            return;
+        }
+
+        _rootPath = rootPath;
+        ChangeMode(mode);
+    }
+    public void ChangeMode(ArcLogsChangeObserverMode newMode)
+    {
+        if (newMode == ArcLogsChangeObserverMode.Polling)
+        {
+            if (_pollThread is not null)
             {
                 return;
             }
 
-            this.rootPath = rootPath;
-            ChangeMode(mode);
-        }
+            _watcher?.Dispose();
+            _watcher = null;
 
-        public bool IsRunning => rootPath is not null;
-
-        public void ChangeMode(ArcLogsChangeObserverMode newMode)
-        {
-            if (newMode == ArcLogsChangeObserverMode.Polling)
+            _pollThreadCts = new CancellationTokenSource();
+            _pollThread = new Thread(EnterPollThread)
             {
-                if (pollThread is not null)
-                {
-                    return;
-                }
-
-                watcher?.Dispose();
-                watcher = null;
-
-                pollThreadCTS = new();
-                pollThread = new(EnterPollThread)
-                {
-                    IsBackground = true,
-                    Name = "Arc Logs Polling",
-                };
-                pollThread.Start();
-            }
-            else
-            {
-                if (watcher is not null)
-                {
-                    return;
-                }
-
-                if (pollThread is not null)
-                {
-                    pollThreadCTS!.Cancel();
-                    pollThread.Interrupt();
-                    pollThread.Join();
-                    pollThread = null;
-                }
-
-                watcher = new()
-                {
-                    Filter = "*.*",
-                    IncludeSubdirectories = true,
-                    NotifyFilter = NotifyFilters.FileName,
-                };
-                // renaming is the last process done by arcdps to create evtc or zevtc files
-                watcher.Renamed += OnWatcherEvent;
-                if (rootPath is not null)
-                {
-                    watcher.Path = rootPath;
-                    watcher.EnableRaisingEvents = true;
-                }
-            }
+                IsBackground = true,
+                Name = "Arc Logs Polling",
+            };
+            _pollThread.Start();
         }
-
-        public void ChangeRootPath(string newPath)
+        else
         {
-            rootPath = newPath;
-
-            if (watcher is not null)
-            {
-                watcher.Path = newPath;
-            }
-        }
-
-        void OnWatcherEvent(object sender, FileSystemEventArgs e)
-        {
-            if (!e.FullPath.EndsWith(".evtc") && !e.FullPath.EndsWith(".zevtc"))
+            if (_watcher is not null)
             {
                 return;
             }
 
-            callback(new(e.FullPath));
+            if (_pollThread is not null)
+            {
+                _pollThreadCts!.Cancel();
+                _pollThread.Interrupt();
+                _pollThread.Join();
+                _pollThread = null;
+            }
+
+            _watcher = new FileSystemWatcher
+            {
+                Filter = "*.*",
+                IncludeSubdirectories = true,
+                NotifyFilter = NotifyFilters.FileName,
+            };
+            // renaming is the last process done by arcdps to create evtc or zevtc files
+            _watcher.Renamed += OnWatcherEvent;
+            if (_rootPath is not null)
+            {
+                _watcher.Path = _rootPath;
+                _watcher.EnableRaisingEvents = true;
+            }
+        }
+    }
+    public void ChangeRootPath(string newPath)
+    {
+        _rootPath = newPath;
+
+        if (_watcher is not null)
+        {
+            _watcher.Path = newPath;
+        }
+    }
+    private void OnWatcherEvent(object sender, FileSystemEventArgs e)
+    {
+        if (!e.FullPath.EndsWith(".evtc") && !e.FullPath.EndsWith(".zevtc"))
+        {
+            return;
         }
 
-        void EnterPollThread()
+        logCreatedCallback(new FileInfo(e.FullPath));
+    }
+    private void EnterPollThread()
+    {
+        var cancellationToken = _pollThreadCts!.Token;
+        var pathCache = new HashSet<string>(512); // arbitrary initial size to prevent some early reallocations
+        var initialRound = true;
+        try
         {
-            var cancellationToken = pollThreadCTS!.Token;
-            var pathCache = new HashSet<string>(512); // arbitrary initial size to prevent some early reallocations
-            var initialRound = true;
-            try
+            while (!_pollThreadCts.IsCancellationRequested)
             {
-                while (!pollThreadCTS.IsCancellationRequested)
+                foreach (var filePath in Directory.EnumerateFiles(_rootPath!, "*.*", SearchOption.AllDirectories))
                 {
-                    foreach (var filePath in Directory.EnumerateFiles(rootPath!, "*.*", SearchOption.AllDirectories))
+                    if (!filePath.EndsWith(".evtc") && !filePath.EndsWith(".zevtc"))
                     {
-                        if (!filePath.EndsWith(".evtc") && !filePath.EndsWith(".zevtc"))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        if (!pathCache.Contains(filePath))
-                        {
-                            if (!initialRound)
-                            {
-                                callback(new(filePath));
-                            }
-                            pathCache.Add(filePath);
-                        }
-                    }
-                    if (initialRound)
+                    if (!pathCache.Contains(filePath))
                     {
-                        initialRound = false;
+                        if (!initialRound)
+                        {
+                            logCreatedCallback(new FileInfo(filePath));
+                        }
+                        pathCache.Add(filePath);
                     }
-                    Thread.Sleep(30000);
                 }
-            }
-            catch (Exception)
-            {
-                // do nothing
+                if (initialRound)
+                {
+                    initialRound = false;
+                }
+                Thread.Sleep(30000);
             }
         }
-
-        public void Dispose()
+        catch (Exception)
         {
-            if (disposed)
-            {
-                return;
-            }
-            disposed = true;
-
-            watcher?.Dispose();
-            if (pollThread is not null)
-            {
-                pollThreadCTS!.Cancel();
-                pollThread.Interrupt();
-                pollThread.Join();
-            }
+            // do nothing
         }
     }
 }

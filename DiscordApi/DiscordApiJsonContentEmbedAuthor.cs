@@ -1,22 +1,21 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DiscordApi
+namespace PlenBotLogUploader.DiscordApi;
+
+/// <summary>
+///     Discord embedded rich content's author object
+/// </summary>
+internal sealed class DiscordApiJsonContentEmbedAuthor
 {
     /// <summary>
-    /// Discord embedded rich content's author object
+    ///     author's name
     /// </summary>
-    internal sealed class DiscordApiJsonContentEmbedAuthor
-    {
-        /// <summary>
-        /// author's name
-        /// </summary>
-        [JsonProperty("name")]
-        internal string Name { get; set; }
+    [JsonProperty("name")]
+    internal string Name { get; set; }
 
-        /// <summary>
-        /// url that can be clicked in the author part of the embed
-        /// </summary>
-        [JsonProperty("url")]
-        internal string Url { get; set; }
-    }
+    /// <summary>
+    ///     url that can be clicked in the author part of the embed
+    /// </summary>
+    [JsonProperty("url")]
+    internal string Url { get; set; }
 }

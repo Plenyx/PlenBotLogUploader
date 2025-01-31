@@ -1,12 +1,15 @@
 # How to configure your own REST server to use with PlenBotLogUploader
 
 ## General rules
+
 * if your server responds, it must respond in JSON with utf-8 encoding
 * your server must be accessible from the machine from which you intent to use the uploader
 * your server must be responding in http status codes
 
 ## Pinging logs
-To ping logs you need to implement a REST response that would react to either GET, DELETE, PUT, POST or PATCH method requests.
+
+To ping logs you need to implement a REST response that would react to either GET, DELETE, PUT, POST or PATCH method
+requests.
 
 You can optionally implement this JSON response structure as a server response:
 
@@ -14,9 +17,11 @@ You can optionally implement this JSON response structure as a server response:
         "msg": (string),
     }
 
-Where "**msg**" is used as a text response from the server and will be displayed on the main window of PlenBotLogUploader and *is a string*.
+Where "**msg**" is used as a text response from the server and will be displayed on the main window of
+PlenBotLogUploader and *is a string*.
 
 ## Processing logs on the remote server
+
 For GET and DELETE methods, the fields are encoded *within the url request* (*/?bossId=...*)
 
 These are the fields being sent:
@@ -62,7 +67,9 @@ If you opt in to be send a JSON format rather then Key=Pair values, the format w
     }
 
 Additional fields when using JSON format:
+
 * "**logErrors**" contains a list of error message EI genarated
 
 ## Other links
+
 [HTTP Status Codes list](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)

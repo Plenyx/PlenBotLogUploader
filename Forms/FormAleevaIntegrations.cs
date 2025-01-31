@@ -2,176 +2,175 @@
 using PlenBotLogUploader.Aleeva;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.DpsReport;
+using PlenBotLogUploader.Properties;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PlenBotLogUploader
+namespace PlenBotLogUploader;
+
+public partial class FormAleevaIntegrations : Form
 {
-    public partial class FormAleevaIntegrations : Form
+    // fields
+    private readonly HttpClientController controller = new();
+    private readonly FormMain mainLink;
+
+    internal FormAleevaIntegrations(FormMain mainLink)
     {
-        #region definitions
-        // fields
-        private readonly HttpClientController controller = new();
-        private readonly FormMain mainLink;
-        #endregion
+        this.mainLink = mainLink;
+        InitializeComponent();
+        Icon = Resources.aleeva_icon;
+        ApplicationSettings.Current.Aleeva.AuthorisedChanged += OnAuthoriseResult;
+        AleevaIntegrations.LoadAleevaIntegrations();
+        RedrawAleevaIntegrations();
+    }
 
-        internal FormAleevaIntegrations(FormMain mainLink)
+    private void FormAleevaIntegrations_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        AleevaIntegrations.SaveToJson(AleevaIntegrations.All);
+        e.Cancel = true;
+        Hide();
+    }
+
+    internal async Task GetAleevaTokenFromRefreshToken()
+    {
+        await AleevaStatics.GetAleevaTokenFromRefreshToken(mainLink, controller);
+    }
+
+    private void OnAuthoriseResult(object sender, EventArgs e)
+    {
+        var toggle = ApplicationSettings.Current.Aleeva.Authorised;
+        groupBoxAleevaStatus.Enabled = toggle;
+        if (groupBoxAleevaStatus.InvokeRequired)
         {
-            this.mainLink = mainLink;
-            InitializeComponent();
-            Icon = Properties.Resources.aleeva_icon;
-            ApplicationSettings.Current.Aleeva.AuthorisedChanged += OnAuthoriseResult;
-            AleevaIntegrations.LoadAleevaIntegrations();
-            RedrawAleevaIntegrations();
+            groupBoxAleevaStatus.Invoke((Action)(() => groupBoxAleevaStatus.Text = toggle ? "Status: Aleeva successfully authorised" : "Status: Not authorised"));
         }
-
-        private void FormAleevaIntegrations_FormClosing(object sender, FormClosingEventArgs e)
+        else
         {
-            AleevaIntegrations.SaveToJson(AleevaIntegrations.All);
-            e.Cancel = true;
-            Hide();
+            groupBoxAleevaStatus.Text = toggle ? "Status: Aleeva successfully authorised" : "Status: Not authorised";
         }
-
-        internal async Task GetAleevaTokenFromRefreshToken()
+        if (buttonGetBearerFromAccess.InvokeRequired)
         {
-            await AleevaStatics.GetAleevaTokenFromRefreshToken(mainLink, controller);
+            buttonGetBearerFromAccess.Invoke((Action)(() => buttonGetBearerFromAccess.Text = toggle ? "Deauthorise" : "Authorise"));
         }
-
-        internal void OnAuthoriseResult(object sender, EventArgs e)
+        else
         {
-            var toggle = ApplicationSettings.Current.Aleeva.Authorised;
-            groupBoxAleevaStatus.Enabled = toggle;
-            if (groupBoxAleevaStatus.InvokeRequired)
-            {
-                groupBoxAleevaStatus.Invoke((Action)(() => groupBoxAleevaStatus.Text = toggle ? "Status: Aleeva successfully authorised" : "Status: Not authorised"));
-            }
-            else
-            {
-                groupBoxAleevaStatus.Text = toggle ? "Status: Aleeva successfully authorised" : "Status: Not authorised";
-            }
-            if (buttonGetBearerFromAccess.InvokeRequired)
-            {
-                buttonGetBearerFromAccess.Invoke((Action)(() => buttonGetBearerFromAccess.Text = toggle ? "Deauthorise" : "Authorise"));
-            }
-            else
-            {
-                buttonGetBearerFromAccess.Text = toggle ? "Deauthorise" : "Authorise";
-            }
-            if (textBoxAccessCode.InvokeRequired)
-            {
-                textBoxAccessCode.Invoke((Action)(() => textBoxAccessCode.Enabled = !toggle));
-            }
-            else
-            {
-                textBoxAccessCode.Enabled = !toggle;
-            }
+            buttonGetBearerFromAccess.Text = toggle ? "Deauthorise" : "Authorise";
         }
-
-        private async void ButtonGetBearerFromAccess_Click(object sender, System.EventArgs e)
+        if (textBoxAccessCode.InvokeRequired)
         {
-            if (string.IsNullOrEmpty(ApplicationSettings.Current.Aleeva.AccessToken))
-            {
-                await AleevaStatics.GetAleevaTokenFromAccessCode(mainLink, controller, textBoxAccessCode.Text);
-                return;
-            }
-            DeauthoriseAleeva();
+            textBoxAccessCode.Invoke((Action)(() => textBoxAccessCode.Enabled = !toggle));
         }
-
-        private void DeauthoriseAleeva()
+        else
         {
-            if (InvokeRequired)
-            {
-                Invoke(DeauthoriseAleeva);
-                return;
-            }
-            ApplicationSettings.Current.Aleeva.AccessToken = "";
-            ApplicationSettings.Current.Aleeva.AccessTokenExpire = DateTime.Now;
-            ApplicationSettings.Current.Aleeva.Authorised = false;
-            ApplicationSettings.Current.Aleeva.RefreshToken = "";
-            ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
-            ApplicationSettings.Current.Save();
+            textBoxAccessCode.Enabled = !toggle;
         }
+    }
 
-        internal void RedrawAleevaIntegrations()
+    private async void ButtonGetBearerFromAccess_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(ApplicationSettings.Current.Aleeva.AccessToken))
         {
-            if (InvokeRequired)
-            {
-                Invoke(RedrawAleevaIntegrations);
-                return;
-            }
-            listViewAleevaIntegrations.Items.Clear();
-            foreach (var integration in AleevaIntegrations.All.AsSpan())
-            {
-                listViewAleevaIntegrations.Items.Add(new ListViewItemCustom<AleevaIntegration>() { Item = integration });
-            }
+            await AleevaStatics.GetAleevaTokenFromAccessCode(mainLink, controller, textBoxAccessCode.Text);
+            return;
         }
+        DeauthoriseAleeva();
+    }
 
-        internal async Task ExecuteAllActiveAleevaIntegrations(DpsReportJson reportJson, List<LogPlayer> players)
+    private void DeauthoriseAleeva()
+    {
+        if (InvokeRequired)
         {
-            if (!ApplicationSettings.Current.Aleeva.Authorised)
-            {
-                return;
-            }
-            foreach (var integration in AleevaIntegrations.All)
-            {
-                if (!integration.Active || !integration.Valid || !(integration.Team?.IsSatisfied(players) ?? false))
-                {
-                    continue;
-                }
-                await integration.PostLogToAleeva(mainLink, controller, reportJson, players);
-            }
-            if (AleevaIntegrations.All.Count > 0)
-            {
-                mainLink.AddToText(">:> All active Aleeva integrations successfully executed.");
-            }
+            Invoke(DeauthoriseAleeva);
+            return;
         }
+        ApplicationSettings.Current.Aleeva.AccessToken = "";
+        ApplicationSettings.Current.Aleeva.AccessTokenExpire = DateTime.Now;
+        ApplicationSettings.Current.Aleeva.Authorised = false;
+        ApplicationSettings.Current.Aleeva.RefreshToken = "";
+        ApplicationSettings.Current.Aleeva.RefreshTokenExpire = DateTime.Now;
+        ApplicationSettings.Current.Save();
+    }
 
-        private void ListViewAleevaIntegrations_ItemChecked(object sender, ItemCheckedEventArgs e)
+    internal void RedrawAleevaIntegrations()
+    {
+        if (InvokeRequired)
         {
-            if (e.Item is not ListViewItemCustom<AleevaIntegration> itemIntegration)
-            {
-                return;
-            }
-            if (e.Item.Checked && !itemIntegration.Item.Valid)
-            {
-                e.Item.Checked = false;
-                MessageBox.Show("For Aleeva integration to work you must set both a server and a channel.\nPlease edit the integration first to include both to be able to activate the integration.", "Unable to activate Aleeva integration", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            itemIntegration.Item.Active = e.Item.Checked;
+            Invoke(RedrawAleevaIntegrations);
+            return;
         }
-
-        private void ButtonAddAleevaIntegration_Click(object sender, EventArgs e) => new FormEditAleevaIntegration(mainLink, this, controller, null).ShowDialog();
-
-        private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => new FormEditAleevaIntegration(mainLink, this, controller, null).ShowDialog();
-
-        private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
+        listViewAleevaIntegrations.Items.Clear();
+        foreach (var integration in AleevaIntegrations.All.AsSpan())
         {
-            if (listViewAleevaIntegrations.SelectedItems.Count == 0 || listViewAleevaIntegrations.SelectedItems[0] is not ListViewItemCustom<AleevaIntegration> itemIntegration)
-            {
-                return;
-            }
-            new FormEditAleevaIntegration(mainLink, this, controller, itemIntegration.Item).ShowDialog();
+            listViewAleevaIntegrations.Items.Add(new ListViewItemCustom<AleevaIntegration> { Item = integration });
         }
+    }
 
-        private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
+    internal async Task ExecuteAllActiveAleevaIntegrations(DpsReportJson reportJson, List<LogPlayer> players)
+    {
+        if (!ApplicationSettings.Current.Aleeva.Authorised)
         {
-            if (listViewAleevaIntegrations.SelectedItems.Count == 0 || listViewAleevaIntegrations.SelectedItems[0] is not ListViewItemCustom<AleevaIntegration> itemIntegration)
+            return;
+        }
+        foreach (var integration in AleevaIntegrations.All)
+        {
+            if (!integration.Active || !integration.Valid || !(integration.Team?.IsSatisfied(players) ?? false))
             {
-                return;
+                continue;
             }
-            AleevaIntegrations.All.Remove(itemIntegration.Item);
-            RedrawAleevaIntegrations();
+            await integration.PostLogToAleeva(mainLink, controller, reportJson, players);
         }
-
-        private void ContextMenuStripInteract_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        if (AleevaIntegrations.All.Count > 0)
         {
-            var toggle = listViewAleevaIntegrations.SelectedItems.Count > 0;
-            toolStripMenuItemEdit.Enabled = toggle;
-            toolStripMenuItemDelete.Enabled = toggle;
+            mainLink.AddToText(">:> All active Aleeva integrations successfully executed.");
         }
+    }
+
+    private void ListViewAleevaIntegrations_ItemChecked(object sender, ItemCheckedEventArgs e)
+    {
+        if (e.Item is not ListViewItemCustom<AleevaIntegration> itemIntegration)
+        {
+            return;
+        }
+        if (e.Item.Checked && !itemIntegration.Item.Valid)
+        {
+            e.Item.Checked = false;
+            MessageBox.Show("For Aleeva integration to work you must set both a server and a channel.\nPlease edit the integration first to include both to be able to activate the integration.", "Unable to activate Aleeva integration", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+        itemIntegration.Item.Active = e.Item.Checked;
+    }
+
+    private void ButtonAddAleevaIntegration_Click(object sender, EventArgs e) => new FormEditAleevaIntegration(mainLink, this, controller, null).ShowDialog();
+
+    private void ToolStripMenuItemAdd_Click(object sender, EventArgs e) => new FormEditAleevaIntegration(mainLink, this, controller, null).ShowDialog();
+
+    private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
+    {
+        if (listViewAleevaIntegrations.SelectedItems.Count == 0 || listViewAleevaIntegrations.SelectedItems[0] is not ListViewItemCustom<AleevaIntegration> itemIntegration)
+        {
+            return;
+        }
+        new FormEditAleevaIntegration(mainLink, this, controller, itemIntegration.Item).ShowDialog();
+    }
+
+    private void ToolStripMenuItemDelete_Click(object sender, EventArgs e)
+    {
+        if (listViewAleevaIntegrations.SelectedItems.Count == 0 || listViewAleevaIntegrations.SelectedItems[0] is not ListViewItemCustom<AleevaIntegration> itemIntegration)
+        {
+            return;
+        }
+        AleevaIntegrations.All.Remove(itemIntegration.Item);
+        RedrawAleevaIntegrations();
+    }
+
+    private void ContextMenuStripInteract_Opening(object sender, CancelEventArgs e)
+    {
+        var toggle = listViewAleevaIntegrations.SelectedItems.Count > 0;
+        toolStripMenuItemEdit.Enabled = toggle;
+        toolStripMenuItemDelete.Enabled = toggle;
     }
 }

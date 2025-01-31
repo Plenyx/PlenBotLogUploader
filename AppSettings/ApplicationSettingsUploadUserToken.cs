@@ -1,18 +1,17 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.AppSettings
+namespace PlenBotLogUploader.AppSettings;
+
+internal sealed class ApplicationSettingsUploadUserToken
 {
-    internal sealed class ApplicationSettingsUploadUserToken
-    {
-        [JsonProperty("name")]
-        internal string Name { get; set; } = "";
+    [JsonProperty("name")]
+    internal string Name { get; set; } = "";
 
-        [JsonProperty("active")]
-        internal bool Active { get; set; } = false;
+    [JsonProperty("active")]
+    internal bool Active { get; set; }
 
-        [JsonProperty("userToken")]
-        internal string UserToken { get; set; } = "";
+    [JsonProperty("userToken")]
+    internal string UserToken { get; set; } = "";
 
-        public override string ToString() => Name;
-    }
+    public override string ToString() => Name;
 }

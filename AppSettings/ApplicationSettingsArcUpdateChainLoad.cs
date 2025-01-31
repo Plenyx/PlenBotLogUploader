@@ -1,9 +1,8 @@
-﻿namespace PlenBotLogUploader.AppSettings
+﻿namespace PlenBotLogUploader.AppSettings;
+
+internal enum ApplicationSettingsArcUpdateChainLoad
 {
-    internal enum ApplicationSettingsArcUpdateChainLoad
-    {
-        None,
-        AddonLoader,
-        Nexus,
-    }
+    None,
+    AddonLoader,
+    Nexus,
 }

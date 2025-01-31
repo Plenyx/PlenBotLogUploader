@@ -6,83 +6,82 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PlenBotLogUploader.Tools
+namespace PlenBotLogUploader.Tools;
+
+internal static class LogReuploader
 {
-    internal static class LogReuploader
+    private static readonly string FileLocation = $@"{ApplicationSettings.LocalDir}\faileduploads.txt";
+
+    private static HashSet<string> _failedLogs;
+    private static readonly Dictionary<string, string> PostData = new()
     {
-        internal static readonly string fileLocation = $@"{ApplicationSettings.LocalDir}\faileduploads.txt";
+        { "generator", "ei" },
+        { "json", "1" },
+    };
 
-        private static HashSet<string> _failedLogs;
-        private static readonly Dictionary<string, string> postData = new()
-            {
-                { "generator", "ei" },
-                { "json", "1" }
-            };
-
-        internal static HashSet<string> FailedLogs
+    internal static HashSet<string> FailedLogs
+    {
+        get
         {
-            get
+            if (_failedLogs is null)
             {
-                if (_failedLogs is null)
+                if (File.Exists(FileLocation))
                 {
-                    if (File.Exists(fileLocation))
+                    try
                     {
-                        try
-                        {
-                            _failedLogs = File.ReadAllLines(fileLocation).Where(File.Exists).ToHashSet();
-                        }
-                        catch
-                        {
-                            _failedLogs = [];
-                        }
+                        _failedLogs = File.ReadAllLines(FileLocation).Where(File.Exists).ToHashSet();
                     }
-                    else
+                    catch
                     {
                         _failedLogs = [];
                     }
                 }
-                return _failedLogs;
-            }
-        }
-
-        internal static void SaveFailedLogs()
-        {
-            try
-            {
-                File.WriteAllLines(fileLocation, FailedLogs);
-            }
-            catch
-            {
-                // do nothing
-            }
-        }
-
-        internal static bool RemovedLogAndSave(string file)
-        {
-            var removed = FailedLogs.Remove(file);
-            if (removed)
-            {
-                SaveFailedLogs();
-            }
-            return removed;
-        }
-
-        internal static void ProcessLogs(SemaphoreSlim semaphore, Func<string, Dictionary<string, string>, bool, Task> process)
-        {
-            foreach (var fileName in FailedLogs.ToArray().AsSpan())
-            {
-                if (!File.Exists(fileName))
+                else
                 {
-                    FailedLogs.Remove(fileName);
-                    continue;
+                    _failedLogs = [];
                 }
-                _ = Task.Run(async () =>
-                {
-                    semaphore.Wait();
-                    await process(fileName, postData, true);
-                    semaphore.Release();
-                });
             }
+            return _failedLogs;
+        }
+    }
+
+    internal static void SaveFailedLogs()
+    {
+        try
+        {
+            File.WriteAllLines(FileLocation, FailedLogs);
+        }
+        catch
+        {
+            // do nothing
+        }
+    }
+
+    internal static bool RemovedLogAndSave(string file)
+    {
+        var removed = FailedLogs.Remove(file);
+        if (removed)
+        {
+            SaveFailedLogs();
+        }
+        return removed;
+    }
+
+    internal static void ProcessLogs(SemaphoreSlim semaphore, Func<string, Dictionary<string, string>, bool, Task> process)
+    {
+        foreach (var fileName in FailedLogs.ToArray().AsSpan())
+        {
+            if (!File.Exists(fileName))
+            {
+                FailedLogs.Remove(fileName);
+                continue;
+            }
+            _ = Task.Run(async () =>
+            {
+                semaphore.Wait();
+                await process(fileName, PostData, true);
+                semaphore.Release();
+            });
         }
     }
 }

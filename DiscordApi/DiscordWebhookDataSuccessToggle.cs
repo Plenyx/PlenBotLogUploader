@@ -1,9 +1,8 @@
-﻿namespace PlenBotLogUploader.DiscordApi
+﻿namespace PlenBotLogUploader.DiscordApi;
+
+internal enum DiscordWebhookDataSuccessToggle
 {
-    internal enum DiscordWebhookDataSuccessToggle
-    {
-        OnSuccessAndFailure = 0,
-        OnSuccessOnly = 1,
-        OnFailOnly = 2,
-    }
+    OnSuccessAndFailure = 0,
+    OnSuccessOnly = 1,
+    OnFailOnly = 2,
 }

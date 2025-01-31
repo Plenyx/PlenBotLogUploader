@@ -2,39 +2,37 @@
 using Newtonsoft.Json;
 using PlenBotLogUploader.Gw2Api;
 using System;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace PlenBotLogUploader.Tools
+namespace PlenBotLogUploader.Tools;
+
+internal sealed class Gw2ApiHelper : IDisposable
 {
-    internal sealed class Gw2ApiHelper : IDisposable
+    private const string Gw2ApiUrl = "https://api.guildwars2.com/";
+    private readonly HttpClientController _httpClientController = new();
+
+    internal Gw2ApiHelper(string apiKey = "")
     {
-        #region definitions
-        private readonly HttpClientController HttpClientController = new();
-        private const string gw2api = "https://api.guildwars2.com/";
-        #endregion
-
-        internal Gw2ApiHelper(string apiKey = "")
+        if (!string.IsNullOrWhiteSpace(apiKey))
         {
-            if (!string.IsNullOrWhiteSpace(apiKey))
-            {
-                HttpClientController.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
-            }
+            _httpClientController.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
         }
+    }
 
-        internal async Task<Gw2Account> GetUserInfoAsync()
+    public void Dispose() => _httpClientController?.Dispose();
+
+    internal async Task<Gw2Account> GetUserInfoAsync()
+    {
+        try
         {
-            try
-            {
-                using var accountResponse = await HttpClientController.GetAsync($"{gw2api}v2/account?v=latest");
-                var accountContent = await accountResponse.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Gw2Account>(accountContent);
-            }
-            catch
-            {
-                return null;
-            }
+            using var accountResponse = await _httpClientController.GetAsync($"{Gw2ApiUrl}v2/account?v=latest");
+            var accountContent = await accountResponse.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Gw2Account>(accountContent);
         }
-
-        public void Dispose() => HttpClientController?.Dispose();
+        catch
+        {
+            return null;
+        }
     }
 }

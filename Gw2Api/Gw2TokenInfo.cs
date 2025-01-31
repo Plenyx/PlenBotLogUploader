@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.Gw2Api
+namespace PlenBotLogUploader.Gw2Api;
+
+internal sealed class Gw2TokenInfo
 {
-    internal sealed class Gw2TokenInfo
-    {
-        [JsonProperty("name")]
-        internal string Name { get; set; }
-    }
+    [JsonProperty("name")]
+    internal string Name { get; set; }
 }

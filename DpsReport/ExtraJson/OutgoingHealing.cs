@@ -1,13 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.DpsReport.ExtraJson
-{
-    internal class OutgoingHealing
-    {
-        [JsonProperty("healing")]
-        internal long Healing { get; set; }
+namespace PlenBotLogUploader.DpsReport.ExtraJson;
 
-        [JsonProperty("hps")]
-        internal long HealingPerSecond { get; set; }
-    }
+internal class OutgoingHealing
+{
+    [JsonProperty("healing")]
+    internal long Healing { get; set; }
+
+    [JsonProperty("hps")]
+    internal long HealingPerSecond { get; set; }
 }

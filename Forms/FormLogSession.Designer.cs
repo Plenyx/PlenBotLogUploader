@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             buttonSessionStarter = new System.Windows.Forms.Button();
-            checkBoxSupressWebhooks = new System.Windows.Forms.CheckBox();
+            checkBoxSuppressWebhooks = new System.Windows.Forms.CheckBox();
             checkBoxOnlySuccess = new System.Windows.Forms.CheckBox();
             buttonUnPauseSession = new System.Windows.Forms.Button();
             textBoxSessionName = new System.Windows.Forms.TextBox();
@@ -70,14 +70,14 @@
             // 
             // checkBoxSupressWebhooks
             // 
-            checkBoxSupressWebhooks.AutoSize = true;
-            checkBoxSupressWebhooks.Location = new System.Drawing.Point(8, 29);
-            checkBoxSupressWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            checkBoxSupressWebhooks.Name = "checkBoxSupressWebhooks";
-            checkBoxSupressWebhooks.Size = new System.Drawing.Size(313, 24);
-            checkBoxSupressWebhooks.TabIndex = 1;
-            checkBoxSupressWebhooks.Text = "suppress webhooks until session concludes";
-            checkBoxSupressWebhooks.UseVisualStyleBackColor = true;
+            checkBoxSuppressWebhooks.AutoSize = true;
+            checkBoxSuppressWebhooks.Location = new System.Drawing.Point(8, 29);
+            checkBoxSuppressWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            checkBoxSuppressWebhooks.Name = "checkBoxSuppressWebhooks";
+            checkBoxSuppressWebhooks.Size = new System.Drawing.Size(313, 24);
+            checkBoxSuppressWebhooks.TabIndex = 1;
+            checkBoxSuppressWebhooks.Text = "suppress webhooks until session concludes";
+            checkBoxSuppressWebhooks.UseVisualStyleBackColor = true;
             // 
             // checkBoxOnlySuccess
             // 
@@ -155,7 +155,7 @@
             groupBoxDiscordWebhooks.Controls.Add(labelSessionContent);
             groupBoxDiscordWebhooks.Controls.Add(textBoxSessionContent);
             groupBoxDiscordWebhooks.Controls.Add(radioButtonSortByWing);
-            groupBoxDiscordWebhooks.Controls.Add(checkBoxSupressWebhooks);
+            groupBoxDiscordWebhooks.Controls.Add(checkBoxSuppressWebhooks);
             groupBoxDiscordWebhooks.Location = new System.Drawing.Point(8, 160);
             groupBoxDiscordWebhooks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             groupBoxDiscordWebhooks.Name = "groupBoxDiscordWebhooks";
@@ -376,7 +376,7 @@
         internal System.Windows.Forms.CheckBox checkBoxMakeWvWSummary;
         internal System.Windows.Forms.CheckBox checkBoxOnlySuccess;
         internal System.Windows.Forms.TextBox textBoxSessionName;
-        internal System.Windows.Forms.CheckBox checkBoxSupressWebhooks;
+        internal System.Windows.Forms.CheckBox checkBoxSuppressWebhooks;
         internal System.Windows.Forms.TextBox textBoxSessionContent;
         internal System.Windows.Forms.RadioButton radioButtonSortByUpload;
         internal System.Windows.Forms.RadioButton radioButtonSortByWing;

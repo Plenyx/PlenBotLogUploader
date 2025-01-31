@@ -1,19 +1,18 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.AppSettings
+namespace PlenBotLogUploader.AppSettings;
+
+internal sealed class ApplicationSettingsGw2Bot
 {
-    internal sealed class ApplicationSettingsGw2Bot
-    {
-        [JsonProperty("enabled")]
-        internal bool Enabled { get; set; } = false;
+    [JsonProperty("enabled")]
+    internal bool Enabled { get; set; }
 
-        [JsonProperty("apiKey")]
-        internal string ApiKey { get; set; } = "";
+    [JsonProperty("apiKey")]
+    internal string ApiKey { get; set; } = "";
 
-        [JsonProperty("selectedTeamId")]
-        internal int TeamId { get; set; } = 0;
+    [JsonProperty("selectedTeamId")]
+    internal int TeamId { get; set; }
 
-        [JsonProperty("sendOnSuccessOnly")]
-        internal bool SendOnSuccessOnly { get; set; } = false;
-    }
+    [JsonProperty("sendOnSuccessOnly")]
+    internal bool SendOnSuccessOnly { get; set; }
 }

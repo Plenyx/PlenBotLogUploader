@@ -1,12 +1,11 @@
-﻿namespace PlenBotLogUploader.DpsReport
+﻿namespace PlenBotLogUploader.DpsReport;
+
+internal enum BossType
 {
-    internal enum BossType
-    {
-        None,
-        Raid,
-        Fractal,
-        Strike,
-        Golem,
-        WvW,
-    }
+    None,
+    Raid,
+    Fractal,
+    Strike,
+    Golem,
+    WvW,
 }

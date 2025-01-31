@@ -1,32 +1,31 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.Tools;
 
-namespace PlenBotLogUploader.AppSettings
+namespace PlenBotLogUploader.AppSettings;
+
+internal sealed class ApplicationSettingsSession
 {
-    internal sealed class ApplicationSettingsSession
-    {
-        [JsonProperty("message")]
-        internal string Message { get; set; } = "";
+    [JsonProperty("message")]
+    internal string Message { get; set; } = "";
 
-        [JsonProperty("name")]
-        internal string Name { get; set; } = "Log session";
+    [JsonProperty("name")]
+    internal string Name { get; set; } = "Log session";
 
-        [JsonProperty("onlySuccess")]
-        internal bool OnlySuccess { get; set; } = true;
+    [JsonProperty("onlySuccess")]
+    internal bool OnlySuccess { get; set; } = true;
 
-        [JsonProperty("saveToFile")]
-        internal bool SaveToFile { get; set; } = true;
+    [JsonProperty("saveToFile")]
+    internal bool SaveToFile { get; set; } = true;
 
-        [JsonProperty("makeWvWSummaryEmbed")]
-        internal bool MakeWvWSummaryEmbed { get; set; } = true;
+    [JsonProperty("makeWvWSummaryEmbed")]
+    internal bool MakeWvWSummaryEmbed { get; set; } = true;
 
-        [JsonProperty("enableWvWLogList")]
-        internal bool EnableWvWLogList { get; set; } = true;
+    [JsonProperty("enableWvWLogList")]
+    internal bool EnableWvWLogList { get; set; } = true;
 
-        [JsonProperty("sort")]
-        internal LogSessionSortBy Sort { get; set; } = LogSessionSortBy.Wing;
+    [JsonProperty("sort")]
+    internal LogSessionSortBy Sort { get; set; } = LogSessionSortBy.Wing;
 
-        [JsonProperty("supressWebhooks")]
-        internal bool SupressWebhooks { get; set; } = true;
-    }
+    [JsonProperty("suppressWebhooks")]
+    internal bool SuppressWebhooks { get; set; } = true;
 }

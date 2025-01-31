@@ -4,49 +4,43 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace PlenBotLogUploader.DiscordApi
+namespace PlenBotLogUploader.DiscordApi;
+
+internal static class DiscordWebhooks
 {
-    internal static class DiscordWebhooks
+    internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
+
+    /// <summary>
+    ///     Returns the main dictionary with all webhooks.
+    /// </summary>
+    /// <returns>A dictionary with all webhooks</returns>
+    internal static Dictionary<int, DiscordWebhookData> All { get; private set; } = new();
+
+    private static Dictionary<int, DiscordWebhookData> FromJsonFile(string filePath)
     {
-        internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\discord_webhooks.json";
+        var jsonData = File.ReadAllText(filePath);
 
-        private static IDictionary<int, DiscordWebhookData> _all = new Dictionary<int, DiscordWebhookData>();
-        /// <summary>
-        /// Returns the main dictionary with all webhooks.
-        /// </summary>
-        /// <returns>A dictionary with all webhooks</returns>
-        internal static IDictionary<int, DiscordWebhookData> All => _all;
+        All = DiscordWebhookData.FromJsonString(jsonData);
 
-        private static IDictionary<int, DiscordWebhookData> FromJsonFile(string filePath)
+        return All;
+    }
+
+    internal static void SaveToJson(Dictionary<int, DiscordWebhookData> webhookData, string filePath)
+    {
+        var jsonString = JsonConvert.SerializeObject(webhookData.Values, Formatting.Indented);
+
+        File.WriteAllText(filePath, jsonString, Encoding.UTF8);
+    }
+
+    internal static Dictionary<int, DiscordWebhookData> LoadDiscordWebhooks()
+    {
+        try
         {
-            var jsonData = File.ReadAllText(filePath);
-
-            _all = DiscordWebhookData.FromJsonString(jsonData);
-
+            return File.Exists(JsonFileLocation) ? FromJsonFile(JsonFileLocation) : All;
+        }
+        catch
+        {
             return All;
-        }
-
-        internal static void SaveToJson(IDictionary<int, DiscordWebhookData> webhookData, string filePath)
-        {
-            var jsonString = JsonConvert.SerializeObject(webhookData.Values, Formatting.Indented);
-
-            File.WriteAllText(filePath, jsonString, Encoding.UTF8);
-        }
-
-        internal static IDictionary<int, DiscordWebhookData> LoadDiscordWebhooks()
-        {
-            try
-            {
-                if (File.Exists(JsonFileLocation))
-                {
-                    return FromJsonFile(JsonFileLocation);
-                }
-                return All;
-            }
-            catch
-            {
-                return All;
-            }
         }
     }
 }

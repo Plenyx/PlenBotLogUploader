@@ -10,97 +10,98 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlenBotLogUploader.Aleeva
+namespace PlenBotLogUploader.Aleeva;
+
+[JsonObject(MemberSerialization.OptIn)]
+internal class AleevaIntegration : IListViewItemInfo<AleevaIntegration>
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    internal class AleevaIntegration : IListViewItemInfo<AleevaIntegration>
+    private Team _team;
+
+    [JsonProperty("active")]
+    internal bool Active { get; set; } = true;
+
+    [JsonProperty("name")]
+    internal string Name { get; set; } = "";
+
+    [JsonProperty("channel")]
+    internal string Channel { get; set; } = "";
+
+    [JsonProperty("sendNotification")]
+    internal bool SendNotification { get; set; }
+
+    [JsonProperty("sendOnSuccessOnly")]
+    internal bool SendOnSuccessOnly { get; set; }
+
+    [JsonProperty("server")]
+    internal string Server { get; set; } = "";
+
+    [JsonProperty("teamId")]
+    internal int TeamId { get; set; }
+
+    /// <summary>
+    ///     A selected integration team, with which the Aleeva integration should evaluate itself
+    /// </summary>
+    internal Team Team
     {
-        [JsonProperty("active")]
-        internal bool Active { get; set; } = true;
-
-        [JsonProperty("name")]
-        internal string Name { get; set; } = "";
-
-        [JsonProperty("channel")]
-        internal string Channel { get; set; } = "";
-
-        [JsonProperty("sendNotification")]
-        internal bool SendNotification { get; set; } = false;
-
-        [JsonProperty("sendOnSuccessOnly")]
-        internal bool SendOnSuccessOnly { get; set; } = false;
-
-        [JsonProperty("server")]
-        internal string Server { get; set; } = "";
-
-        [JsonProperty("teamId")]
-        internal int TeamId { get; set; } = 0;
-
-        /// <summary>
-        /// A selected integration team, with which the Aleeva integration should evaluate itself
-        /// </summary>
-        internal Team Team
+        get
         {
-            get
+            if (_team is null && Teams.Teams.All.TryGetValue(TeamId, out var team))
             {
-                if ((_team is null) && Teams.Teams.All.TryGetValue(TeamId, out var team))
-                {
-                    _team = team;
-                }
-                return _team;
+                _team = team;
             }
-            set
-            {
-                _team = value;
-                TeamId = value.Id;
-            }
+            return _team;
         }
-
-        private Team _team;
-
-        internal bool Valid => !string.IsNullOrWhiteSpace(Server) && !string.IsNullOrWhiteSpace(Channel);
-
-        internal List<ListViewItemCustom<AleevaIntegration>> _connectedItems = [];
-
-        string IListViewItemInfo<AleevaIntegration>.NameToDisplay => Name;
-
-        string IListViewItemInfo<AleevaIntegration>.TextToDisplay => (!string.IsNullOrWhiteSpace(Name)) ? Name : (!string.IsNullOrWhiteSpace(Channel) ? $"C{Channel}" : $"S{Server}");
-
-        bool IListViewItemInfo<AleevaIntegration>.CheckedToDisplay => Active;
-
-        List<ListViewItemCustom<AleevaIntegration>> IListViewItemInfo<AleevaIntegration>.ConnectedItems => _connectedItems;
-
-        internal async Task PostLogToAleeva(FormMain mainLink, HttpClientController controller, DpsReportJson reportJSON, List<LogPlayer> players)
+        set
         {
-            if (!ApplicationSettings.Current.Aleeva.Authorised)
+            _team = value;
+            TeamId = value.Id;
+        }
+    }
+
+    internal bool Valid => !string.IsNullOrWhiteSpace(Server) && !string.IsNullOrWhiteSpace(Channel);
+
+    string IListViewItemInfo<AleevaIntegration>.NameToDisplay => Name;
+
+    string IListViewItemInfo<AleevaIntegration>.TextToDisplay => !string.IsNullOrWhiteSpace(Name) ? Name : !string.IsNullOrWhiteSpace(Channel) ? $"C{Channel}" : $"S{Server}";
+
+    bool IListViewItemInfo<AleevaIntegration>.CheckedToDisplay => Active;
+
+    List<ListViewItemCustom<AleevaIntegration>> IListViewItemInfo<AleevaIntegration>.ConnectedItems { get; } = [];
+
+    internal async Task PostLogToAleeva(FormMain mainLink, HttpClientController controller, DpsReportJson reportJson, List<LogPlayer> players)
+    {
+        if (!ApplicationSettings.Current.Aleeva.Authorised)
+        {
+            return;
+        }
+        if (ApplicationSettings.Current.Aleeva.AccessTokenExpire <= DateTime.Now)
+        {
+            await AleevaStatics.GetAleevaTokenFromRefreshToken(mainLink, controller);
+        }
+        if ((SendOnSuccessOnly && !(reportJson.Encounter.Success ?? false))
+            || !(Team?.IsSatisfied(players) ?? false))
+        {
+            return;
+        }
+        try
+        {
+            var logObject = new AleevaAddReport
             {
-                return;
-            }
-            if (ApplicationSettings.Current.Aleeva.AccessTokenExpire <= DateTime.Now)
+                DpsReportPermalink = reportJson.ConfigAwarePermalink,
+                SendNotification = SendNotification,
+            };
+            if (SendNotification)
             {
-                await AleevaStatics.GetAleevaTokenFromRefreshToken(mainLink, controller);
+                logObject.NotificationServerId = Server;
+                logObject.NotificationChannelId = Channel;
             }
-            if ((SendOnSuccessOnly && !(reportJSON.Encounter.Success ?? false)) ||
-                (!(Team?.IsSatisfied(players) ?? false)))
-            {
-                return;
-            }
-            try
-            {
-                var logObject = new AleevaAddReport() { DpsReportPermalink = reportJSON.ConfigAwarePermalink, SendNotification = SendNotification };
-                if (SendNotification)
-                {
-                    logObject.NotificationServerId = Server;
-                    logObject.NotificationChannelId = Channel;
-                }
-                var jsonLogObject = JsonConvert.SerializeObject(logObject);
-                using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
-                await controller.PostAsync($"{AleevaStatics.ApiBaseUrl}/report", content);
-            }
-            catch
-            {
-                // do nothing
-            }
+            var jsonLogObject = JsonConvert.SerializeObject(logObject);
+            using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
+            await controller.PostAsync($"{AleevaStatics.ApiBaseUrl}/report", content);
+        }
+        catch
+        {
+            // do nothing
         }
     }
 }

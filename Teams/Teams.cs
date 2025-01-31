@@ -4,41 +4,46 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace PlenBotLogUploader.Teams
+namespace PlenBotLogUploader.Teams;
+
+internal static class Teams
 {
-    internal static class Teams
+    internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\teams.json";
+
+    /// <summary>
+    ///     Returns the main dictionary with all webhook teams.
+    /// </summary>
+    /// <returns>A dictionary with all webhook teams</returns>
+    internal static Dictionary<int, Team> All { get; private set; } = new();
+
+    internal static Dictionary<int, Team> ResetDictionary()
     {
-        internal static readonly string JsonFileLocation = $@"{ApplicationSettings.LocalDir}\teams.json";
-
-        private static IDictionary<int, Team> _all = new Dictionary<int, Team>();
-
-        /// <summary>
-        /// Returns the main dictionary with all webhook teams.
-        /// </summary>
-        /// <returns>A dictionary with all webhook teams</returns>
-        internal static IDictionary<int, Team> All => _all;
-
-        internal static IDictionary<int, Team> ResetDictionary()
+        All.Clear();
+        All.Add(0, new Team
         {
-            All.Clear();
-            All.Add(0, new Team() { Name = "No team selected", MainCondition = new TeamCondition() { Limiter = TeamLimiter.Exact, LimiterValue = 0 } });
-            return All;
-        }
+            Name = "No team selected",
+            MainCondition = new TeamCondition
+            {
+                Limiter = TeamLimiter.Exact,
+                LimiterValue = 0,
+            },
+        });
+        return All;
+    }
 
-        internal static void SaveToJson(IDictionary<int, Team> weebhookData)
-        {
-            var jsonString = JsonConvert.SerializeObject(weebhookData.Values, Formatting.Indented);
+    internal static void SaveToJson(Dictionary<int, Team> webhookData)
+    {
+        var jsonString = JsonConvert.SerializeObject(webhookData.Values, Formatting.Indented);
 
-            File.WriteAllText(JsonFileLocation, jsonString, Encoding.UTF8);
-        }
+        File.WriteAllText(JsonFileLocation, jsonString, Encoding.UTF8);
+    }
 
-        internal static IDictionary<int, Team> FromJsonFile(string filePath)
-        {
-            var jsonData = File.ReadAllText(filePath);
+    internal static Dictionary<int, Team> FromJsonFile(string filePath)
+    {
+        var jsonData = File.ReadAllText(filePath);
 
-            _all = Team.FromJsonString(jsonData);
+        All = Team.FromJsonString(jsonData);
 
-            return All;
-        }
+        return All;
     }
 }

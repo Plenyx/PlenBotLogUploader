@@ -1,16 +1,15 @@
 ﻿using Newtonsoft.Json;
 
-namespace PlenBotLogUploader.GitHub
+namespace PlenBotLogUploader.GitHub;
+
+internal sealed class GitHubReleaseLatestAsset
 {
-    internal sealed class GitHubReleaseLatestAsset
-    {
-        [JsonProperty("name")]
-        internal string Name { get; set; }
+    [JsonProperty("name")]
+    internal string Name { get; set; }
 
-        [JsonProperty("size")]
-        internal long Size { get; set; }
+    [JsonProperty("size")]
+    internal long Size { get; set; }
 
-        [JsonProperty("browser_download_url")]
-        internal string DownloadUrl { get; set; }
-    }
+    [JsonProperty("browser_download_url")]
+    internal string DownloadUrl { get; set; }
 }
