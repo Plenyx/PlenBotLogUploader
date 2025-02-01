@@ -7,9 +7,9 @@ namespace PlenBotLogUploader;
 
 public partial class FormEditPing : Form
 {
+    // fields
     private readonly bool addNew;
     private readonly PingConfiguration config;
-    // fields
     private readonly FormPings pingLink;
     private readonly int reservedId;
 

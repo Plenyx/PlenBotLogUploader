@@ -18,8 +18,8 @@ namespace PlenBotLogUploader;
 
 public partial class FormDiscordWebhooks : Form
 {
-    private readonly Dictionary<int, DiscordWebhookData> allWebhooks;
     // fields
+    private readonly Dictionary<int, DiscordWebhookData> allWebhooks;
     private readonly FormMain mainLink;
     private readonly TableVisibleBorders tableBorders = TableVisibleBorders.HEADER_ONLY;
     private readonly CellStyle tableCellCenterAlign = new(CellHorizontalAlignment.Center);

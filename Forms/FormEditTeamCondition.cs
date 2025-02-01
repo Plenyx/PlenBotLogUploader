@@ -9,7 +9,6 @@ namespace PlenBotLogUploader;
 
 public partial class FormEditTeamCondition : Form
 {
-
     internal FormEditTeamCondition(Team teamData, TeamCondition data)
     {
         Team = teamData;

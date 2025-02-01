@@ -8,7 +8,6 @@ namespace PlenBotLogUploader;
 
 public partial class FormCustomName : Form
 {
-
     // constants
     private const string generateOAuthUrl = "https://twitchapps.com/tmi/";
     // fields

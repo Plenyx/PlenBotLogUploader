@@ -12,8 +12,8 @@ namespace PlenBotLogUploader;
 
 public partial class FormEditDiscordWebhook : Form
 {
-    private readonly DiscordWebhookData data;
     // fields
+    private readonly DiscordWebhookData data;
     private readonly FormDiscordWebhooks discordPingLink;
     private readonly int reservedId;
 

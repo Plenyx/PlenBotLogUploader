@@ -12,9 +12,9 @@ namespace PlenBotLogUploader;
 
 public partial class FormTeams : Form
 {
+    // fields
     private readonly Dictionary<int, Team> allTeams;
     private readonly Dictionary<int, DiscordWebhookData> allWebhooks = DiscordWebhooks.All;
-    // fields
     private int teamIdsKey;
 
     internal FormTeams()

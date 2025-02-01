@@ -10,9 +10,8 @@ namespace PlenBotLogUploader;
 
 public partial class FormEditBossData : Form
 {
-    private readonly BossData data;
-
     // fields
+    private readonly BossData data;
     private readonly FormBossData editLink;
     private BossType bossTypeSwitch = BossType.None;
 

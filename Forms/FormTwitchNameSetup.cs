@@ -8,8 +8,9 @@ namespace PlenBotLogUploader;
 
 public partial class FormTwitchNameSetup : Form
 {
-
+    // constants
     private const string twitchTvSeparator = "twitch.tv/";
+
     // fields
     private readonly FormMain mainLink;
 

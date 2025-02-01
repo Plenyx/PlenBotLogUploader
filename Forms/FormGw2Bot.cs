@@ -19,7 +19,10 @@ namespace PlenBotLogUploader;
 
 public partial class FormGw2Bot : Form
 {
+    // constants
     private const string gw2BotApiBaseUrl = "https://api.gw2bot.info/v1";
+
+    // fields
     private readonly HttpClientController controller = new();
     private readonly FormMain mainLink;
 

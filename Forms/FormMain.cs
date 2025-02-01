@@ -30,11 +30,12 @@ namespace PlenBotLogUploader;
 
 public partial class FormMain : Form
 {
-
     // constants
     private const int minFileSize = 8192;
     private const string plenBotVersionFileUrl = "https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION";
     private const string plenBotDownloadName = "PlenBotLogUploader.exe";
+
+    // fields
     private readonly FormAleevaIntegrations aleevaLink;
     private readonly List<string> allSessionLogs = [];
     private readonly FormArcPluginManager arcPluginManagerLink;
@@ -73,8 +74,6 @@ public partial class FormMain : Form
         { "%channel%", "" },
     };
     private readonly FormTwitchCommands twitchCommandsLink;
-
-    // fields
     private readonly FormTwitchNameSetup twitchNameLink;
     private readonly Dictionary<string, int> uploadFailCounters = [];
     private readonly ArcLogsChangeObserver watcher;

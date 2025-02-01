@@ -16,10 +16,8 @@ namespace PlenBotLogUploader;
 
 public partial class FormPings : Form
 {
-    // properties
-    private static readonly string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
-
     // fields
+    private static readonly string PingJsonFileLocation = $@"{ApplicationSettings.LocalDir}\remote_pings.json";
     private readonly FormMain mainLink;
     private int settingsIdsKey;
 

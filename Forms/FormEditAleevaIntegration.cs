@@ -16,15 +16,14 @@ namespace PlenBotLogUploader;
 
 public partial class FormEditAleevaIntegration : Form
 {
+    // fields
     private readonly FormAleevaIntegrations aleevaLink;
     private readonly List<AleevaChannel> aleevaServerChannels = [];
     private readonly List<AleevaServer> aleevaServers = [];
     private readonly HttpClientController controller;
     private readonly AleevaIntegration data;
-    // fields
     private readonly FormMain mainLink;
     private string selectedChannel;
-
     private string selectedServer;
     private Team selectedTeam = Teams.Teams.All.Count > 0 ? Teams.Teams.All[0] : null;
 

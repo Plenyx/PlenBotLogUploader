@@ -8,10 +8,10 @@ namespace PlenBotLogUploader.Forms;
 
 public partial class FormEditTwitchCommand : Form
 {
-    // consts
+    // constants
     private const string variableListLink = "https://github.com/Plenyx/PlenBotLogUploader/blob/main/Twitch/TwitchResponseVariables.md";
-    private readonly TwitchCommand data;
     // fields
+    private readonly TwitchCommand data;
     private readonly FormTwitchCommands editLink;
 
     internal FormEditTwitchCommand(FormTwitchCommands editLink, TwitchCommand data)

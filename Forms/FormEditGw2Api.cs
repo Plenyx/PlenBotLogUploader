@@ -10,6 +10,7 @@ namespace PlenBotLogUploader;
 
 public partial class FormEditGw2Api : Form
 {
+    // fields
     private readonly FormGw2Api gw2ApiLink;
     private readonly HttpClientController httpClientController = new();
     private ApplicationSettingsGw2Api data;

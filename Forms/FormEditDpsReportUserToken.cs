@@ -10,13 +10,12 @@ namespace PlenBotLogUploader;
 
 public partial class FormEditDpsReportUserToken : Form
 {
-
     // constants
     private const string dpsReportUserTokenUrl = "https://dps.report/getUserToken";
-    private readonly HttpClientController httpClientController;
+    private readonly ApplicationSettingsUploadUserToken data;
     // fields
+    private readonly HttpClientController httpClientController;
     private readonly FormDpsReportSettings settingsLink;
-    private ApplicationSettingsUploadUserToken data;
 
     internal FormEditDpsReportUserToken(FormDpsReportSettings settingsLink, HttpClientController httpClientController, ApplicationSettingsUploadUserToken data = null)
     {
@@ -44,13 +43,12 @@ public partial class FormEditDpsReportUserToken : Form
         }
         if (data is null)
         {
-            data = new ApplicationSettingsUploadUserToken
+            ApplicationSettings.Current.Upload.DpsReportUserTokens.Add(new ApplicationSettingsUploadUserToken
             {
                 Active = false,
                 Name = textBoxName.Text,
                 UserToken = textBoxUserToken.Text,
-            };
-            ApplicationSettings.Current.Upload.DpsReportUserTokens.Add(data);
+            });
         }
         else
         {

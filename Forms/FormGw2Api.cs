@@ -13,6 +13,7 @@ namespace PlenBotLogUploader;
 
 public partial class FormGw2Api : Form
 {
+    // fields
     private readonly FormMain mainLink;
 
     internal FormGw2Api(FormMain mainLink)

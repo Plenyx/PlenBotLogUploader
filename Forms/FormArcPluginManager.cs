@@ -16,9 +16,9 @@ namespace PlenBotLogUploader;
 
 public partial class FormArcPluginManager : Form
 {
+    // fields
     private readonly List<ArcDpsComponent> componentsToUpdate = [];
     private readonly HttpClientController httpController = new();
-    // fields
     private readonly FormMain mainLink;
     private int gw2Instances;
     private bool updateManual;
