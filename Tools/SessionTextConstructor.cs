@@ -10,8 +10,8 @@ namespace PlenBotLogUploader.Tools;
 
 internal static class SessionTextConstructor
 {
-    // consts
-    private const int MaxAllowedMessageSize = 1750;
+    // constants
+    private const int maxAllowedMessageSize = 1750;
 
     // fields
     private static readonly DiscordApiJsonContentEmbedThumbnail DefaultThumbnail = new()
@@ -33,7 +33,7 @@ internal static class SessionTextConstructor
             Thumbnail = DefaultThumbnail,
         };
 
-    internal static DiscordEmbeds ConstructSessionEmbeds(List<DpsReportJson> reportsJSON, LogSessionSettings logSessionSettings)
+    internal static DiscordEmbeds ConstructSessionEmbeds(List<DpsReportJson> reportsJson, LogSessionSettings logSessionSettings)
     {
         var discordEmbedsSuccessFailure = new List<DiscordApiJsonContentEmbed>();
         var discordEmbedsSuccess = new List<DiscordApiJsonContentEmbed>();
@@ -41,35 +41,35 @@ internal static class SessionTextConstructor
         DiscordApiJsonContentEmbed discordEmbedSummary = null;
 
         var raidLogs = logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing) ?
-            reportsJSON
+            reportsJson
                 .Where(x => Bosses.GetWingForBoss(x.Evtc.BossId) > 0)
                 .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.Evtc.BossId) })
                 .OrderBy(x => Bosses.GetWingForBoss(x.LogData.Evtc.BossId))
                 .ThenBy(x => Bosses.GetBossOrder(x.LogData.Encounter.BossId))
                 .ThenBy(x => x.LogData.UploadTime)
                 .ToArray() :
-            reportsJSON
+            reportsJson
                 .Where(x => Bosses.GetWingForBoss(x.Evtc.BossId) > 0)
                 .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.Evtc.BossId) })
                 .OrderBy(x => x.LogData.UploadTime)
                 .ToArray();
-        var fractalLogs = reportsJSON
+        var fractalLogs = reportsJson
             .Where(x => Bosses.All
                 .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Fractal)))
             .ToArray();
-        var strikeLogs = reportsJSON
+        var strikeLogs = reportsJson
             .Where(x => Bosses.All
                 .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Strike)))
             .ToArray();
-        var golemLogs = reportsJSON
+        var golemLogs = reportsJson
             .Where(x => Bosses.All
                 .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Golem)))
             .ToArray();
-        var wvwLogs = reportsJSON
+        var wvwLogs = reportsJson
             .Where(x => Bosses.All
                 .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.WvW)))
             .ToArray();
-        var otherLogs = reportsJSON
+        var otherLogs = reportsJson
             .Where(x =>
                 Bosses.All
                     .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.None)) ||
@@ -111,7 +111,7 @@ internal static class SessionTextConstructor
                     }
 
                     builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                    if (builderSuccessFailure.Length >= MaxAllowedMessageSize)
+                    if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessFailureCount++;
                         discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessFailureCount > 1 ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
@@ -121,7 +121,7 @@ internal static class SessionTextConstructor
                     if (data.LogData.Encounter.Success ?? false)
                     {
                         builderSuccess.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                        if (builderSuccess.Length >= MaxAllowedMessageSize)
+                        if (builderSuccess.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessCount++;
                             discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessCount > 1 ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
@@ -132,7 +132,7 @@ internal static class SessionTextConstructor
                     else
                     {
                         builderFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                        if (builderFailure.Length >= MaxAllowedMessageSize)
+                        if (builderFailure.Length >= maxAllowedMessageSize)
                         {
                             messageFailureCount++;
                             discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageFailureCount > 1 ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
@@ -175,7 +175,7 @@ internal static class SessionTextConstructor
                     }
 
                     builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                    if (builderSuccessFailure.Length >= MaxAllowedMessageSize)
+                    if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessFailureCount++;
                         discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessFailureCount > 1 ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
@@ -185,7 +185,7 @@ internal static class SessionTextConstructor
                     if (data.LogData.Encounter.Success ?? false)
                     {
                         builderSuccess.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                        if (builderSuccess.Length >= MaxAllowedMessageSize)
+                        if (builderSuccess.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessCount++;
                             discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessCount > 1 ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
@@ -196,7 +196,7 @@ internal static class SessionTextConstructor
                     else
                     {
                         builderFailure.Append('[').Append(bossName).Append("](").Append(data.LogData.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                        if (builderFailure.Length >= MaxAllowedMessageSize)
+                        if (builderFailure.Length >= maxAllowedMessageSize)
                         {
                             messageFailureCount++;
                             discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageFailureCount > 1 ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
@@ -247,7 +247,7 @@ internal static class SessionTextConstructor
                 }
 
                 builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                if (builderSuccessFailure.Length >= MaxAllowedMessageSize)
+                if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                 {
                     messageSuccessFailureCount++;
                     discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessFailureCount > 1 ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
@@ -257,7 +257,7 @@ internal static class SessionTextConstructor
                 if (log.Encounter.Success ?? false)
                 {
                     builderSuccess.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                    if (builderSuccess.Length >= MaxAllowedMessageSize)
+                    if (builderSuccess.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessCount++;
                         discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessCount > 1 ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
@@ -268,7 +268,7 @@ internal static class SessionTextConstructor
                 else
                 {
                     builderFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                    if (builderFailure.Length >= MaxAllowedMessageSize)
+                    if (builderFailure.Length >= maxAllowedMessageSize)
                     {
                         messageFailureCount++;
                         discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageFailureCount > 1 ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
@@ -318,7 +318,7 @@ internal static class SessionTextConstructor
                 }
 
                 builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                if (builderSuccessFailure.Length >= MaxAllowedMessageSize)
+                if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                 {
                     messageSuccessFailureCount++;
                     discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessFailureCount > 1 ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
@@ -328,7 +328,7 @@ internal static class SessionTextConstructor
                 if (log.Encounter.Success ?? false)
                 {
                     builderSuccess.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                    if (builderSuccess.Length >= MaxAllowedMessageSize)
+                    if (builderSuccess.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessCount++;
                         discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessCount > 1 ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
@@ -339,7 +339,7 @@ internal static class SessionTextConstructor
                 else
                 {
                     builderFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                    if (builderFailure.Length >= MaxAllowedMessageSize)
+                    if (builderFailure.Length >= maxAllowedMessageSize)
                     {
                         messageFailureCount++;
                         discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageFailureCount > 1 ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
@@ -369,7 +369,7 @@ internal static class SessionTextConstructor
             foreach (var log in golemLogs.AsSpan())
             {
                 builderSuccessFailure.Append(log.ConfigAwarePermalink).Append('\n');
-                if (builderSuccessFailure.Length >= MaxAllowedMessageSize)
+                if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                 {
                     messageSuccessFailureCount++;
                     discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessFailureCount > 1 ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
@@ -379,7 +379,7 @@ internal static class SessionTextConstructor
                 if (log.Encounter.Success ?? false)
                 {
                     builderSuccess.Append(log.ConfigAwarePermalink).Append('\n');
-                    if (builderSuccess.Length >= MaxAllowedMessageSize)
+                    if (builderSuccess.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessCount++;
                         discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessCount > 1 ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
@@ -390,7 +390,7 @@ internal static class SessionTextConstructor
                 else
                 {
                     builderFailure.Append(log.ConfigAwarePermalink).Append('\n');
-                    if (builderFailure.Length >= MaxAllowedMessageSize)
+                    if (builderFailure.Length >= maxAllowedMessageSize)
                     {
                         messageFailureCount++;
                         discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageFailureCount > 1 ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
@@ -444,7 +444,7 @@ internal static class SessionTextConstructor
                 foreach (var log in wvwLogs.AsSpan())
                 {
                     builderSuccessFailure.Append(log.ConfigAwarePermalink).Append('\n');
-                    if (builderSuccessFailure.Length >= MaxAllowedMessageSize)
+                    if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessFailureCount++;
                         discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessFailureCount > 1 ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
@@ -454,7 +454,7 @@ internal static class SessionTextConstructor
                     if (log.Encounter.Success ?? false)
                     {
                         builderSuccess.Append(log.ConfigAwarePermalink).Append('\n');
-                        if (builderSuccess.Length >= MaxAllowedMessageSize)
+                        if (builderSuccess.Length >= maxAllowedMessageSize)
                         {
                             messageSuccessCount++;
                             discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessCount > 1 ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
@@ -465,7 +465,7 @@ internal static class SessionTextConstructor
                     else
                     {
                         builderFailure.Append(log.ConfigAwarePermalink).Append('\n');
-                        if (builderFailure.Length >= MaxAllowedMessageSize)
+                        if (builderFailure.Length >= maxAllowedMessageSize)
                         {
                             messageFailureCount++;
                             discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageFailureCount > 1 ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));
@@ -511,7 +511,7 @@ internal static class SessionTextConstructor
                 }
 
                 builderSuccessFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                if (builderSuccessFailure.Length >= MaxAllowedMessageSize)
+                if (builderSuccessFailure.Length >= maxAllowedMessageSize)
                 {
                     messageSuccessFailureCount++;
                     discordEmbedsSuccessFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessFailureCount > 1 ? $" part {messageSuccessFailureCount}" : ""), builderSuccessFailure.ToString()));
@@ -521,7 +521,7 @@ internal static class SessionTextConstructor
                 if (log.Encounter.Success ?? false)
                 {
                     builderSuccess.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                    if (builderSuccess.Length >= MaxAllowedMessageSize)
+                    if (builderSuccess.Length >= maxAllowedMessageSize)
                     {
                         messageSuccessCount++;
                         discordEmbedsSuccess.Add(MakeEmbedFromText(logSessionSettings.Name + (messageSuccessCount > 1 ? $" part {messageSuccessCount}" : ""), builderSuccess.ToString()));
@@ -532,7 +532,7 @@ internal static class SessionTextConstructor
                 else
                 {
                     builderFailure.Append('[').Append(bossName).Append("](").Append(log.ConfigAwarePermalink).Append(')').Append(duration).Append(successText).Append('\n');
-                    if (builderFailure.Length >= MaxAllowedMessageSize)
+                    if (builderFailure.Length >= maxAllowedMessageSize)
                     {
                         messageFailureCount++;
                         discordEmbedsFailure.Add(MakeEmbedFromText(logSessionSettings.Name + (messageFailureCount > 1 ? $" part {messageFailureCount}" : ""), builderFailure.ToString()));

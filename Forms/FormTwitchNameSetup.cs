@@ -21,7 +21,6 @@ public partial class FormTwitchNameSetup : Form
         Icon = Resources.AppIcon;
     }
 
-
     private async void ButtonNext_Click(object sender, EventArgs e)
     {
         var channelInput = textBoxChannelUrl.Text.ToLower();
