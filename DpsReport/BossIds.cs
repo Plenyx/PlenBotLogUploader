@@ -53,6 +53,7 @@ internal enum BossIds
     Ankka = 23957,
     AetherbladeHideout = 24033,
     MinisterLiCM = 24266,
+    TheDragonvoid = 24375,
     MinisterLi = 24485,
     WatchknightTriumvirate = 25413,
     WatchknightTriumvirateCMVermilion = 25414,
@@ -68,6 +69,5 @@ internal enum BossIds
     Ura = 26712,
     Decima = 26774,
     Greer = 26725,
-    TheDragonvoid = 43488,
     ConjuredAmalgamate = 43974,
 }
