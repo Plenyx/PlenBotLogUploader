@@ -103,6 +103,15 @@
   {
     "bossId": 43974,
     "name": "Conjured Amalgamate",
+    "internalDescription": "EU & NA",
+    "icon": "https://i.imgur.com/eLyIWd2.png",
+    "type": 1,
+    "isEvent": false
+  },
+  {
+    "bossId": 44885,
+    "name": "Conjured Amalgamate",
+    "internalDescription": "CN",
     "icon": "https://i.imgur.com/eLyIWd2.png",
     "type": 1,
     "isEvent": false
@@ -409,6 +418,23 @@
   {
     "bossId": 24375,
     "name": "The Dragonvoid",
+    "internalDescription": "Void Amalgamate fight trigger 24375",
+    "icon": "https://i.imgur.com/gZRqzlr.png",
+    "type": 3,
+    "isEvent": false
+  },
+  {
+    "bossId": 43488,
+    "name": "The Dragonvoid",
+    "internalDescription": "Gadget fight trigger 43488",
+    "icon": "https://i.imgur.com/gZRqzlr.png",
+    "type": 3,
+    "isEvent": false
+  },
+  {
+    "bossId": 1378,
+    "name": "The Dragonvoid",
+    "internalDescription": "Gadget fight trigger 1378",
     "icon": "https://i.imgur.com/gZRqzlr.png",
     "type": 3,
     "isEvent": false

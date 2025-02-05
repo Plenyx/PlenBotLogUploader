@@ -3,6 +3,7 @@
 internal enum BossIds
 {
     WvW = 1,
+    TheDragonvoidGadget2 = 1378,
     Sabetha = 15375,
     SpiritRace = 15415,
     Gorseval = 15429,
@@ -53,7 +54,7 @@ internal enum BossIds
     Ankka = 23957,
     AetherbladeHideout = 24033,
     MinisterLiCM = 24266,
-    TheDragonvoid = 24375,
+    TheDragonvoidVoidAmalgamate = 24375,
     MinisterLi = 24485,
     WatchknightTriumvirate = 25413,
     WatchknightTriumvirateCMVermilion = 25414,
@@ -69,5 +70,6 @@ internal enum BossIds
     Ura = 26712,
     Decima = 26774,
     Greer = 26725,
+    TheDragonvoidGadget1 = 43488,
     ConjuredAmalgamate = 43974,
 }
