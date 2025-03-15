@@ -14,6 +14,7 @@ using PlenBotLogUploader.Twitch;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -331,6 +332,7 @@ public partial class FormMain : Form
     private bool TwitchChannelJoined { get; set; }
     internal HttpClientController HttpClientController { get; } = new();
     private bool StartedMinimised { get; set; }
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal MumbleReader MumbleReader { get; set; }
     private bool UpdateFound
     {

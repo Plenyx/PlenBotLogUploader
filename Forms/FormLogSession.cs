@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace PlenBotLogUploader;
 
@@ -27,6 +28,7 @@ public partial class FormLogSession : Form
     }
 
     // properties
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal bool SessionRunning { get; private set; }
 
     private void FormLogSession_FormClosing(object sender, FormClosingEventArgs e)

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <LangVersion>12.0</LangVersion>
+    <LangVersion>13.0</LangVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <PublishSingleFile>true</PublishSingleFile>
@@ -21,7 +21,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationVersion>97.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -35,6 +35,16 @@
     <StartupObject>PlenBotLogUploader.Program</StartupObject>
     <PlatformTarget>x64</PlatformTarget>
     <NeutralLanguage>en</NeutralLanguage>
+    <Nullable>disable</Nullable>
+    <Version>97.0.0</Version>
+    <Title>PlenBot Log Uploader</Title>
+    <PackageId>PlenBotLogUploader</PackageId>
+    <Authors>Plenyx @plenyx</Authors>
+    <Company>Plenyx @plenyx</Company>
+    <Product>PlenBotLogUploader</Product>
+    <Copyright>https://github.com/Plenyx/PlenBotLogUploader/blob/main/LICENSE</Copyright>
+    <Description>The all-in-one solution for all your arcdps logs.</Description>
+    <PackageProjectUrl>https://github.com/Plenyx/PlenBotLogUploader/</PackageProjectUrl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -63,7 +73,7 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="TextTableFormatter.NET" Version="2.0.1" />
     <PackageReference Include="TwitchIrcClient" Version="1.2.2" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.11" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.3" />
   </ItemGroup>
   <ItemGroup>
       <SupportedPlatform Include="windows" />
