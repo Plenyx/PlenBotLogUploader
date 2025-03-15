@@ -35,6 +35,7 @@ public partial class FormMain : Form
     private const int minFileSize = 8192;
     private const string plenBotVersionFileUrl = "https://raw.githubusercontent.com/Plenyx/PlenBotLogUploader/master/VERSION";
     private const string plenBotDownloadName = "PlenBotLogUploader.exe";
+    private const string plenBotDownloadSCName = "PlenBotLogUploader.sc.exe";
 
     // fields
     private readonly FormAleevaIntegrations aleevaLink;
@@ -1615,9 +1616,29 @@ public partial class FormMain : Form
             await NewReleaseCheckAsync();
             return;
         }
+        # if RELEASEDLLS
+        if (!appStartup)
+        {
+            var dialogResult = MessageBox.Show("For your currently running PlenBot uploader version, there is no automatic update available.\nBy clicking \"Yes\" you will be redirected to manually download the newer version.", "Automatic update not available", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = "https://github.com/Plenyx/PlenBotLogUploader/releases/latest",
+                });
+            }
+        }
+        #else
         buttonUpdate.Enabled = false;
         AddToText(">>> Downloading the update...");
-        var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals(plenBotDownloadName))?.DownloadUrl;
+        var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals(
+            #if RELEASESC
+            plenBotDownloadSCName
+            #else
+            plenBotDownloadName
+            #endif
+            ))?.DownloadUrl;
         if (downloadUrl is null)
         {
             AddToText(">>> Something went wrong with the download. Please try again later.");
@@ -1638,6 +1659,7 @@ public partial class FormMain : Form
             Arguments = $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{(appStartup && StartedMinimised ? " -m" : "")}",
         });
         ExitApp();
+        #endif
     }
 
     private void CheckBoxStartWhenWindowsStarts_CheckedChanged(object sender, EventArgs e)

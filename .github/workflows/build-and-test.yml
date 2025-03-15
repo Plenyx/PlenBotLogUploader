@@ -29,9 +29,9 @@ jobs:
     - name: Package PlenBotLogUploader (Windows, netv9)
       run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=false -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=false -p:IncludeAllContentForSelfExtract=false -o artifacts/uploader/win64/
     - name: Package PlenBotLogUploader (Windows, self-contained)
-      run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-sc/
+      run: dotnet publish PlenBotLogUploader.csproj -c ReleaseSC -r win-x64 --self-contained=true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-sc/
     - name: Package PlenBotLogUploader (Windows, all dlls)
-      run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=false -p:PublishSingleFile=false -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-dlls/
+      run: dotnet publish PlenBotLogUploader.csproj -c ReleaseDLLs -r win-x64 --self-contained=false -p:PublishSingleFile=false -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-dlls/
     - name: Bundle PDBs
       run: |
           mkdir -p artifacts/pdb/uploader/win64/
