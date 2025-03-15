@@ -28,6 +28,8 @@ jobs:
       run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=false -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64/
     - name: Package PlenBotLogUploader (Windows, self-contained)
       run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-sc/
+    - name: Package PlenBotLogUploader (Windows, all dlls)
+      run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=false -p:PublishSingleFile=false -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-dlls/
     - name: Prettify executable filenames
       run: |
           mv artifacts/uploader/win64/PlenBotLogUploader.exe artifacts/uploader/win64/PlenBotLogUploader.exe
@@ -39,5 +41,6 @@ jobs:
         files: |
           artifacts/uploader/win64/PlenBotLogUploader.exe
           artifacts/uploader/win64-sc/PlenBotLogUploader.sc.exe
+          artifacts/uploader/win64-dlls/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
