@@ -108,7 +108,7 @@ internal static class Bosses
             (int)BossIds.SoullessHorror or (int)BossIds.RiverOfSouls or (int)BossIds.BrokenKing or (int)BossIds.EaterOfSouls or (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement or (int)BossIds.Dhuum => 5,
             (int)BossIds.ConjuredAmalgamate or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.Qadim => 6,
             (int)BossIds.CardinalAdina or (int)BossIds.CardinalSabir or (int)BossIds.QadimThePeerless => 7,
-            (int)BossIds.Greer or (int)BossIds.Decima or (int)BossIds.Ura => 8,
+            (int)BossIds.Greer or (int)BossIds.Decima or (int)BossIds.DecimaCM or (int)BossIds.Ura => 8,
             _ => 0,
         };
 
@@ -121,7 +121,7 @@ internal static class Bosses
         => bossId switch
         {
             (int)BossIds.ValeGuardian or (int)BossIds.Slothasor or (int)BossIds.Escort or (int)BossIds.Cairn or (int)BossIds.SoullessHorror or (int)BossIds.ConjuredAmalgamate or (int)BossIds.CardinalAdina or (int)BossIds.Greer => 1,
-            (int)BossIds.SpiritRace or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir or (int)BossIds.Decima => 2,
+            (int)BossIds.SpiritRace or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir or (int)BossIds.Decima or (int)BossIds.DecimaCM => 2,
             (int)BossIds.Gorseval or (int)BossIds.Matthias or (int)BossIds.TwistedCastle or (int)BossIds.Samarog or (int)BossIds.BrokenKing or (int)BossIds.Qadim or (int)BossIds.QadimThePeerless or (int)BossIds.Ura => 3,
             (int)BossIds.Sabetha or (int)BossIds.Xera or (int)BossIds.Deimos or (int)BossIds.EaterOfSouls => 4,
             (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement => 5,

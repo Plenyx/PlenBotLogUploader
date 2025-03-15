@@ -124,6 +124,14 @@
     "isEvent": false
   },
   {
+    "bossId": 26867,
+    "name": "Decima, the Stormsinger",
+    "internalDescription": "Challenge Mode",
+    "icon": "https://i.imgur.com/EJJRx02.png",
+    "type": 1,
+    "isEvent": false
+  },
+  {
     "bossId": 25705,
     "name": "Dagda",
     "icon": "https://i.imgur.com/v6vjRsH.png",
