@@ -63,7 +63,7 @@ internal sealed class BossData : IListViewItemInfo<BossData>
 
     string IListViewItemInfo<BossData>.NameToDisplay => BossId.ToString();
 
-    string IListViewItemInfo<BossData>.TextToDisplay => Name + (!string.IsNullOrWhiteSpace(InternalDescription) ? $" [{InternalDescription}]" : "");
+    string IListViewItemInfo<BossData>.TextToDisplay => string.IsNullOrWhiteSpace(InternalDescription) ? Name : $"{Name} [{InternalDescription}]";
 
     bool IListViewItemInfo<BossData>.CheckedToDisplay => false;
 

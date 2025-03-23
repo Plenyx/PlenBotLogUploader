@@ -63,7 +63,14 @@ internal sealed class DpsReportJsonExtraJson
     {
         get
         {
-            return TriggerId is (int)BossIds.Cerus or (int)BossIds.Decima or (int)BossIds.Ura ? TargetsByTotalHealth.FirstOrDefault() : TargetsByTotalHealth.FirstOrDefault(x => x.HealthPercentBurned <= 98.6);
+            return TriggerId is
+                (int)BossIds.Cerus or
+                (int)BossIds.Greer or
+                (int)BossIds.Decima or
+                (int)BossIds.DecimaCM or
+                (int)BossIds.Ura ?
+                    TargetsByTotalHealth.FirstOrDefault() :
+                    TargetsByTotalHealth.FirstOrDefault(x => x.HealthPercentBurned <= 98.6);
         }
     }
 

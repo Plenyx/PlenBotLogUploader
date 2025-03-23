@@ -118,14 +118,14 @@
   },
   {
     "bossId": 26774,
-    "name": "Decima, the Stormsinger",
+    "name": "Decima",
     "icon": "https://i.imgur.com/EJJRx02.png",
     "type": 1,
     "isEvent": false
   },
   {
     "bossId": 26867,
-    "name": "Decima, the Stormsinger",
+    "name": "Decima",
     "internalDescription": "Challenge Mode",
     "icon": "https://i.imgur.com/EJJRx02.png",
     "type": 1,
@@ -228,7 +228,7 @@
   },
   {
     "bossId": 26725,
-    "name": "Greer, the Blightbringer",
+    "name": "Greer",
     "icon": "https://i.imgur.com/19lr7VM.png",
     "type": 1,
     "isEvent": false
@@ -465,7 +465,7 @@
   },
   {
     "bossId": 26712,
-    "name": "Ura, the Steamshrieker",
+    "name": "Ura",
     "icon": "https://i.imgur.com/hUdfF7h.png",
     "type": 1,
     "isEvent": false

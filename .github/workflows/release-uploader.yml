@@ -34,7 +34,7 @@ jobs:
       run: |
           mv artifacts/uploader/win64/PlenBotLogUploader.exe artifacts/uploader/win64/PlenBotLogUploader.exe
           mv artifacts/uploader/win64-sc/PlenBotLogUploader.exe artifacts/uploader/win64-sc/PlenBotLogUploader.sc.exe
-          powershell Compress-Archive artifacts/uploader/win64-dlls/ artifacts/uploader/win64-dlls/PlenBotLogUploader.all-dlls.zip
+          powershell Compress-Archive artifacts/uploader/win64-dlls/* artifacts/uploader/win64-dlls/PlenBotLogUploader.all-dlls.zip
     - name: Prepare release
       uses: softprops/action-gh-release@v2
       with:
