@@ -9,7 +9,7 @@ namespace PlenBotLogUploader.Tools;
 
 internal sealed class Gw2ApiHelper : IDisposable
 {
-    private const string Gw2ApiUrl = "https://api.guildwars2.com/";
+    private const string gw2ApiUrl = "https://api.guildwars2.com/";
     private readonly HttpClientController _httpClientController = new();
 
     internal Gw2ApiHelper(string apiKey = "")
@@ -26,7 +26,7 @@ internal sealed class Gw2ApiHelper : IDisposable
     {
         try
         {
-            using var accountResponse = await _httpClientController.GetAsync($"{Gw2ApiUrl}v2/account?v=latest");
+            using var accountResponse = await _httpClientController.GetAsync($"{gw2ApiUrl}v2/account?v=latest");
             var accountContent = await accountResponse.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Gw2Account>(accountContent);
         }
