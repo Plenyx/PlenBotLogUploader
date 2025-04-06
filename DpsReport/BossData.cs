@@ -97,7 +97,10 @@ internal sealed class BossData : IListViewItemInfo<BossData>
         format = format.Replace("<log>", reportJson.ConfigAwarePermalink);
         format = format.Replace("<pulls>", pullCounter.ToString());
         format = reportJson.ExtraJson is not null
-            ? format.Replace("<percent>", $"{reportJson.ExtraJson.GetLastPhaseName()} - {reportJson.ExtraJson.GetLastPhaseTargets()}")
+            ? format.Replace("<phase>", reportJson.ExtraJson.GetLastPhaseName())
+            : format.Replace("<phase>", "");
+        format = reportJson.ExtraJson is not null
+            ? format.Replace("<percent>", reportJson.ExtraJson.GetLastPhaseTargets())
             : format.Replace("<percent>", "");
         return format;
     }

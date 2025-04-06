@@ -56,6 +56,7 @@
             radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
             radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
             radioButtonTypeNone = new System.Windows.Forms.RadioButton();
+            labelPhase = new System.Windows.Forms.Label();
             groupBoxCrucial.SuspendLayout();
             groupBoxOtherSettings.SuspendLayout();
             groupBoxBossType.SuspendLayout();
@@ -99,7 +100,7 @@
             // 
             // textBoxIcon
             // 
-            textBoxIcon.Location = new System.Drawing.Point(9, 252);
+            textBoxIcon.Location = new System.Drawing.Point(9, 272);
             textBoxIcon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             textBoxIcon.Name = "textBoxIcon";
             textBoxIcon.Size = new System.Drawing.Size(423, 27);
@@ -108,7 +109,7 @@
             // labelIcon
             // 
             labelIcon.AutoSize = true;
-            labelIcon.Location = new System.Drawing.Point(5, 228);
+            labelIcon.Location = new System.Drawing.Point(5, 248);
             labelIcon.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelIcon.Name = "labelIcon";
             labelIcon.Size = new System.Drawing.Size(219, 20);
@@ -188,6 +189,7 @@
             // 
             // groupBoxOtherSettings
             // 
+            groupBoxOtherSettings.Controls.Add(labelPhase);
             groupBoxOtherSettings.Controls.Add(buttonOpenIconLink);
             groupBoxOtherSettings.Controls.Add(labelWPercent);
             groupBoxOtherSettings.Controls.Add(labelWPulls);
@@ -204,14 +206,14 @@
             groupBoxOtherSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             groupBoxOtherSettings.Name = "groupBoxOtherSettings";
             groupBoxOtherSettings.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            groupBoxOtherSettings.Size = new System.Drawing.Size(532, 292);
+            groupBoxOtherSettings.Size = new System.Drawing.Size(532, 309);
             groupBoxOtherSettings.TabIndex = 11;
             groupBoxOtherSettings.TabStop = false;
             groupBoxOtherSettings.Text = "Uploader specific settings for the boss (empty messages are not sent)";
             // 
             // buttonOpenIconLink
             // 
-            buttonOpenIconLink.Location = new System.Drawing.Point(439, 252);
+            buttonOpenIconLink.Location = new System.Drawing.Point(439, 272);
             buttonOpenIconLink.Name = "buttonOpenIconLink";
             buttonOpenIconLink.Size = new System.Drawing.Size(81, 29);
             buttonOpenIconLink.TabIndex = 11;
@@ -222,12 +224,12 @@
             // labelWPercent
             // 
             labelWPercent.AutoSize = true;
-            labelWPercent.Location = new System.Drawing.Point(184, 208);
+            labelWPercent.Location = new System.Drawing.Point(184, 227);
             labelWPercent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             labelWPercent.Name = "labelWPercent";
-            labelWPercent.Size = new System.Drawing.Size(243, 20);
+            labelWPercent.Size = new System.Drawing.Size(311, 20);
             labelWPercent.TabIndex = 10;
-            labelWPercent.Text = "<percent> - the % of the encounter";
+            labelWPercent.Text = "<percent> - the % of targets of the encounter";
             // 
             // labelWPulls
             // 
@@ -374,12 +376,22 @@
             radioButtonTypeNone.UseVisualStyleBackColor = true;
             radioButtonTypeNone.CheckedChanged += RadioButtonTypeNone_CheckedChanged;
             // 
+            // labelPhase
+            // 
+            labelPhase.AutoSize = true;
+            labelPhase.Location = new System.Drawing.Point(184, 208);
+            labelPhase.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelPhase.Name = "labelPhase";
+            labelPhase.Size = new System.Drawing.Size(259, 20);
+            labelPhase.TabIndex = 12;
+            labelPhase.Text = "<phase> - the phase of the encounter";
+            // 
             // FormEditBossData
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
-            ClientSize = new System.Drawing.Size(562, 652);
+            ClientSize = new System.Drawing.Size(562, 668);
             Controls.Add(groupBoxBossType);
             Controls.Add(groupBoxOtherSettings);
             Controls.Add(groupBoxCrucial);
@@ -430,5 +442,6 @@
         private System.Windows.Forms.TextBox textBoxInternalDescription;
         private System.Windows.Forms.Label labelWPercent;
         private System.Windows.Forms.Button buttonOpenIconLink;
+        private System.Windows.Forms.Label labelPhase;
     }
 }
