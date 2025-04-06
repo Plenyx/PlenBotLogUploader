@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.DpsReport.ExtraJson;
+using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,25 +57,21 @@ internal sealed class DpsReportJsonExtraJson
     [JsonProperty("players")]
     internal Player[] Players { get; set; }
 
+    [JsonProperty("phases")]
+    internal Phase[] Phases { get; set; }
+
     [JsonProperty("logErrors")]
     internal string[] LogErrors { get; set; }
 
-    internal Target PossiblyLastTarget
+    private List<Target> GetTargetsByIndex(List<int> indexes)
     {
-        get
+        var result = new List<Target>();
+        foreach (var targetIndex in indexes.AsSpan())
         {
-            return TriggerId is
-                (int)BossIds.Cerus or
-                (int)BossIds.Greer or
-                (int)BossIds.Decima or
-                (int)BossIds.DecimaCM or
-                (int)BossIds.Ura ?
-                    TargetsByTotalHealth.FirstOrDefault() :
-                    TargetsByTotalHealth.FirstOrDefault(x => x.HealthPercentBurned <= 98.6);
+            result.Add(Targets[targetIndex]);
         }
+        return result;
     }
-
-    private IOrderedEnumerable<Target> TargetsByTotalHealth => Targets.OrderByDescending(x => x.TotalHealth);
 
     internal Dictionary<Player, int> GetPlayerTargetDps()
     {
@@ -87,5 +84,51 @@ internal sealed class DpsReportJsonExtraJson
             dict.Add(player, damage);
         }
         return dict;
+    }
+
+    private Phase GetLastNonBreakbarPhase()
+    {
+        Phase lastNonBreakbarPhase = null;
+        foreach (var phase in Phases.AsSpan())
+        {
+            if (!phase.BreakbarPhase)
+            {
+                lastNonBreakbarPhase = phase;
+            }
+        }
+        return lastNonBreakbarPhase ?? Phases[0];
+    }
+
+    internal string GetLastPhaseName() => GetLastNonBreakbarPhase().Name ?? "Unknown phase";
+
+    internal string GetLastPhaseTargets()
+    {
+        var lastPhase = GetLastNonBreakbarPhase();
+        if (lastPhase is null)
+        {
+            return string.Empty;
+        }
+        var resultTargetTexts = new List<string>();
+        var blockingTargets = lastPhase.GetBlockingTargets();
+        if (blockingTargets.Count != 0)
+        {
+            var blockingTargetList = GetTargetsByIndex(blockingTargets);
+            foreach (var target in blockingTargetList.AsSpan())
+            {
+                resultTargetTexts.Add($"{target.Name} - {Math.Round(100 - target.HealthPercentBurned, 2)}%");
+            }
+            return string.Join(" | ", resultTargetTexts);
+        }
+        var mainTargets = lastPhase.GetMainTargets();
+        var mainTargetList = GetTargetsByIndex(mainTargets);
+        if (mainTargets.Count == 0)
+        {
+            return string.Empty;
+        }
+        foreach (var target in mainTargetList.AsSpan())
+        {
+            resultTargetTexts.Add($"{target.Name} - {Math.Round(100 - target.HealthPercentBurned, 2)}%");
+        }
+        return string.Join(" | ", resultTargetTexts);
     }
 }

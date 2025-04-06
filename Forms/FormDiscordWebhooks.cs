@@ -365,7 +365,7 @@ public partial class FormDiscordWebhooks : Form
         {
             var bossName = $"{reportJson.Encounter.Boss}{(reportJson.ChallengeMode ? " CM" : "")}";
             var successString = reportJson.Encounter.Success ?? false ? ":white_check_mark:" : "❌";
-            var lastTarget = reportJson?.ExtraJson?.PossiblyLastTarget is not null ? $"\n{reportJson.ExtraJson.PossiblyLastTarget.Name} ({Math.Round(100 - reportJson.ExtraJson.PossiblyLastTarget.HealthPercentBurned, 2)}%)" : "";
+            var lastTarget = reportJson.ExtraJson is null ? "" : $"\n{reportJson.ExtraJson.GetLastPhaseName()} ({reportJson.ExtraJson.GetLastPhaseTargets()})";
             var extraJson = reportJson.ExtraJson is null ? "" : $"Recorded by: {reportJson.ExtraJson.RecordedByAccountName}\nDuration: {reportJson.ExtraJson.Duration}{lastTarget}\nElite Insights version: {reportJson.ExtraJson.EliteInsightsVersion}\n";
             var icon = "";
             var bossData = Bosses.GetBossDataFromId(reportJson.Encounter.BossId);
