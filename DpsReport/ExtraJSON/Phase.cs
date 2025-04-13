@@ -20,25 +20,12 @@ internal sealed class Phase
     [JsonProperty("breakbarPhase")]
     internal bool BreakbarPhase { get; set; }
 
-    internal List<int> GetMainTargets()
+    internal List<int> GetMainAndBlockingTargetIndexes()
     {
         var result = new List<int>();
         foreach (var targetIndex in TargetPriorities.Keys)
         {
-            if (TargetPriorities[targetIndex].Equals("MAIN"))
-            {
-                result.Add(targetIndex);
-            }
-        }
-        return result;
-    }
-
-    internal List<int> GetBlockingTargets()
-    {
-        var result = new List<int>();
-        foreach (var targetIndex in TargetPriorities.Keys)
-        {
-            if (TargetPriorities[targetIndex].Equals("BLOCKING"))
+            if (TargetPriorities[targetIndex].Equals("MAIN") || TargetPriorities[targetIndex].Equals("BLOCKING"))
             {
                 result.Add(targetIndex);
             }

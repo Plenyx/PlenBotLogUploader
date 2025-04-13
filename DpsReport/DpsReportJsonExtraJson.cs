@@ -63,7 +63,7 @@ internal sealed class DpsReportJsonExtraJson
     [JsonProperty("logErrors")]
     internal string[] LogErrors { get; set; }
 
-    private List<Target> GetTargetsByIndex(List<int> indexes)
+    private List<Target> GetTargetsByIndexes(List<int> indexes)
     {
         var result = new List<Target>();
         foreach (var targetIndex in indexes.AsSpan())
@@ -91,41 +91,31 @@ internal sealed class DpsReportJsonExtraJson
         Phase lastNonBreakbarPhase = null;
         foreach (var phase in Phases.AsSpan())
         {
-            if (!phase.BreakbarPhase)
+            if (!phase?.BreakbarPhase ?? false)
             {
                 lastNonBreakbarPhase = phase;
             }
         }
-        return lastNonBreakbarPhase ?? Phases[0];
+        return lastNonBreakbarPhase ?? ((Phases.Length > 0) ? Phases[0] : null);
     }
 
-    internal string GetLastPhaseName() => GetLastNonBreakbarPhase().Name ?? "Unknown phase";
+    internal string GetLastPhaseName() => GetLastNonBreakbarPhase()?.Name ?? "Unknown phase";
 
     internal string GetLastPhaseTargets()
     {
         var lastPhase = GetLastNonBreakbarPhase();
         if (lastPhase is null)
         {
-            return string.Empty;
+            return "";
         }
         var resultTargetTexts = new List<string>();
-        var blockingTargets = lastPhase.GetBlockingTargets();
-        if (blockingTargets.Count != 0)
+        var phaseTargetsIndexes = lastPhase.GetMainAndBlockingTargetIndexes();
+        if (phaseTargetsIndexes.Count == 0)
         {
-            var blockingTargetList = GetTargetsByIndex(blockingTargets);
-            foreach (var target in blockingTargetList.AsSpan())
-            {
-                resultTargetTexts.Add($"{target.Name} - {Math.Round(100 - target.HealthPercentBurned, 2)}%");
-            }
-            return string.Join(" | ", resultTargetTexts);
+            return "No phase targets found";
         }
-        var mainTargets = lastPhase.GetMainTargets();
-        var mainTargetList = GetTargetsByIndex(mainTargets);
-        if (mainTargets.Count == 0)
-        {
-            return string.Empty;
-        }
-        foreach (var target in mainTargetList.AsSpan())
+        var phaseTargets = GetTargetsByIndexes(phaseTargetsIndexes);
+        foreach (var target in phaseTargets.AsSpan())
         {
             resultTargetTexts.Add($"{target.Name} - {Math.Round(100 - target.HealthPercentBurned, 2)}%");
         }
