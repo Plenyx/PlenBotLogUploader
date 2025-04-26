@@ -20,7 +20,7 @@ internal sealed class Team
     internal string Name { get; set; }
 
     /// <summary>
-    ///     What condition to use to resolve the team
+    ///     What specific condition to use to resolve the team
     /// </summary>
     [JsonProperty("condition")]
     internal TeamCondition MainCondition { get; set; }

@@ -31,7 +31,7 @@ internal sealed class DpsReportJsonExtraJson
     internal ulong DurationMs { get; set; }
 
     [JsonProperty("success")]
-    internal bool Succcess { get; set; }
+    internal bool Success { get; set; }
 
     [JsonProperty("triggerID")]
     internal int TriggerId { get; set; }
@@ -99,11 +99,13 @@ internal sealed class DpsReportJsonExtraJson
         return lastNonBreakbarPhase ?? ((Phases.Length > 0) ? Phases[0] : null);
     }
 
-    internal string GetLastPhaseName() => GetLastNonBreakbarPhase()?.Name ?? "Unknown phase";
+    private Phase LastNonBreakbarPhase => GetLastNonBreakbarPhase();
+
+    internal string GetLastPhaseName() => LastNonBreakbarPhase?.Name ?? "Unknown phase";
 
     internal string GetLastPhaseTargets()
     {
-        var lastPhase = GetLastNonBreakbarPhase();
+        var lastPhase = LastNonBreakbarPhase;
         if (lastPhase is null)
         {
             return "";

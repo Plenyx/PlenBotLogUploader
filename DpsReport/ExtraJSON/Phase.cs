@@ -25,7 +25,8 @@ internal sealed class Phase
         var result = new List<int>();
         foreach (var targetIndex in TargetPriorities.Keys)
         {
-            if (TargetPriorities[targetIndex].Equals("MAIN") || TargetPriorities[targetIndex].Equals("BLOCKING"))
+            var targetType = TargetPriorities[targetIndex];
+            if (targetType.Equals("MAIN") || targetType.Equals("BLOCKING"))
             {
                 result.Add(targetIndex);
             }
