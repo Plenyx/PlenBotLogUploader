@@ -14,10 +14,10 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - name: Setup .NET 9
+    - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 8.0.x
     # This is a workaround for issue https://github.com/actions/virtual-environments/issues/1090,
     # which causes to nuget restores to fail
     - name: Clean NuGet cache
@@ -26,7 +26,7 @@ jobs:
       run: dotnet build PlenBotLogUploader.csproj -c Release
     - name: Test
       run: dotnet test PlenBotLogUploader.csproj --no-restore --verbosity normal
-    - name: Package PlenBotLogUploader (Windows, netv9)
+    - name: Package PlenBotLogUploader (Windows, netv8)
       run: dotnet publish PlenBotLogUploader.csproj -c Release -r win-x64 --self-contained=false -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=false -p:IncludeAllContentForSelfExtract=false -o artifacts/uploader/win64/
     - name: Package PlenBotLogUploader (Windows, self-contained)
       run: dotnet publish PlenBotLogUploader.csproj -c ReleaseSC -r win-x64 --self-contained=true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:IncludeAllContentForSelfExtract=true -o artifacts/uploader/win64-sc/
@@ -36,10 +36,10 @@ jobs:
       run: |
           mkdir -p artifacts/pdb/uploader/win64/
           mv artifacts/uploader/win64/*.pdb artifacts/pdb/uploader/win64/
-    - name: Upload PlenBotLogUploader (Windows, netv9)
+    - name: Upload PlenBotLogUploader (Windows, netv8)
       uses: actions/upload-artifact@v4
       with:
-        name: PlenBotLogUploader (Windows, netv9)
+        name: PlenBotLogUploader (Windows, netv8)
         path: artifacts/uploader/win64/PlenBotLogUploader.exe
     - name: Upload PlenBotLogUploader (Windows, self-contained)
       uses: actions/upload-artifact@v4
