@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using ZLinq;
 
 namespace PlenBotLogUploader.Teams;
 
@@ -102,7 +103,7 @@ internal sealed class TeamCondition
     internal void SetUp(TeamCondition parent)
     {
         ParentCondition = parent;
-        foreach (var subcondition in Subconditions.AsSpan())
+        foreach (var subcondition in Subconditions.AsValueEnumerable())
         {
             subcondition.SetUp(this);
         }

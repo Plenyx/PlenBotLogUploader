@@ -88,6 +88,7 @@
     <PackageReference Include="TextTableFormatter.NET" Version="2.0.1" />
     <PackageReference Include="TwitchIrcClient" Version="1.2.2" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
+    <PackageReference Include="ZLinq" Version="1.4.7" />
   </ItemGroup>
   <ItemGroup>
       <SupportedPlatform Include="windows" />

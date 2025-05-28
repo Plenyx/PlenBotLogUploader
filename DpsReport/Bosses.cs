@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.AppSettings;
-using PlenBotLogUploader.Tools;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using ZLinq;
 
 namespace PlenBotLogUploader.DpsReport;
 
@@ -72,7 +72,7 @@ internal static class Bosses
         var jsonString = reader.ReadToEnd();
 
         All = ParseJsonString(jsonString);
-        foreach (var boss in All.AsSpan())
+        foreach (var boss in All.AsValueEnumerable())
         {
             if (boss.Type is BossType.Golem or BossType.WvW || boss.Event)
             {

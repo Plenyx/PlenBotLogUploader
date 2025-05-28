@@ -5,8 +5,8 @@ using PlenBotLogUploader.GitHub;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using ZLinq;
 
 namespace PlenBotLogUploader.Tools;
 
@@ -34,15 +34,13 @@ internal static class ClassExtensions
 
     internal static string ParseAsK(this long number) => ParseDoubleAsK(number);
 
-    internal static ReadOnlySpan<T> AsSpan<T>(this List<T> list) => CollectionsMarshal.AsSpan(list);
-
     internal static void AddRange<T>(this List<T> list, params T[] items)
     {
         if (list == null)
         {
             return;
         }
-        foreach (var item in items.AsSpan())
+        foreach (var item in items.AsValueEnumerable())
         {
             if (item is null)
             {

@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 using PlenBotLogUploader.DpsReport.ExtraJson;
-using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
 namespace PlenBotLogUploader.DpsReport;
 
@@ -63,10 +62,12 @@ internal sealed class DpsReportJsonExtraJson
     [JsonProperty("logErrors")]
     internal string[] LogErrors { get; set; }
 
+    private Phase LastNonBreakbarPhase => GetLastNonBreakbarPhase();
+
     private List<Target> GetTargetsByIndexes(List<int> indexes)
     {
         var result = new List<Target>();
-        foreach (var targetIndex in indexes.AsSpan())
+        foreach (var targetIndex in indexes.AsValueEnumerable())
         {
             result.Add(Targets[targetIndex]);
         }
@@ -76,9 +77,10 @@ internal sealed class DpsReportJsonExtraJson
     internal Dictionary<Player, int> GetPlayerTargetDps()
     {
         var dict = new Dictionary<Player, int>();
-        foreach (var player in Players.AsSpan())
+        foreach (var player in Players.AsValueEnumerable())
         {
             var damage = player.DpsTargets
+                .AsValueEnumerable()
                 .Select(x => x[0].Dps)
                 .Sum();
             dict.Add(player, damage);
@@ -89,17 +91,15 @@ internal sealed class DpsReportJsonExtraJson
     private Phase GetLastNonBreakbarPhase()
     {
         Phase lastNonBreakbarPhase = null;
-        foreach (var phase in Phases.AsSpan())
+        foreach (var phase in Phases.AsValueEnumerable())
         {
             if (!phase?.BreakbarPhase ?? false)
             {
                 lastNonBreakbarPhase = phase;
             }
         }
-        return lastNonBreakbarPhase ?? ((Phases.Length > 0) ? Phases[0] : null);
+        return lastNonBreakbarPhase ?? (Phases.Length > 0 ? Phases[0] : null);
     }
-
-    private Phase LastNonBreakbarPhase => GetLastNonBreakbarPhase();
 
     internal string GetLastPhaseName() => LastNonBreakbarPhase?.Name ?? "Unknown phase";
 
@@ -117,7 +117,7 @@ internal sealed class DpsReportJsonExtraJson
             return "No phase targets found";
         }
         var phaseTargets = GetTargetsByIndexes(phaseTargetsIndexes);
-        foreach (var target in phaseTargets.AsSpan())
+        foreach (var target in phaseTargets.AsValueEnumerable())
         {
             resultTargetTexts.Add($"{target.Name} - {Math.Round(100 - target.HealthPercentBurned, 2)}%");
         }

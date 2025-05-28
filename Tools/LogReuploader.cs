@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ZLinq;
 
 namespace PlenBotLogUploader.Tools;
 
@@ -69,7 +70,7 @@ internal static class LogReuploader
 
     internal static void ProcessLogs(SemaphoreSlim semaphore, Func<string, Dictionary<string, string>, bool, Task> process)
     {
-        foreach (var fileName in FailedLogs.ToArray().AsSpan())
+        foreach (var fileName in FailedLogs.ToArray().AsValueEnumerable())
         {
             if (!File.Exists(fileName))
             {

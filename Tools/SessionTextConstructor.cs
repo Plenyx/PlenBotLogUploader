@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using ZLinq;
 
 namespace PlenBotLogUploader.Tools;
 
@@ -42,6 +43,7 @@ internal static class SessionTextConstructor
 
         var raidLogs = logSessionSettings.SortBy.Equals(LogSessionSortBy.Wing) ?
             reportsJson
+                .AsValueEnumerable()
                 .Where(x => Bosses.GetWingForBoss(x.Evtc.BossId) > 0)
                 .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.Evtc.BossId) })
                 .OrderBy(x => Bosses.GetWingForBoss(x.LogData.Evtc.BossId))
@@ -49,29 +51,35 @@ internal static class SessionTextConstructor
                 .ThenBy(x => x.LogData.UploadTime)
                 .ToArray() :
             reportsJson
+                .AsValueEnumerable()
                 .Where(x => Bosses.GetWingForBoss(x.Evtc.BossId) > 0)
                 .Select(x => new { LogData = x, RaidWing = Bosses.GetWingForBoss(x.Evtc.BossId) })
                 .OrderBy(x => x.LogData.UploadTime)
                 .ToArray();
         var fractalLogs = reportsJson
-            .Where(x => Bosses.All
+            .AsValueEnumerable()
+            .Where(x => Bosses.All.AsValueEnumerable()
                 .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Fractal)))
             .ToArray();
         var strikeLogs = reportsJson
-            .Where(x => Bosses.All
+            .AsValueEnumerable()
+            .Where(x => Bosses.All.AsValueEnumerable()
                 .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Strike)))
             .ToArray();
         var golemLogs = reportsJson
-            .Where(x => Bosses.All
+            .AsValueEnumerable()
+            .Where(x => Bosses.All.AsValueEnumerable()
                 .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.Golem)))
             .ToArray();
         var wvwLogs = reportsJson
-            .Where(x => Bosses.All
+            .AsValueEnumerable()
+            .Where(x => Bosses.All.AsValueEnumerable()
                 .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.WvW)))
             .ToArray();
         var otherLogs = reportsJson
+            .AsValueEnumerable()
             .Where(x =>
-                Bosses.All
+                Bosses.All.AsValueEnumerable()
                     .Any(y => y.BossId.Equals(x.Evtc.BossId) && y.Type.Equals(BossType.None)) ||
                 !Bosses.All
                     .Any(y => y.BossId.Equals(x.Evtc.BossId)))
@@ -88,7 +96,7 @@ internal static class SessionTextConstructor
             builderSuccessFailure.Append("***Raid logs:***\n");
             if (logSessionSettings.SortBy.Equals(LogSessionSortBy.UploadTime))
             {
-                foreach (var data in raidLogs.AsSpan())
+                foreach (var data in raidLogs.AsValueEnumerable())
                 {
                     var bossName = data.LogData.Encounter.Boss + (data.LogData.ChallengeMode ? " CM" : "");
                     var bossData = Bosses.GetBossDataFromId(data.LogData.Encounter.BossId);
@@ -145,7 +153,7 @@ internal static class SessionTextConstructor
             else
             {
                 var lastWing = 0;
-                foreach (var data in raidLogs.AsSpan())
+                foreach (var data in raidLogs.AsValueEnumerable())
                 {
                     if (!lastWing.Equals(Bosses.GetWingForBoss(data.LogData.Evtc.BossId)))
                     {
@@ -224,7 +232,7 @@ internal static class SessionTextConstructor
             builderSuccessFailure.Append("***Fractal logs:***\n");
             builderSuccess.Append("***Fractal logs:***\n");
             builderFailure.Append("***Fractal logs:***\n");
-            foreach (var log in fractalLogs.AsSpan())
+            foreach (var log in fractalLogs.AsValueEnumerable())
             {
                 var bossName = log.Encounter.Boss;
                 var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
@@ -295,7 +303,7 @@ internal static class SessionTextConstructor
             builderSuccessFailure.Append("***Strike mission logs:***\n");
             builderSuccess.Append("***Strike mission logs:***\n");
             builderFailure.Append("***Strike mission logs:***\n");
-            foreach (var log in strikeLogs.AsSpan())
+            foreach (var log in strikeLogs.AsValueEnumerable())
             {
                 var bossName = log.Encounter.Boss;
                 var bossData = Bosses.GetBossDataFromId(log.Encounter.BossId);
@@ -366,7 +374,7 @@ internal static class SessionTextConstructor
             builderSuccessFailure.Append("***Golem logs:***\n");
             builderSuccess.Append("***Golem logs:***\n");
             builderFailure.Append("***Golem logs:***\n");
-            foreach (var log in golemLogs.AsSpan())
+            foreach (var log in golemLogs.AsValueEnumerable())
             {
                 builderSuccessFailure.Append(log.ConfigAwarePermalink).Append('\n');
                 if (builderSuccessFailure.Length >= maxAllowedMessageSize)
@@ -441,7 +449,7 @@ internal static class SessionTextConstructor
                 builderSuccessFailure.Append("***WvW logs:***\n");
                 builderSuccess.Append("***WvW logs:***\n");
                 builderFailure.Append("***WvW logs:***\n");
-                foreach (var log in wvwLogs.AsSpan())
+                foreach (var log in wvwLogs.AsValueEnumerable())
                 {
                     builderSuccessFailure.Append(log.ConfigAwarePermalink).Append('\n');
                     if (builderSuccessFailure.Length >= maxAllowedMessageSize)
@@ -493,7 +501,7 @@ internal static class SessionTextConstructor
             builderSuccessFailure.Append("***Other logs:***\n");
             builderSuccess.Append("***Other logs:***\n");
             builderFailure.Append("***Other logs:***\n");
-            foreach (var log in otherLogs.AsSpan())
+            foreach (var log in otherLogs.AsValueEnumerable())
             {
                 var bossName = Bosses.GetBossDataFromId(log.Encounter.BossId)?.Name ?? log.Encounter.Boss;
                 var duration = log.ExtraJson is not null ? $" {log.ExtraJson.Duration}" : "";

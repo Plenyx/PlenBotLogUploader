@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using ZLinq;
 
 namespace PlenBotLogUploader.DpsReport.ExtraJson;
 
@@ -23,7 +24,7 @@ internal sealed class Phase
     internal List<int> GetMainAndBlockingTargetIndexes()
     {
         var result = new List<int>();
-        foreach (var targetIndex in TargetPriorities.Keys)
+        foreach (var targetIndex in TargetPriorities.Keys.AsValueEnumerable())
         {
             var targetType = TargetPriorities[targetIndex];
             if (targetType.Equals("MAIN") || targetType.Equals("BLOCKING"))

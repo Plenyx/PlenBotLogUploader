@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZLinq;
 
 namespace PlenBotLogUploader;
 
@@ -103,7 +104,7 @@ public partial class FormAleevaIntegrations : Form
             return;
         }
         listViewAleevaIntegrations.Items.Clear();
-        foreach (var integration in AleevaIntegrations.All.AsSpan())
+        foreach (var integration in AleevaIntegrations.All.AsValueEnumerable())
         {
             listViewAleevaIntegrations.Items.Add(new ListViewItemCustom<AleevaIntegration> { Item = integration });
         }

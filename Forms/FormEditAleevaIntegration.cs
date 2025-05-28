@@ -4,13 +4,13 @@ using PlenBotLogUploader.Aleeva;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Properties;
 using PlenBotLogUploader.Teams;
-using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZLinq;
 
 namespace PlenBotLogUploader;
 
@@ -232,7 +232,7 @@ public partial class FormEditAleevaIntegration : Form
 
     private void AddServersToView()
     {
-        foreach (var server in aleevaServers.AsSpan())
+        foreach (var server in aleevaServers.AsValueEnumerable())
         {
             comboBoxServer.Items.Add(server);
         }
@@ -242,7 +242,7 @@ public partial class FormEditAleevaIntegration : Form
     {
         comboBoxChannel.Text = "";
         comboBoxChannel.Items.Clear();
-        foreach (var channel in aleevaServerChannels.AsSpan())
+        foreach (var channel in aleevaServerChannels.AsValueEnumerable())
         {
             comboBoxChannel.Items.Add(channel);
         }

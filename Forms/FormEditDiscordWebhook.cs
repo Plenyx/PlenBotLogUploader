@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using ZLinq;
 
 namespace PlenBotLogUploader;
 
@@ -65,7 +66,7 @@ public partial class FormEditDiscordWebhook : Form
             comboBoxTeam.Items.Add(team);
         }
         comboBoxTeam.SelectedItem = data?.Team ?? teams[0];
-        foreach (var boss in bosses.AsSpan())
+        foreach (var boss in bosses.AsValueEnumerable())
         {
             checkedListBoxBossesEnable.Items.Add(new BossesDisableHelperClass
             {

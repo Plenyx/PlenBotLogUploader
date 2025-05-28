@@ -2,12 +2,12 @@
 using Hardstuck.Http;
 using PlenBotLogUploader.AppSettings;
 using PlenBotLogUploader.Properties;
-using PlenBotLogUploader.Tools;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZLinq;
 
 namespace PlenBotLogUploader;
 
@@ -33,7 +33,7 @@ public partial class FormGw2Api : Form
     internal void RedrawList()
     {
         listBoxAPIKeys.Items.Clear();
-        foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.AsSpan())
+        foreach (var apiKey in ApplicationSettings.Current.Gw2Apis.AsValueEnumerable())
         {
             listBoxAPIKeys.Items.Add(apiKey);
         }

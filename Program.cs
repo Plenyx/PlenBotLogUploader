@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using ZLinq;
 
 namespace PlenBotLogUploader;
 
@@ -38,7 +39,7 @@ internal static class Program
                     });
                     return;
                 }
-                foreach (var process in otherProcesses.AsSpan())
+                foreach (var process in otherProcesses.AsValueEnumerable())
                 {
                     try
                     {
@@ -81,7 +82,7 @@ internal static class Program
                     });
                     return;
                 }
-                foreach (var process in otherProcesses.AsSpan())
+                foreach (var process in otherProcesses.AsValueEnumerable())
                 {
                     try
                     {

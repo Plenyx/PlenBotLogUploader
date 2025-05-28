@@ -3,6 +3,7 @@ using PlenBotLogUploader.Properties;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Windows.Forms;
+using ZLinq;
 using static Hardstuck.GuildWars2.BuildCodes.V2.Static;
 
 namespace PlenBotLogUploader;
@@ -17,7 +18,7 @@ public partial class FormHsBuildCodeCompressionSettings : Form
         var settings = ApplicationSettings.Current.BuildCodes;
         checkBoxDemoteRunes.Checked = settings.DemoteRunes;
         checkBoxDemoteSigils.Checked = settings.DemoteSigils;
-        foreach (var compressionOption in HsBuildCodesCompressionSettingsHelperClass.All.AsSpan())
+        foreach (var compressionOption in HsBuildCodesCompressionSettingsHelperClass.All.AsValueEnumerable())
         {
             checkboxListCompressionOptions.Items.Add(compressionOption, settings.Compression.HasFlag(compressionOption.Value));
         }

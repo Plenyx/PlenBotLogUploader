@@ -25,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TwitchIrcClient;
+using ZLinq;
 using Timer = System.Timers.Timer;
 
 namespace PlenBotLogUploader;
@@ -433,7 +434,7 @@ public partial class FormMain : Form
         {
             return;
         }
-        foreach (var file in data.AsSpan())
+        foreach (var file in data.AsValueEnumerable())
         {
             Task.Run(async () =>
             {
@@ -537,7 +538,7 @@ public partial class FormMain : Form
 
     private void LogsScan(string directory)
     {
-        foreach (ReadOnlySpan<char> file in Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories).AsSpan())
+        foreach (ReadOnlySpan<char> file in Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories).AsValueEnumerable())
         {
             if (file.EndsWith(".evtc") || file.EndsWith(".zevtc"))
             {
@@ -582,7 +583,7 @@ public partial class FormMain : Form
             latestRelease = await HttpClientController.GetGitHubLatestReleaseAsync("Plenyx/PlenBotLogUploader");
             if (appStartup && ApplicationSettings.Current.AutoUpdate && latestRelease is not null)
             {
-                await PerformUpdate(appStartup);
+                await PerformUpdate(true);
                 return;
             }
             AddToText($">>> New release available (r{response})");
@@ -1047,7 +1048,7 @@ public partial class FormMain : Form
     private static bool IsStreamingSoftwareRunning()
     {
         Span<char> processNameLower = stackalloc char[50];
-        foreach (var process in Process.GetProcesses().AsSpan())
+        foreach (var process in Process.GetProcesses().AsValueEnumerable())
         {
             ReadOnlySpan<char> processName = process.ProcessName;
             processName.ToLowerInvariant(processNameLower);
@@ -1373,7 +1374,7 @@ public partial class FormMain : Form
         {
             return;
         }
-        foreach (var userToken in ApplicationSettings.Current.Upload.DpsReportUserTokens.AsSpan())
+        foreach (var userToken in ApplicationSettings.Current.Upload.DpsReportUserTokens.AsValueEnumerable())
         {
             userToken.Active = false;
         }
@@ -1616,7 +1617,7 @@ public partial class FormMain : Form
             await NewReleaseCheckAsync();
             return;
         }
-        # if RELEASEDLLS
+# if RELEASEDLLS
         if (!appStartup)
         {
             var dialogResult = MessageBox.Show("For your currently running PlenBot uploader version, there is no automatic update available.\nBy clicking \"Yes\" you will be redirected to manually download the newer version.", "Automatic update not available", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -1629,16 +1630,16 @@ public partial class FormMain : Form
                 });
             }
         }
-        #else
+#else
         buttonUpdate.Enabled = false;
         AddToText(">>> Downloading the update...");
         var downloadUrl = Array.Find(latestRelease.Assets, x => x.Name.Equals(
-            #if RELEASESC
+#if RELEASESC
             plenBotDownloadSCName
-            #else
+#else
             plenBotDownloadName
-            #endif
-            ))?.DownloadUrl;
+#endif
+        ))?.DownloadUrl;
         if (downloadUrl is null)
         {
             AddToText(">>> Something went wrong with the download. Please try again later.");
@@ -1659,7 +1660,7 @@ public partial class FormMain : Form
             Arguments = $"-update {Path.GetFileName(Application.ExecutablePath.Replace('/', '\\'))}{(appStartup && StartedMinimised ? " -m" : "")}",
         });
         ExitApp();
-        #endif
+#endif
     }
 
     private void CheckBoxStartWhenWindowsStarts_CheckedChanged(object sender, EventArgs e)

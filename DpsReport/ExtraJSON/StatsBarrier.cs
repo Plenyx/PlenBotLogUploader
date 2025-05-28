@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
+using ZLinq;
 
 namespace PlenBotLogUploader.DpsReport.ExtraJson;
 
@@ -18,7 +18,7 @@ internal class StatsBarrier
         get
         {
             long result = 0;
-            foreach (var squadMember in OutgoingBarrierAllies.AsSpan())
+            foreach (var squadMember in OutgoingBarrierAllies.AsValueEnumerable())
             {
                 result += (squadMember?.Length ?? 0) > 0 ? squadMember[0].Barrier : 0;
             }

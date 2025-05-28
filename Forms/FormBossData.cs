@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
+using ZLinq;
 
 namespace PlenBotLogUploader;
 
@@ -21,7 +22,7 @@ public partial class FormBossData : Form
 
         LoadBossData();
 
-        foreach (var boss in Bosses.All.AsSpan())
+        foreach (var boss in Bosses.All.AsValueEnumerable())
         {
             listViewBosses.Items.Add(new ListViewItemCustom<BossData>
             {
@@ -55,7 +56,7 @@ public partial class FormBossData : Form
         listViewBosses.Items.Clear();
         Bosses.All.Clear();
         Bosses.All.AddRange(Bosses.GetDefaultSettingsForBossesAsDictionary());
-        foreach (var boss in Bosses.All.AsSpan())
+        foreach (var boss in Bosses.All.AsValueEnumerable())
         {
             listViewBosses.Items.Add(new ListViewItemCustom<BossData> { Item = boss });
         }

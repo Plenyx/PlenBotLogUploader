@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
+using ZLinq;
 
 namespace PlenBotLogUploader.DpsReport.ExtraJson;
 
@@ -18,7 +18,7 @@ internal class StatsHealing
         get
         {
             long result = 0;
-            foreach (var squadMember in OutgoingHealingAllies.AsSpan())
+            foreach (var squadMember in OutgoingHealingAllies.AsValueEnumerable())
             {
                 result += (squadMember?.Length ?? 0) > 0 ? squadMember[0].Healing : 0;
             }

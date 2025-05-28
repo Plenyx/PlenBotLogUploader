@@ -4,11 +4,12 @@ using PlenBotLogUploader.Properties;
 using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.ComponentModel;
+using ZLinq;
 
 namespace PlenBotLogUploader;
 
@@ -81,7 +82,7 @@ public partial class FormLogSession : Form
         var sessionNameFormatted = CleanSessionName();
         var fileName = $"{(!string.IsNullOrWhiteSpace(sessionNameFormatted) ? $"{sessionNameFormatted} " : "")}{sessionTimeStarted.Year}-{sessionTimeStarted.Month}-{sessionTimeStarted.Day} {sessionTimeStarted.Hour}-{sessionTimeStarted.Minute}-{sessionTimeStarted.Second}";
         File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv", "Boss;BossId;Success;Duration;RecordedBy;EliteInsightsVersion;arcdpsVersion;Permalink;UserToken\n");
-        foreach (var reportJson in mainLink.SessionLogs.AsSpan())
+        foreach (var reportJson in mainLink.SessionLogs.AsValueEnumerable())
         {
             var success = reportJson.Encounter.Success ?? false ? "true" : "false";
             File.AppendAllText($"{ApplicationSettings.LocalDir}{fileName}.csv",
@@ -93,7 +94,7 @@ public partial class FormLogSession : Form
     private string CleanSessionName()
     {
         var sessionNameFormatted = textBoxSessionName.Text.ToLower().Replace(" ", "");
-        foreach (var character in Path.GetInvalidFileNameChars().AsSpan())
+        foreach (var character in Path.GetInvalidFileNameChars().AsValueEnumerable())
         {
             if (!character.Equals('/'))
             {

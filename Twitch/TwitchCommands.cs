@@ -2,7 +2,7 @@
 using PlenBotLogUploader.AppSettings;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using ZLinq;
 
 namespace PlenBotLogUploader.Twitch;
 
@@ -92,9 +92,9 @@ internal static class TwitchCommands
     internal static List<TwitchCommand> FindResponsesForInput(string input)
     {
         var responses = new List<TwitchCommand>();
-        var enabled = All.Where(x => x.Enabled).ToArray();
-        responses.AddRange(enabled.Where(x => x.IsRegEx && (x.Regex?.IsMatch(input) ?? false)));
-        responses.AddRange(enabled.Where(x => input.StartsWith(x.Command)));
+        var enabled = All.AsValueEnumerable().Where(x => x.Enabled).ToArray();
+        responses.AddRange(enabled.AsValueEnumerable().Where(x => x.IsRegEx && (x.Regex?.IsMatch(input) ?? false)).ToArray());
+        responses.AddRange(enabled.AsValueEnumerable().Where(x => input.StartsWith(x.Command)).ToArray());
         return responses;
     }
 }
