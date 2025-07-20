@@ -67,16 +67,36 @@ internal sealed class DpsReportJsonExtraJson
     private List<Target> GetTargetsByIndexes(List<int> indexes)
     {
         var result = new List<Target>();
+
         foreach (var targetIndex in indexes.AsValueEnumerable())
         {
             result.Add(Targets[targetIndex]);
         }
+
         return result;
     }
 
     internal Dictionary<Player, int> GetPlayerTargetDps()
     {
         var dict = new Dictionary<Player, int>();
+        var fullFightPhase = Phases?.AsValueEnumerable().FirstOrDefault();
+
+        if (fullFightPhase is not null)
+        {
+            var targetIndexes = fullFightPhase.GetMainAndBlockingTargetIndexes();
+            foreach (var player in Players.AsValueEnumerable())
+            {
+                var damage = 0;
+                foreach (var targetIndex in targetIndexes.AsValueEnumerable())
+                {
+                    damage += player.DpsTargets[targetIndex][0].Dps;
+                }
+                dict.Add(player, damage);
+            }
+
+            return dict;
+        }
+
         foreach (var player in Players.AsValueEnumerable())
         {
             var damage = player.DpsTargets
@@ -85,12 +105,14 @@ internal sealed class DpsReportJsonExtraJson
                 .Sum();
             dict.Add(player, damage);
         }
+
         return dict;
     }
 
     private Phase GetLastNonBreakbarPhase()
     {
         Phase lastNonBreakbarPhase = null;
+
         foreach (var phase in Phases.AsValueEnumerable())
         {
             if (!phase?.BreakbarPhase ?? false)
@@ -98,6 +120,7 @@ internal sealed class DpsReportJsonExtraJson
                 lastNonBreakbarPhase = phase;
             }
         }
+
         return lastNonBreakbarPhase ?? (Phases.Length > 0 ? Phases[0] : null);
     }
 
