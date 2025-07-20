@@ -523,6 +523,14 @@
     "isEvent": false
   },
   {
+    "bossId": 27010,
+    "name": "Whispering Shadow",
+    "internalDescription": "Kinfall",
+    "icon": "https://i.imgur.com/4Xtgr4D.jpeg",
+    "type": 2,
+    "isEvent": false
+  },
+  {
     "bossId": 1,
     "name": "World vs World",
     "successMsg": "WvW log: <log>",
@@ -536,13 +544,6 @@
     "name": "Xera",
     "icon": "https://wiki.guildwars2.com/images/4/4b/Mini_Xera.png",
     "type": 1,
-    "isEvent": false
-  },
-  {
-    "bossId": 27010,
-    "name": "Whispering Shadow",
-    "icon": "https://i.imgur.com/4Xtgr4D.jpeg",
-    "type": 2,
     "isEvent": false
   }
 ]
