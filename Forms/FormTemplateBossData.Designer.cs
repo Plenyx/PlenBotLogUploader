@@ -21,180 +21,189 @@
         }
 
         #region Windows Form Designer generated code
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBoxTemplateControls = new System.Windows.Forms.GroupBox();
-            this.buttonFailSave = new System.Windows.Forms.Button();
-            this.buttonSuccessSave = new System.Windows.Forms.Button();
-            this.labelFailedMessage = new System.Windows.Forms.Label();
-            this.labelSuccessMessage = new System.Windows.Forms.Label();
-            this.textBoxFailMessage = new System.Windows.Forms.TextBox();
-            this.textBoxSuccessMessage = new System.Windows.Forms.TextBox();
-            this.labelAvailableWildcards = new System.Windows.Forms.Label();
-            this.labelWBoss = new System.Windows.Forms.Label();
-            this.labelWLog = new System.Windows.Forms.Label();
-            this.labelWPulls = new System.Windows.Forms.Label();
-            this.labelWPercent = new System.Windows.Forms.Label();
-            this.groupBoxTemplateControls.SuspendLayout();
-            this.SuspendLayout();
+            groupBoxTemplateControls = new System.Windows.Forms.GroupBox();
+            buttonFailSave = new System.Windows.Forms.Button();
+            buttonSuccessSave = new System.Windows.Forms.Button();
+            labelFailedMessage = new System.Windows.Forms.Label();
+            labelSuccessMessage = new System.Windows.Forms.Label();
+            textBoxFailMessage = new System.Windows.Forms.TextBox();
+            textBoxSuccessMessage = new System.Windows.Forms.TextBox();
+            labelAvailableWildcards = new System.Windows.Forms.Label();
+            labelWBoss = new System.Windows.Forms.Label();
+            labelWLog = new System.Windows.Forms.Label();
+            labelWPulls = new System.Windows.Forms.Label();
+            labelWPercent = new System.Windows.Forms.Label();
+            labelWPhase = new System.Windows.Forms.Label();
+            groupBoxTemplateControls.SuspendLayout();
+            SuspendLayout();
             // 
             // groupBoxTemplateControls
             // 
-            this.groupBoxTemplateControls.Controls.Add(this.buttonFailSave);
-            this.groupBoxTemplateControls.Controls.Add(this.buttonSuccessSave);
-            this.groupBoxTemplateControls.Controls.Add(this.labelFailedMessage);
-            this.groupBoxTemplateControls.Controls.Add(this.labelSuccessMessage);
-            this.groupBoxTemplateControls.Controls.Add(this.textBoxFailMessage);
-            this.groupBoxTemplateControls.Controls.Add(this.textBoxSuccessMessage);
-            this.groupBoxTemplateControls.Location = new System.Drawing.Point(16, 11);
-            this.groupBoxTemplateControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxTemplateControls.Name = "groupBoxTemplateControls";
-            this.groupBoxTemplateControls.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxTemplateControls.Size = new System.Drawing.Size(528, 155);
-            this.groupBoxTemplateControls.TabIndex = 0;
-            this.groupBoxTemplateControls.TabStop = false;
-            this.groupBoxTemplateControls.Text = "Template controls";
+            groupBoxTemplateControls.Controls.Add(buttonFailSave);
+            groupBoxTemplateControls.Controls.Add(buttonSuccessSave);
+            groupBoxTemplateControls.Controls.Add(labelFailedMessage);
+            groupBoxTemplateControls.Controls.Add(labelSuccessMessage);
+            groupBoxTemplateControls.Controls.Add(textBoxFailMessage);
+            groupBoxTemplateControls.Controls.Add(textBoxSuccessMessage);
+            groupBoxTemplateControls.Location = new System.Drawing.Point(16, 11);
+            groupBoxTemplateControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            groupBoxTemplateControls.Name = "groupBoxTemplateControls";
+            groupBoxTemplateControls.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            groupBoxTemplateControls.Size = new System.Drawing.Size(528, 155);
+            groupBoxTemplateControls.TabIndex = 0;
+            groupBoxTemplateControls.TabStop = false;
+            groupBoxTemplateControls.Text = "Template controls";
             // 
             // buttonFailSave
             // 
-            this.buttonFailSave.Location = new System.Drawing.Point(445, 105);
-            this.buttonFailSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonFailSave.Name = "buttonFailSave";
-            this.buttonFailSave.Size = new System.Drawing.Size(75, 35);
-            this.buttonFailSave.TabIndex = 5;
-            this.buttonFailSave.Text = "Save";
-            this.buttonFailSave.UseVisualStyleBackColor = true;
-            this.buttonFailSave.Click += new System.EventHandler(this.ButtonFailSave_Click);
+            buttonFailSave.Location = new System.Drawing.Point(445, 105);
+            buttonFailSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buttonFailSave.Name = "buttonFailSave";
+            buttonFailSave.Size = new System.Drawing.Size(75, 35);
+            buttonFailSave.TabIndex = 5;
+            buttonFailSave.Text = "Save";
+            buttonFailSave.UseVisualStyleBackColor = true;
+            buttonFailSave.Click += ButtonFailSave_Click;
             // 
             // buttonSuccessSave
             // 
-            this.buttonSuccessSave.Location = new System.Drawing.Point(445, 45);
-            this.buttonSuccessSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonSuccessSave.Name = "buttonSuccessSave";
-            this.buttonSuccessSave.Size = new System.Drawing.Size(75, 35);
-            this.buttonSuccessSave.TabIndex = 4;
-            this.buttonSuccessSave.Text = "Save";
-            this.buttonSuccessSave.UseVisualStyleBackColor = true;
-            this.buttonSuccessSave.Click += new System.EventHandler(this.ButtonSuccessSave_Click);
+            buttonSuccessSave.Location = new System.Drawing.Point(445, 45);
+            buttonSuccessSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            buttonSuccessSave.Name = "buttonSuccessSave";
+            buttonSuccessSave.Size = new System.Drawing.Size(75, 35);
+            buttonSuccessSave.TabIndex = 4;
+            buttonSuccessSave.Text = "Save";
+            buttonSuccessSave.UseVisualStyleBackColor = true;
+            buttonSuccessSave.Click += ButtonSuccessSave_Click;
             // 
             // labelFailedMessage
             // 
-            this.labelFailedMessage.AutoSize = true;
-            this.labelFailedMessage.Location = new System.Drawing.Point(4, 85);
-            this.labelFailedMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelFailedMessage.Name = "labelFailedMessage";
-            this.labelFailedMessage.Size = new System.Drawing.Size(162, 20);
-            this.labelFailedMessage.TabIndex = 3;
-            this.labelFailedMessage.Text = "Twitch message on fail:";
+            labelFailedMessage.AutoSize = true;
+            labelFailedMessage.Location = new System.Drawing.Point(4, 85);
+            labelFailedMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelFailedMessage.Name = "labelFailedMessage";
+            labelFailedMessage.Size = new System.Drawing.Size(162, 20);
+            labelFailedMessage.TabIndex = 3;
+            labelFailedMessage.Text = "Twitch message on fail:";
             // 
             // labelSuccessMessage
             // 
-            this.labelSuccessMessage.AutoSize = true;
-            this.labelSuccessMessage.Location = new System.Drawing.Point(4, 25);
-            this.labelSuccessMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelSuccessMessage.Name = "labelSuccessMessage";
-            this.labelSuccessMessage.Size = new System.Drawing.Size(189, 20);
-            this.labelSuccessMessage.TabIndex = 2;
-            this.labelSuccessMessage.Text = "Twitch message on success:";
+            labelSuccessMessage.AutoSize = true;
+            labelSuccessMessage.Location = new System.Drawing.Point(4, 25);
+            labelSuccessMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelSuccessMessage.Name = "labelSuccessMessage";
+            labelSuccessMessage.Size = new System.Drawing.Size(189, 20);
+            labelSuccessMessage.TabIndex = 2;
+            labelSuccessMessage.Text = "Twitch message on success:";
             // 
             // textBoxFailMessage
             // 
-            this.textBoxFailMessage.Location = new System.Drawing.Point(8, 109);
-            this.textBoxFailMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBoxFailMessage.Name = "textBoxFailMessage";
-            this.textBoxFailMessage.Size = new System.Drawing.Size(429, 27);
-            this.textBoxFailMessage.TabIndex = 1;
+            textBoxFailMessage.Location = new System.Drawing.Point(8, 109);
+            textBoxFailMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            textBoxFailMessage.Name = "textBoxFailMessage";
+            textBoxFailMessage.Size = new System.Drawing.Size(429, 27);
+            textBoxFailMessage.TabIndex = 1;
             // 
             // textBoxSuccessMessage
             // 
-            this.textBoxSuccessMessage.Location = new System.Drawing.Point(8, 49);
-            this.textBoxSuccessMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBoxSuccessMessage.Name = "textBoxSuccessMessage";
-            this.textBoxSuccessMessage.Size = new System.Drawing.Size(429, 27);
-            this.textBoxSuccessMessage.TabIndex = 0;
+            textBoxSuccessMessage.Location = new System.Drawing.Point(8, 49);
+            textBoxSuccessMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            textBoxSuccessMessage.Name = "textBoxSuccessMessage";
+            textBoxSuccessMessage.Size = new System.Drawing.Size(429, 27);
+            textBoxSuccessMessage.TabIndex = 0;
             // 
             // labelAvailableWildcards
             // 
-            this.labelAvailableWildcards.AutoSize = true;
-            this.labelAvailableWildcards.Location = new System.Drawing.Point(20, 171);
-            this.labelAvailableWildcards.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelAvailableWildcards.Name = "labelAvailableWildcards";
-            this.labelAvailableWildcards.Size = new System.Drawing.Size(195, 20);
-            this.labelAvailableWildcards.TabIndex = 1;
-            this.labelAvailableWildcards.Text = "Available variables for texts:";
+            labelAvailableWildcards.AutoSize = true;
+            labelAvailableWildcards.Location = new System.Drawing.Point(20, 171);
+            labelAvailableWildcards.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelAvailableWildcards.Name = "labelAvailableWildcards";
+            labelAvailableWildcards.Size = new System.Drawing.Size(195, 20);
+            labelAvailableWildcards.TabIndex = 1;
+            labelAvailableWildcards.Text = "Available variables for texts:";
             // 
             // labelWBoss
             // 
-            this.labelWBoss.AutoSize = true;
-            this.labelWBoss.Location = new System.Drawing.Point(200, 171);
-            this.labelWBoss.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelWBoss.Name = "labelWBoss";
-            this.labelWBoss.Size = new System.Drawing.Size(180, 20);
-            this.labelWBoss.TabIndex = 2;
-            this.labelWBoss.Text = "<boss> - encounter name";
+            labelWBoss.AutoSize = true;
+            labelWBoss.Location = new System.Drawing.Point(200, 171);
+            labelWBoss.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelWBoss.Name = "labelWBoss";
+            labelWBoss.Size = new System.Drawing.Size(180, 20);
+            labelWBoss.TabIndex = 2;
+            labelWBoss.Text = "<boss> - encounter name";
             // 
             // labelWLog
             // 
-            this.labelWLog.AutoSize = true;
-            this.labelWLog.Location = new System.Drawing.Point(200, 191);
-            this.labelWLog.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelWLog.Name = "labelWLog";
-            this.labelWLog.Size = new System.Drawing.Size(229, 20);
-            this.labelWLog.TabIndex = 3;
-            this.labelWLog.Text = "<log> - link to the dps.report log";
+            labelWLog.AutoSize = true;
+            labelWLog.Location = new System.Drawing.Point(200, 191);
+            labelWLog.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelWLog.Name = "labelWLog";
+            labelWLog.Size = new System.Drawing.Size(229, 20);
+            labelWLog.TabIndex = 3;
+            labelWLog.Text = "<log> - link to the dps.report log";
             // 
             // labelWPulls
             // 
-            this.labelWPulls.AutoSize = true;
-            this.labelWPulls.Location = new System.Drawing.Point(200, 211);
-            this.labelWPulls.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelWPulls.Name = "labelWPulls";
-            this.labelWPulls.Size = new System.Drawing.Size(235, 20);
-            this.labelWPulls.TabIndex = 4;
-            this.labelWPulls.Text = "<pulls> - the current wipe counter";
+            labelWPulls.AutoSize = true;
+            labelWPulls.Location = new System.Drawing.Point(200, 211);
+            labelWPulls.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelWPulls.Name = "labelWPulls";
+            labelWPulls.Size = new System.Drawing.Size(235, 20);
+            labelWPulls.TabIndex = 4;
+            labelWPulls.Text = "<pulls> - the current wipe counter";
             // 
             // labelWPercent
             // 
-            this.labelWPercent.AutoSize = true;
-            this.labelWPercent.Location = new System.Drawing.Point(200, 231);
-            this.labelWPercent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelWPercent.Name = "labelWPercent";
-            this.labelWPercent.Size = new System.Drawing.Size(344, 20);
-            this.labelWPercent.TabIndex = 11;
-            this.labelWPercent.Text = "<percent> - the % of the encounter";
+            labelWPercent.AutoSize = true;
+            labelWPercent.Location = new System.Drawing.Point(200, 251);
+            labelWPercent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelWPercent.Name = "labelWPercent";
+            labelWPercent.Size = new System.Drawing.Size(311, 20);
+            labelWPercent.TabIndex = 11;
+            labelWPercent.Text = "<percent> - the % of targets of the encounter";
+            // 
+            // labelWPhase
+            // 
+            labelWPhase.AutoSize = true;
+            labelWPhase.Location = new System.Drawing.Point(200, 231);
+            labelWPhase.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelWPhase.Name = "labelWPhase";
+            labelWPhase.Size = new System.Drawing.Size(259, 20);
+            labelWPhase.TabIndex = 12;
+            labelWPhase.Text = "<phase> - the phase of the encounter";
             // 
             // FormTemplateBossData
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(555, 261);
-            this.Controls.Add(this.labelWPercent);
-            this.Controls.Add(this.labelWPulls);
-            this.Controls.Add(this.labelWLog);
-            this.Controls.Add(this.labelWBoss);
-            this.Controls.Add(this.labelAvailableWildcards);
-            this.Controls.Add(this.groupBoxTemplateControls);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormTemplateBossData";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Boss data templates";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTemplateBossData_FormClosing);
-            this.groupBoxTemplateControls.ResumeLayout(false);
-            this.groupBoxTemplateControls.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.White;
+            ClientSize = new System.Drawing.Size(555, 279);
+            Controls.Add(labelWPhase);
+            Controls.Add(labelWPercent);
+            Controls.Add(labelWPulls);
+            Controls.Add(labelWLog);
+            Controls.Add(labelWBoss);
+            Controls.Add(labelAvailableWildcards);
+            Controls.Add(groupBoxTemplateControls);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Boss data templates";
+            FormClosing += FormTemplateBossData_FormClosing;
+            groupBoxTemplateControls.ResumeLayout(false);
+            groupBoxTemplateControls.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
-
+        private System.Windows.Forms.Label labelWPhase;
         #endregion
 
         private System.Windows.Forms.GroupBox groupBoxTemplateControls;
