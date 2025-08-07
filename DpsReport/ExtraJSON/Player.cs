@@ -33,6 +33,11 @@ internal sealed class Player
                 "Mechanist" => "Mech",
                 "Virtuoso" => "Virt",
                 "Firebrand" => "FB",
+                "Troubadour" => "Tbd",
+                "Galeshot" => "Gale",
+                "Luminari" => "Lumi",
+                "Paragon" => "Para",
+                "Amalgam" => "Amal",
                 _ => !string.IsNullOrWhiteSpace(Profession) && Profession.Length > 2 ? Profession[..3] : "",
             };
         }
