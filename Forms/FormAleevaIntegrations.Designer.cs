@@ -21,158 +21,154 @@
         }
 
         #region Windows Form Designer generated code
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.groupBoxAleevaStatus = new System.Windows.Forms.GroupBox();
-            this.buttonAddAleevaIntegration = new System.Windows.Forms.Button();
-            this.listViewAleevaIntegrations = new System.Windows.Forms.ListView();
-            this.contextMenuStripInteract = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBoxAccessCode = new System.Windows.Forms.GroupBox();
-            this.textBoxAccessCode = new System.Windows.Forms.TextBox();
-            this.buttonGetBearerFromAccess = new System.Windows.Forms.Button();
-            this.groupBoxAleevaStatus.SuspendLayout();
-            this.contextMenuStripInteract.SuspendLayout();
-            this.groupBoxAccessCode.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            groupBoxAleevaStatus = new System.Windows.Forms.GroupBox();
+            buttonAddAleevaIntegration = new System.Windows.Forms.Button();
+            listViewAleevaIntegrations = new System.Windows.Forms.ListView();
+            contextMenuStripInteract = new System.Windows.Forms.ContextMenuStrip(components);
+            toolStripMenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
+            toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
+            groupBoxAccessCode = new System.Windows.Forms.GroupBox();
+            textBoxAccessCode = new System.Windows.Forms.TextBox();
+            buttonVerifyCode = new System.Windows.Forms.Button();
+            groupBoxAleevaStatus.SuspendLayout();
+            contextMenuStripInteract.SuspendLayout();
+            groupBoxAccessCode.SuspendLayout();
+            SuspendLayout();
             // 
             // groupBoxAleevaStatus
             // 
-            this.groupBoxAleevaStatus.Controls.Add(this.buttonAddAleevaIntegration);
-            this.groupBoxAleevaStatus.Controls.Add(this.listViewAleevaIntegrations);
-            this.groupBoxAleevaStatus.Location = new System.Drawing.Point(15, 96);
-            this.groupBoxAleevaStatus.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.groupBoxAleevaStatus.Name = "groupBoxAleevaStatus";
-            this.groupBoxAleevaStatus.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.groupBoxAleevaStatus.Size = new System.Drawing.Size(632, 378);
-            this.groupBoxAleevaStatus.TabIndex = 2;
-            this.groupBoxAleevaStatus.TabStop = false;
-            this.groupBoxAleevaStatus.Text = "Status: Not authorised";
+            groupBoxAleevaStatus.Controls.Add(buttonAddAleevaIntegration);
+            groupBoxAleevaStatus.Controls.Add(listViewAleevaIntegrations);
+            groupBoxAleevaStatus.Location = new System.Drawing.Point(15, 96);
+            groupBoxAleevaStatus.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            groupBoxAleevaStatus.Name = "groupBoxAleevaStatus";
+            groupBoxAleevaStatus.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            groupBoxAleevaStatus.Size = new System.Drawing.Size(632, 378);
+            groupBoxAleevaStatus.TabIndex = 2;
+            groupBoxAleevaStatus.TabStop = false;
+            groupBoxAleevaStatus.Text = "Status: Not verified";
             // 
             // buttonAddAleevaIntegration
             // 
-            this.buttonAddAleevaIntegration.Location = new System.Drawing.Point(408, 338);
-            this.buttonAddAleevaIntegration.Name = "buttonAddAleevaIntegration";
-            this.buttonAddAleevaIntegration.Size = new System.Drawing.Size(216, 29);
-            this.buttonAddAleevaIntegration.TabIndex = 2;
-            this.buttonAddAleevaIntegration.Text = "Add a new Aleeva integration";
-            this.buttonAddAleevaIntegration.UseVisualStyleBackColor = true;
-            this.buttonAddAleevaIntegration.Click += new System.EventHandler(this.ButtonAddAleevaIntegration_Click);
+            buttonAddAleevaIntegration.Location = new System.Drawing.Point(408, 338);
+            buttonAddAleevaIntegration.Name = "buttonAddAleevaIntegration";
+            buttonAddAleevaIntegration.Size = new System.Drawing.Size(216, 29);
+            buttonAddAleevaIntegration.TabIndex = 2;
+            buttonAddAleevaIntegration.Text = "Add a new Aleeva integration";
+            buttonAddAleevaIntegration.UseVisualStyleBackColor = true;
+            buttonAddAleevaIntegration.Click += ButtonAddAleevaIntegration_Click;
             // 
             // listViewAleevaIntegrations
             // 
-            this.listViewAleevaIntegrations.CheckBoxes = true;
-            this.listViewAleevaIntegrations.ContextMenuStrip = this.contextMenuStripInteract;
-            this.listViewAleevaIntegrations.Location = new System.Drawing.Point(9, 24);
-            this.listViewAleevaIntegrations.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.listViewAleevaIntegrations.MultiSelect = false;
-            this.listViewAleevaIntegrations.Name = "listViewAleevaIntegrations";
-            this.listViewAleevaIntegrations.Size = new System.Drawing.Size(615, 306);
-            this.listViewAleevaIntegrations.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.listViewAleevaIntegrations.TabIndex = 1;
-            this.listViewAleevaIntegrations.UseCompatibleStateImageBehavior = false;
-            this.listViewAleevaIntegrations.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewAleevaIntegrations_ItemChecked);
+            listViewAleevaIntegrations.CheckBoxes = true;
+            listViewAleevaIntegrations.ContextMenuStrip = contextMenuStripInteract;
+            listViewAleevaIntegrations.Enabled = false;
+            listViewAleevaIntegrations.Location = new System.Drawing.Point(9, 24);
+            listViewAleevaIntegrations.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            listViewAleevaIntegrations.MultiSelect = false;
+            listViewAleevaIntegrations.Name = "listViewAleevaIntegrations";
+            listViewAleevaIntegrations.Size = new System.Drawing.Size(615, 306);
+            listViewAleevaIntegrations.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            listViewAleevaIntegrations.TabIndex = 1;
+            listViewAleevaIntegrations.UseCompatibleStateImageBehavior = false;
+            listViewAleevaIntegrations.ItemChecked += ListViewAleevaIntegrations_ItemChecked;
             // 
             // contextMenuStripInteract
             // 
-            this.contextMenuStripInteract.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripInteract.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemEdit,
-            this.toolStripMenuItemDelete,
-            this.toolStripSeparatorOne,
-            this.toolStripMenuItemAdd});
-            this.contextMenuStripInteract.Name = "contextMenuStripInteract";
-            this.contextMenuStripInteract.Size = new System.Drawing.Size(333, 82);
-            this.contextMenuStripInteract.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripInteract_Opening);
+            contextMenuStripInteract.ImageScalingSize = new System.Drawing.Size(20, 20);
+            contextMenuStripInteract.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItemEdit, toolStripMenuItemDelete, toolStripSeparatorOne, toolStripMenuItemAdd });
+            contextMenuStripInteract.Name = "contextMenuStripInteract";
+            contextMenuStripInteract.Size = new System.Drawing.Size(333, 82);
+            contextMenuStripInteract.Opening += ContextMenuStripInteract_Opening;
             // 
             // toolStripMenuItemEdit
             // 
-            this.toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
-            this.toolStripMenuItemEdit.Size = new System.Drawing.Size(332, 24);
-            this.toolStripMenuItemEdit.Text = "Edit the selected Aleeva integration";
-            this.toolStripMenuItemEdit.Click += new System.EventHandler(this.ToolStripMenuItemEdit_Click);
+            toolStripMenuItemEdit.Name = "toolStripMenuItemEdit";
+            toolStripMenuItemEdit.Size = new System.Drawing.Size(332, 24);
+            toolStripMenuItemEdit.Text = "Edit the selected Aleeva integration";
+            toolStripMenuItemEdit.Click += ToolStripMenuItemEdit_Click;
             // 
             // toolStripMenuItemDelete
             // 
-            this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
-            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(332, 24);
-            this.toolStripMenuItemDelete.Text = "Delete the selected Aleeva integration";
-            this.toolStripMenuItemDelete.Click += new System.EventHandler(this.ToolStripMenuItemDelete_Click);
+            toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
+            toolStripMenuItemDelete.Size = new System.Drawing.Size(332, 24);
+            toolStripMenuItemDelete.Text = "Delete the selected Aleeva integration";
+            toolStripMenuItemDelete.Click += ToolStripMenuItemDelete_Click;
             // 
             // toolStripSeparatorOne
             // 
-            this.toolStripSeparatorOne.Name = "toolStripSeparatorOne";
-            this.toolStripSeparatorOne.Size = new System.Drawing.Size(329, 6);
+            toolStripSeparatorOne.Name = "toolStripSeparatorOne";
+            toolStripSeparatorOne.Size = new System.Drawing.Size(329, 6);
             // 
             // toolStripMenuItemAdd
             // 
-            this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
-            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(332, 24);
-            this.toolStripMenuItemAdd.Text = "Add a new Aleeva integration";
-            this.toolStripMenuItemAdd.Click += new System.EventHandler(this.ToolStripMenuItemAdd_Click);
+            toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
+            toolStripMenuItemAdd.Size = new System.Drawing.Size(332, 24);
+            toolStripMenuItemAdd.Text = "Add a new Aleeva integration";
+            toolStripMenuItemAdd.Click += ToolStripMenuItemAdd_Click;
             // 
             // groupBoxAccessCode
             // 
-            this.groupBoxAccessCode.Controls.Add(this.textBoxAccessCode);
-            this.groupBoxAccessCode.Controls.Add(this.buttonGetBearerFromAccess);
-            this.groupBoxAccessCode.Location = new System.Drawing.Point(15, 16);
-            this.groupBoxAccessCode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.groupBoxAccessCode.Name = "groupBoxAccessCode";
-            this.groupBoxAccessCode.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.groupBoxAccessCode.Size = new System.Drawing.Size(632, 72);
-            this.groupBoxAccessCode.TabIndex = 0;
-            this.groupBoxAccessCode.TabStop = false;
-            this.groupBoxAccessCode.Text = "Authorise with Aleeva using a generated access code from her";
+            groupBoxAccessCode.Controls.Add(textBoxAccessCode);
+            groupBoxAccessCode.Controls.Add(buttonVerifyCode);
+            groupBoxAccessCode.Location = new System.Drawing.Point(15, 16);
+            groupBoxAccessCode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            groupBoxAccessCode.Name = "groupBoxAccessCode";
+            groupBoxAccessCode.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            groupBoxAccessCode.Size = new System.Drawing.Size(632, 72);
+            groupBoxAccessCode.TabIndex = 0;
+            groupBoxAccessCode.TabStop = false;
+            groupBoxAccessCode.Text = "Authorise with Aleeva using her generated API access code";
             // 
             // textBoxAccessCode
             // 
-            this.textBoxAccessCode.Location = new System.Drawing.Point(8, 29);
-            this.textBoxAccessCode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.textBoxAccessCode.Name = "textBoxAccessCode";
-            this.textBoxAccessCode.Size = new System.Drawing.Size(507, 27);
-            this.textBoxAccessCode.TabIndex = 1;
+            textBoxAccessCode.Location = new System.Drawing.Point(8, 29);
+            textBoxAccessCode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            textBoxAccessCode.Name = "textBoxAccessCode";
+            textBoxAccessCode.Size = new System.Drawing.Size(507, 27);
+            textBoxAccessCode.TabIndex = 1;
             // 
-            // buttonGetBearerFromAccess
+            // buttonVerifyCode
             // 
-            this.buttonGetBearerFromAccess.Location = new System.Drawing.Point(523, 27);
-            this.buttonGetBearerFromAccess.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.buttonGetBearerFromAccess.Name = "buttonGetBearerFromAccess";
-            this.buttonGetBearerFromAccess.Size = new System.Drawing.Size(101, 36);
-            this.buttonGetBearerFromAccess.TabIndex = 0;
-            this.buttonGetBearerFromAccess.Text = "Authorise";
-            this.buttonGetBearerFromAccess.UseVisualStyleBackColor = true;
-            this.buttonGetBearerFromAccess.Click += new System.EventHandler(this.ButtonGetBearerFromAccess_Click);
+            buttonVerifyCode.Location = new System.Drawing.Point(523, 29);
+            buttonVerifyCode.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            buttonVerifyCode.Name = "buttonVerifyCode";
+            buttonVerifyCode.Size = new System.Drawing.Size(101, 27);
+            buttonVerifyCode.TabIndex = 0;
+            buttonVerifyCode.Text = "Verify code";
+            buttonVerifyCode.UseVisualStyleBackColor = true;
+            buttonVerifyCode.Click += ButtonVerifyCode_Click;
             // 
             // FormAleevaIntegrations
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(662, 487);
-            this.Controls.Add(this.groupBoxAccessCode);
-            this.Controls.Add(this.groupBoxAleevaStatus);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormAleevaIntegrations";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Aleeva integrations";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAleevaIntegrations_FormClosing);
-            this.groupBoxAleevaStatus.ResumeLayout(false);
-            this.contextMenuStripInteract.ResumeLayout(false);
-            this.groupBoxAccessCode.ResumeLayout(false);
-            this.groupBoxAccessCode.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.White;
+            ClientSize = new System.Drawing.Size(662, 487);
+            Controls.Add(groupBoxAccessCode);
+            Controls.Add(groupBoxAleevaStatus);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            HelpButton = true;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Aleeva integrations";
+            HelpButtonClicked += FormAleevaIntegrations_HelpButtonClicked;
+            FormClosing += FormAleevaIntegrations_FormClosing;
+            groupBoxAleevaStatus.ResumeLayout(false);
+            contextMenuStripInteract.ResumeLayout(false);
+            groupBoxAccessCode.ResumeLayout(false);
+            groupBoxAccessCode.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -180,8 +176,8 @@
         private System.Windows.Forms.GroupBox groupBoxAleevaStatus;
         private System.Windows.Forms.GroupBox groupBoxAccessCode;
         private System.Windows.Forms.TextBox textBoxAccessCode;
-        private System.Windows.Forms.Button buttonGetBearerFromAccess;
-        internal System.Windows.Forms.ListView listViewAleevaIntegrations;
+        private System.Windows.Forms.Button buttonVerifyCode;
+        private System.Windows.Forms.ListView listViewAleevaIntegrations;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripInteract;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEdit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;

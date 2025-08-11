@@ -256,9 +256,9 @@ public partial class FormMain : Form
             logSessionLink.checkBoxMakeWvWSummary.Checked = ApplicationSettings.Current.Session.MakeWvWSummaryEmbed;
             logSessionLink.checkBoxEnableWvWLogList.Checked = ApplicationSettings.Current.Session.EnableWvWLogList;
             discordWebhooksLink.checkBoxShortenThousands.Checked = ApplicationSettings.Current.ShortenThousands;
-            if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.RefreshToken) && DateTime.Now < ApplicationSettings.Current.Aleeva.RefreshTokenExpire)
+            if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.ApiKey))
             {
-                Task.Run(aleevaLink.GetAleevaTokenFromRefreshToken);
+                _ = aleevaLink.VerifyAleevaApiKey();
             }
             if (ApplicationSettings.Current.LogsLocation.Equals("") || !Directory.Exists(ApplicationSettings.Current.LogsLocation))
             {
@@ -489,26 +489,26 @@ public partial class FormMain : Form
         {
             if (file.Length >= minFileSize)
             {
-                var zipfilelocation = file.FullName;
+                var zipFileLocation = file.FullName;
                 var archived = false;
                 // a workaround so arcdps can release the file for read access
-                Thread.Sleep(1500);
+                Thread.Sleep(1700);
                 if (!file.FullName.EndsWith(".zevtc"))
                 {
-                    zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(file.FullName)}.zevtc";
-                    using var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create);
+                    zipFileLocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(file.FullName)}.zevtc";
+                    using var zipfile = ZipFile.Open(zipFileLocation, ZipArchiveMode.Create);
                     zipfile.CreateEntryFromFile(file.FullName, file.Name);
                     archived = true;
                 }
                 try
                 {
-                    await HttpUploadLogAsync(zipfilelocation, defaultPostData);
+                    await HttpUploadLogAsync(zipFileLocation, defaultPostData);
                 }
                 finally
                 {
                     if (archived)
                     {
-                        File.Delete(zipfilelocation);
+                        File.Delete(zipFileLocation);
                     }
                 }
             }
