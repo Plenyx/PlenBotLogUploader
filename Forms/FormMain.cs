@@ -256,6 +256,11 @@ public partial class FormMain : Form
             logSessionLink.checkBoxMakeWvWSummary.Checked = ApplicationSettings.Current.Session.MakeWvWSummaryEmbed;
             logSessionLink.checkBoxEnableWvWLogList.Checked = ApplicationSettings.Current.Session.EnableWvWLogList;
             discordWebhooksLink.checkBoxShortenThousands.Checked = ApplicationSettings.Current.ShortenThousands;
+            if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.RefreshToken))
+            {
+                ApplicationSettings.Current.Aleeva.ApiKey = ApplicationSettings.Current.Aleeva.RefreshToken;
+                ApplicationSettings.Current.Aleeva.RefreshToken = null;
+            }
             if (!string.IsNullOrWhiteSpace(ApplicationSettings.Current.Aleeva.ApiKey))
             {
                 _ = aleevaLink.VerifyAleevaApiKey();

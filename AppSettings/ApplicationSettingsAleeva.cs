@@ -19,8 +19,11 @@ internal sealed class ApplicationSettingsAleeva
         }
     }
 
+    [JsonProperty("refreshToken")]
+    internal string RefreshToken { get; set; } = "";
+
     [JsonProperty("apiKey")]
-    internal string ApiKey { get; set; }
+    internal string ApiKey { get; set; } = "";
 
     internal event EventHandler<EventArgs> AuthorisedChanged;
 }
