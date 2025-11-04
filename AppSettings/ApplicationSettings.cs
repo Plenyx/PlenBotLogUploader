@@ -17,7 +17,7 @@ internal sealed class ApplicationSettings
     {
         Current = this;
     }
-    internal static int Version => 98;
+    internal static int Version => 99;
 
     internal static ApplicationSettings Current { get; private set; }
 
