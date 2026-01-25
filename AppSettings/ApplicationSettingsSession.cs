@@ -24,7 +24,7 @@ internal sealed class ApplicationSettingsSession
     internal bool EnableWvWLogList { get; set; } = true;
 
     [JsonProperty("sort")]
-    internal LogSessionSortBy Sort { get; set; } = LogSessionSortBy.Wing;
+    internal LogSessionSortBy Sort { get; set; } = LogSessionSortBy.RaidEncounterCategories;
 
     [JsonProperty("suppressWebhooks")]
     internal bool SuppressWebhooks { get; set; } = true;

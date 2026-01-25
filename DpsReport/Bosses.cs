@@ -43,8 +43,19 @@ internal static class Bosses
     {
         var parsedJson = JsonConvert.DeserializeObject<IEnumerable<BossData>>(jsonString)
                          ?? throw new JsonException("Could not parse json to BossData");
+        
+        var raidEncounterConversion = new List<BossData>();
 
-        return parsedJson.ToList();
+        foreach (var bossData in parsedJson.AsValueEnumerable())
+        {
+            if (bossData.Type is BossType.StrikeDoNotUse)
+            {
+                bossData.Type = BossType.RaidEncounter;
+            }
+            raidEncounterConversion.Add(bossData);
+        }
+
+        return raidEncounterConversion;
     }
 
     /// <summary>
@@ -94,57 +105,66 @@ internal static class Bosses
     internal static BossData GetBossDataFromId(int bossId) => All.Find(x => x.BossId.Equals(bossId));
 
     /// <summary>
-    ///     Returns a wing number based on a given encounter ID.
+    ///     Returns a category number based on a given encounter ID.
     /// </summary>
     /// <param name="bossId">ID of the encounter</param>
-    /// <returns>wing number</returns>
-    internal static int GetWingForBoss(int bossId)
+    /// <returns>category number</returns>
+    internal static RaidEncounterCategory GetCategoryForBoss(int bossId)
         => bossId switch
         {
-            (int)BossIds.ValeGuardian or (int)BossIds.SpiritRace or (int)BossIds.Gorseval or (int)BossIds.Sabetha => 1,
-            (int)BossIds.Slothasor or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioZane or (int)BossIds.BanditTrioNarella or (int)BossIds.Matthias => 2,
-            (int)BossIds.Escort or (int)BossIds.KeepConstruct or (int)BossIds.TwistedCastle or (int)BossIds.Xera => 3,
-            (int)BossIds.Cairn or (int)BossIds.MursaatOverseer or (int)BossIds.Samarog or (int)BossIds.Deimos => 4,
-            (int)BossIds.SoullessHorror or (int)BossIds.RiverOfSouls or (int)BossIds.BrokenKing or (int)BossIds.EaterOfSouls or (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement or (int)BossIds.Dhuum => 5,
-            (int)BossIds.ConjuredAmalgamate or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.Qadim => 6,
-            (int)BossIds.CardinalAdina or (int)BossIds.CardinalSabir or (int)BossIds.QadimThePeerless => 7,
-            (int)BossIds.Greer or (int)BossIds.Decima or (int)BossIds.DecimaCM or (int)BossIds.Ura => 8,
-            _ => 0,
+            (int)BossIds.Freezie or (int)BossIds.WatchknightTriumvirate or (int)BossIds.WatchknightTriumvirateCMArsenite or (int)BossIds.WatchknightTriumvirateCMIndigo or (int)BossIds.WatchknightTriumvirateCMVermilion => RaidEncounterCategory.CoreGame,
+            (int)BossIds.ValeGuardian or (int)BossIds.SpiritRace or (int)BossIds.Gorseval or (int)BossIds.Sabetha => RaidEncounterCategory.SpiritVale,
+            (int)BossIds.Slothasor or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioZane or (int)BossIds.BanditTrioNarella or (int)BossIds.Matthias => RaidEncounterCategory.SalvationPass,
+            (int)BossIds.Escort or (int)BossIds.KeepConstruct or (int)BossIds.TwistedCastle or (int)BossIds.Xera => RaidEncounterCategory.StrongholdOfTheFaithful,
+            (int)BossIds.Cairn or (int)BossIds.MursaatOverseer or (int)BossIds.Samarog or (int)BossIds.Deimos => RaidEncounterCategory.BastionOfThePenitent,
+            (int)BossIds.SoullessHorror or (int)BossIds.RiverOfSouls or (int)BossIds.BrokenKing or (int)BossIds.EaterOfSouls or (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement or (int)BossIds.Dhuum => RaidEncounterCategory.HallOfChains,
+            (int)BossIds.ConjuredAmalgamate or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.Qadim => RaidEncounterCategory.MythwrightGambit,
+            (int)BossIds.CardinalAdina or (int)BossIds.CardinalSabir or (int)BossIds.QadimThePeerless => RaidEncounterCategory.TheKeyOfAhdashim,
+            (int)BossIds.IcebroodConstruct or (int)BossIds.FraenirOfJormag or (int)BossIds.TheVoiceAndTheClawOfTheFallen or (int)BossIds.Boneskinner or (int)BossIds.WhisperOfJormag => RaidEncounterCategory.IcebroodSaga,
+            (int)BossIds.AetherbladeHideout or (int)BossIds.Ankka or (int)BossIds.MinisterLi or (int)BossIds.MinisterLiCM or (int)BossIds.TheDragonvoidVoidAmalgamate or (int)BossIds.TheDragonvoidGadget1 or (int)BossIds.TheDragonvoidGadget2 => RaidEncounterCategory.EndOfDragons,
+            (int)BossIds.Dagda or (int)BossIds.Cerus => RaidEncounterCategory.SecretsOfTheObscure,
+            (int)BossIds.Greer or (int)BossIds.Decima or (int)BossIds.DecimaCM or (int)BossIds.Ura => RaidEncounterCategory.MountBalrior,
+            _ => RaidEncounterCategory.Unknown,
         };
 
     /// <summary>
-    ///     Returns the order of the encounter within a wing based on given encounter ID.
+    ///     Returns the order of the encounter within a category based on given encounter ID.
     /// </summary>
     /// <param name="bossId">ID of the encounter</param>
-    /// <returns>order of the encounter within a wing</returns>
+    /// <returns>order of the encounter within a category</returns>
     internal static int GetBossOrder(int bossId)
         => bossId switch
         {
-            (int)BossIds.ValeGuardian or (int)BossIds.Slothasor or (int)BossIds.Escort or (int)BossIds.Cairn or (int)BossIds.SoullessHorror or (int)BossIds.ConjuredAmalgamate or (int)BossIds.CardinalAdina or (int)BossIds.Greer => 1,
-            (int)BossIds.SpiritRace or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir or (int)BossIds.Decima or (int)BossIds.DecimaCM => 2,
-            (int)BossIds.Gorseval or (int)BossIds.Matthias or (int)BossIds.TwistedCastle or (int)BossIds.Samarog or (int)BossIds.BrokenKing or (int)BossIds.Qadim or (int)BossIds.QadimThePeerless or (int)BossIds.Ura => 3,
-            (int)BossIds.Sabetha or (int)BossIds.Xera or (int)BossIds.Deimos or (int)BossIds.EaterOfSouls => 4,
-            (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement => 5,
+            (int)BossIds.Freezie or (int)BossIds.ValeGuardian or (int)BossIds.Slothasor or (int)BossIds.Escort or (int)BossIds.Cairn or (int)BossIds.SoullessHorror or (int)BossIds.ConjuredAmalgamate or (int)BossIds.CardinalAdina or (int)BossIds.IcebroodConstruct or (int)BossIds.AetherbladeHideout or (int)BossIds.Dagda or (int)BossIds.Greer /* VoE RE 1 */ => 1,
+            (int)BossIds.WatchknightTriumvirate or (int)BossIds.WatchknightTriumvirateCMArsenite or (int)BossIds.WatchknightTriumvirateCMIndigo or (int)BossIds.WatchknightTriumvirateCMVermilion or (int)BossIds.SpiritRace or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir or (int)BossIds.FraenirOfJormag or (int)BossIds.Ankka or (int)BossIds.Cerus or (int)BossIds.Decima or (int)BossIds.DecimaCM /* VoE RE 2 */ => 2,
+            (int)BossIds.Gorseval or (int)BossIds.Matthias or (int)BossIds.TwistedCastle or (int)BossIds.Samarog or (int)BossIds.BrokenKing or (int)BossIds.Qadim or (int)BossIds.QadimThePeerless or (int)BossIds.TheVoiceAndTheClawOfTheFallen or (int)BossIds.MinisterLi or (int)BossIds.MinisterLiCM or (int)BossIds.Ura => 3,
+            (int)BossIds.Sabetha or (int)BossIds.Xera or (int)BossIds.Deimos or (int)BossIds.EaterOfSouls or (int)BossIds.Boneskinner or (int)BossIds.TheDragonvoidVoidAmalgamate or (int)BossIds.TheDragonvoidGadget1 or (int)BossIds.TheDragonvoidGadget2 => 4,
+            (int)BossIds.EyeOfFate or (int)BossIds.EyeOfJudgement or (int)BossIds.WhisperOfJormag => 5,
             (int)BossIds.Dhuum => 6,
-            _ => 0,
+            _ => 99,
         };
 
     /// <summary>
-    ///     Returns a wing name based on its number.
+    ///     Returns a raid category name based on its number.
     /// </summary>
-    /// <param name="wingNumber">number of the wing</param>
-    /// <returns>wing name</returns>
-    internal static string GetWingName(int wingNumber)
-        => wingNumber switch
+    /// <param name="raidCategory">the raid category</param>
+    /// <returns>raid category name</returns>
+    internal static string GetRaidEncounterCategoryName(RaidEncounterCategory raidCategory)
+        => raidCategory switch
         {
-            1 => "Spirit Vale",
-            2 => "Salvation Pass",
-            3 => "Stronghold of the Faithful",
-            4 => "Bastion of the Penitent",
-            5 => "Hall of Chains",
-            6 => "Mythwright Gambit",
-            7 => "The Key of Ahdashim",
-            8 => "Mount Balrior",
-            _ => "Unknown raid wing",
+            RaidEncounterCategory.CoreGame => "Core Game",
+            RaidEncounterCategory.SpiritVale => "Spirit Vale (Wing 1)",
+            RaidEncounterCategory.SalvationPass => "Salvation Pass (Wing 2)",
+            RaidEncounterCategory.StrongholdOfTheFaithful => "Stronghold of the Faithful (Wing 3)",
+            RaidEncounterCategory.BastionOfThePenitent => "Bastion of the Penitent (Wing 4)",
+            RaidEncounterCategory.HallOfChains => "Hall of Chains (Wing 5)",
+            RaidEncounterCategory.MythwrightGambit => "Mythwright Gambit (Wing 6)",
+            RaidEncounterCategory.TheKeyOfAhdashim => "The Key of Ahdashim (Wing 7)",
+            RaidEncounterCategory.IcebroodSaga => "Icebrood Saga",
+            RaidEncounterCategory.EndOfDragons => "End of Dragons",
+            RaidEncounterCategory.SecretsOfTheObscure => "Secrets of the Obscure",
+            RaidEncounterCategory.MountBalrior => "Mount Balrior (Wing 8)",
+            RaidEncounterCategory.VisionsOfEternity => "Visions of Eternity",
+            _ => "Unknown raid encounter category",
         };
 }

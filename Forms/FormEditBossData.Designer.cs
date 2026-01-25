@@ -21,7 +21,6 @@
         }
 
         #region Windows Form Designer generated code
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -42,6 +41,7 @@
             textBoxInternalDescription = new System.Windows.Forms.TextBox();
             labelBossInternalDescription = new System.Windows.Forms.Label();
             groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
+            labelPhase = new System.Windows.Forms.Label();
             buttonOpenIconLink = new System.Windows.Forms.Button();
             labelWPercent = new System.Windows.Forms.Label();
             labelWPulls = new System.Windows.Forms.Label();
@@ -52,11 +52,9 @@
             checkBoxEvent = new System.Windows.Forms.CheckBox();
             radioButtonTypeGolem = new System.Windows.Forms.RadioButton();
             radioButtonTypeWvW = new System.Windows.Forms.RadioButton();
-            radioButtonTypeStrike = new System.Windows.Forms.RadioButton();
             radioButtonTypeFractal = new System.Windows.Forms.RadioButton();
-            radioButtonTypeRaid = new System.Windows.Forms.RadioButton();
+            radioButtonTypeRaidEncounter = new System.Windows.Forms.RadioButton();
             radioButtonTypeNone = new System.Windows.Forms.RadioButton();
-            labelPhase = new System.Windows.Forms.Label();
             groupBoxCrucial.SuspendLayout();
             groupBoxOtherSettings.SuspendLayout();
             groupBoxBossType.SuspendLayout();
@@ -211,6 +209,16 @@
             groupBoxOtherSettings.TabStop = false;
             groupBoxOtherSettings.Text = "Uploader specific settings for the boss (empty messages are not sent)";
             // 
+            // labelPhase
+            // 
+            labelPhase.AutoSize = true;
+            labelPhase.Location = new System.Drawing.Point(184, 208);
+            labelPhase.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelPhase.Name = "labelPhase";
+            labelPhase.Size = new System.Drawing.Size(259, 20);
+            labelPhase.TabIndex = 12;
+            labelPhase.Text = "<phase> - the phase of the encounter";
+            // 
             // buttonOpenIconLink
             // 
             buttonOpenIconLink.Location = new System.Drawing.Point(439, 272);
@@ -276,9 +284,8 @@
             groupBoxBossType.Controls.Add(checkBoxEvent);
             groupBoxBossType.Controls.Add(radioButtonTypeGolem);
             groupBoxBossType.Controls.Add(radioButtonTypeWvW);
-            groupBoxBossType.Controls.Add(radioButtonTypeStrike);
             groupBoxBossType.Controls.Add(radioButtonTypeFractal);
-            groupBoxBossType.Controls.Add(radioButtonTypeRaid);
+            groupBoxBossType.Controls.Add(radioButtonTypeRaidEncounter);
             groupBoxBossType.Controls.Add(radioButtonTypeNone);
             groupBoxBossType.Location = new System.Drawing.Point(17, 242);
             groupBoxBossType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -303,7 +310,7 @@
             // radioButtonTypeGolem
             // 
             radioButtonTypeGolem.AutoSize = true;
-            radioButtonTypeGolem.Location = new System.Drawing.Point(317, 29);
+            radioButtonTypeGolem.Location = new System.Drawing.Point(305, 29);
             radioButtonTypeGolem.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             radioButtonTypeGolem.Name = "radioButtonTypeGolem";
             radioButtonTypeGolem.Size = new System.Drawing.Size(74, 24);
@@ -316,7 +323,7 @@
             // radioButtonTypeWvW
             // 
             radioButtonTypeWvW.AutoSize = true;
-            radioButtonTypeWvW.Location = new System.Drawing.Point(399, 29);
+            radioButtonTypeWvW.Location = new System.Drawing.Point(387, 29);
             radioButtonTypeWvW.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             radioButtonTypeWvW.Name = "radioButtonTypeWvW";
             radioButtonTypeWvW.Size = new System.Drawing.Size(65, 24);
@@ -326,22 +333,10 @@
             radioButtonTypeWvW.UseVisualStyleBackColor = true;
             radioButtonTypeWvW.CheckedChanged += RadioButtonTypeWvW_CheckedChanged;
             // 
-            // radioButtonTypeStrike
-            // 
-            radioButtonTypeStrike.AutoSize = true;
-            radioButtonTypeStrike.Location = new System.Drawing.Point(240, 29);
-            radioButtonTypeStrike.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            radioButtonTypeStrike.Name = "radioButtonTypeStrike";
-            radioButtonTypeStrike.Size = new System.Drawing.Size(67, 24);
-            radioButtonTypeStrike.TabIndex = 3;
-            radioButtonTypeStrike.Text = "Strike";
-            radioButtonTypeStrike.UseVisualStyleBackColor = true;
-            radioButtonTypeStrike.CheckedChanged += RadioButtonTypeStrike_CheckedChanged;
-            // 
             // radioButtonTypeFractal
             // 
             radioButtonTypeFractal.AutoSize = true;
-            radioButtonTypeFractal.Location = new System.Drawing.Point(156, 29);
+            radioButtonTypeFractal.Location = new System.Drawing.Point(223, 29);
             radioButtonTypeFractal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             radioButtonTypeFractal.Name = "radioButtonTypeFractal";
             radioButtonTypeFractal.Size = new System.Drawing.Size(74, 24);
@@ -350,17 +345,17 @@
             radioButtonTypeFractal.UseVisualStyleBackColor = true;
             radioButtonTypeFractal.CheckedChanged += RadioButtonTypeFractal_CheckedChanged;
             // 
-            // radioButtonTypeRaid
+            // radioButtonTypeRaidEncounter
             // 
-            radioButtonTypeRaid.AutoSize = true;
-            radioButtonTypeRaid.Location = new System.Drawing.Point(85, 29);
-            radioButtonTypeRaid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            radioButtonTypeRaid.Name = "radioButtonTypeRaid";
-            radioButtonTypeRaid.Size = new System.Drawing.Size(60, 24);
-            radioButtonTypeRaid.TabIndex = 1;
-            radioButtonTypeRaid.Text = "Raid";
-            radioButtonTypeRaid.UseVisualStyleBackColor = true;
-            radioButtonTypeRaid.CheckedChanged += RadioButtonTypeRaid_CheckedChanged;
+            radioButtonTypeRaidEncounter.AutoSize = true;
+            radioButtonTypeRaidEncounter.Location = new System.Drawing.Point(85, 29);
+            radioButtonTypeRaidEncounter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            radioButtonTypeRaidEncounter.Name = "radioButtonTypeRaidEncounter";
+            radioButtonTypeRaidEncounter.Size = new System.Drawing.Size(130, 24);
+            radioButtonTypeRaidEncounter.TabIndex = 1;
+            radioButtonTypeRaidEncounter.Text = "Raid encounter";
+            radioButtonTypeRaidEncounter.UseVisualStyleBackColor = true;
+            radioButtonTypeRaidEncounter.CheckedChanged += RadioButtonTypeRaid_CheckedChanged;
             // 
             // radioButtonTypeNone
             // 
@@ -376,16 +371,6 @@
             radioButtonTypeNone.UseVisualStyleBackColor = true;
             radioButtonTypeNone.CheckedChanged += RadioButtonTypeNone_CheckedChanged;
             // 
-            // labelPhase
-            // 
-            labelPhase.AutoSize = true;
-            labelPhase.Location = new System.Drawing.Point(184, 208);
-            labelPhase.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            labelPhase.Name = "labelPhase";
-            labelPhase.Size = new System.Drawing.Size(259, 20);
-            labelPhase.TabIndex = 12;
-            labelPhase.Text = "<phase> - the phase of the encounter";
-            // 
             // FormEditBossData
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -399,7 +384,6 @@
             Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "FormEditBossData";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "FormEditBossData";
             FormClosing += FormEditBossData_FormClosing;
@@ -428,9 +412,8 @@
         private System.Windows.Forms.GroupBox groupBoxOtherSettings;
         private System.Windows.Forms.GroupBox groupBoxBossType;
         private System.Windows.Forms.RadioButton radioButtonTypeWvW;
-        private System.Windows.Forms.RadioButton radioButtonTypeStrike;
         private System.Windows.Forms.RadioButton radioButtonTypeFractal;
-        private System.Windows.Forms.RadioButton radioButtonTypeRaid;
+        private System.Windows.Forms.RadioButton radioButtonTypeRaidEncounter;
         private System.Windows.Forms.RadioButton radioButtonTypeNone;
         private System.Windows.Forms.CheckBox checkBoxEvent;
         private System.Windows.Forms.RadioButton radioButtonTypeGolem;

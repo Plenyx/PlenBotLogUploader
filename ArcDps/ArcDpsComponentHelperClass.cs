@@ -18,7 +18,7 @@ internal sealed class ArcDpsComponentHelperClass
             Type = ArcDpsComponentType.Mechanics,
             Provider = "GitHub",
             License = "MIT",
-            Description = "The plugin shows a list of fractal/strike/raid mechanics for players and also logs these mechanics to a file.",
+            Description = "The plugin shows a list of fractal or raid mechanics for players and also logs these mechanics to a file.",
         },
         new ArcDpsComponentHelperClass
         {

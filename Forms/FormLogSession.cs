@@ -72,7 +72,7 @@ public partial class FormLogSession : Form
             ShowSuccess = !checkBoxOnlySuccess.Checked,
             ElapsedTime = elapsedTime,
             ElapsedTimeSpan = elapsedTimeSpan,
-            SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.Wing,
+            SortBy = radioButtonSortByUpload.Checked ? LogSessionSortBy.UploadTime : LogSessionSortBy.RaidEncounterCategories,
             MakeWvWSummaryEmbed = checkBoxMakeWvWSummary.Checked,
             EnableWvWLogList = checkBoxEnableWvWLogList.Checked,
             UseSelectedWebhooksInstead = radioButtonOnlySelectedWebhooks.Checked,
@@ -135,9 +135,9 @@ public partial class FormLogSession : Form
         ApplicationSettings.Current.Save();
     }
 
-    private void RadioButtonSortByWing_CheckedChanged(object sender, EventArgs e)
+    private void RadioButtonSortByRaidEncounterCategories_CheckedChanged(object sender, EventArgs e)
     {
-        ApplicationSettings.Current.Session.Sort = LogSessionSortBy.Wing;
+        ApplicationSettings.Current.Session.Sort = LogSessionSortBy.RaidEncounterCategories;
         ApplicationSettings.Current.Save();
     }
 

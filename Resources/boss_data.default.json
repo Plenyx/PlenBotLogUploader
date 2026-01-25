@@ -3,7 +3,7 @@
     "bossId": 24033,
     "name": "Aetherblade Hideout",
     "icon": "https://i.imgur.com/UZmW8Sd.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -17,7 +17,7 @@
     "bossId": 23957,
     "name": "Ankka",
     "icon": "https://i.imgur.com/orWH6qw.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -40,7 +40,7 @@
     "internalDescription": "Berg",
     "icon": "https://i.imgur.com/UZZQUdf.png",
     "type": 1,
-    "isEvent": false
+    "isEvent": true
   },
   {
     "bossId": 16125,
@@ -48,7 +48,7 @@
     "internalDescription": "Narella",
     "icon": "https://i.imgur.com/UZZQUdf.png",
     "type": 1,
-    "isEvent": false
+    "isEvent": true
   },
   {
     "bossId": 16137,
@@ -56,13 +56,13 @@
     "internalDescription": "Zane",
     "icon": "https://i.imgur.com/UZZQUdf.png",
     "type": 1,
-    "isEvent": false
+    "isEvent": true
   },
   {
     "bossId": 22521,
     "name": "Boneskinner",
     "icon": "https://i.imgur.com/meYwQmA.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -97,7 +97,7 @@
     "bossId": 25989,
     "name": "Cerus",
     "icon": "https://i.imgur.com/1cGN1UT.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -135,7 +135,7 @@
     "bossId": 25705,
     "name": "Dagda",
     "icon": "https://i.imgur.com/v6vjRsH.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -209,14 +209,14 @@
     "bossId": 22492,
     "name": "Fraenir of Jormag",
     "icon": "https://wiki.guildwars2.com/images/6/67/Fraenir_of_Jormag.jpg",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
     "bossId": 21333,
     "name": "Freezie",
     "icon": "https://wiki.guildwars2.com/images/thumb/8/8b/Freezie.jpg/800px-Freezie.jpg",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -237,7 +237,7 @@
     "bossId": 22154,
     "name": "Icebrood Construct",
     "icon": "https://wiki.guildwars2.com/images/f/f4/Mini_Icebrood_Construct.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -325,14 +325,14 @@
     "name": "Minister Li",
     "internalDescription": "Challenge Mode",
     "icon": "https://i.imgur.com/7OutZup.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
     "bossId": 24485,
     "name": "Minister Li",
     "icon": "https://i.imgur.com/7OutZup.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -428,7 +428,7 @@
     "name": "The Dragonvoid",
     "internalDescription": "Void Amalgamate fight trigger 24375",
     "icon": "https://i.imgur.com/gZRqzlr.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -436,7 +436,7 @@
     "name": "The Dragonvoid",
     "internalDescription": "Gadget fight trigger 43488",
     "icon": "https://i.imgur.com/gZRqzlr.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -444,14 +444,14 @@
     "name": "The Dragonvoid",
     "internalDescription": "Gadget fight trigger 1378",
     "icon": "https://i.imgur.com/gZRqzlr.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
     "bossId": 22343,
     "name": "The Voice and the Claw of the Fallen",
     "icon": "https://i.imgur.com/lNXXbnC.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -481,14 +481,14 @@
     "bossId": 22836,
     "name": "Varinia Stormsounder",
     "icon": "https://i.imgur.com/r9b2oww.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
     "bossId": 25413,
     "name": "Watchknight Triumvirate",
     "icon": "https://i.imgur.com/Q2g9aLD.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -496,7 +496,7 @@
     "name": "Watchknight Triumvirate",
     "internalDescription": "Challenge Mode - Vermillion",
     "icon": "https://i.imgur.com/Q2g9aLD.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -504,7 +504,7 @@
     "name": "Watchknight Triumvirate",
     "internalDescription": "Challenge Mode - Arsenite",
     "icon": "https://i.imgur.com/Q2g9aLD.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
@@ -512,14 +512,14 @@
     "name": "Watchknight Triumvirate",
     "internalDescription": "Challenge Mode - Indigo",
     "icon": "https://i.imgur.com/Q2g9aLD.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {
     "bossId": 22711,
     "name": "Whisper of Jormag",
     "icon": "https://wiki.guildwars2.com/images/c/c0/Mini_Whisper_of_Jormag.png",
-    "type": 3,
+    "type": 1,
     "isEvent": false
   },
   {

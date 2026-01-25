@@ -21,7 +21,6 @@
         }
 
         #region Windows Form Designer generated code
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -39,8 +38,7 @@
             buttonUnSelectAllGolems = new System.Windows.Forms.Button();
             buttonUnSelectWvW = new System.Windows.Forms.Button();
             buttonUnSelectAllFractals = new System.Windows.Forms.Button();
-            buttonUnSelectAllStrikes = new System.Windows.Forms.Button();
-            buttonUnSelectAllRaids = new System.Windows.Forms.Button();
+            buttonUnSelectAllRaidEncounters = new System.Windows.Forms.Button();
             buttonUnSelectAll = new System.Windows.Forms.Button();
             groupBoxConditionalPost = new System.Windows.Forms.GroupBox();
             radioButtonOnlySuccessAndFail = new System.Windows.Forms.RadioButton();
@@ -54,9 +52,9 @@
             radioButtonLogSummarySquad = new System.Windows.Forms.RadioButton();
             radioButtonLogSummaryNone = new System.Windows.Forms.RadioButton();
             groupBoxIncludeCheckboxes = new System.Windows.Forms.GroupBox();
-            checkBoxIncludeNormalLogs = new System.Windows.Forms.CheckBox();
-            checkBoxIncludeChallengeModeLogs = new System.Windows.Forms.CheckBox();
             checkBoxIncludeLegendaryChallengeModeLogs = new System.Windows.Forms.CheckBox();
+            checkBoxIncludeChallengeModeLogs = new System.Windows.Forms.CheckBox();
+            checkBoxIncludeNormalLogs = new System.Windows.Forms.CheckBox();
             groupBoxWebhookInfo.SuspendLayout();
             groupBoxBossesEnable.SuspendLayout();
             groupBoxConditionalPost.SuspendLayout();
@@ -132,8 +130,7 @@
             groupBoxBossesEnable.Controls.Add(buttonUnSelectAllGolems);
             groupBoxBossesEnable.Controls.Add(buttonUnSelectWvW);
             groupBoxBossesEnable.Controls.Add(buttonUnSelectAllFractals);
-            groupBoxBossesEnable.Controls.Add(buttonUnSelectAllStrikes);
-            groupBoxBossesEnable.Controls.Add(buttonUnSelectAllRaids);
+            groupBoxBossesEnable.Controls.Add(buttonUnSelectAllRaidEncounters);
             groupBoxBossesEnable.Controls.Add(buttonUnSelectAll);
             groupBoxBossesEnable.Controls.Add(checkedListBoxBossesEnable);
             groupBoxBossesEnable.Location = new System.Drawing.Point(547, 19);
@@ -180,7 +177,7 @@
             // 
             // buttonUnSelectAllFractals
             // 
-            buttonUnSelectAllFractals.Location = new System.Drawing.Point(203, 463);
+            buttonUnSelectAllFractals.Location = new System.Drawing.Point(281, 463);
             buttonUnSelectAllFractals.Margin = new System.Windows.Forms.Padding(5);
             buttonUnSelectAllFractals.Name = "buttonUnSelectAllFractals";
             buttonUnSelectAllFractals.Size = new System.Drawing.Size(72, 35);
@@ -189,27 +186,16 @@
             buttonUnSelectAllFractals.UseVisualStyleBackColor = true;
             buttonUnSelectAllFractals.Click += ButtonUnSelectAllFractals_Click;
             // 
-            // buttonUnSelectAllStrikes
+            // buttonUnSelectAllRaidEncounters
             // 
-            buttonUnSelectAllStrikes.Location = new System.Drawing.Point(283, 463);
-            buttonUnSelectAllStrikes.Margin = new System.Windows.Forms.Padding(5);
-            buttonUnSelectAllStrikes.Name = "buttonUnSelectAllStrikes";
-            buttonUnSelectAllStrikes.Size = new System.Drawing.Size(72, 35);
-            buttonUnSelectAllStrikes.TabIndex = 9;
-            buttonUnSelectAllStrikes.Text = "Strikes";
-            buttonUnSelectAllStrikes.UseVisualStyleBackColor = true;
-            buttonUnSelectAllStrikes.Click += ButtonUnSelectAllStrikes_Click;
-            // 
-            // buttonUnSelectAllRaids
-            // 
-            buttonUnSelectAllRaids.Location = new System.Drawing.Point(123, 463);
-            buttonUnSelectAllRaids.Margin = new System.Windows.Forms.Padding(5);
-            buttonUnSelectAllRaids.Name = "buttonUnSelectAllRaids";
-            buttonUnSelectAllRaids.Size = new System.Drawing.Size(72, 35);
-            buttonUnSelectAllRaids.TabIndex = 8;
-            buttonUnSelectAllRaids.Text = "Raids";
-            buttonUnSelectAllRaids.UseVisualStyleBackColor = true;
-            buttonUnSelectAllRaids.Click += ButtonUnSelectAllRaids_Click;
+            buttonUnSelectAllRaidEncounters.Location = new System.Drawing.Point(123, 463);
+            buttonUnSelectAllRaidEncounters.Margin = new System.Windows.Forms.Padding(5);
+            buttonUnSelectAllRaidEncounters.Name = "buttonUnSelectAllRaidEncounters";
+            buttonUnSelectAllRaidEncounters.Size = new System.Drawing.Size(148, 35);
+            buttonUnSelectAllRaidEncounters.TabIndex = 8;
+            buttonUnSelectAllRaidEncounters.Text = "Raid encounters";
+            buttonUnSelectAllRaidEncounters.UseVisualStyleBackColor = true;
+            buttonUnSelectAllRaidEncounters.Click += ButtonUnSelectAllRaidEncounters_Click;
             // 
             // buttonUnSelectAll
             // 
@@ -366,15 +352,15 @@
             groupBoxIncludeCheckboxes.TabStop = false;
             groupBoxIncludeCheckboxes.Text = "Include all ...";
             // 
-            // checkBoxIncludeNormalLogs
+            // checkBoxIncludeLegendaryChallengeModeLogs
             // 
-            checkBoxIncludeNormalLogs.AutoSize = true;
-            checkBoxIncludeNormalLogs.Location = new System.Drawing.Point(11, 28);
-            checkBoxIncludeNormalLogs.Name = "checkBoxIncludeNormalLogs";
-            checkBoxIncludeNormalLogs.Size = new System.Drawing.Size(153, 24);
-            checkBoxIncludeNormalLogs.TabIndex = 0;
-            checkBoxIncludeNormalLogs.Text = "normal mode logs";
-            checkBoxIncludeNormalLogs.UseVisualStyleBackColor = true;
+            checkBoxIncludeLegendaryChallengeModeLogs.AutoSize = true;
+            checkBoxIncludeLegendaryChallengeModeLogs.Location = new System.Drawing.Point(357, 28);
+            checkBoxIncludeLegendaryChallengeModeLogs.Name = "checkBoxIncludeLegendaryChallengeModeLogs";
+            checkBoxIncludeLegendaryChallengeModeLogs.Size = new System.Drawing.Size(155, 24);
+            checkBoxIncludeLegendaryChallengeModeLogs.TabIndex = 2;
+            checkBoxIncludeLegendaryChallengeModeLogs.Text = "legendary CM logs";
+            checkBoxIncludeLegendaryChallengeModeLogs.UseVisualStyleBackColor = true;
             // 
             // checkBoxIncludeChallengeModeLogs
             // 
@@ -386,15 +372,15 @@
             checkBoxIncludeChallengeModeLogs.Text = "CM logs";
             checkBoxIncludeChallengeModeLogs.UseVisualStyleBackColor = true;
             // 
-            // checkBoxIncludeLegendaryChallengeModeLogs
+            // checkBoxIncludeNormalLogs
             // 
-            checkBoxIncludeLegendaryChallengeModeLogs.AutoSize = true;
-            checkBoxIncludeLegendaryChallengeModeLogs.Location = new System.Drawing.Point(357, 28);
-            checkBoxIncludeLegendaryChallengeModeLogs.Name = "checkBoxIncludeLegendaryChallengeModeLogs";
-            checkBoxIncludeLegendaryChallengeModeLogs.Size = new System.Drawing.Size(155, 24);
-            checkBoxIncludeLegendaryChallengeModeLogs.TabIndex = 2;
-            checkBoxIncludeLegendaryChallengeModeLogs.Text = "legendary CM logs";
-            checkBoxIncludeLegendaryChallengeModeLogs.UseVisualStyleBackColor = true;
+            checkBoxIncludeNormalLogs.AutoSize = true;
+            checkBoxIncludeNormalLogs.Location = new System.Drawing.Point(11, 28);
+            checkBoxIncludeNormalLogs.Name = "checkBoxIncludeNormalLogs";
+            checkBoxIncludeNormalLogs.Size = new System.Drawing.Size(153, 24);
+            checkBoxIncludeNormalLogs.TabIndex = 0;
+            checkBoxIncludeNormalLogs.Text = "normal mode logs";
+            checkBoxIncludeNormalLogs.UseVisualStyleBackColor = true;
             // 
             // FormEditDiscordWebhook
             // 
@@ -412,7 +398,6 @@
             Margin = new System.Windows.Forms.Padding(5);
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "FormEditDiscordWebhook";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "FormEditDiscordWebhook";
             FormClosing += FormEditDiscordWebhook_FormClosing;
@@ -448,8 +433,7 @@
         private System.Windows.Forms.Button buttonUnSelectAll;
         private System.Windows.Forms.Button buttonUnSelectWvW;
         private System.Windows.Forms.Button buttonUnSelectAllFractals;
-        private System.Windows.Forms.Button buttonUnSelectAllStrikes;
-        private System.Windows.Forms.Button buttonUnSelectAllRaids;
+        private System.Windows.Forms.Button buttonUnSelectAllRaidEncounters;
         private System.Windows.Forms.Button buttonUnSelectAllGolems;
         private System.Windows.Forms.CheckBox checkBoxAllowUnknownBossIds;
         private System.Windows.Forms.GroupBox groupBoxLogSummaries;

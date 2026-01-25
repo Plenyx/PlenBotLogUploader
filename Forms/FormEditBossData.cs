@@ -40,14 +40,11 @@ public partial class FormEditBossData : Form
             var eventEnabled = true;
             switch (value)
             {
-                case BossType.Raid:
-                    radioButtonTypeRaid.Checked = true;
+                case BossType.RaidEncounter:
+                    radioButtonTypeRaidEncounter.Checked = true;
                     break;
                 case BossType.Fractal:
                     radioButtonTypeFractal.Checked = true;
-                    break;
-                case BossType.Strike:
-                    radioButtonTypeStrike.Checked = true;
                     break;
                 case BossType.Golem:
                     radioButtonTypeGolem.Checked = true;
@@ -57,7 +54,6 @@ public partial class FormEditBossData : Form
                     radioButtonTypeWvW.Checked = true;
                     eventEnabled = false;
                     break;
-                case BossType.None:
                 default:
                     radioButtonTypeNone.Checked = true;
                     break;
@@ -139,11 +135,11 @@ public partial class FormEditBossData : Form
 
     private void RadioButtonTypeRaid_CheckedChanged(object sender, EventArgs e)
     {
-        if (!radioButtonTypeRaid.Checked)
+        if (!radioButtonTypeRaidEncounter.Checked)
         {
             return;
         }
-        BossTypeSwitch = BossType.Raid;
+        BossTypeSwitch = BossType.RaidEncounter;
     }
 
     private void RadioButtonTypeFractal_CheckedChanged(object sender, EventArgs e)
@@ -153,15 +149,6 @@ public partial class FormEditBossData : Form
             return;
         }
         BossTypeSwitch = BossType.Fractal;
-    }
-
-    private void RadioButtonTypeStrike_CheckedChanged(object sender, EventArgs e)
-    {
-        if (!radioButtonTypeStrike.Checked)
-        {
-            return;
-        }
-        BossTypeSwitch = BossType.Strike;
     }
 
     private void RadioButtonTypeGolem_CheckedChanged(object sender, EventArgs e)
