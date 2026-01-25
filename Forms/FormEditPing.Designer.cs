@@ -141,7 +141,6 @@
             textBoxAuthToken.Enabled = false;
             textBoxAuthToken.Location = new System.Drawing.Point(8, 118);
             textBoxAuthToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            textBoxAuthToken.MaxLength = 50;
             textBoxAuthToken.Name = "textBoxAuthToken";
             textBoxAuthToken.Size = new System.Drawing.Size(184, 27);
             textBoxAuthToken.TabIndex = 0;
