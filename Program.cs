@@ -24,9 +24,9 @@ internal static class Program
             .ToArray();
         var args = Environment.GetCommandLineArgs();
         var localDir = $"{Path.GetDirectoryName(Application.ExecutablePath.Replace('/', '\\'))}\\";
-        if (args.Length == 4)
+        switch (args.Length)
         {
-            if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase) && args[3].Equals("-m", StringComparison.OrdinalIgnoreCase))
+            case 4 when args[1].Equals("-update", StringComparison.OrdinalIgnoreCase) && args[3].Equals("-m", StringComparison.OrdinalIgnoreCase):
             {
                 if (otherProcesses.Length == 0)
                 {
@@ -62,14 +62,10 @@ internal static class Program
                 });
                 return;
             }
-        }
-        else if (args.Length == 3)
-        {
-            if (args[2].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
-            {
+            case 3 when args[2].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase):
                 File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
-            }
-            else if (args[1].Equals("-update", StringComparison.OrdinalIgnoreCase))
+                break;
+            case 3 when args[1].Equals("-update", StringComparison.OrdinalIgnoreCase):
             {
                 if (otherProcesses.Length == 0)
                 {
@@ -105,31 +101,32 @@ internal static class Program
                 });
                 return;
             }
-        }
-        else if (args.Length == 2)
-        {
-            if (args[1].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase))
-            {
+            case 2 when args[1].Equals("-finishupdate", StringComparison.OrdinalIgnoreCase):
                 File.Delete($"{localDir}PlenBotLogUploader_Update.exe");
-            }
-            else if (args[1].Equals("-resetsettings", StringComparison.OrdinalIgnoreCase))
+                break;
+            case 2:
             {
-                using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                if (args[1].Equals("-resetsettings", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (registrySubKey.GetValue("PlenBot Log Uploader") is not null)
+                    using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                     {
-                        registrySubKey.DeleteValue("PlenBot Log Uploader");
+                        if (registrySubKey?.GetValue("PlenBot Log Uploader") != null)
+                        {
+                            registrySubKey.DeleteValue("PlenBot Log Uploader");
+                        }
                     }
+                    new ApplicationSettings().Save();
                 }
-                new ApplicationSettings().Save();
+                break;
             }
         }
-        if (otherProcesses.Length == 0)
+        if (otherProcesses.Length != 0)
         {
-            Application.EnableVisualStyles();
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+            return;
         }
+        Application.EnableVisualStyles();
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new FormMain());
     }
 }
