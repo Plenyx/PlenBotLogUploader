@@ -57,7 +57,7 @@ public partial class FormMain : Form
     private readonly FormLogSession logSessionLink;
     private readonly FormPings pingsLink;
     private readonly FormTeams teamsLink;
-    private readonly Timer timerFailedLogsReupload = new()
+    private readonly Timer timerFailedLogsReuploadAndRePing = new()
     {
         Enabled = false,
         Interval = 900000,
@@ -324,7 +324,7 @@ public partial class FormMain : Form
             logSessionLink.checkBoxOnlySuccess.CheckedChanged += logSessionLink.CheckBoxOnlySuccess_CheckedChanged;
             logSessionLink.checkBoxSaveToFile.CheckedChanged += logSessionLink.CheckBoxSaveToFile_CheckedChanged;
             discordWebhooksLink.checkBoxShortenThousands.CheckedChanged += discordWebhooksLink.CheckBoxShortenThousands_CheckedChanged;
-            timerFailedLogsReupload.Elapsed += TimerFailedLogsReupload_Elapsed;
+            timerFailedLogsReuploadAndRePing.Elapsed += TimerFailedLogsReuploadAndRePingElapsed;
             timerCheckUpdate.Elapsed += TimerCheckUpdate_Elapsed;
             ApplicationSettings.Current.Save();
         }
@@ -634,6 +634,7 @@ public partial class FormMain : Form
         if (args.Length <= 1)
         {
             HandleLogReuploads();
+            HandleWingmanRePings();
             return;
         }
         var argIndex = -1;
@@ -667,32 +668,33 @@ public partial class FormMain : Form
             if (File.Exists(arg) && (arg.EndsWith(".evtc") || arg.EndsWith(".zevtc")))
             {
                 var archived = false;
-                var zipfilelocation = arg;
+                var zipFileLocation = arg;
                 if (!arg.EndsWith(".zevtc"))
                 {
-                    zipfilelocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(arg)}.zevtc";
-                    using var zipfile = ZipFile.Open(zipfilelocation, ZipArchiveMode.Create);
-                    zipfile.CreateEntryFromFile(arg, Path.GetFileName(arg));
+                    zipFileLocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(arg)}.zevtc";
+                    using var zipFile = ZipFile.Open(zipFileLocation, ZipArchiveMode.Create);
+                    zipFile.CreateEntryFromFile(arg, Path.GetFileName(arg));
                     archived = true;
                 }
                 try
                 {
-                    await HttpUploadLogAsync(zipfilelocation, defaultPostData);
+                    await HttpUploadLogAsync(zipFileLocation, defaultPostData);
                 }
                 catch
                 {
-                    AddToText($">>> Unknown error uploading a log: {zipfilelocation}");
+                    AddToText($">>> Unknown error uploading a log: {zipFileLocation}");
                 }
                 finally
                 {
                     if (archived)
                     {
-                        File.Delete(zipfilelocation);
+                        File.Delete(zipFileLocation);
                     }
                 }
             }
         }
         HandleLogReuploads();
+        HandleWingmanRePings();
     }
 
     private async Task ValidateGw2Tokens()
@@ -787,19 +789,19 @@ public partial class FormMain : Form
                                 if (reportJson?.Error?.Contains("EI Failure") ?? false)
                                 {
                                     AddToText(">:> Due to an Elite Insights error while processing the log file, it will not be automatically reuploaded. Is the log file corrupted?");
-                                    LogReuploader.RemovedLogAndSave(file);
+                                    LogReuploader.RemoveLogAndSave(file);
                                     return;
                                 }
                                 if (reportJson?.Error?.Contains("An identical file was uploaded recently") ?? false)
                                 {
                                     AddToText(">:> To prevent same log regeneration, the upload try will not be automatically reuploaded.");
-                                    LogReuploader.RemovedLogAndSave(file);
+                                    LogReuploader.RemoveLogAndSave(file);
                                     return;
                                 }
                                 if (reportJson?.Error?.Contains("Encounter is too short") ?? false)
                                 {
                                     AddToText(">:> Encounter is too short to generate a valid log, the upload try will not be automatically reuploaded.");
-                                    LogReuploader.RemovedLogAndSave(file);
+                                    LogReuploader.RemoveLogAndSave(file);
                                     return;
                                 }
                             }
@@ -827,7 +829,7 @@ public partial class FormMain : Form
                         }
                         LogReuploader.FailedLogs.Add(file);
                         LogReuploader.SaveFailedLogs();
-                        EnsureReuploadTimerStart();
+                        EnsureReuploadAndRePingTimerStart();
                         return;
                     }
                     AddToText($">:> Unable to upload file {Path.GetFileName(file)}, dps.report responded with an non-ok status code ({(int)responseMessage.StatusCode}).");
@@ -924,7 +926,7 @@ public partial class FormMain : Form
                     // report success
                     AddToText($">:> {Path.GetFileName(file)} successfully uploaded.");
                     // remove from failed logs if present
-                    LogReuploader.RemovedLogAndSave(file);
+                    LogReuploader.RemoveLogAndSave(file);
                 }
                 catch (Exception e)
                 {
@@ -954,7 +956,7 @@ public partial class FormMain : Form
                 AddToText($">:> Upload retry failed 4 times for {Path.GetFileName(file)}, will try again during log reupload timer.");
                 LogReuploader.FailedLogs.Add(file);
                 LogReuploader.SaveFailedLogs();
-                EnsureReuploadTimerStart();
+                EnsureReuploadAndRePingTimerStart();
             }
             else
             {
@@ -984,11 +986,7 @@ public partial class FormMain : Form
     {
         if (logSessionLink.SessionRunning)
         {
-            if (logSessionLink.checkBoxOnlySuccess.Checked && (reportJson.Encounter.Success ?? false))
-            {
-                SessionLogs.Add(reportJson);
-            }
-            else if (!logSessionLink.checkBoxOnlySuccess.Checked)
+            if ((logSessionLink.checkBoxOnlySuccess.Checked && (reportJson.Encounter.Success ?? false)) || !logSessionLink.checkBoxOnlySuccess.Checked)
             {
                 SessionLogs.Add(reportJson);
             }
@@ -1045,7 +1043,23 @@ public partial class FormMain : Form
         {
             return;
         }
-        AddToText(await Gw2WingmanUploader.Upload(file, extraJson));
+        var resultText = await Gw2WingmanUploader.Upload(file, extraJson);
+        if (resultText.Contains("fail") && !resultText.Contains("exists"))
+        {
+            WingmanRePing.LogsToPing.Add(new WingmanPingInfo
+            {
+                FilePath = file,
+                TriggerId = extraJson.TriggerId,
+                UploadedBy = extraJson.RecordedByAccountName,
+            });
+            WingmanRePing.SaveLogsToPing();
+            EnsureReuploadAndRePingTimerStart();
+        }
+        else
+        {
+            WingmanRePing.RemoveLogAndSave(file);
+        }
+        AddToText(resultText);
     }
 
     internal bool IsTwitchConnectionNull() => chatConnect is null;
@@ -1706,18 +1720,19 @@ public partial class FormMain : Form
         _ = NewReleaseCheckAsync(false, true);
     }
 
-    private void TimerFailedLogsReupload_Elapsed(object sender, EventArgs e)
+    private void TimerFailedLogsReuploadAndRePingElapsed(object sender, EventArgs e)
     {
         HandleLogReuploads();
+        HandleWingmanRePings();
     }
 
-    private void EnsureReuploadTimerStart()
+    private void EnsureReuploadAndRePingTimerStart()
     {
-        if (timerFailedLogsReupload.Enabled)
+        if (timerFailedLogsReuploadAndRePing.Enabled)
         {
             return;
         }
-        timerFailedLogsReupload.Start();
+        timerFailedLogsReuploadAndRePing.Start();
     }
 
     private void HandleLogReuploads()
@@ -1729,6 +1744,17 @@ public partial class FormMain : Form
         AddToText($">:> Starting log reuploads of {LogReuploader.FailedLogs.Count} log{(LogReuploader.FailedLogs.Count > 1 ? "s" : "")}...");
         LogReuploader.ProcessLogs(semaphore, HttpUploadLogAsync);
         AddToText(">:> Log reuploading has ended.");
+    }
+
+    private void HandleWingmanRePings()
+    {
+        if (WingmanRePing.LogsToPing.Count == 0)
+        {
+            return;
+        }
+        AddToText($">:> Starting wingman re-pings of {WingmanRePing.LogsToPing.Count} logs...");
+        WingmanRePing.ProcessLogs(semaphore, CrossUploadToWingman);
+        AddToText(">:> Wingman re-pings has been completed.");
     }
 
     private void ComboBoxMaxUploads_SelectedIndexChanged(object sender, EventArgs e)

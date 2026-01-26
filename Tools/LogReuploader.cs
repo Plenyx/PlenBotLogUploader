@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ZLinq;
@@ -24,23 +23,27 @@ internal static class LogReuploader
     {
         get
         {
-            if (_failedLogs is null)
+            if (_failedLogs is not null)
             {
-                if (File.Exists(FileLocation))
+                return _failedLogs;
+            }
+            if (File.Exists(FileLocation))
+            {
+                try
                 {
-                    try
-                    {
-                        _failedLogs = File.ReadAllLines(FileLocation).Where(File.Exists).ToHashSet();
-                    }
-                    catch
-                    {
-                        _failedLogs = [];
-                    }
+                    _failedLogs = File.ReadAllLines(FileLocation)
+                        .AsValueEnumerable()
+                        .Where(File.Exists)
+                        .ToHashSet();
                 }
-                else
+                catch
                 {
                     _failedLogs = [];
                 }
+            }
+            else
+            {
+                _failedLogs = [];
             }
             return _failedLogs;
         }
@@ -58,7 +61,7 @@ internal static class LogReuploader
         }
     }
 
-    internal static bool RemovedLogAndSave(string file)
+    internal static bool RemoveLogAndSave(string file)
     {
         var removed = FailedLogs.Remove(file);
         if (removed)
@@ -70,7 +73,7 @@ internal static class LogReuploader
 
     internal static void ProcessLogs(SemaphoreSlim semaphore, Func<string, Dictionary<string, string>, bool, Task> process)
     {
-        foreach (var fileName in FailedLogs.ToArray().AsValueEnumerable())
+        foreach (var fileName in FailedLogs.AsValueEnumerable())
         {
             if (!File.Exists(fileName))
             {
@@ -79,7 +82,7 @@ internal static class LogReuploader
             }
             _ = Task.Run(async () =>
             {
-                semaphore.Wait();
+                await semaphore.WaitAsync();
                 await process(fileName, PostData, true);
                 semaphore.Release();
             });
