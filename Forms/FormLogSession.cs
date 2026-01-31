@@ -45,11 +45,18 @@ public partial class FormLogSession : Form
 
     private void ButtonSessionStarter_Click(object sender, EventArgs e)
     {
+        StartOrEndSession();
+    }
+
+    internal void StartOrEndSession()
+    {
         if (!SessionRunning && !sessionPaused)
         {
             buttonSessionStarter.Text = "Stop the log session";
             buttonUnPauseSession.Text = "Pause session";
             buttonUnPauseSession.Enabled = true;
+            mainLink.toolStripMenuItemStartStopLogSession.Text = "Stop the log session";
+            mainLink.toolStripMenuItemPauseLogSession.Enabled = true;
             SessionRunning = true;
             sessionPaused = false;
             stopWatch.Start();
@@ -59,6 +66,8 @@ public partial class FormLogSession : Form
         buttonSessionStarter.Text = "Start a log session";
         buttonUnPauseSession.Text = "Pause session";
         buttonUnPauseSession.Enabled = false;
+        mainLink.toolStripMenuItemStartStopLogSession.Text = "Start a log session";
+        mainLink.toolStripMenuItemPauseLogSession.Enabled = false;
         SessionRunning = false;
         sessionPaused = false;
         stopWatch.Stop();
@@ -91,6 +100,14 @@ public partial class FormLogSession : Form
         _ = SendSessionWebhooks(logSessionSettings);
     }
 
+    internal void PauseOrUnPauseSession()
+    {
+        sessionPaused = !sessionPaused;
+        SessionRunning = !sessionPaused;
+        buttonUnPauseSession.Text = !sessionPaused ? "Pause session" : "Unpause session";
+        mainLink.toolStripMenuItemPauseLogSession.Text = !sessionPaused ? "Pause session" : "Unpause session";
+    }
+
     private string CleanSessionName()
     {
         var sessionNameFormatted = textBoxSessionName.Text.ToLower().Replace(" ", "");
@@ -112,9 +129,7 @@ public partial class FormLogSession : Form
 
     private void ButtonUnPauseSession_Click(object sender, EventArgs e)
     {
-        sessionPaused = !sessionPaused;
-        SessionRunning = !sessionPaused;
-        buttonUnPauseSession.Text = !sessionPaused ? "Pause session" : "Unpause session";
+        PauseOrUnPauseSession();
     }
 
     internal void CheckBoxSuppressWebhooks_CheckedChanged(object sender, EventArgs e)

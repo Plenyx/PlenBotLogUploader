@@ -99,7 +99,7 @@ public partial class FormMain : Form
         InitializeComponent();
         Icon = Resources.AppIcon;
         notifyIconTray.Icon = Resources.AppIcon;
-        Text = $"{Text} r{ApplicationSettings.Version}";
+        Text = $"{Text} r{ApplicationSettings.Version}{(ApplicationSettings.IsRunningInWine ? " - Running under Wine" : "")}";
         notifyIconTray.Text = $"{notifyIconTray.Text} r{ApplicationSettings.Version}";
         twitchNameLink = new FormTwitchNameSetup(this);
         dpsReportSettingsLink = new FormDpsReportSettings(this);
@@ -126,6 +126,21 @@ public partial class FormMain : Form
         toolTip.SetToolTip(buttonCopyApplicationSession, "Copies all the logs uploaded during the application session into the clipboard.");
         toolTip.SetToolTip(checkBoxAutoUpdate, "Automatically downloads the newest version when it is available.\nOnly occurs during the start of the application.");
         logPoster = new RestClient();
+        if (ApplicationSettings.IsRunningInWine)
+        {
+            AddToText(">:> Running in Wine detected. Some features are disabled or limited.");
+            buttonGW2API.Enabled = false;
+            buttonArcDpsPluginManager.Enabled = false;
+            toolStripMenuItemOpenArcDpsPluginManager.Enabled = false;
+            ApplicationSettings.Current.UsePollingForLogs = true;
+            checkBoxUsePolling.Checked = true;
+            checkBoxUsePolling.Enabled = false;
+            if (ApplicationSettings.Current.ArcUpdate.Enabled)
+            {
+                ApplicationSettings.Current.ArcUpdate.Enabled = false;
+                ApplicationSettings.Current.Gw2Location = null;
+            }
+        }
         try
         {
             Size = ApplicationSettings.Current.MainFormSize;
@@ -195,12 +210,52 @@ public partial class FormMain : Form
                 }
                 if (ApplicationSettings.Current.Upload.PostLogsToTwitchOnlyWithStreamingSoftware)
                 {
-                    checkBoxOnlyWhenStreamSoftwareRunning.Checked = true;
+                    if (ApplicationSettings.IsRunningInWine)
+                    {
+                        ApplicationSettings.Current.Upload.PostLogsToTwitchOnlyWithStreamingSoftware = false;
+                        checkBoxOnlyWhenStreamSoftwareRunning.Enabled = false;
+                    }
+                    else
+                    {
+                        checkBoxOnlyWhenStreamSoftwareRunning.Checked = true;
+                    }
                 }
+                else if (ApplicationSettings.IsRunningInWine)
+                {
+                    checkBoxOnlyWhenStreamSoftwareRunning.Enabled = false;
+                }
+            }
+            if (ApplicationSettings.Current.CloseToTray)
+            {
+                if (ApplicationSettings.IsRunningInWine)
+                {
+                    checkBoxCloseToTrayIcon.Enabled = false;
+                    ApplicationSettings.Current.CloseToTray = false;
+                }
+                else
+                {
+                    checkBoxCloseToTrayIcon.Checked = true;
+                }
+            }
+            else if (ApplicationSettings.IsRunningInWine)
+            {
+                checkBoxCloseToTrayIcon.Enabled = false;
             }
             if (ApplicationSettings.Current.MinimiseToTray)
             {
-                checkBoxTrayMinimiseToIcon.Checked = true;
+                if (ApplicationSettings.IsRunningInWine)
+                {
+                    checkBoxTrayMinimiseToIcon.Enabled = false;
+                    ApplicationSettings.Current.MinimiseToTray = false;
+                }
+                else
+                {
+                    checkBoxTrayMinimiseToIcon.Checked = true;
+                }
+            }
+            else if (ApplicationSettings.IsRunningInWine)
+            {
+                checkBoxTrayMinimiseToIcon.Enabled = false;
             }
             if (ApplicationSettings.Current.AutoUpdate)
             {
@@ -244,7 +299,6 @@ public partial class FormMain : Form
                                 Process.Start(new ProcessStartInfo { UseShellExecute = true, FileName = "https://raidcore.gg/Nexus" });
                             }
                             ApplicationSettings.Current.ArcUpdate.DeprecationNotificationSeen = true;
-                            ApplicationSettings.Current.Save();
                         }
                         else
                         {
@@ -260,7 +314,6 @@ public partial class FormMain : Form
                     ApplicationSettings.Current.Gw2Location = "";
                 }
             }
-            checkBoxCloseToTrayIcon.Checked = ApplicationSettings.Current.CloseToTray;
             logSessionLink.textBoxSessionName.Text = ApplicationSettings.Current.Session.Name;
             logSessionLink.checkBoxSuppressWebhooks.Checked = ApplicationSettings.Current.Session.SuppressWebhooks;
             logSessionLink.checkBoxOnlySuccess.Checked = ApplicationSettings.Current.Session.OnlySuccess;
@@ -307,13 +360,20 @@ public partial class FormMain : Form
             // API keys check
             _ = ValidateGw2Tokens();
             // Windows startup check
-            using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+            if (!ApplicationSettings.IsRunningInWine)
             {
-                var registryValue = registrySubKey.GetValue("PlenBot Log Uploader");
-                if (registryValue is not null && ((string)registryValue).Contains(Application.ExecutablePath.Replace('/', '\\')))
+                using (var registrySubKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                 {
-                    checkBoxStartWhenWindowsStarts.Checked = true;
+                    var registryValue = registrySubKey.GetValue("PlenBot Log Uploader");
+                    if (registryValue is not null && ((string)registryValue).Contains(Application.ExecutablePath.Replace('/', '\\')))
+                    {
+                        checkBoxStartWhenWindowsStarts.Checked = true;
+                    }
                 }
+            }
+            else
+            {
+                checkBoxStartWhenWindowsStarts.Enabled = false;
             }
             if (ApplicationSettings.Current.Upload.UploadToWingman)
             {
@@ -1549,6 +1609,12 @@ public partial class FormMain : Form
         customNameLink.BringToFront();
     }
 
+    private void OpenLogSession()
+    {
+        logSessionLink.Show();
+        logSessionLink.BringToFront();
+    }
+
     private void OpenRemotePingsSettings()
     {
         pingsLink.Show();
@@ -1611,8 +1677,7 @@ public partial class FormMain : Form
 
     private void ButtonSession_Click(object sender, EventArgs e)
     {
-        logSessionLink.Show();
-        logSessionLink.BringToFront();
+        OpenLogSession();
     }
 
     private void ButtonGW2API_Click(object sender, EventArgs e)
@@ -1854,5 +1919,20 @@ public partial class FormMain : Form
     private void ButtonRemoteServerPings_Click(object sender, EventArgs e)
     {
         OpenRemotePingsSettings();
+    }
+
+    private void ToolStripOpenLogSession_Click(object sender, EventArgs e)
+    {
+        OpenLogSession();
+    }
+
+    private void ToolStripMenuItemStartStopLogSession_Click(object sender, EventArgs e)
+    {
+        logSessionLink.StartOrEndSession();
+    }
+
+    private void ToolStripMenuItemPauseLogSession_Click(object sender, EventArgs e)
+    {
+        logSessionLink.PauseOrUnPauseSession();
     }
 }

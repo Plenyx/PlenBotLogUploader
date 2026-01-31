@@ -19,7 +19,6 @@
         }
 
         #region Windows Form Designer generated code
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -56,16 +55,22 @@
             toolStripMenuItemUploadLogs = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItemPostToTwitch = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparatorOne = new System.Windows.Forms.ToolStripSeparator();
-            toolStripMenuItemDPSReportUserTokens = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItemLogSession = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripOpenLogSession = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparatorLogSessionOne = new System.Windows.Forms.ToolStripSeparator();
+            toolStripMenuItemStartStopLogSession = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItemPauseLogSession = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparatorTwo = new System.Windows.Forms.ToolStripSeparator();
+            toolStripMenuItemDPSReportUserTokens = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparatorThree = new System.Windows.Forms.ToolStripSeparator();
             toolStripMenuItemOpenDPSReportServer = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItemOpenCustomName = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItemOpenTwitchCommands = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItemOpenArcDpsPluginManager = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparatorThree = new System.Windows.Forms.ToolStripSeparator();
+            toolStripSeparatorFour = new System.Windows.Forms.ToolStripSeparator();
             toolStripMenuItemDiscordWebhooks = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItemOpenPingSettings = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparatorFour = new System.Windows.Forms.ToolStripSeparator();
+            toolStripSeparatorFive = new System.Windows.Forms.ToolStripSeparator();
             toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             groupBoxOtherSettings = new System.Windows.Forms.GroupBox();
             checkBoxCloseToTrayIcon = new System.Windows.Forms.CheckBox();
@@ -93,6 +98,7 @@
             checkBoxUploadToWingman = new System.Windows.Forms.CheckBox();
             buttonTeamsSettings = new System.Windows.Forms.Button();
             tabPageOtherSettings = new System.Windows.Forms.TabPage();
+            toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             groupBoxTwitchSettings.SuspendLayout();
             groupBoxArcdpsLogs.SuspendLayout();
             contextMenuStripIcon.SuspendLayout();
@@ -401,9 +407,9 @@
             // contextMenuStripIcon
             // 
             contextMenuStripIcon.ImageScalingSize = new System.Drawing.Size(20, 20);
-            contextMenuStripIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItemUploadLogs, toolStripMenuItemPostToTwitch, toolStripSeparatorOne, toolStripMenuItemDPSReportUserTokens, toolStripSeparatorTwo, toolStripMenuItemOpenDPSReportServer, toolStripMenuItemOpenCustomName, toolStripMenuItemOpenTwitchCommands, toolStripMenuItemOpenArcDpsPluginManager, toolStripSeparatorThree, toolStripMenuItemDiscordWebhooks, toolStripMenuItemOpenPingSettings, toolStripSeparatorFour, toolStripMenuItemExit });
+            contextMenuStripIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItemUploadLogs, toolStripMenuItemPostToTwitch, toolStripSeparatorOne, toolStripMenuItemLogSession, toolStripSeparatorTwo, toolStripMenuItemDPSReportUserTokens, toolStripSeparatorThree, toolStripMenuItemOpenDPSReportServer, toolStripMenuItemOpenCustomName, toolStripMenuItemOpenTwitchCommands, toolStripMenuItemOpenArcDpsPluginManager, toolStripSeparatorFour, toolStripMenuItemDiscordWebhooks, toolStripMenuItemOpenPingSettings, toolStripSeparatorFive, toolStripMenuItemExit });
             contextMenuStripIcon.Name = "contextMenuStripIcon";
-            contextMenuStripIcon.Size = new System.Drawing.Size(272, 268);
+            contextMenuStripIcon.Size = new System.Drawing.Size(272, 326);
             // 
             // toolStripMenuItemUploadLogs
             // 
@@ -426,16 +432,55 @@
             toolStripSeparatorOne.Name = "toolStripSeparatorOne";
             toolStripSeparatorOne.Size = new System.Drawing.Size(268, 6);
             // 
+            // toolStripMenuItemLogSession
+            // 
+            toolStripMenuItemLogSession.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripOpenLogSession, toolStripSeparatorLogSessionOne, toolStripMenuItemStartStopLogSession, toolStripMenuItemPauseLogSession });
+            toolStripMenuItemLogSession.Name = "toolStripMenuItemLogSession";
+            toolStripMenuItemLogSession.Size = new System.Drawing.Size(271, 24);
+            toolStripMenuItemLogSession.Text = "Log session";
+            // 
+            // toolStripOpenLogSession
+            // 
+            toolStripOpenLogSession.Name = "toolStripOpenLogSession";
+            toolStripOpenLogSession.Size = new System.Drawing.Size(224, 26);
+            toolStripOpenLogSession.Text = "Open";
+            toolStripOpenLogSession.Click += ToolStripOpenLogSession_Click;
+            // 
+            // toolStripSeparatorLogSessionOne
+            // 
+            toolStripSeparatorLogSessionOne.Name = "toolStripSeparatorLogSessionOne";
+            toolStripSeparatorLogSessionOne.Size = new System.Drawing.Size(221, 6);
+            // 
+            // toolStripMenuItemStartStopLogSession
+            // 
+            toolStripMenuItemStartStopLogSession.Name = "toolStripMenuItemStartStopLogSession";
+            toolStripMenuItemStartStopLogSession.Size = new System.Drawing.Size(224, 26);
+            toolStripMenuItemStartStopLogSession.Text = "Start a log session";
+            toolStripMenuItemStartStopLogSession.Click += ToolStripMenuItemStartStopLogSession_Click;
+            // 
+            // toolStripMenuItemPauseLogSession
+            // 
+            toolStripMenuItemPauseLogSession.Enabled = false;
+            toolStripMenuItemPauseLogSession.Name = "toolStripMenuItemPauseLogSession";
+            toolStripMenuItemPauseLogSession.Size = new System.Drawing.Size(224, 26);
+            toolStripMenuItemPauseLogSession.Text = "Pause session";
+            toolStripMenuItemPauseLogSession.Click += ToolStripMenuItemPauseLogSession_Click;
+            // 
+            // toolStripSeparatorTwo
+            // 
+            toolStripSeparatorTwo.Name = "toolStripSeparatorTwo";
+            toolStripSeparatorTwo.Size = new System.Drawing.Size(268, 6);
+            // 
             // toolStripMenuItemDPSReportUserTokens
             // 
             toolStripMenuItemDPSReportUserTokens.Name = "toolStripMenuItemDPSReportUserTokens";
             toolStripMenuItemDPSReportUserTokens.Size = new System.Drawing.Size(271, 24);
             toolStripMenuItemDPSReportUserTokens.Text = "DPS.report user token";
             // 
-            // toolStripSeparatorTwo
+            // toolStripSeparatorThree
             // 
-            toolStripSeparatorTwo.Name = "toolStripSeparatorTwo";
-            toolStripSeparatorTwo.Size = new System.Drawing.Size(268, 6);
+            toolStripSeparatorThree.Name = "toolStripSeparatorThree";
+            toolStripSeparatorThree.Size = new System.Drawing.Size(268, 6);
             // 
             // toolStripMenuItemOpenDPSReportServer
             // 
@@ -465,10 +510,10 @@
             toolStripMenuItemOpenArcDpsPluginManager.Text = "Open arcdps plugin manager";
             toolStripMenuItemOpenArcDpsPluginManager.Click += ToolStripMenuItemOpenArcDpsPluginManager_Click;
             // 
-            // toolStripSeparatorThree
+            // toolStripSeparatorFour
             // 
-            toolStripSeparatorThree.Name = "toolStripSeparatorThree";
-            toolStripSeparatorThree.Size = new System.Drawing.Size(268, 6);
+            toolStripSeparatorFour.Name = "toolStripSeparatorFour";
+            toolStripSeparatorFour.Size = new System.Drawing.Size(268, 6);
             // 
             // toolStripMenuItemDiscordWebhooks
             // 
@@ -484,10 +529,10 @@
             toolStripMenuItemOpenPingSettings.Text = "Remote server pings";
             toolStripMenuItemOpenPingSettings.Click += ToolStripMenuItemOpenPingSettings_Click;
             // 
-            // toolStripSeparatorFour
+            // toolStripSeparatorFive
             // 
-            toolStripSeparatorFour.Name = "toolStripSeparatorFour";
-            toolStripSeparatorFour.Size = new System.Drawing.Size(268, 6);
+            toolStripSeparatorFive.Name = "toolStripSeparatorFive";
+            toolStripSeparatorFive.Size = new System.Drawing.Size(268, 6);
             // 
             // toolStripMenuItemExit
             // 
@@ -803,6 +848,11 @@
             tabPageOtherSettings.TabIndex = 1;
             tabPageOtherSettings.Text = "Other settings";
             // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new System.Drawing.Size(32, 19);
+            // 
             // FormMain
             // 
             AllowDrop = true;
@@ -839,7 +889,7 @@
             tabPageOtherSettings.ResumeLayout(false);
             ResumeLayout(false);
         }
-
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         #endregion
         private System.Windows.Forms.GroupBox groupBoxTwitchSettings;
         private System.Windows.Forms.CheckBox checkBoxUploadLogs;
@@ -907,6 +957,12 @@
         private System.Windows.Forms.GroupBox groupBoxLogProcessingDiscordBots;
         private System.Windows.Forms.GroupBox groupBoxLogProcessingRemotePings;
         private System.Windows.Forms.Button buttonRemoteServerPings;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLogSession;
+        private System.Windows.Forms.ToolStripMenuItem toolStripOpenLogSession;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorFive;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorLogSessionOne;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItemStartStopLogSession;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPauseLogSession;
     }
 }
 

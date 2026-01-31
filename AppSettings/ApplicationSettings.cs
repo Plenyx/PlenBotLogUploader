@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PlenBotLogUploader.Tools;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -85,6 +86,8 @@ internal sealed class ApplicationSettings
 
     [JsonProperty("upload")]
     internal ApplicationSettingsUpload Upload { get; set; } = new();
+
+    internal static bool IsRunningInWine { get; } = WineConnoisseur.IsRunningUnderWine();
 
     internal event EventHandler<EventArgs> SettingsSaved;
 
