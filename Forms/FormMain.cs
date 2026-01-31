@@ -129,7 +129,6 @@ public partial class FormMain : Form
         if (ApplicationSettings.IsRunningInWine)
         {
             AddToText(">:> Running in Wine detected. Some features are disabled or limited.");
-            buttonGW2API.Enabled = false;
             buttonArcDpsPluginManager.Enabled = false;
             toolStripMenuItemOpenArcDpsPluginManager.Enabled = false;
             ApplicationSettings.Current.UsePollingForLogs = true;
