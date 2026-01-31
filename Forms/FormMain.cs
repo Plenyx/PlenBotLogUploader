@@ -236,6 +236,20 @@ public partial class FormMain : Form
                 {
                     if (ApplicationSettings.Current.ArcUpdate.Enabled)
                     {
+                        if (!ApplicationSettings.Current.ArcUpdate.DeprecationNotificationSeen)
+                        {
+                            var result = MessageBox.Show("The plugin manager for arcdps is now deprecated.\n\nThis feature will be removed in new versions of PlenBot.\nIf you want to use an alternative plugin manager, use Nexus instead.\nDo you want to open the website for Nexus?", "arcdps plugin manager deprecation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                            if (result == DialogResult.Yes)
+                            {
+                                Process.Start(new ProcessStartInfo { UseShellExecute = true, FileName = "https://raidcore.gg/Nexus" });
+                            }
+                            ApplicationSettings.Current.ArcUpdate.DeprecationNotificationSeen = true;
+                            ApplicationSettings.Current.Save();
+                        }
+                        else
+                        {
+                            AddToText(">:> arcdps plugin manager is deprecated. This feature will be removed in new versions of PlenBot.\nIf you want to use an alternative plugin manager, use Nexus instead. https://raidcore.gg/Nexus");
+                        }
                         arcPluginManagerLink.checkBoxModuleEnabled.Checked = true;
                         _ = arcPluginManagerLink.StartTimerAsync(true, true);
                     }
@@ -741,7 +755,10 @@ public partial class FormMain : Form
 
     private async Task SendLogToTwitchChatAsync(DpsReportJson reportJson, bool bypassMessage = false)
     {
-        if (!TwitchChannelJoined || !checkBoxPostToTwitch.Checked || bypassMessage || (ApplicationSettings.Current.Upload.PostLogsToTwitchOnlyWithStreamingSoftware && !IsStreamingSoftwareRunning()))
+        if (!TwitchChannelJoined
+            || !checkBoxPostToTwitch.Checked
+            || bypassMessage
+            || (ApplicationSettings.Current.Upload.PostLogsToTwitchOnlyWithStreamingSoftware && !IsStreamingSoftwareRunning()))
         {
             return;
         }
@@ -1020,11 +1037,12 @@ public partial class FormMain : Form
     private static string CreateDpsReportLink()
     {
         var builder = new StringBuilder();
-        builder.Append(ApplicationSettings.Current.Upload.DpsReportServerLink).Append("/uploadContent");
-        builder.Append("?json=1&generator=ei");
+        builder.Append(ApplicationSettings.Current.Upload.DpsReportServerLink)
+            .Append("/uploadContent?json=1&generator=ei");
         if (ApplicationSettings.Current.Upload.DpsReportUserTokens.Count(x => x.Active) == 1)
         {
-            builder.Append("&userToken=").Append(ApplicationSettings.Current.Upload.DpsReportUserTokens.Find(x => x.Active).UserToken);
+            builder.Append("&userToken=")
+                .Append(ApplicationSettings.Current.Upload.DpsReportUserTokens.Find(x => x.Active).UserToken);
         }
         if (ApplicationSettings.Current.Upload.Anonymous)
         {

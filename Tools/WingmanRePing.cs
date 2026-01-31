@@ -72,7 +72,6 @@ public static class WingmanRePing
         {
             SaveLogsToPing();
         }
-        return;
     }
 
     internal static void ProcessLogs(SemaphoreSlim semaphore, Func<string, DpsReportJsonExtraJson, Task> process)

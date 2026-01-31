@@ -54,13 +54,10 @@ public partial class FormArcPluginManager : Form
         {
             var installedComponent = installedComponents.Find(x => x.Type.Equals(component.Type));
             var installed = arcIsInstalled && installedComponent is not null;
-            if (installed)
+            if (installed && !installedComponent.IsInstalled())
             {
-                if (!installedComponent.IsInstalled())
-                {
-                    installed = false;
-                    installedComponents.RemoveAll(x => x.Type.Equals(component.Type));
-                }
+                installed = false;
+                installedComponents.RemoveAll(x => x.Type.Equals(component.Type));
             }
             checkedListBoxArcDpsPlugins.Items.Add(component, installed);
         }

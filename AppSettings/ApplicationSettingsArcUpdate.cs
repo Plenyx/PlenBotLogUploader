@@ -8,6 +8,9 @@ internal sealed class ApplicationSettingsArcUpdate
     [JsonProperty("enabled")]
     internal bool Enabled { get; set; }
 
+    [JsonProperty("deprecationNotificationSeen")]
+    internal bool DeprecationNotificationSeen { get; set; } = false;
+
     [JsonProperty("notifications")]
     internal bool Notifications { get; set; } = true;
 
