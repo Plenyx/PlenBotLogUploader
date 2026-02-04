@@ -263,6 +263,13 @@
     "isEvent": false
   },
   {
+    "bossId": 27124,
+    "name": "Kela, Seneschal of Waves",
+    "icon": "https://i.imgur.com/wSpjlSf.png",
+    "type": 1,
+    "isEvent": false
+  },
+  {
     "bossId": 19676,
     "name": "Large Kitty Golem",
     "successMsg": "Golem log: <log>",

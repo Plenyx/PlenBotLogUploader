@@ -124,6 +124,7 @@ internal static class Bosses
             (int)BossIds.AetherbladeHideout or (int)BossIds.Ankka or (int)BossIds.MinisterLi or (int)BossIds.MinisterLiCM or (int)BossIds.TheDragonvoidVoidAmalgamate or (int)BossIds.TheDragonvoidGadget1 or (int)BossIds.TheDragonvoidGadget2 => RaidEncounterCategory.EndOfDragons,
             (int)BossIds.Dagda or (int)BossIds.Cerus => RaidEncounterCategory.SecretsOfTheObscure,
             (int)BossIds.Greer or (int)BossIds.Decima or (int)BossIds.DecimaCM or (int)BossIds.Ura => RaidEncounterCategory.MountBalrior,
+            (int)BossIds.KelaSeneschalOfWaves => RaidEncounterCategory.VisionsOfEternity,
             _ => RaidEncounterCategory.Unknown,
         };
 
@@ -135,7 +136,7 @@ internal static class Bosses
     internal static int GetBossOrder(int bossId)
         => bossId switch
         {
-            (int)BossIds.Freezie or (int)BossIds.ValeGuardian or (int)BossIds.Slothasor or (int)BossIds.Escort or (int)BossIds.Cairn or (int)BossIds.SoullessHorror or (int)BossIds.ConjuredAmalgamate or (int)BossIds.CardinalAdina or (int)BossIds.IcebroodConstruct or (int)BossIds.AetherbladeHideout or (int)BossIds.Dagda or (int)BossIds.Greer /* VoE RE 1 */ => 1,
+            (int)BossIds.Freezie or (int)BossIds.ValeGuardian or (int)BossIds.Slothasor or (int)BossIds.Escort or (int)BossIds.Cairn or (int)BossIds.SoullessHorror or (int)BossIds.ConjuredAmalgamate or (int)BossIds.CardinalAdina or (int)BossIds.IcebroodConstruct or (int)BossIds.AetherbladeHideout or (int)BossIds.Dagda or (int)BossIds.Greer or (int)BossIds.KelaSeneschalOfWaves => 1,
             (int)BossIds.WatchknightTriumvirate or (int)BossIds.WatchknightTriumvirateCMArsenite or (int)BossIds.WatchknightTriumvirateCMIndigo or (int)BossIds.WatchknightTriumvirateCMVermilion or (int)BossIds.SpiritRace or (int)BossIds.BanditTrioBerg or (int)BossIds.BanditTrioNarella or (int)BossIds.BanditTrioZane or (int)BossIds.KeepConstruct or (int)BossIds.MursaatOverseer or (int)BossIds.RiverOfSouls or (int)BossIds.LargosTwinsKenut or (int)BossIds.LargosTwinsNikare or (int)BossIds.CardinalSabir or (int)BossIds.FraenirOfJormag or (int)BossIds.Ankka or (int)BossIds.Cerus or (int)BossIds.Decima or (int)BossIds.DecimaCM /* VoE RE 2 */ => 2,
             (int)BossIds.Gorseval or (int)BossIds.Matthias or (int)BossIds.TwistedCastle or (int)BossIds.Samarog or (int)BossIds.BrokenKing or (int)BossIds.Qadim or (int)BossIds.QadimThePeerless or (int)BossIds.TheVoiceAndTheClawOfTheFallen or (int)BossIds.MinisterLi or (int)BossIds.MinisterLiCM or (int)BossIds.Ura => 3,
             (int)BossIds.Sabetha or (int)BossIds.Xera or (int)BossIds.Deimos or (int)BossIds.EaterOfSouls or (int)BossIds.Boneskinner or (int)BossIds.TheDragonvoidVoidAmalgamate or (int)BossIds.TheDragonvoidGadget1 or (int)BossIds.TheDragonvoidGadget2 => 4,
