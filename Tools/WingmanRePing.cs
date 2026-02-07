@@ -29,9 +29,11 @@ public static class WingmanRePing
                 try
                 {
                     _logsToPing = JsonConvert.DeserializeObject<List<WingmanPingInfo>>(File.ReadAllText(FileLocation))
-                        .AsValueEnumerable()
-                        .Where(x => File.Exists(x.FilePath))
-                        .ToHashSet();
+                                                          .AsValueEnumerable()
+                                                          .Where(x => File.Exists(x.FilePath))
+                                                          .GroupBy(x => x.FilePath)
+                                                          .Select(x => x.AsValueEnumerable().First())
+                                                          .ToHashSet();
                 }
                 catch
                 {

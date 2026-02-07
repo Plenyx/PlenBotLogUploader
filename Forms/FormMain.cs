@@ -1123,13 +1123,18 @@ public partial class FormMain : Form
         var resultText = await Gw2WingmanUploader.Upload(file, extraJson);
         if (resultText.Contains("fail") && !resultText.Contains("exists"))
         {
-            WingmanRePing.LogsToPing.Add(new WingmanPingInfo
+            if (WingmanRePing.LogsToPing
+                    .AsValueEnumerable()
+                    .FirstOrDefault(x => x.FilePath.Equals(file), null) is null)
             {
-                FilePath = file,
-                TriggerId = extraJson.TriggerId,
-                UploadedBy = extraJson.RecordedByAccountName,
-            });
-            WingmanRePing.SaveLogsToPing();
+                WingmanRePing.LogsToPing.Add(new WingmanPingInfo
+                {
+                    FilePath = file,
+                    TriggerId = extraJson.TriggerId,
+                    UploadedBy = extraJson.RecordedByAccountName,
+                });
+                WingmanRePing.SaveLogsToPing();
+            }
             EnsureReuploadAndRePingTimerStart();
         }
         else
