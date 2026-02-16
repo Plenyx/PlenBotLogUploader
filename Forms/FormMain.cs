@@ -128,17 +128,10 @@ public partial class FormMain : Form
         logPoster = new RestClient();
         if (ApplicationSettings.IsRunningInWine)
         {
-            AddToText(">:> Running in Wine detected. Some features are disabled or limited.");
-            buttonArcDpsPluginManager.Enabled = false;
-            toolStripMenuItemOpenArcDpsPluginManager.Enabled = false;
+            AddToText(">:> Running in Wine detected. Some features are modified, disabled or limited to prevent odd behaviour or crashing.");
             ApplicationSettings.Current.UsePollingForLogs = true;
             checkBoxUsePolling.Checked = true;
             checkBoxUsePolling.Enabled = false;
-            if (ApplicationSettings.Current.ArcUpdate.Enabled)
-            {
-                ApplicationSettings.Current.ArcUpdate.Enabled = false;
-                ApplicationSettings.Current.Gw2Location = null;
-            }
         }
         try
         {
@@ -292,7 +285,7 @@ public partial class FormMain : Form
                     {
                         if (!ApplicationSettings.Current.ArcUpdate.DeprecationNotificationSeen)
                         {
-                            var result = MessageBox.Show("The plugin manager for arcdps is now deprecated.\n\nThis feature will be removed in new versions of PlenBot.\nIf you want to use an alternative plugin manager, use Nexus instead.\nDo you want to open the website for Nexus?", "arcdps plugin manager deprecation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                            var result = MessageBox.Show("The plugin manager for arcdps is now deprecated.\n\nThis feature will be removed in future versions of PlenBot.\nIf you want to use an alternative plugin manager, use Nexus instead.\nDo you want to open the website for Nexus?", "arcdps plugin manager deprecation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                             if (result == DialogResult.Yes)
                             {
                                 Process.Start(new ProcessStartInfo { UseShellExecute = true, FileName = "https://raidcore.gg/Nexus" });
@@ -301,7 +294,7 @@ public partial class FormMain : Form
                         }
                         else
                         {
-                            AddToText(">:> arcdps plugin manager is deprecated. This feature will be removed in new versions of PlenBot.\nIf you want to use an alternative plugin manager, use Nexus instead. https://raidcore.gg/Nexus");
+                            AddToText(">:> arcdps plugin manager is deprecated. This feature will be removed in future versions of PlenBot.\nIf you want to use an alternative plugin manager, use Nexus instead. https://raidcore.gg/Nexus");
                         }
                         arcPluginManagerLink.checkBoxModuleEnabled.Checked = true;
                         _ = arcPluginManagerLink.StartTimerAsync(true, true);
