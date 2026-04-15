@@ -69,7 +69,7 @@ public partial class FormGw2Bot : Form
         }
         try
         {
-            var logObject = new Gw2BotAddReport { LogLink = reportJson.ConfigAwarePermalink };
+            var logObject = new Gw2BotAddReport { LogLink = reportJson.Permalink };
             var jsonLogObject = JsonConvert.SerializeObject(logObject);
             using var content = new StringContent(jsonLogObject, Encoding.UTF8, "application/json");
             using var response = await controller.PostAsync($"{gw2BotApiBaseUrl}/evtc/notification", content);
