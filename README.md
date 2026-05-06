@@ -1,7 +1,7 @@
 # PlenBotLogUploader [![Build and test](https://github.com/Plenyx/PlenBotLogUploader/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/Plenyx/PlenBotLogUploader/actions/workflows/build-and-test.yml) ![GitHub release (latest by date)](https://img.shields.io/github/downloads/Plenyx/PlenBotLogUploader/latest/total?label=latest%20release%20downloads&style=flat-square) ![GitHub all releases](https://img.shields.io/github/downloads/Plenyx/PlenBotLogUploader/total?label=total%20downloads&style=flat-square)
 The all-in-one solution for all your arcdps logs.
 
-If you need any help to set-up the bot, be up-to-date with latest features or have a direct contact with other users of the uploader, you can join a special Discord server "[PlenBot support line](https://discord.gg/khMDaym)"!
+If you need any help to set up the bot, be up to date with the latest features or have a direct contact with other users of the uploader, you can join a special Discord server "[PlenBot support line](https://discord.gg/khMDaym)"!
 
 *Maintained by @Plenyx & @sobrinth.*
 
@@ -13,17 +13,17 @@ To install the uploader, I recommend creating a new folder and putting the execu
 
 The uploader will create a file called "uploaded_logs.csv" which will contain all upload links with additional data.
 
-For the flawless experience with the bot working with Twitch I recommend giving a VIP to the username "gw2loguploader". Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
+For the flawless experience with the bot working with Twitch, I recommend giving a VIP to the username "gw2loguploader". Do not mod it, since the bot is used by many people and everyone has access to its credentials (because of the open source code). You can also use a custom name for your bot which requires a use of another Twitch account.
 
-If you are using the uploader with Twitch integration, you can customise bot messages in the "Edit boss data" dialog window. Settings are saved in "boss_data.json" file.
+If you are using the uploader with Twitch integration, you can customise bot messages in the "Edit boss data" dialog window. Settings are saved in the "boss_data.json" file.
 
-I recommend using the compress feature in the arcdps log settings. Otherwise the bot will try to archive it itself, which delays log uploads.
+I recommend using the compress feature in the arcdps log settings. Otherwise, the bot will try to archive it itself, which delays log uploads.
 
 ## Update
-The uploader keeps track of its version and the vesion available online.
+The uploader keeps track of its version and the version available online.
 When you start the executable, it will check whether a new version is available.
 
-To update the bot you either need to overwrite the previous executable with the new one under the Release tab or you need to press the big **Update Uploader** button within the application. Alternatively, you can setup an automatic update if you toggle "automatically update the uploader".
+To update the bot, you either need to overwrite the previous executable with the new one under the Release tab, or you need to press the big **Update Uploader** button within the application. Alternatively, you can set up an automatic update if you toggle "automatically update the uploader".
 
 ## Uninstall/Reinstall
 To remove all application settings, remove the "app_settings.json" file located in the directory of the executable.
@@ -54,8 +54,8 @@ To fully remove all the saved settings in the Windows registry, use the enclosed
     * every log session has a dedicated csv file to record the session
 * Twitch integration
   * pinging links to Twitch chat with customisable messages
-  * custom name for the Twitch chat bot, otherwise "gw2loguploader" is being used
-* Set up advanced log conditions using Teams system
+  * custom name for the Twitch chatbot, otherwise "gw2loguploader" is being used
+* Set up advanced log conditions using the Teams system
   * Limit Discord Webhooks and bots to specific players in a group
     * Statics, commanders and friends...
 * Aleeva & GW2Bot integration

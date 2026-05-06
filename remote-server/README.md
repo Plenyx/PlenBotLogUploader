@@ -3,12 +3,12 @@
 ## General rules
 
 * if your server responds, it must respond in JSON with utf-8 encoding
-* your server must be accessible from the machine from which you intent to use the uploader
+* your server must be accessible from the machine from which you intend to use the uploader
 * your server must be responding in http status codes
 
 ## Pinging logs
 
-To ping logs you need to implement a REST response that would react to either GET, DELETE, PUT, POST or PATCH method
+To ping logs, you need to implement a REST response that would react to either GET, DELETE, PUT, POST or PATCH method
 requests.
 
 You can optionally implement this JSON response structure as a server response:
@@ -42,13 +42,13 @@ These are the fields being sent:
 * "**gw2Build**" contains the GW2 build on which the log was created *as a string*
 * "**fightName**" contains the name of the encounter *as a string*
 * "**logTimestamp**" contains the start time of the encounter *as a string*
-* "**durationMs**" contains the duration of the fight in miliseconds *as a string*
+* "**durationMs**" contains the duration of the fight in milliseconds *as a string*
 * "**isEmboldened**" contains an information whether the encounter was in emboldened mode *as a string*
 * "**isCM**" contains an information whether the encounter was a challenge mode *as a string*
 * "**isLCM**" contains an information whether the encounter was a legendary challenge mode *as a string*
 * "**players**" contains a list of account names of all players delimited by a semicolon ; *as a string*
 
-If you opt in to be send a JSON format rather then Key=Pair values, the format would be as follows:
+If you opt to be sent a JSON format rather than Key=Pair values, the format would be as follows:
 
     {
         "permalink": (string),
@@ -68,7 +68,7 @@ If you opt in to be send a JSON format rather then Key=Pair values, the format w
 
 Additional fields when using JSON format:
 
-* "**logErrors**" contains a list of error message EI genarated
+* "**logErrors**" contains a list of error messages EI generated
 
 ## Other links
 
