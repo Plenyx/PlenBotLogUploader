@@ -10,7 +10,7 @@ namespace PlenBotLogUploader.Tools;
 
 internal static class LogReuploader
 {
-    private static readonly string FileLocation = $@"{ApplicationSettings.LocalDir}\faileduploads.txt";
+    private static string FileLocation => $@"{ApplicationSettings.LocalDir}\faileduploads.txt";
 
     private static HashSet<string> _failedLogs;
     private static readonly Dictionary<string, string> PostData = new()

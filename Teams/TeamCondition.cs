@@ -115,7 +115,10 @@ internal sealed class TeamCondition
         {
             return false;
         }
-        var sumOfTeamMembers = AccountNames.Select(x => players.Count(y => y.Account.Equals(x))).Sum();
+        var sumOfTeamMembers = AccountNames
+            .AsValueEnumerable()
+            .Select(x => players.AsValueEnumerable().Count(y => y.Account.Equals(x)))
+            .Sum();
         return Limiter switch
         {
             TeamLimiter.AND => Subconditions.Count(x => x.IsSatisfied(players)) == Subconditions.Count,
