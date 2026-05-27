@@ -15,7 +15,7 @@ internal sealed class DiscordApiJsonContent
     {
         get
         {
-            if (_spacer is null)
+            if (_spacer is not null)
             {
                 return _spacer;
             }
