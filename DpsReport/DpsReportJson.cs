@@ -88,9 +88,9 @@ internal sealed class DpsReportJson
     internal string Error { get; set; }
 
     /// <summary>
-    ///     the URL ID used in dps.report
+    ///     the URL ID used in .report domains
     /// </summary>
-    internal string UrlId => Permalink?[(Permalink.IndexOf("dps.report/") + 11)..] ?? "";
+    internal string UrlId => Permalink?[(Permalink.IndexOf(".report/") + 8)..] ?? "";
 
     /// <summary>
     ///     whether the encounter was in challenge mode
