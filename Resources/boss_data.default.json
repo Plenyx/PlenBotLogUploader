@@ -492,6 +492,13 @@
     "isEvent": false
   },
   {
+    "bossId": 28106,
+    "name": "Vloxx",
+    "icon": "https://i.imgur.com/V8R8mrF.png",
+    "type": 1,
+    "isEvent": false
+  },
+  {
     "bossId": 25413,
     "name": "Watchknight Triumvirate",
     "icon": "https://i.imgur.com/Q2g9aLD.png",
