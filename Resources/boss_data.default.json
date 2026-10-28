@@ -455,6 +455,14 @@
     "isEvent": false
   },
   {
+    "bossId": 28051,
+    "name": "The Eternal Tyrant",
+    "internalDescription": "The Eternal Throne",
+    "icon": "https://render.guildwars2.com/file/7597125D7CA89E250CE997349F61939996E90C27/3122211.png",
+    "type": 2,
+    "isEvent": false
+  },
+  {
     "bossId": 22343,
     "name": "The Voice and the Claw of the Fallen",
     "icon": "https://i.imgur.com/lNXXbnC.png",
@@ -494,6 +502,7 @@
   {
     "bossId": 28106,
     "name": "Vloxx",
+    "internalDescription": "Nexus of Eternity",
     "icon": "https://i.imgur.com/V8R8mrF.png",
     "type": 1,
     "isEvent": false
