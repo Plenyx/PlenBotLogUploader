@@ -3,7 +3,9 @@ The all-in-one solution for all your arcdps logs.
 
 If you need any help to set up the bot, be up to date with the latest features or have a direct contact with other users of the uploader, you can join a special Discord server "[PlenBot support line](https://discord.gg/khMDaym)"!
 
-*Maintained by @Plenyx & @sobrinth.*
+This project is now sunset. There will be no more development made on this repository. Thank you everyone who used the software in the past, but I am no longer able to maintain it. - *Plenyx*
+
+*Previously maintained by @Plenyx & @sobrinth.*
 
 ## Installation ([download](https://github.com/Plenyx/PlenBotLogUploader/releases)) | [Screenshots](https://plenbot.net/uploader/?utm_source=github&utm_medium=referral&utm_campaign=readme)
 
@@ -61,11 +63,6 @@ To fully remove all the saved settings in the Windows registry, use the enclosed
 * Aleeva & GW2Bot integration
 * update reminder & automatic update install
 * arcdps auto-updater and plugin manager
-
-## Future updates
-I plan to finish the following features:
-* *adding additional features based on your feedback*
-  * I am always looking to provide more features to the users, if you have any ideas of how to improve the uploader, don't be afraid to contact me directly.
 
 ## Remote server ping
 Remote server ping allows you to send log data to a custom REST server.
