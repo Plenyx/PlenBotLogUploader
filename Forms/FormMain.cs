@@ -563,7 +563,7 @@ public partial class FormMain : Form
                 var zipFileLocation = file.FullName;
                 var archived = false;
                 // a workaround so arcdps can release the file for read access
-                Thread.Sleep(1700);
+                await Task.Delay(1700);
                 if (!file.FullName.EndsWith(".zevtc"))
                 {
                     zipFileLocation = $"{ApplicationSettings.LocalDir}{Path.GetFileNameWithoutExtension(file.FullName)}.zevtc";

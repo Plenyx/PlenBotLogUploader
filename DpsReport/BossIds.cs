@@ -73,6 +73,7 @@ internal enum BossIds
     DecimaCM = 26867,
     WhisperingShadow = 27010,
     KelaSeneschalOfWaves = 27124,
+    TheEternalTyrant = 28051,
     Vloxx = 28106,
     TheDragonvoidGadget1 = 43488,
     ConjuredAmalgamate = 43974,
